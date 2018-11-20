@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="classz_space_1_1z_color" kind="class" language="C++" prot="public">
+    <compoundname>zSpace::zColor</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classz_space_1_1z_color_1a0e75fe6d990792c7afb824be89c5826b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::r</definition>
+        <argsstring></argsstring>
+        <name>r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="31" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_color_1a7e496f0d7feb95505018a16b59fc0495" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::g</definition>
+        <argsstring></argsstring>
+        <name>g</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="32" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_color_1a51ed2db08ecaeea40a54c2e4d16ba18a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::b</definition>
+        <argsstring></argsstring>
+        <name>b</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="33" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_color_1a293d04be06f8584cd8125a4d34a6a072" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::a</definition>
+        <argsstring></argsstring>
+        <name>a</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="34" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_color_1a3b83cae5d5a0fb14a63bf01fc4a08ad8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::h</definition>
+        <argsstring></argsstring>
+        <name>h</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="36" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_color_1acea773d7d78ebcfe8234d631b042a974" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::s</definition>
+        <argsstring></argsstring>
+        <name>s</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="37" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_color_1abe6086a8f6bdfaa05cb13bac867d5488" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zColor::v</definition>
+        <argsstring></argsstring>
+        <name>v</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="38" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classz_space_1_1z_color_1a04fa0f40780e2a25784f038aa6ad860c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zColor::zColor</definition>
+        <argsstring>()</argsstring>
+        <name>zColor</name>
+        <briefdescription>
+<para>Default constructor sets by default r,g,b,h,s,v to 0 and a to 1. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="47" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_color_1ab833b81d117fed592f5a54b373988464" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zColor::zColor</definition>
+        <argsstring>(double _r, double _g, double _b, double _a)</argsstring>
+        <name>zColor</name>
+        <param>
+          <type>double</type>
+          <declname>_r</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_g</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_b</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_a</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded constructor sets RGB_A components of the color and uses it to compute HSV components. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">_r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- red component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_g</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- green component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- blue component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- alpha component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="63" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="63" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_color_1a360f1dc204c68d848f1454cf321551d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zColor::zColor</definition>
+        <argsstring>(double _h, double _s, double _v)</argsstring>
+        <name>zColor</name>
+        <param>
+          <type>double</type>
+          <declname>_h</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_s</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_v</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded constructor using HSV components of the color and uses it to compute RGB_A components. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">_h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- hue component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- saturation component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- value component of <ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref>. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="81" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_color_1a0748e3af63d398761735fb7c0010a762" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zColor::~zColor</definition>
+        <argsstring>()</argsstring>
+        <name>~zColor</name>
+        <briefdescription>
+<para>Default destructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="99" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_color_1a5a564cfcdd4d89916c0d51b376923e05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zColor::toHSV</definition>
+        <argsstring>()</argsstring>
+        <name>toHSV</name>
+        <briefdescription>
+<para>This methods calculates the HSV components based on the RGB_A components of color. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="109" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="109" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_color_1a0ca1ff44096d4d1d5de917dd4b4d781f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zColor::toRGB</definition>
+        <argsstring>()</argsstring>
+        <name>toRGB</name>
+        <briefdescription>
+<para>This methods calculates the RGB_A components based on the HSV components of color. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="158" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="158" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_color_1a70f7239f26d14ac1203813b1a5e0244a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool zSpace::zColor::operator==</definition>
+        <argsstring>(zColor &amp;v1)</argsstring>
+        <name>operator==</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_color" kindref="compound">zColor</ref> &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This operator checks for equality of two zColors. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input color. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool - true if colors are the same. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="231" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="231" bodyend="238"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>This is a color class. </para>    </briefdescription>
+    <detaileddescription>
+<para>Currently supports two types of color data structures - RGB and HSV. </para>    </detaileddescription>
+    <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" line="29" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h" bodystart="28" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classz_space_1_1z_color_1a293d04be06f8584cd8125a4d34a6a072" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>a</name></member>
+      <member refid="classz_space_1_1z_color_1a51ed2db08ecaeea40a54c2e4d16ba18a" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>b</name></member>
+      <member refid="classz_space_1_1z_color_1a7e496f0d7feb95505018a16b59fc0495" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>g</name></member>
+      <member refid="classz_space_1_1z_color_1a3b83cae5d5a0fb14a63bf01fc4a08ad8" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>h</name></member>
+      <member refid="classz_space_1_1z_color_1a70f7239f26d14ac1203813b1a5e0244a" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>operator==</name></member>
+      <member refid="classz_space_1_1z_color_1a0e75fe6d990792c7afb824be89c5826b" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>r</name></member>
+      <member refid="classz_space_1_1z_color_1acea773d7d78ebcfe8234d631b042a974" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>s</name></member>
+      <member refid="classz_space_1_1z_color_1a5a564cfcdd4d89916c0d51b376923e05" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>toHSV</name></member>
+      <member refid="classz_space_1_1z_color_1a0ca1ff44096d4d1d5de917dd4b4d781f" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>toRGB</name></member>
+      <member refid="classz_space_1_1z_color_1abe6086a8f6bdfaa05cb13bac867d5488" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>v</name></member>
+      <member refid="classz_space_1_1z_color_1a04fa0f40780e2a25784f038aa6ad860c" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>zColor</name></member>
+      <member refid="classz_space_1_1z_color_1ab833b81d117fed592f5a54b373988464" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>zColor</name></member>
+      <member refid="classz_space_1_1z_color_1a360f1dc204c68d848f1454cf321551d0" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>zColor</name></member>
+      <member refid="classz_space_1_1z_color_1a0748e3af63d398761735fb7c0010a762" prot="public" virt="non-virtual"><scope>zSpace::zColor</scope><name>~zColor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

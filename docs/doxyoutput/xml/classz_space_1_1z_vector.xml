@@ -1,0 +1,682 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="classz_space_1_1z_vector" kind="class" language="C++" prot="public">
+    <compoundname>zSpace::zVector</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classz_space_1_1z_vector_1aa45dd954bd0fc27951899df92a152008" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zVector::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>x component </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="26" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_vector_1a7c43ae2d708b746205d9f6c8691cd753" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zVector::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>y component </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="27" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_vector_1aba8f22352b3e277987cdff71f4dcd96e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double zSpace::zVector::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>z component </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="28" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a5a0b5f364ed921eee55e847039d7c542" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zVector::zVector</definition>
+        <argsstring>()</argsstring>
+        <name>zVector</name>
+        <briefdescription>
+<para>Default constructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="37" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="37" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1af71b53ffafe52119fa1d92845ea54b8f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zVector::zVector</definition>
+        <argsstring>(double _x, double _y, double _z)</argsstring>
+        <name>zVector</name>
+        <param>
+          <type>double</type>
+          <declname>_x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>_z</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">_x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- x component of the <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- y component of the <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- z component of the <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="51" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a3bd8cc1995a059136070c7dc3c91b788" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zVector::~zVector</definition>
+        <argsstring>()</argsstring>
+        <name>~zVector</name>
+        <briefdescription>
+<para>Default destructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="63" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a6276ac67b4df65d78a42030b08259a12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool zSpace::zVector::operator==</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator==</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This operator checks for equality of two zVectors. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> against which the equality is checked. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool - true if vectors are equal. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="73" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1acbb514173ee4774153c4f9f8d1b79f1f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator+</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator+</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for vector addition. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> which is added to the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the addition. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="87" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1ab76808ee4f4ca31faba252118a8b22d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator-</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator-</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for vector subtraction. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> which is subtracted from the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the subtraction. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="98" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a9471d6332878a82f63a2bfd16ea2a752" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double zSpace::zVector::operator*</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator*</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for vector dot product. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> which is used for the dot product with the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>double - resultant value after the dot product. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="109" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a9f686a2bd88e144b7a5e9a72e372d655" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator^</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator^</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for vector cross procduct. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> which is used for the cross product with the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the cross product. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="120" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1aecf15e1bb50c971a05664f602c485b3b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator+</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator+</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar addition of a vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value to be added to the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the scalar addition. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="131" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1af2df9677aaf35677b00c992f935d191b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator-</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator-</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar subtraction of a vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value to be subtracted from the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the scalar subtraction. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="142" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a95e70a933c305a2d596e61a7c543f720" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator*</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator*</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar muliplication of a vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value to be multiplied with the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the scalar multiplication. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="153" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="153" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a817143b982398bf61f8b21e92acee983" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+        <definition>zVector zSpace::zVector::operator/</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator/</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar division of a vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value used to divide from the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> - resultant vector after the scalar division. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="164" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="164" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1ab68bb4b940277d024fbf09b88d302b1c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::operator+=</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This overloaded operator is used for vector addition and assigment of the result to the current vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> which is added to the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="181" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1acea861f52211a1807549f165bab2ead6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::operator-=</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This overloaded operator is used for vector subtraction and assigment of the result to the current vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> which is subtacted from the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="194" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="194" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a0e9834baf61b170bfe123bdbec396872" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::operator+=</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This overloaded operator is used for scalar addition and assigment of the result to the current vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value to be added to the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="208" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="208" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1ae05e5ca367ab5f1de48c4b76ddedf944" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::operator-=</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This overloaded operator is used for scalar subtraction and assigment of the result to the current vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value to be sbtracted from the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="221" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="221" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a0bbeed0c887b54b11c7c29b61cf5f47c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::operator*=</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator*=</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This overloaded operator is used for scalar multiplication and assigment of the result to the current vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value to be multiplied to the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="234" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="234" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a3f18877fe16d6a6cf4c0774ec313ad7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::operator/=</definition>
+        <argsstring>(double val)</argsstring>
+        <name>operator/=</name>
+        <param>
+          <type>double</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This overloaded operator is used for scalar division and assigment of the result to the current vector. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value used to divide from the current vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="247" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="247" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1aa3e1fd350f48b30428f95e716a4e3400" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double zSpace::zVector::length</definition>
+        <argsstring>()</argsstring>
+        <name>length</name>
+        <briefdescription>
+<para>This method returns the magnitude/length of the <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>double - value of the maginute of the vector. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="264" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="264" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a27d075d5055bb92ddfe63fae4010339b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zVector::normalize</definition>
+        <argsstring>()</argsstring>
+        <name>normalize</name>
+        <briefdescription>
+<para>This method normalizes the vector to unit length. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="273" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="273" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a3b19c952aec086d743e8bfadaa45cdca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double zSpace::zVector::distanceTo</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>distanceTo</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This method returns the distance between the current <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> and input <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>double - value of the distance between the vectors. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="288" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="288" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1acf4156a0599baccfab7d3ff64bf4c209" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double zSpace::zVector::angle</definition>
+        <argsstring>(zVector v1)</argsstring>
+        <name>angle</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <briefdescription>
+<para>This method returns the angle between the current <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> and input <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>double - value of the angle between the vectors. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="299" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="299" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1ad8817c8e347d109784cec18a3e35728c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double zSpace::zVector::dihedralAngle</definition>
+        <argsstring>(zVector v1, zVector v2)</argsstring>
+        <name>dihedralAngle</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type><ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref></type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>This method returns the dihedral angle between the two input zVectors using current <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref> as edge reference. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input vector. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input vector. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>double - value of the dihedral angle between the vectors. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="319" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="319" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_vector_1a90d8f98859c540c5fd0bdea52a87d897" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double zSpace::zVector::getComponent</definition>
+        <argsstring>(int i)</argsstring>
+        <name>getComponent</name>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>This method returns the component value of the current <ref refid="classz_space_1_1z_vector" kindref="compound">zVector</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- index. ( 0 - x component, 0 - y component, 2 - z component). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>double - value of the dihedral angle between the vectors. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="345" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="345" bodyend="350"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>This is a vector class. </para>    </briefdescription>
+    <detaileddescription>
+<para>Essential to run vector math operations. </para>    </detaileddescription>
+    <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" line="24" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h" bodystart="23" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classz_space_1_1z_vector_1acf4156a0599baccfab7d3ff64bf4c209" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>angle</name></member>
+      <member refid="classz_space_1_1z_vector_1ad8817c8e347d109784cec18a3e35728c" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>dihedralAngle</name></member>
+      <member refid="classz_space_1_1z_vector_1a3b19c952aec086d743e8bfadaa45cdca" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>distanceTo</name></member>
+      <member refid="classz_space_1_1z_vector_1a90d8f98859c540c5fd0bdea52a87d897" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>getComponent</name></member>
+      <member refid="classz_space_1_1z_vector_1aa3e1fd350f48b30428f95e716a4e3400" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>length</name></member>
+      <member refid="classz_space_1_1z_vector_1a27d075d5055bb92ddfe63fae4010339b" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>normalize</name></member>
+      <member refid="classz_space_1_1z_vector_1a9471d6332878a82f63a2bfd16ea2a752" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator*</name></member>
+      <member refid="classz_space_1_1z_vector_1a95e70a933c305a2d596e61a7c543f720" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator*</name></member>
+      <member refid="classz_space_1_1z_vector_1a0bbeed0c887b54b11c7c29b61cf5f47c" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator*=</name></member>
+      <member refid="classz_space_1_1z_vector_1acbb514173ee4774153c4f9f8d1b79f1f" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator+</name></member>
+      <member refid="classz_space_1_1z_vector_1aecf15e1bb50c971a05664f602c485b3b" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator+</name></member>
+      <member refid="classz_space_1_1z_vector_1ab68bb4b940277d024fbf09b88d302b1c" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator+=</name></member>
+      <member refid="classz_space_1_1z_vector_1a0e9834baf61b170bfe123bdbec396872" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator+=</name></member>
+      <member refid="classz_space_1_1z_vector_1ab76808ee4f4ca31faba252118a8b22d6" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator-</name></member>
+      <member refid="classz_space_1_1z_vector_1af2df9677aaf35677b00c992f935d191b" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator-</name></member>
+      <member refid="classz_space_1_1z_vector_1acea861f52211a1807549f165bab2ead6" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator-=</name></member>
+      <member refid="classz_space_1_1z_vector_1ae05e5ca367ab5f1de48c4b76ddedf944" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator-=</name></member>
+      <member refid="classz_space_1_1z_vector_1a817143b982398bf61f8b21e92acee983" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator/</name></member>
+      <member refid="classz_space_1_1z_vector_1a3f18877fe16d6a6cf4c0774ec313ad7e" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator/=</name></member>
+      <member refid="classz_space_1_1z_vector_1a6276ac67b4df65d78a42030b08259a12" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator==</name></member>
+      <member refid="classz_space_1_1z_vector_1a9f686a2bd88e144b7a5e9a72e372d655" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>operator^</name></member>
+      <member refid="classz_space_1_1z_vector_1aa45dd954bd0fc27951899df92a152008" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>x</name></member>
+      <member refid="classz_space_1_1z_vector_1a7c43ae2d708b746205d9f6c8691cd753" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>y</name></member>
+      <member refid="classz_space_1_1z_vector_1aba8f22352b3e277987cdff71f4dcd96e" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>z</name></member>
+      <member refid="classz_space_1_1z_vector_1a5a0b5f364ed921eee55e847039d7c542" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>zVector</name></member>
+      <member refid="classz_space_1_1z_vector_1af71b53ffafe52119fa1d92845ea54b8f" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>zVector</name></member>
+      <member refid="classz_space_1_1z_vector_1a3bd8cc1995a059136070c7dc3c91b788" prot="public" virt="non-virtual"><scope>zSpace::zVector</scope><name>~zVector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

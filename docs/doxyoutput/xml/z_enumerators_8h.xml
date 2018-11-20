@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="z_enumerators_8h" kind="file" language="C++">
+    <compoundname>zEnumerators.h</compoundname>
+    <includedby refid="z_color_8h" local="no">C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h</includedby>
+    <invincdepgraph>
+      <node id="6">
+        <label>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zColor.h</label>
+        <link refid="z_color_8h_source"/>
+      </node>
+      <node id="5">
+        <label>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h</label>
+        <link refid="z_enumerators_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacez_space">zSpace</innernamespace>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="z_enumerators_8h_1a7731f013030262ea82cfcd3ae635c79e" prot="public" static="no">
+        <name>zSPACE_API</name>
+        <initializer>_declspec(dllimport)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="5" column="11" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="5" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="z_enumerators_8h_1a28249f7da4a605023ab766ae2b803790" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zVertexData</definition>
+        <argsstring></argsstring>
+        <name>zVertexData</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="15" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a670766467672971e54cebdeeafd9dd89" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zEdgeData</definition>
+        <argsstring></argsstring>
+        <name>zEdgeData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="15" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a40eca6de873530a4538a0e53c17c3d38" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zGradientDescent</definition>
+        <argsstring></argsstring>
+        <name>zGradientDescent</name>
+        <initializer>=30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="21" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a32276679a4b3fdc42eab87b17918503c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zRGB</definition>
+        <argsstring></argsstring>
+        <name>zRGB</name>
+        <initializer>= 40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="27" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1ac9d980b0ea5fad274e7e0cbaf4f736a9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zLsoaData</definition>
+        <argsstring></argsstring>
+        <name>zLsoaData</name>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="33" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a71b3211f39665fc63b71b3909d9185d9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zMsoaData</definition>
+        <argsstring></argsstring>
+        <name>zMsoaData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="33" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a98fbf9c8d8e32edeafd249cd33cce63a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zEuler</definition>
+        <argsstring></argsstring>
+        <name>zEuler</name>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="39" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a50edbf5364512bab844628b62748a854" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zRK4</definition>
+        <argsstring></argsstring>
+        <name>zRK4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="39" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1aff3fbf61f6874573f4444bcba61f47dd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zLaplacian</definition>
+        <argsstring></argsstring>
+        <name>zLaplacian</name>
+        <initializer>= 70</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="45" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a2c0fdea968b6e98d1657c3a183060c17" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zAverage</definition>
+        <argsstring></argsstring>
+        <name>zAverage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="45" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a50b9f3c25cb81cec33b6c78f4e724434" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zSO</definition>
+        <argsstring></argsstring>
+        <name>zSO</name>
+        <initializer>= 80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="51" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a12df9876cd40c063c0f9f6706e29662b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zSA</definition>
+        <argsstring></argsstring>
+        <name>zSA</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="51" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="z_enumerators_8h_1a576de1bf968780299a97258b250ca27b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>zRA</definition>
+        <argsstring></argsstring>
+        <name>zRA</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" line="51" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>zSPACE_EXPORTS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>zSPACE_API<sp/>__declspec(dllexport)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>zSPACE_API<sp/>_declspec(dllimport)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacez_space" kindref="compound">zSpace</ref></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zHEData<sp/>{<sp/>zVertexData<sp/>=<sp/>0,<sp/>zEdgeData,<sp/>zFaceData};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zScalarfieldData<sp/>{<sp/>zGradientDescent=30,<sp/>zGradientAscent<sp/>};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zColorData<sp/>{<sp/>zRGB<sp/>=<sp/>40,<sp/>zHSV<sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zDataLevel<sp/>{<sp/>zLsoaData<sp/>=<sp/>50,<sp/>zMsoaData,<sp/>zPostcodeData<sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zIntergrationType<sp/>{<sp/>zEuler<sp/>=<sp/>60,<sp/>zRK4<sp/>,<sp/>zPixel<sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zDiffusionType<sp/>{<sp/>zLaplacian<sp/>=<sp/>70,<sp/>zAverage,<sp/>zLaplacianAdjacent};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>zSPACE_API<sp/>zSlimeParameter<sp/>{<sp/>zSO<sp/>=<sp/>80,<sp/>zSA,<sp/>zRA,<sp/>zdepT};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zEnumerators.h"/>
+  </compounddef>
+</doxygen>

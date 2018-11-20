@@ -1,0 +1,1326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="classz_space_1_1z_matrix" kind="class" language="C++" prot="public">
+    <compoundname>zSpace::zMatrix</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classz_space_1_1z_matrix_1a9ed947d13a14c0f90710da09b0493609" prot="private" static="no" mutable="no">
+        <type>vector&lt; T &gt;</type>
+        <definition>vector&lt;T&gt; zSpace::zMatrix&lt; T &gt;::mat</definition>
+        <argsstring></argsstring>
+        <name>mat</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>list of values in the matrix </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="32" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_matrix_1aef984b58d15fbaf5881d0e36fc08a1df" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int zSpace::zMatrix&lt; T &gt;::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of rows in the matrix </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="33" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classz_space_1_1z_matrix_1ac826dbe36f7973a441c83befebabae06" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int zSpace::zMatrix&lt; T &gt;::cols</definition>
+        <argsstring></argsstring>
+        <name>cols</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of columns in the matrix </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="34" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a73e667fabb7c1ed6894cc917af7b7618" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zMatrix&lt; T &gt;::zMatrix</definition>
+        <argsstring>()</argsstring>
+        <name>zMatrix</name>
+        <briefdescription>
+<para>Default Constructor sets to a 4x4 matrix. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="45" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="45" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a3d2ec946b12b8f1a78a513b39503540f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zMatrix&lt; T &gt;::zMatrix</definition>
+        <argsstring>(int _rows, int _cols, vector&lt; T &gt; &amp;_mat)</argsstring>
+        <name>zMatrix</name>
+        <param>
+          <type>int</type>
+          <declname>_rows</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>_cols</declname>
+        </param>
+        <param>
+          <type>vector&lt; T &gt; &amp;</type>
+          <declname>_mat</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded Constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- number of rows. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- number of columns. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_mat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- values of the matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="70" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1aad83a902a46b1f25c8738cf2b27c3e0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zMatrix&lt; T &gt;::zMatrix</definition>
+        <argsstring>(int _dims)</argsstring>
+        <name>zMatrix</name>
+        <param>
+          <type>int</type>
+          <declname>_dims</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded Constructor for a square matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">_dims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- number of rows and cols. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="85" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="85" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a941bcc0178877bef521faf14dc56d0b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zMatrix&lt; T &gt;::zMatrix</definition>
+        <argsstring>(int _rows, int _cols)</argsstring>
+        <name>zMatrix</name>
+        <param>
+          <type>int</type>
+          <declname>_rows</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>_cols</declname>
+        </param>
+        <briefdescription>
+<para>Overloaded Constructor for a matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- number of rows. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">_cols</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- number of cols. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="107" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="107" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1af682a3225ce8a8dfcc0fb26b3c797a6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>zSpace::zMatrix&lt; T &gt;::~zMatrix</definition>
+        <argsstring>()</argsstring>
+        <name>~zMatrix</name>
+        <briefdescription>
+<para>Default destructor. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="128" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="128" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1ae85a1183dc320f27fca7608431d5c4f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int zSpace::zMatrix&lt; T &gt;::getNumRows</definition>
+        <argsstring>()</argsstring>
+        <name>getNumRows</name>
+        <briefdescription>
+<para>This method gets the number of rows in the matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>int - number of rows. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="141" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a9f99bbcdb6224e24488e8e01d51937be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int zSpace::zMatrix&lt; T &gt;::getNumCols</definition>
+        <argsstring>()</argsstring>
+        <name>getNumCols</name>
+        <briefdescription>
+<para>This method gets the number of columns in the matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>int - number of columns. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="151" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a65c848d1249b713e9c1e5e4dbb096d15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>vector&lt; T &gt;</type>
+        <definition>vector&lt;T&gt; zSpace::zMatrix&lt; T &gt;::getRow</definition>
+        <argsstring>(int index)</argsstring>
+        <name>getRow</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>This method gets the row values at the input row index. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input row index. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vector&lt;T&gt; - vector of row values. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="163" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="163" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1aeac2ded2fa3667acd6d3e28c7ece183d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>vector&lt; T &gt;</type>
+        <definition>vector&lt;T&gt; zSpace::zMatrix&lt; T &gt;::getCol</definition>
+        <argsstring>(int index)</argsstring>
+        <name>getCol</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>This method gets the column values at the input column index. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input column index. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vector&lt;T&gt; - vector of column values. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="183" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="183" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a3d650d1d927fee3b0d3a1891829c511d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>vector&lt; T &gt;</type>
+        <definition>vector&lt;T&gt; zSpace::zMatrix&lt; T &gt;::getDiagonal</definition>
+        <argsstring>()</argsstring>
+        <name>getDiagonal</name>
+        <briefdescription>
+<para>This method gets the diagonal values if it is a square matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>vector&lt;T&gt; - vector of diagonal values. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="202" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="202" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1ae4d1edb48ef79097b18a02755cc859e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setRow</definition>
+        <argsstring>(int index, T val)</argsstring>
+        <name>setRow</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This method sets the row values at the input row index with the input value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input row index. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- value of the row. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="231" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="231" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a6a8915e7dbe2804d0abef17b7a5b3124" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setRow</definition>
+        <argsstring>(int index, vector&lt; T &gt; &amp;vals)</argsstring>
+        <name>setRow</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>vector&lt; T &gt; &amp;</type>
+          <declname>vals</declname>
+        </param>
+        <briefdescription>
+<para>This method sets the row values at the input row index with the input vector of values. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input row index. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- vector of values for the row. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="250" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="250" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1aed2d0cb2a763840e9182d79a16ec85ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setCol</definition>
+        <argsstring>(int index, T val)</argsstring>
+        <name>setCol</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This method sets the col values at the input col index with the input value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input col index. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- value of the col. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="269" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="269" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a81e01aa4a2d9ee8f17f1ae201ee1e997" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setCol</definition>
+        <argsstring>(int index, vector&lt; T &gt; &amp;vals)</argsstring>
+        <name>setCol</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>vector&lt; T &gt; &amp;</type>
+          <declname>vals</declname>
+        </param>
+        <briefdescription>
+<para>This method sets the col values at the input col index with the input vector of values. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input col index. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- vector of values for the col. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="287" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="287" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a4f5f8550531f785c493536140fe5e34b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setDiagonal</definition>
+        <argsstring>(T val)</argsstring>
+        <name>setDiagonal</name>
+        <param>
+          <type>T</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>This method sets the diagonal values of a square matrix with the input value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- value of the diagonal. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="305" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="305" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1ae850d71ff5a0136c910a6cb30d6af0dd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setDiagonal</definition>
+        <argsstring>(vector&lt; T &gt; vals)</argsstring>
+        <name>setDiagonal</name>
+        <param>
+          <type>vector&lt; T &gt;</type>
+          <declname>vals</declname>
+        </param>
+        <briefdescription>
+<para>This method sets the diagonal values of a square matrix with the input vector of values. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- vector of values for the diagonal. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="326" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="326" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a0c99ec33a4f87ef9b7d0d8df37fb7299" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setZero</definition>
+        <argsstring>()</argsstring>
+        <name>setZero</name>
+        <briefdescription>
+<para>This method sets values of the matrix to zero. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="346" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="346" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a560fab1967f0e35e58e9e98f2e912355" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setOne</definition>
+        <argsstring>()</argsstring>
+        <name>setOne</name>
+        <briefdescription>
+<para>This method sets values of the matrix to one. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="363" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="363" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a6dbef309a8f7a801bb28909c90ce0de1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::setIdentity</definition>
+        <argsstring>()</argsstring>
+        <name>setIdentity</name>
+        <briefdescription>
+<para>This method sets the matrix to identity if it is a square matrix. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="379" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="379" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1afec2daee718b12398653de1472922df3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T&amp; zSpace::zMatrix&lt; T &gt;::operator()</definition>
+        <argsstring>(int row, int col)</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>int</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+<para>This operator returns the reference to the coefficient at at the given row and column index. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input row index. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">col</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input col index. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>T - reference to the coefficient. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="399" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1adf77aaaef4a6ab3b65484c7b6e0484d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T&amp; zSpace::zMatrix&lt; T &gt;::operator()</definition>
+        <argsstring>(int id)</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>This operator returns the reference to the coefficient at at the given index. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- input index. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>T - reference to the coefficient. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="414" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="414" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a26441ad72e77c2954829e24a78f8df82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::operator+</definition>
+        <argsstring>(zMatrix&lt; T &gt; &amp;m1)</argsstring>
+        <name>operator+</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt; &amp;</type>
+          <declname>m1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for matrix addition. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> which is added to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant matrix after the addition. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="428" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="428" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a89750b940abc295fc15fb06271edb533" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::operator+</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator+</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar addition to a matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which is added to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant matrix after the addition. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="453" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="453" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1afaa326b6909e926cb4848ba78654e973" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::operator-</definition>
+        <argsstring>(zMatrix&lt; T &gt; &amp;m1)</argsstring>
+        <name>operator-</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt; &amp;</type>
+          <declname>m1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for matrix subtraction. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> which is subtracted from the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant matrix after the subtraction. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="474" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="474" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a13d7c217fd2dd47790dd4ed6155d8ad7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::operator-</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator-</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar subtraction from a matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which is subtracted from the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant matrix after the subtraction. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="498" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="498" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1add605d3bcc6aab142a799671171821e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::operator*</definition>
+        <argsstring>(zMatrix&lt; T &gt; &amp;m1)</argsstring>
+        <name>operator*</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt; &amp;</type>
+          <declname>m1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for matrix multiplication. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> which is multiplied with the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant matrix after the multiplication. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="518" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="518" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a5eb908056b857eae15b1c25a78f818d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::operator*</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator*</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar multiplication with a matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which is multiplied with the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant matrix after the multiplication. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="554" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="554" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1af1ce91b548b450da6a2573280694fc69" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::operator+=</definition>
+        <argsstring>(zMatrix&lt; T &gt; &amp;m1)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt; &amp;</type>
+          <declname>m1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for matrix addition and assigment of the result to the current matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> which is added to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="578" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="578" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a2e28c95d530fe2c8cdbf45039fc04c73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::operator+=</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar addition and assigment of the result to the current matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which is added to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="598" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="598" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1afcbeb89e1fec61a8ae71c921fb5c1be7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::operator-=</definition>
+        <argsstring>(zMatrix&lt; T &gt; &amp;m1)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt; &amp;</type>
+          <declname>m1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for matrix subtraction and assigment of the result to the current matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> which is added to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="613" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="613" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a3f9216d702ad73222f5a6036b4d0a389" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::operator-=</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar subtraction and assigment of the result to the current matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which is added to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="633" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="633" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a7755f2663062228887f70c4ada9ae962" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::operator*=</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator*=</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar multiplication and assigment of the result to the current matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which is multiplied to the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="651" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="651" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1afef6e0917239fe5f6cfa9904b148048a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::operator/=</definition>
+        <argsstring>(T s1)</argsstring>
+        <name>operator/=</name>
+        <param>
+          <type>T</type>
+          <declname>s1</declname>
+        </param>
+        <briefdescription>
+<para>This operator is used for scalar division and assigment of the result to the current matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- scalar value which divides the current matrix. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="669" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="669" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a364dca7a222638c9fbec32c9c82a9426" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::transpose</definition>
+        <argsstring>()</argsstring>
+        <name>transpose</name>
+        <briefdescription>
+<para>This method returns the transpose of the input matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant transpose matrix. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="691" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="691" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a57be6963618f8a13b8ecd72610d402de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::minorMatrix</definition>
+        <argsstring>(int colIndex, int rowIndex=0)</argsstring>
+        <name>minorMatrix</name>
+        <param>
+          <type>int</type>
+          <declname>colIndex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rowIndex</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>This method returns the minor/sub matrix of the input square matrix removing the row and column values given by the input colindex and rowIndex. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">colIndex-</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>column index to be removed. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant leftover matrix. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="715" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="715" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a356ae1d5f9ba149ef3726a71cdd78fcb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::cofactorMatrix</definition>
+        <argsstring>()</argsstring>
+        <name>cofactorMatrix</name>
+        <briefdescription>
+<para>This method returns the cofactor matrix of the input square matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para>based on <ulink url="https://www.geeksforgeeks.org/adjoint-inverse-matrix/">https://www.geeksforgeeks.org/adjoint-inverse-matrix/</ulink> <parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant cofactor <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="748" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="748" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a59e488437e8079ec819bbea68528ca7e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt;</type>
+        <definition>zMatrix&lt;T&gt; zSpace::zMatrix&lt; T &gt;::adjointMatrix</definition>
+        <argsstring>()</argsstring>
+        <name>adjointMatrix</name>
+        <briefdescription>
+<para>This method returns the adjoint matrix of the input square matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para>based on <ulink url="https://www.geeksforgeeks.org/adjoint-inverse-matrix/">https://www.geeksforgeeks.org/adjoint-inverse-matrix/</ulink> <parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref> - resultant adjoint <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="791" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="791" bodyend="798"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1ac16780181dc4b4684aac87c36fe57383" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool zSpace::zMatrix&lt; T &gt;::inverseMatrix</definition>
+        <argsstring>(zMatrix&lt; T &gt; &amp;outMat)</argsstring>
+        <name>inverseMatrix</name>
+        <param>
+          <type><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>&lt; T &gt; &amp;</type>
+          <declname>outMat</declname>
+        </param>
+        <briefdescription>
+<para>This method returns the inverse matrix of the input square matrix, if it exists. </para>        </briefdescription>
+        <detaileddescription>
+<para>based on <ulink url="https://www.geeksforgeeks.org/adjoint-inverse-matrix/">https://www.geeksforgeeks.org/adjoint-inverse-matrix/</ulink> <parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out"><ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- resultant inverse <ref refid="classz_space_1_1z_matrix" kindref="compound">zMatrix</ref>. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool - true if inverse matrix exists. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="808" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="808" bodyend="836"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a131871f68be2ee2f7679c3e1154d5d44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T zSpace::zMatrix&lt; T &gt;::det</definition>
+        <argsstring>()</argsstring>
+        <name>det</name>
+        <briefdescription>
+<para>This method returns the determinant of the input matrix if it is a square matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>T - determinant value. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="844" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="844" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classz_space_1_1z_matrix_1a867ce7e4642426e0fae83b486f08b54c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void zSpace::zMatrix&lt; T &gt;::printMatrix</definition>
+        <argsstring>()</argsstring>
+        <name>printMatrix</name>
+        <briefdescription>
+<para>This methods prints the matrix values to the console. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="876" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="876" bodyend="888"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>This is a template matrix class. </para>    </briefdescription>
+    <detaileddescription>
+<para>Essential to run matrix operations. <parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Type to work with int, double, float </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" line="29" column="1" bodyfile="C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zMatrix.h" bodystart="28" bodyend="890"/>
+    <listofallmembers>
+      <member refid="classz_space_1_1z_matrix_1a59e488437e8079ec819bbea68528ca7e" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>adjointMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1a356ae1d5f9ba149ef3726a71cdd78fcb" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>cofactorMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1ac826dbe36f7973a441c83befebabae06" prot="private" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>cols</name></member>
+      <member refid="classz_space_1_1z_matrix_1a131871f68be2ee2f7679c3e1154d5d44" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>det</name></member>
+      <member refid="classz_space_1_1z_matrix_1aeac2ded2fa3667acd6d3e28c7ece183d" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>getCol</name></member>
+      <member refid="classz_space_1_1z_matrix_1a3d650d1d927fee3b0d3a1891829c511d" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>getDiagonal</name></member>
+      <member refid="classz_space_1_1z_matrix_1a9f99bbcdb6224e24488e8e01d51937be" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>getNumCols</name></member>
+      <member refid="classz_space_1_1z_matrix_1ae85a1183dc320f27fca7608431d5c4f5" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>getNumRows</name></member>
+      <member refid="classz_space_1_1z_matrix_1a65c848d1249b713e9c1e5e4dbb096d15" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>getRow</name></member>
+      <member refid="classz_space_1_1z_matrix_1ac16780181dc4b4684aac87c36fe57383" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>inverseMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1a9ed947d13a14c0f90710da09b0493609" prot="private" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>mat</name></member>
+      <member refid="classz_space_1_1z_matrix_1a57be6963618f8a13b8ecd72610d402de" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>minorMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1afec2daee718b12398653de1472922df3" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator()</name></member>
+      <member refid="classz_space_1_1z_matrix_1adf77aaaef4a6ab3b65484c7b6e0484d6" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator()</name></member>
+      <member refid="classz_space_1_1z_matrix_1add605d3bcc6aab142a799671171821e8" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator*</name></member>
+      <member refid="classz_space_1_1z_matrix_1a5eb908056b857eae15b1c25a78f818d2" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator*</name></member>
+      <member refid="classz_space_1_1z_matrix_1a7755f2663062228887f70c4ada9ae962" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator*=</name></member>
+      <member refid="classz_space_1_1z_matrix_1a26441ad72e77c2954829e24a78f8df82" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator+</name></member>
+      <member refid="classz_space_1_1z_matrix_1a89750b940abc295fc15fb06271edb533" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator+</name></member>
+      <member refid="classz_space_1_1z_matrix_1af1ce91b548b450da6a2573280694fc69" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator+=</name></member>
+      <member refid="classz_space_1_1z_matrix_1a2e28c95d530fe2c8cdbf45039fc04c73" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator+=</name></member>
+      <member refid="classz_space_1_1z_matrix_1afaa326b6909e926cb4848ba78654e973" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator-</name></member>
+      <member refid="classz_space_1_1z_matrix_1a13d7c217fd2dd47790dd4ed6155d8ad7" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator-</name></member>
+      <member refid="classz_space_1_1z_matrix_1afcbeb89e1fec61a8ae71c921fb5c1be7" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator-=</name></member>
+      <member refid="classz_space_1_1z_matrix_1a3f9216d702ad73222f5a6036b4d0a389" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator-=</name></member>
+      <member refid="classz_space_1_1z_matrix_1afef6e0917239fe5f6cfa9904b148048a" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>operator/=</name></member>
+      <member refid="classz_space_1_1z_matrix_1a867ce7e4642426e0fae83b486f08b54c" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>printMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1aef984b58d15fbaf5881d0e36fc08a1df" prot="private" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>rows</name></member>
+      <member refid="classz_space_1_1z_matrix_1aed2d0cb2a763840e9182d79a16ec85ef" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setCol</name></member>
+      <member refid="classz_space_1_1z_matrix_1a81e01aa4a2d9ee8f17f1ae201ee1e997" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setCol</name></member>
+      <member refid="classz_space_1_1z_matrix_1a4f5f8550531f785c493536140fe5e34b" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setDiagonal</name></member>
+      <member refid="classz_space_1_1z_matrix_1ae850d71ff5a0136c910a6cb30d6af0dd" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setDiagonal</name></member>
+      <member refid="classz_space_1_1z_matrix_1a6dbef309a8f7a801bb28909c90ce0de1" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setIdentity</name></member>
+      <member refid="classz_space_1_1z_matrix_1a560fab1967f0e35e58e9e98f2e912355" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setOne</name></member>
+      <member refid="classz_space_1_1z_matrix_1ae4d1edb48ef79097b18a02755cc859e1" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setRow</name></member>
+      <member refid="classz_space_1_1z_matrix_1a6a8915e7dbe2804d0abef17b7a5b3124" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setRow</name></member>
+      <member refid="classz_space_1_1z_matrix_1a0c99ec33a4f87ef9b7d0d8df37fb7299" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>setZero</name></member>
+      <member refid="classz_space_1_1z_matrix_1a364dca7a222638c9fbec32c9c82a9426" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>transpose</name></member>
+      <member refid="classz_space_1_1z_matrix_1a73e667fabb7c1ed6894cc917af7b7618" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>zMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1a3d2ec946b12b8f1a78a513b39503540f" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>zMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1aad83a902a46b1f25c8738cf2b27c3e0c" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>zMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1a941bcc0178877bef521faf14dc56d0b6" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>zMatrix</name></member>
+      <member refid="classz_space_1_1z_matrix_1af682a3225ce8a8dfcc0fb26b3c797a6d" prot="public" virt="non-virtual"><scope>zSpace::zMatrix</scope><name>~zMatrix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

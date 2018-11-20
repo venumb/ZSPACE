@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="dir_eded87daa33483d23d4a03322d85636e" kind="dir">
+    <compoundname>C:/Users/vishu.b/source/repos/zSpace_v0.1</compoundname>
+    <innerdir refid="dir_fd8be38ecb671794cbf508314cbbc8e5">C:/Users/vishu.b/source/repos/zSpace_v0.1/headers</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/vishu.b/source/repos/zSpace_v0.1/"/>
+  </compounddef>
+</doxygen>
