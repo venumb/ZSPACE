@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['printmatrix',['printMatrix',['../classz_space_1_1z_matrix.html#a867ce7e4642426e0fae83b486f08b54c',1,'zSpace::zMatrix']]]
+  ['normalize',['normalize',['../classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b',1,'zSpace::zVector']]]
 ];

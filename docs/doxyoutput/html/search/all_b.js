@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['pi',['PI',['../z_vector_8h.html#a598a3330b3c21701223ee0ca14316eca',1,'zVector.h']]],
-  ['printmatrix',['printMatrix',['../classz_space_1_1z_matrix.html#a867ce7e4642426e0fae83b486f08b54c',1,'zSpace::zMatrix']]]
+  ['mat',['mat',['../classz_space_1_1z_matrix.html#a9ed947d13a14c0f90710da09b0493609',1,'zSpace::zMatrix']]],
+  ['minormatrix',['minorMatrix',['../classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de',1,'zSpace::zMatrix']]]
 ];

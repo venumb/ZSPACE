@@ -91,11 +91,11 @@ $(document).ready(function(){initNavTree('classz_space_1_1z_vector.html','');});
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classz_space_1_1z_vector-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">zSpace::zVector Class Reference<div class="ingroups"><a class="el" href="group__z_core.html">ZCore</a></div></div>  </div>
+<div class="title">zSpace::zVector Class Reference<div class="ingroups"><a class="el" href="group__z_space_core.html">ZSpaceCore</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>A vector math class.  
+<p>A 3 dimensional vector math class.  
  <a href="classz_space_1_1z_vector.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="z_vector_8h_source.html">zVector.h</a>&gt;</code></p>
@@ -135,6 +135,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a95e70a933c305a2d596e61a7c543f720"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a95e70a933c305a2d596e61a7c543f720">operator*</a> (double val)</td></tr>
 <tr class="memdesc:a95e70a933c305a2d596e61a7c543f720"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar muliplication of a vector.  <a href="#a95e70a933c305a2d596e61a7c543f720">More...</a><br /></td></tr>
 <tr class="separator:a95e70a933c305a2d596e61a7c543f720"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e674c9f4e04a4685f0571f95734ca82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a8e674c9f4e04a4685f0571f95734ca82">operator*</a> (<a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix)</td></tr>
+<tr class="memdesc:a8e674c9f4e04a4685f0571f95734ca82"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for 4x4 / 3X3 matrix muliplication of a vector.  <a href="#a8e674c9f4e04a4685f0571f95734ca82">More...</a><br /></td></tr>
+<tr class="separator:a8e674c9f4e04a4685f0571f95734ca82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a817143b982398bf61f8b21e92acee983"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a817143b982398bf61f8b21e92acee983">operator/</a> (double val)</td></tr>
 <tr class="memdesc:a817143b982398bf61f8b21e92acee983"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar division of a vector.  <a href="#a817143b982398bf61f8b21e92acee983">More...</a><br /></td></tr>
 <tr class="separator:a817143b982398bf61f8b21e92acee983"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,23 +160,38 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3f18877fe16d6a6cf4c0774ec313ad7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This overloaded operator is used for scalar division and assigment of the result to the current vector.  <a href="#a3f18877fe16d6a6cf4c0774ec313ad7e">More...</a><br /></td></tr>
 <tr class="separator:a3f18877fe16d6a6cf4c0774ec313ad7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3e1fd350f48b30428f95e716a4e3400"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400">length</a> ()</td></tr>
-<tr class="memdesc:aa3e1fd350f48b30428f95e716a4e3400"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the magnitude/length of the <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>.  <a href="#aa3e1fd350f48b30428f95e716a4e3400">More...</a><br /></td></tr>
+<tr class="memdesc:aa3e1fd350f48b30428f95e716a4e3400"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the magnitude/length of the <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#aa3e1fd350f48b30428f95e716a4e3400">More...</a><br /></td></tr>
 <tr class="separator:aa3e1fd350f48b30428f95e716a4e3400"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27d075d5055bb92ddfe63fae4010339b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b">normalize</a> ()</td></tr>
 <tr class="memdesc:a27d075d5055bb92ddfe63fae4010339b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method normalizes the vector to unit length.  <a href="#a27d075d5055bb92ddfe63fae4010339b">More...</a><br /></td></tr>
 <tr class="separator:a27d075d5055bb92ddfe63fae4010339b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b19c952aec086d743e8bfadaa45cdca"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca">distanceTo</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> v1)</td></tr>
-<tr class="memdesc:a3b19c952aec086d743e8bfadaa45cdca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the distance between the current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>.  <a href="#a3b19c952aec086d743e8bfadaa45cdca">More...</a><br /></td></tr>
+<tr class="memdesc:a3b19c952aec086d743e8bfadaa45cdca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the distance between the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#a3b19c952aec086d743e8bfadaa45cdca">More...</a><br /></td></tr>
 <tr class="separator:a3b19c952aec086d743e8bfadaa45cdca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf4156a0599baccfab7d3ff64bf4c209"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#acf4156a0599baccfab7d3ff64bf4c209">angle</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> v1)</td></tr>
-<tr class="memdesc:acf4156a0599baccfab7d3ff64bf4c209"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the angle between the current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>.  <a href="#acf4156a0599baccfab7d3ff64bf4c209">More...</a><br /></td></tr>
+<tr class="memdesc:acf4156a0599baccfab7d3ff64bf4c209"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the angle between the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#acf4156a0599baccfab7d3ff64bf4c209">More...</a><br /></td></tr>
 <tr class="separator:acf4156a0599baccfab7d3ff64bf4c209"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8817c8e347d109784cec18a3e35728c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c">dihedralAngle</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> v1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> v2)</td></tr>
-<tr class="memdesc:ad8817c8e347d109784cec18a3e35728c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the dihedral angle between the two input zVectors using current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> as edge reference.  <a href="#ad8817c8e347d109784cec18a3e35728c">More...</a><br /></td></tr>
+<tr class="memdesc:ad8817c8e347d109784cec18a3e35728c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the dihedral angle between the two input zVectors using current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> as edge reference.  <a href="#ad8817c8e347d109784cec18a3e35728c">More...</a><br /></td></tr>
 <tr class="separator:ad8817c8e347d109784cec18a3e35728c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90d8f98859c540c5fd0bdea52a87d897"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a90d8f98859c540c5fd0bdea52a87d897">getComponent</a> (int i)</td></tr>
-<tr class="memdesc:a90d8f98859c540c5fd0bdea52a87d897"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the component value of the current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>.  <a href="#a90d8f98859c540c5fd0bdea52a87d897">More...</a><br /></td></tr>
+<tr class="memdesc:a90d8f98859c540c5fd0bdea52a87d897"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the component value of the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#a90d8f98859c540c5fd0bdea52a87d897">More...</a><br /></td></tr>
 <tr class="separator:a90d8f98859c540c5fd0bdea52a87d897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae565bb4a1cadd5ff51efb1a9da290158"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#ae565bb4a1cadd5ff51efb1a9da290158">toRowMatrix</a> (int cols=4)</td></tr>
+<tr class="memdesc:ae565bb4a1cadd5ff51efb1a9da290158"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the row matrix of the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#ae565bb4a1cadd5ff51efb1a9da290158">More...</a><br /></td></tr>
+<tr class="separator:ae565bb4a1cadd5ff51efb1a9da290158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b8c358245e800e05a737ae21fb5bd14"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14">toColumnMatrix</a> (int rows=4)</td></tr>
+<tr class="memdesc:a5b8c358245e800e05a737ae21fb5bd14"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the column matrix of the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#a5b8c358245e800e05a737ae21fb5bd14">More...</a><br /></td></tr>
+<tr class="separator:a5b8c358245e800e05a737ae21fb5bd14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10c955506bd52a5a845e58f680632b50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a10c955506bd52a5a845e58f680632b50">fromRowMatrix</a> (<a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix)</td></tr>
+<tr class="memdesc:a10c955506bd52a5a845e58f680632b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the vector from the input row matrix.  <a href="#a10c955506bd52a5a845e58f680632b50">More...</a><br /></td></tr>
+<tr class="separator:a10c955506bd52a5a845e58f680632b50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12b8d25bfa4d24a70e24faeb5114931e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a12b8d25bfa4d24a70e24faeb5114931e">fromColumnMatrix</a> (<a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix)</td></tr>
+<tr class="memdesc:a12b8d25bfa4d24a70e24faeb5114931e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the vector from the input column matrix.  <a href="#a12b8d25bfa4d24a70e24faeb5114931e">More...</a><br /></td></tr>
+<tr class="separator:a12b8d25bfa4d24a70e24faeb5114931e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c7172b9c4f20a7ff7f24cbe092b63a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a7c7172b9c4f20a7ff7f24cbe092b63a6">rotateAboutAxis</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> axisVec, double <a class="el" href="classz_space_1_1z_vector.html#acf4156a0599baccfab7d3ff64bf4c209">angle</a>=0)</td></tr>
+<tr class="memdesc:a7c7172b9c4f20a7ff7f24cbe092b63a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the rotated vector of the current vector about an input axis by the the input angle.  <a href="#a7c7172b9c4f20a7ff7f24cbe092b63a6">More...</a><br /></td></tr>
+<tr class="separator:a7c7172b9c4f20a7ff7f24cbe092b63a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -185,7 +203,7 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aba8f22352b3e277987cdff71f4dcd96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A vector math class. </p>
+<div class="textblock"><p>A 3 dimensional vector math class. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00023">23</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
@@ -263,9 +281,9 @@ Public Attributes</h2></td></tr>
 <p>Overloaded constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">_x</td><td>- x component of the <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">_z</td><td>- y component of the <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">_z</td><td>- z component of the <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">_x</td><td>- x component of the <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">_z</td><td>- y component of the <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">_z</td><td>- z component of the <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -330,7 +348,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This method returns the angle between the current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </p>
+<p>This method returns the angle between the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- input vector. </td></tr>
@@ -340,7 +358,7 @@ Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the angle between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00320">320</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00339">339</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -378,7 +396,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This method returns the dihedral angle between the two input zVectors using current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> as edge reference. </p>
+<p>This method returns the dihedral angle between the two input zVectors using current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> as edge reference. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- input vector. </td></tr>
@@ -389,7 +407,7 @@ Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the dihedral angle between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00341">341</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00360">360</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -417,7 +435,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This method returns the distance between the current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </p>
+<p>This method returns the distance between the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> and input <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- input vector. </td></tr>
@@ -427,7 +445,83 @@ Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the distance between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00308">308</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00327">327</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+
+</div>
+</div>
+<a id="a12b8d25bfa4d24a70e24faeb5114931e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12b8d25bfa4d24a70e24faeb5114931e">&#9670;&nbsp;</a></span>fromColumnMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zVector::fromColumnMatrix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMatrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the vector from the input column matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">zMatrixd</td><td>- input column matrix. Works with 3X1 or 4X1 matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of the column matrix. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00448">448</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+
+</div>
+</div>
+<a id="a10c955506bd52a5a845e58f680632b50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10c955506bd52a5a845e58f680632b50">&#9670;&nbsp;</a></span>fromRowMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zVector::fromRowMatrix </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMatrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the vector from the input row matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">zMatrixd</td><td>- input row matrix. Works with 1X3 or 1X4 matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of the row matrix. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00433">433</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -455,7 +549,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This method returns the component value of the current <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </p>
+<p>This method returns the component value of the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>- index. ( 0 - x component, 0 - y component, 2 - z component). </td></tr>
@@ -465,7 +559,7 @@ Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the dihedral angle between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00368">368</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00387">387</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -492,11 +586,11 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This method returns the magnitude/length of the <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a>. </p>
+<p>This method returns the magnitude/length of the <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the maginute of the vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00283">283</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00302">302</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -526,12 +620,12 @@ Public Attributes</h2></td></tr>
 <p>This method normalizes the vector to unit length. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00292">292</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00311">311</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
 <a id="a9471d6332878a82f63a2bfd16ea2a752"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9471d6332878a82f63a2bfd16ea2a752">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9471d6332878a82f63a2bfd16ea2a752">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -557,7 +651,7 @@ Public Attributes</h2></td></tr>
 <p>This operator is used for vector dot product. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> which is used for the dot product with the current vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> which is used for the dot product with the current vector. </td></tr>
   </table>
   </dd>
 </dl>
@@ -569,7 +663,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a id="a95e70a933c305a2d596e61a7c543f720"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95e70a933c305a2d596e61a7c543f720">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e70a933c305a2d596e61a7c543f720">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -599,10 +693,48 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the scalar multiplication. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00164">164</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+
+</div>
+</div>
+<a id="a8e674c9f4e04a4685f0571f95734ca82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e674c9f4e04a4685f0571f95734ca82">&#9670;&nbsp;</a></span>operator*() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zVector::operator* </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMatrix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This operator is used for 4x4 / 3X3 matrix muliplication of a vector. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMatrix</td><td>- input 4X4 / 3X3 zMatrixd to be multiplied with the current vector. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the matrix multiplication. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00176">176</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -639,7 +771,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00251">251</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00270">270</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -670,11 +802,11 @@ Public Attributes</h2></td></tr>
 <p>This operator is used for vector addition. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> which is added to the current vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> which is added to the current vector. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the addition. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00092">92</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
@@ -712,7 +844,7 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the scalar addition. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00140">140</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
@@ -746,13 +878,13 @@ Public Attributes</h2></td></tr>
 <p>This overloaded operator is used for vector addition and assigment of the result to the current vector. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> which is added to the current vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> which is added to the current vector. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00194">194</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00213">213</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -789,7 +921,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00223">223</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00242">242</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -820,11 +952,11 @@ Public Attributes</h2></td></tr>
 <p>This operator is used for vector subtraction. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> which is subtracted from the current vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> which is subtracted from the current vector. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the subtraction. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00104">104</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
@@ -862,7 +994,7 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the scalar subtraction. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00152">152</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
@@ -896,13 +1028,13 @@ Public Attributes</h2></td></tr>
 <p>This overloaded operator is used for vector subtraction and assigment of the result to the current vector. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> which is subtacted from the current vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> which is subtacted from the current vector. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00208">208</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00227">227</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -939,7 +1071,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00237">237</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00256">256</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -974,10 +1106,10 @@ Public Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the scalar division. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar division. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00176">176</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00195">195</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1014,7 +1146,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00265">265</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00284">284</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1045,7 +1177,7 @@ Public Attributes</h2></td></tr>
 <p>This operator checks for equality of two zVectors. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> against which the equality is checked. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> against which the equality is checked. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1083,14 +1215,139 @@ Public Attributes</h2></td></tr>
 <p>This operator is used for vector cross procduct. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> which is used for the cross product with the current vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> which is used for the cross product with the current vector. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A vector math class. ">zVector</a> - resultant vector after the cross product. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the cross product. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00128">128</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+
+</div>
+</div>
+<a id="a7c7172b9c4f20a7ff7f24cbe092b63a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c7172b9c4f20a7ff7f24cbe092b63a6">&#9670;&nbsp;</a></span>rotateAboutAxis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zVector::rotateAboutAxis </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td>
+          <td class="paramname"><em>axisVec</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the rotated vector of the current vector about an input axis by the the input angle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">axisVec</td><td>- axis of rotation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">angle</td><td>- rotation angle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - rotated vector. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00464">464</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+
+</div>
+</div>
+<a id="a5b8c358245e800e05a737ae21fb5bd14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b8c358245e800e05a737ae21fb5bd14">&#9670;&nbsp;</a></span>toColumnMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> zSpace::zVector::toColumnMatrix </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rows</em> = <code>4</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the column matrix of the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rows</td><td>- number of rows in the output vector. Needs to be 4 or 3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zMatrixd - column matrix of the vector. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00418">418</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
+
+</div>
+</div>
+<a id="ae565bb4a1cadd5ff51efb1a9da290158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae565bb4a1cadd5ff51efb1a9da290158">&#9670;&nbsp;</a></span>toRowMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__z_space_core.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> zSpace::zVector::toRowMatrix </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cols</em> = <code>4</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the row matrix of the current <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cols</td><td>- number of columns in the output vector. Needs to be 4 or 3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zMatrixd - row matrix of the vector. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00401">401</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>

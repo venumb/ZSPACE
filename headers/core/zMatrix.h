@@ -20,7 +20,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 
-	/** @}*/ // end of group zSpaceCore
+	/** @}*/ 
 
 	template <typename T>
 	class zMatrix

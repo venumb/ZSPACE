@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['x',['x',['../classz_space_1_1z_vector.html#aa45dd954bd0fc27951899df92a152008',1,'zSpace::zVector']]]
+  ['o',['O',['../structz_space_1_1z_plane.html#a864783a631a56d84f06774cdb7125674',1,'zSpace::zPlane']]]
 ];

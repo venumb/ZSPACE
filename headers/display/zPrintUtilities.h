@@ -6,8 +6,8 @@
 
 namespace zSpace
 {
-	/** \addtogroup zPrintUtilities
-	*	\brief Collection of general console print utility methods.
+	/** \addtogroup zSpaceDisplay
+	*	\brief Collection of general display and console print utility methods along with bufferobject class. It uses OPENGL framework for the display operations. 
 	*  @{
 	*/
 	
@@ -69,6 +69,6 @@ namespace zSpace
 		if (colType = zHSV) printf("\n  %1.2f %1.2f %1.2f \n", inCol.h, inCol.s, inCol.v);
 	}
 
-	/** @}*/ // end of group zPrintUtilities
+	/** @}*/ 
 
 }

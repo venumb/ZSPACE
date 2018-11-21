@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['normalize',['normalize',['../classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b',1,'zSpace::zVector']]]
+  ['k1',['k1',['../structz_space_1_1z_curvature.html#a444ed4b07ab4118d8926b3d9b35bccfb',1,'zSpace::zCurvature']]],
+  ['k2',['k2',['../structz_space_1_1z_curvature.html#aa5a7de8a7159fd3ad63ea989b7311111',1,'zSpace::zCurvature']]]
 ];

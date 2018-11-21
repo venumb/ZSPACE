@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['r',['r',['../classz_space_1_1z_color.html#a0e75fe6d990792c7afb824be89c5826b',1,'zSpace::zColor']]]
+  ['normalize',['normalize',['../classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b',1,'zSpace::zVector']]]
 ];

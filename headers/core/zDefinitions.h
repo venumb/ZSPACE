@@ -52,5 +52,5 @@ namespace zSpace
 	#endif
 
 
-	/** @}*/ // end of group zEnumerators
+	/** @}*/ 
 }

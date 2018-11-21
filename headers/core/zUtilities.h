@@ -12,6 +12,8 @@
 #include <time.h> 
 #include <ctype.h>
 #include <numeric>
+#include <map>
+#include <unordered_map>
 using namespace std;
 
 namespace zSpace
@@ -21,6 +23,9 @@ namespace zSpace
 	*  @{
 	*/
 
+	//--------------------------
+	//---- STRING METHODS
+	//--------------------------
 	
 	/*! \brief This method splits the input string based on the input delimiter.
 	*
@@ -49,6 +54,10 @@ namespace zSpace
 		}
 		return elements;
 	}
+
+	//--------------------------
+	//---- NUMERICAL METHODS
+	//--------------------------
 
 	/*! \brief This method maps the input value from the input domain to output domain.
 	*
@@ -87,12 +96,65 @@ namespace zSpace
 	*	\param		[in]	val1			- input value 2.
 	*	\return 			double			- maximum value
 	*/
+	
 	template <class T>
 	T zMax(T val0, T val1)
 	{
 		return (val0 > val1) ? val0 : val1;
 	}
 
-	/** @}*/ // end of group zUtilities
+	/*! \brief This method returns a random number in the input domain.
+	*
+	*	\param		[in]	min		- domain minimum value.
+	*	\param		[in]	max		- domain maximum value.
+	*	\return				int		- random number between the 2 input values.
+	*/
+	int randomNumber(int min, int max)
+	{		
+		return rand() % (max - min + 1) + min;		
+	}
+
+	/*! \brief This method returns a random number in the input domain.
+	*
+	*	\param		[in]	min			- domain minimum value.
+	*	\param		[in]	max			- domain maximum value.
+	*	\return				double		- random number between the 2 input values.
+	*/
+
+	double randomNumber_double(double min, double max)
+	{
+		return (max - min) * ((double)rand() / (double)RAND_MAX) + min;
+	}
+
+
+	//--------------------------
+	//---- MAP METHODS 
+	//--------------------------
+	
+	/*! \brief This method checks if the input hashkey exists in the map.
+	*
+	*	\param		[in]	hashKey		- input string to check.
+	*	\param		[in]	map			- input map.
+	*	\param		[out]	outVal		- index of the string in the map if it exists.
+	*	\return				bool		- true if the string exists in the map.
+	*/
+
+	bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal)
+	{
+
+		bool out = false;;
+
+		std::unordered_map<std::string, int>::const_iterator got = map.find(hashKey);
+
+		if (got != map.end())
+		{
+			out = true;
+			outVal = got->second;
+		}
+
+		return out;
+	}
+
+	/** @}*/
 
 }

@@ -167,7 +167,10 @@ namespace zSpace
 	//--------------------------
 
 
-	
+	//--------------------------
+	//---- VECTOR METHODS 
+	//--------------------------
+
 	/*! \brief This method computes the distances in X,Y,Z for the input bounds.
 	*
 	*	\param		[in]	minBB			- lower bounds as zVector.
@@ -349,6 +352,7 @@ namespace zSpace
 		return area;
 	}
 
-	/** @}*/ // end of group zVectorMatrixUtilities
+
+	/** @}*/ 
 
 }

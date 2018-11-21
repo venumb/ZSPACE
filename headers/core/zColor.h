@@ -21,7 +21,7 @@ namespace zSpace
 	*	\since	version 0.0.1
 	*/
 
-	/** @}*/ // end of group zSpaceCore
+	/** @}*/ 
 
 	class zColor
 	{

@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['tohsv',['toHSV',['../classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05',1,'zSpace::zColor']]],
-  ['torgb',['toRGB',['../classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f',1,'zSpace::zColor']]],
-  ['transpose',['transpose',['../classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426',1,'zSpace::zMatrix']]]
+  ['plane_5fplaneintersection',['plane_planeIntersection',['../group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4',1,'zSpace']]],
+  ['planetoplane',['PlanetoPlane',['../group__z_vector_matrix_utilities.html#ga5ca0bb8666f0cb1b43fc6de191f3cfaa',1,'zSpace']]],
+  ['printcolor',['printColor',['../group__z_space_display.html#ga4b1ab40cea634bb41052ae843103363d',1,'zSpace']]],
+  ['printmatrix',['printMatrix',['../group__z_space_display.html#ga39c1cea9e659a5977a50288ddc9e399b',1,'zSpace']]],
+  ['printvector',['printVector',['../group__z_space_display.html#ga26f008d23a3bfd98b3ca9d5f6b6e40df',1,'zSpace']]]
 ];

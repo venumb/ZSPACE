@@ -16,6 +16,24 @@
     <Filter Include="Header Files\core">
       <UniqueIdentifier>{ec87ab1b-e316-4e2e-828f-1048a0c874ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Display">
+      <UniqueIdentifier>{9b64b6b0-46ff-45bc-aeb6-5214eaa1c4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{4d240831-f272-426b-9e34-7ff3f3e22e7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IO">
+      <UniqueIdentifier>{94eb54f1-e7af-4eb8-b96f-2ae0557a1c6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dynamics">
+      <UniqueIdentifier>{c53849cc-42bc-45a0-a123-5bb49f0d5f34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{6f2366cd-364c-45f4-88c8-74b4abe71e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry">
+      <UniqueIdentifier>{15d60748-29c8-439b-9bab-2da2cda9fc31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zSpace.cpp">
@@ -23,9 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\headers\core\zColor.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\core\zDefinitions.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
@@ -33,9 +48,6 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zMatrix.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\core\zPrintUtilities.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zUtilities.h">
@@ -46,6 +58,21 @@
     </ClInclude>
     <ClInclude Include="..\headers\core\zVectorMatrixUtilities.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\core\zColor.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\display\zPrintUtilities.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zGraph.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zGeometryDatatypes.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zMesh.h">
+      <Filter>Header Files\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

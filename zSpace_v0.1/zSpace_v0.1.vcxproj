@@ -42,10 +42,13 @@
     <ClInclude Include="..\headers\core\zDefinitions.h" />
     <ClInclude Include="..\headers\core\zEnumerators.h" />
     <ClInclude Include="..\headers\core\zMatrix.h" />
-    <ClInclude Include="..\headers\core\zPrintUtilities.h" />
     <ClInclude Include="..\headers\core\zUtilities.h" />
     <ClInclude Include="..\headers\core\zVector.h" />
     <ClInclude Include="..\headers\core\zVectorMatrixUtilities.h" />
+    <ClInclude Include="..\headers\display\zPrintUtilities.h" />
+    <ClInclude Include="..\headers\geometry\zGeometryDatatypes.h" />
+    <ClInclude Include="..\headers\geometry\zGraph.h" />
+    <ClInclude Include="..\headers\geometry\zMesh.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

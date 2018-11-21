@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['y',['y',['../classz_space_1_1z_vector.html#a7c43ae2d708b746205d9f6c8691cd753',1,'zSpace::zVector']]]
+  ['r',['r',['../classz_space_1_1z_color.html#a0e75fe6d990792c7afb824be89c5826b',1,'zSpace::zColor']]],
+  ['rows',['rows',['../classz_space_1_1z_matrix.html#aef984b58d15fbaf5881d0e36fc08a1df',1,'zSpace::zMatrix']]]
 ];

@@ -63,5 +63,5 @@ namespace zSpace
 	enum zSlimeParameter { zSO = 80, zSA, zRA, zdepT};
 
 
-	/** @}*/ // end of group zEnumerators
+	/** @}*/ 
 }
