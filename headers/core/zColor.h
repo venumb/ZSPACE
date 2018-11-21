@@ -9,7 +9,7 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zCore
+	/** \addtogroup zSpaceCore
 	*	\brief The core classes of the library.
 	*  @{
 	*/
@@ -21,7 +21,7 @@ namespace zSpace
 	*	\since	version 0.0.1
 	*/
 
-	/** @}*/ // end of group core
+	/** @}*/ // end of group zSpaceCore
 
 	class zColor
 	{

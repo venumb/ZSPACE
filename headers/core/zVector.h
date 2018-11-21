@@ -5,11 +5,12 @@
 #include <vector>
 using namespace std;
 
-#define PI 3.14159265
+#include<headers/core/zDefinitions.h>
+#include<headers/core/zMatrix.h>
 
 namespace zSpace
 {
-	/** \addtogroup zCore
+	/** \addtogroup zSpaceCore
 	*	\brief The core classes of the library.
 	*  @{
 	*/
@@ -19,7 +20,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 
-	/** @}*/ // end of group core
+	/** @}*/ // end of group zSpaceCore
 	class zVector
 	{
 	public:
@@ -164,6 +165,25 @@ namespace zSpace
 		zVector operator *(double val)
 		{
 			return  zVector(x * val, y * val, z * val);
+		}
+
+		/*! \brief This operator is used for 4x4 matrix muliplication of a vector.
+		*
+		*	\param		[in]	inMatrix	- input 4X4 zMatrixd to be multiplied with the current vector.
+		*	\return				zVector		- resultant vector after the matrix multiplication.
+		*	\since version 0.0.1
+		*/
+
+		zVector operator *(zMatrixd &inMatrix)
+		{
+			if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
+			if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
+
+			zMatrixd vecMatrix = this->toRowMatrix();
+
+			zMatrixd outVecMatrix = vecMatrix * inMatrix;
+
+			return this->fromRowMatrix(outVecMatrix);
 		}
 
 		/*! \brief This operator is used for scalar division of a vector.
@@ -326,7 +346,7 @@ namespace zSpace
 
 			double angle = acos(dotProduct / (length * length1));
 
-			return angle * (180.0 / PI);
+			return angle * RAD_TO_DEG;
 
 		}
 
@@ -372,8 +392,59 @@ namespace zSpace
 			if (i == 2)return z;
 		}
 
+		/*! \brief This method returns the row matrix of the current zVector.
+		*
+		*	\return				zMatrixd		- row matrix of the vector.
+		*	\since version 0.0.1
+		*/
 
+		zMatrixd toRowMatrix()
+		{
+			vector<double> vals = { x,y,z,1 };
+			return zMatrixd(1, 4, vals);
+		}
 
+		/*! \brief This method returns the column matrix of the current zVector.
+		*
+		*	\return				zMatrixd		- column matrix of the vector.
+		*	\since version 0.0.1
+		*/
+
+		zMatrixd toColumnMatrix()
+		{
+			vector<double> vals = { x,y,z,1 };
+			return zMatrixd(4, 1, vals);
+		}
+
+		/*! \brief This method returns the vector from the input row matrix.
+		*
+		*	\param		[in]		zMatrixd	- input row matrix. Works with 1X3 or 1X4 matrix.
+		*	\return					zVector		- zVector of the row matrix.
+		*	\since version 0.0.1
+		*/
+		zVector fromRowMatrix(zMatrixd &inMatrix)
+		{
+			if (inMatrix.getNumRows != 1) throw std::invalid_argument("input Matrix is not a row matrix.");
+			if (inMatrix.getNumCols < 3 || inMatrix.getNumCols > 4) throw std::invalid_argument("cannot convert row matrix to vector.");
+
+			return zVector(inMatrix(0,0), inMatrix(0, 1), inMatrix(0, 2));
+		}
+
+		/*! \brief This method returns the vector from the input column matrix.
+		*
+		*	\param		[in]		zMatrixd	- input column matrix. Works with 3X1 or 4X1 matrix.
+		*	\return					zVector		- zVector of the column matrix.
+		*	\since version 0.0.1
+		*/
+
+		zVector fromColumnMatrix(zMatrixd &inMatrix)
+		{
+			if (inMatrix.getNumCols != 1) throw std::invalid_argument("input Matrix is not a column matrix.");
+			if (inMatrix.getNumRows < 3 || inMatrix.getNumRows > 4) throw std::invalid_argument("cannot convert column matrix to vector.");
+
+			return zVector(inMatrix(0, 0), inMatrix(0, 1), inMatrix(0, 2));
+		}
+		
 	
 	};
 }

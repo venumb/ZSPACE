@@ -35,14 +35,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\headers\core\zColor.h" />
-    <ClInclude Include="..\headers\core\zEnumerators.h" />
-    <ClInclude Include="..\headers\core\zMatrix.h" />
-    <ClInclude Include="..\headers\core\zVector.h" />
-    <ClInclude Include="..\headers\core\zVectorUtilities.h" />
+    <ClCompile Include="zSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="zSpace.cpp" />
+    <ClInclude Include="..\headers\core\zColor.h" />
+    <ClInclude Include="..\headers\core\zDefinitions.h" />
+    <ClInclude Include="..\headers\core\zEnumerators.h" />
+    <ClInclude Include="..\headers\core\zMatrix.h" />
+    <ClInclude Include="..\headers\core\zPrintUtilities.h" />
+    <ClInclude Include="..\headers\core\zUtilities.h" />
+    <ClInclude Include="..\headers\core\zVector.h" />
+    <ClInclude Include="..\headers\core\zVectorMatrixUtilities.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
