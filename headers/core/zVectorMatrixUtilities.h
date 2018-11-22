@@ -16,6 +16,18 @@ using namespace Eigen;
 
 namespace zSpace
 {
+
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
+
+
+	/** \addtogroup zCoreUtilities
+	*	\brief Collection of general utility methods.
+	*  @{
+	*/
+
 	/** \addtogroup zVectorMatrixUtilities
 	*	\brief Collection of utility methods using vector and matricies.
 	*  @{
@@ -260,6 +272,41 @@ namespace zSpace
 		area = ((e12^e13).length() * 0.5);
 
 		return area;
+	}
+
+	/*! \brief This method checks if the given input points liess within the input triangle.
+	*
+	*	\details based on http://blackpawn.com/texts/pointinpoly/default.html
+	*	\param		[in]	pt			- zVector holding the position information of the point to be checked.
+	*	\param		[in]	t0,t1,t2	- zVector holding the position information for the 3 points of the triangle.
+	*	\return				bool		- true if point is inside the input triangle.
+	*/
+	bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2)
+	{
+		// Compute vectors        
+		zVector v0 = t2 - t0;
+		zVector	v1 = t1 - t0;
+		zVector	v2 = pt - t0;
+
+		// Compute dot products
+		double	dot00 = v0 * v0;
+		double	dot01 = v0 * v1;
+		double	dot02 = v0 * v2;
+		double	dot11 = v1 * v1;
+		double	dot12 = v1 * v2;
+
+		// Compute barycentric coordinates
+		double invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+		double 	u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+		double	v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+		if (abs(u) < 0.001) u = 0;
+		if (abs(v) < 0.001) v = 0;
+
+		//printf("\n u : %1.2f v: %1.2f ", u, v);
+
+		// Check if point is in triangle	
+		return (u >= 0) && (v >= 0) && (u + v <= 1);
 	}
 
 	//--------------------------
@@ -512,8 +559,10 @@ namespace zSpace
 	}
 
 	
-
+	/** @}*/
 
 	/** @}*/ 
+
+	/** @}*/
 
 }

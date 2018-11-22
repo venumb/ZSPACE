@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.0.1</span>
    </div>
   </td>
  </tr>
@@ -89,15 +89,50 @@ $(document).ready(function(){initNavTree('group__z_vector_matrix_utilities.html'
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">ZVectorMatrixUtilities</div>  </div>
+<div class="title">ZVectorMatrixUtilities<div class="ingroups"><a class="el" href="group__z_core.html">ZCore</a> &raquo; <a class="el" href="group__z_core_utilities.html">ZCoreUtilities</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>Collection of utility methods using vector and matricies.  
 <a href="#details">More...</a></p>
+<div class="dynheader">
+Collaboration diagram for ZVectorMatrixUtilities:</div>
+<div class="dyncontent">
+<center><table><tr><td><img src="group__z_vector_matrix_utilities.png" border="0" alt="" usemap="#group____z__vector__matrix__utilities"/>
+<map name="group____z__vector__matrix__utilities" id="group____z__vector__matrix__utilities">
+</map>
+</td></tr></table></center>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga8a6437d21ef1d59766c0660d2837b84f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga8a6437d21ef1d59766c0660d2837b84f">zSpace::fromMatrixRow</a> (<a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix, int rowIndex=0)</td></tr>
+<tr class="memdesc:ga8a6437d21ef1d59766c0660d2837b84f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> from the input matrix row.  <a href="group__z_vector_matrix_utilities.html#ga8a6437d21ef1d59766c0660d2837b84f">More...</a><br /></td></tr>
+<tr class="separator:ga8a6437d21ef1d59766c0660d2837b84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga57229ba8064031163267f155e9236d7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga57229ba8064031163267f155e9236d7e">zSpace::fromMatrixColumn</a> (<a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix, int colIndex)</td></tr>
+<tr class="memdesc:ga57229ba8064031163267f155e9236d7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns extracts a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> from the input matrix column.  <a href="group__z_vector_matrix_utilities.html#ga57229ba8064031163267f155e9236d7e">More...</a><br /></td></tr>
+<tr class="separator:ga57229ba8064031163267f155e9236d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa38548275368bdaf6c0a049a085adf38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gaa38548275368bdaf6c0a049a085adf38">zSpace::getBounds</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inPoints, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB)</td></tr>
+<tr class="memdesc:gaa38548275368bdaf6c0a049a085adf38"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the bounds of the input list points.  <a href="group__z_vector_matrix_utilities.html#gaa38548275368bdaf6c0a049a085adf38">More...</a><br /></td></tr>
+<tr class="separator:gaa38548275368bdaf6c0a049a085adf38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee9483a83e291d886bd7cdc38435fdb5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gaee9483a83e291d886bd7cdc38435fdb5">zSpace::getDimsFromBounds</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB)</td></tr>
+<tr class="memdesc:gaee9483a83e291d886bd7cdc38435fdb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the distances in X,Y,Z for the input bounds.  <a href="group__z_vector_matrix_utilities.html#gaee9483a83e291d886bd7cdc38435fdb5">More...</a><br /></td></tr>
+<tr class="separator:gaee9483a83e291d886bd7cdc38435fdb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7d696f4950769b14a966fed33490fa4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4">zSpace::plane_planeIntersection</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;nA, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;nB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pA, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;outP1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;outP2)</td></tr>
+<tr class="memdesc:gae7d696f4950769b14a966fed33490fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the intersection of two planes which is line.  <a href="group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4">More...</a><br /></td></tr>
+<tr class="separator:gae7d696f4950769b14a966fed33490fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9d845a521da011abf5e4baacf0505c0e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga9d845a521da011abf5e4baacf0505c0e">zSpace::line_lineClosestPoints</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;a0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;a1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;b0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;b1, double &amp;uA, double &amp;uB)</td></tr>
+<tr class="memdesc:ga9d845a521da011abf5e4baacf0505c0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the closest points of two lines.  <a href="group__z_vector_matrix_utilities.html#ga9d845a521da011abf5e4baacf0505c0e">More...</a><br /></td></tr>
+<tr class="separator:ga9d845a521da011abf5e4baacf0505c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga398dc6bba5cc5ca9eed7a45255548bf8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga398dc6bba5cc5ca9eed7a45255548bf8">zSpace::line_PlaneIntersection</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p2, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;planeNorm, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p3, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;intersectionPt)</td></tr>
+<tr class="memdesc:ga398dc6bba5cc5ca9eed7a45255548bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the intersection of two lines which is point.  <a href="group__z_vector_matrix_utilities.html#ga398dc6bba5cc5ca9eed7a45255548bf8">More...</a><br /></td></tr>
+<tr class="separator:ga398dc6bba5cc5ca9eed7a45255548bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab132fca3bf7cc8e138d5f67f5b4563b1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1">zSpace::triangleArea</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;v1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;v2, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;v3)</td></tr>
+<tr class="memdesc:gab132fca3bf7cc8e138d5f67f5b4563b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the area of triagle defined by the two input zVectors.  <a href="group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1">More...</a><br /></td></tr>
+<tr class="separator:gab132fca3bf7cc8e138d5f67f5b4563b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d522fc391c13d491f20a1d3a87996ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga5d522fc391c13d491f20a1d3a87996ca">zSpace::pointInTriangle</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pt, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;t0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;t1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;t2)</td></tr>
+<tr class="memdesc:ga5d522fc391c13d491f20a1d3a87996ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method checks if the given input points liess within the input triangle.  <a href="group__z_vector_matrix_utilities.html#ga5d522fc391c13d491f20a1d3a87996ca">More...</a><br /></td></tr>
+<tr class="separator:ga5d522fc391c13d491f20a1d3a87996ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae38960f4001de62196fbdacc7c8be53e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gae38960f4001de62196fbdacc7c8be53e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e">zSpace::toWorldMatrix</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;inMatrix)</td></tr>
 <tr class="memdesc:gae38960f4001de62196fbdacc7c8be53e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the tranformation to the world space of the input 4x4 matrix.  <a href="group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e">More...</a><br /></td></tr>
@@ -118,25 +153,74 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7a84c5fdca98465cce2b617ab927e3b7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7">zSpace::target_newBasis</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;target, <a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;newBasis)</td></tr>
 <tr class="memdesc:ga7a84c5fdca98465cce2b617ab927e3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the input target as per the input new basis.  <a href="group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7">More...</a><br /></td></tr>
 <tr class="separator:ga7a84c5fdca98465cce2b617ab927e3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaee9483a83e291d886bd7cdc38435fdb5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gaee9483a83e291d886bd7cdc38435fdb5">zSpace::getDimsFromBounds</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB)</td></tr>
-<tr class="memdesc:gaee9483a83e291d886bd7cdc38435fdb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the distances in X,Y,Z for the input bounds.  <a href="group__z_vector_matrix_utilities.html#gaee9483a83e291d886bd7cdc38435fdb5">More...</a><br /></td></tr>
-<tr class="separator:gaee9483a83e291d886bd7cdc38435fdb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae7d696f4950769b14a966fed33490fa4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4">zSpace::plane_planeIntersection</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;nA, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;nB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pA, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;outP1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;outP2)</td></tr>
-<tr class="memdesc:gae7d696f4950769b14a966fed33490fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the intersection of two planes which is line.  <a href="group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4">More...</a><br /></td></tr>
-<tr class="separator:gae7d696f4950769b14a966fed33490fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9d845a521da011abf5e4baacf0505c0e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga9d845a521da011abf5e4baacf0505c0e">zSpace::line_lineClosestPoints</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;a0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;a1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;b0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;b1, double &amp;uA, double &amp;uB)</td></tr>
-<tr class="memdesc:ga9d845a521da011abf5e4baacf0505c0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the closest points of two lines.  <a href="group__z_vector_matrix_utilities.html#ga9d845a521da011abf5e4baacf0505c0e">More...</a><br /></td></tr>
-<tr class="separator:ga9d845a521da011abf5e4baacf0505c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga398dc6bba5cc5ca9eed7a45255548bf8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga398dc6bba5cc5ca9eed7a45255548bf8">zSpace::line_PlaneIntersection</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p2, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;planeNorm, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p3, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;intersectionPt)</td></tr>
-<tr class="memdesc:ga398dc6bba5cc5ca9eed7a45255548bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the intersection of two lines which is point.  <a href="group__z_vector_matrix_utilities.html#ga398dc6bba5cc5ca9eed7a45255548bf8">More...</a><br /></td></tr>
-<tr class="separator:ga398dc6bba5cc5ca9eed7a45255548bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab132fca3bf7cc8e138d5f67f5b4563b1"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1">zSpace::triangleArea</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;v1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;v2, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;v3)</td></tr>
-<tr class="memdesc:gab132fca3bf7cc8e138d5f67f5b4563b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the area of triagle defined by the two input zVectors.  <a href="group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1">More...</a><br /></td></tr>
-<tr class="separator:gab132fca3bf7cc8e138d5f67f5b4563b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga064d5638571054d5232b149a75fc9e30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga064d5638571054d5232b149a75fc9e30">zSpace::getBestFitPlane</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;points)</td></tr>
+<tr class="memdesc:ga064d5638571054d5232b149a75fc9e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method return a 4X4 matrix of the best fit plane for the given points using Principal Component Analysis.  <a href="group__z_vector_matrix_utilities.html#ga064d5638571054d5232b149a75fc9e30">More...</a><br /></td></tr>
+<tr class="separator:ga064d5638571054d5232b149a75fc9e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae2aefe021083b57bd53dd24d34704dbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gae2aefe021083b57bd53dd24d34704dbf">zSpace::boundingboxPCA</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; points, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB_local, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB_local)</td></tr>
+<tr class="memdesc:gae2aefe021083b57bd53dd24d34704dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the bounding box for the given points using PCA.  <a href="group__z_vector_matrix_utilities.html#gae2aefe021083b57bd53dd24d34704dbf">More...</a><br /></td></tr>
+<tr class="separator:gae2aefe021083b57bd53dd24d34704dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of utility methods using vector and matricies. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gae2aefe021083b57bd53dd24d34704dbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2aefe021083b57bd53dd24d34704dbf">&#9670;&nbsp;</a></span>boundingboxPCA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::boundingboxPCA </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>minBB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>maxBB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>minBB_local</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>maxBB_local</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the bounding box for the given points using PCA. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>- input points. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">minBB</td><td>- lower bounds as <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">maxBB</td><td>- upper bounds as <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00528">528</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
 <a id="ga60aec2272693d052ec4cf78de73b4572"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga60aec2272693d052ec4cf78de73b4572">&#9670;&nbsp;</a></span>ChangeBasis()</h2>
 
@@ -181,7 +265,164 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00127">127</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00415">415</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga57229ba8064031163267f155e9236d7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga57229ba8064031163267f155e9236d7e">&#9670;&nbsp;</a></span>fromMatrixColumn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::fromMatrixColumn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMatrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>colIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method returns extracts a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> from the input matrix column. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">zMatrixd</td><td>- input matrix. number of rows need to be 3 or 4. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rowIndex</td><td>- row index to be extracted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of the column matrix. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00065">65</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga8a6437d21ef1d59766c0660d2837b84f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8a6437d21ef1d59766c0660d2837b84f">&#9670;&nbsp;</a></span>fromMatrixRow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::fromMatrixRow </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMatrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rowIndex</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> from the input matrix row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">zMatrixd</td><td>- input matrix. number of columns need to be 3 or 4. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rowIndex</td><td>- row index to be extracted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of the row matrix. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00048">48</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga064d5638571054d5232b149a75fc9e30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga064d5638571054d5232b149a75fc9e30">&#9670;&nbsp;</a></span>getBestFitPlane()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> zSpace::getBestFitPlane </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>points</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method return a 4X4 matrix of the best fit plane for the given points using Principal Component Analysis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>- input points. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zMatrixd - Best fit plane as a 4X4 matrix. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00465">465</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="gaa38548275368bdaf6c0a049a085adf38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa38548275368bdaf6c0a049a085adf38">&#9670;&nbsp;</a></span>getBounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::getBounds </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inPoints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>minBB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>maxBB</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method returns the bounds of the input list points. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inGraph</td><td>- input graph. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">minBB</td><td>- stores <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of bounding box minimum. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">maxBB</td><td>- stores <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of bounding box maximum. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00079">79</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -222,7 +463,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00182">182</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00104">104</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -291,7 +532,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the planes intersect. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00245">245</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00167">167</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -353,7 +594,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the line and plane intersect. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00297">297</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00219">219</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -422,7 +663,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the planes intersect. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00206">206</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00128">128</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -470,7 +711,59 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00104">104</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00392">392</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga5d522fc391c13d491f20a1d3a87996ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5d522fc391c13d491f20a1d3a87996ca">&#9670;&nbsp;</a></span>pointInTriangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zSpace::pointInTriangle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>pt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>t0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>t1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>t2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method checks if the given input points liess within the input triangle. </p>
+<p>based on <a href="http://blackpawn.com/texts/pointinpoly/default.html">http://blackpawn.com/texts/pointinpoly/default.html</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pt</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> holding the position information of the point to be checked. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t0,t1,t2</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> holding the position information for the 3 points of the triangle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if point is inside the input triangle. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00284">284</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -525,7 +818,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - new target matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00146">146</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00434">434</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -562,7 +855,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - world transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00068">68</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00356">356</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -599,7 +892,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - world transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00037">37</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00325">325</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -647,7 +940,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - area of triangle defirned by the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00343">343</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00265">265</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 
 </div>
 </div>

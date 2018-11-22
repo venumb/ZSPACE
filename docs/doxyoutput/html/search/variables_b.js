@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['x',['x',['../classz_space_1_1z_vector.html#aa45dd954bd0fc27951899df92a152008',1,'zSpace::zVector::x()'],['../structz_space_1_1z_plane.html#a571216256cfefd28ea72ed79411c828f',1,'zSpace::zPlane::X()']]]
+  ['r',['r',['../classz_space_1_1z_color.html#a0e75fe6d990792c7afb824be89c5826b',1,'zSpace::zColor']]],
+  ['rows',['rows',['../classz_space_1_1z_matrix.html#aef984b58d15fbaf5881d0e36fc08a1df',1,'zSpace::zMatrix']]]
 ];

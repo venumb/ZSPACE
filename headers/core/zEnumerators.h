@@ -7,8 +7,12 @@
 	*/
 namespace zSpace
 {
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
 
-	/** \addtogroup zEnumerators
+	/** \addtogroup zCoreEnumerators
 	*	\brief Collection of all the enumerators in the library.
 	*  @{
 	*/
@@ -62,6 +66,8 @@ namespace zSpace
 
 	enum zSlimeParameter { zSO = 80, zSA, zRA, zdepT};
 
+
+	/** @}*/
 
 	/** @}*/ 
 }

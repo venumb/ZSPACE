@@ -48,8 +48,10 @@
     <ClInclude Include="..\headers\display\zPrintUtilities.h" />
     <ClInclude Include="..\headers\geometry\zGeometryDatatypes.h" />
     <ClInclude Include="..\headers\geometry\zGraph.h" />
-    <ClInclude Include="..\headers\geometry\zGraphUtlities.h" />
+    <ClInclude Include="..\headers\geometry\zGraphUtilities.h" />
     <ClInclude Include="..\headers\geometry\zMesh.h" />
+    <ClInclude Include="..\headers\geometry\zMeshModifiers.h" />
+    <ClInclude Include="..\headers\geometry\zMeshUtilities.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -166,7 +168,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
@@ -231,7 +233,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

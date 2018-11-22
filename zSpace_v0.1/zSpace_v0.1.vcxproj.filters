@@ -74,7 +74,13 @@
     <ClInclude Include="..\headers\geometry\zMesh.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\geometry\zGraphUtlities.h">
+    <ClInclude Include="..\headers\geometry\zMeshUtilities.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zGraphUtilities.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zMeshModifiers.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
   </ItemGroup>

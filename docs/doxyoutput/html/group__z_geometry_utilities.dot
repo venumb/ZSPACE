@@ -1,0 +1,13 @@
+digraph "ZGeometryUtilities"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir=LR;
+  Node1 [label="ZGeometry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_geometry.html",tooltip="The geometry classes, modifier and utility methods of the library. "];
+  Node2 [label="ZGraphUtilities",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html",tooltip="Collection of utility methods for graphs. "];
+  Node3 [label="ZMeshUtilities",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html",tooltip="Collection of utility methods for meshes. "];
+  Node0 [label="ZGeometryUtilities",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1->Node0 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node2 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node3 [shape=plaintext, dir="back", style="solid"];
+}

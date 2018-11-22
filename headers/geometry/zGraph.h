@@ -12,7 +12,12 @@
 
 namespace zSpace
 {
-	/** \addtogroup zSpaceGeometry
+	/** \addtogroup zGeometry
+	*	\brief The geometry classes, modifier and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zGeometryClasses
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -21,6 +26,8 @@ namespace zSpace
 	*	\brief A half edge graph class.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -33,11 +40,17 @@ namespace zSpace
 		//---- PROTCTED ATTRIBUTES
 		//--------------------------
 
-		int n_v;										/*!<stores number of active vertices */
-		int n_e;										/*!<stores number of active edges */
+		/*!	\brief stores number of active vertices */
+		int n_v;		
+		
+		/*!	\brief stores number of active edges */
+		int n_e;										
 
-		int max_n_v;									/*!<stores number of max vertices, which is the size of the dynamic vertices array. */
-		int max_n_e;									/*!<stores number of max edges, which is the size of the dynamic vertices array. */
+		/*!	\brief stores number of max vertices, which is the size of the dynamic vertices array. */
+		int max_n_v;
+
+		/*!	\brief stores number of max edges, which is the size of the dynamic vertices array. */
+		int max_n_e;									
 
 
 	public:
@@ -47,32 +60,49 @@ namespace zSpace
 		//--------------------------
 
 
-		zVertex *vertices;								/*!<vertex container */
-		zEdge *edges;									/*!<edge container	*/
+		/*!	\brief vertex container */
+		zVertex *vertices;
 
-		vector<zVector> vertexPositions;				/*!<container which stores vertex positions.			*/
+		/*!	\brief edge container	*/
+		zEdge *edges;									
 
-		unordered_map <string, int> verticesEdge;		/*!<vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence.	 */
-		unordered_map <string, int> positionVertex;		/*!<position to vertexId map. Used to check if vertex exists with the haskey being the vertex position.	 */
+		/*!	\brief container which stores vertex positions.			*/
+		vector<zVector> vertexPositions;				
 
+		/*!	\brief vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence.	 */
+		unordered_map <string, int> verticesEdge;	
 
-														
-		vector<zColor> vertexColors;					/*!<container which stores vertex colors.	*/
-		vector<zColor> edgeColors;						/*!<container which stores edge colors.	*/
-
-														
-		vector <double> vertexWeights;					/*!<container which stores vertex weights.	*/
-		vector	<double> edgeWeights;					/*!<container which stores edge weights.	*/
-
-														
-		vector <bool> vertexActive;						/*!<container which stores vertex status - true if active.	*/
-		vector<bool> edgeActive;						/*!<container which stores edge status - true if active..	*/
+		/*!	\brief position to vertexId map. Used to check if vertex exists with the haskey being the vertex position.	 */
+		unordered_map <string, int> positionVertex;		
 
 
-		// Buffer Attributes
-		int VBO_VertexId;								/*!<stores the start vertex ID in the VBO, which attached to the zBufferObject.	*/
-		int VBO_EdgeId;									/*!<stores the start edge ID in the VBO, which attached to the zBufferObject.	*/
-		int VBO_VertexColorId;							/*!<stores the start vertex color ID in the VBO, which attache to the zBufferObject.	*/
+		/*!	\brief container which stores vertex colors.	*/
+		vector<zColor> vertexColors;				
+
+		/*!	\brief container which stores edge colors.	*/
+		vector<zColor> edgeColors;						
+
+		/*!	\brief container which stores vertex weights.	*/
+		vector <double> vertexWeights;	
+
+		/*!	\brief container which stores edge weights.	*/
+		vector	<double> edgeWeights;					
+
+		/*!	\brief container which stores vertex status - true if active.	*/
+		vector <bool> vertexActive;	
+
+		/*!	\brief container which stores edge status - true if active..	*/
+		vector<bool> edgeActive;						
+
+
+		/*!	\brief stores the start vertex ID in the VBO, when attached to the zBufferObject.	*/
+		int VBO_VertexId;	
+
+		/*!	\brief stores the start edge ID in the VBO, when attached to the zBufferObject.	*/
+		int VBO_EdgeId;		
+
+		/*!	\brief stores the start vertex color ID in the VBO, when attache to the zBufferObject.	*/
+		int VBO_VertexColorId;							
 
 
 		//--------------------------
@@ -244,7 +274,7 @@ namespace zSpace
 				}
 			}
 
-			else printf("\n error: invalid type");
+			else  throw std::invalid_argument(" error: invalid zHEData type");
 
 			edgeIndicies = out;
 		}
@@ -275,7 +305,7 @@ namespace zSpace
 
 			}
 
-			else printf("\n error: invalid type");
+			else throw std::invalid_argument(" error: invalid zHEData type");
 
 			vertexIndicies = out;
 		}
@@ -299,7 +329,7 @@ namespace zSpace
 				out.push_back(edges[index].getSym()->getVertex()->getVertexId());
 			}
 
-			else printf("\n error: invalid type");
+			else throw std::invalid_argument(" error: invalid zHEData type");
 
 			vertexIndicies = out;
 		}
@@ -311,12 +341,21 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		
-		int getVertexValence(int index)
+		int getVertexValence(int index, zHEData type)
 		{
-			vector<int> connectedEdges;
-			getConnectedEdges(index, zVertexData, connectedEdges);
+			int out;
 
-			return connectedEdges.size();
+			if (type == zVertexData)
+			{
+				vector<int> connectedEdges;
+				getConnectedEdges(index, type, connectedEdges);
+
+				out = connectedEdges.size();
+			}			
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
+
+			return out;
 		}
 
 		/*!	\brief This method determines if input zVertex valency is equal to the input valence number.
@@ -330,7 +369,15 @@ namespace zSpace
 		
 		bool checkVertexValency(int index, zHEData type = zVertexData, int valence = 1)
 		{
-			return (getVertexValence(index) == valence);
+			bool out = false;
+
+			if (type == zVertexData)
+			{
+				out = (getVertexValence(index, type) == valence) ? true: false;
+			}
+			else throw std::invalid_argument(" error: invalid zHEData type");
+
+			return out;
 		}
 
 		//--------------------------
@@ -866,6 +913,7 @@ namespace zSpace
 		*
 		*	\param		[in]	newSize			- new size of the array.
 		*	\param		[in]	type			- zVertexData or zEdgeData.
+		*	\since version 0.0.1
 		*/
 		
 		void resizeArray(int newSize, zHEData type = zVertexData)

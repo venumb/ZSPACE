@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['normalize',['normalize',['../classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b',1,'zSpace::zVector']]]
+  ['minormatrix',['minorMatrix',['../classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de',1,'zSpace::zMatrix']]]
 ];

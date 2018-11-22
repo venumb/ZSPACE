@@ -9,7 +9,12 @@ namespace zSpace
 	class  zVertex;
 	class  zFace;
 
-	/** \addtogroup zSpaceGeometry
+	/** \addtogroup zGeometry
+	*	\brief The geometry classes, modifier and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zGeometryClasses
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -20,6 +25,8 @@ namespace zSpace
 	*/
 
 	/** @}*/ 
+
+	/** @}*/
 
 	class  zEdge
 	{
@@ -197,7 +204,12 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zSpaceGeometry
+	/** \addtogroup zGeometry
+	*	\brief The geometry classes, modifier and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zGeometryClasses
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -208,6 +220,8 @@ namespace zSpace
 	*/
 
 	/** @}*/ 
+
+	/** @}*/
 
 	class  zVertex
 	{
@@ -289,7 +303,12 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zSpaceGeometry
+	/** \addtogroup zGeometry
+	*	\brief The geometry classes, modifier and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zGeometryClasses
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -300,6 +319,8 @@ namespace zSpace
 	*/
 
 	/** @}*/ 
+
+	/** @}*/
 
 	class  zFace
 	{
@@ -373,7 +394,12 @@ namespace zSpace
 
 	};
 
-	/** \addtogroup zSpaceGeometry
+	/** \addtogroup zGeometry
+	*	\brief The geometry classes, modifier and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zGeometryClasses
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -384,6 +410,8 @@ namespace zSpace
 	*/
 
 	/** @}*/ 
+
+	/** @}*/
 
 	struct zCurvature
 	{

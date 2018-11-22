@@ -18,7 +18,12 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zUtilities
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCoreUtilities
 	*	\brief Collection of general utility methods.
 	*  @{
 	*/
@@ -157,4 +162,5 @@ namespace zSpace
 
 	/** @}*/
 
+	/** @}*/
 }

@@ -8,7 +8,12 @@ using namespace std;
 namespace zSpace
 {
 
-	/** \addtogroup zSpaceCore
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCoreClasses
 	*	\brief The core classes of the library.
 	*  @{
 	*/
@@ -21,15 +26,21 @@ namespace zSpace
 	*/
 
 	/** @}*/ 
+	/** @}*/
 
 	template <typename T>
 	class zMatrix
 	{
 
 	protected:
-		vector<T> mat;	/*!< list of values in the matrix			*/
-		int rows;		/*!< number of rows in the matrix			*/
-		int cols;		/*!< number of columns in the matrix		*/
+		/*!	\brief list of values in the matrix			*/
+		vector<T> mat;	
+
+		/*!	\brief number of rows in the matrix			*/
+		int rows;	
+
+		/*!	\brief number of columns in the matrix		*/
+		int cols;		
 
 	public:
 
@@ -930,7 +941,7 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zSpaceCore
+	/** \addtogroup zCoreClasses
 	*	\brief The core classes of the library.
 	*  @{
 	*/
@@ -960,7 +971,7 @@ namespace zSpace
 	
 	typedef zMatrix<float> zMatrixf;
 	
-	/** @}*/ // end of group zSpaceCore
+	/** @}*/ // end of group zCore
 
 
 }

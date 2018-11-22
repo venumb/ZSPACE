@@ -3,8 +3,12 @@
 
 namespace zSpace
 {
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
 
-	/** \addtogroup zDefinitions
+	/** \addtogroup zCoreDefinitions
 	*	\brief Collection of all the definitions in the library.
 	*  @{
 	*/
@@ -51,6 +55,8 @@ namespace zSpace
 	#define RAD_TO_DEG (180.0/PI)
 	#endif
 
+
+	/** @}*/
 
 	/** @}*/ 
 }

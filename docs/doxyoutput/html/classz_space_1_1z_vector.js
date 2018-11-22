@@ -7,7 +7,7 @@ var classz_space_1_1z_vector =
     [ "dihedralAngle", "classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c", null ],
     [ "distanceTo", "classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca", null ],
     [ "fromColumnMatrix", "classz_space_1_1z_vector.html#a12b8d25bfa4d24a70e24faeb5114931e", null ],
-    [ "fromRowMatrix", "classz_space_1_1z_vector.html#a10c955506bd52a5a845e58f680632b50", null ],
+    [ "fromMatrixRow", "classz_space_1_1z_vector.html#abeb2dd03c9b6ba91854bfb342528a534", null ],
     [ "getComponent", "classz_space_1_1z_vector.html#a90d8f98859c540c5fd0bdea52a87d897", null ],
     [ "length", "classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400", null ],
     [ "normalize", "classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b", null ],

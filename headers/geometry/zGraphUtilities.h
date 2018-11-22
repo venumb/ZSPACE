@@ -5,9 +5,18 @@
 
 namespace zSpace
 {
+	/** \addtogroup zGeometry
+	*	\brief  The geometry classes, modifier and utility methods of the library.
+	*  @{
+	*/
 
 	/** \addtogroup zGeometryUtilities
-	*	\brief Collection of utility methods using vector and matricies.
+	*	\brief Collection of utility methods for graphs, meshes and scalarfields.
+	*  @{
+	*/
+
+	/** \addtogroup zGraphUtilities
+	*	\brief Collection of utility methods for graphs.
 	*  @{
 	*/
 
@@ -117,6 +126,10 @@ namespace zSpace
 		if (setVertexColor) ingraph.computeVertexColorfromEdgeColor();
 	}
 	
+
+	/** @}*/
 	
+	/** @}*/
+
 	/** @}*/
 }

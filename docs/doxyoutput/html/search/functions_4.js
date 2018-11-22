@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['fromcolumnmatrix',['fromColumnMatrix',['../classz_space_1_1z_vector.html#a12b8d25bfa4d24a70e24faeb5114931e',1,'zSpace::zVector']]],
-  ['fromrowmatrix',['fromRowMatrix',['../classz_space_1_1z_vector.html#a10c955506bd52a5a845e58f680632b50',1,'zSpace::zVector']]]
+  ['edgeexists',['edgeExists',['../classz_space_1_1z_graph.html#a9c39b6d38d931985c840faa5a86a886c',1,'zSpace::zGraph']]],
+  ['equalizevalences',['equalizeValences',['../group__z_mesh_modifiers.html#ga50d27f458f57c4f90fa9242b05ded2d2',1,'zSpace']]],
+  ['existsinmap',['existsInMap',['../group__z_core_utilities.html#gaa8375b752d259554eef39b2c7985fa14',1,'zSpace']]]
 ];

@@ -9,7 +9,12 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zSpaceCore
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCoreClasses
 	*	\brief The core classes of the library.
 	*  @{
 	*/
@@ -23,17 +28,32 @@ namespace zSpace
 
 	/** @}*/ 
 
+	/** @}*/
+
 	class zColor
 	{
 	public:
-		double r;  /* red component				*/
-		double g;  /* green component			*/
-		double b;  /* blue component			*/
-		double a;  /* alpha component			*/
 
-		double h;  /* hue component				*/
-		double s;  /* saturation component		*/
-		double v;  /* value component			*/
+		/*!	\brief red component				*/
+		double r; 
+
+		/*!	\brief green component			*/
+		double g; 
+
+		/*!	\brief blue component			*/
+		double b; 
+
+		/*!	\brief alpha component			*/
+		double a;  
+
+		/*!	\brief hue component				*/
+		double h; 
+
+		/*!	\brief saturation component		*/
+		double s;
+
+		/*!	\brief value component			*/
+		double v;  
 		
 		//--------------------------
 		//---- CONSTRUCTOR

@@ -9,7 +9,12 @@ using namespace std;
 
 namespace  zSpace
 {
-	/** \addtogroup zSpaceCore
+	/** \addtogroup zCore
+	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCoreClasses
 	*	\brief The core classes of the library.
 	*  @{
 	*/
@@ -20,12 +25,19 @@ namespace  zSpace
 	*/
 
 	/** @}*/ 
+	/** @}*/
+
 	class zVector
 	{
 	public:
-		double x;			/*!< x component				*/
-		double y;			/*!< y component				*/
-		double z;			/*!< z component				*/
+		/*!	\brief x component				*/
+		double x;			
+
+		/*!	\brief y component				*/
+		double y;	
+
+		/*!	\brief z component				*/
+		double z;			
 
 		//--------------------------
 		//---- CONSTRUCTOR

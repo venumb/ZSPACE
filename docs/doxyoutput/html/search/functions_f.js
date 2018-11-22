@@ -1,11 +1,15 @@
 var searchData=
 [
-  ['zcolor',['zColor',['../classz_space_1_1z_color.html#a04fa0f40780e2a25784f038aa6ad860c',1,'zSpace::zColor::zColor()'],['../classz_space_1_1z_color.html#ab833b81d117fed592f5a54b373988464',1,'zSpace::zColor::zColor(double _r, double _g, double _b, double _a)'],['../classz_space_1_1z_color.html#a360f1dc204c68d848f1454cf321551d0',1,'zSpace::zColor::zColor(double _h, double _s, double _v)']]],
-  ['zedge',['zEdge',['../classz_space_1_1z_edge.html#a9cd7a75bfc661a867ec24051e08f6095',1,'zSpace::zEdge']]],
-  ['zface',['zFace',['../classz_space_1_1z_face.html#a00e03c5196701a165d55d93e33ad86f5',1,'zSpace::zFace']]],
-  ['zmatrix',['zMatrix',['../classz_space_1_1z_matrix.html#a73e667fabb7c1ed6894cc917af7b7618',1,'zSpace::zMatrix::zMatrix()'],['../classz_space_1_1z_matrix.html#a3d2ec946b12b8f1a78a513b39503540f',1,'zSpace::zMatrix::zMatrix(int _rows, int _cols, vector&lt; T &gt; &amp;_mat)'],['../classz_space_1_1z_matrix.html#aad83a902a46b1f25c8738cf2b27c3e0c',1,'zSpace::zMatrix::zMatrix(int _dims)'],['../classz_space_1_1z_matrix.html#a941bcc0178877bef521faf14dc56d0b6',1,'zSpace::zMatrix::zMatrix(int _rows, int _cols)']]],
-  ['zmax',['zMax',['../group__z_utilities.html#gacb877a2c4d1cc7223201689ba437d5dd',1,'zSpace']]],
-  ['zmin',['zMin',['../group__z_utilities.html#ga2eb6fc5b163e7ebfbc3af744f9dfe8bd',1,'zSpace']]],
-  ['zvector',['zVector',['../classz_space_1_1z_vector.html#a5a0b5f364ed921eee55e847039d7c542',1,'zSpace::zVector::zVector()'],['../classz_space_1_1z_vector.html#af71b53ffafe52119fa1d92845ea54b8f',1,'zSpace::zVector::zVector(double _x, double _y, double _z)']]],
-  ['zvertex',['zVertex',['../classz_space_1_1z_vertex.html#a8a7e3bee86554204412e9f097bc7f359',1,'zSpace::zVertex']]]
+  ['tangentialrelaxation',['tangentialRelaxation',['../group__z_mesh_modifiers.html#gae42402c3129540241452c44109dcd068',1,'zSpace']]],
+  ['target_5fnewbasis',['target_newBasis',['../group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7',1,'zSpace']]],
+  ['tocolumnmatrix',['toColumnMatrix',['../classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14',1,'zSpace::zVector']]],
+  ['tohsv',['toHSV',['../classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05',1,'zSpace::zColor']]],
+  ['tolocalmatrix',['toLocalMatrix',['../group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9',1,'zSpace']]],
+  ['torgb',['toRGB',['../classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f',1,'zSpace::zColor']]],
+  ['torowmatrix',['toRowMatrix',['../classz_space_1_1z_vector.html#ae565bb4a1cadd5ff51efb1a9da290158',1,'zSpace::zVector']]],
+  ['totaledgelength',['totalEdgeLength',['../group__z_graph_utilities.html#ga35460aaad2c88df17da9be878dcc72f4',1,'zSpace']]],
+  ['toworldmatrix',['toWorldMatrix',['../group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e',1,'zSpace']]],
+  ['transpose',['transpose',['../classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426',1,'zSpace::zMatrix']]],
+  ['trianglearea',['triangleArea',['../group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1',1,'zSpace']]],
+  ['triangulate',['triangulate',['../group__z_mesh_modifiers.html#ga61d8484a95f3b265f7d32e69a5f5281c',1,'zSpace']]]
 ];

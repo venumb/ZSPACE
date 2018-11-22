@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['o',['O',['../structz_space_1_1z_plane.html#a864783a631a56d84f06774cdb7125674',1,'zSpace::zPlane']]],
-  ['ofmap',['ofMap',['../group__z_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace']]],
+  ['ofmap',['ofMap',['../group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace']]],
+  ['onboundary',['onBoundary',['../classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6',1,'zSpace::zMesh']]],
   ['operator_28_29',['operator()',['../classz_space_1_1z_matrix.html#afec2daee718b12398653de1472922df3',1,'zSpace::zMatrix::operator()(int row, int col)'],['../classz_space_1_1z_matrix.html#ab747f9edecdc13479d4cc18b9a8e1961',1,'zSpace::zMatrix::operator()(int index)']]],
   ['operator_2a',['operator*',['../classz_space_1_1z_matrix.html#add605d3bcc6aab142a799671171821e8',1,'zSpace::zMatrix::operator*(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a5eb908056b857eae15b1c25a78f818d2',1,'zSpace::zMatrix::operator*(T s1)'],['../classz_space_1_1z_vector.html#a9471d6332878a82f63a2bfd16ea2a752',1,'zSpace::zVector::operator*(zVector v1)'],['../classz_space_1_1z_vector.html#a95e70a933c305a2d596e61a7c543f720',1,'zSpace::zVector::operator*(double val)'],['../classz_space_1_1z_vector.html#a8e674c9f4e04a4685f0571f95734ca82',1,'zSpace::zVector::operator*(zMatrixd &amp;inMatrix)']]],
   ['operator_2a_3d',['operator*=',['../classz_space_1_1z_matrix.html#a7755f2663062228887f70c4ada9ae962',1,'zSpace::zMatrix::operator*=()'],['../classz_space_1_1z_vector.html#a0bbeed0c887b54b11c7c29b61cf5f47c',1,'zSpace::zVector::operator*=()']]],
