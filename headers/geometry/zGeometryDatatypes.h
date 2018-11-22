@@ -393,24 +393,4 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zSpaceGeometry
-	*	\brief The geometry classes of the library.
-	*  @{
-	*/
-
-	/*! \struct zPlane
-	*	\brief A plane struct defined to hold information of a plane defined by the 3 axis vectors (X,Y,Z) and origin.
-	*	\since version 0.0.1
-	*/
-
-	/** @}*/ 
-
-	struct zPlane
-	{
-		zVector X;	/*!< stores X Axis of the plane		*/
-		zVector Y;	/*!< stores Y Axis of the plane		*/
-		zVector Z;	/*!< stores Z Axis of the plane		*/
-
-		zVector O;	/*!< stores Origin of the plane		*/
-	};
 }

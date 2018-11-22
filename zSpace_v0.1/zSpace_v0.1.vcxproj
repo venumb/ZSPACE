@@ -48,6 +48,7 @@
     <ClInclude Include="..\headers\display\zPrintUtilities.h" />
     <ClInclude Include="..\headers\geometry\zGeometryDatatypes.h" />
     <ClInclude Include="..\headers\geometry\zGraph.h" />
+    <ClInclude Include="..\headers\geometry\zGraphUtlities.h" />
     <ClInclude Include="..\headers\geometry\zMesh.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

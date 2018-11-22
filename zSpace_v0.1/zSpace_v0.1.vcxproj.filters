@@ -74,5 +74,8 @@
     <ClInclude Include="..\headers\geometry\zMesh.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\geometry\zGraphUtlities.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

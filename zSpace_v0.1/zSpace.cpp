@@ -16,7 +16,10 @@
 //--------------------------
 
 #include <headers/geometry/zGeometryDatatypes.h>
+
 #include <headers/geometry/zGraph.h>
+#include <headers/geometry/zGraphUtlities.h>
+
 #include <headers/geometry/zMesh.h>
 
 //--------------------------
