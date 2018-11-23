@@ -31,5 +31,7 @@ var searchData=
   ['getvertexarea',['getVertexArea',['../group__z_mesh_utilities.html#gad8b0ab5019853bb7e4851014310554d0',1,'zSpace']]],
   ['getvertexid',['getVertexId',['../classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e',1,'zSpace::zVertex']]],
   ['getvertexvalence',['getVertexValence',['../classz_space_1_1z_graph.html#ae1621b16757e7c12b778aa32ca936948',1,'zSpace::zGraph']]],
-  ['getvertices',['getVertices',['../classz_space_1_1z_graph.html#ad4f487b4a1cb8799b4509b95412d6433',1,'zSpace::zGraph::getVertices()'],['../classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b',1,'zSpace::zMesh::getVertices()']]]
+  ['getvertices',['getVertices',['../classz_space_1_1z_graph.html#ad4f487b4a1cb8799b4509b95412d6433',1,'zSpace::zGraph::getVertices()'],['../classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b',1,'zSpace::zMesh::getVertices()']]],
+  ['glfloatsize',['GLFloatSize',['../group__z_core_definitions.html#ga587e492d3ce05db81d061b5bd3e34e5e',1,'zDefinitions.h']]],
+  ['glintsize',['GLIntSize',['../group__z_core_definitions.html#ga2493a662ae05fa164c75281d16b221fb',1,'zDefinitions.h']]]
 ];

@@ -1,7 +1,7 @@
 var classz_space_1_1z_mesh =
 [
     [ "zMesh", "classz_space_1_1z_mesh.html#a9336f1c46258af3f228c930ecef81694", null ],
-    [ "zMesh", "classz_space_1_1z_mesh.html#a71ca42ec3eb693f6a94f39a6fec5d0db", null ],
+    [ "zMesh", "classz_space_1_1z_mesh.html#a127de8a508706826cc4a537ad7a1cc9c", null ],
     [ "~zMesh", "classz_space_1_1z_mesh.html#a6f5f04df75c56b0edab98bceebb0bab9", null ],
     [ "addPolygon", "classz_space_1_1z_mesh.html#ab9d7123d7b39ac66dce773947cafd26a", null ],
     [ "addPolygon", "classz_space_1_1z_mesh.html#a4e1fa7391f7b386ab49f714204cdce59", null ],
@@ -15,8 +15,10 @@ var classz_space_1_1z_mesh =
     [ "getVertices", "classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b", null ],
     [ "numPolygons", "classz_space_1_1z_mesh.html#a495dcfd61cc83ad601179a0696f23225", null ],
     [ "onBoundary", "classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6", null ],
+    [ "setNumPolygons", "classz_space_1_1z_mesh.html#a55f26b1e4a4bfc9b51bb75aa66c9bb02", null ],
     [ "smoothColors", "classz_space_1_1z_mesh.html#a63e68abd857c24a63ad06d426b112d11", null ],
     [ "faceActive", "classz_space_1_1z_mesh.html#affe80dcfa5bbf14956b1a6061e4dd35f", null ],
+    [ "faceCenters", "classz_space_1_1z_mesh.html#a5eb7b53e975125d852523d92c5f5b62e", null ],
     [ "faceColors", "classz_space_1_1z_mesh.html#a0a5c1908b86716f1ddc95ce618ccd69c", null ],
     [ "faceNormals", "classz_space_1_1z_mesh.html#ab8e04926a05081b2a061dfbc00f537a4", null ],
     [ "faces", "classz_space_1_1z_mesh.html#a389f99a0ac6f68f6ef9d806685ea3029", null ],

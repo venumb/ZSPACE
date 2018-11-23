@@ -2,9 +2,13 @@ var searchData=
 [
   ['v',['v',['../classz_space_1_1z_color.html#abe6086a8f6bdfaa05cb13bac867d5488',1,'zSpace::zColor']]],
   ['vbo_5fedgeid',['VBO_EdgeId',['../classz_space_1_1z_graph.html#a2cc0f046d89aead5386bdbfd26fc8739',1,'zSpace::zGraph']]],
+  ['vbo_5fedgeindices',['VBO_edgeIndices',['../classz_space_1_1z_buffer_object.html#a25a41d6be65f951c8f2f314fbd70fe35',1,'zSpace::zBufferObject']]],
   ['vbo_5ffaceid',['VBO_FaceId',['../classz_space_1_1z_mesh.html#a79b06255dabad53e71c6f98b31629574',1,'zSpace::zMesh']]],
+  ['vbo_5ffaceindices',['VBO_faceIndices',['../classz_space_1_1z_buffer_object.html#a2c125ce28cba5f4c52a180a074a06d0c',1,'zSpace::zBufferObject']]],
   ['vbo_5fvertexcolorid',['VBO_VertexColorId',['../classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44',1,'zSpace::zGraph']]],
+  ['vbo_5fvertexcolors',['VBO_vertexColors',['../classz_space_1_1z_buffer_object.html#a0609053c825a27d63ab9f6b28ecd86e1',1,'zSpace::zBufferObject']]],
   ['vbo_5fvertexid',['VBO_VertexId',['../classz_space_1_1z_graph.html#ae66e46dde46b645e9f487f602c54d943',1,'zSpace::zGraph']]],
+  ['vbo_5fvertices',['VBO_vertices',['../classz_space_1_1z_buffer_object.html#a70c1e3aba1ae5aff8026b50345ce802d',1,'zSpace::zBufferObject']]],
   ['vertexactive',['vertexActive',['../classz_space_1_1z_graph.html#a1ecb2ba885869cb00b13c402d4263002',1,'zSpace::zGraph']]],
   ['vertexcolors',['vertexColors',['../classz_space_1_1z_graph.html#a67f77c1915efb374879b0ae027a53b83',1,'zSpace::zGraph']]],
   ['vertexnormals',['vertexNormals',['../classz_space_1_1z_mesh.html#adf5bedc7a509ccdaf044a6b65224f514',1,'zSpace::zMesh']]],

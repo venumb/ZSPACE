@@ -10,11 +10,11 @@
 namespace zSpace
 {
 	/** \addtogroup zDisplay
-	*	\brief Collection of general display and console print methods along with bufferobject class. It uses OPENGL framework for the display operations. 
+	*	\brief Collection of general display and console print methods along with bufferobject class. 
 	*  @{
 	*/
 
-	/** \addtogroup zSpacePrint
+	/** \addtogroup zPrintUtilities
 	*	\brief Collection of methods for console printing.
 	*  @{
 	*/

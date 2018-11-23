@@ -58,14 +58,17 @@ namespace zSpace
 		/*!	\brief container which stores vertex normals.	*/
 		vector<zVector> vertexNormals;				
 		
-		/*!	\brief container which stores face normals. Used only for meshes.	*/
+		/*!	\brief container which stores face normals. 	*/
 		vector<zVector> faceNormals;	
 
 		/*!	\brief container which stores face colors. 	*/
 		vector<zColor> faceColors;					
 		
 		/*!	\brief container which stores vertex weights.	*/
-		vector <bool> faceActive;					
+		vector <bool> faceActive;		
+
+		/*!	\brief container which stores face centers. 	*/
+		vector<zVector> faceCenters;
 
 		/*!	\brief stores the start face ID in the VBO, when attached to the zBufferObject.	*/
 		int VBO_FaceId;								
@@ -86,13 +89,14 @@ namespace zSpace
 
 		/*! \brief Overloaded constructor.
 		*
-		*	\param		[in]	_positions		- vector of type zVector containing position information of vertices.
-		*	\param		[in]	polyCounts		- vector of type integer with number of vertices per polygon.
+		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
+		*	\param		[in]	polyCounts		- container of type integer with number of vertices per polygon.
 		*	\param		[in]	polyConnects	- polygon connection list with vertex ids for each face.
+		*	\param		[in]	computeNormals	- computes the face and vertex normals if true.
 		*	\since version 0.0.1
 		*/
 
-		zMesh(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects))
+		zMesh(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects), bool computeNormals = true)
 		{
 			int _num_vertices = _positions.size();
 			int _num_polygons = polyCounts.size();
@@ -143,6 +147,9 @@ namespace zSpace
 
 			// update boundary pointers
 			update_BoundaryEdgePointers();
+
+			// compute mesh normals
+			if (computeNormals) computeMeshNormals();
 
 		}
 
@@ -477,6 +484,17 @@ namespace zSpace
 		{
 			return n_f;
 		}	
+
+		/*! \brief This method sets the number of faces in zMesh  the input value.
+		*	\param				number of faces.
+		*	\since version 0.0.1
+		*/
+		
+		void setNumPolygons(int _n_f)
+		{
+			n_f = _n_f;
+			max_n_f = 2 * n_f;
+		}
 		
 		//--------------------------
 		//---- ATTRIBUTE METHODS
@@ -679,7 +697,43 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		void computeMeshNormals();
+		void computeMeshNormals()
+		{
+			faceNormals.clear();
+
+			for (int i = 0; i < numPolygons(); i++)
+			{
+				// get face vertices and correspondiing positions
+
+				vector<int> fVerts;
+				getVertices(i, zFaceData, fVerts);
+				
+				vector<zVector> points;
+				for (int i = 0; i < fVerts.size(); i++)
+				{
+					points.push_back(vertexPositions[fVerts[i]]);
+				}
+
+				zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
+				cross.normalize();
+				
+				// compute best plane
+
+				zMatrixd bestPlane = getBestFitPlane(points);
+				
+				zVector norm = fromMatrixColumn(bestPlane,2);
+				norm.normalize();
+
+				// check if the cross vector and normal vector are facing the same direction i.e out of the face
+				norm *= (norm * cross < 0) ? -1 : 1;
+
+				faceNormals.push_back(norm);
+			}
+
+
+			// compute vertex normal
+			computeVertexNormalfromFaceNormal();
+		}
 
 		
 

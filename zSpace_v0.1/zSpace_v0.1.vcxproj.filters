@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\core">
-      <UniqueIdentifier>{ec87ab1b-e316-4e2e-828f-1048a0c874ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Display">
       <UniqueIdentifier>{9b64b6b0-46ff-45bc-aeb6-5214eaa1c4d1}</UniqueIdentifier>
     </Filter>
@@ -34,6 +31,9 @@
     <Filter Include="Header Files\Geometry">
       <UniqueIdentifier>{15d60748-29c8-439b-9bab-2da2cda9fc31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{ec87ab1b-e316-4e2e-828f-1048a0c874ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zSpace.cpp">
@@ -42,25 +42,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\core\zDefinitions.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zEnumerators.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zMatrix.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zUtilities.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zVector.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zVectorMatrixUtilities.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\core\zColor.h">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\display\zPrintUtilities.h">
       <Filter>Header Files\Display</Filter>
@@ -82,6 +82,18 @@
     </ClInclude>
     <ClInclude Include="..\headers\geometry\zMeshModifiers.h">
       <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\display\zDisplayUtilities.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\display\zBufferObject.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\IO\zIO.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\IO\zJSON.h">
+      <Filter>Header Files\IO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,9 +22,19 @@
 
 #include <headers/geometry/zMesh.h>
 #include <headers/geometry/zMeshUtilities.h>
+#include <headers/geometry/zMeshModifiers.h>
 
 //--------------------------
 //---- zSPACE DISPLAY
 //--------------------------
 
 #include <headers/display/zPrintUtilities.h>
+#include <headers/display/zDisplayUtilities.h>
+#include <headers/display/zBufferObject.h>
+
+
+//--------------------------
+//---- zSPACE DISPLAY
+//--------------------------
+
+#include <headers/IO/zIO.h>

@@ -13,6 +13,10 @@ namespace zSpace
 	*  @{
 	*/
 
+	//--------------------------
+	//---- NUMERICAL DEFINITIONS
+	//--------------------------
+
 	/*!
 	*	\brief Defines the value of PI.
 	*/
@@ -54,6 +58,62 @@ namespace zSpace
 	#ifndef RAD_TO_DEG
 	#define RAD_TO_DEG (180.0/PI)
 	#endif
+
+
+	//--------------------------
+	//---- VBO DEFINITIONS
+	//--------------------------
+
+	/*!
+	*	\brief Defines the vertex attribute stride. (position and normal)
+	*/
+	#ifndef vertexAttribStride
+	#define vertexAttribStride 6
+	#endif
+	
+	/*!
+	*	\brief Defines the vertex color stride.
+	*/
+	#ifndef vertexColorStride
+	#define vertexColorStride 4
+	#endif
+
+	/*!
+	*	\brief Defines the edge index stride.
+	*/
+	#ifndef edgeIndexStride
+	#define edgeIndexStride 1
+	#endif
+
+	/*!
+	*	\brief Defines the face index stride.
+	*/
+	#ifndef faceIndexStride
+	#define faceIndexStride 1
+	#endif
+
+	/*!
+	*	\brief Defines the buffer offset in the VBO.
+	*/
+	#ifndef bufferOffset
+	#define bufferOffset(i) ((void*)(i))
+	#endif
+
+
+	/*!
+	*	\brief Defines the size of GLFloat.
+	*/
+	#ifndef GLFloatSize
+	#define GLFloatSize sizeof(GLfloat)
+	#endif
+
+	/*!
+	*	\brief Defines the size of GLInt.
+	*/
+	#ifndef GLIntSize
+	#define GLIntSize sizeof(GLint)
+	#endif
+
 
 
 	/** @}*/

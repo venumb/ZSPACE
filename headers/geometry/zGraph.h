@@ -124,8 +124,8 @@ namespace zSpace
 
 		/*! \brief Overloaded constructor.
 		*
-		*	\param		[in]	_positions		- vector of type zVector containing position information of vertices.
-		*	\param		[in]	edgeConnects	- edge connection list with vertex ids for each edge
+		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
+		*	\param		[in]	edgeConnects	- container of edge connections with vertex ids for each edge
 		*	\since version 0.0.1
 		*/
 		
@@ -509,7 +509,7 @@ namespace zSpace
 
 			// default Attibute values
 			vertexActive.push_back(true);
-			vertexColors.push_back(zColor(1, 0, 1, 1));
+			vertexColors.push_back(zColor(1, 0, 0, 1));
 			vertexWeights.push_back(2.0);
 
 			n_v++;
@@ -585,7 +585,7 @@ namespace zSpace
 			return out;
 		}
 
-		/*! \brief This method calculates the number of vertices in zGraph or zMesh
+		/*! \brief This method returns the number of vertices in the graph or mesh.
 		*	\return				number of vertices.
 		*	\since version 0.0.1
 		*/
@@ -593,6 +593,18 @@ namespace zSpace
 		int numVertices()
 		{
 			return n_v;
+		}
+
+		/*! \brief This method sets the number of vertices in zGraph  the input value.
+		*	\param				number of vertices.
+		*	\since version 0.0.1
+		*/
+
+		void setNumVertices(int _n_v)
+		{
+			n_v = _n_v;
+
+			max_n_v = 2 * n_v;
 		}
 
 
@@ -654,7 +666,7 @@ namespace zSpace
 		}
 
 
-		/*! \brief This method calculates the number of edges in zGraph or zMesh.
+		/*! \brief This method returns the number of half edges in the graph or mesh.
 		*	\return				number of edges.
 		*	\since version 0.0.1
 		*/
@@ -662,6 +674,18 @@ namespace zSpace
 		int numEdges()
 		{
 			return n_e;
+		}
+
+		/*! \brief This method sets the number of edges in zMesh  the input value.
+		*	\param				number of edges.
+		*	\since version 0.0.1
+		*/
+	
+		void setNumEdges(int _n_e)
+		{
+			n_e = _n_e;
+
+			max_n_e = 2 * n_e;
 		}
 
 		/*! \brief This method detemines if an edge already exists between input vertices.

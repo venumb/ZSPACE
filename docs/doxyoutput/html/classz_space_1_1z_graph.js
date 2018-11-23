@@ -20,6 +20,8 @@ var classz_space_1_1z_graph =
     [ "numEdges", "classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92", null ],
     [ "numVertices", "classz_space_1_1z_graph.html#a32a9a23b93c41033485543e0768e7f6a", null ],
     [ "resizeArray", "classz_space_1_1z_graph.html#a8b28611b85ceff8555b9230e3af6f47a", null ],
+    [ "setNumEdges", "classz_space_1_1z_graph.html#aeae2b63f2d98d70d44c18f04da164cba", null ],
+    [ "setNumVertices", "classz_space_1_1z_graph.html#a25d933b947aa67317fcaa591ddfbf711", null ],
     [ "splitEdges", "classz_space_1_1z_graph.html#a466474b2e58e03ca014c4f1be6b7377d", null ],
     [ "vertexExists", "classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a", null ],
     [ "edgeActive", "classz_space_1_1z_graph.html#a0e47cf0c661274b89f598d1c32585217", null ],

@@ -2,9 +2,10 @@ var searchData=
 [
   ['changebasis',['ChangeBasis',['../group__z_vector_matrix_utilities.html#ga60aec2272693d052ec4cf78de73b4572',1,'zSpace']]],
   ['checkvertexvalency',['checkVertexValency',['../classz_space_1_1z_graph.html#a3330c1c3dedf9c8cf09ec75341b3149f',1,'zSpace::zGraph']]],
+  ['clearbufferforrewrite',['clearBufferForRewrite',['../classz_space_1_1z_buffer_object.html#a6ca9fc74c24584f6fb86584ea6f1d0c1',1,'zSpace::zBufferObject']]],
   ['cofactormatrix',['cofactorMatrix',['../classz_space_1_1z_matrix.html#a356ae1d5f9ba149ef3726a71cdd78fcb',1,'zSpace::zMatrix']]],
-  ['collapseedge',['collapseEdge',['../group__z_mesh_modifiers.html#ga3bc61deba6a5b9efcbef1da5676f2420',1,'zSpace']]],
-  ['collapseedges',['collapseEdges',['../classz_space_1_1z_graph.html#a72a9385e950354bd15a3dea83037bdce',1,'zSpace::zGraph::collapseEdges()'],['../group__z_mesh_modifiers.html#ga77bd21c7fcb45a73bbd493a27d038102',1,'zSpace::collapseEdges()']]],
+  ['collapseedge',['collapseEdge',['../group__z_mesh_modifiers.html#ga0f643cfd962151320e13a7bad7fdcc40',1,'zSpace']]],
+  ['collapseedges',['collapseEdges',['../classz_space_1_1z_graph.html#a72a9385e950354bd15a3dea83037bdce',1,'zSpace::zGraph::collapseEdges()'],['../group__z_mesh_modifiers.html#ga735c073dbaa8d7842d933528fa3ff32c',1,'zSpace::collapseEdges()']]],
   ['collapseshortedges',['collapseShortEdges',['../group__z_mesh_modifiers.html#ga1574b78c46a3b32fe48dcdbd2e46eef2',1,'zSpace']]],
   ['computeedgecolorfromvertexcolor',['computeEdgeColorfromVertexColor',['../classz_space_1_1z_graph.html#a9d24b6ca7f58c16f1284671797267f21',1,'zSpace::zGraph']]],
   ['computefacecolorfromvertexcolor',['computeFaceColorfromVertexColor',['../classz_space_1_1z_mesh.html#a89641aad9a7a872cef9eb34ccff09269',1,'zSpace::zMesh']]],

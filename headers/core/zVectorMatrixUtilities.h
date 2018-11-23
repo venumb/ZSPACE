@@ -505,8 +505,8 @@ namespace zSpace
 		if (eigensolver.info() != Success) abort();
 
 		vector<double> X = { eigensolver.eigenvectors().col(2)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
-		vector<double> Y = { eigensolver.eigenvectors().col(1)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
-		vector<double> Z = { eigensolver.eigenvectors().col(0)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
+		vector<double> Y = { eigensolver.eigenvectors().col(1)(0), eigensolver.eigenvectors().col(1)(1), eigensolver.eigenvectors().col(1)(2), 1 };
+		vector<double> Z = { eigensolver.eigenvectors().col(0)(0), eigensolver.eigenvectors().col(0)(1), eigensolver.eigenvectors().col(0)(2), 1 };
 		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };
 		
 		out.setCol(0, X);

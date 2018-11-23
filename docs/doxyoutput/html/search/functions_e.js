@@ -14,6 +14,9 @@ var searchData=
   ['setidentity',['setIdentity',['../classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1',1,'zSpace::zMatrix']]],
   ['setmat',['setMat',['../classz_space_1_1z_matrix.html#a3b3df110fc5151cbe9dde9d9ef4aa37c',1,'zSpace::zMatrix']]],
   ['setnext',['setNext',['../classz_space_1_1z_edge.html#a5998712a83b56abd65880f3125f0d3c9',1,'zSpace::zEdge']]],
+  ['setnumedges',['setNumEdges',['../classz_space_1_1z_graph.html#aeae2b63f2d98d70d44c18f04da164cba',1,'zSpace::zGraph']]],
+  ['setnumpolygons',['setNumPolygons',['../classz_space_1_1z_mesh.html#a55f26b1e4a4bfc9b51bb75aa66c9bb02',1,'zSpace::zMesh']]],
+  ['setnumvertices',['setNumVertices',['../classz_space_1_1z_graph.html#a25d933b947aa67317fcaa591ddfbf711',1,'zSpace::zGraph']]],
   ['setone',['setOne',['../classz_space_1_1z_matrix.html#a560fab1967f0e35e58e9e98f2e912355',1,'zSpace::zMatrix']]],
   ['setprev',['setPrev',['../classz_space_1_1z_edge.html#af97abc7295676b01bc278123c86ba0b9',1,'zSpace::zEdge']]],
   ['setrow',['setRow',['../classz_space_1_1z_matrix.html#ae4d1edb48ef79097b18a02755cc859e1',1,'zSpace::zMatrix::setRow(int index, T val)'],['../classz_space_1_1z_matrix.html#a6a8915e7dbe2804d0abef17b7a5b3124',1,'zSpace::zMatrix::setRow(int index, vector&lt; T &gt; &amp;vals)']]],
@@ -24,11 +27,11 @@ var searchData=
   ['setvertexid',['setVertexId',['../classz_space_1_1z_vertex.html#acdc6ae4132453c803268949dcc104df1',1,'zSpace::zVertex']]],
   ['setzero',['setZero',['../classz_space_1_1z_matrix.html#a0c99ec33a4f87ef9b7d0d8df37fb7299',1,'zSpace::zMatrix']]],
   ['smoothcolors',['smoothColors',['../classz_space_1_1z_mesh.html#a63e68abd857c24a63ad06d426b112d11',1,'zSpace::zMesh']]],
-  ['splitedge',['splitEdge',['../group__z_mesh_modifiers.html#ga5d529132f4e5e4655f81169068730b33',1,'zSpace']]],
-  ['splitedges',['splitEdges',['../classz_space_1_1z_graph.html#a466474b2e58e03ca014c4f1be6b7377d',1,'zSpace::zGraph::splitEdges()'],['../group__z_mesh_modifiers.html#ga5c01640279ab1e662e0c94c5f7174e2e',1,'zSpace::splitEdges()']]],
-  ['splitfaces',['splitFaces',['../group__z_mesh_modifiers.html#gab39f6c56a38b245c571f614ac468de5d',1,'zSpace']]],
+  ['splitedge',['splitEdge',['../group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24',1,'zSpace']]],
+  ['splitedges',['splitEdges',['../classz_space_1_1z_graph.html#a466474b2e58e03ca014c4f1be6b7377d',1,'zSpace::zGraph::splitEdges()'],['../group__z_mesh_modifiers.html#ga569d44ca3ec7c951ac43f960b1fc486a',1,'zSpace::splitEdges()']]],
+  ['splitfaces',['splitFaces',['../group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80',1,'zSpace']]],
   ['splitlongedges',['splitLongEdges',['../group__z_mesh_modifiers.html#ga5205dea46f5be4a546801c664d10fbb1',1,'zSpace']]],
   ['splitstring',['splitString',['../group__z_core_utilities.html#ga4632c0bf9aaa9b88d6e928244a77cda5',1,'zSpace']]],
-  ['subdivideface',['subDivideFace',['../group__z_mesh_modifiers.html#ga10a95e2e1dfec117bb4fdcead84a4457',1,'zSpace']]],
-  ['subdividemesh',['subDivideMesh',['../group__z_mesh_modifiers.html#ga472d3bd88c567bedc0fff2cfabfecad4',1,'zSpace']]]
+  ['subdivideface',['subDivideFace',['../group__z_mesh_modifiers.html#ga482d1395c9c9142a5b2425f43ec22a5c',1,'zSpace']]],
+  ['subdividemesh',['subDivideMesh',['../group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760',1,'zSpace']]]
 ];

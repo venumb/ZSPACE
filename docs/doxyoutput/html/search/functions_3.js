@@ -1,8 +1,20 @@
 var searchData=
 [
-  ['deleteedge',['deleteEdge',['../group__z_mesh_modifiers.html#ga01999bca7fc6243f2ffd99c4c9dd2506',1,'zSpace']]],
-  ['deletevertex',['deleteVertex',['../classz_space_1_1z_graph.html#a28f12855df46e385a46ecbad497e6ed4',1,'zSpace::zGraph::deleteVertex()'],['../group__z_mesh_modifiers.html#ga418e438edc9f50bd8a5feaeeedc7c291',1,'zSpace::deleteVertex()']]],
+  ['deleteedge',['deleteEdge',['../group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897',1,'zSpace']]],
+  ['deletevertex',['deleteVertex',['../classz_space_1_1z_graph.html#a28f12855df46e385a46ecbad497e6ed4',1,'zSpace::zGraph::deleteVertex()'],['../group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c',1,'zSpace::deleteVertex()']]],
   ['det',['det',['../classz_space_1_1z_matrix.html#a131871f68be2ee2f7679c3e1154d5d44',1,'zSpace::zMatrix']]],
   ['dihedralangle',['dihedralAngle',['../classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c',1,'zSpace::zVector']]],
-  ['distanceto',['distanceTo',['../classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca',1,'zSpace::zVector']]]
+  ['distanceto',['distanceTo',['../classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca',1,'zSpace::zVector']]],
+  ['drawgraph',['drawGraph',['../group__z_display_utilities.html#ga19e4aa1b12bc2b30484025feecb7554c',1,'zSpace']]],
+  ['drawline',['drawLine',['../group__z_display_utilities.html#gaec82cd49ab7e71265e211454bf3f721b',1,'zSpace']]],
+  ['drawlinesfrombuffer',['drawLinesFromBuffer',['../group__z_display_utilities.html#gab4216758386b722eca9fb84d9ae5553e',1,'zSpace']]],
+  ['drawmesh',['drawMesh',['../group__z_display_utilities.html#ga0f440b9ebfe50b06cbbbcadb465bb080',1,'zSpace']]],
+  ['drawmesh_5fdihedraledges',['drawMesh_DihedralEdges',['../group__z_display_utilities.html#ga97fe00f10c314c725e8b314a87c12803',1,'zSpace']]],
+  ['drawmesh_5ffacenormals',['drawMesh_FaceNormals',['../group__z_display_utilities.html#gaab74a9ad6951426b85760e749b3c939a',1,'zSpace']]],
+  ['drawmesh_5fvertexnormals',['drawMesh_VertexNormals',['../group__z_display_utilities.html#ga3851b4d07d34e11fa138fd05de8bb02f',1,'zSpace']]],
+  ['drawpoint',['drawPoint',['../group__z_display_utilities.html#ga55b0856be39b2252fcdbd440c47bbdd0',1,'zSpace']]],
+  ['drawpointsfrombuffer',['drawPointsFromBuffer',['../group__z_display_utilities.html#gab6231c27a907a604fc8015bb198b8a71',1,'zSpace']]],
+  ['drawpolygon',['drawPolygon',['../group__z_display_utilities.html#gad14784b04e32ec43250c2c69fbe69505',1,'zSpace']]],
+  ['drawquadsfrombuffer',['drawQuadsFromBuffer',['../group__z_display_utilities.html#ga54bff62f190e84d27a291acdc9d86cd7',1,'zSpace']]],
+  ['drawtrianglesfrombuffer',['drawTrianglesFromBuffer',['../group__z_display_utilities.html#gad945bdd143687fe9c6bf5e5ae9c9a38e',1,'zSpace']]]
 ];

@@ -1,16 +1,19 @@
 var searchData=
 [
-  ['v',['v',['../classz_space_1_1z_color.html#abe6086a8f6bdfaa05cb13bac867d5488',1,'zSpace::zColor']]],
-  ['vbo_5fedgeid',['VBO_EdgeId',['../classz_space_1_1z_graph.html#a2cc0f046d89aead5386bdbfd26fc8739',1,'zSpace::zGraph']]],
-  ['vbo_5ffaceid',['VBO_FaceId',['../classz_space_1_1z_mesh.html#a79b06255dabad53e71c6f98b31629574',1,'zSpace::zMesh']]],
-  ['vbo_5fvertexcolorid',['VBO_VertexColorId',['../classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44',1,'zSpace::zGraph']]],
-  ['vbo_5fvertexid',['VBO_VertexId',['../classz_space_1_1z_graph.html#ae66e46dde46b645e9f487f602c54d943',1,'zSpace::zGraph']]],
-  ['vertexactive',['vertexActive',['../classz_space_1_1z_graph.html#a1ecb2ba885869cb00b13c402d4263002',1,'zSpace::zGraph']]],
-  ['vertexcolors',['vertexColors',['../classz_space_1_1z_graph.html#a67f77c1915efb374879b0ae027a53b83',1,'zSpace::zGraph']]],
-  ['vertexexists',['vertexExists',['../classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a',1,'zSpace::zGraph']]],
-  ['vertexnormals',['vertexNormals',['../classz_space_1_1z_mesh.html#adf5bedc7a509ccdaf044a6b65224f514',1,'zSpace::zMesh']]],
-  ['vertexpositions',['vertexPositions',['../classz_space_1_1z_graph.html#a49a113c5f823109cd33359febabb28d0',1,'zSpace::zGraph']]],
-  ['vertexweights',['vertexWeights',['../classz_space_1_1z_graph.html#a7d73572369c4c38bd8da0c8f00bb7c2a',1,'zSpace::zGraph']]],
-  ['vertices',['vertices',['../classz_space_1_1z_graph.html#a832a721ec5d6e854abb8292f2f021103',1,'zSpace::zGraph']]],
-  ['verticesedge',['verticesEdge',['../classz_space_1_1z_graph.html#a2580b8c91abe92485bdce62259845a56',1,'zSpace::zGraph']]]
+  ['tangentialrelaxation',['tangentialRelaxation',['../group__z_mesh_modifiers.html#gae42402c3129540241452c44109dcd068',1,'zSpace']]],
+  ['target_5fnewbasis',['target_newBasis',['../group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7',1,'zSpace']]],
+  ['to_5fjson',['to_json',['../classz_space_1_1z_mesh_j_s_o_n.html#a2f9c901ed11d790ecec40f3ca6ea4a17',1,'zSpace::zMeshJSON::to_json()'],['../classz_space_1_1z_graph_j_s_o_n.html#a0325de934ba660bfda600cd91beafc6c',1,'zSpace::zGraphJSON::to_json()']]],
+  ['tocolumnmatrix',['toColumnMatrix',['../classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14',1,'zSpace::zVector']]],
+  ['tohsv',['toHSV',['../classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05',1,'zSpace::zColor']]],
+  ['tojson',['toJSON',['../group__z_i_o___mesh.html#ga6fccda275363a86353d2750673122d6f',1,'zSpace::toJSON(zMesh &amp;inMesh, string outfilename, bool vColors=false)'],['../group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747',1,'zSpace::toJSON(zGraph &amp;inGraph, string outfilename, bool vColors=false)']]],
+  ['tolocalmatrix',['toLocalMatrix',['../group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9',1,'zSpace']]],
+  ['toobj',['toOBJ',['../group__z_i_o___mesh.html#ga56d1123fee7864f1a5da2f740b9e589d',1,'zSpace']]],
+  ['torgb',['toRGB',['../classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f',1,'zSpace::zColor']]],
+  ['torowmatrix',['toRowMatrix',['../classz_space_1_1z_vector.html#ae565bb4a1cadd5ff51efb1a9da290158',1,'zSpace::zVector']]],
+  ['totaledgelength',['totalEdgeLength',['../group__z_graph_utilities.html#ga35460aaad2c88df17da9be878dcc72f4',1,'zSpace']]],
+  ['toworldmatrix',['toWorldMatrix',['../group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e',1,'zSpace']]],
+  ['transpose',['transpose',['../classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426',1,'zSpace::zMatrix']]],
+  ['trianglearea',['triangleArea',['../group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1',1,'zSpace']]],
+  ['triangulate',['triangulate',['../group__z_mesh_modifiers.html#gabff84040156141178b2a9474171d9c48',1,'zSpace']]],
+  ['two_5fpi',['TWO_PI',['../group__z_core_definitions.html#ga3b947f4b635461030ff2d87833e5049e',1,'zDefinitions.h']]]
 ];

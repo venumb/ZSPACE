@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['length',['length',['../classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400',1,'zSpace::zVector']]],
-  ['line_5flineclosestpoints',['line_lineClosestPoints',['../group__z_vector_matrix_utilities.html#ga9d845a521da011abf5e4baacf0505c0e',1,'zSpace']]],
-  ['line_5fplaneintersection',['line_PlaneIntersection',['../group__z_vector_matrix_utilities.html#ga398dc6bba5cc5ca9eed7a45255548bf8',1,'zSpace']]]
+  ['k1',['k1',['../structz_space_1_1z_curvature.html#a444ed4b07ab4118d8926b3d9b35bccfb',1,'zSpace::zCurvature']]],
+  ['k2',['k2',['../structz_space_1_1z_curvature.html#aa5a7de8a7159fd3ad63ea989b7311111',1,'zSpace::zCurvature']]]
 ];

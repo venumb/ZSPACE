@@ -1,14 +1,16 @@
 var searchData=
 [
-  ['pi',['PI',['../group__z_core_definitions.html#ga598a3330b3c21701223ee0ca14316eca',1,'zDefinitions.h']]],
-  ['plane_5fplaneintersection',['plane_planeIntersection',['../group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4',1,'zSpace']]],
-  ['planetoplane',['PlanetoPlane',['../group__z_vector_matrix_utilities.html#ga5ca0bb8666f0cb1b43fc6de191f3cfaa',1,'zSpace']]],
-  ['pointintriangle',['pointInTriangle',['../group__z_vector_matrix_utilities.html#ga5d522fc391c13d491f20a1d3a87996ca',1,'zSpace']]],
-  ['polytriangulate',['polyTriangulate',['../group__z_mesh_modifiers.html#ga750798a285b335c865b409fb2fd4dddc',1,'zSpace']]],
-  ['positionvertex',['positionVertex',['../classz_space_1_1z_graph.html#a438d7472530c96e84041c46e4d5cf654',1,'zSpace::zGraph']]],
-  ['printcolor',['printColor',['../group__z_space_print.html#ga4b1ab40cea634bb41052ae843103363d',1,'zSpace']]],
-  ['printgraph',['printGraph',['../group__z_space_print.html#ga96cf7a290a07af957dbe1740993c721d',1,'zSpace']]],
-  ['printmatrix',['printMatrix',['../group__z_space_print.html#ga39c1cea9e659a5977a50288ddc9e399b',1,'zSpace']]],
-  ['printmesh',['printMesh',['../group__z_space_print.html#ga24820d178bfefb22bc7bf22a3945bb6f',1,'zSpace']]],
-  ['printvector',['printVector',['../group__z_space_print.html#ga26f008d23a3bfd98b3ca9d5f6b6e40df',1,'zSpace']]]
+  ['ofmap',['ofMap',['../group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace']]],
+  ['onboundary',['onBoundary',['../classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6',1,'zSpace::zMesh']]],
+  ['operator_28_29',['operator()',['../classz_space_1_1z_matrix.html#afec2daee718b12398653de1472922df3',1,'zSpace::zMatrix::operator()(int row, int col)'],['../classz_space_1_1z_matrix.html#ab747f9edecdc13479d4cc18b9a8e1961',1,'zSpace::zMatrix::operator()(int index)']]],
+  ['operator_2a',['operator*',['../classz_space_1_1z_matrix.html#add605d3bcc6aab142a799671171821e8',1,'zSpace::zMatrix::operator*(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a5eb908056b857eae15b1c25a78f818d2',1,'zSpace::zMatrix::operator*(T s1)'],['../classz_space_1_1z_vector.html#a9471d6332878a82f63a2bfd16ea2a752',1,'zSpace::zVector::operator*(zVector v1)'],['../classz_space_1_1z_vector.html#a95e70a933c305a2d596e61a7c543f720',1,'zSpace::zVector::operator*(double val)'],['../classz_space_1_1z_vector.html#a8e674c9f4e04a4685f0571f95734ca82',1,'zSpace::zVector::operator*(zMatrixd &amp;inMatrix)']]],
+  ['operator_2a_3d',['operator*=',['../classz_space_1_1z_matrix.html#a7755f2663062228887f70c4ada9ae962',1,'zSpace::zMatrix::operator*=()'],['../classz_space_1_1z_vector.html#a0bbeed0c887b54b11c7c29b61cf5f47c',1,'zSpace::zVector::operator*=()']]],
+  ['operator_2b',['operator+',['../classz_space_1_1z_matrix.html#a26441ad72e77c2954829e24a78f8df82',1,'zSpace::zMatrix::operator+(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a89750b940abc295fc15fb06271edb533',1,'zSpace::zMatrix::operator+(T s1)'],['../classz_space_1_1z_vector.html#acbb514173ee4774153c4f9f8d1b79f1f',1,'zSpace::zVector::operator+(zVector v1)'],['../classz_space_1_1z_vector.html#aecf15e1bb50c971a05664f602c485b3b',1,'zSpace::zVector::operator+(double val)']]],
+  ['operator_2b_3d',['operator+=',['../classz_space_1_1z_matrix.html#af1ce91b548b450da6a2573280694fc69',1,'zSpace::zMatrix::operator+=(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a2e28c95d530fe2c8cdbf45039fc04c73',1,'zSpace::zMatrix::operator+=(T s1)'],['../classz_space_1_1z_vector.html#ab68bb4b940277d024fbf09b88d302b1c',1,'zSpace::zVector::operator+=(zVector v1)'],['../classz_space_1_1z_vector.html#a0e9834baf61b170bfe123bdbec396872',1,'zSpace::zVector::operator+=(double val)']]],
+  ['operator_2d',['operator-',['../classz_space_1_1z_matrix.html#afaa326b6909e926cb4848ba78654e973',1,'zSpace::zMatrix::operator-(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a13d7c217fd2dd47790dd4ed6155d8ad7',1,'zSpace::zMatrix::operator-(T s1)'],['../classz_space_1_1z_vector.html#ab76808ee4f4ca31faba252118a8b22d6',1,'zSpace::zVector::operator-(zVector v1)'],['../classz_space_1_1z_vector.html#af2df9677aaf35677b00c992f935d191b',1,'zSpace::zVector::operator-(double val)']]],
+  ['operator_2d_3d',['operator-=',['../classz_space_1_1z_matrix.html#afcbeb89e1fec61a8ae71c921fb5c1be7',1,'zSpace::zMatrix::operator-=(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a3f9216d702ad73222f5a6036b4d0a389',1,'zSpace::zMatrix::operator-=(T s1)'],['../classz_space_1_1z_vector.html#acea861f52211a1807549f165bab2ead6',1,'zSpace::zVector::operator-=(zVector v1)'],['../classz_space_1_1z_vector.html#ae05e5ca367ab5f1de48c4b76ddedf944',1,'zSpace::zVector::operator-=(double val)']]],
+  ['operator_2f',['operator/',['../classz_space_1_1z_vector.html#a817143b982398bf61f8b21e92acee983',1,'zSpace::zVector']]],
+  ['operator_2f_3d',['operator/=',['../classz_space_1_1z_matrix.html#afef6e0917239fe5f6cfa9904b148048a',1,'zSpace::zMatrix::operator/=()'],['../classz_space_1_1z_vector.html#a3f18877fe16d6a6cf4c0774ec313ad7e',1,'zSpace::zVector::operator/=()']]],
+  ['operator_3d_3d',['operator==',['../classz_space_1_1z_color.html#a70f7239f26d14ac1203813b1a5e0244a',1,'zSpace::zColor::operator==()'],['../classz_space_1_1z_vector.html#a6276ac67b4df65d78a42030b08259a12',1,'zSpace::zVector::operator==()']]],
+  ['operator_5e',['operator^',['../classz_space_1_1z_vector.html#a9f686a2bd88e144b7a5e9a72e372d655',1,'zSpace::zVector']]]
 ];
