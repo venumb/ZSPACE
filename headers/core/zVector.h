@@ -194,7 +194,7 @@ namespace  zSpace
 
 			zMatrixd outVecMatrix = vecMatrix * inMatrix;
 
-			return this->fromMatrixRow(outVecMatrix);
+			return this->fromRowMatrix(outVecMatrix);
 		}
 
 		/*! \brief This operator is used for scalar division of a vector.
@@ -442,7 +442,7 @@ namespace  zSpace
 		*	\return					zVector		- zVector of the row matrix.
 		*	\since version 0.0.1
 		*/
-		zVector fromMatrixRow(zMatrixd &inMatrix)
+		zVector fromRowMatrix(zMatrixd &inMatrix)
 		{
 			if (inMatrix.getNumRows() != 1) throw std::invalid_argument("input Matrix is not a row matrix.");
 			if (inMatrix.getNumCols() < 3 || inMatrix.getNumCols() > 4) throw std::invalid_argument("cannot convert row matrix to vector.");

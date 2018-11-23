@@ -172,7 +172,7 @@ namespace zSpace
 
 		/*! \brief This method gets the edges of a zFace.
 		*
-		*	\param		[in]	index			- index in the face list.
+		*	\param		[in]	index			- index in the face container.
 		*	\param		[in]	type			- zFaceData.
 		*	\param		[out]	edgeIndicies	- vector of edge indicies.
 		*	\since version 0.0.1
@@ -209,7 +209,7 @@ namespace zSpace
 
 		/*!	\brief This method gets the vertices attached to input zEdge or zFace.
 		*
-		*	\param		[in]	index			- index in the edge/face list.
+		*	\param		[in]	index			- index in the edge/face container.
 		*	\param		[in]	type			- zEdgeData or zFaceData.
 		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
 		*	\since version 0.0.1
@@ -250,8 +250,8 @@ namespace zSpace
 
 		/*! \brief This method gets the faces connected to input zVertex or zFace
 		*
-		*	\param		[in]	index	- index in the vertex/face list.
-		*	\param		[in]	type	- zMeshVertex or zMeshFace.
+		*	\param		[in]	index	- index in the vertex/face container.
+		*	\param		[in]	type	- zVertexData or zFaceData.
 		*	\param		[out]	faceIndicies	- vector of face indicies.
 		*	\since version 0.0.1
 		*/
@@ -307,7 +307,7 @@ namespace zSpace
 		/*! \brief This method gets the faces attached to input zEdge
 		*
 		*	\param		[in]	index			- index in the edge list.
-		*	\param		[in]	type			- zMeshEdge.
+		*	\param		[in]	type			- zEdgeData.
 		*	\param		[out]	faceIndicies	- vector of face indicies.
 		*	\since version 0.0.1
 		*/
@@ -476,7 +476,7 @@ namespace zSpace
 
 		/*! \brief This method returns the number of polygons in the mesh
 		*
-		*	\return		[out]	number of polygons
+		*	\return		int		-	number of polygons
 		*	\since version 0.0.1
 		*/
 
@@ -486,7 +486,7 @@ namespace zSpace
 		}	
 
 		/*! \brief This method sets the number of faces in zMesh  the input value.
-		*	\param				number of faces.
+		*	\param		[in]	_n_f	-	number of faces.
 		*	\since version 0.0.1
 		*/
 		

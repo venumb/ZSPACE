@@ -596,7 +596,7 @@ namespace zSpace
 		}
 
 		/*! \brief This method sets the number of vertices in zGraph  the input value.
-		*	\param				number of vertices.
+		*	\param		[in]		_n_v	- number of vertices.
 		*	\since version 0.0.1
 		*/
 
@@ -677,7 +677,7 @@ namespace zSpace
 		}
 
 		/*! \brief This method sets the number of edges in zMesh  the input value.
-		*	\param				number of edges.
+		*	\param		[in]		_n_e	- number of edges.
 		*	\since version 0.0.1
 		*/
 	
