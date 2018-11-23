@@ -684,8 +684,8 @@ Additional Inherited Members</h2></td></tr>
 <p>This method gets the faces connected to input <a class="el" href="classz_space_1_1z_vertex.html" title="A vertex class to hold vertex information of a half-edge data structure. ">zVertex</a> or <a class="el" href="classz_space_1_1z_face.html" title="A face class to hold polygonal information of a half-edge data structure. ">zFace</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the vertex/face list. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zMeshVertex or zMeshFace. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the vertex/face container. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zVertexData or zFaceData. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">faceIndicies</td><td>- vector of face indicies. </td></tr>
   </table>
   </dd>
@@ -739,7 +739,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method gets the edges of a <a class="el" href="classz_space_1_1z_face.html" title="A face class to hold polygonal information of a half-edge data structure. ">zFace</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the face list. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the face container. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zFaceData. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">edgeIndicies</td><td>- vector of edge indicies. </td></tr>
   </table>
@@ -795,7 +795,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the edge list. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zMeshEdge. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zEdgeData. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">faceIndicies</td><td>- vector of face indicies. </td></tr>
   </table>
   </dd>
@@ -849,7 +849,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method gets the vertices attached to input <a class="el" href="classz_space_1_1z_edge.html" title="An edge class to hold edge information of a half-edge data structure. ">zEdge</a> or <a class="el" href="classz_space_1_1z_face.html" title="A face class to hold polygonal information of a half-edge data structure. ">zFace</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the edge/face list. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index in the edge/face container. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zEdgeData or zFaceData. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">vertexIndicies</td><td>- vector of vertex indicies. </td></tr>
   </table>
@@ -885,7 +885,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This method returns the number of polygons in the mesh. </p>
-<dl class="section return"><dt>Returns</dt><dd>[out] number of polygons </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int - number of polygons </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00483">483</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
@@ -968,7 +968,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method sets the number of faces in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> the input value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">number</td><td>of faces. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">_n_f</td><td>- number of faces. </td></tr>
   </table>
   </dd>
 </dl>
