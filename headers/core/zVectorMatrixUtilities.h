@@ -306,7 +306,9 @@ namespace zSpace
 		//printf("\n u : %1.2f v: %1.2f ", u, v);
 
 		// Check if point is in triangle	
-		return (u >= 0) && (v >= 0) && (u + v <= 1);
+		return (u >= 0) && (v >= 0) && (u + v < 1);
+
+		
 	}
 
 	//--------------------------
@@ -515,6 +517,13 @@ namespace zSpace
 		out.setCol(3, O);
 
 		return out;
+	}
+
+	zMatrixd getBestFitPlaneSVD(vector<zVector>& points)
+	{
+
+
+
 	}
 
 

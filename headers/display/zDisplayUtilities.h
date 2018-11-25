@@ -310,6 +310,7 @@ namespace zSpace
 	{
 		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.numPolygons()) throw std::invalid_argument(" error: mesh normals not computed.");
 
+		if (inMesh.faceNormals.size() != fCenters.size()) throw std::invalid_argument(" error: number of face centers not equal to number of face normals.");
 
 		for (int i = 0; i < inMesh.faceNormals.size(); i++)
 		{

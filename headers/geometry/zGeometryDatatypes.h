@@ -297,7 +297,7 @@ namespace zSpace
 
 		void setEdge(zEdge* _e)
 		{
-			this->e = _e;
+			this->e = _e;			
 		}
 
 	};
@@ -389,7 +389,7 @@ namespace zSpace
 		*/
 		void setEdge(zEdge* _e)
 		{
-			this->e = _e;
+			this->e = _e;			
 		}
 
 	};

@@ -489,14 +489,20 @@ namespace zSpace
 		/*! \brief This method adds a vertex to the vertices array.
 		*
 		*	\param		[in]	pos			- zVector holding the position information of the vertex.
+		*	\return				bool		- true if the vertices container is resized.
 		*	\since version 0.0.1
 		*/
-		void addVertex(zVector &pos)
+
+		bool addVertex(zVector &pos)
 		{
+			bool out = false;
+
 			if (max_n_v - vertexActive.size() < 2)
 			{
 				max_n_v *= 4;
-				resizeArray(max_n_v, zVertexData);
+				resizeArray(max_n_v, zVertexData); // calls the resize in mesh 
+
+				out = true;
 			}
 
 			string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
@@ -513,6 +519,8 @@ namespace zSpace
 			vertexWeights.push_back(2.0);
 
 			n_v++;
+
+			return out;
 		}
 
 		/*! \brief This method deletes the zGraph vertices given in the input vertex list.
@@ -616,15 +624,20 @@ namespace zSpace
 		*
 		*	\param		[in]	v1			- start zVertex of the edge.
 		*	\param		[in]	v2			- end zVertex of the edge.
+		*	\return				bool		- true if the edges container is resized.
 		*	\since version 0.0.1
 		*/
-		
-		void addEdges(int &v1, int &v2)
+
+		bool addEdges(int &v1, int &v2)
 		{
+			bool out = false;
+
 			if (max_n_e - edgeActive.size() < 4)
 			{
 				max_n_e *= 4;
-				resizeArray(max_n_e, zEdgeData);
+				resizeArray(max_n_e, zEdgeData); // calls the resize in mesh 
+
+				out = true;
 
 			}
 
@@ -662,6 +675,9 @@ namespace zSpace
 			edgeActive.push_back(true);
 			edgeColors.push_back(zColor(0, 0, 0, 0));
 			edgeWeights.push_back(1.0);
+
+
+			return out;
 
 		}
 
@@ -960,25 +976,16 @@ namespace zSpace
 				}
 
 				delete[] vertices;
-				vertices = new zVertex[newSize];
-
-				for (int i = 0; i < vertexActive.size(); i++)
-				{
-					vertices[i].setVertexId(i);
-
-					if (resized[i].getEdge())vertices[i].setEdge(resized[i].getEdge());
-				}
-				for (int i = 0; i < edgeActive.size(); i++)
-				{
-					if (edges[i].getVertex()) edges[i].setVertex(&vertices[edges[i].getVertex()->getVertexId()]);
-				}
-
-				delete[] resized;
+				vertices = resized;
+				
+				//delete[] resized;
+				printf("\n graph vertices resized. ");
 
 			}
 
 			//  Edge
-			else if (type == zEdgeData) {
+			else if (type == zEdgeData) 
+			{
 
 				zEdge *resized = new zEdge[newSize];
 
@@ -998,31 +1005,12 @@ namespace zSpace
 				{
 					if (vertices[i].getEdge()) vertices[i].setEdge(&resized[vertices[i].getEdge()->getEdgeId()]);
 				}
-
-
+				
 				delete[] edges;
-				edges = new zEdge[newSize];
+				edges = resized;
 
-				for (int i = 0; i <edgeActive.size(); i++)
-				{
-					edges[i].setEdgeId(i);
-
-					if (resized[i].getSym()) edges[i].setSym(&resized[resized[i].getSym()->getEdgeId()]);
-					if (resized[i].getNext()) edges[i].setNext(&resized[resized[i].getNext()->getEdgeId()]);
-					if (resized[i].getPrev()) edges[i].setPrev(&resized[resized[i].getPrev()->getEdgeId()]);
-
-					if (resized[i].getVertex()) edges[i].setVertex(resized[i].getVertex());
-					if (resized[i].getFace()) edges[i].setFace(resized[i].getFace());
-
-				}
-
-				for (int i = 0; i < vertexActive.size(); i++)
-				{
-					if (vertices[i].getEdge()) vertices[i].setEdge(&edges[vertices[i].getEdge()->getEdgeId()]);
-				}
-
-
-				delete[] resized;
+				//delete[] resized;
+				printf("\n graph edges resized. ");
 			}
 
 		}
