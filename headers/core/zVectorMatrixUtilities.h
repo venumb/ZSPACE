@@ -303,10 +303,15 @@ namespace zSpace
 		if (abs(u) < 0.001) u = 0;
 		if (abs(v) < 0.001) v = 0;
 
+		// round factor to precision 3 
+		double factor = pow(10, 3);
+		u = round(u*factor)/factor; 
+		v = round(v*factor) / factor;
+
 		//printf("\n u : %1.2f v: %1.2f ", u, v);
 
-		// Check if point is in triangle	
-		return (u >= 0) && (v >= 0) && (u + v < 1);
+		// Check if point is in triangle
+		return ((u >= 0) && (v >= 0) && (u + v <= 1));
 
 		
 	}
@@ -519,12 +524,7 @@ namespace zSpace
 		return out;
 	}
 
-	zMatrixd getBestFitPlaneSVD(vector<zVector>& points)
-	{
 
-
-
-	}
 
 
 	/*! \brief This method computes the bounding box for the given points using PCA

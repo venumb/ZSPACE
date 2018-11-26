@@ -299,9 +299,13 @@ namespace zSpace
 			{
 				vector<int> _edgeIndicies;
 
-				for (int i = 0; i < inMesh.numEdges(); i++)
+				for (int i = 0; i < inMesh.edgeActive.size(); i+= 2)
 				{
-					_edgeIndicies.push_back(inMesh.edges[i].getVertex()->getVertexId() + nVertices);
+					if (inMesh.edgeActive[i])
+					{
+						_edgeIndicies.push_back(inMesh.edges[i].getVertex()->getVertexId() + nVertices);
+						_edgeIndicies.push_back(inMesh.edges[i+1].getVertex()->getVertexId() + nVertices);
+					}					
 				}
 
 				inMesh.VBO_EdgeId = appendEdgeIndices(_edgeIndicies);
@@ -313,12 +317,16 @@ namespace zSpace
 
 				vector<int> _edgeIndicies;
 
-				for (int i = 0; i < inMesh.numEdges(); i++)
+				for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
 				{
-					if (abs(edge_dihedralAngles[i]) > angleThreshold || inMesh.onBoundary(i, zEdgeData))
+					if (inMesh.edgeActive[i])
 					{
-						_edgeIndicies.push_back(inMesh.edges[i].getVertex()->getVertexId() + nVertices);
+						if (abs(edge_dihedralAngles[i]) > angleThreshold || inMesh.onBoundary(i, zEdgeData))
+						{
+							_edgeIndicies.push_back(inMesh.edges[i].getVertex()->getVertexId() + nVertices);
+						}
 					}
+					
 				}
 
 				inMesh.VBO_EdgeId = appendEdgeIndices(_edgeIndicies);
@@ -331,19 +339,24 @@ namespace zSpace
 
 			for (int i = 0; i < inMesh.numPolygons(); i++)
 			{
-				vector<int> faceVertsIds;
-				inMesh.getVertices(i, zFaceData, faceVertsIds);
-
-				for (int j = 0; j < faceVertsIds.size(); j++)
+				if (inMesh.faceActive[i])
 				{
-					_faceIndicies.push_back(faceVertsIds[j] + nVertices);
+					vector<int> faceVertsIds;
+					inMesh.getVertices(i, zFaceData, faceVertsIds);
 
+					for (int j = 0; j < faceVertsIds.size(); j++)
+					{
+						_faceIndicies.push_back(faceVertsIds[j] + nVertices);
+
+					}
 				}
+				
 			}
 		
 			inMesh.VBO_FaceId = appendFaceIndices(_faceIndicies);
 
 			// Vertex Attributes
+						
 			inMesh.VBO_VertexId = appendVertexAttributes(inMesh.vertexPositions, inMesh.vertexNormals);
 			inMesh.VBO_VertexColorId = appendVertexColors(inMesh.vertexColors);
 

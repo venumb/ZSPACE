@@ -69,7 +69,10 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		~zEdge() {}
+		~zEdge() 
+		{
+			
+		}
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -254,7 +257,10 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		~zVertex() {}
+		~zVertex() 
+		{
+			
+		}
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -348,7 +354,10 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		~zFace() {}
+		~zFace() 
+		{
+			
+		}
 
 		//---- GET-SET METHODS
 

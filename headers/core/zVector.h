@@ -350,14 +350,28 @@ namespace  zSpace
 	
 		double angle(zVector v1)
 		{
-			double length = this->length();
-			double length1 = v1.length();
+			// check if they are parallel
+			zVector a(x,y,z);
+			zVector b(v1.x, v1.y, v1.z);
 
-			double dotProduct = (x * v1.x + y * v1.y + z * v1.z);
+			a.normalize();
+			b.normalize();
 
-			double angle = acos(dotProduct / (length * length1));
+			if (a*b == 1) return 0;
+			else if (a*b == -1) return 180;
+			else
+			{
+				double length = this->length();
+				double length1 = v1.length();
 
-			return angle * RAD_TO_DEG;
+				double dotProduct = this->operator* (v1);
+
+				double angle = acos(dotProduct / (length * length1));
+
+				return angle * RAD_TO_DEG;
+			}
+			
+			
 
 		}
 

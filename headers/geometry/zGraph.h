@@ -136,8 +136,8 @@ namespace zSpace
 			int _num_edges = edgeConnects.size();
 
 			// set max size
-			max_n_v = _num_vertices * 4;
-			max_n_e = _num_edges * 8;
+			max_n_v = _num_vertices * 40;
+			max_n_e = _num_edges * 80;
 
 			if (_num_vertices != 0) vertices = new zVertex[max_n_v];
 			if (_num_edges != 0) edges = new zEdge[max_n_e];
@@ -499,14 +499,13 @@ namespace zSpace
 
 			if (max_n_v - vertexActive.size() < 2)
 			{
-				max_n_v *= 4;
+				max_n_v *= 40;
 				resizeArray(max_n_v, zVertexData); // calls the resize in mesh 
 
 				out = true;
 			}
-
-			string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
-			positionVertex[hashKey] = vertexActive.size();
+			
+			addToPositionMap(pos, vertexActive.size());
 
 			vertices[vertexActive.size()] = zVertex();
 			vertices[vertexActive.size()].setVertexId(vertexActive.size());
@@ -521,50 +520,7 @@ namespace zSpace
 			n_v++;
 
 			return out;
-		}
-
-		/*! \brief This method deletes the zGraph vertices given in the input vertex list.
-		*
-		*	\param		[in]	pos			- zVector holding the position information of the vertex.
-		*	\since version 0.0.1
-		*/
-		
-		void deleteVertex(vector<int> &vertexList)
-		{
-			for (int i = 0; i < vertexList.size(); i++)
-			{
-				if (vertexActive[vertexList[i]])
-				{
-					// get connected edges
-					vector<int> cEdges;
-					getConnectedEdges(vertexList[i], zVertexData, cEdges);
-
-					// update edge pointers
-					for (int k = 0; k < cEdges.size(); k++)
-					{
-						if (!checkVertexValency(edges[cEdges[k]].getVertex()->getVertexId(),zVertexData, 1))
-						{
-							edges[cEdges[k]].getNext()->setPrev(edges[cEdges[k]].getPrev());
-						}
-
-						else
-						{
-							edges[cEdges[k]].getPrev()->setNext(edges[cEdges[k]].getSym()->getNext());
-							vertexActive[edges[cEdges[k]].getVertex()->getVertexId()] = false;
-							n_v--;
-						}
-
-						edgeActive[edges[cEdges[k]].getEdgeId()] = false;
-						edgeActive[edges[cEdges[k]].getSym()->getEdgeId()] = false;
-						n_e -= 2;
-
-					}
-
-					vertexActive[vertexList[i]] = false;
-					n_v--;
-				}
-			}
-		}
+		}	
 
 		/*! \brief This method detemines if a vertex already exists at the input position
 		*
@@ -605,15 +561,77 @@ namespace zSpace
 
 		/*! \brief This method sets the number of vertices in zGraph  the input value.
 		*	\param		[in]		_n_v	- number of vertices.
+		*	\param		[in]		setMax	- if true, sets max vertices as amultiple of _n_v.
 		*	\since version 0.0.1
 		*/
 
-		void setNumVertices(int _n_v)
+		void setNumVertices(int _n_v, bool setMax = true)
 		{
 			n_v = _n_v;
 
-			max_n_v = 2 * n_v;
+			if(setMax) max_n_v = 40 * n_v;
 		}
+
+
+		//--------------------------
+		//---- MAP METHODS
+		//--------------------------
+
+		/*! \brief This method adds the position given by input vector to the positionVertex Map.
+		*	\param		[in]		pos		- input position.
+		*	\param		[in]		index	- input vertex index in the vertex position container.
+		*	\since version 0.0.1
+		*/
+		
+		void addToPositionMap(zVector &pos, int index)
+		{
+			string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
+			positionVertex[hashKey] = index;
+		}
+
+		/*! \brief This method removes the position given by input vector from the positionVertex Map.
+		*	\param		[in]		pos		- input position.
+		*	\since version 0.0.1
+		*/
+
+		void removeFromPositionMap(zVector &pos)
+		{
+			string removeHashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
+			positionVertex.erase(removeHashKey);
+		}
+
+		/*! \brief This method adds both the half-edges given by input vertex indices to the VerticesEdge Map.
+		*	\param		[in]		v1		- input vertex index A.
+		*	\param		[in]		v2		- input vertex index B.
+		*	\param		[in]		index	- input edge index in the edge container.
+		*	\since version 0.0.1
+		*/
+
+		void addToVerticesEdge(int v1, int v2, int index)
+		{
+			string hashKey = (to_string(v1) + "," + to_string(v2));
+			verticesEdge[hashKey] = index;
+
+			string hashKey1 = (to_string(v2) + "," + to_string(v1));
+			verticesEdge[hashKey1] = index + 1;
+
+		}
+
+		/*! \brief This method removes both the half-edges given given by vertex input indices from the VerticesEdge Map.
+		*	\param		[in]		v1		- input vertex index A.
+		*	\param		[in]		v2		- input vertex index B.
+		*	\since version 0.0.1
+		*/
+
+		void removeFromVerticesEdge(int v1, int v2)
+		{
+			string removeHashKey = (to_string(v1) + "," + to_string(v2));
+			verticesEdge.erase(removeHashKey);	
+
+			string removeHashKey1 = (to_string(v2) + "," + to_string(v1));
+			verticesEdge.erase(removeHashKey1);
+		}
+
 
 
 		//--------------------------
@@ -634,15 +652,14 @@ namespace zSpace
 
 			if (max_n_e - edgeActive.size() < 4)
 			{
-				max_n_e *= 4;
+				max_n_e *= 80;
 				resizeArray(max_n_e, zEdgeData); // calls the resize in mesh 
 
 				out = true;
 
 			}
 
-			string hashKey = (to_string(v1) + "," + to_string(v2));
-			verticesEdge[hashKey] = edgeActive.size();
+			addToVerticesEdge(v1, v2, edgeActive.size());
 
 			edges[edgeActive.size()] = zEdge();
 
@@ -657,9 +674,6 @@ namespace zSpace
 			edgeWeights.push_back(1.0);
 
 			// SYMMETRY edge
-
-			string hashKey1 = (to_string(v2) + "," + to_string(v1));
-			verticesEdge[hashKey1] = edgeActive.size();
 
 			edges[edgeActive.size()] = zEdge();
 
@@ -694,14 +708,15 @@ namespace zSpace
 
 		/*! \brief This method sets the number of edges in zMesh  the input value.
 		*	\param		[in]		_n_e	- number of edges.
+		*	\param		[in]		setMax	- if true, sets max edges as amultiple of _n_e.
 		*	\since version 0.0.1
 		*/
 	
-		void setNumEdges(int _n_e)
+		void setNumEdges(int _n_e, bool setMax = true)
 		{
 			n_e = _n_e;
 
-			max_n_e = 2 * n_e;
+			if(setMax) max_n_e = 80 * n_e;
 		}
 
 		/*! \brief This method detemines if an edge already exists between input vertices.
@@ -820,129 +835,7 @@ namespace zSpace
 
 		}
 		
-		/*! \brief This method collapses an edge into vertex.
-		*
-		*	\param		[in]	edgeList	- indicies of the edges to be collapsed.
-		*	\since version 0.0.1
-		*/
 		
-		void collapseEdges(vector<int> &edgeList)
-		{
-
-			for (int i = 0; i < edgeList.size(); i++)
-			{
-				int currentEdgeId = edgeList[i];
-				int symEdgeId = edges[currentEdgeId].getSym()->getEdgeId();
-
-				vector<int> eVerts;
-				getVertices(edgeList[i], zEdgeData, eVerts);
-
-				vertexPositions[eVerts[0]] = (vertexPositions[eVerts[0]] + vertexPositions[eVerts[1]])* 0.5;
-
-				if (!checkVertexValency(eVerts[0]))
-				{
-					edges[currentEdgeId].getPrev()->setNext(edges[currentEdgeId].getSym()->getNext());
-				}
-				else if (!checkVertexValency(eVerts[1]))
-				{
-					edges[symEdgeId].getPrev()->setNext(edges[symEdgeId].getSym()->getNext());
-				}
-				else
-				{
-					// get connected edges
-					vector<int> cEdges;
-					getConnectedEdges(eVerts[1], zVertexData, cEdges);
-
-					for (int k = 0; k < cEdges.size(); k++)
-					{
-						edges[cEdges[k]].getSym()->setVertex(&vertices[eVerts[0]]);
-					}
-
-					edges[currentEdgeId].getNext()->setPrev(edges[currentEdgeId].getPrev());
-					edges[symEdgeId].getNext()->setPrev(edges[symEdgeId].getPrev());
-
-
-				}
-
-
-				edgeActive[currentEdgeId] = false;
-				edgeActive[symEdgeId] = false;
-				n_e -= 2;
-
-				vertexActive[eVerts[1]] = false;
-				n_v--;
-
-			}
-
-
-		}
-	
-		/*! \brief This method splits a set of edges of a graph in a continuous manner.
-		*
-		*	\param		[in]	edgeList		- indicies of the edges to be split.
-		*	\param		[in]	edgeFactor		- array of factors in the range [0,1] that represent how far along each edge must the split be done. This array must have the same number of elements as the edgeList array.
-		*	\param		[out]	splitVertexId	- stores indices of the new vertex per edge in the given input edgelist.
-		*	\since version 0.0.1
-		*/
-	
-		void splitEdges(vector<int> &edgeList, vector<double> &edgeFactor, vector<int> &splitVertexId)
-		{
-			splitVertexId.clear();
-
-			//split Edges
-			for (int i = 0; i < edgeList.size(); i++)
-			{
-				int currentEdgeId = edgeList[i];
-				int currentNextEdgeId = edges[edgeList[i]].getNext()->getEdgeId();
-				int symEdgeId = edges[edgeList[i]].getSym()->getEdgeId();
-				int symPrevEdgeId = edges[symEdgeId].getPrev()->getEdgeId();
-
-
-				zVector e = vertexPositions[edges[currentEdgeId].getVertex()->getVertexId()] - vertexPositions[edges[symEdgeId].getVertex()->getVertexId()];
-				double eLength = e.length();
-				e.normalize();
-
-				zVector vertPos = vertexPositions[edges[symEdgeId].getVertex()->getVertexId()];
-				zVector edge = e * edgeFactor[i] * eLength;
-				zVector newVertPos = vertPos + edge;
-
-
-				// check if vertex exists if not add new vertex
-				int VertId;
-				bool vExists = vertexExists(newVertPos, VertId);
-				if (!vExists)
-				{
-					addVertex(newVertPos);
-					VertId = vertexActive.size() - 1;
-				}
-				splitVertexId.push_back(VertId);
-
-				if (!vExists)
-				{
-					// add new edges
-					int v1 = VertId;
-					int v2 = edges[currentEdgeId].getVertex()->getVertexId();
-					addEdges(v1, v2);
-
-					// update vertex pointers
-					vertices[v1].setEdge(&edges[edgeActive.size() - 2]);
-					vertices[v2].setEdge(&edges[edgeActive.size() - 1]);
-
-					//// update pointers
-					edges[currentEdgeId].setVertex(&vertices[VertId]);			// current edge vertex pointer updated to new added vertex
-
-					edges[edgeActive.size() - 2].setNext(&edges[currentNextEdgeId]);		// new added edge next pointer to point to the next of current edge
-
-					edges[edgeActive.size() - 2].setPrev(&edges[currentEdgeId]);			// new added edge prev pointer to point to current edge
-
-																							// update symmetry edge pointers
-					edges[edgeActive.size() - 1].setNext(&edges[symEdgeId]);
-					edges[edgeActive.size() - 1].setPrev(&edges[symPrevEdgeId]);
-
-				}
-			}
-
-		}
 
 	
 	protected:

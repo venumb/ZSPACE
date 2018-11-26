@@ -94,6 +94,22 @@ namespace zSpace
 		return (val0 < val1) ? val0 : val1;
 	}
 
+	/*! \brief This method returns the minimum of the input container values.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	vals			- container of values.
+	*	\return 			double			- minimum value
+	*/
+
+	template <class T>
+	T zMin(vector<T> &vals)
+	{
+		vector<T> sortVals = vals;
+		std::sort(sortVals.begin(), sortVals.end());
+
+		return sortVals[0];
+	}
+
 	/*! \brief This method returns the maximum of the two input values.
 	*
 	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
@@ -106,6 +122,22 @@ namespace zSpace
 	T zMax(T val0, T val1)
 	{
 		return (val0 > val1) ? val0 : val1;
+	}
+
+	/*! \brief This method returns the maximun of the input container values.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	vals			- container of values.
+	*	\return 			double			- maximum value
+	*/
+
+	template <class T>
+	T zMax(vector<T> &vals)
+	{
+		vector<T> sortVals = vals;
+		std::sort(sortVals.begin(), sortVals.end());
+
+		return sortVals[sortVals.size() - 1];
 	}
 
 	/*! \brief This method returns a random number in the input domain.

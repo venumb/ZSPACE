@@ -31,7 +31,112 @@ namespace zSpace
 	*	\param		[in]	pos			- zVector holding the position information of the vertex.
 	*	\since version 0.0.1
 	*/
-	void deleteVertex(zMesh &inMesh, vector<int> &vertexList);
+	
+	void deleteVertex(zMesh &inMesh, vector<int> &vertexList)
+	{
+		for (int i = 0; i < vertexList.size(); i++)
+		{
+			// get connected edges
+			//vector<int> cEdges;
+			//inMesh.getConnectedEdges(vertexList[i], zVertexData, cEdges);
+
+			// check if it is a boundary vertex
+			if (inMesh.onBoundary(vertexList[i], zVertexData))
+			{
+
+			}
+			else
+			{
+
+				// get connected edges
+				vector<int> cFaces;
+				inMesh.getConnectedFaces(vertexList[i], zVertexData, cFaces);
+
+
+				printf("\n  cFaces :  ");
+				for (int k = 0; k < cFaces.size(); k++)
+				{
+					printf(" %i ", cFaces[k]);
+				}
+				int minFaceId = cFaces[0];
+
+				vector<int> temp_cFaceEdges;
+
+				for (int k = 0; k < cFaces.size(); k++)
+				{
+
+					vector<int> fEdges;
+					inMesh.getEdges(cFaces[k], zFaceData, fEdges);
+
+					for (int j = 0; j < fEdges.size(); j++)
+					{
+						printf("\n %i ", fEdges[j]);
+
+						temp_cFaceEdges.push_back(fEdges[j]);
+					}
+					
+				}
+
+				printf("\n temp_cFaceEdges : %i , minFaceId %i ", temp_cFaceEdges.size(), minFaceId);
+
+				// update edge pointers
+				for (int k = 0; k < temp_cFaceEdges.size(); k++)
+				{
+
+					
+
+					if (inMesh.edges[temp_cFaceEdges[k]].getVertex()->getVertexId() == vertexList[i])
+					{
+						// remove from verticesEdge map
+						inMesh.removeFromVerticesEdge(inMesh.edges[temp_cFaceEdges[k]].getVertex()->getVertexId(), inMesh.edges[temp_cFaceEdges[k]].getSym()->getVertex()->getVertexId());
+
+						inMesh.edges[temp_cFaceEdges[k]].getNext()->setPrev(inMesh.edges[temp_cFaceEdges[k]].getSym()->getPrev());
+
+						inMesh.edgeActive[inMesh.edges[temp_cFaceEdges[k]].getEdgeId()] = false;
+						inMesh.edgeActive[inMesh.edges[temp_cFaceEdges[k]].getSym()->getEdgeId()] = false;
+
+						int newNumEdges = inMesh.numEdges() - 2;
+						inMesh.setNumEdges(newNumEdges, false);
+					}
+
+					// update face containers
+
+					int faceId = inMesh.edges[temp_cFaceEdges[k]].getFace()->getFaceId();
+
+				
+					if (faceId != minFaceId && inMesh.faceActive[faceId] )
+					{
+
+						printf("\n %i : faceId : %i , minFaceId %i ", temp_cFaceEdges[k], faceId, minFaceId);
+
+						inMesh.faceActive[faceId] = false;
+						int newNumFaces = inMesh.numPolygons() - 1;
+						inMesh.setNumPolygons(newNumFaces, false);
+
+						
+					}
+
+					if(inMesh.edgeActive[temp_cFaceEdges[k]] ) inMesh.edges[temp_cFaceEdges[k]].setFace(&inMesh.faces[minFaceId]);
+					
+
+				}
+			}
+
+			// update vertex containers
+			inMesh.vertexActive[vertexList[i]] = false;
+
+			inMesh.vertexPositions[vertexList[i]] = zVector(10000, 10000, 10000); // dummy position for VBO
+			inMesh.vertexNormals[vertexList[i]] = zVector(0, 0, 1); // dummy normal for VBO
+			inMesh.vertexColors[vertexList[i]] = zColor(1, 1, 1,1); // dummy color for VBO
+
+			// remove from vertexPosition map
+			inMesh.removeFromPositionMap(inMesh.vertexPositions[vertexList[i]]);
+
+			int newNumVertices = inMesh.numVertices() - 1;
+			inMesh.setNumVertices(newNumVertices, false);			
+
+		}
+	}
 
 	/*! \brief This method collapses all the edges in the input edge list.
 	*
@@ -62,6 +167,7 @@ namespace zSpace
 
 	int splitEdge(zMesh &inMesh, int index, double edgeFactor = 0.5)
 	{
+		if( index > inMesh.numEdges()) throw std::invalid_argument(" error: index out of bounds.");
 
 		zEdge* edgetoSplit = &inMesh.edges[index];
 		zEdge* edgetoSplitSym = edgetoSplit->getSym();
@@ -169,12 +275,12 @@ namespace zSpace
 	*
 	*	\details based on  https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf & http://abitwise.blogspot.co.uk/2013/09/triangulating-concave-and-convex.html
 	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	faceIndex		- face index  of the face to be triangulated in the face array.
+	*	\param		[in]	faceIndex		- face index  of the face to be triangulated in the faces container.
 	*	\param		[out]	numTris			- number of triangles in the input polygon.
 	*	\param		[out]	tris			- index array of each triangle associated with the face.
 	*	\since version 0.0.1
 	*/
-	void polyTriangulate(zMesh &inMesh, int &faceIndex, int &numTris, vector<int> &tris)
+	void polyTriangulate(zMesh &inMesh, int faceIndex, int &numTris, vector<int> &tris)
 	{
 		double angle_Max = 90;
 		bool noEars = true; // check for if there are no ears
@@ -194,6 +300,7 @@ namespace zSpace
 			points.push_back(inMesh.vertexPositions[fVerts[i]]);
 		}
 
+		if (fVerts.size() < 3) throw std::invalid_argument(" error: invalid face, triangulation is not succesful.");
 
 		// compute 
 		zVector norm = inMesh.faceNormals[faceIndex];
@@ -209,13 +316,13 @@ namespace zSpace
 			zVector v1 = inMesh.vertexPositions[vertexIndices[nextId]] - inMesh.vertexPositions[vertexIndices[i]];
 			zVector v2 = inMesh.vertexPositions[vertexIndices[prevId]] - inMesh.vertexPositions[vertexIndices[i]];
 
-			zVector cross = norm ^ v1;
-			double ang = cross.angle(v2);
-		
-			if (ang < angle_Max) reflexVerts.push_back(false);
-			else reflexVerts.push_back(true);
+			zVector cross = v1 ^ v2;
+			double ang = v1.angle(v2);
 
-			
+			if (cross * norm < 0) ang *= -1;
+
+			if (ang <= 0 || ang == 180 ) reflexVerts.push_back(true);
+			else reflexVerts.push_back(false);
 
 			// calculate ears
 			if (!reflexVerts[i])
@@ -255,7 +362,15 @@ namespace zSpace
 			//printf("\n id: %i ang: %1.2f reflex: %s ear: %s", vertexIndices[i], ang, (reflexVerts[i] == true) ? "true" : "false",(ears[i] == true)?"true":"false");
 		}
 
-		if (noEars) throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+		if (noEars)
+		{
+			for (int i = 0; i < fVerts.size(); i++)
+			{
+				printf("\n %1.2f %1.2f %1.2f ", points[i].x, points[i].y, points[i].z);
+			}
+
+			throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+		}
 
 		int maxTris = fVerts.size() - 2;
 
@@ -281,85 +396,89 @@ namespace zSpace
 
 			if (earFound)
 			{
+				
+
 				for (int i = -1; i <= 1; i++)
 				{
-					int id = (earId + i + vertexIndices.size()) % vertexIndices.size();
+					int id = (earId + i + vertexIndices.size()) % vertexIndices.size();					
 					tris.push_back(vertexIndices[id]);
+				}
+				numTris++;
+				
+				// remove vertex earid 
+				vertexIndices.erase(vertexIndices.begin() + earId);
+							
+				reflexVerts.clear();
+				ears.clear();
 
-					if (i != 0)
+				// check for ears
+				for(int i = 0; i <vertexIndices.size(); i++)
+				{
+
+					int nextId = (i + 1) % vertexIndices.size();
+					int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
+
+					// Triangle edges - e1 and e2 defined above
+					zVector v1 = inMesh.vertexPositions[vertexIndices[nextId]] - inMesh.vertexPositions[vertexIndices[i]];
+					zVector v2 = inMesh.vertexPositions[vertexIndices[prevId]] - inMesh.vertexPositions[vertexIndices[i]];
+
+					zVector cross = v1 ^ v2;
+					double ang = v1.angle(v2);
+
+					if (cross * norm < 0) ang *= -1;
+
+					if(ang <= 0 || ang == 180 ) reflexVerts.push_back(true);
+					else reflexVerts.push_back(false);
+
+					// calculate ears
+					if (!reflexVerts[i])
 					{
-						// check if vertex are reflex or convex
-						bool reflex = true;
+						bool ear = true;
 
-						int nextId = (earId + 1) % vertexIndices.size();
-						int prevId = (id - 1 + vertexIndices.size()) % vertexIndices.size();
+						zVector p0 = inMesh.vertexPositions[vertexIndices[i]];
+						zVector p1 = inMesh.vertexPositions[vertexIndices[nextId]];
+						zVector p2 = inMesh.vertexPositions[vertexIndices[prevId]];
 
-						if (i == 1)
+						bool CheckPtTri = false;
+
+						for (int j = 0; j < vertexIndices.size(); j++)
 						{
-							nextId = (id + 1) % vertexIndices.size();
-							prevId = (earId - 1 + vertexIndices.size()) % vertexIndices.size();
-						}
-
-						// Triangle edges - e1 and e2 defined above
-						zVector v1 = inMesh.vertexPositions[vertexIndices[nextId]] - inMesh.vertexPositions[vertexIndices[id]];
-						zVector v2 = inMesh.vertexPositions[vertexIndices[prevId]] - inMesh.vertexPositions[vertexIndices[id]];
-
-						//printf("\n id: %i next: %i prev %i", id, nextId, prevId);
-
-																
-
-						zVector cross = norm ^ v1;
-						double ang = cross.angle(v2);
-
-						if (ang < angle_Max) reflex = false;
-
-						reflexVerts[id] = reflex;
-
-						// if it is convex check if it is ear
-						if (!reflex)
-						{
-							bool ear = true;						
-							zVector p0 = inMesh.vertexPositions[vertexIndices[id]];
-							zVector p1 = inMesh.vertexPositions[vertexIndices[nextId]];
-							zVector p2 = inMesh.vertexPositions[vertexIndices[prevId]];
-
-							bool CheckPtTri = false;
-
-							for (int j = 0; j < vertexIndices.size(); j++)
+							if (!CheckPtTri)
 							{
-								if (!CheckPtTri)
+								if (j != i && j != nextId && j != prevId)
 								{
-									if (j != i && j != nextId && j != prevId)
-									{
-										// vector to point to be checked
-										zVector pt = inMesh.vertexPositions[vertexIndices[j]];
+									// vector to point to be checked
+									zVector pt = inMesh.vertexPositions[vertexIndices[j]];
 
-										bool Chk = pointInTriangle(pt, p0, p1, p2);
-										CheckPtTri = Chk;
-
-									}
+									bool Chk = pointInTriangle(pt, p0, p1, p2);
+									CheckPtTri = Chk;
 								}
 							}
 
-							if (CheckPtTri) ear = false;
-							ears[id] = ear;
 						}
 
-						else ears[id] = false;
+						if (CheckPtTri) ear = false;
+						ears.push_back(ear);
+												
 					}
+					else ears.push_back(false);
+							
 
-
+					//printf("\n earId %i id: %i ang: %1.2f reflex: %s ear: %s", earId, vertexIndices[i], ang, (reflexVerts[i] == true) ? "true" : "false", (ears[i] == true) ? "true" : "false");
 				}
 
-				// remove vertex earid 
-				vertexIndices.erase(vertexIndices.begin() + earId);
-				reflexVerts.erase(reflexVerts.begin() + earId);
-				ears.erase(ears.begin() + earId);
+				
 
-				numTris++;
-			
 			}
-			else throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+			else
+			{
+				for (int i = 0; i < vertexIndices.size(); i++)
+				{
+					printf("\n %1.2f %1.2f %1.2f ", inMesh.vertexPositions[vertexIndices[i]].x, inMesh.vertexPositions[vertexIndices[i]].y, inMesh.vertexPositions[vertexIndices[i]].z);
+				}
+
+				throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+			}
 
 		}
 
@@ -368,6 +487,13 @@ namespace zSpace
 		tris.push_back(vertexIndices[1]);
 		tris.push_back(vertexIndices[2]);
 		numTris++;
+
+		printf("\n polygonVerts: %i numtris: %i ", fVerts.size(), numTris);
+
+	/*	for (int i = 0; i < tris.size(); i+= 3)
+		{
+			printf("\n %i %i %i ", tris[i], tris[i +1], tris[i+2]);
+		}*/
 
 	}
 
@@ -517,12 +643,110 @@ namespace zSpace
 	/*! \brief This method splits a set of edges and faces of a mesh in a continuous manner.
 	*
 	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	edgeList	- indicies of the edges to be split.
-	*	\param		[in]	edgeFactor	- array of factors in the range [0,1] that represent how far along each edge must the split be done. This array must have the same number of elements as the edgeList array.
+	*	\param		[in]	edgeList		- indicies of the edges to be split.
+	*	\param		[in]	edgeFactor		- array of factors in the range [0,1] that represent how far along each edge must the split be done. This array must have the same number of elements as the edgeList array.
 	*	\since version 0.0.1
 	*/
 	
-	void splitFaces(zMesh &inMesh, vector<int> &edgeList, vector<double> &edgeFactor);
+	void splitFaces(zMesh &inMesh, vector<int> &edgeList, vector<double> &edgeFactor)
+	{
+		if (edgeFactor.size() > 0)
+		{
+			if(edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
+		}
+		
+		int numOriginalVertices = inMesh.numVertices();
+		int numOriginalEdges = inMesh.numEdges();
+		int numOriginalFaces = inMesh.numPolygons();
+
+		for (int i = 0; i < edgeList.size(); i ++ )
+		{
+			if(edgeFactor.size() > 0) splitEdge(inMesh, edgeList[i], edgeFactor[i]);
+			else splitEdge(inMesh, edgeList[i]);
+		}
+
+		for (int j = 0; j <  edgeList.size(); j++)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				zEdge *start = (i ==0) ? &inMesh.edges[edgeList[j]] : inMesh.edges[edgeList[j]].getSym();
+
+				zEdge *e = start;
+
+				if (!start->getFace()) continue;
+
+				bool exit = false;
+
+				int v1 = start->getVertex()->getVertexId();
+				int v2 = start->getVertex()->getVertexId();
+
+				do
+				{
+					if (e->getNext())
+					{
+						e = e->getNext();
+						if (e->getVertex()->getVertexId() > numOriginalVertices)
+						{
+							v2 = e->getVertex()->getVertexId();
+							exit = true;
+						}
+					}
+					else exit = true;
+
+				} while (e != start && !exit);
+
+				// add new edges and face
+				if (v1 == v2) continue;
+
+				// check if edge exists continue loop. 
+				int outEdgeId;
+				bool eExists = inMesh.edgeExists(v1, v2, outEdgeId);
+
+				if (eExists) continue;
+
+				int startEdgeId = start->getEdgeId();
+				int e_EdgeId = e->getEdgeId();
+
+				bool resizeEdges = inMesh.addEdges(v1, v2);
+
+				if (resizeEdges)
+				{
+					start = &inMesh.edges[startEdgeId];
+					e = &inMesh.edges[e_EdgeId];
+				}
+
+				inMesh.addPolygon(); // empty polygon
+
+									 // update pointers
+				zEdge *start_next = start->getNext();
+				zEdge *e_next = e->getNext();
+
+				start->setNext(&inMesh.edges[inMesh.numEdges() - 2]);
+				e_next->setPrev(&inMesh.edges[inMesh.numEdges() - 2]);
+
+				start_next->setPrev(&inMesh.edges[inMesh.numEdges() - 1]);
+				e->setNext(&inMesh.edges[inMesh.numEdges() - 1]);
+
+				inMesh.faces[inMesh.numPolygons() - 1].setEdge(start_next);
+
+				// edge face pointers to new face
+				zEdge *newFace_E = start_next;
+
+				do
+				{
+					newFace_E->setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+
+					if (newFace_E->getNext()) newFace_E = newFace_E->getNext();
+					else exit = true;
+
+				} while (newFace_E != start_next && !exit);
+
+			}
+
+		}
+
+
+	}
 	
 
 	/*! \brief This method subdivides all the faces and edges of the mesh.
@@ -573,42 +797,94 @@ namespace zSpace
 				int numCurrentEdges = inMesh.numEdges();
 
 				// add new edges
-				for (int k = 0; k < fEdges.size(); k += 2)
+				int startId = 0; 
+				if (inMesh.edges[fEdges[0]].getVertex()->getVertexId() < numOriginalVertices) startId = 1;
+
+				for (int k = startId; k < fEdges.size() + startId; k += 2)
 				{
 					int v1 = inMesh.edges[fEdges[k]].getVertex()->getVertexId();
 					int v2 = numOriginalVertices + i; // face center
 					
 					bool edgesResize = inMesh.addEdges(v1, v2);
 
-					if (k == 0) inMesh.vertices[v2].setEdge(&inMesh.edges[inMesh.numEdges() - 1]);
+					if (k == startId) inMesh.vertices[v2].setEdge(&inMesh.edges[inMesh.numEdges() - 1]);
 					
 				}
 
 				// update pointers
-				for (int k = 0; k < fEdges.size(); k += 2)
+				if (startId == 0)
 				{
-					int prevId = ((k - 1 + fEdges.size()) % fEdges.size());
-
-					inMesh.edges[fEdges[k]].setNext(&inMesh.edges[numCurrentEdges + k ]);
-
-					inMesh.edges[numCurrentEdges + k ].setNext(&inMesh.edges[numCurrentEdges + prevId]);
-
-					inMesh.edges[numCurrentEdges + prevId].setNext(inMesh.edges[fEdges[k]].getPrev());
-					
-					// add face
-					if (k > 0)
+					for (int k = 0; k < fEdges.size(); k += 2)
 					{
-						bool facesResize = inMesh.addPolygon();
-						inMesh.faces[inMesh.numPolygons() -1].setEdge(&inMesh.edges[fEdges[k]]);
+						int prevId = ((k - 1 + fEdges.size()) % fEdges.size());
 
-						// update edge face pointers
-						inMesh.edges[fEdges[k]].setFace(&inMesh.faces[inMesh.numPolygons() -1]);
-						inMesh.edges[numCurrentEdges + k].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
-						inMesh.edges[numCurrentEdges + prevId].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
-						inMesh.edges[fEdges[k]].getPrev()->setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+						inMesh.edges[fEdges[k]].setNext(&inMesh.edges[numCurrentEdges + k]);
+
+						inMesh.edges[numCurrentEdges + k].setNext(&inMesh.edges[numCurrentEdges + prevId]);
+
+						inMesh.edges[numCurrentEdges + prevId].setNext(inMesh.edges[fEdges[k]].getPrev());
+
+
+						if (k > 0)
+						{
+							// add face
+							bool facesResize = inMesh.addPolygon();
+							inMesh.faces[inMesh.numPolygons() - 1].setEdge(&inMesh.edges[fEdges[k]]);
+
+							// update edge face pointers
+							inMesh.edges[fEdges[k]].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+							inMesh.edges[numCurrentEdges + k].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+							inMesh.edges[numCurrentEdges + prevId].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+							inMesh.edges[fEdges[k]].getPrev()->setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+						}
+						else
+						{
+							// update edge face pointers
+							inMesh.edges[numCurrentEdges + k].setFace(&inMesh.faces[i]);
+							inMesh.edges[numCurrentEdges + prevId].setFace(&inMesh.faces[i]);
+						}
+
 					}
-					
 				}
+				else
+				{
+					for (int k = 0; k < fEdges.size() ; k += 2)
+					{
+						int nextId = ((k + 1) % fEdges.size());
+
+						int prevId = ((k - 1 + fEdges.size()) % fEdges.size());
+
+						inMesh.edges[fEdges[nextId]].setNext(&inMesh.edges[numCurrentEdges + k]);
+
+						inMesh.edges[numCurrentEdges + k].setNext(&inMesh.edges[numCurrentEdges + prevId]);
+
+						inMesh.edges[numCurrentEdges + prevId].setNext(&inMesh.edges[fEdges[k]]);
+
+
+						if (k > 0)
+						{
+							// add face
+							bool facesResize = inMesh.addPolygon();
+							inMesh.faces[inMesh.numPolygons() - 1].setEdge(&inMesh.edges[fEdges[nextId]]);
+
+							// update edge face pointers
+							inMesh.edges[fEdges[k]].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+							inMesh.edges[numCurrentEdges + k].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+							inMesh.edges[numCurrentEdges + prevId].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+							inMesh.edges[fEdges[nextId]].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+						}
+						else
+						{
+							// update edge face pointers
+							inMesh.faces[i].setEdge(&inMesh.edges[fEdges[nextId]]);
+
+							inMesh.edges[numCurrentEdges + k].setFace(&inMesh.faces[i]);
+							inMesh.edges[numCurrentEdges + prevId].setFace(&inMesh.faces[i]);
+						}
+
+					}
+				}
+				
 			}
 
 			inMesh.computeMeshNormals();
@@ -617,13 +893,7 @@ namespace zSpace
 		
 	}
 
-	/*! \brief This method subdivides the face and contained edges of the mesh at the given input index.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
-	*	\since version 0.0.1
-	*/
-	void subDivideFace(zMesh &inMesh, int &index, int numDivisions);
+
 
 
 

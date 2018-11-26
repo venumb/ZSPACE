@@ -101,9 +101,9 @@ namespace zSpace
 
 
 			// set max size
-			max_n_v = _num_vertices * 4;
-			max_n_e = _num_edges * 8;
-			max_n_f = _num_polygons * 4;
+			max_n_v = _num_vertices * 40;
+			max_n_e = _num_edges * 80;
+			max_n_f = _num_polygons * 40;
 
 
 			vertices = new zVertex[max_n_v];
@@ -178,6 +178,7 @@ namespace zSpace
 		void getEdges(int index, zHEData type, vector<int> &edgeIndicies)
 		{
 			vector<int> out;
+			out.clear();
 
 			// Mesh Face 
 			if (type == zFaceData)
@@ -507,7 +508,7 @@ namespace zSpace
 			if (max_n_f - faceActive.size() < 2)
 			{
 
-				max_n_f *= 4;
+				max_n_f *= 40;
 				resizeArray(max_n_f, zFaceData);
 
 				out = true;
@@ -598,13 +599,15 @@ namespace zSpace
 
 		/*! \brief This method sets the number of faces in zMesh  the input value.
 		*	\param		[in]	_n_f	-	number of faces.
+		*	\param		[in]	setMax	- if true, sets max edges as amultiple of _n_e.
 		*	\since version 0.0.1
 		*/
 		
-		void setNumPolygons(int _n_f)
+		void setNumPolygons(int _n_f, bool setMax = true)
 		{
 			n_f = _n_f;
-			max_n_f = 2 * n_f;
+		
+			if(setMax) max_n_f = 40 * n_f;
 		}
 		
 		//--------------------------
@@ -819,43 +822,71 @@ namespace zSpace
 				vector<int> fVerts;
 				getVertices(i, zFaceData, fVerts);
 				
+				zVector fCen; // face center
+
 				vector<zVector> points;
 				for (int i = 0; i < fVerts.size(); i++)
 				{
 					points.push_back(vertexPositions[fVerts[i]]);
+
+					fCen += vertexPositions[fVerts[i]];
 				}
 
-				zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
-				cross.normalize();
-				
+				fCen /= fVerts.size();
+
+				zVector fNorm; // face normal
+
 				if (fVerts.size() != 3)
 				{
-					// compute best plane
-
-					zMatrixd bestPlane = getBestFitPlane(points);
-
-					zVector norm = fromMatrixColumn(bestPlane, 2);
-					norm.normalize();
-
-					printf("\n");
-					for (int k = 0; k < 3; k++)
+					for (int i = 0; i < fVerts.size(); i++)
 					{
-						vector<double> colVals = bestPlane.getCol(k);
-
-						printf("\n %1.2f %1.2f %1.2f ", colVals[0], colVals[1], colVals[2]);
-						
+						fNorm += (points[i] - fCen) ^ (points[(i + 1) % fVerts.size()] - fCen);
 					}
-					printf("\n");
-
-					// check if the cross vector and normal vector are facing the same direction i.e out of the face
-					norm *= (norm * cross < 0) ? -1 : 1;
-
-					faceNormals.push_back(norm);
 				}
 				else
 				{
-					faceNormals.push_back(cross);
+					zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
+					cross.normalize();
+					
+					fNorm = cross;
+
 				}
+				
+
+				fNorm.normalize();
+				faceNormals.push_back(fNorm);
+
+				//zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
+				//cross.normalize();
+				//
+				//if (fVerts.size() != 3)
+				//{
+				//	// compute best plane
+
+				//	zMatrixd bestPlane = getBestFitPlane(points);
+
+				//	zVector norm = fromMatrixColumn(bestPlane, 2);
+				//	norm.normalize();
+
+				//	printf("\n");
+				//	for (int k = 0; k < 3; k++)
+				//	{
+				//		vector<double> colVals = bestPlane.getCol(k);
+
+				//		printf("\n %1.2f %1.2f %1.2f ", colVals[0], colVals[1], colVals[2]);
+				//		
+				//	}
+				//	printf("\n");
+
+				//	// check if the cross vector and normal vector are facing the same direction i.e out of the face
+				//	norm *= (norm * cross < 0) ? -1 : 1;
+
+				//	faceNormals.push_back(norm);
+				//}
+				//else
+				//{
+				//	faceNormals.push_back(cross);
+				//}
 			}
 
 
@@ -891,18 +922,17 @@ namespace zSpace
 				{
 					resized[i].setVertexId(i);
 
-					if (vertices[i].getEdge())resized[i].setEdge(vertices[i].getEdge());
+					if (vertices[i].getEdge())resized[i].setEdge(&edges[vertices[i].getEdge()->getEdgeId()]);
 				}
 				for (int i = 0; i < edgeActive.size(); i++)
 				{
 					if (edges[i].getVertex()) edges[i].setVertex(&resized[edges[i].getVertex()->getVertexId()]);
 				}
-
+												
 				delete[] vertices;		
 
 				vertices = resized;
-
-				//delete[] resized;
+			
 				printf("\n mesh vertices resized. ");
 				
 			}
@@ -920,14 +950,16 @@ namespace zSpace
 					if (edges[i].getNext()) resized[i].setNext(&resized[edges[i].getNext()->getEdgeId()]);
 					if (edges[i].getPrev()) resized[i].setPrev(&resized[edges[i].getPrev()->getEdgeId()]);
 
-					if (edges[i].getVertex()) resized[i].setVertex(edges[i].getVertex());
-					if (edges[i].getFace()) resized[i].setFace(edges[i].getFace());
+					if (edges[i].getVertex()) resized[i].setVertex(&vertices[edges[i].getVertex()->getVertexId()]);
+					if (edges[i].getFace()) resized[i].setFace(&faces[edges[i].getFace()->getFaceId()]);
 
 				}
+				
 				for (int i = 0; i < vertexActive.size(); i++)
 				{
 					if (vertices[i].getEdge()) vertices[i].setEdge(&resized[vertices[i].getEdge()->getEdgeId()]);
 				}
+				
 				for (int i = 0; i < faceActive.size(); i++)
 				{
 					if (faces[i].getEdge()) faces[i].setEdge(&resized[faces[i].getEdge()->getEdgeId()]);
@@ -936,7 +968,6 @@ namespace zSpace
 
 				delete[] edges;
 				edges = resized;
-
 
 				printf("\n mesh edges resized. ");
 
@@ -951,7 +982,7 @@ namespace zSpace
 				for (int i = 0; i < faceActive.size(); i++)
 				{
 					resized[i].setFaceId(i);
-					if (faces[i].getEdge()) resized[i].setEdge(faces[i].getEdge());
+					if (faces[i].getEdge()) resized[i].setEdge(&edges[faces[i].getEdge()->getEdgeId()]);
 
 					//printf("\n %i : %i ", (resized[i].getEdge()) ? resized[i].getEdge()->getEdgeId():-1 , (faces[i].getEdge()) ? faces[i].getEdge()->getEdgeId():-1);
 				}
@@ -966,9 +997,8 @@ namespace zSpace
 				}
 
 				delete[] faces;
-				faces = resized;			
-
-				//delete[] resized;
+				faces = resized;	
+				
 				printf("\n mesh faces resized. ");
 			}
 
