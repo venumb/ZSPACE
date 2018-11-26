@@ -90,7 +90,7 @@ namespace zSpace
 						// remove from verticesEdge map
 						inMesh.removeFromVerticesEdge(inMesh.edges[temp_cFaceEdges[k]].getVertex()->getVertexId(), inMesh.edges[temp_cFaceEdges[k]].getSym()->getVertex()->getVertexId());
 
-						inMesh.edges[temp_cFaceEdges[k]].getNext()->setPrev(inMesh.edges[temp_cFaceEdges[k]].getSym()->getPrev());
+						inMesh.edges[temp_cFaceEdges[k]].getPrev()->setNext(inMesh.edges[temp_cFaceEdges[k]].getSym()->getNext());
 
 						inMesh.edgeActive[inMesh.edges[temp_cFaceEdges[k]].getEdgeId()] = false;
 						inMesh.edgeActive[inMesh.edges[temp_cFaceEdges[k]].getSym()->getEdgeId()] = false;
@@ -116,9 +116,14 @@ namespace zSpace
 						
 					}
 
-					if(inMesh.edgeActive[temp_cFaceEdges[k]] ) inMesh.edges[temp_cFaceEdges[k]].setFace(&inMesh.faces[minFaceId]);
-					
+					if (inMesh.edgeActive[temp_cFaceEdges[k]])
+					{
+						inMesh.edges[temp_cFaceEdges[k]].setFace(&inMesh.faces[minFaceId]);
 
+						inMesh.faces[minFaceId].setEdge(&inMesh.edges[temp_cFaceEdges[k]]);
+					}
+					
+					
 				}
 			}
 
