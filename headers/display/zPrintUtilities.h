@@ -111,36 +111,35 @@ namespace zSpace
 	
 	void printMesh(zMesh &inMesh)
 	{
+		// PRINT INFO
+
+		//FACES
+		int polyconnectsCurrentIndex = 0;
+
+		printf("\n ");
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
 		{
-			// PRINT INFO
+			if (inMesh.faceActive[i]) printf("\n face : %i edge:%i ", inMesh.faces[i].getFaceId(), (!inMesh.faces[i].getEdge()) ? -1 : inMesh.faces[i].getEdge()->getEdgeId());
 
-			//FACES
-			int polyconnectsCurrentIndex = 0;
-
-			printf("\n ");
-			for (int i = 0; i < inMesh.faceActive.size(); i++)
-			{
-				if (inMesh.faceActive[i]) printf("\n face : %i edge:%i ", inMesh.faces[i].getFaceId(), (!inMesh.faces[i].getEdge()) ? -1 : inMesh.faces[i].getEdge()->getEdgeId());
-
-			}
-			printf("\n ");
-
-			//EDGES
-			for (int i = 0; i < inMesh.edgeActive.size(); i += 1)
-			{
-				if (inMesh.edgeActive[i]) printf("\n edge: %i , vert: %i, sym: %i , next: %i, prev: %i , face: %i ", inMesh.edges[i].getEdgeId(), inMesh.edges[i].getVertex()->getVertexId(), inMesh.edges[i].getSym()->getEdgeId(), (!inMesh.edges[i].getNext()) ? -1 : inMesh.edges[i].getNext()->getEdgeId(), (!inMesh.edges[i].getPrev()) ? -1 : inMesh.edges[i].getPrev()->getEdgeId(), (!inMesh.edges[i].getFace()) ? -1 : inMesh.edges[i].getFace()->getFaceId());
-				//printf("\n ");
-			}
-			printf("\n ");
-
-			//VERTICES
-			for (int i = 0; i < inMesh.vertexActive.size(); i++)
-			{
-				if (inMesh.vertexActive[i]) printf("\n vertex : %i edge:%i ", inMesh.vertices[i].getVertexId(), (!inMesh.vertices[i].getEdge()) ? -1 : inMesh.vertices[i].getEdge()->getEdgeId());
-				//printf("\n ");
-			}
-			printf("\n ");
 		}
+		printf("\n ");
+
+		//EDGES
+		for (int i = 0; i < inMesh.edgeActive.size(); i += 1)
+		{
+			if (inMesh.edgeActive[i]) printf("\n edge: %i , vert: %i, sym: %i , next: %i, prev: %i , face: %i ", inMesh.edges[i].getEdgeId(), inMesh.edges[i].getVertex()->getVertexId(), inMesh.edges[i].getSym()->getEdgeId(), (!inMesh.edges[i].getNext()) ? -1 : inMesh.edges[i].getNext()->getEdgeId(), (!inMesh.edges[i].getPrev()) ? -1 : inMesh.edges[i].getPrev()->getEdgeId(), (!inMesh.edges[i].getFace()) ? -1 : inMesh.edges[i].getFace()->getFaceId());
+			//printf("\n ");
+		}
+		printf("\n ");
+
+		//VERTICES
+		for (int i = 0; i < inMesh.vertexActive.size(); i++)
+		{
+			if (inMesh.vertexActive[i]) printf("\n vertex : %i edge:%i ", inMesh.vertices[i].getVertexId(), (!inMesh.vertices[i].getEdge()) ? -1 : inMesh.vertices[i].getEdge()->getEdgeId());
+			//printf("\n ");
+		}
+		printf("\n ");
+		
 	}
 
 	/** @}*/ 

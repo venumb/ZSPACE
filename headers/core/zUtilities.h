@@ -192,6 +192,33 @@ namespace zSpace
 		return out;
 	}
 
+	/*! \brief This method checks if the input position exists in the map.
+	*
+	*	\param		[in]	map			- input map.
+	*	\param		[in]	pos			- input position.
+	*	\param		[out]	outVertexId	- index of the position in the map if it exists.
+	*	\return				bool		- true if the position exists in the map.
+	*/
+
+	bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int & outVertexId)
+	{
+		bool out = false;;
+
+
+		string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
+		std::unordered_map<std::string, int>::const_iterator got = positionVertex.find(hashKey);
+
+
+		if (got != positionVertex.end())
+		{
+			out = true;
+			outVertexId = got->second;
+		}
+
+
+		return out;
+	}
+
 	/** @}*/
 
 	/** @}*/

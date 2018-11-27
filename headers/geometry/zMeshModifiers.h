@@ -2,6 +2,8 @@
 #include <headers/geometry/zMesh.h>
 #include <headers/geometry/zMeshUtilities.h>
 
+
+
 namespace zSpace
 {
 	/** \addtogroup zGeometry
@@ -51,14 +53,8 @@ namespace zSpace
 				// get connected edges
 				vector<int> cFaces;
 				inMesh.getConnectedFaces(vertexList[i], zVertexData, cFaces);
-
-
-				printf("\n  cFaces :  ");
-				for (int k = 0; k < cFaces.size(); k++)
-				{
-					printf(" %i ", cFaces[k]);
-				}
-				int minFaceId = cFaces[0];
+							
+				int minFaceId = zMin(cFaces);
 
 				vector<int> temp_cFaceEdges;
 
@@ -70,20 +66,16 @@ namespace zSpace
 
 					for (int j = 0; j < fEdges.size(); j++)
 					{
-						printf("\n %i ", fEdges[j]);
-
 						temp_cFaceEdges.push_back(fEdges[j]);
 					}
 					
 				}
 
-				printf("\n temp_cFaceEdges : %i , minFaceId %i ", temp_cFaceEdges.size(), minFaceId);
-
-				// update edge pointers
+				
 				for (int k = 0; k < temp_cFaceEdges.size(); k++)
 				{
 
-					
+					// update edge pointers
 
 					if (inMesh.edges[temp_cFaceEdges[k]].getVertex()->getVertexId() == vertexList[i])
 					{
@@ -91,6 +83,10 @@ namespace zSpace
 						inMesh.removeFromVerticesEdge(inMesh.edges[temp_cFaceEdges[k]].getVertex()->getVertexId(), inMesh.edges[temp_cFaceEdges[k]].getSym()->getVertex()->getVertexId());
 
 						inMesh.edges[temp_cFaceEdges[k]].getPrev()->setNext(inMesh.edges[temp_cFaceEdges[k]].getSym()->getNext());
+
+						// vertex edge pointer update
+						inMesh.edges[temp_cFaceEdges[k]].getPrev()->getVertex()->setEdge(inMesh.edges[temp_cFaceEdges[k]].getSym()->getNext());
+
 
 						inMesh.edgeActive[inMesh.edges[temp_cFaceEdges[k]].getEdgeId()] = false;
 						inMesh.edgeActive[inMesh.edges[temp_cFaceEdges[k]].getSym()->getEdgeId()] = false;
@@ -102,12 +98,11 @@ namespace zSpace
 					// update face containers
 
 					int faceId = inMesh.edges[temp_cFaceEdges[k]].getFace()->getFaceId();
-
 				
 					if (faceId != minFaceId && inMesh.faceActive[faceId] )
 					{
 
-						printf("\n %i : faceId : %i , minFaceId %i ", temp_cFaceEdges[k], faceId, minFaceId);
+						//printf("\n %i : faceId : %i , minFaceId %i ", temp_cFaceEdges[k], faceId, minFaceId);
 
 						inMesh.faceActive[faceId] = false;
 						int newNumFaces = inMesh.numPolygons() - 1;
@@ -141,15 +136,10 @@ namespace zSpace
 			inMesh.setNumVertices(newNumVertices, false);			
 
 		}
-	}
 
-	/*! \brief This method collapses all the edges in the input edge list.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	edgeList	- indicies of the edges to be collapsed.
-	*	\since version 0.0.1
-	*/
-	void collapseEdges(zMesh &inMesh, vector<int> &edgeList);
+		inMesh.computeMeshNormals();
+	}
+		
 
 	/*! \brief This method collapses an edge into a vertex.
 	*
@@ -157,7 +147,15 @@ namespace zSpace
 	*	\param		[in]	index	- index of the edge to be collapsed.
 	*	\since version 0.0.1
 	*/
-	void collapseEdge(zMesh &inMesh, int index);
+	
+	void collapseEdge(zMesh &inMesh, int index)
+	{
+		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+
+
+	}
 
 
 
@@ -172,7 +170,8 @@ namespace zSpace
 
 	int splitEdge(zMesh &inMesh, int index, double edgeFactor = 0.5)
 	{
-		if( index > inMesh.numEdges()) throw std::invalid_argument(" error: index out of bounds.");
+		if( index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if ( !inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
 		zEdge* edgetoSplit = &inMesh.edges[index];
 		zEdge* edgetoSplitSym = edgetoSplit->getSym();
@@ -227,7 +226,7 @@ namespace zSpace
 				es_next = edgetoSplitSym->getNext();
 				es_prev = edgetoSplitSym->getPrev();
 
-				printf("\n working!");
+				//printf("\n working!");
 
 			}
 
@@ -240,11 +239,13 @@ namespace zSpace
 
 			inMesh.edges[inMesh.edgeActive.size() - 1].setNext(edgetoSplitSym);		// new added edge next pointer to point to the next of current edge
 			inMesh.edges[inMesh.edgeActive.size() - 1].setPrev(es_prev);
-			inMesh.edges[inMesh.edgeActive.size() - 1].setFace(edgetoSplitSym->getFace());
+			
+			if(edgetoSplitSym->getFace()) inMesh.edges[inMesh.edgeActive.size() - 1].setFace(edgetoSplitSym->getFace());
 
 			inMesh.edges[inMesh.edgeActive.size() - 2].setPrev(edgetoSplit);
 			inMesh.edges[inMesh.edgeActive.size() - 2].setNext(e_next);
-			inMesh.edges[inMesh.edgeActive.size() - 2].setFace(edgetoSplit->getFace());
+			
+			if (edgetoSplit->getFace()) inMesh.edges[inMesh.edgeActive.size() - 2].setFace(edgetoSplit->getFace());
 
 			// update verticesEdge map
 
@@ -491,14 +492,7 @@ namespace zSpace
 		tris.push_back(vertexIndices[0]);
 		tris.push_back(vertexIndices[1]);
 		tris.push_back(vertexIndices[2]);
-		numTris++;
-
-		printf("\n polygonVerts: %i numtris: %i ", fVerts.size(), numTris);
-
-	/*	for (int i = 0; i < tris.size(); i+= 3)
-		{
-			printf("\n %i %i %i ", tris[i], tris[i +1], tris[i+2]);
-		}*/
+		numTris++;		
 
 	}
 
@@ -516,10 +510,12 @@ namespace zSpace
 
 
 		// iterate through faces and triangulate faces with more than 3 vetices
-		int numfaces_before = inMesh.faceActive.size();
+		int numfaces_original = inMesh.faceActive.size();
+
+		int numEdges_original = inMesh.edgeActive.size();
 		//printf("\n numfaces_before: %i ", numfaces_before);
 
-		for (int i = 0; i < numfaces_before; i++)
+		for (int i = 0; i < numfaces_original; i++)
 		{
 			if (!inMesh.faceActive[i]) continue;
 
@@ -543,30 +539,42 @@ namespace zSpace
 					triVerts.push_back(Tri_connects[j * 3 + 1]);
 					triVerts.push_back(Tri_connects[j * 3 + 2]);
 
+					
+
 					// check if edges e01, e12 or e20
-					zEdge* e01 = NULL;
-					zEdge* e12 = NULL;
-					zEdge* e20 = NULL;
+					int e01_ID, e12_ID, e20_ID;
+					bool e01_Boundary = false;
+					bool e12_Boundary = false;
+					bool e20_Boundary = false;
 
 					for (int k = 0; k < triVerts.size(); k++)
 					{
 						int e;
-						bool eExists = inMesh.edgeExists(triVerts[k], triVerts[(k + 1) % triVerts.size()], e);
-
-						//printf("\n k: %i e : %i %i %s",k, triVerts[k], triVerts[(k + 1) % triVerts.size()], (eExists)?"true": "false");
+						bool eExists = inMesh.edgeExists(triVerts[k], triVerts[(k + 1) % triVerts.size()],  e);
+					
 
 						if (k == 0)
 						{
 
 							if (eExists)
 							{
-								e01 = &inMesh.edges[e];
+								e01_ID = e;
+
+								if (e01_ID < numEdges_original)
+								{
+									if (inMesh.onBoundary(e, zEdgeData))
+									{
+										e01_Boundary = true;
+										
+									}
+								}
+								
 
 							}
 							else
 							{
 								inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e01 = &inMesh.edges[inMesh.edgeActive.size() - 2];
+								e01_ID = inMesh.edgeActive.size() - 2;
 
 
 							}
@@ -577,12 +585,22 @@ namespace zSpace
 						{
 							if (eExists)
 							{
-								e12 = &inMesh.edges[e];
+								e12_ID =e;
+
+								if (e12_ID < numEdges_original)
+								{
+									if (inMesh.onBoundary(e, zEdgeData))
+									{
+										e12_Boundary = true;
+									}
+								}
+								
 							}
 							else
 							{
 								inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e12 = &inMesh.edges[inMesh.edgeActive.size() - 2];
+							
+								e12_ID = inMesh.edgeActive.size() - 2;
 							}
 						}
 
@@ -592,12 +610,23 @@ namespace zSpace
 						{
 							if (eExists)
 							{
-								e20 = &inMesh.edges[e];
+
+								e20_ID = e;
+
+								if (e20_ID < numEdges_original)
+								{
+									if (inMesh.onBoundary(e, zEdgeData))
+									{
+										e20_Boundary = true;
+										
+									}
+								}
+								
 							}
 							else
 							{
 								inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e20 = &inMesh.edges[inMesh.edgeActive.size() - 2];
+								e20_ID = inMesh.edgeActive.size() - 2;
 							}
 
 						}
@@ -606,32 +635,41 @@ namespace zSpace
 
 					}
 
+					zEdge* e01 = &inMesh.edges[e01_ID];
+					zEdge* e12 = &inMesh.edges[e12_ID];
+					zEdge* e20 = &inMesh.edges[e20_ID];
+
 			
 					// add face if the current face edge points to the edges of the current triangle
 
-					if (e01 != NULL && e12 != NULL && e20 != NULL)
+					if (j > 0)
 					{
-						if (inMesh.faces[i].getEdge() != e01 && inMesh.faces[i].getEdge() != e12 && inMesh.faces[i].getEdge() != e20)
-						{
-							inMesh.addPolygon();
-							inMesh.faces[inMesh.faceActive.size() - 1].setEdge(e01);
+						inMesh.addPolygon();
+						inMesh.faces[inMesh.faceActive.size() - 1].setEdge(e01);
 
-							e01->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
-							e12->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
-							e20->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
-						}
-						else
-						{
-							e01->setFace(&inMesh.faces[i]);
-							e12->setFace(&inMesh.faces[i]);
-							e20->setFace(&inMesh.faces[i]);
-						}
-
-						// update edge pointers
-						e01->setNext(e12);
-						e01->setPrev(e20);
-						e12->setNext(e20);
+						if (!e01_Boundary) e01->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
+						if (!e12_Boundary) e12->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
+						if (!e20_Boundary) e20->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
 					}
+					else
+					{
+						if (!e01_Boundary) inMesh.faces[i].setEdge(e01);
+						else if (!e12_Boundary) inMesh.faces[i].setEdge(e12);
+						else if (!e20_Boundary) inMesh.faces[i].setEdge(e20);
+
+
+						if (!e01_Boundary) e01->setFace(&inMesh.faces[i]);
+						if (!e12_Boundary) e12->setFace(&inMesh.faces[i]);
+						if (!e20_Boundary) e20->setFace(&inMesh.faces[i]);
+					}
+
+					// update edge pointers
+					e01->setNext(e12);
+					e01->setPrev(e20);
+					e12->setNext(e20);
+
+						
+					
 
 
 				}
@@ -660,9 +698,9 @@ namespace zSpace
 			if(edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
 		}
 		
-		int numOriginalVertices = inMesh.numVertices();
-		int numOriginalEdges = inMesh.numEdges();
-		int numOriginalFaces = inMesh.numPolygons();
+		int numOriginalVertices = inMesh.vertexActive.size();
+		int numOriginalEdges = inMesh.edgeActive.size();
+		int numOriginalFaces = inMesh.faceActive.size();
 
 		for (int i = 0; i < edgeList.size(); i ++ )
 		{
@@ -765,14 +803,35 @@ namespace zSpace
 	{
 		for (int j = 0; j < numDivisions; j++)
 		{
+
+			int numOriginalVertices = inMesh.vertexActive.size();
+
+			// split edges at center
+			int numOriginaledges = inMesh.edgeActive.size();
+
+			for (int i = 0; i < numOriginaledges; i += 2)
+			{
+				if(inMesh.edgeActive[i]) splitEdge(inMesh, i);
+			}
+
+			
 			// get face centers
 			vector<zVector> fCenters;
-			getCenters(inMesh, zFaceData, fCenters);
-
-			int numOriginalVertices = inMesh.numVertices();
-
-			for (int i = 0; i < fCenters.size(); i++)
+			getCenters(inMesh, zFaceData, fCenters);					
+	
+		
+			// add faces
+			int numOriginalfaces = inMesh.faceActive.size();
+			
+			for (int i = 0; i < numOriginalfaces; i++)
 			{
+				if (!inMesh.faceActive[i]) continue;
+		
+				vector<int> fEdges; 
+				inMesh.getEdges(i,zFaceData, fEdges);
+
+				int numCurrentEdges = inMesh.edgeActive.size();;
+
 				// check if vertex exists if not add new vertex
 				int VertId;
 				bool vExists = inMesh.vertexExists(fCenters[i], VertId);
@@ -780,26 +839,7 @@ namespace zSpace
 				{
 					inMesh.addVertex(fCenters[i]);
 					VertId = inMesh.vertexActive.size() - 1;
-				}				
-			}
-
-			// split edges at center
-			int numOriginaledges = inMesh.numEdges();
-
-			for (int i = 0; i < numOriginaledges; i += 2)
-			{
-				splitEdge(inMesh, i);
-			}
-
-			// add faces
-			int numOriginalfaces = inMesh.numPolygons();
-			
-			for (int i = 0; i < numOriginalfaces; i++)
-			{
-				vector<int> fEdges; 
-				inMesh.getEdges(i,zFaceData, fEdges);
-
-				int numCurrentEdges = inMesh.numEdges();
+				}
 
 				// add new edges
 				int startId = 0; 
@@ -808,9 +848,11 @@ namespace zSpace
 				for (int k = startId; k < fEdges.size() + startId; k += 2)
 				{
 					int v1 = inMesh.edges[fEdges[k]].getVertex()->getVertexId();
-					int v2 = numOriginalVertices + i; // face center
+					int v2 = VertId; // face center
 					
 					bool edgesResize = inMesh.addEdges(v1, v2);
+
+
 
 					if (k == startId) inMesh.vertices[v2].setEdge(&inMesh.edges[inMesh.numEdges() - 1]);
 					
@@ -833,7 +875,7 @@ namespace zSpace
 						if (k > 0)
 						{
 							// add face
-							bool facesResize = inMesh.addPolygon();
+							bool facesResize = inMesh.addPolygon();							
 							inMesh.faces[inMesh.numPolygons() - 1].setEdge(&inMesh.edges[fEdges[k]]);
 
 							// update edge face pointers
@@ -841,6 +883,7 @@ namespace zSpace
 							inMesh.edges[numCurrentEdges + k].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
 							inMesh.edges[numCurrentEdges + prevId].setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
 							inMesh.edges[fEdges[k]].getPrev()->setFace(&inMesh.faces[inMesh.numPolygons() - 1]);
+												
 						}
 						else
 						{
@@ -897,10 +940,6 @@ namespace zSpace
 		}
 		
 	}
-
-
-
-
 
 
 	//--------------------------

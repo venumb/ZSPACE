@@ -406,8 +406,7 @@ namespace zSpace
 				out = true;
 			}
 
-			string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
-			positionVertex[hashKey] = vertexActive.size();
+			addToPositionMap(pos, vertexActive.size());
 
 			vertices[vertexActive.size()] = zVertex();
 			vertices[vertexActive.size()].setVertexId(vertexActive.size());
@@ -449,8 +448,7 @@ namespace zSpace
 
 			}
 
-			string hashKey = (to_string(v1) + "," + to_string(v2));
-			verticesEdge[hashKey] = edgeActive.size();
+			addToVerticesEdge(v1, v2, edgeActive.size());
 
 			edges[edgeActive.size()] = zEdge();
 
@@ -465,10 +463,7 @@ namespace zSpace
 			edgeWeights.push_back(1.0);
 
 			// SYMMETRY edge
-
-			string hashKey1 = (to_string(v2) + "," + to_string(v1));
-			verticesEdge[hashKey1] = edgeActive.size();
-
+						
 			edges[edgeActive.size()] = zEdge();
 
 			edges[edgeActive.size()].setEdgeId(edgeActive.size());
@@ -814,79 +809,52 @@ namespace zSpace
 		void computeMeshNormals()
 		{
 			faceNormals.clear();
-
-			for (int i = 0; i < numPolygons(); i++)
+			
+			for (int i = 0; i < faceActive.size(); i++)
 			{
-				// get face vertices and correspondiing positions
-
-				vector<int> fVerts;
-				getVertices(i, zFaceData, fVerts);
-				
-				zVector fCen; // face center
-
-				vector<zVector> points;
-				for (int i = 0; i < fVerts.size(); i++)
+				if (faceActive[i])
 				{
-					points.push_back(vertexPositions[fVerts[i]]);
+					// get face vertices and correspondiing positions
 
-					fCen += vertexPositions[fVerts[i]];
-				}
+					vector<int> fVerts;
+					getVertices(i, zFaceData, fVerts);
 
-				fCen /= fVerts.size();
+					zVector fCen; // face center
 
-				zVector fNorm; // face normal
-
-				if (fVerts.size() != 3)
-				{
+					vector<zVector> points;
 					for (int i = 0; i < fVerts.size(); i++)
 					{
-						fNorm += (points[i] - fCen) ^ (points[(i + 1) % fVerts.size()] - fCen);
+						points.push_back(vertexPositions[fVerts[i]]);
+
+						fCen += vertexPositions[fVerts[i]];
 					}
+
+					fCen /= fVerts.size();
+
+					zVector fNorm; // face normal
+
+					if (fVerts.size() != 3)
+					{
+						for (int i = 0; i < fVerts.size(); i++)
+						{
+							fNorm += (points[i] - fCen) ^ (points[(i + 1) % fVerts.size()] - fCen);
+						}
+					}
+					else
+					{
+						zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
+						cross.normalize();
+
+						fNorm = cross;
+
+					}
+
+
+					fNorm.normalize();
+					faceNormals.push_back(fNorm);
 				}
-				else
-				{
-					zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
-					cross.normalize();
-					
-					fNorm = cross;
-
-				}
-				
-
-				fNorm.normalize();
-				faceNormals.push_back(fNorm);
-
-				//zVector cross = (points[1] - points[0]) ^ (points[fVerts.size() - 1] - points[0]);
-				//cross.normalize();
-				//
-				//if (fVerts.size() != 3)
-				//{
-				//	// compute best plane
-
-				//	zMatrixd bestPlane = getBestFitPlane(points);
-
-				//	zVector norm = fromMatrixColumn(bestPlane, 2);
-				//	norm.normalize();
-
-				//	printf("\n");
-				//	for (int k = 0; k < 3; k++)
-				//	{
-				//		vector<double> colVals = bestPlane.getCol(k);
-
-				//		printf("\n %1.2f %1.2f %1.2f ", colVals[0], colVals[1], colVals[2]);
-				//		
-				//	}
-				//	printf("\n");
-
-				//	// check if the cross vector and normal vector are facing the same direction i.e out of the face
-				//	norm *= (norm * cross < 0) ? -1 : 1;
-
-				//	faceNormals.push_back(norm);
-				//}
-				//else
-				//{
-				//	faceNormals.push_back(cross);
-				//}
+				else faceNormals.push_back(zVector());
+			
 			}
 
 

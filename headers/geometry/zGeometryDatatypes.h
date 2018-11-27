@@ -32,14 +32,23 @@ namespace zSpace
 	{
 
 	private:
-		int edgeId;		/*!< stores edgeId. It is unique per edge. 	*/
+		/*!	\brief stores edgeId. It is unique per edge. 	*/
+		int edgeId;		
 
-		zVertex *v;		/*!< pointer to zVertex	in vertex list.		*/
-		zFace *f;		/*!< pointer to zFace in face list.		*/
+		/*!	\brief pointer to zVertex	in vertex list.		*/
+		zVertex *v;	
 
-		zEdge *prev;	/*!< pointer to previous zEdge in a polygon.			*/
-		zEdge *next;	/*!< pointer to next zEdge in a polygon.			*/
-		zEdge *sym;		/*!< pointer to symmerty/twin zEdge  in edge list.			*/
+		/*!	\brief pointer to zFace in face list.		*/
+		zFace *f;		
+
+		/*!	\brief pointer to previous zEdge in a polygon.			*/
+		zEdge *prev;	
+
+		/*!	\brief pointer to next zEdge in a polygon.			*/
+		zEdge *next;
+
+		/*!	\brief pointer to symmerty/twin zEdge  in edge list.			*/
+		zEdge *sym;		
 
 	public:
 
@@ -231,8 +240,12 @@ namespace zSpace
 
 
 	private:
-		int vertexId;	/*!< stores vertexId. It is unique per vertex.		*/
-		zEdge *e;		/*!< pointer to zEdge starting at the current zVertex.		*/
+		
+		/*!	\brief stores vertexId. It is unique per vertex.		*/
+		int vertexId;	
+
+		/*!	\brief pointer to zEdge starting at the current zVertex.		*/
+		zEdge *e;		
 
 	public:
 		//--------------------------
@@ -332,8 +345,11 @@ namespace zSpace
 	{
 
 	private:
-		int faceId;		/*!< stores faceId. It is unique per polygon.		*/
-		zEdge *e;		/*!< pointer to one of the zEdge contained in the polygon.		*/
+		/*!	\brief stores faceId. It is unique per polygon.		*/
+		int faceId;	
+
+		/*!	\brief pointer to one of the zEdge contained in the polygon.		*/
+		zEdge *e;		
 
 	public:
 		/*! \brief Default constructor.

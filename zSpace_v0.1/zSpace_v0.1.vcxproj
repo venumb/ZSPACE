@@ -54,6 +54,8 @@
     <ClInclude Include="..\headers\geometry\zMesh.h" />
     <ClInclude Include="..\headers\geometry\zMeshModifiers.h" />
     <ClInclude Include="..\headers\geometry\zMeshUtilities.h" />
+    <ClInclude Include="..\headers\geometry\zScalarfield.h" />
+    <ClInclude Include="..\headers\geometry\zScalarFieldUtilities.h" />
     <ClInclude Include="..\headers\IO\zJSON.h" />
     <ClInclude Include="..\headers\IO\zIO.h" />
   </ItemGroup>

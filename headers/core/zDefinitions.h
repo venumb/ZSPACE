@@ -59,6 +59,12 @@ namespace zSpace
 	#define RAD_TO_DEG (180.0/PI)
 	#endif
 
+	/*!
+	*	\brief Defines the distance calculation tolerance.
+	*/
+	#ifndef distanceTolerance
+	#define distanceTolerance 0.00001
+	#endif
 
 	//--------------------------
 	//---- VBO DEFINITIONS

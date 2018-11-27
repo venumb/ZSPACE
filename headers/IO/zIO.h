@@ -122,26 +122,11 @@ namespace zSpace
 
 		myfile.close();
 
+	
 		inMesh = zMesh(positions, polyCounts, polyConnects,false);;
 		printf("\n inMesh: %i %i %i", inMesh.numVertices(), inMesh.numEdges(), inMesh.numPolygons());
 
 		setFaceNormals(inMesh,faceNormals);
-
-		// add to maps 
-		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
-		{
-			inMesh.addToPositionMap(inMesh.vertexPositions[i], i);
-		}
-
-
-		for (int i = 0; i < inMesh.numEdges(); i+= 2)
-		{
-			int v1 = inMesh.edges[i].getVertex()->getVertexId();
-			int v2 = inMesh.edges[i+1].getVertex()->getVertexId();
-
-			inMesh.addToVerticesEdge(v1, v2, i);
-		}
-
 	}
 
 	/*! \brief This method imports zMesh from a JSON file format using JSON Modern Library.

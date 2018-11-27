@@ -528,7 +528,335 @@ namespace zSpace
 	*/
 
 
+	//--------------------------
+	//--- UTILITY METHODS 
+	//--------------------------
+
+	/*! \brief This method stores input mesh connectivity information in the input containers
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	polyConnects	- stores list of polygon connection with vertex ids for each face.
+	*	\param		[out]	polyCounts		- stores number of vertices per polygon.
+	*	\since version 0.0.1
+	*/
+
+	void computePolyConnects_PolyCount(zMesh &inMesh, vector<int>(&polyConnects), vector<int>(&polyCounts))
+	{
+		polyConnects.clear();
+		polyCounts.clear();
+
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
+		{
+			if (!inMesh.faceActive[i]) continue;
+
+			vector<int> facevertices;
+			inMesh.getVertices(i, zFaceData, facevertices);
+
+			polyCounts.push_back(facevertices.size());
+
+			for (int j = 0; j < facevertices.size(); j++)
+			{
+				polyConnects.push_back(facevertices[j]);
+			}
+		}
+	}
+
+
+	/*! \brief This method combines the two disjoint meshes to one mesh.
+	*
+	*	\param		[in]	m1				- input mesh 1.
+	*	\param		[in]	m2				- input mesh 2.
+	*	\retrun				zMesh			- combined mesh.
+	*	\since version 0.0.1
+	*/
 	
+	zMesh combineDisjointMesh(zMesh &m1, zMesh &m2)
+	{
+		zMesh out;
+
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+
+		for (int i = 0; i < m1.vertexPositions.size(); i++)
+		{
+			positions.push_back(m1.vertexPositions[i]);
+		}
+
+		for (int i = 0; i < m2.vertexPositions.size(); i++)
+		{
+			positions.push_back(m2.vertexPositions[i]);
+		}
+
+		computePolyConnects_PolyCount(m1,polyConnects, polyCounts);
+
+		vector<int>temp_polyConnects;
+		vector<int>temp_polyCounts;
+		computePolyConnects_PolyCount(m2,temp_polyConnects, temp_polyCounts);
+
+		for (int i = 0; i < temp_polyConnects.size(); i++)
+		{
+			polyConnects.push_back(temp_polyConnects[i] + m1.vertexPositions.size());
+		}
+
+		for (int i = 0; i < temp_polyCounts.size(); i++)
+		{
+			polyCounts.push_back(temp_polyCounts[i]);
+		}
+
+		out = zMesh(positions, polyCounts, polyConnects);;
+
+		return out;
+	}
+
+
+	/*! \brief This method returns an extruded mesh from the input mesh.
+	*
+	*	\param		[in]	inMesh				- input mesh.
+	*	\param		[in]	extrudeThickness	- extrusion thickness.
+	*	\param		[in]	thicknessTris		- true if the cap needs to be triangulated.
+	*	\retrun				zMesh				- extruded mesh.
+	*	\since version 0.0.1
+	*/
+
+	zMesh extrudeMesh(zMesh &inMesh, float extrudeThickness, bool thicknessTris = false)
+	{
+		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
+
+		zMesh out;
+
+		vector<zVector> positions;
+		vector<int> polyCounts;
+		vector<int> polyConnects;
+
+		
+
+		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(inMesh.vertexPositions[i]);
+		}
+
+		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(inMesh.vertexPositions[i] + (inMesh.vertexNormals[i] * extrudeThickness));
+		}
+
+		for (int i = 0; i < inMesh.numPolygons(); i++)
+		{
+			vector<int> fVerts;
+			inMesh.getVertices(i, zFaceData, fVerts);
+
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				polyConnects.push_back(fVerts[j]);
+			}
+
+			polyCounts.push_back(fVerts.size());
+
+			for (int j = fVerts.size() - 1; j >= 0; j--)
+			{
+				polyConnects.push_back(fVerts[j] + inMesh.vertexPositions.size());
+			}
+
+			polyCounts.push_back(fVerts.size());
+
+		}
+
+
+		for (int i = 0; i < inMesh.numEdges(); i++)
+		{
+			if (inMesh.onBoundary(i, zEdgeData))
+			{
+				vector<int> eVerts;
+				inMesh.getVertices(i, zEdgeData, eVerts);
+
+				if (thicknessTris)
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + inMesh.vertexPositions.size());
+
+					polyConnects.push_back(eVerts[0] + inMesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + inMesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1]);
+
+					polyCounts.push_back(3);
+					polyCounts.push_back(3);
+				}
+				else
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + inMesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + inMesh.vertexPositions.size());
+
+
+					polyCounts.push_back(4);
+				}
+
+
+			}
+		}
+
+		out = zMesh(positions, polyCounts, polyConnects);
+
+		return out;
+	}
+
+	/*! \brief This method returns the offset positions of a polygon of the input mesh.
+	*
+	*	\details	beased on http://pyright.blogspot.com/2014/11/polygon-offset-using-vector-math-in.html
+	*	\param		[in]	inMesh				- input mesh.
+	*	\param		[in]	faceIndex			- face index.
+	*	\param		[in]	offset				- offset distance.
+	*	\param		[out]	offsetPositions		- container with the offset positions.
+	*	\since version 0.0.1
+	*/
+	
+	void offsetMeshFace(zMesh &inMesh, int faceIndex, double offset, vector<zVector>& offsetPositions)
+	{
+		vector<zVector> out;
+
+		vector<int> fVerts;
+		inMesh.getVertices(faceIndex, zFaceData, fVerts);
+
+		for (int j = 0; j < fVerts.size(); j++)
+		{
+			int next = (j + 1) % fVerts.size();
+			int prev = (j - 1 + fVerts.size()) % fVerts.size();
+
+
+			zVector Ori = inMesh.vertexPositions[fVerts[j]];;
+			zVector v1 = inMesh.vertexPositions[fVerts[prev]] - inMesh.vertexPositions[fVerts[j]];
+			v1.normalize();
+
+			zVector v2 = inMesh.vertexPositions[fVerts[next]] - inMesh.vertexPositions[fVerts[j]];
+			v2.normalize();
+
+			zVector v3 = v1;
+
+			v1 = v1 ^ v2;
+			v3 = v3 + v2;
+
+			double cs = v3 * v2;
+
+			zVector a1 = v2 * cs;
+			zVector a2 = v3 - a1;
+
+			double alpha = sqrt(a2.length() * a2.length());
+			if (cs < 0) alpha *= -1;
+
+			double length = offset / alpha;
+
+			zVector mPos = inMesh.vertexPositions[fVerts[j]];
+			zVector offPos = mPos + (v3 * length);
+
+			out.push_back(offPos);
+
+		}
+
+		offsetPositions = out;
+
+	}
+
+	/*! \brief This method returns the vartiable offset positions of a polygon of the input mesh.
+	*	
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	faceIndex				- face index.
+	*	\param		[in]	offsets					- offset distance from each edge of the mesh.
+	*	\param		[in]	faceCenter				- center of polygon.
+	*	\param		[in]	faceNormal				- normal of polygon.
+	*	\param		[out]	intersectionPositions	- container with the intersection positions.
+	*	\since version 0.0.1
+	*/
+
+	void offsetMeshFace_Variable(zMesh &m, int faceIndex, vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
+	{
+		vector<zVector> offsetPoints;
+		vector<int> fEdges;
+		m.getEdges(faceIndex, zFaceData, fEdges);
+
+		for (int j = 0; j < fEdges.size(); j++)
+		{
+			zVector p2 = m.vertexPositions[m.edges[fEdges[j]].getVertex()->getVertexId()];
+			zVector p1 = m.vertexPositions[m.edges[fEdges[j]].getSym()->getVertex()->getVertexId()];
+
+			zVector norm1 = ((p1 - p2) ^ faceNormal);
+			norm1.normalize();
+			if ((faceCenter - p1) * norm1 < 0) norm1 *= -1;
+
+
+			offsetPoints.push_back(p1 + norm1 * offsets[j]);
+			offsetPoints.push_back(p2 + norm1 * offsets[j]);
+
+		}
+
+
+		for (int j = 0; j < fEdges.size(); j++)
+		{
+			int prevId = (j - 1 + fEdges.size()) % fEdges.size();
+
+			zVector a0 = offsetPoints[j * 2];
+			zVector a1 = offsetPoints[j * 2 + 1];
+
+			zVector b0 = offsetPoints[prevId * 2];
+			zVector b1 = offsetPoints[prevId * 2 + 1];
+
+
+			double uA = -1;
+			double uB = -1;
+			bool intersect = line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
+
+			if (intersect)
+			{
+				//printf("\n %i working!! ", j);
+
+				zVector closestPt;
+
+				if (uA >= uB)
+				{
+					zVector dir = a1 - a0;
+					double len = dir.length();
+					dir.normalize();
+
+					if (uA < 0) dir *= -1;
+					closestPt = a0 + dir * len * uA;
+				}
+				else
+				{
+					zVector dir = b1 - b0;
+					double len = dir.length();
+					dir.normalize();
+
+					if (uB < 0) dir *= -1;
+
+					closestPt = b0 + dir * len * uB;
+				}
+
+
+				intersectionPositions.push_back(closestPt);
+			}
+
+		}
+	}
+
+
+	/*! \brief This method transforms the input mesh by the input transform matrix.
+	*
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	transform				- transfrom matrix.
+	*	\since version 0.0.1
+	*/
+
+	void transformMesh(zMesh &inMesh, zMatrixd& transform)
+	{
+		for (int j = 0; j < inMesh.vertexPositions.size(); j++)
+		{			
+			zVector newPos = inMesh.vertexPositions[j] * transform;
+			inMesh.vertexPositions[j] = newPos;		
+		}
+	}
 
 	/** @}*/
 

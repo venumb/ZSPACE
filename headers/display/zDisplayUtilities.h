@@ -285,14 +285,18 @@ namespace zSpace
 	void drawMesh_VertexNormals(zMesh &inMesh, double dispScale = 1)
 	{
 		
-		if (inMesh.vertexNormals.size() == 0 || inMesh.vertexNormals.size() != inMesh.numVertices()) throw std::invalid_argument(" error: mesh normals not computed.");
+		if (inMesh.vertexNormals.size() == 0 || inMesh.vertexNormals.size() != inMesh.vertexActive.size()) throw std::invalid_argument(" error: mesh normals not computed.");
 
-		for (int i = 0; i < inMesh.vertexNormals.size(); i++)
+		for (int i = 0; i < inMesh.vertexActive.size(); i++)
 		{
-			zVector p1 = inMesh.vertexPositions[i];
-			zVector p2 = p1 + (inMesh.faceNormals[i] * dispScale);
+			if (inMesh.vertexActive[i])
+			{
+				zVector p1 = inMesh.vertexPositions[i];
+				zVector p2 = p1 + (inMesh.faceNormals[i] * dispScale);
 
-			drawLine(p1, p2, zColor(0, 1, 0, 1));
+				drawLine(p1, p2, zColor(0, 1, 0, 1));
+			}
+			
 		}
 	
 	}
@@ -308,16 +312,20 @@ namespace zSpace
 
 	void drawMesh_FaceNormals(zMesh &inMesh, vector<zVector> &fCenters,  double dispScale = 1)
 	{
-		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.numPolygons()) throw std::invalid_argument(" error: mesh normals not computed.");
+		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) throw std::invalid_argument(" error: mesh normals not computed.");
 
-		if (inMesh.faceNormals.size() != fCenters.size()) throw std::invalid_argument(" error: number of face centers not equal to number of face normals.");
+		if (inMesh.faceActive.size() != fCenters.size()) throw std::invalid_argument(" error: number of face centers not equal to number of faces .");
 
-		for (int i = 0; i < inMesh.faceNormals.size(); i++)
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
 		{
-			zVector p1 = fCenters[i];
-			zVector p2 = p1 + (inMesh.faceNormals[i] * dispScale);
+			if (inMesh.faceActive[i])
+			{
+				zVector p1 = fCenters[i];
+				zVector p2 = p1 + (inMesh.faceNormals[i] * dispScale);
 
-			drawLine(p1, p2, zColor(0, 1, 0, 1));
+				drawLine(p1, p2, zColor(0, 1, 0, 1));
+			}
+			
 		}
 		
 	

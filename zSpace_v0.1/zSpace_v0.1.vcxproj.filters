@@ -95,5 +95,11 @@
     <ClInclude Include="..\headers\IO\zJSON.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\geometry\zScalarfield.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zScalarFieldUtilities.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

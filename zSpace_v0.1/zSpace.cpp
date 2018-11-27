@@ -24,6 +24,9 @@
 #include <headers/geometry/zMeshUtilities.h>
 #include <headers/geometry/zMeshModifiers.h>
 
+#include <headers/geometry/zScalarField.h>
+#include <headers/geometry/zScalarFieldUtilities.h>
+
 //--------------------------
 //---- zSPACE DISPLAY
 //--------------------------
