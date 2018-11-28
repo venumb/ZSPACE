@@ -120,6 +120,8 @@ namespace zSpace
 	#define GLIntSize sizeof(GLint)
 	#endif
 
+	
+
 
 
 	/** @}*/

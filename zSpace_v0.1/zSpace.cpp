@@ -1,43 +1,26 @@
 
 
 //--------------------------
-//---- zSPACE CORE
+//---- zCORE
 //--------------------------
-
-#include <headers/core/zVector.h>
-#include <headers/core/zMatrix.h>
-#include <headers/core/zColor.h>
-
-#include <headers/core/zVectorMatrixUtilities.h>
-#include <headers/core/zUtilities.h>
+#include <headers/include/zCore.h>
 
 //--------------------------
-//---- zSPACE GEOMETRY
+//---- zGEOMETRY
 //--------------------------
-
-#include <headers/geometry/zGeometryDatatypes.h>
-
-#include <headers/geometry/zGraph.h>
-#include <headers/geometry/zGraphUtilities.h>
-
-#include <headers/geometry/zMesh.h>
-#include <headers/geometry/zMeshUtilities.h>
-#include <headers/geometry/zMeshModifiers.h>
-
-#include <headers/geometry/zScalarField.h>
-#include <headers/geometry/zScalarFieldUtilities.h>
+#include <headers/include/zGeometry.h>
 
 //--------------------------
-//---- zSPACE DISPLAY
+//---- zData
 //--------------------------
-
-#include <headers/display/zPrintUtilities.h>
-#include <headers/display/zDisplayUtilities.h>
-#include <headers/display/zBufferObject.h>
-
+#include <headers/include/zData.h>
 
 //--------------------------
-//---- zSPACE DISPLAY
+//---- zDISPLAY
 //--------------------------
+#include <headers/include/zDisplay.h>
 
-#include <headers/IO/zIO.h>
+//--------------------------
+//---- zIO
+//--------------------------
+#include <headers/include/zIO.h>

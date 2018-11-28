@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Display">
       <UniqueIdentifier>{9b64b6b0-46ff-45bc-aeb6-5214eaa1c4d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Application">
-      <UniqueIdentifier>{4d240831-f272-426b-9e34-7ff3f3e22e7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\IO">
       <UniqueIdentifier>{94eb54f1-e7af-4eb8-b96f-2ae0557a1c6d}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,12 @@
     </Filter>
     <Filter Include="Header Files\Core">
       <UniqueIdentifier>{ec87ab1b-e316-4e2e-828f-1048a0c874ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Include">
+      <UniqueIdentifier>{7de56bb5-7d03-434f-b695-38dd47b35e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{5fafa59e-d163-4acc-bcf1-6097d9ea1253}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -89,9 +92,6 @@
     <ClInclude Include="..\headers\display\zBufferObject.h">
       <Filter>Header Files\Display</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\IO\zIO.h">
-      <Filter>Header Files\IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\IO\zJSON.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
@@ -100,6 +100,30 @@
     </ClInclude>
     <ClInclude Include="..\headers\geometry\zScalarFieldUtilities.h">
       <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\include\zCore.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\include\zGeometry.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\include\zDisplay.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\IO\zExchange.h">
+      <Filter>Header Files\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\include\zIO.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\data\zDatabase.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\include\zData.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\data\zOpenstreet.h">
+      <Filter>Header Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

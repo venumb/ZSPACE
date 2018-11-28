@@ -1,0 +1,510 @@
+#pragma once
+
+#include <headers/geometry/zMesh.h>
+#include <headers/geometry/zMeshUtilities.h>
+#include <headers/geometry/zMeshModifiers.h>
+
+#include <headers/geometry/zScalarField.h>
+#include <headers/geometry/zScalarFieldUtilities.h>
+
+#include <headers/data/zDatabase.h>
+
+namespace zSpace
+{
+
+	/** \addtogroup zData
+	*	\brief The data classes and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCityData
+	*	\brief The data classes and utility methods of the library.
+	*  @{
+	*/
+
+	/*! \struct zWays
+	*	\brief A struct for storing  information of OSM ways and street graph.
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	struct zWays
+	{
+		/*! \brief stores index of the way in a ways container.		*/
+		int id;
+
+		/*! \brief stores index of the OSM way.		*/
+		string OS_wayId;
+
+		/*! \brief container of streetgraph edges which correspond to the OSM way ID.		*/
+		vector<int> streetGraph_edgeId;
+
+		/*! \brief stores type of the building as given by OSM.		*/
+		zDataStreet streetType;
+
+	};
+
+
+	/** \addtogroup zData
+	*	\brief The data classes and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCityData
+	*	\brief The data classes and utility methods of the library.
+	*  @{
+	*/
+
+	/*! \struct zBuildings
+	*	\brief A struct for storing  information of OSM buildings and building graph.
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	struct zBuildings
+	{
+		/*! \brief stores index of the way in a buildings container.		*/
+		int id;
+
+		/*! \brief stores index of the OSM way.		*/
+		string OS_wayId;
+		
+		/*! \brief container of building graph edges which correspond to the OSM way ID.		*/
+		vector<int> buildingGraph_edgeId;
+
+		/*! \brief stores type of the building as given by OSM.		*/
+		zDataBuilding buildingType;	
+
+	};
+
+
+
+	/** \addtogroup zData
+	*	\brief The data classes and utility methods of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCityData
+	*	\brief The data classes and utility methods of the library.
+	*  @{
+	*/
+
+	/*! \class zOpenstreet
+	*	\brief A class for accessing the openstreet data and other city level data stored in a SQL database / CSV file.
+	*	\details Uses open source data from https://www.openstreetmap.org
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	class zOpenStreet
+	{
+		
+	public:
+
+		//--------------------------
+		//---- ATTRIBUTES
+		//--------------------------
+
+		//---- STREET ATTRIBUTES
+
+		/*! \brief stores current number of ways		*/
+		int n_zWays;		
+		
+		/*! \brief graph of the street network given by OSM		*/
+		zGraph streetGraph;		
+
+		/*! \brief zWays container		*/
+		zWays *way;
+
+		/*!	\brief street graph edgeId to wayId map. Used to get correponding wayId given the street graph EdgeId.  */
+		map <int, string> streetEdges_Way;
+
+		/*!	\brief wayId to street graph EdgeId map. Used to get correponding street graph EdgeId given the wayId.  */
+		unordered_map <string, int> way_streetEdges;
+
+		//---- BUILDING ATTRIBUTES
+
+		/*! \brief stores current number of buildings		*/
+		int n_zBuildings;
+
+		/*! \brief graph of the buildings given by OSM		*/
+		zGraph buildingGraph;	
+
+		/*! \brief zBuildings container		*/
+		zBuildings *buildings;
+
+		/*!	\brief building graph edgeId to wayId map. Used to get correponding wayId given the building graph EdgeId.  */
+		map <int, string> buildingEdges_Building;
+
+		/*!	\brief wayId to building graph EdgeId map. Used to get correponding building graph EdgeId given the wayId.  */
+		unordered_map <string, int> Building_buildingEdges;
+
+		//---- BOUNDS ATTRIBUTES
+
+		/*!	\brief bounds of OSM data in latitute and logitude.  */
+		double lat_lon[4];	
+
+		/*!	\brief minimum bounds of OSM data in 3D space given by a zVector.  */
+		zVector minBB;
+
+		/*!	\brief maximum bounds of OSM data in 3D space given by a zVector.  */
+		zVector maxBB;
+
+		//---- DATABASE ATTRIBUTES
+
+		/*!	\brief database needed to acces the OSM and other data.  */
+		zDatabase *zDB;
+
+		//---- FIELD ATTRIBUTES
+
+		/*!	\brief scalar field covering the bounds of data.  */
+		zScalarField2D scalarfield;
+
+		/*!	\brief mesh of the scalar field.  */
+		zMesh  fieldMesh;
+
+
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
+
+		/*! \brief Default constructor.
+		*
+		*	\since version 0.0.1
+		*/
+		zOpenStreet()
+		{
+			zDB = NULL;
+		}
+
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	DatabaseFileName		- file path to the SQL database.
+		*	\since version 0.0.1
+		*/
+		zOpenStreet(char* DatabaseFileName)
+		{
+			zDB = new zDatabase(DatabaseFileName);
+			zDB->close();
+		}
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
+		*
+		*	\since version 0.0.1
+		*/
+		~zOpenStreet(){}
+
+
+		//--------------------------
+		//---- COMPUTE METHODS
+		//--------------------------
+
+
+		/*! \brief This method computes the bounding box in 3D space of the OSM data from the  lat_lon container of the bounds.
+		*
+		*	\param		[in]	scaleFactor		- scale of the map to be displayed.
+		*	\since version 0.0.1
+		*/
+		void computeBoundingBox(double scaleFactor)
+		{
+			double diagonalDist = computeDistance(this->lat_lon[0], this->lat_lon[1], this->lat_lon[2], this->lat_lon[3]) * scaleFactor;
+
+			double distLat = computeDistance(this->lat_lon[0], this->lat_lon[1], this->lat_lon[2], this->lat_lon[1]) * scaleFactor;
+
+			double distLon = computeDistance(this->lat_lon[0], this->lat_lon[1], this->lat_lon[0], this->lat_lon[3]) * scaleFactor;
+
+			minBB = zVector(-distLon * 0.5, -distLat * 0.5, 0);
+			maxBB = zVector(distLon * 0.5, distLat * 0.5, 0);
+
+			printf("\n diagonal distance: %1.2f ", diagonalDist);
+		}
+
+		/*! \brief This method computes the distance between two geo-points given by input latitute and longitude.
+		*
+		*	\details based on https://www.movable-type.co.uk/scripts/latlong.html using Haversine formula.
+		*	\param		[in]	lat1		- latitude of geo-point 1.
+		*	\param		[in]	lon1		- longitude of geo-point 1.
+		*	\param		[in]	lat2		- latitude of geo-point 2.
+		*	\param		[in]	lon2		- longitude of geo-point 2.
+		*	\return				double		- distance between points in kilometers.
+		*	\since version 0.0.1
+		*/
+		double computeDistance(double &lat1, double &lon1, double &lat2, double &lon2)
+		{
+			double R = 6378.137; // Radius of earth in KM
+
+			double dLat = (lat2 * PI / 180) - (lat1 * PI / 180);
+			double dLon = (lon2 * PI / 180) - (lon1 * PI / 180);
+
+			double a = sin(dLat / 2) * sin(dLat / 2) + cos(lat1 * PI / 180) * cos(lat2 * PI / 180) * sin(dLon / 2) * sin(dLon / 2);
+			double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+			double d = R * c;
+
+			return d; // in kilometers
+		}
+
+		/*! \brief This method computes the 3D position based on the input latitude and longitude, using the bounds of the OSM data as the domain. 
+		*
+		*	\param		[in]	lat		- input latitude.
+		*	\param		[in]	lon		- input longitude.
+		*	\return				zVector	- output vector.
+		*	\since version 0.0.1
+		*/
+		zVector fromCoordinates(double &lat, double &lon)
+		{
+			double mappedX = ofMap(lon, lat_lon[1], lat_lon[3], minBB.x, maxBB.x);
+			double mappedY = ofMap(lat, lat_lon[0], lat_lon[2], minBB.y, maxBB.y);
+
+			//printf("\n X : %1.2f Y: %1.2f", mappedX, mappedY);
+
+			return zVector(mappedX, mappedY, 0);
+		}
+
+
+		/*! \brief This method computes the scalar field from the bounds and input resolution. It also computes the field mesh.
+		*
+		*	\param		[in]	_n_X		- number of pixels in x direction.
+		*	\param		[in]	_n_Y		- number of pixels in y direction.		
+		*/
+		void fieldFromBounds(int _n_X = 100, int _n_Y = 100)
+		{
+			this->scalarfield = zScalarField2D(this->minBB, this->maxBB, _n_X, _n_Y);
+
+			this->fieldMesh = fromScalarField2D(this->scalarfield);
+		}
+
+		
+
+		//--------------------------
+		//---- STREET GRAPH METHODS
+		//--------------------------
+
+		/*! \brief This method creates the street graph from the OSM data.
+		*
+		*	\param		[in]	edgeCol		- input color to be assigned to the edges of the graph.
+		*	\since version 0.0.1
+		*/
+		void createStreetGraph(zColor edgeCol = zColor(0, 0, 0, 1))
+		{
+			vector<zVector>(positions);
+			vector<int>(edgeConnects);
+
+			unordered_map <string, int> node_streetVertices;
+			map <int, string> streetVertices_Node;
+
+
+			vector<string> outStm_nodes;
+			vector<string> sqlStm_nodes = { " SELECT * FROM nodes WHERE id IN (SELECT node_id FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"highway\")) ;" };
+			bool stat = zDB->sqlCommand(sqlStm_nodes, zSelect, false, outStm_nodes, false);
+			
+
+			printf("\n outStm_nodes: %i", outStm_nodes.size());
+
+			for (int i = 0; i < outStm_nodes.size(); i += 3)
+			{
+
+
+				string hashKey = outStm_nodes[i];;
+				node_streetVertices[hashKey] = positions.size();
+
+				streetVertices_Node[positions.size()] = hashKey;
+
+				double lat = atof(outStm_nodes[i + 1].c_str());
+				double lon = atof(outStm_nodes[i + 2].c_str());
+
+				zVector pos = fromCoordinates(lat, lon);
+
+				positions.push_back(pos);
+
+
+			}
+
+			vector<string> outStm_ways;
+			vector<string> sqlStm_ways = { " SELECT * FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"highway\");" };
+			stat = zDB->sqlCommand(sqlStm_ways, zSelect, false, outStm_ways, false);
+
+		
+			way = new zWays[outStm_ways.size()];
+			n_zWays = 0;
+
+			for (int i = 0; i < outStm_ways.size() - 3; i += 3)
+			{
+				if (i != 0) i -= 3;
+
+				string wayId = outStm_ways[i];
+
+				way[n_zWays].id = n_zWays;
+				way[n_zWays].OS_wayId = wayId;
+
+
+
+				while (outStm_ways[i] == wayId && i <outStm_ways.size() - 3)
+				{
+					string hashKey = outStm_ways[i + 1];
+					std::unordered_map<string, int>::const_iterator got = node_streetVertices.find(hashKey);
+
+					if (got != node_streetVertices.end())
+					{
+						if (outStm_ways[i + 3] == wayId)
+						{
+							string hashKey1 = outStm_ways[i + 3 + 1].c_str();
+							std::unordered_map<string, int>::const_iterator got1 = node_streetVertices.find(hashKey1);
+							
+							if (got1 != node_streetVertices.end())
+							{
+								way[n_zWays].streetGraph_edgeId.push_back(edgeConnects.size());
+								streetEdges_Way[edgeConnects.size()] = wayId;
+								way_streetEdges[wayId] = edgeConnects.size();
+								edgeConnects.push_back(got->second);
+
+								way[n_zWays].streetGraph_edgeId.push_back(edgeConnects.size());
+								streetEdges_Way[edgeConnects.size()] = wayId;
+								way_streetEdges[wayId] = edgeConnects.size();
+								edgeConnects.push_back(got1->second);
+
+							}
+
+						}
+					}
+
+					i += 3;
+				}
+
+				n_zWays++;
+			}
+
+		
+			streetGraph = zGraph(positions, edgeConnects);
+
+			setEdgeColor(streetGraph, edgeCol, true);
+
+		}
+
+
+		//--------------------------
+		//---- BUILDING GRAPH METHODS
+		//--------------------------
+
+		/*! \brief This method creates the building graph from the OSM data.
+		*
+		*	\param		[in]	edgeCol		- input color to be assigned to the edges of the graph.
+		*	\since version 0.0.1
+		*/
+		void createBuildingGraph(zColor edgeCol = zColor(0, 0, 0, 1))
+		{
+			vector<zVector>(positions);
+			vector<int>(edgeConnects);
+
+			unordered_map <string, int> node_buildingVertices;
+			map <int, string> buildingVertices_Node;
+
+
+			vector<string> outStm_nodes;
+			vector<string> sqlStm_nodes = { " SELECT * FROM nodes WHERE id IN (SELECT node_id FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"building\")) ;" };
+			bool stat = zDB->sqlCommand(sqlStm_nodes, zSelect, false, outStm_nodes, false);
+
+			printf("\n outStm_nodes: %i", outStm_nodes.size());
+
+			for (int i = 0; i < outStm_nodes.size(); i += 3)
+			{
+
+
+				string hashKey = outStm_nodes[i];;
+				node_buildingVertices[hashKey] = positions.size();
+
+				buildingVertices_Node[positions.size()] = hashKey;
+
+				double lat = atof(outStm_nodes[i + 1].c_str());
+				double lon = atof(outStm_nodes[i + 2].c_str());
+
+				zVector pos = fromCoordinates(lat, lon);
+
+				positions.push_back(pos);
+
+
+			}
+
+			vector<string> outStm_ways;
+			vector<string> sqlStm_ways = { " SELECT * FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"building\");" };
+			stat = zDB->sqlCommand(sqlStm_ways, zSelect, false, outStm_ways, false);
+
+			printf("\n outStm_ways: %i", outStm_ways.size());
+
+			buildings = new zBuildings[outStm_ways.size()];
+			n_zBuildings = 0;
+
+			for (int i = 0; i < outStm_ways.size() - 3; i += 3)
+			{
+				if (i != 0) i -= 3;
+
+				string wayId = outStm_ways[i];
+
+				buildings[n_zBuildings].id = n_zBuildings;
+				buildings[n_zBuildings].OS_wayId = wayId;
+
+				while (outStm_ways[i] == wayId && i <outStm_ways.size() - 3)
+				{
+					string hashKey = outStm_ways[i + 1];
+					std::unordered_map<string, int>::const_iterator got = node_buildingVertices.find(hashKey);
+
+					if (got != node_buildingVertices.end())
+					{
+						if (outStm_ways[i + 3] == wayId)
+						{
+
+						
+							string hashKey1 = outStm_ways[i + 3 + 1].c_str();
+							std::unordered_map<string, int>::const_iterator got1 = node_buildingVertices.find(hashKey1);
+							
+
+							if (got1 != node_buildingVertices.end())
+							{
+								buildings[n_zBuildings].buildingGraph_edgeId.push_back(edgeConnects.size());
+								buildingEdges_Building[edgeConnects.size()] = wayId;
+								Building_buildingEdges[wayId] = edgeConnects.size();
+								edgeConnects.push_back(got->second);
+
+								buildings[n_zBuildings].buildingGraph_edgeId.push_back(edgeConnects.size());
+								buildingEdges_Building[edgeConnects.size()] = wayId;
+								Building_buildingEdges[wayId] = edgeConnects.size();
+								edgeConnects.push_back(got1->second);
+
+							}
+
+						}
+					}
+
+					i += 3;
+				}
+
+				n_zBuildings++;
+			}
+
+
+			buildingGraph = zGraph(positions, edgeConnects);
+			setEdgeColor(buildingGraph, edgeCol, true);
+		}
+
+
+
+		// UTILITIES
+
+
+		// shortest Distance between two points
+		void shortestDistance(double &lat1, double &lon1, double &lat2, double &lon2, string &nodeSubTableName, string &wayNodesSubTableName, string &wayTagsSubTableName);
+
+	};
+}

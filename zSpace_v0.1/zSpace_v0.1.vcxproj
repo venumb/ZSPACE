@@ -45,6 +45,8 @@
     <ClInclude Include="..\headers\core\zUtilities.h" />
     <ClInclude Include="..\headers\core\zVector.h" />
     <ClInclude Include="..\headers\core\zVectorMatrixUtilities.h" />
+    <ClInclude Include="..\headers\data\zDatabase.h" />
+    <ClInclude Include="..\headers\data\zOpenstreet.h" />
     <ClInclude Include="..\headers\display\zBufferObject.h" />
     <ClInclude Include="..\headers\display\zDisplayUtilities.h" />
     <ClInclude Include="..\headers\display\zPrintUtilities.h" />
@@ -56,8 +58,13 @@
     <ClInclude Include="..\headers\geometry\zMeshUtilities.h" />
     <ClInclude Include="..\headers\geometry\zScalarfield.h" />
     <ClInclude Include="..\headers\geometry\zScalarFieldUtilities.h" />
+    <ClInclude Include="..\headers\include\zCore.h" />
+    <ClInclude Include="..\headers\include\zData.h" />
+    <ClInclude Include="..\headers\include\zDisplay.h" />
+    <ClInclude Include="..\headers\include\zGeometry.h" />
+    <ClInclude Include="..\headers\include\zIO.h" />
     <ClInclude Include="..\headers\IO\zJSON.h" />
-    <ClInclude Include="..\headers\IO\zIO.h" />
+    <ClInclude Include="..\headers\IO\zExchange.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

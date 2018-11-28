@@ -38,12 +38,7 @@ namespace zSpace
 	
 	enum zColorType { zRGB = 40, zHSV };
 
-	/*! \enum	zDataLevel
-	*	\brief	Grid levels for data in London.
-	*	\since	version 0.0.1
-	*/
 
-	enum zDataLevel { zLsoaData = 50, zMsoaData, zPostcodeData };
 
 	/*! \enum	zIntergrationType
 	*	\brief	Integration types.
@@ -65,6 +60,36 @@ namespace zSpace
 	*/
 
 	enum zSlimeParameter { zSO = 80, zSA, zRA, zdepT};
+
+
+	/*! \enum	zSQLCommand
+	*	\brief SQLite database command types.
+	*	\since	version 0.0.1
+	*/
+
+	enum zSQLCommand { zCreate = 90, zInsert, zSelect, zSelectExists, zSelectCreate, zSelectCount, zUpdate, zDrop, zExportCSV };
+
+	/*! \enum	zDataLevel
+	*	\brief	Grid levels for data in London.
+	*	\since	version 0.0.1
+	*/
+
+	enum zDataLevel { zLsoaData = 50, zMsoaData, zPostcodeData };
+
+	
+	/*! \enum	zDataBuilding
+	*	\brief	Grid levels for data in London.
+	*	\since	version 0.0.1
+	*/
+
+	enum zDataBuilding { zCommercialBuilding = 20, zResidentialBuilding, zPublicBuilding, zUniversityBuilding, zUndefinedBuilding};
+	
+	/*! \enum	zDataRoad
+	*	\brief	Grid levels for data in London.
+	*	\since	version 0.0.1
+	*/
+
+	enum zDataStreet { zPrimaryStreet = 20, zSecondaryStreet, zTertiaryStreet, zResidentialStreet, zPedestrianStreet, zCycleway, zlink, zUndefinedStreet };
 
 
 	/** @}*/
