@@ -219,6 +219,37 @@ namespace zSpace
 		return out;
 	}
 
+	//--------------------------
+	//--- SPANNING TREE METHODS 
+	//--------------------------
+
+	/*! \brief This method returns the vertex with minimum distance value, from the set of vertices not yet included in shortest path tree. To be used with shortestDistance method.
+	*
+	*	\details based on Dijkstra’s shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
+	*	\param		[out]	dist					- container of distance to each vertex from source.
+	*	\param		[out]	sptSet					- container of shortest path tree for each vertex..
+	*	\since version 0.0.1
+	*/
+
+	int minDistance(vector<float> &dist, vector<bool> &sptSet)
+	{
+		if (dist.size() != sptSet.size()) throw std::invalid_argument("input container sizes are not equal.");
+
+		// Initialize min value 
+		int min = 100000, min_index;
+
+		for (int i = 0; i < dist.size(); i++)
+		{
+			if (!sptSet[i] && dist[i] <= min)
+			{
+				min = dist[i];
+				min_index = i;
+			}
+		}
+
+		return min_index;
+	}
+
 	/** @}*/
 
 	/** @}*/

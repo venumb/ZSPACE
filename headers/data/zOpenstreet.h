@@ -281,9 +281,12 @@ namespace zSpace
 		*/
 		void fieldFromBounds(int _n_X = 100, int _n_Y = 100)
 		{
-			this->scalarfield = zScalarField2D(this->minBB, this->maxBB, _n_X, _n_Y);
+			zVector offset(0.5, 0.5, 0);
 
-			this->fieldMesh = fromScalarField2D(this->scalarfield);
+			scalarfield = zScalarField2D(this->minBB - offset, this->maxBB + offset, _n_X, _n_Y);
+
+			fieldMesh = fromScalarField2D(this->scalarfield);
+			
 		}
 
 		
@@ -291,6 +294,46 @@ namespace zSpace
 		//--------------------------
 		//---- STREET GRAPH METHODS
 		//--------------------------
+
+		/*! \brief This method gets the street type from the OSM data for the given wayId if it corresponds to a street.
+		*
+		*	\param		[in]	wayId		- input wayId.
+		*	\since version 0.0.1
+		*/
+		zDataStreet getStreetType(string wayId)
+		{
+			vector<string> outStm;
+			vector<string> sqlStm = { "SELECT v FROM ways_tags WHERE ways_tags.id = " + wayId + ";" };
+			bool stat = zDB->sqlCommand(sqlStm, zSelect, false, outStm, false);
+
+		
+
+			zDataStreet out = zUndefinedStreet;
+
+			if (outStm.size() > 0)
+			{
+				if (outStm[0] == "trunk" || outStm[0] == "trunk_link") out = zTrunkStreet;
+				
+				if (outStm[0] == "primary" || outStm[0] == "primary_link") out = zPrimaryStreet;
+
+				if (outStm[0] == "secondary" || outStm[0] == "secondary_link") out = zSecondaryStreet;
+
+				if (outStm[0] == "tertiary" || outStm[0] == "tertiary_link") out = zTertiaryStreet;
+
+				if (outStm[0] == "residential" || outStm[0] == "living_street") out = zResidentialStreet;
+
+				if (outStm[0] == "pedestrian" || outStm[0] == "footway") out = zPrimaryStreet;
+				
+				if (outStm[0] == "cycleway" ) out = zCycleStreet;
+
+				if (outStm[0] == "service") out = zServiceStreet;				
+				
+			}
+			
+
+			return out;
+
+		}
 
 		/*! \brief This method creates the street graph from the OSM data.
 		*
@@ -349,6 +392,7 @@ namespace zSpace
 				way[n_zWays].id = n_zWays;
 				way[n_zWays].OS_wayId = wayId;
 
+				way[n_zWays].streetType = getStreetType(wayId);
 
 
 				while (outStm_ways[i] == wayId && i <outStm_ways.size() - 3)
@@ -386,17 +430,57 @@ namespace zSpace
 				n_zWays++;
 			}
 
+
+						
+
 		
 			streetGraph = zGraph(positions, edgeConnects);
+
+
 
 			setEdgeColor(streetGraph, edgeCol, true);
 
 		}
-
+		
 
 		//--------------------------
 		//---- BUILDING GRAPH METHODS
 		//--------------------------
+
+		/*! \brief This method gets the street type from the OSM data for the given wayId if it corresponds to a street.
+		*
+		*	\param		[in]	wayId		- input wayId.
+		*	\since version 0.0.1
+		*/
+		zDataBuilding getBuildingType(string wayId)
+		{
+			vector<string> outStm;
+			vector<string> sqlStm = { "SELECT v FROM ways_tags WHERE ways_tags.id = " + wayId + ";" };
+			bool stat = zDB->sqlCommand(sqlStm, zSelect, false, outStm, false);
+
+
+
+			zDataBuilding out = zUndefinedBuilding;
+
+			if (outStm.size() > 0)
+			{
+				if (outStm[0] == "office" || outStm[0] == "commercial" || outStm[0] == "hotel" || outStm[0] == "theatre" || outStm[0] == "retail" ) out = zCommercialBuilding;
+				if (outStm[0] == "Commercial" || outStm[0] == "Arts_&_Office_Complex" || outStm[0] == "shop" || outStm[0] == "offices") out = zCommercialBuilding;
+
+				if (outStm[0] == "apartments" || outStm[0] == "flats" || outStm[0] == "residential" || outStm[0] == "council_flats" ) out = zResidentialBuilding;
+				if (outStm[0] == "house" || outStm[0] == "hall_of_residence" || outStm[0] == "Student hostel") out = zResidentialBuilding;
+
+				if (outStm[0] == "gallery" || outStm[0] == "hospital" || outStm[0] == "church" || outStm[0] == "place_of_worship" || outStm[0] == "museum" || outStm[0] == "cathedral" ) out = zPublicBuilding;
+				if (outStm[0] == "railway_station" || outStm[0] == "Community_Building" || outStm[0] == "train_station" || outStm[0] == "station" || outStm[0] == "civic") out = zPublicBuilding;
+
+				if (outStm[0] == "school" || outStm[0] == "university" || outStm[0] == "college" || outStm[0] == "Nursery,_School") out = zUniversityBuilding;
+				
+			}
+
+
+			return out;
+
+		}
 
 		/*! \brief This method creates the building graph from the OSM data.
 		*
@@ -455,6 +539,8 @@ namespace zSpace
 				buildings[n_zBuildings].id = n_zBuildings;
 				buildings[n_zBuildings].OS_wayId = wayId;
 
+				buildings[n_zBuildings].buildingType = getBuildingType(wayId);
+
 				while (outStm_ways[i] == wayId && i <outStm_ways.size() - 3)
 				{
 					string hashKey = outStm_ways[i + 1];
@@ -499,12 +585,30 @@ namespace zSpace
 		}
 
 
+		//--------------------------
+		//---- FIELD DATA METHODS
+		//--------------------------
 
-		// UTILITIES
+		void updateScalars_GraphConnectivity(zGraph& inGraph)
+		{
+			for (int i = 0; i < scalarfield.getNumScalars(); i++)
+			{
+				scalarfield.setWeight(0.0,i);
+			}
 
+			for (int i = 0; i < inGraph.vertexActive.size(); i++)
+			{
+				if (!inGraph.vertexActive[i]) continue;
 
-		// shortest Distance between two points
-		void shortestDistance(double &lat1, double &lon1, double &lat2, double &lon2, string &nodeSubTableName, string &wayNodesSubTableName, string &wayTagsSubTableName);
+				int fieldIndex = scalarfield.getIndex(inGraph.vertexPositions[i]);
+
+				int valence = inGraph.getVertexValence((double)i, zVertexData);		
+								
+				scalarfield.setWeight(valence, fieldIndex);			
+
+			}
+		}
+	
 
 	};
 }

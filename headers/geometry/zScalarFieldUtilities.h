@@ -84,12 +84,31 @@ namespace zSpace
 	*	\param	[out]	dMax	- stores the maximum scalar value
 	*	\param	[in]	buffer	- buffer of scalars.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void getMinMaxOfScalars(vector<double>& scalars, double &dMin, double &dMax)
 	{
 		dMin = zMin(scalars);
 		dMax = zMax(scalars);		
+	}
+
+	/*! \brief This method computes the min and max scalar values at the given Scalars buffer.
+	*
+	*	\param	[out]	dMin	- stores the minimum scalar value
+	*	\param	[out]	dMax	- stores the maximum scalar value
+	*	\param	[in]	buffer	- buffer of scalars.
+	*	\since version 0.0.1
+	*/
+	void getMinMaxOfScalars(zScalarField2D &scalarfield, double &dMin, double &dMax)
+	{
+		dMin = 1000000;
+		dMax = -1000000;
+		
+		for (int i = 0; i < scalarfield.getNumScalars(); i++)
+		{
+			dMin = zMin(scalarfield.getWeight(i), dMin);
+			dMax = zMax(scalarfield.getWeight(i), dMax);
+		}
+	
 	}
 
 	/*! \brief This method normalises the scalar values at the given field buffer.
@@ -584,7 +603,7 @@ namespace zSpace
 	}
 
 
-	/*! \brief This method updates the color values at the given field buffer.
+	/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
 	*
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
@@ -593,22 +612,139 @@ namespace zSpace
 	
 	void updateColors(zMesh &fieldMesh, vector<double>& scalars)
 	{
-		if (fieldMesh.vertexPositions.size() != scalars.size()) return;
-
-		double dMax, dMin;
-		getMinMaxOfScalars(scalars, dMin, dMax);
-
-		for (int i = 0; i < scalars.size(); i++)
+		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
+			double dMax, dMin;
+			getMinMaxOfScalars(scalars, dMin, dMax);
+
+			for (int i = 0; i < scalars.size(); i++)
+			{
+				zColor col;
+
+				double outMin = 0.00;
+				double outMax = 1.00;
+				double val = ofMap(scalars[i], dMin, dMax, outMin, outMax);
+
+				col.r = val;
+				if (fieldMesh.vertexActive.size() == scalars.size()) fieldMesh.vertexColors[i] = col;
+				else fieldMesh.faceColors[i] = col;
+			}
+
+			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeFaceColorfromVertexColor();
+		}
+		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
+
+	}
+
+	/*! \brief This method updates the color values of the field mesh based on the scalarfield. Gradient - Black to Red
+	*
+	*	\param	[in]	fieldMesh	- input field mesh.
+	*	\param	[in]	field		- scalar field.
+	*	\since version 0.0.1
+	*/
+
+	void updateColors(zMesh &fieldMesh, zScalarField2D &field)
+	{
+		double dMax, dMin;
+		getMinMaxOfScalars(field, dMin, dMax);
+
+		printf("\n min max: %1.2f %1.2f", dMin, dMax);
+
+		for (int i = 0; i < field.getNumScalars(); i++)
+		{
+			double scalar = field.getWeight(i);
+
 			zColor col;
 
 			double outMin = 0.00;
 			double outMax = 1.00;
-			double val = ofMap(scalars[i], dMin, dMax, outMin, outMax);
+			double val = ofMap(scalar, dMin, dMax, outMin, outMax);
 
 			col.r = val;
-			fieldMesh.vertexColors[i] = col;
+
+			fieldMesh.faceColors[i] = col;
+
+			if (i % 10 == 0) printf("\n %i : %1.2f %1.2f %1.2f ", i, fieldMesh.faceColors[i].r, fieldMesh.faceColors[i].g, fieldMesh.faceColors[i].b);
 		}
+
+		fieldMesh.computeVertexColorfromFaceColor();
+	}
+
+	/*! \brief This method updates the color values of the field mesh based on the scalar values.
+	*
+	*	\param	[in]	fieldMesh	- input field mesh.
+	*	\param	[in]	scalars		- container of  scalar values.
+	*	\param	[in]	col1		- blend color 1.
+	*	\param	[in]	col2		- blend color 2.
+	*	\since version 0.0.1
+	*/
+	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2)
+	{
+		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
+		{
+			double dMax, dMin;
+			getMinMaxOfScalars(scalars, dMin, dMax);
+
+			for (int i = 0; i < scalars.size(); i++)
+			{
+				zColor col;
+
+				//convert to HSV
+				col1.toHSV(); col2.toHSV();
+
+				col.h = ofMap(scalars[i], dMin, dMax, col1.h, col2.h);
+				col.s = ofMap(scalars[i], dMin, dMax, col1.s, col2.s);
+				col.v = ofMap(scalars[i], dMin, dMax, col1.v, col2.v);
+
+				col.toRGB();
+
+				if (fieldMesh.vertexActive.size() == scalars.size()) fieldMesh.vertexColors[i] = col;
+				else fieldMesh.faceColors[i] = col;
+			}
+
+			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeFaceColorfromVertexColor();				
+			
+		}
+
+		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
+	}
+
+
+	/*! \brief This method updates the color values of the field mesh based on the scalarField.
+	*
+	*	\param	[in]	fieldMesh	- input field mesh.
+	*	\param	[in]	field		- scalar field.
+	*	\param	[in]	col1		- blend color 1.
+	*	\param	[in]	col2		- blend color 2.
+	*	\since version 0.0.1
+	*/
+	void updateBlendColors(zMesh &fieldMesh, zScalarField2D &field, zColor &col1, zColor &col2)
+	{
+		double dMax, dMin;
+		getMinMaxOfScalars(field, dMin, dMax);
+
+		printf("\n min max: %1.2f %1.2f", dMin, dMax);
+
+		for (int i = 0; i < field.getNumScalars(); i++)
+		{
+			double scalar = field.getWeight(i);
+
+			zColor col;
+
+			
+
+			col.h = ofMap(scalar, dMin, dMax, col1.h, col2.h);
+			col.s = ofMap(scalar, dMin, dMax, col1.s, col2.s);
+			col.v = ofMap(scalar, dMin, dMax, col1.v, col2.v);
+
+			col.toRGB();
+
+			fieldMesh.faceColors[i] = col;
+
+			if(i%10 == 0) printf("\n %i : %1.2f %1.2f %1.2f ",i, fieldMesh.faceColors[i].r, fieldMesh.faceColors[i].g, fieldMesh.faceColors[i].b);
+		}
+
+		fieldMesh.computeVertexColorfromFaceColor();		
 	}
 
 	//--------------------------

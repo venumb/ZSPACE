@@ -461,6 +461,7 @@ namespace zSpace
 				colors[(i * vertexColorStride) + 0] = _colors[i].r;
 				colors[(i * vertexColorStride) + 1] = _colors[i].g;
 				colors[(i * vertexColorStride) + 2] = _colors[i].b;
+				colors[(i * vertexColorStride) + 3] = _colors[i].a;
 			}
 
 

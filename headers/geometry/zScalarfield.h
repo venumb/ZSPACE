@@ -328,8 +328,9 @@ namespace zSpace
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return scalars[index].weight;
-		}
-			
+		}			
+
+		
 
 		/*! \brief This method gets the index of the scalar at the input position.
 		*

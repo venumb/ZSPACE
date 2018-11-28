@@ -211,6 +211,29 @@ namespace zSpace
 
 		inGraphJSON.from_json(j_in, inGraph);
 	}
+
+
+	/*! \brief This method creates zGraph from a input zMesh.
+	*
+	*	\param [in]		inGraph				- graph created from the JSON file.
+	*	\param [in]		inMesh				- input mesh.
+	*	\since version 0.0.1
+	*/
+	void fromMESH(zGraph &inGraph, zMesh &inMesh)
+	{
+		
+		vector<int>edgeConnects;		
+
+		for (int i = 0; i < inMesh.numEdges(); i += 2)
+		{
+			edgeConnects.push_back(inMesh.edges[i + 1].getVertex()->getVertexId());
+			edgeConnects.push_back(inMesh.edges[i ].getVertex()->getVertexId());
+		}
+
+
+		inGraph = zGraph(inMesh.vertexPositions, edgeConnects);
+
+	}
 	
 	/** @}*/
 

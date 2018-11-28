@@ -858,6 +858,171 @@ namespace zSpace
 		}
 	}
 
+
+	//--------------------------
+	//--- WALK METHODS 
+	//--------------------------
+	
+
+	/*! \brief This method computes the shortest path from the source vertex to all vertices of the mesh.
+	*
+	*	\details based on Dijkstra’s shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	index					- source vertex index.
+	*	\param		[out]	dist					- container of distance to each vertex from source.
+	*	\param		[out]	parent					- container of parent vertex index of each to each vertex. Required to get the path information.
+	*	\since version 0.0.1
+	*/
+
+	void shortestDistance(zMesh &inMesh, int index, vector<float> &dist , vector<int> &parent)
+	{
+		float maxDIST = 100000;
+		
+		dist.clear();
+		parent.clear();
+
+		vector<bool> sptSet;
+
+		// Initialize all distances as INFINITE and stpSet[] as false 
+		for (int i = 0; i < inMesh.vertexActive.size(); i++)
+		{
+			dist.push_back(maxDIST);
+			sptSet.push_back(false);
+			
+			parent.push_back(-2);
+		}
+
+		// Distance of source vertex from itself is always 0 
+		dist[index] = 0;
+		parent[index] = -1;
+
+		// Find shortest path for all vertices 
+		for (int i = 0; i < inMesh.vertexActive.size(); i++)
+		{
+			if (!inMesh.vertexActive[i]) continue;
+
+			// Pick the minimum distance vertex from the set of vertices not 
+			// yet processed. u is always equal to src in the first iteration. 
+			int u = minDistance(dist, sptSet);
+
+			// Mark the picked vertex as processed 
+			sptSet[u] = true;
+
+			// Update dist value of the adjacent vertices of the picked vertex. 
+			
+			vector<int> cVerts;
+			inMesh.getConnectedVertices(u, zVertexData, cVerts);
+
+			for (int j = 0; j < cVerts.size(); j++)
+			{
+				int v = cVerts[j];
+				float distUV = inMesh.vertexPositions[u].distanceTo(inMesh.vertexPositions[v]);
+
+				if (!sptSet[v] && dist[u] != maxDIST && dist[u] + distUV < dist[v])
+				{
+					dist[v] = dist[u] + distUV;
+					parent[v] = u;
+				}
+			}
+				
+		}
+
+
+	}
+
+
+	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the mesh.
+	*
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	indexA					- source vertex index.
+	*	\param		[in]	indexB					- destination vertex index.
+	*	\param		[out]	edgePath				- container of edges of the shortest path.
+	*	\since version 0.0.1
+	*/
+	void shortestPath(zMesh &inMesh, int indexA, int indexB, vector<int> &edgePath)
+	{
+		edgePath.clear();
+
+		if (indexA >inMesh.vertexActive.size()) throw std::invalid_argument("indexA out of bounds.");
+		if (indexB >inMesh.vertexActive.size()) throw std::invalid_argument("indexB out of bounds.");
+
+		vector<float> dists;
+		vector<int> parent;
+
+		// get Dijkstra shortest distance spanning tree
+		shortestDistance(inMesh, indexA, dists, parent);
+
+		int id = indexB;
+
+		do
+		{
+			int nextId = parent[id];
+			if (nextId != -1)
+			{
+				// get the edge if it exists
+				int eId;
+				bool chkEdge = inMesh.edgeExists(id, nextId, eId);
+
+				if (chkEdge)
+				{
+					// update edge visits
+					edgePath.push_back(eId);
+				}
+			}
+
+
+			id = nextId;
+
+		} while (id != -1);
+
+	}
+
+	/*! \brief This method computes the shortest path from the all vertices to all vertices of a mesh and returns the number of times an edge is visited in those walks.
+	*
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[out]	edgeVisited				- container of number of times edge is visited.
+	*	\since version 0.0.1
+	*/
+	void shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
+	{
+		edgeVisited.clear();
+
+		// initialise edge visits to 0
+		for (int i = 0; i < inMesh.numEdges(); i++)
+		{
+			edgeVisited.push_back(0);
+		}
+
+		for (int i = 0; i < inMesh.numVertices(); i++)
+		{
+			vector<float> dists;
+			vector<int> parent;
+
+			// get Dijkstra shortest distance spanning tree
+			shortestDistance(inMesh, i, dists, parent);
+
+			// compute shortes path from all vertices to current vertex 
+			for (int j = 0; j < inMesh.numVertices(); j++)
+			{
+				if (j == i) continue;
+
+				vector<int> edgePath;
+				shortestPath(inMesh, i, j, edgePath);
+
+				for (int k = 0; k < edgePath.size(); k++)
+				{
+					// update edge visits
+					edgeVisited[edgePath[k]]++;
+
+					// adding to the other half edge
+					(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
+				}
+
+			}
+		}
+	}
+
+
 	/** @}*/
 
 	/** @}*/
