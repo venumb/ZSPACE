@@ -2,10 +2,12 @@ var searchData=
 [
   ['deg_5fto_5frad',['DEG_TO_RAD',['../group__z_core_definitions.html#ga212460e743fecb084d717bb2180c5a56',1,'zDefinitions.h']]],
   ['deleteedge',['deleteEdge',['../group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897',1,'zSpace']]],
-  ['deletevertex',['deleteVertex',['../classz_space_1_1z_graph.html#a28f12855df46e385a46ecbad497e6ed4',1,'zSpace::zGraph::deleteVertex()'],['../group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c',1,'zSpace::deleteVertex()']]],
+  ['deletevertex',['deleteVertex',['../group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c',1,'zSpace']]],
   ['det',['det',['../classz_space_1_1z_matrix.html#a131871f68be2ee2f7679c3e1154d5d44',1,'zSpace::zMatrix']]],
+  ['difference_5ffields',['difference_fields',['../group__z_scalar_field2_d_utilities.html#ga85a7941898597ec1f94aea7d9239fec4',1,'zSpace']]],
   ['dihedralangle',['dihedralAngle',['../classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c',1,'zSpace::zVector']]],
   ['distanceto',['distanceTo',['../classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca',1,'zSpace::zVector']]],
+  ['distancetolerance',['distanceTolerance',['../group__z_core_definitions.html#ga1005943df60918b9e5e3d5b48e277a87',1,'zDefinitions.h']]],
   ['drawgraph',['drawGraph',['../group__z_display_utilities.html#ga19e4aa1b12bc2b30484025feecb7554c',1,'zSpace']]],
   ['drawline',['drawLine',['../group__z_display_utilities.html#gaec82cd49ab7e71265e211454bf3f721b',1,'zSpace']]],
   ['drawlinesfrombuffer',['drawLinesFromBuffer',['../group__z_display_utilities.html#gab4216758386b722eca9fb84d9ae5553e',1,'zSpace']]],

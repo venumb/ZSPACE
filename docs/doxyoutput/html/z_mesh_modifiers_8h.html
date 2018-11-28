@@ -94,11 +94,19 @@ $(document).ready(function(){initNavTree('z_mesh_modifiers_8h.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="z_mesh_8h_source.html">headers/geometry/zMesh.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="z_mesh_utilities_8h_source.html">headers/geometry/zMeshUtilities.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for zMeshModifiers.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="z_mesh_modifiers_8h__incl.png" border="0" usemap="#_c_1_2_users_2vishu_8b_2source_2repos_2z_space__v0_81_2headers_2geometry_2z_mesh_modifiers_8h" alt=""/></div>
 <map name="_c_1_2_users_2vishu_8b_2source_2repos_2z_space__v0_81_2headers_2geometry_2z_mesh_modifiers_8h" id="_c_1_2_users_2vishu_8b_2source_2repos_2z_space__v0_81_2headers_2geometry_2z_mesh_modifiers_8h">
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="z_mesh_modifiers_8h__dep__incl.png" border="0" usemap="#_c_1_2_users_2vishu_8b_2source_2repos_2z_space__v0_81_2headers_2geometry_2z_mesh_modifiers_8hdep" alt=""/></div>
+<map name="_c_1_2_users_2vishu_8b_2source_2repos_2z_space__v0_81_2headers_2geometry_2z_mesh_modifiers_8hdep" id="_c_1_2_users_2vishu_8b_2source_2repos_2z_space__v0_81_2headers_2geometry_2z_mesh_modifiers_8hdep">
 </map>
 </div>
 </div>
@@ -112,33 +120,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga56943ee67286e3e3e483446993fd165e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga56943ee67286e3e3e483446993fd165e">zSpace::polyTriangulate</a> (zMesh &amp;inMesh, int &amp;faceIndex, int &amp;numTris, vector&lt; int &gt; &amp;tris, bool computeNormal=true)</td></tr>
-<tr class="memdesc:ga56943ee67286e3e3e483446993fd165e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input polygon using ear clipping algorithm based on : <a href="https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf">https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf</a>.  <a href="group__z_mesh_modifiers.html#ga56943ee67286e3e3e483446993fd165e">More...</a><br /></td></tr>
-<tr class="separator:ga56943ee67286e3e3e483446993fd165e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabff84040156141178b2a9474171d9c48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gabff84040156141178b2a9474171d9c48">zSpace::triangulate</a> (zMesh &amp;inMesh, bool computeNormal=false)</td></tr>
-<tr class="memdesc:gabff84040156141178b2a9474171d9c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input mesh.  <a href="group__z_mesh_modifiers.html#gabff84040156141178b2a9474171d9c48">More...</a><br /></td></tr>
-<tr class="separator:gabff84040156141178b2a9474171d9c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaeda022d590a10b38c94e75bc0e278d80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80">zSpace::splitFaces</a> (zMesh &amp;inMesh, vector&lt; int &gt; &amp;edgeList, vector&lt; double &gt; &amp;edgeFactor)</td></tr>
-<tr class="memdesc:gaeda022d590a10b38c94e75bc0e278d80"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits a set of edges and faces of a mesh in a continuous manner.  <a href="group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80">More...</a><br /></td></tr>
-<tr class="separator:gaeda022d590a10b38c94e75bc0e278d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaa9902fbf3ac2600afbf54335c286760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760">zSpace::subDivideMesh</a> (zMesh &amp;inMesh, int numDivisions)</td></tr>
-<tr class="memdesc:gaaa9902fbf3ac2600afbf54335c286760"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method subdivides all the faces and edges of the mesh.  <a href="group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760">More...</a><br /></td></tr>
-<tr class="separator:gaaa9902fbf3ac2600afbf54335c286760"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga482d1395c9c9142a5b2425f43ec22a5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga482d1395c9c9142a5b2425f43ec22a5c">zSpace::subDivideFace</a> (zMesh &amp;inMesh, int &amp;index, int numDivisions)</td></tr>
-<tr class="memdesc:ga482d1395c9c9142a5b2425f43ec22a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method subdivides the face and contained edges of the mesh at the given input index.  <a href="group__z_mesh_modifiers.html#ga482d1395c9c9142a5b2425f43ec22a5c">More...</a><br /></td></tr>
-<tr class="separator:ga482d1395c9c9142a5b2425f43ec22a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5890a69c67d5749099678ef906c7278c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c">zSpace::deleteVertex</a> (zMesh &amp;inMesh, vector&lt; int &gt; &amp;vertexList)</td></tr>
 <tr class="memdesc:ga5890a69c67d5749099678ef906c7278c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method deletes the <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> vertices given in the input vertex list.  <a href="group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c">More...</a><br /></td></tr>
 <tr class="separator:ga5890a69c67d5749099678ef906c7278c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga735c073dbaa8d7842d933528fa3ff32c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga735c073dbaa8d7842d933528fa3ff32c">zSpace::collapseEdges</a> (zMesh &amp;inMesh, vector&lt; int &gt; &amp;edgeList)</td></tr>
-<tr class="memdesc:ga735c073dbaa8d7842d933528fa3ff32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method collapses all the edges in the input edge list.  <a href="group__z_mesh_modifiers.html#ga735c073dbaa8d7842d933528fa3ff32c">More...</a><br /></td></tr>
-<tr class="separator:ga735c073dbaa8d7842d933528fa3ff32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0f643cfd962151320e13a7bad7fdcc40"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga0f643cfd962151320e13a7bad7fdcc40">zSpace::collapseEdge</a> (zMesh &amp;inMesh, int index)</td></tr>
 <tr class="memdesc:ga0f643cfd962151320e13a7bad7fdcc40"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method collapses an edge into a vertex.  <a href="group__z_mesh_modifiers.html#ga0f643cfd962151320e13a7bad7fdcc40">More...</a><br /></td></tr>
 <tr class="separator:ga0f643cfd962151320e13a7bad7fdcc40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga569d44ca3ec7c951ac43f960b1fc486a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga569d44ca3ec7c951ac43f960b1fc486a">zSpace::splitEdges</a> (zMesh &amp;inMesh, vector&lt; int &gt; &amp;edgeList, vector&lt; double &gt; &amp;edgeFactor, vector&lt; int &gt; &amp;splitVertexId)</td></tr>
-<tr class="memdesc:ga569d44ca3ec7c951ac43f960b1fc486a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits a set of edges of a mesh in a continuous manner.  <a href="group__z_mesh_modifiers.html#ga569d44ca3ec7c951ac43f960b1fc486a">More...</a><br /></td></tr>
-<tr class="separator:ga569d44ca3ec7c951ac43f960b1fc486a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2259376b4c9c7cebc97c491574a47e24"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24">zSpace::splitEdge</a> (zMesh &amp;inMesh, int index, double edgeFactor=0.5)</td></tr>
 <tr class="memdesc:ga2259376b4c9c7cebc97c491574a47e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge and inserts a vertex along the edge at the input factor.  <a href="group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24">More...</a><br /></td></tr>
 <tr class="separator:ga2259376b4c9c7cebc97c491574a47e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,6 +135,18 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa57be50e7ce36c396e5bab0304773897"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897">zSpace::deleteEdge</a> (zMesh &amp;inMesh, vector&lt; int &gt; &amp;edgeList)</td></tr>
 <tr class="memdesc:gaa57be50e7ce36c396e5bab0304773897"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method deletes the <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> vertices given in the input vertex list.  <a href="group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897">More...</a><br /></td></tr>
 <tr class="separator:gaa57be50e7ce36c396e5bab0304773897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee0ef1222f28a05e210cc139a92e7774"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaee0ef1222f28a05e210cc139a92e7774">zSpace::polyTriangulate</a> (zMesh &amp;inMesh, int faceIndex, int &amp;numTris, vector&lt; int &gt; &amp;tris)</td></tr>
+<tr class="memdesc:gaee0ef1222f28a05e210cc139a92e7774"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input polygon using ear clipping algorithm.  <a href="group__z_mesh_modifiers.html#gaee0ef1222f28a05e210cc139a92e7774">More...</a><br /></td></tr>
+<tr class="separator:gaee0ef1222f28a05e210cc139a92e7774"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga75ee8f140a3311506a932b866523a1de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de">zSpace::triangulate</a> (zMesh &amp;inMesh)</td></tr>
+<tr class="memdesc:ga75ee8f140a3311506a932b866523a1de"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input mesh.  <a href="group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de">More...</a><br /></td></tr>
+<tr class="separator:ga75ee8f140a3311506a932b866523a1de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeda022d590a10b38c94e75bc0e278d80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80">zSpace::splitFaces</a> (zMesh &amp;inMesh, vector&lt; int &gt; &amp;edgeList, vector&lt; double &gt; &amp;edgeFactor)</td></tr>
+<tr class="memdesc:gaeda022d590a10b38c94e75bc0e278d80"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits a set of edges and faces of a mesh in a continuous manner.  <a href="group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80">More...</a><br /></td></tr>
+<tr class="separator:gaeda022d590a10b38c94e75bc0e278d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa9902fbf3ac2600afbf54335c286760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760">zSpace::subDivideMesh</a> (zMesh &amp;inMesh, int numDivisions)</td></tr>
+<tr class="memdesc:gaaa9902fbf3ac2600afbf54335c286760"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method subdivides all the faces and edges of the mesh.  <a href="group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760">More...</a><br /></td></tr>
+<tr class="separator:gaaa9902fbf3ac2600afbf54335c286760"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5205dea46f5be4a546801c664d10fbb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga5205dea46f5be4a546801c664d10fbb1">zSpace::splitLongEdges</a> (zMesh &amp;inMesh, double maxEdgeLength=0.5)</td></tr>
 <tr class="memdesc:ga5205dea46f5be4a546801c664d10fbb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge longer than the given input value at its midpoint and triangulates the mesh. the adjacent triangles are split into 2-4 triangles.  <a href="group__z_mesh_modifiers.html#ga5205dea46f5be4a546801c664d10fbb1">More...</a><br /></td></tr>
 <tr class="separator:ga5205dea46f5be4a546801c664d10fbb1"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -141,10 +141,181 @@ Functions</h2></td></tr>
 <tr class="memitem:ga635266671a0649c47f02211fccab75fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga635266671a0649c47f02211fccab75fc">zSpace::getEdgeLengthDomain</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double &amp;minVal, double &amp;maxVal)</td></tr>
 <tr class="memdesc:ga635266671a0649c47f02211fccab75fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the minimum and maximum edge lengths in the mesh.  <a href="group__z_mesh_utilities.html#ga635266671a0649c47f02211fccab75fc">More...</a><br /></td></tr>
 <tr class="separator:ga635266671a0649c47f02211fccab75fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1311698c2fce00e59bcfafcbfb29a29e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga1311698c2fce00e59bcfafcbfb29a29e">zSpace::computePolyConnects_PolyCount</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, vector&lt; int &gt;(&amp;polyConnects), vector&lt; int &gt;(&amp;polyCounts))</td></tr>
+<tr class="memdesc:ga1311698c2fce00e59bcfafcbfb29a29e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets vertex color of all the vertices to the input color.  <a href="group__z_mesh_utilities.html#ga1311698c2fce00e59bcfafcbfb29a29e">More...</a><br /></td></tr>
+<tr class="separator:ga1311698c2fce00e59bcfafcbfb29a29e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4db96d817f6d701261569fd42594ea8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga4db96d817f6d701261569fd42594ea8b">zSpace::combineDisjointMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;m1, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;m2)</td></tr>
+<tr class="memdesc:ga4db96d817f6d701261569fd42594ea8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method combines the two disjoint meshes to one mesh.  <a href="group__z_mesh_utilities.html#ga4db96d817f6d701261569fd42594ea8b">More...</a><br /></td></tr>
+<tr class="separator:ga4db96d817f6d701261569fd42594ea8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8">zSpace::extrudeMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, float extrudeThickness, bool thicknessTris=false)</td></tr>
+<tr class="memdesc:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns an extruded mesh from the input mesh.  <a href="group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8">More...</a><br /></td></tr>
+<tr class="separator:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga33d47a47ed451d022be4b64b5865b0e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1">zSpace::offsetMeshFace</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int faceIndex, double offset, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;offsetPositions)</td></tr>
+<tr class="memdesc:ga33d47a47ed451d022be4b64b5865b0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the offset positions of a polygon of the input mesh.  <a href="group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1">More...</a><br /></td></tr>
+<tr class="separator:ga33d47a47ed451d022be4b64b5865b0e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d1e96823d5ddafb0c578999217416f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga2d1e96823d5ddafb0c578999217416f5">zSpace::offsetMeshFace_Variable</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;m, int faceIndex, vector&lt; double &gt; &amp;offsets, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;faceCenter, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;faceNormal, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;intersectionPositions)</td></tr>
+<tr class="memdesc:ga2d1e96823d5ddafb0c578999217416f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the vartiable offset positions of a polygon of the input mesh.  <a href="group__z_mesh_utilities.html#ga2d1e96823d5ddafb0c578999217416f5">More...</a><br /></td></tr>
+<tr class="separator:ga2d1e96823d5ddafb0c578999217416f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6fa4734567c66b681445d824d6b76ab8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga6fa4734567c66b681445d824d6b76ab8">zSpace::transformMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, <a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;transform)</td></tr>
+<tr class="memdesc:ga6fa4734567c66b681445d824d6b76ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method transforms the input mesh by the input transform matrix.  <a href="group__z_mesh_utilities.html#ga6fa4734567c66b681445d824d6b76ab8">More...</a><br /></td></tr>
+<tr class="separator:ga6fa4734567c66b681445d824d6b76ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5068fb2a4e28b0470ed20ad483ce8d25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga5068fb2a4e28b0470ed20ad483ce8d25">zSpace::shortestDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int index, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent)</td></tr>
+<tr class="memdesc:ga5068fb2a4e28b0470ed20ad483ce8d25"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to all vertices of the mesh.  <a href="group__z_mesh_utilities.html#ga5068fb2a4e28b0470ed20ad483ce8d25">More...</a><br /></td></tr>
+<tr class="separator:ga5068fb2a4e28b0470ed20ad483ce8d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0fc4786ce92f8d9cc833dc7b4a5f0004"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga0fc4786ce92f8d9cc833dc7b4a5f0004">zSpace::shortestPath</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int indexA, int indexB, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memdesc:ga0fc4786ce92f8d9cc833dc7b4a5f0004"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the mesh.  <a href="group__z_mesh_utilities.html#ga0fc4786ce92f8d9cc833dc7b4a5f0004">More...</a><br /></td></tr>
+<tr class="separator:ga0fc4786ce92f8d9cc833dc7b4a5f0004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4a81498a7b711e05d33acf06bc2d5e3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_utilities.html#ga4a81498a7b711e05d33acf06bc2d5e3e">zSpace::shortestPathWalks</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, vector&lt; int &gt; &amp;edgeVisited)</td></tr>
+<tr class="memdesc:ga4a81498a7b711e05d33acf06bc2d5e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the all vertices to all vertices of a mesh and returns the number of times an edge is visited in those walks.  <a href="group__z_mesh_utilities.html#ga4a81498a7b711e05d33acf06bc2d5e3e">More...</a><br /></td></tr>
+<tr class="separator:ga4a81498a7b711e05d33acf06bc2d5e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of utility methods for meshes. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ga4db96d817f6d701261569fd42594ea8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4db96d817f6d701261569fd42594ea8b">&#9670;&nbsp;</a></span>combineDisjointMesh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::combineDisjointMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>m1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>m2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method combines the two disjoint meshes to one mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">m1</td><td>- input mesh 1. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m2</td><td>- input mesh 2.  <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> - combined mesh. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00573">573</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga1311698c2fce00e59bcfafcbfb29a29e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1311698c2fce00e59bcfafcbfb29a29e">&#9670;&nbsp;</a></span>computePolyConnects_PolyCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::computePolyConnects_PolyCount </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>polyConnects</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>polyCounts</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method sets vertex color of all the vertices to the input color. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- input color. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">setFaceColor</td><td>- face color is computed based on the vertex color if true. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1</dd></dl>
+<p>This method stores input mesh connectivity information in the input containers</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">polyConnects</td><td>- stores list of polygon connection with vertex ids for each face. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">polyCounts</td><td>- stores number of vertices per polygon. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00543">543</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga6f2ce938aa8bb72d5b4649115d76d9c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f2ce938aa8bb72d5b4649115d76d9c8">&#9670;&nbsp;</a></span>extrudeMesh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::extrudeMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>extrudeThickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>thicknessTris</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method returns an extruded mesh from the input mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">extrudeThickness</td><td>- extrusion thickness. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">thicknessTris</td><td>- true if the cap needs to be triangulated.  <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> - extruded mesh. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00623">623</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
 <a id="ga826208b35103e15619810111bc0816fa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga826208b35103e15619810111bc0816fa">&#9670;&nbsp;</a></span>getCenters()</h2>
 
@@ -414,6 +585,128 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga33d47a47ed451d022be4b64b5865b0e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga33d47a47ed451d022be4b64b5865b0e1">&#9670;&nbsp;</a></span>offsetMeshFace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::offsetMeshFace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>faceIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>offsetPositions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method returns the offset positions of a polygon of the input mesh. </p>
+<p>beased on <a href="http://pyright.blogspot.com/2014/11/polygon-offset-using-vector-math-in.html">http://pyright.blogspot.com/2014/11/polygon-offset-using-vector-math-in.html</a> </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">faceIndex</td><td>- face index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">offset</td><td>- offset distance. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">offsetPositions</td><td>- container with the offset positions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00717">717</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga2d1e96823d5ddafb0c578999217416f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2d1e96823d5ddafb0c578999217416f5">&#9670;&nbsp;</a></span>offsetMeshFace_Variable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::offsetMeshFace_Variable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>faceIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>offsets</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>faceCenter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>faceNormal</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>intersectionPositions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method returns the vartiable offset positions of a polygon of the input mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">faceIndex</td><td>- face index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">offsets</td><td>- offset distance from each edge of the mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">faceCenter</td><td>- center of polygon. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">faceNormal</td><td>- normal of polygon. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">intersectionPositions</td><td>- container with the intersection positions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00774">774</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
 <a id="ga3dc508ddd0979a3c05704b3a5f8c724e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga3dc508ddd0979a3c05704b3a5f8c724e">&#9670;&nbsp;</a></span>setFaceColor()</h2>
 
@@ -668,6 +961,194 @@ Functions</h2></td></tr>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00047">47</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga5068fb2a4e28b0470ed20ad483ce8d25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5068fb2a4e28b0470ed20ad483ce8d25">&#9670;&nbsp;</a></span>shortestDistance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::shortestDistance </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the shortest path from the source vertex to all vertices of the mesh. </p>
+<p>based on Dijkstra’s shortest path algorithm (<a href="https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/">https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/</a>) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- source vertex index. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">dist</td><td>- container of distance to each vertex from source. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">parent</td><td>- container of parent vertex index of each to each vertex. Required to get the path information. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00877">877</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga0fc4786ce92f8d9cc833dc7b4a5f0004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0fc4786ce92f8d9cc833dc7b4a5f0004">&#9670;&nbsp;</a></span>shortestPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::shortestPath </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>indexA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>indexB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>edgePath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the shortest path from the source vertex to destination vertex of the mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indexA</td><td>- source vertex index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indexB</td><td>- destination vertex index. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">edgePath</td><td>- container of edges of the shortest path. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00942">942</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga4a81498a7b711e05d33acf06bc2d5e3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4a81498a7b711e05d33acf06bc2d5e3e">&#9670;&nbsp;</a></span>shortestPathWalks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::shortestPathWalks </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>edgeVisited</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the shortest path from the all vertices to all vertices of a mesh and returns the number of times an edge is visited in those walks. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">edgeVisited</td><td>- container of number of times edge is visited. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00986">986</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga6fa4734567c66b681445d824d6b76ab8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6fa4734567c66b681445d824d6b76ab8">&#9670;&nbsp;</a></span>transformMesh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::transformMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;&#160;</td>
+          <td class="paramname"><em>transform</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method transforms the input mesh by the input transform matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">transform</td><td>- transfrom matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_utilities_8h_source.html#l00852">852</a> of file <a class="el" href="z_mesh_utilities_8h_source.html">zMeshUtilities.h</a>.</p>
 
 </div>
 </div>

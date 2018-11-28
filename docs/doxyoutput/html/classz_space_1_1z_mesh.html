@@ -140,18 +140,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aca5218f8a8b5c5f1cde25440d08c57d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6">onBoundary</a> (int index, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type=<a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a>)</td></tr>
 <tr class="memdesc:aca5218f8a8b5c5f1cde25440d08c57d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method determines if input <a class="el" href="classz_space_1_1z_vertex.html" title="A vertex class to hold vertex information of a half-edge data structure. ">zVertex</a> or <a class="el" href="classz_space_1_1z_edge.html" title="An edge class to hold edge information of a half-edge data structure. ">zEdge</a> or <a class="el" href="classz_space_1_1z_face.html" title="A face class to hold polygonal information of a half-edge data structure. ">zFace</a> is on the boundary.  <a href="#aca5218f8a8b5c5f1cde25440d08c57d6">More...</a><br /></td></tr>
 <tr class="separator:aca5218f8a8b5c5f1cde25440d08c57d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9d7123d7b39ac66dce773947cafd26a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#ab9d7123d7b39ac66dce773947cafd26a">addPolygon</a> ()</td></tr>
-<tr class="memdesc:ab9d7123d7b39ac66dce773947cafd26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a face with null edge pointer to the faces array.  <a href="#ab9d7123d7b39ac66dce773947cafd26a">More...</a><br /></td></tr>
-<tr class="separator:ab9d7123d7b39ac66dce773947cafd26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1fa7391f7b386ab49f714204cdce59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a4e1fa7391f7b386ab49f714204cdce59">addPolygon</a> (vector&lt; int &gt; &amp;fVertices)</td></tr>
-<tr class="memdesc:a4e1fa7391f7b386ab49f714204cdce59"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a face to the faces array and updates the pointers of vertices, edges and polygons of the mesh based on face vertices.  <a href="#a4e1fa7391f7b386ab49f714204cdce59">More...</a><br /></td></tr>
-<tr class="separator:a4e1fa7391f7b386ab49f714204cdce59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f1e58811274fba10eb3bd6abf29b860"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a4f1e58811274fba10eb3bd6abf29b860">addVertex</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos)</td></tr>
+<tr class="memdesc:a4f1e58811274fba10eb3bd6abf29b860"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a vertex to the vertices array.  <a href="#a4f1e58811274fba10eb3bd6abf29b860">More...</a><br /></td></tr>
+<tr class="separator:a4f1e58811274fba10eb3bd6abf29b860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1defab345c4b6e08269afd38c1b4db3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#ad1defab345c4b6e08269afd38c1b4db3">addEdges</a> (int &amp;v1, int &amp;v2)</td></tr>
+<tr class="memdesc:ad1defab345c4b6e08269afd38c1b4db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds an edge and its symmetry edge to the edges array.  <a href="#ad1defab345c4b6e08269afd38c1b4db3">More...</a><br /></td></tr>
+<tr class="separator:ad1defab345c4b6e08269afd38c1b4db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb95d78c8893bcc3c37ef5d7241f15a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#abb95d78c8893bcc3c37ef5d7241f15a4">addPolygon</a> ()</td></tr>
+<tr class="memdesc:abb95d78c8893bcc3c37ef5d7241f15a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a face with null edge pointer to the faces array.  <a href="#abb95d78c8893bcc3c37ef5d7241f15a4">More...</a><br /></td></tr>
+<tr class="separator:abb95d78c8893bcc3c37ef5d7241f15a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada4fb88bb2402a06f75d730e23597407"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#ada4fb88bb2402a06f75d730e23597407">addPolygon</a> (vector&lt; int &gt; &amp;fVertices)</td></tr>
+<tr class="memdesc:ada4fb88bb2402a06f75d730e23597407"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a face to the faces array and updates the pointers of vertices, edges and polygons of the mesh based on face vertices.  <a href="#ada4fb88bb2402a06f75d730e23597407">More...</a><br /></td></tr>
+<tr class="separator:ada4fb88bb2402a06f75d730e23597407"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a495dcfd61cc83ad601179a0696f23225"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a495dcfd61cc83ad601179a0696f23225">numPolygons</a> ()</td></tr>
 <tr class="memdesc:a495dcfd61cc83ad601179a0696f23225"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of polygons in the mesh.  <a href="#a495dcfd61cc83ad601179a0696f23225">More...</a><br /></td></tr>
 <tr class="separator:a495dcfd61cc83ad601179a0696f23225"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55f26b1e4a4bfc9b51bb75aa66c9bb02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a55f26b1e4a4bfc9b51bb75aa66c9bb02">setNumPolygons</a> (int _n_f)</td></tr>
-<tr class="memdesc:a55f26b1e4a4bfc9b51bb75aa66c9bb02"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of faces in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> the input value.  <a href="#a55f26b1e4a4bfc9b51bb75aa66c9bb02">More...</a><br /></td></tr>
-<tr class="separator:a55f26b1e4a4bfc9b51bb75aa66c9bb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89cdf1318823cbab683ffc0fee150979"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a89cdf1318823cbab683ffc0fee150979">setNumPolygons</a> (int _n_f, bool setMax=true)</td></tr>
+<tr class="memdesc:a89cdf1318823cbab683ffc0fee150979"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of faces in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> the input value.  <a href="#a89cdf1318823cbab683ffc0fee150979">More...</a><br /></td></tr>
+<tr class="separator:a89cdf1318823cbab683ffc0fee150979"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89641aad9a7a872cef9eb34ccff09269"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a89641aad9a7a872cef9eb34ccff09269">computeFaceColorfromVertexColor</a> ()</td></tr>
 <tr class="memdesc:a89641aad9a7a872cef9eb34ccff09269"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the face colors based on the vertex colors.  <a href="#a89641aad9a7a872cef9eb34ccff09269">More...</a><br /></td></tr>
 <tr class="separator:a89641aad9a7a872cef9eb34ccff09269"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,42 +207,45 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:accb333667ce5e961ceea4148a6c1791f inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f">averageVertices</a> (int numSteps=1)</td></tr>
 <tr class="memdesc:accb333667ce5e961ceea4148a6c1791f inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method averages the positions of vertex except for the ones on the boundary.  <a href="classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f">More...</a><br /></td></tr>
 <tr class="separator:accb333667ce5e961ceea4148a6c1791f inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a096f492e2b8b37d07929a98f98c205d7 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a096f492e2b8b37d07929a98f98c205d7">addVertex</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos)</td></tr>
-<tr class="memdesc:a096f492e2b8b37d07929a98f98c205d7 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a vertex to the vertices array.  <a href="classz_space_1_1z_graph.html#a096f492e2b8b37d07929a98f98c205d7">More...</a><br /></td></tr>
-<tr class="separator:a096f492e2b8b37d07929a98f98c205d7 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28f12855df46e385a46ecbad497e6ed4 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a28f12855df46e385a46ecbad497e6ed4">deleteVertex</a> (vector&lt; int &gt; &amp;vertexList)</td></tr>
-<tr class="memdesc:a28f12855df46e385a46ecbad497e6ed4 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method deletes the <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> vertices given in the input vertex list.  <a href="classz_space_1_1z_graph.html#a28f12855df46e385a46ecbad497e6ed4">More...</a><br /></td></tr>
-<tr class="separator:a28f12855df46e385a46ecbad497e6ed4 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf5cd0b78050f671984cfc4341de8b32 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#acf5cd0b78050f671984cfc4341de8b32">addVertex</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos)</td></tr>
+<tr class="memdesc:acf5cd0b78050f671984cfc4341de8b32 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a vertex to the vertices array.  <a href="classz_space_1_1z_graph.html#acf5cd0b78050f671984cfc4341de8b32">More...</a><br /></td></tr>
+<tr class="separator:acf5cd0b78050f671984cfc4341de8b32 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24434f5c8a1a1afef2c7b16a9683d91a inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a">vertexExists</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> pos, int &amp;outVertexId)</td></tr>
 <tr class="memdesc:a24434f5c8a1a1afef2c7b16a9683d91a inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method detemines if a vertex already exists at the input position.  <a href="classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a">More...</a><br /></td></tr>
 <tr class="separator:a24434f5c8a1a1afef2c7b16a9683d91a inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32a9a23b93c41033485543e0768e7f6a inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a32a9a23b93c41033485543e0768e7f6a">numVertices</a> ()</td></tr>
 <tr class="memdesc:a32a9a23b93c41033485543e0768e7f6a inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of vertices in the graph or mesh.  <a href="classz_space_1_1z_graph.html#a32a9a23b93c41033485543e0768e7f6a">More...</a><br /></td></tr>
 <tr class="separator:a32a9a23b93c41033485543e0768e7f6a inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25d933b947aa67317fcaa591ddfbf711 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a25d933b947aa67317fcaa591ddfbf711">setNumVertices</a> (int _n_v)</td></tr>
-<tr class="memdesc:a25d933b947aa67317fcaa591ddfbf711 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of vertices in <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> the input value.  <a href="classz_space_1_1z_graph.html#a25d933b947aa67317fcaa591ddfbf711">More...</a><br /></td></tr>
-<tr class="separator:a25d933b947aa67317fcaa591ddfbf711 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97a8c71a558e9a94f3a770abfa1d8f0c inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a97a8c71a558e9a94f3a770abfa1d8f0c">addEdges</a> (int &amp;v1, int &amp;v2)</td></tr>
-<tr class="memdesc:a97a8c71a558e9a94f3a770abfa1d8f0c inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds an edge and its symmetry edge to the edges array.  <a href="classz_space_1_1z_graph.html#a97a8c71a558e9a94f3a770abfa1d8f0c">More...</a><br /></td></tr>
-<tr class="separator:a97a8c71a558e9a94f3a770abfa1d8f0c inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ecdde9a2885d33d3488f3eaea7b98c9 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a6ecdde9a2885d33d3488f3eaea7b98c9">setNumVertices</a> (int _n_v, bool setMax=true)</td></tr>
+<tr class="memdesc:a6ecdde9a2885d33d3488f3eaea7b98c9 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of vertices in <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> the input value.  <a href="classz_space_1_1z_graph.html#a6ecdde9a2885d33d3488f3eaea7b98c9">More...</a><br /></td></tr>
+<tr class="separator:a6ecdde9a2885d33d3488f3eaea7b98c9 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68823d66afc73b8d1393bafc64e40226 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a68823d66afc73b8d1393bafc64e40226">addToPositionMap</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos, int index)</td></tr>
+<tr class="memdesc:a68823d66afc73b8d1393bafc64e40226 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds the position given by input vector to the positionVertex Map.  <a href="classz_space_1_1z_graph.html#a68823d66afc73b8d1393bafc64e40226">More...</a><br /></td></tr>
+<tr class="separator:a68823d66afc73b8d1393bafc64e40226 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f750c9304b2e873669bf20b3a560d3c inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8f750c9304b2e873669bf20b3a560d3c">removeFromPositionMap</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos)</td></tr>
+<tr class="memdesc:a8f750c9304b2e873669bf20b3a560d3c inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method removes the position given by input vector from the positionVertex Map.  <a href="classz_space_1_1z_graph.html#a8f750c9304b2e873669bf20b3a560d3c">More...</a><br /></td></tr>
+<tr class="separator:a8f750c9304b2e873669bf20b3a560d3c inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fc8a067026f05b77331a484827d7db9 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a2fc8a067026f05b77331a484827d7db9">addToVerticesEdge</a> (int v1, int v2, int index)</td></tr>
+<tr class="memdesc:a2fc8a067026f05b77331a484827d7db9 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds both the half-edges given by input vertex indices to the VerticesEdge Map.  <a href="classz_space_1_1z_graph.html#a2fc8a067026f05b77331a484827d7db9">More...</a><br /></td></tr>
+<tr class="separator:a2fc8a067026f05b77331a484827d7db9 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee83e9852b220df1b5ec0c2fdec8040e inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#aee83e9852b220df1b5ec0c2fdec8040e">removeFromVerticesEdge</a> (int v1, int v2)</td></tr>
+<tr class="memdesc:aee83e9852b220df1b5ec0c2fdec8040e inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method removes both the half-edges given given by vertex input indices from the VerticesEdge Map.  <a href="classz_space_1_1z_graph.html#aee83e9852b220df1b5ec0c2fdec8040e">More...</a><br /></td></tr>
+<tr class="separator:aee83e9852b220df1b5ec0c2fdec8040e inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a821941b26e312ab5015ae34fecbd43b3 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3">addEdges</a> (int &amp;v1, int &amp;v2)</td></tr>
+<tr class="memdesc:a821941b26e312ab5015ae34fecbd43b3 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds an edge and its symmetry edge to the edges array.  <a href="classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3">More...</a><br /></td></tr>
+<tr class="separator:a821941b26e312ab5015ae34fecbd43b3 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c062c1592a7264cbf11f652edb25f92 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92">numEdges</a> ()</td></tr>
 <tr class="memdesc:a0c062c1592a7264cbf11f652edb25f92 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of half edges in the graph or mesh.  <a href="classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92">More...</a><br /></td></tr>
 <tr class="separator:a0c062c1592a7264cbf11f652edb25f92 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeae2b63f2d98d70d44c18f04da164cba inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#aeae2b63f2d98d70d44c18f04da164cba">setNumEdges</a> (int _n_e)</td></tr>
-<tr class="memdesc:aeae2b63f2d98d70d44c18f04da164cba inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of edges in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> the input value.  <a href="classz_space_1_1z_graph.html#aeae2b63f2d98d70d44c18f04da164cba">More...</a><br /></td></tr>
-<tr class="separator:aeae2b63f2d98d70d44c18f04da164cba inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8">setNumEdges</a> (int _n_e, bool setMax=true)</td></tr>
+<tr class="memdesc:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of edges in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> the input value.  <a href="classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8">More...</a><br /></td></tr>
+<tr class="separator:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c39b6d38d931985c840faa5a86a886c inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a9c39b6d38d931985c840faa5a86a886c">edgeExists</a> (int v1, int v2, int &amp;outEdgeId)</td></tr>
 <tr class="memdesc:a9c39b6d38d931985c840faa5a86a886c inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method detemines if an edge already exists between input vertices.  <a href="classz_space_1_1z_graph.html#a9c39b6d38d931985c840faa5a86a886c">More...</a><br /></td></tr>
 <tr class="separator:a9c39b6d38d931985c840faa5a86a886c inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe3788c9346ebecb3aaee6f1b538293a inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a">cyclic_sortEdges</a> (vector&lt; int &gt; &amp;unSortedEdges, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;center, int sortReferenceIndex, vector&lt; int &gt; &amp;sortedEdges)</td></tr>
 <tr class="memdesc:abe3788c9346ebecb3aaee6f1b538293a inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sorts edges cyclically around a given vertex using a bestfit plane.  <a href="classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a">More...</a><br /></td></tr>
 <tr class="separator:abe3788c9346ebecb3aaee6f1b538293a inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72a9385e950354bd15a3dea83037bdce inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a72a9385e950354bd15a3dea83037bdce">collapseEdges</a> (vector&lt; int &gt; &amp;edgeList)</td></tr>
-<tr class="memdesc:a72a9385e950354bd15a3dea83037bdce inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method collapses an edge into vertex.  <a href="classz_space_1_1z_graph.html#a72a9385e950354bd15a3dea83037bdce">More...</a><br /></td></tr>
-<tr class="separator:a72a9385e950354bd15a3dea83037bdce inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a466474b2e58e03ca014c4f1be6b7377d inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a466474b2e58e03ca014c4f1be6b7377d">splitEdges</a> (vector&lt; int &gt; &amp;edgeList, vector&lt; double &gt; &amp;edgeFactor, vector&lt; int &gt; &amp;splitVertexId)</td></tr>
-<tr class="memdesc:a466474b2e58e03ca014c4f1be6b7377d inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits a set of edges of a graph in a continuous manner.  <a href="classz_space_1_1z_graph.html#a466474b2e58e03ca014c4f1be6b7377d">More...</a><br /></td></tr>
-<tr class="separator:a466474b2e58e03ca014c4f1be6b7377d inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -255,9 +264,6 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:affe80dcfa5bbf14956b1a6061e4dd35f"><td class="memItemLeft" align="right" valign="top">vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#affe80dcfa5bbf14956b1a6061e4dd35f">faceActive</a></td></tr>
 <tr class="memdesc:affe80dcfa5bbf14956b1a6061e4dd35f"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex weights.  <a href="#affe80dcfa5bbf14956b1a6061e4dd35f">More...</a><br /></td></tr>
 <tr class="separator:affe80dcfa5bbf14956b1a6061e4dd35f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eb7b53e975125d852523d92c5f5b62e"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a5eb7b53e975125d852523d92c5f5b62e">faceCenters</a></td></tr>
-<tr class="memdesc:a5eb7b53e975125d852523d92c5f5b62e"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores face centers.  <a href="#a5eb7b53e975125d852523d92c5f5b62e">More...</a><br /></td></tr>
-<tr class="separator:a5eb7b53e975125d852523d92c5f5b62e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79b06255dabad53e71c6f98b31629574"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a79b06255dabad53e71c6f98b31629574">VBO_FaceId</a></td></tr>
 <tr class="memdesc:a79b06255dabad53e71c6f98b31629574"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start face ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>.  <a href="#a79b06255dabad53e71c6f98b31629574">More...</a><br /></td></tr>
 <tr class="separator:a79b06255dabad53e71c6f98b31629574"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -357,7 +363,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Default constructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00085">85</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00082">82</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -419,7 +425,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00099">99</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00096">96</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -449,13 +455,13 @@ Additional Inherited Members</h2></td></tr>
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00165">165</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00162">162</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab9d7123d7b39ac66dce773947cafd26a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9d7123d7b39ac66dce773947cafd26a">&#9670;&nbsp;</a></span>addPolygon() <span class="overload">[1/2]</span></h2>
+<a id="ad1defab345c4b6e08269afd38c1b4db3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1defab345c4b6e08269afd38c1b4db3">&#9670;&nbsp;</a></span>addEdges()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -464,7 +470,56 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void zSpace::zMesh::addPolygon </td>
+          <td class="memname">bool zSpace::zMesh::addEdges </td>
+          <td>(</td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method adds an edge and its symmetry edge to the edges array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>- start <a class="el" href="classz_space_1_1z_vertex.html" title="A vertex class to hold vertex information of a half-edge data structure. ">zVertex</a> of the edge. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v2</td><td>- end <a class="el" href="classz_space_1_1z_vertex.html" title="A vertex class to hold vertex information of a half-edge data structure. ">zVertex</a> of the edge. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if the edges container is resized. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00438">438</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+
+</div>
+</div>
+<a id="abb95d78c8893bcc3c37ef5d7241f15a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb95d78c8893bcc3c37ef5d7241f15a4">&#9670;&nbsp;</a></span>addPolygon() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zSpace::zMesh::addPolygon </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -478,14 +533,15 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This method adds a face with null edge pointer to the faces array. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if the faces container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00400">400</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00499">499</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
-<a id="a4e1fa7391f7b386ab49f714204cdce59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e1fa7391f7b386ab49f714204cdce59">&#9670;&nbsp;</a></span>addPolygon() <span class="overload">[2/2]</span></h2>
+<a id="ada4fb88bb2402a06f75d730e23597407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada4fb88bb2402a06f75d730e23597407">&#9670;&nbsp;</a></span>addPolygon() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -494,7 +550,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void zSpace::zMesh::addPolygon </td>
+          <td class="memname">bool zSpace::zMesh::addPolygon </td>
           <td>(</td>
           <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>fVertices</em></td><td>)</td>
@@ -515,9 +571,48 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if the faces container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00429">429</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00534">534</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+
+</div>
+</div>
+<a id="a4f1e58811274fba10eb3bd6abf29b860"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f1e58811274fba10eb3bd6abf29b860">&#9670;&nbsp;</a></span>addVertex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zSpace::zMesh::addVertex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method adds a vertex to the vertices array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>- <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> holding the position information of the vertex. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if the vertices container is resized. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00397">397</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -547,7 +642,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method computes the face colors based on the vertex colors. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00508">508</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00617">617</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -577,7 +672,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method computes the normals assoicated with vertices and polygon faces . </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00700">700</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00809">809</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -607,7 +702,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method computes the vertex colors based on the face colors. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00538">538</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00647">647</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -637,7 +732,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This method computes the vertex normals based on the face normals. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00668">668</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00777">777</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -692,7 +787,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00259">259</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00257">257</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -747,7 +842,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00181">181</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00178">178</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -802,7 +897,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00315">315</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00313">313</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -857,7 +952,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00218">218</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00216">216</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -888,7 +983,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>int - number of polygons </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00483">483</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00590">590</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -937,12 +1032,12 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if on boundary else false. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00339">339</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00337">337</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
-<a id="a55f26b1e4a4bfc9b51bb75aa66c9bb02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55f26b1e4a4bfc9b51bb75aa66c9bb02">&#9670;&nbsp;</a></span>setNumPolygons()</h2>
+<a id="a89cdf1318823cbab683ffc0fee150979"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89cdf1318823cbab683ffc0fee150979">&#9670;&nbsp;</a></span>setNumPolygons()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -954,8 +1049,18 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">void zSpace::zMesh::setNumPolygons </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>_n_f</em></td><td>)</td>
+          <td class="paramname"><em>_n_f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>setMax</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -969,12 +1074,13 @@ Additional Inherited Members</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">_n_f</td><td>- number of faces. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">setMax</td><td>- if true, sets max edges as amultiple of _n_e. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00493">493</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00601">601</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -1022,7 +1128,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00570">570</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00679">679</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -1042,24 +1148,6 @@ Additional Inherited Members</h2></td></tr>
 <p>container which stores vertex weights. </p>
 
 <p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00068">68</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
-
-</div>
-</div>
-<a id="a5eb7b53e975125d852523d92c5f5b62e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5eb7b53e975125d852523d92c5f5b62e">&#9670;&nbsp;</a></span>faceCenters</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;<a class="el" href="classz_space_1_1z_vector.html">zVector</a>&gt; zSpace::zMesh::faceCenters</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>container which stores face centers. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00071">71</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -1131,7 +1219,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>stores the start face ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00074">74</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00071">71</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>

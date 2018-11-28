@@ -7,5 +7,6 @@ var searchData=
   ['edges',['edges',['../classz_space_1_1z_graph.html#acd835a1073581d7fee5991c1c27bb599',1,'zSpace::zGraph']]],
   ['edgeweights',['edgeWeights',['../classz_space_1_1z_graph.html#a0b3655fb95f6249e599ffcfe3320bbdb',1,'zSpace::zGraph']]],
   ['equalizevalences',['equalizeValences',['../group__z_mesh_modifiers.html#ga50d27f458f57c4f90fa9242b05ded2d2',1,'zSpace']]],
-  ['existsinmap',['existsInMap',['../group__z_core_utilities.html#gaa8375b752d259554eef39b2c7985fa14',1,'zSpace']]]
+  ['existsinmap',['existsInMap',['../group__z_core_utilities.html#gaa8375b752d259554eef39b2c7985fa14',1,'zSpace']]],
+  ['extrudemesh',['extrudeMesh',['../group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8',1,'zSpace']]]
 ];

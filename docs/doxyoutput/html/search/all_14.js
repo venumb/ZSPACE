@@ -13,7 +13,7 @@ var searchData=
   ['vertexattribstride',['vertexAttribStride',['../group__z_core_definitions.html#ga7fd787cac619c6f2a1f58e16d45d2a0d',1,'zDefinitions.h']]],
   ['vertexcolors',['vertexColors',['../classz_space_1_1z_graph.html#a67f77c1915efb374879b0ae027a53b83',1,'zSpace::zGraph']]],
   ['vertexcolorstride',['vertexColorStride',['../group__z_core_definitions.html#gac69eea87cb03416e989c24be9cc405f9',1,'zDefinitions.h']]],
-  ['vertexexists',['vertexExists',['../classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a',1,'zSpace::zGraph']]],
+  ['vertexexists',['vertexExists',['../classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a',1,'zSpace::zGraph::vertexExists()'],['../group__z_core_utilities.html#ga60b24175b18ed33fb7631aeb21a290dd',1,'zSpace::vertexExists()']]],
   ['vertexnormals',['vertexNormals',['../classz_space_1_1z_mesh.html#adf5bedc7a509ccdaf044a6b65224f514',1,'zSpace::zMesh']]],
   ['vertexpositions',['vertexPositions',['../classz_space_1_1z_graph.html#a49a113c5f823109cd33359febabb28d0',1,'zSpace::zGraph']]],
   ['vertexweights',['vertexWeights',['../classz_space_1_1z_graph.html#a7d73572369c4c38bd8da0c8f00bb7c2a',1,'zSpace::zGraph']]],

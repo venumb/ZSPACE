@@ -1,7 +1,10 @@
 var searchData=
 [
+  ['offsetmeshface',['offsetMeshFace',['../group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1',1,'zSpace']]],
+  ['offsetmeshface_5fvariable',['offsetMeshFace_Variable',['../group__z_mesh_utilities.html#ga2d1e96823d5ddafb0c578999217416f5',1,'zSpace']]],
   ['ofmap',['ofMap',['../group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace']]],
   ['onboundary',['onBoundary',['../classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6',1,'zSpace::zMesh']]],
+  ['open',['open',['../classz_space_1_1z_database.html#a0924ae73aa91a7ee47d886698c2659b2',1,'zSpace::zDatabase']]],
   ['operator_28_29',['operator()',['../classz_space_1_1z_matrix.html#afec2daee718b12398653de1472922df3',1,'zSpace::zMatrix::operator()(int row, int col)'],['../classz_space_1_1z_matrix.html#ab747f9edecdc13479d4cc18b9a8e1961',1,'zSpace::zMatrix::operator()(int index)']]],
   ['operator_2a',['operator*',['../classz_space_1_1z_matrix.html#add605d3bcc6aab142a799671171821e8',1,'zSpace::zMatrix::operator*(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a5eb908056b857eae15b1c25a78f818d2',1,'zSpace::zMatrix::operator*(T s1)'],['../classz_space_1_1z_vector.html#a9471d6332878a82f63a2bfd16ea2a752',1,'zSpace::zVector::operator*(zVector v1)'],['../classz_space_1_1z_vector.html#a95e70a933c305a2d596e61a7c543f720',1,'zSpace::zVector::operator*(double val)'],['../classz_space_1_1z_vector.html#a8e674c9f4e04a4685f0571f95734ca82',1,'zSpace::zVector::operator*(zMatrixd &amp;inMatrix)']]],
   ['operator_2a_3d',['operator*=',['../classz_space_1_1z_matrix.html#a7755f2663062228887f70c4ada9ae962',1,'zSpace::zMatrix::operator*=()'],['../classz_space_1_1z_vector.html#a0bbeed0c887b54b11c7c29b61cf5f47c',1,'zSpace::zVector::operator*=()']]],
@@ -12,5 +15,6 @@ var searchData=
   ['operator_2f',['operator/',['../classz_space_1_1z_vector.html#a817143b982398bf61f8b21e92acee983',1,'zSpace::zVector']]],
   ['operator_2f_3d',['operator/=',['../classz_space_1_1z_matrix.html#afef6e0917239fe5f6cfa9904b148048a',1,'zSpace::zMatrix::operator/=()'],['../classz_space_1_1z_vector.html#a3f18877fe16d6a6cf4c0774ec313ad7e',1,'zSpace::zVector::operator/=()']]],
   ['operator_3d_3d',['operator==',['../classz_space_1_1z_color.html#a70f7239f26d14ac1203813b1a5e0244a',1,'zSpace::zColor::operator==()'],['../classz_space_1_1z_vector.html#a6276ac67b4df65d78a42030b08259a12',1,'zSpace::zVector::operator==()']]],
-  ['operator_5e',['operator^',['../classz_space_1_1z_vector.html#a9f686a2bd88e144b7a5e9a72e372d655',1,'zSpace::zVector']]]
+  ['operator_5e',['operator^',['../classz_space_1_1z_vector.html#a9f686a2bd88e144b7a5e9a72e372d655',1,'zSpace::zVector']]],
+  ['os_5fwayid',['OS_wayId',['../structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700',1,'zSpace::zWays::OS_wayId()'],['../structz_space_1_1z_buildings.html#a5b6c3d30f5fcc8efc186bac1c29c595b',1,'zSpace::zBuildings::OS_wayId()']]]
 ];

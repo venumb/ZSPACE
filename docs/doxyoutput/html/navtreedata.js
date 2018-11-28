@@ -41,7 +41,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ],
@@ -59,8 +59,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"functions_t.html",
-"z_matrix_8h.html"
+"classz_space_1_1z_scalar_field3_d.html#a2d4e037c0abfe614c302e09422536cfb",
+"group__z_graph_utilities.html#ga7cd47e65d56a0587e3ca4babd1c233e3",
+"z_mesh_modifiers_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

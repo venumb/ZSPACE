@@ -1,0 +1,14 @@
+digraph "C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/data" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_fd8be38ecb671794cbf508314cbbc8e5 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="headers" fontname="Helvetica", fontsize="10", URL="dir_fd8be38ecb671794cbf508314cbbc8e5.html"]
+  dir_838a0a824c64a784dfa7c716f461c7ae [shape=box, label="data", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_838a0a824c64a784dfa7c716f461c7ae.html"];
+  }
+  dir_3c7b6ea23d9889f13e5cc461ab9ce698 [shape=box label="geometry" URL="dir_3c7b6ea23d9889f13e5cc461ab9ce698.html"];
+  dir_67ee8d2864d599d6ef5c9e7bde8e4cfe [shape=box label="core" URL="dir_67ee8d2864d599d6ef5c9e7bde8e4cfe.html"];
+  dir_3c7b6ea23d9889f13e5cc461ab9ce698->dir_67ee8d2864d599d6ef5c9e7bde8e4cfe [headlabel="8", labeldistance=1.5 headhref="dir_000007_000004.html"];
+  dir_838a0a824c64a784dfa7c716f461c7ae->dir_3c7b6ea23d9889f13e5cc461ab9ce698 [headlabel="5", labeldistance=1.5 headhref="dir_000005_000007.html"];
+  dir_838a0a824c64a784dfa7c716f461c7ae->dir_67ee8d2864d599d6ef5c9e7bde8e4cfe [headlabel="1", labeldistance=1.5 headhref="dir_000005_000004.html"];
+}

@@ -4,10 +4,28 @@ var group__z_core_enumerators =
       [ "zRGB", "group__z_core_enumerators.html#gga09594bf00b27116aa4c4a7628ab25b68ace1c71566a1c58977d8d3e1a6637baf3", null ],
       [ "zHSV", "group__z_core_enumerators.html#gga09594bf00b27116aa4c4a7628ab25b68a9fbfb064c94d290bd310464596f2e271", null ]
     ] ],
+    [ "zDataBuilding", "group__z_core_enumerators.html#ga18a5c022e44dc0c7b0aef70881b07602", [
+      [ "zCommercialBuilding", "group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a82fdc8d7474e75d6af668d4ff2518384", null ],
+      [ "zResidentialBuilding", "group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a1992c70e36dd25700ee4d7f6cfa4c3fa", null ],
+      [ "zPublicBuilding", "group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602aea200b2385a987a06b8a72affb9bfdae", null ],
+      [ "zUniversityBuilding", "group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a58a9c3a2d59d1d134dfda2d8539f157d", null ],
+      [ "zUndefinedBuilding", "group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a947fabfb371158f5e3da4d34a11b56c1", null ]
+    ] ],
     [ "zDataLevel", "group__z_core_enumerators.html#gaac31e495d9c712f436496e4cb02b6c3d", [
       [ "zLsoaData", "group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3dabfe1ec231d9878afdae890ff7b60eef2", null ],
       [ "zMsoaData", "group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3da84c56cf03c3b7cc44d08d4791f62f50a", null ],
       [ "zPostcodeData", "group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3daf9c1b2f3a3a17325a9c6006c88eeac73", null ]
+    ] ],
+    [ "zDataStreet", "group__z_core_enumerators.html#gaabb5d42d791984316f4991557592c450", [
+      [ "zTrunkStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450ac0524f0aade8f22ef7d034f7ed51c253", null ],
+      [ "zPrimaryStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450acef4b805ed308155040eaa220bd2c65b", null ],
+      [ "zSecondaryStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a3810a72337e2fc1fe72e8c045f56e962", null ],
+      [ "zTertiaryStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450aa2ed427a092f006046c1520b3d6b125e", null ],
+      [ "zResidentialStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a4ab6cda489fa49b682fadcc51a54e52e", null ],
+      [ "zPedestrianStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450aed50bbcec7cafcc051ca6a1bb910f83e", null ],
+      [ "zCycleStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a2ed568a3422894b520907b485e36155a", null ],
+      [ "zServiceStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a6953b6c2cb35777076ef8043840bc1b5", null ],
+      [ "zUndefinedStreet", "group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a152bf887aae2d2eecfcaf215f25d98d7", null ]
     ] ],
     [ "zDiffusionType", "group__z_core_enumerators.html#ga888f1737963f7efc6cd87ca3bfff378f", [
       [ "zLaplacian", "group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fab1257cc5dce828706b545f4ec90df0ec", null ],
@@ -33,5 +51,16 @@ var group__z_core_enumerators =
       [ "zSA", "group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a20db6e2ea8f02fcbf419cb03c5f60fef", null ],
       [ "zRA", "group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a95bcbeec27bbd969b2ef23ec261d3705", null ],
       [ "zdepT", "group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a73af2975c45f6f3cd99a7cdf8d101a94", null ]
+    ] ],
+    [ "zSQLCommand", "group__z_core_enumerators.html#ga98d3345b0fa49fd821ad7674f7ec91af", [
+      [ "zCreate", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afaaa095ac865394fe09ea06241fa61cf2e", null ],
+      [ "zInsert", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa92565082837d95459899dd3f42d35ce2", null ],
+      [ "zSelect", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afaf7815d9ef6597b75aa953e6488d22815", null ],
+      [ "zSelectExists", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afadf535efdd1e9d3dbb15b9f24505bac19", null ],
+      [ "zSelectCreate", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa51d07059bd7056831f6b06008032a91d", null ],
+      [ "zSelectCount", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa3881e5c80062312ad8e1a9e297e06102", null ],
+      [ "zUpdate", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa10352b0ffa48dce03dd429d1550d1395", null ],
+      [ "zDrop", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa60de7229950b524aef5c3c0573fedd34", null ],
+      [ "zExportCSV", "group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afac5620949f6bf5735a7d31e552427ed35", null ]
     ] ]
 ];
