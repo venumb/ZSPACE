@@ -292,7 +292,29 @@ namespace zSpace
 	}
 
 
-	
+	void walkingDistance(zGraph& inGraph, int index, double distance, vector<int>& edgeVisited)
+	{
+		vector<float> dists;
+		vector<int> parent;
+		
+		// get Dijkstra shortest distance spanning tree
+		shortestDistance(inGraph, index, dists, parent);
+
+		for (int i = 0; i < inGraph.edgeActive.size(); i+=2)
+		{
+			if (!inGraph.edgeActive[i]) continue;
+
+			int v1 = inGraph.edges[i].getVertex()->getVertexId();
+			int v2 = inGraph.edges[i+1].getVertex()->getVertexId();
+
+			if (dists[v1] < distance && dists[v2] < distance)
+			{
+				edgeVisited.push_back(i);
+				edgeVisited.push_back(i+1);
+			}
+		}
+
+	}
 
 
 	/** @}*/
