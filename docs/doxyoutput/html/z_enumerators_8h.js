@@ -27,6 +27,12 @@ var z_enumerators_8h =
       [ "zServiceStreet", "z_enumerators_8h.html#ggaabb5d42d791984316f4991557592c450a6953b6c2cb35777076ef8043840bc1b5", null ],
       [ "zUndefinedStreet", "z_enumerators_8h.html#ggaabb5d42d791984316f4991557592c450a152bf887aae2d2eecfcaf215f25d98d7", null ]
     ] ],
+    [ "zDatatypes", "z_enumerators_8h.html#ga0f45e3c691b4e6190cc9aceb0a5be83b", [
+      [ "zInt", "z_enumerators_8h.html#gga0f45e3c691b4e6190cc9aceb0a5be83bab222e4d9e86232abf7f23e95f3e9b922", null ],
+      [ "zFloat", "z_enumerators_8h.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba16c4222b125f5f6a2d02cc4f6af7916c", null ],
+      [ "zDouble", "z_enumerators_8h.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba8948023c606a884296ee95e63e142ddb", null ],
+      [ "zString", "z_enumerators_8h.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba39faf88b0e00ae50b8366c9250bd9a6f", null ]
+    ] ],
     [ "zDiffusionType", "z_enumerators_8h.html#ga888f1737963f7efc6cd87ca3bfff378f", [
       [ "zLaplacian", "z_enumerators_8h.html#gga888f1737963f7efc6cd87ca3bfff378fab1257cc5dce828706b545f4ec90df0ec", null ],
       [ "zAverage", "z_enumerators_8h.html#gga888f1737963f7efc6cd87ca3bfff378fa3733d36d2ce021f46543606c8ef27185", null ],

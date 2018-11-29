@@ -19,5 +19,6 @@ var searchData=
   ['frommesh',['fromMESH',['../group__z_i_o___graph.html#gaf0c07f18c8822ecfe7fc06304527d209',1,'zSpace']]],
   ['fromobj',['fromOBJ',['../group__z_i_o___mesh.html#gad60778d5e70ebdcc0bd24babf3afa810',1,'zSpace']]],
   ['fromrowmatrix',['fromRowMatrix',['../classz_space_1_1z_vector.html#a10c955506bd52a5a845e58f680632b50',1,'zSpace::zVector']]],
-  ['fromscalarfield2d',['fromScalarField2D',['../group__z_scalar_field2_d_utilities.html#gac16276b7d54f4b09e6f7b333a0f5dbd6',1,'zSpace']]]
+  ['fromscalarfield2d',['fromScalarField2D',['../group__z_scalar_field2_d_utilities.html#gac16276b7d54f4b09e6f7b333a0f5dbd6',1,'zSpace']]],
+  ['fromtxt',['fromTXT',['../group__z_i_o___graph.html#ga8a777733141d990b954475902e8a8cdc',1,'zSpace']]]
 ];

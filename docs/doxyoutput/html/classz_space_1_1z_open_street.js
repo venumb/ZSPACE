@@ -11,6 +11,8 @@ var classz_space_1_1z_open_street =
     [ "fromCoordinates", "classz_space_1_1z_open_street.html#ad57dc144a2d627dd20d7b8f105ca49f9", null ],
     [ "getBuildingType", "classz_space_1_1z_open_street.html#a1bb16c896389ff73b999cc25d059deb6", null ],
     [ "getStreetType", "classz_space_1_1z_open_street.html#aa7f42839db83e70d8077afa3a8b7d16e", null ],
+    [ "updateScalars_fromCSV", "classz_space_1_1z_open_street.html#ae6f47ea054e07391d0ec643c10378c48", null ],
+    [ "updateScalars_fromCSV", "classz_space_1_1z_open_street.html#a6e2b56ec818f5dac6856b336bce8ffee", null ],
     [ "updateScalars_GraphConnectivity", "classz_space_1_1z_open_street.html#a832d06aa1ecf8fed5e82b6447a0cf278", null ],
     [ "Building_buildingEdges", "classz_space_1_1z_open_street.html#a0c054f62854a13e690ac2751929fd556", null ],
     [ "buildingEdges_Building", "classz_space_1_1z_open_street.html#a8a99f2bd2979b198a6dd9e583f13cb0f", null ],

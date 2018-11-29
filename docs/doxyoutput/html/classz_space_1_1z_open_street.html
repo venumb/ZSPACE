@@ -140,7 +140,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1c815f333ca41c75227a60c76db85884"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates the building graph from the OSM data.  <a href="#a1c815f333ca41c75227a60c76db85884">More...</a><br /></td></tr>
 <tr class="separator:a1c815f333ca41c75227a60c76db85884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a832d06aa1ecf8fed5e82b6447a0cf278">updateScalars_GraphConnectivity</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph)</td></tr>
+<tr class="memdesc:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field based on input graph connectivity.  <a href="#a832d06aa1ecf8fed5e82b6447a0cf278">More...</a><br /></td></tr>
 <tr class="separator:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6f47ea054e07391d0ec643c10378c48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ae6f47ea054e07391d0ec643c10378c48">updateScalars_fromCSV</a> (string infilename, vector&lt; string &gt; &amp;data)</td></tr>
+<tr class="memdesc:ae6f47ea054e07391d0ec643c10378c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,string.  <a href="#ae6f47ea054e07391d0ec643c10378c48">More...</a><br /></td></tr>
+<tr class="separator:ae6f47ea054e07391d0ec643c10378c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e2b56ec818f5dac6856b336bce8ffee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a6e2b56ec818f5dac6856b336bce8ffee">updateScalars_fromCSV</a> (string infilename, vector&lt; double &gt; &amp;data)</td></tr>
+<tr class="memdesc:a6e2b56ec818f5dac6856b336bce8ffee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,double.  <a href="#a6e2b56ec818f5dac6856b336bce8ffee">More...</a><br /></td></tr>
+<tr class="separator:a6e2b56ec818f5dac6856b336bce8ffee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -639,6 +646,102 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae6f47ea054e07391d0ec643c10378c48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6f47ea054e07391d0ec643c10378c48">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>infilename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">infilename</td><td>- input file name including the directory path and extension. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>- output data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00625">625</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+
+</div>
+</div>
+<a id="a6e2b56ec818f5dac6856b336bce8ffee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e2b56ec818f5dac6856b336bce8ffee">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>infilename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,double. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">infilename</td><td>- input file name including the directory path and extension. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>- output data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00695">695</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+
+</div>
+</div>
 <a id="a832d06aa1ecf8fed5e82b6447a0cf278"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a832d06aa1ecf8fed5e82b6447a0cf278">&#9670;&nbsp;</a></span>updateScalars_GraphConnectivity()</h2>
 
@@ -663,7 +766,16 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00592">592</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p>This method updates the scalars in the scalar field based on input graph connectivity. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inGraph</td><td>- input graph. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00597">597</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 
 </div>
 </div>

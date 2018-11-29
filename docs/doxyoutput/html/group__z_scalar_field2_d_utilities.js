@@ -21,6 +21,8 @@ var group__z_scalar_field2_d_utilities =
     [ "union_fields", "group__z_scalar_field2_d_utilities.html#ga9d820a9af25c28ae4fe39afd2aa0cb14", null ],
     [ "updateBlendColors", "group__z_scalar_field2_d_utilities.html#ga98c941196d269404150977048849513f", null ],
     [ "updateBlendColors", "group__z_scalar_field2_d_utilities.html#ga7bc531e7f4cc38cb70a89ced4946fce9", null ],
+    [ "updateBlendColors", "group__z_scalar_field2_d_utilities.html#ga362305de05d0ce3c7c8001b58ae75280", null ],
+    [ "updateBlendColors", "group__z_scalar_field2_d_utilities.html#ga62a086d47d09f7c05625836033dba3a7", null ],
     [ "updateColors", "group__z_scalar_field2_d_utilities.html#ga2b8f595bd1fccaa3086c7d841f3137c7", null ],
     [ "updateColors", "group__z_scalar_field2_d_utilities.html#gac0a6e93e7bb823acd7f95334f7b24027", null ]
 ];
