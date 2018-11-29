@@ -84,12 +84,19 @@ namespace zSpace
 
 	enum zDataBuilding { zCommercialBuilding = 100, zResidentialBuilding, zPublicBuilding, zUniversityBuilding, zUndefinedBuilding};
 	
-	/*! \enum	zDataRoad
+	/*! \enum	zDataStreet
 	*	\brief	Grid levels for data in London.
 	*	\since	version 0.0.1
 	*/
 
 	enum zDataStreet { zTrunkStreet = 20, zPrimaryStreet, zSecondaryStreet, zTertiaryStreet, zResidentialStreet, zPedestrianStreet, zCycleStreet, zServiceStreet, zUndefinedStreet };
+
+	/*! \enum	zDatatypes
+	*	\brief	Grid levels for data in London.
+	*	\since	version 0.0.1
+	*/
+
+	enum zDatatypes { zInt = 110, zFloat, zDouble, zString };
 
 
 	/** @}*/

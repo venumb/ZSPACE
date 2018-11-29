@@ -589,6 +589,11 @@ namespace zSpace
 		//---- FIELD DATA METHODS
 		//--------------------------
 
+		/*! \brief This method updates the scalars in the scalar field based on input graph connectivity.
+		*
+		*	\param		[in]	inGraph		- input graph.
+		*	\since version 0.0.1
+		*/
 		void updateScalars_GraphConnectivity(zGraph& inGraph)
 		{
 			for (int i = 0; i < scalarfield.getNumScalars(); i++)
@@ -609,6 +614,138 @@ namespace zSpace
 			}
 		}
 	
+
+		/*! \brief This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,string.
+		*
+		*	\param		[in]	infilename	- input file name including the directory path and extension.
+		*	\param		[out]	data		- output data.
+		*	\since version 0.0.1
+		*/
+				
+		void updateScalars_fromCSV(string infilename, vector<string> &data)
+		{
+			data.clear();
+
+			for (int i = 0; i < scalarfield.getNumScalars(); i++)
+			{
+				scalarfield.setWeight(0.0, i);
+			}
+
+			ifstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infilename.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+					double lat = atof(perlineData[0].c_str());
+					double lon = atof(perlineData[1].c_str());
+
+					
+
+					if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+					{
+						
+						// get mapped position
+						zVector pos = fromCoordinates(lat, lon);
+
+						// get field index
+						int fieldIndex = scalarfield.getIndex(pos);
+
+						// get data
+						string inData = perlineData[2];
+
+						data.push_back(inData);
+
+						
+						double curWeight = scalarfield.getWeight(fieldIndex);
+						curWeight++;
+						scalarfield.setWeight(curWeight, fieldIndex);		
+
+					
+									
+					}
+
+					
+
+				}
+
+			}
+		}
+
+		/*! \brief This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,double.
+		*
+		*	\param		[in]	infilename	- input file name including the directory path and extension.
+		*	\param		[out]	data		- output data.
+		*	\since version 0.0.1
+		*/
+
+		void updateScalars_fromCSV(string infilename, vector<double> &data)
+		{
+			data.clear();
+
+			for (int i = 0; i < scalarfield.getNumScalars(); i++)
+			{
+				scalarfield.setWeight(0.0, i);
+			}
+
+			ifstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+					double lat = atof(perlineData[0].c_str());
+					double lon = atof(perlineData[1].c_str());
+
+					if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+					{
+						// get mapped position
+						zVector pos = fromCoordinates(lat, lon);
+
+						// get field index
+						int fieldIndex = scalarfield.getIndex(pos);
+
+						// get data
+						double inData = atof(perlineData[2].c_str());
+
+						data.push_back(inData);
+
+						scalarfield.setWeight(inData, fieldIndex);
+
+					}
+
+
+
+				}
+
+			}
+		}
 
 	};
 }

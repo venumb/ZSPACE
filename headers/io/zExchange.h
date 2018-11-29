@@ -183,6 +183,75 @@ namespace zSpace
 	*  @{
 	*/
 
+	/*! \brief This method imports zGraph from an TXT file.
+	*
+	*	\param [in]		inGraph				- mesh create from the obj file.
+	*	\param [in]		infilename			- input file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	void fromTXT(zGraph &inGraph, string infilename)
+	{
+		vector<zVector>positions;
+		vector<int>edgeConnects;
+
+
+		ifstream myfile;
+		myfile.open(infilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << infilename.c_str() << endl;
+			return;
+
+		}
+
+		while (!myfile.eof())
+		{
+			string str;
+			getline(myfile, str);
+
+			vector<string> perlineData = splitString(str, " ");
+
+			if (perlineData.size() > 0)
+			{
+				// vertex
+				if (perlineData[0] == "v")
+				{
+					if (perlineData.size() == 4)
+					{
+						zVector pos;
+						pos.x = atof(perlineData[1].c_str());
+						pos.y = atof(perlineData[2].c_str());
+						pos.z = atof(perlineData[3].c_str());
+
+						positions.push_back(pos);
+					}
+					//printf("\n working vertex");
+				}
+
+
+				// face
+				if (perlineData[0] == "e")
+				{
+
+					for (int i = 1; i < perlineData.size(); i++)
+					{
+						int id = atoi(perlineData[i].c_str()) - 1;
+						edgeConnects.push_back(id);					
+					}
+				}
+			}
+		}
+
+		myfile.close();
+
+
+		inGraph = zGraph(positions, edgeConnects);;
+		printf("\n inGraph: %i %i %i", inGraph.numVertices(), inGraph.numEdges());
+
+		
+	}
+
 	/*! \brief This method imports zGraph from a JSON file format using JSON Modern Library.
 	*
 	*	\param [in]		inGraph				- graph created from the JSON file.
@@ -340,6 +409,56 @@ namespace zSpace
 	*  @{
 	*/
 
+	/*! \brief This method exports zGraph to a TXT file format. 
+	*
+	*	\param [in]		inGraph				- input graph.
+	*	\param [in]		outfilename			- output file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	void toTXT(zGraph &inGraph, string outfilename)
+	{
+		ofstream myfile;
+		myfile.open(outfilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+			return;
+
+		}
+
+		myfile << "\n ";
+
+		// vertex positions
+		for (int i = 0; i < inGraph.vertexActive.size(); i++)
+		{
+			if (!inGraph.vertexActive[i]) continue;
+
+			myfile << "\n v " << inGraph.vertexPositions[i].x << " " << inGraph.vertexPositions[i].y << " " << inGraph.vertexPositions[i].z;
+
+		}
+
+		myfile << "\n ";
+
+		// edge connectivity
+		for (int i = 0; i < inGraph.edgeActive.size(); i+= 2)
+		{
+			if (!inGraph.edgeActive[i]) continue;			
+
+			myfile << "\n e ";
+			
+			myfile << inGraph.edges[i].getVertex()->getVertexId() << " ";
+			myfile << inGraph.edges[i].getVertex()->getVertexId();			
+
+		}
+
+		myfile << "\n ";
+
+		myfile.close();
+
+		cout << endl << " TXT exported. File:   " << outfilename.c_str() << endl;
+	}
+
 	/*! \brief This method exports zGraph to a JSON file format using JSON Modern Library.
 	*
 	*	\param [in]		inGraph				- input graph.
@@ -347,7 +466,6 @@ namespace zSpace
 	*	\param [in]		vColors				- export vertex color information if true.
 	*	\since version 0.0.1
 	*/
-
 	void toJSON(zGraph &inGraph, string outfilename, bool vColors = false)
 	{
 		zGraphJSON inGraphJSON;

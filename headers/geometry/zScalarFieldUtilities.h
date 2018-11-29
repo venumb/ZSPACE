@@ -739,12 +739,89 @@ namespace zSpace
 
 			col.toRGB();
 
-			fieldMesh.faceColors[i] = col;
-
-			if(i%10 == 0) printf("\n %i : %1.2f %1.2f %1.2f ",i, fieldMesh.faceColors[i].r, fieldMesh.faceColors[i].g, fieldMesh.faceColors[i].b);
+			fieldMesh.faceColors[i] = col;			
 		}
 
 		fieldMesh.computeVertexColorfromFaceColor();		
+	}
+
+
+	/*! \brief This method updates the color values of the field mesh based on the scalar values.
+	*
+	*	\param	[in]	fieldMesh	- input field mesh.
+	*	\param	[in]	scalars		- container of  scalar values.
+	*	\param	[in]	col1		- blend color 1.
+	*	\param	[in]	col2		- blend color 2.
+	*	\since version 0.0.1
+	*/
+	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
+	{
+		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
+		{
+			//convert to HSV
+			col1.toHSV(); col2.toHSV();
+
+			for (int i = 0; i < scalars.size(); i++)
+			{
+				zColor col;
+						
+
+				if (scalars[i] < dMin) col = col1;
+				else if (scalars[i] > dMax) col = col2;
+				else
+				{
+					col.h = ofMap(scalars[i], dMin, dMax, col1.h, col2.h);
+					col.s = ofMap(scalars[i], dMin, dMax, col1.s, col2.s);
+					col.v = ofMap(scalars[i], dMin, dMax, col1.v, col2.v);
+
+					col.toRGB();
+				}
+
+				if (fieldMesh.vertexActive.size() == scalars.size()) fieldMesh.vertexColors[i] = col;
+				else fieldMesh.faceColors[i] = col;
+			}
+
+			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeFaceColorfromVertexColor();
+
+		}
+
+		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
+	}
+
+
+	/*! \brief This method updates the color values of the field mesh based on the scalarField.
+	*
+	*	\param	[in]	fieldMesh	- input field mesh.
+	*	\param	[in]	field		- scalar field.
+	*	\param	[in]	col1		- blend color 1.
+	*	\param	[in]	col2		- blend color 2.
+	*	\since version 0.0.1
+	*/
+	void updateBlendColors(zMesh &fieldMesh, zScalarField2D &field, zColor &col1, zColor &col2, double dMin, double dMax)
+	{
+		printf("\n min max: %1.2f %1.2f", dMin, dMax);
+
+		for (int i = 0; i < field.getNumScalars(); i++)
+		{
+			double scalar = field.getWeight(i);
+
+			zColor col;
+
+			if (scalar < dMin) col = col1;
+			else if (scalar > dMax) col = col2;
+			else
+			{
+				col.h = ofMap(scalar, dMin, dMax, col1.h, col2.h);
+				col.s = ofMap(scalar, dMin, dMax, col1.s, col2.s);
+				col.v = ofMap(scalar, dMin, dMax, col1.v, col2.v);
+
+				col.toRGB();
+			}
+
+			fieldMesh.faceColors[i] = col;
+		}
+
+		fieldMesh.computeVertexColorfromFaceColor();
 	}
 
 	//--------------------------
