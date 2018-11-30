@@ -16,6 +16,7 @@ var searchData=
   ['computefacecolorfromvertexcolor',['computeFaceColorfromVertexColor',['../classz_space_1_1z_mesh.html#a89641aad9a7a872cef9eb34ccff09269',1,'zSpace::zMesh']]],
   ['computemeshnormals',['computeMeshNormals',['../classz_space_1_1z_mesh.html#a42be75e01f9b3704fcc85fd745952b22',1,'zSpace::zMesh']]],
   ['computepolyconnects_5fpolycount',['computePolyConnects_PolyCount',['../group__z_mesh_utilities.html#ga1311698c2fce00e59bcfafcbfb29a29e',1,'zSpace']]],
+  ['computepositionsinfieldindex',['computePositionsInFieldIndex',['../group__z_scalar_field2_d_utilities.html#gaf05f0b1d1bce34d617d92902a00a8c8b',1,'zSpace']]],
   ['computevertexcolorfromedgecolor',['computeVertexColorfromEdgeColor',['../classz_space_1_1z_graph.html#a654f5d383500ccf87c9c7f87bc8301c4',1,'zSpace::zGraph']]],
   ['computevertexcolorfromfacecolor',['computeVertexColorfromFaceColor',['../classz_space_1_1z_mesh.html#ae519ccec31ffee9fa16596724e04130c',1,'zSpace::zMesh']]],
   ['computevertexnormalfromfacenormal',['computeVertexNormalfromFaceNormal',['../classz_space_1_1z_mesh.html#ac27b3838590a838a11243e4fd6ad0b6d',1,'zSpace::zMesh']]],

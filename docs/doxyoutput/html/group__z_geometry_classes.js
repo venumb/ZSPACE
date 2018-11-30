@@ -128,17 +128,30 @@ var group__z_geometry_classes =
       [ "getNeighbourHoodRing", "classz_space_1_1z_scalar_field2_d.html#a68ec4567874438e6b7c23b8046018a2a", null ],
       [ "getNumScalars", "classz_space_1_1z_scalar_field2_d.html#aaf22a7a8c12ad18dcfcd5b8fda13fc56", null ],
       [ "getPosition", "classz_space_1_1z_scalar_field2_d.html#ac7fac4d1fecb68dce46e7e86511bea6e", null ],
+      [ "getResolution", "classz_space_1_1z_scalar_field2_d.html#a7f73db6c949e0f0b75d309d7504d0c0b", null ],
+      [ "getUnitDistances", "classz_space_1_1z_scalar_field2_d.html#a73bb2c214a839c71c5b63949d17206de", null ],
       [ "getWeight", "classz_space_1_1z_scalar_field2_d.html#a0609257306a40fcae5ef2e9385cf91d2", null ],
       [ "setBoundingBox", "classz_space_1_1z_scalar_field2_d.html#a82f0f40093960483241d5ac70e10054f", null ],
       [ "setPosition", "classz_space_1_1z_scalar_field2_d.html#aec662ddd024d0916b2e0adf93eee35f2", null ],
-      [ "setWeight", "classz_space_1_1z_scalar_field2_d.html#a39b442eb9403f94b2e2535310a6286cf", null ],
-      [ "maxBB", "classz_space_1_1z_scalar_field2_d.html#ab19b3f9fd831cd004531714fc9a7726f", null ],
-      [ "minBB", "classz_space_1_1z_scalar_field2_d.html#a4fd2919e1a742d9c1dcacc7dffe88567", null ],
-      [ "n_X", "classz_space_1_1z_scalar_field2_d.html#aae1addb044ea2030034099a8f1e2f802", null ],
-      [ "n_Y", "classz_space_1_1z_scalar_field2_d.html#af60e2e50fc123ea69e13f093aeea6857", null ],
-      [ "scalars", "classz_space_1_1z_scalar_field2_d.html#a47a39f1e7d36ed377b09dcfd80bd58de", null ],
-      [ "unit_X", "classz_space_1_1z_scalar_field2_d.html#aa143c759d29f1e36949362a08ee9073f", null ],
-      [ "unit_Y", "classz_space_1_1z_scalar_field2_d.html#a4af17f19fddec60d103f0cfcab40309d", null ]
+      [ "setWeight", "classz_space_1_1z_scalar_field2_d.html#a39b442eb9403f94b2e2535310a6286cf", null ]
     ] ],
-    [ "zScalarField£D", "classz_scalar_field_xA3_d.html", null ]
+    [ "zScalarField3D", "classz_space_1_1z_scalar_field3_d.html", [
+      [ "zScalarField3D", "classz_space_1_1z_scalar_field3_d.html#a59e270ce9dc6e43ba0d66fc1335b266f", null ],
+      [ "zScalarField3D", "classz_space_1_1z_scalar_field3_d.html#ab22ec07068590b240d6df4755526fd52", null ],
+      [ "zScalarField3D", "classz_space_1_1z_scalar_field3_d.html#a6689ff3f2b3b4483bd58361fd9cf1974", null ],
+      [ "~zScalarField3D", "classz_space_1_1z_scalar_field3_d.html#a3ca4d9078f32491cee13e27462bdf06a", null ],
+      [ "getBoundingBox", "classz_space_1_1z_scalar_field3_d.html#a035277ee6199b27d4845f33b9548c48a", null ],
+      [ "getIndex", "classz_space_1_1z_scalar_field3_d.html#add244cf837ecda7eb114cdd9823aa16f", null ],
+      [ "getIndices", "classz_space_1_1z_scalar_field3_d.html#ae71301bf964b2632f67e2abb867cb94b", null ],
+      [ "getNeighbourAdjacents", "classz_space_1_1z_scalar_field3_d.html#a5760b9058d3ba333a594af076520cfcf", null ],
+      [ "getNeighbourHoodRing", "classz_space_1_1z_scalar_field3_d.html#a2cf66dccc3b37f58b517e85a5a4c3517", null ],
+      [ "getNumScalars", "classz_space_1_1z_scalar_field3_d.html#a723f9fc9ca4fc1b5f9fc716d7d266b8e", null ],
+      [ "getPosition", "classz_space_1_1z_scalar_field3_d.html#acc20468e298eea91fbf240b4257572b5", null ],
+      [ "getResolution", "classz_space_1_1z_scalar_field3_d.html#ac32779d3db7bcad896c4c12d41b55783", null ],
+      [ "getUnitDistances", "classz_space_1_1z_scalar_field3_d.html#afdcfa05183a4d5954afd9c2fee011a11", null ],
+      [ "getWeight", "classz_space_1_1z_scalar_field3_d.html#a15a112c7ca88140dfc12c9c8e4352952", null ],
+      [ "setBoundingBox", "classz_space_1_1z_scalar_field3_d.html#aaf8b1fa356f0622f4c5dccac2b3926b1", null ],
+      [ "setPosition", "classz_space_1_1z_scalar_field3_d.html#a2ff83bcfa2991cf3d5e685762a3d3cde", null ],
+      [ "setWeight", "classz_space_1_1z_scalar_field3_d.html#abaa015b5d4d0a79d569000e9a5a775c5", null ]
+    ] ]
 ];

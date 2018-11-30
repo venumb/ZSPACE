@@ -1,0 +1,15 @@
+digraph "zSpace::getEdgeLengths"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node69 [label="zSpace::getEdgeLengths",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node69 -> Node70 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node70 [label="zSpace::zEdge::getVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a07c082aa54f78145fdcd5e5e4bb889f1",tooltip="This method returns the vertex pointed to by the current zEdge. "];
+  Node69 -> Node71 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node71 [label="zSpace::zVertex::getVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e",tooltip="This method returns the vertexId of current zVertex. "];
+  Node69 -> Node72 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node72 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge. "];
+  Node69 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 [label="zSpace::zVector::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400",tooltip="This method returns the magnitude/length of the zVector. "];
+}

@@ -7,5 +7,6 @@ var z_graph_utilities_8h =
     [ "shortestDistance", "z_graph_utilities_8h.html#gac451c64cc2f99f8c743332bdcd1a97c0", null ],
     [ "shortestPath", "z_graph_utilities_8h.html#gac71495a08e215c7e886b989bebaee053", null ],
     [ "shortestPathWalks", "z_graph_utilities_8h.html#gac6d2ed4a56f24d0a48bc41967e9612ce", null ],
-    [ "totalEdgeLength", "z_graph_utilities_8h.html#ga35460aaad2c88df17da9be878dcc72f4", null ]
+    [ "totalEdgeLength", "z_graph_utilities_8h.html#ga35460aaad2c88df17da9be878dcc72f4", null ],
+    [ "walkingDistance", "z_graph_utilities_8h.html#gafd378ff769dac616752ca4857a82d9f5", null ]
 ];

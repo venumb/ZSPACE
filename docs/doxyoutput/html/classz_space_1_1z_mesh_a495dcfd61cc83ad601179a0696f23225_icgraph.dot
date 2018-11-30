@@ -1,0 +1,36 @@
+digraph "zSpace::zMesh::numPolygons"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node276 [label="zSpace::zMesh::numPolygons",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node276 -> Node277 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node277 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer. "];
+  Node276 -> Node278 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node278 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c",tooltip="This method deletes the zMesh vertices given in the input vertex list. "];
+  Node276 -> Node279 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node279 [label="zSpace::triangulate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de",tooltip="This method triangulates the input mesh. "];
+  Node276 -> Node280 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node280 [label="zSpace::splitFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80",tooltip="This method splits a set of edges and faces of a mesh in a continuous manner. "];
+  Node276 -> Node281 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node281 [label="zSpace::subDivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760",tooltip="This method subdivides all the faces and edges of the mesh. "];
+  Node276 -> Node282 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node282 [label="zSpace::extrudeMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8",tooltip="This method returns an extruded mesh from the input mesh. "];
+  Node276 -> Node283 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node283 [label="zSpace::fromScalarField2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga60b2c694356889487025ea4817c89010",tooltip="This method creates a mesh from the input scalar field. "];
+  Node283 -> Node284 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node284 [label="zSpace::zOpenStreet\l::fieldFromBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#afbc7adca0c9d2ee4635de29baba0b5b5",tooltip="This method computes the scalar field from the bounds and input resolution. It also computes the fiel..."];
+  Node276 -> Node285 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node285 [label="zSpace::getIsolineMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga63d805729d97ddd318cf0700a234b469",tooltip="This method creates a isoline mesh from the input field mesh at the given field threshold. "];
+  Node285 -> Node286 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node286 [label="zSpace::getIsobandMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga45610f4909d8d9800db09f245dc8ba8a",tooltip="This method creates a isoband mesh from the input field mesh at the given field threshold. "];
+  Node276 -> Node286 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node276 -> Node287 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node287 [label="zSpace::fromOBJ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html#gad60778d5e70ebdcc0bd24babf3afa810",tooltip="This method imports zMesh from an OBJ file. "];
+  Node276 -> Node288 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node288 [label="zSpace::toOBJ",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html#ga56d1123fee7864f1a5da2f740b9e589d",tooltip="This method exports zMesh as an OBJ file. "];
+  Node276 -> Node289 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node289 [label="zSpace::zMeshJSON::\lto_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh_j_s_o_n.html#a2f9c901ed11d790ecec40f3ca6ea4a17",tooltip="This method creates the JSON file from the input zMesh using JSON Modern Library. ..."];
+  Node289 -> Node290 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node290 [label="zSpace::toJSON",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html#ga6fccda275363a86353d2750673122d6f",tooltip="This method exports zMesh to a JSON file format using JSON Modern Library. "];
+}

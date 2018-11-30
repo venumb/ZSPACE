@@ -1,0 +1,11 @@
+digraph "zSpace::zMatrix::adjointMatrix"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node10 [label="zSpace::zMatrix::adjoint\lMatrix",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node10 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="zSpace::zMatrix::transpose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426",tooltip="This method returns the transpose of the input matrix. "];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="zSpace::zMatrix::setRow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae4d1edb48ef79097b18a02755cc859e1",tooltip="This method sets the row values at the input row index with the input value. "];
+}

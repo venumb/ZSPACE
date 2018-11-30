@@ -1,0 +1,27 @@
+digraph "zSpace::updateColors"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node281 [label="zSpace::updateColors",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node281 -> Node282 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node282 [label="zSpace::getMinMaxOfScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_d_utilities.html#gaae4f4dee2c6e1fb6a64c1811018da4fe",tooltip="This method computes the min and max scalar values at the given Scalars buffer. "];
+  Node282 -> Node283 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node283 [label="zSpace::zMin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga2eb6fc5b163e7ebfbc3af744f9dfe8bd",tooltip="This method returns the minimum of the two input values. "];
+  Node282 -> Node284 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node284 [label="zSpace::zMax",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gacb877a2c4d1cc7223201689ba437d5dd",tooltip="This method returns the maximum of the two input values. "];
+  Node281 -> Node285 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node285 [label="zSpace::ofMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a",tooltip="This method maps the input value from the input domain to output domain. "];
+  Node281 -> Node286 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node286 [label="zSpace::zMesh::computeFace\lColorfromVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#a89641aad9a7a872cef9eb34ccff09269",tooltip="This method computes the face colors based on the vertex colors. "];
+  Node286 -> Node287 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node287 [label="zSpace::zMesh::getVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b",tooltip="This method gets the vertices attached to input zEdge or zFace. "];
+  Node287 -> Node288 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node288 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa705d823873a948a1b62723f24a921b2",tooltip="This method gets the edges of a zFace. "];
+  Node288 -> Node289 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node289 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace. "];
+  Node288 -> Node290 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node290 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
+  Node288 -> Node291 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node291 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge. "];
+}

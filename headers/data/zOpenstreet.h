@@ -59,7 +59,8 @@ namespace zSpace
 	*/
 
 	/*! \struct zBuildings
-	*	\brief A struct for storing  information of OSM buildings and building graph.
+	*	\brief A class for accessing the openstreet data and other city level data stored in a SQL database , CSV files etc.
+	*	\details Uses open source data from https://www.openstreetmap.org
 	*	\since version 0.0.1
 	*/
 
@@ -95,16 +96,14 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zOpenstreet
-	*	\brief A class for accessing the openstreet data and other city level data stored in a SQL database / CSV file.
-	*	\details Uses open source data from https://www.openstreetmap.org
+	/*! \class zOpenStreet
+	*	\brief A struct for storing  information of OSM buildings and building graph.
 	*	\since version 0.0.1
 	*/
 
 	/** @}*/
 
 	/** @}*/
-
 	class zOpenStreet
 	{
 

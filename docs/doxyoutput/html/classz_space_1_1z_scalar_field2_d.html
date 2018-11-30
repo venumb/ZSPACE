@@ -88,7 +88,6 @@ $(document).ready(function(){initNavTree('classz_space_1_1z_scalar_field2_d.html
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classz_space_1_1z_scalar_field2_d-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">zSpace::zScalarField2D Class Reference<div class="ingroups"><a class="el" href="group__z_geometry.html">ZGeometry</a> &raquo; <a class="el" href="group__z_geometry_classes.html">ZGeometryClasses</a></div></div>  </div>
@@ -99,13 +98,6 @@ $(document).ready(function(){initNavTree('classz_space_1_1z_scalar_field2_d.html
  <a href="classz_space_1_1z_scalar_field2_d.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>&gt;</code></p>
-<div class="dynheader">
-Collaboration diagram for zSpace::zScalarField2D:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_scalar_field2_d__coll__graph.png" border="0" usemap="#z_space_1_1z_scalar_field2_d_coll__map" alt="Collaboration graph"/></div>
-<map name="z_space_1_1z_scalar_field2_d_coll__map" id="z_space_1_1z_scalar_field2_d_coll__map">
-</map>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -124,6 +116,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaf22a7a8c12ad18dcfcd5b8fda13fc56"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#aaf22a7a8c12ad18dcfcd5b8fda13fc56">getNumScalars</a> ()</td></tr>
 <tr class="memdesc:aaf22a7a8c12ad18dcfcd5b8fda13fc56"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method retruns the number of scalars in the field.  <a href="#aaf22a7a8c12ad18dcfcd5b8fda13fc56">More...</a><br /></td></tr>
 <tr class="separator:aaf22a7a8c12ad18dcfcd5b8fda13fc56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f73db6c949e0f0b75d309d7504d0c0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#a7f73db6c949e0f0b75d309d7504d0c0b">getResolution</a> (int &amp;_n_X, int &amp;_n_Y)</td></tr>
+<tr class="memdesc:a7f73db6c949e0f0b75d309d7504d0c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the unit distances of the field.  <a href="#a7f73db6c949e0f0b75d309d7504d0c0b">More...</a><br /></td></tr>
+<tr class="separator:a7f73db6c949e0f0b75d309d7504d0c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73bb2c214a839c71c5b63949d17206de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#a73bb2c214a839c71c5b63949d17206de">getUnitDistances</a> (double &amp;_unit_X, double &amp;_unit_Y)</td></tr>
+<tr class="memdesc:a73bb2c214a839c71c5b63949d17206de"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the unit distances of the field.  <a href="#a73bb2c214a839c71c5b63949d17206de">More...</a><br /></td></tr>
+<tr class="separator:a73bb2c214a839c71c5b63949d17206de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82f0f40093960483241d5ac70e10054f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#a82f0f40093960483241d5ac70e10054f">setBoundingBox</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;_minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;_maxBB)</td></tr>
 <tr class="memdesc:a82f0f40093960483241d5ac70e10054f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the bounds of the field.  <a href="#a82f0f40093960483241d5ac70e10054f">More...</a><br /></td></tr>
 <tr class="separator:a82f0f40093960483241d5ac70e10054f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,30 +152,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acdd09fc0314bac94529126c1e7986016"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#acdd09fc0314bac94529126c1e7986016">getNeighbourAdjacents</a> (int index, vector&lt; int &gt; &amp;adjacentNeighbours)</td></tr>
 <tr class="memdesc:acdd09fc0314bac94529126c1e7986016"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the immediate adjacent neighbours of the scalar at the input index.  <a href="#acdd09fc0314bac94529126c1e7986016">More...</a><br /></td></tr>
 <tr class="separator:acdd09fc0314bac94529126c1e7986016"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:aae1addb044ea2030034099a8f1e2f802"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#aae1addb044ea2030034099a8f1e2f802">n_X</a></td></tr>
-<tr class="memdesc:aae1addb044ea2030034099a8f1e2f802"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the resolution in X direction  <a href="#aae1addb044ea2030034099a8f1e2f802">More...</a><br /></td></tr>
-<tr class="separator:aae1addb044ea2030034099a8f1e2f802"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af60e2e50fc123ea69e13f093aeea6857"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#af60e2e50fc123ea69e13f093aeea6857">n_Y</a></td></tr>
-<tr class="memdesc:af60e2e50fc123ea69e13f093aeea6857"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the resolution in Y direction  <a href="#af60e2e50fc123ea69e13f093aeea6857">More...</a><br /></td></tr>
-<tr class="separator:af60e2e50fc123ea69e13f093aeea6857"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa143c759d29f1e36949362a08ee9073f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#aa143c759d29f1e36949362a08ee9073f">unit_X</a></td></tr>
-<tr class="memdesc:aa143c759d29f1e36949362a08ee9073f"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the size of one unit in X direction  <a href="#aa143c759d29f1e36949362a08ee9073f">More...</a><br /></td></tr>
-<tr class="separator:aa143c759d29f1e36949362a08ee9073f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4af17f19fddec60d103f0cfcab40309d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#a4af17f19fddec60d103f0cfcab40309d">unit_Y</a></td></tr>
-<tr class="memdesc:a4af17f19fddec60d103f0cfcab40309d"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the size of one unit in Y direction  <a href="#a4af17f19fddec60d103f0cfcab40309d">More...</a><br /></td></tr>
-<tr class="separator:a4af17f19fddec60d103f0cfcab40309d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fd2919e1a742d9c1dcacc7dffe88567"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#a4fd2919e1a742d9c1dcacc7dffe88567">minBB</a></td></tr>
-<tr class="memdesc:a4fd2919e1a742d9c1dcacc7dffe88567"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the minimum bounds of the scalar field  <a href="#a4fd2919e1a742d9c1dcacc7dffe88567">More...</a><br /></td></tr>
-<tr class="separator:a4fd2919e1a742d9c1dcacc7dffe88567"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab19b3f9fd831cd004531714fc9a7726f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#ab19b3f9fd831cd004531714fc9a7726f">maxBB</a></td></tr>
-<tr class="memdesc:ab19b3f9fd831cd004531714fc9a7726f"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the minimum bounds of the scalar field  <a href="#ab19b3f9fd831cd004531714fc9a7726f">More...</a><br /></td></tr>
-<tr class="separator:ab19b3f9fd831cd004531714fc9a7726f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47a39f1e7d36ed377b09dcfd80bd58de"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="structz_space_1_1z_scalar.html">zScalar</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_scalar_field2_d.html#a47a39f1e7d36ed377b09dcfd80bd58de">scalars</a></td></tr>
-<tr class="memdesc:a47a39f1e7d36ed377b09dcfd80bd58de"><td class="mdescLeft">&#160;</td><td class="mdescRight">container for the scalar field values  <a href="#a47a39f1e7d36ed377b09dcfd80bd58de">More...</a><br /></td></tr>
-<tr class="separator:a47a39f1e7d36ed377b09dcfd80bd58de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for 2D scalar field. </p>
@@ -211,7 +185,7 @@ Public Attributes</h2></td></tr>
 <p>Default constructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00104">104</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00106">106</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
 
 </div>
 </div>
@@ -280,7 +254,14 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00125">125</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00127">127</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_af392c87af0ea07c497800a48dbd4e8db_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_af392c87af0ea07c497800a48dbd4e8db_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_af392c87af0ea07c497800a48dbd4e8db_cgraph" id="classz_space_1_1z_scalar_field2_d_af392c87af0ea07c497800a48dbd4e8db_cgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -349,7 +330,14 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00179">179</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00181">181</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a8d5d0c05c80358f6fdc6ff34fc1f1e97_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a8d5d0c05c80358f6fdc6ff34fc1f1e97_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a8d5d0c05c80358f6fdc6ff34fc1f1e97_cgraph" id="classz_space_1_1z_scalar_field2_d_a8d5d0c05c80358f6fdc6ff34fc1f1e97_cgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -379,7 +367,7 @@ Public Attributes</h2></td></tr>
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00235">235</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00237">237</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
 
 </div>
 </div>
@@ -428,7 +416,14 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00272">272</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00299">299</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a64506bc34c6e6cb395139de5e41d3aeb_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a64506bc34c6e6cb395139de5e41d3aeb_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a64506bc34c6e6cb395139de5e41d3aeb_icgraph" id="classz_space_1_1z_scalar_field2_d_a64506bc34c6e6cb395139de5e41d3aeb_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -465,7 +460,14 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00340">340</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00367">367</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a64e9bde7d315224d66222b9579023d9b_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a64e9bde7d315224d66222b9579023d9b_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a64e9bde7d315224d66222b9579023d9b_icgraph" id="classz_space_1_1z_scalar_field2_d_a64e9bde7d315224d66222b9579023d9b_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -520,7 +522,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00361">361</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00388">388</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
 
 </div>
 </div>
@@ -569,7 +571,21 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00423">423</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00450">450</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_cgraph" id="classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_cgraph">
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_icgraph" id="classz_space_1_1z_scalar_field2_d_acdd09fc0314bac94529126c1e7986016_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -625,7 +641,21 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00377">377</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00404">404</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_cgraph" id="classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_cgraph">
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_icgraph" id="classz_space_1_1z_scalar_field2_d_a68ec4567874438e6b7c23b8046018a2a_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -656,7 +686,14 @@ Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>int - number of scalars in the field. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00247">247</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00249">249</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_aaf22a7a8c12ad18dcfcd5b8fda13fc56_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_aaf22a7a8c12ad18dcfcd5b8fda13fc56_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_aaf22a7a8c12ad18dcfcd5b8fda13fc56_icgraph" id="classz_space_1_1z_scalar_field2_d_aaf22a7a8c12ad18dcfcd5b8fda13fc56_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -693,7 +730,124 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00299">299</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00326">326</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_ac7fac4d1fecb68dce46e7e86511bea6e_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_ac7fac4d1fecb68dce46e7e86511bea6e_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_ac7fac4d1fecb68dce46e7e86511bea6e_cgraph" id="classz_space_1_1z_scalar_field2_d_ac7fac4d1fecb68dce46e7e86511bea6e_cgraph">
+</map>
+</div>
+
+</div>
+</div>
+<a id="a7f73db6c949e0f0b75d309d7504d0c0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f73db6c949e0f0b75d309d7504d0c0b">&#9670;&nbsp;</a></span>getResolution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zScalarField2D::getResolution </td>
+          <td>(</td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>_n_X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>_n_Y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets the unit distances of the field. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">_n_X</td><td>- pixel resolution in x direction. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">_n_Y</td><td>- pixel resolution in y direction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00260">260</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a7f73db6c949e0f0b75d309d7504d0c0b_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a7f73db6c949e0f0b75d309d7504d0c0b_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a7f73db6c949e0f0b75d309d7504d0c0b_icgraph" id="classz_space_1_1z_scalar_field2_d_a7f73db6c949e0f0b75d309d7504d0c0b_icgraph">
+</map>
+</div>
+
+</div>
+</div>
+<a id="a73bb2c214a839c71c5b63949d17206de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73bb2c214a839c71c5b63949d17206de">&#9670;&nbsp;</a></span>getUnitDistances()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zScalarField2D::getUnitDistances </td>
+          <td>(</td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>_unit_X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>_unit_Y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets the unit distances of the field. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">_unit_X</td><td>- size of each pixel in x direction. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">_unit_Y</td><td>- size of each pixel in y direction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00272">272</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a73bb2c214a839c71c5b63949d17206de_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a73bb2c214a839c71c5b63949d17206de_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a73bb2c214a839c71c5b63949d17206de_icgraph" id="classz_space_1_1z_scalar_field2_d_a73bb2c214a839c71c5b63949d17206de_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -730,7 +884,21 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00326">326</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00353">353</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_cgraph" id="classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_cgraph">
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_icgraph" id="classz_space_1_1z_scalar_field2_d_a0609257306a40fcae5ef2e9385cf91d2_icgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -778,7 +946,7 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00259">259</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00286">286</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
 
 </div>
 </div>
@@ -826,7 +994,14 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00285">285</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00312">312</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_aec662ddd024d0916b2e0adf93eee35f2_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_aec662ddd024d0916b2e0adf93eee35f2_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_aec662ddd024d0916b2e0adf93eee35f2_cgraph" id="classz_space_1_1z_scalar_field2_d_aec662ddd024d0916b2e0adf93eee35f2_cgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -874,134 +1049,21 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00313">313</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00340">340</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_cgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_cgraph" id="classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_cgraph">
+</map>
 </div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_icgraph.png" border="0" usemap="#classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_icgraph" alt=""/></div>
+<map name="classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_icgraph" id="classz_space_1_1z_scalar_field2_d_a39b442eb9403f94b2e2535310a6286cf_icgraph">
+</map>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab19b3f9fd831cd004531714fc9a7726f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab19b3f9fd831cd004531714fc9a7726f">&#9670;&nbsp;</a></span>maxBB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zScalarField2D::maxBB</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores the minimum bounds of the scalar field </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00090">90</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
-</div>
-</div>
-<a id="a4fd2919e1a742d9c1dcacc7dffe88567"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fd2919e1a742d9c1dcacc7dffe88567">&#9670;&nbsp;</a></span>minBB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zScalarField2D::minBB</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores the minimum bounds of the scalar field </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00087">87</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
-</div>
-</div>
-<a id="aae1addb044ea2030034099a8f1e2f802"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae1addb044ea2030034099a8f1e2f802">&#9670;&nbsp;</a></span>n_X</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int zSpace::zScalarField2D::n_X</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores the resolution in X direction </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00075">75</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
-</div>
-</div>
-<a id="af60e2e50fc123ea69e13f093aeea6857"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af60e2e50fc123ea69e13f093aeea6857">&#9670;&nbsp;</a></span>n_Y</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int zSpace::zScalarField2D::n_Y</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores the resolution in Y direction </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00078">78</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
-</div>
-</div>
-<a id="a47a39f1e7d36ed377b09dcfd80bd58de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47a39f1e7d36ed377b09dcfd80bd58de">&#9670;&nbsp;</a></span>scalars</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;<a class="el" href="structz_space_1_1z_scalar.html">zScalar</a>&gt; zSpace::zScalarField2D::scalars</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>container for the scalar field values </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00093">93</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
-</div>
-</div>
-<a id="aa143c759d29f1e36949362a08ee9073f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa143c759d29f1e36949362a08ee9073f">&#9670;&nbsp;</a></span>unit_X</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::zScalarField2D::unit_X</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores the size of one unit in X direction </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00081">81</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
-
-</div>
-</div>
-<a id="a4af17f19fddec60d103f0cfcab40309d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4af17f19fddec60d103f0cfcab40309d">&#9670;&nbsp;</a></span>unit_Y</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::zScalarField2D::unit_Y</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores the size of one unit in Y direction </p>
-
-<p class="definition">Definition at line <a class="el" href="z_scalarfield_8h_source.html#l00084">84</a> of file <a class="el" href="z_scalarfield_8h_source.html">zScalarfield.h</a>.</p>
 
 </div>
 </div>

@@ -2,7 +2,6 @@ var searchData=
 [
   ['s',['s',['../classz_space_1_1z_color.html#acea773d7d78ebcfe8234d631b042a974',1,'zSpace::zColor']]],
   ['scalarfield',['scalarfield',['../classz_space_1_1z_open_street.html#abbe6bfe5ac23b0ddd4c71e979260fea6',1,'zSpace::zOpenStreet']]],
-  ['scalars',['scalars',['../classz_space_1_1z_scalar_field2_d.html#a47a39f1e7d36ed377b09dcfd80bd58de',1,'zSpace::zScalarField2D::scalars()'],['../classz_space_1_1z_scalar_field3_d.html#ad65fbc2c6d9aa36cde41fef12ea7edca',1,'zSpace::zScalarField3D::scalars()']]],
   ['setboundingbox',['setBoundingBox',['../classz_space_1_1z_scalar_field2_d.html#a82f0f40093960483241d5ac70e10054f',1,'zSpace::zScalarField2D::setBoundingBox()'],['../classz_space_1_1z_scalar_field3_d.html#aaf8b1fa356f0622f4c5dccac2b3926b1',1,'zSpace::zScalarField3D::setBoundingBox()']]],
   ['setcol',['setCol',['../classz_space_1_1z_matrix.html#aed2d0cb2a763840e9182d79a16ec85ef',1,'zSpace::zMatrix::setCol(int index, T val)'],['../classz_space_1_1z_matrix.html#a81e01aa4a2d9ee8f17f1ae201ee1e997',1,'zSpace::zMatrix::setCol(int index, vector&lt; T &gt; &amp;vals)']]],
   ['setdiagonal',['setDiagonal',['../classz_space_1_1z_matrix.html#a4f5f8550531f785c493536140fe5e34b',1,'zSpace::zMatrix::setDiagonal(T val)'],['../classz_space_1_1z_matrix.html#ae850d71ff5a0136c910a6cb30d6af0dd',1,'zSpace::zMatrix::setDiagonal(vector&lt; T &gt; vals)']]],

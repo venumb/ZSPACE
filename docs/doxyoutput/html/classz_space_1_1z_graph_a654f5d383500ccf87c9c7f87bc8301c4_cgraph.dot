@@ -1,0 +1,17 @@
+digraph "zSpace::zGraph::computeVertexColorfromEdgeColor"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node110 [label="zSpace::zGraph::computeVertex\lColorfromEdgeColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node110 -> Node111 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node111 [label="zSpace::zGraph::getConnected\lEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#ab623e9a3bfc70e1f140b911cb0645bd2",tooltip="This method gets the edges connected to input zVertex or zEdge. "];
+  Node111 -> Node112 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node112 [label="zSpace::zVertex::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a7d187864963f642666b8c3bcfecee6e9",tooltip="This method returns the associated edge of current zVertex. "];
+  Node111 -> Node113 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node113 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
+  Node111 -> Node114 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node114 [label="zSpace::zEdge::getPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30",tooltip="This method returns the previous edge of current zEdge. "];
+  Node111 -> Node115 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node115 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge. "];
+}

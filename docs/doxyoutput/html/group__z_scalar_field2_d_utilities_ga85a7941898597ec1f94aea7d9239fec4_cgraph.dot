@@ -1,0 +1,20 @@
+digraph "zSpace::difference_fields"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node82 [label="zSpace::difference\l_fields",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node82 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="zSpace::intersect_fields",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga89947f8bba98a6edaf6a3a084d79c19d",tooltip="This method creates a intersect of the fields at the input buffers and stores them in the result buff..."];
+  Node83 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="zSpace::zMax",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gacb877a2c4d1cc7223201689ba437d5dd",tooltip="This method returns the maximum of the two input values. "];
+  Node83 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="zSpace::normaliseScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_d_utilities.html#ga524f0acafcab3796882c6cd327564965",tooltip="This method normalises the scalar values at the given field buffer. "];
+  Node85 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node86 [label="zSpace::getMinMaxOfScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_d_utilities.html#gaae4f4dee2c6e1fb6a64c1811018da4fe",tooltip="This method computes the min and max scalar values at the given Scalars buffer. "];
+  Node86 -> Node87 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 [label="zSpace::zMin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga2eb6fc5b163e7ebfbc3af744f9dfe8bd",tooltip="This method returns the minimum of the two input values. "];
+  Node86 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 -> Node88 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node88 [label="zSpace::ofMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a",tooltip="This method maps the input value from the input domain to output domain. "];
+}

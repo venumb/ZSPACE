@@ -12,11 +12,10 @@ var searchData=
   ['zmatrix',['zMatrix',['../classz_space_1_1z_matrix.html',1,'zSpace']]],
   ['zmesh',['zMesh',['../classz_space_1_1z_mesh.html',1,'zSpace']]],
   ['zmeshjson',['zMeshJSON',['../classz_space_1_1z_mesh_j_s_o_n.html',1,'zSpace']]],
-  ['zopenstreet',['zOpenstreet',['../classz_openstreet.html',1,'zOpenstreet'],['../classz_space_1_1z_open_street.html',1,'zSpace::zOpenStreet']]],
+  ['zopenstreet',['zOpenStreet',['../classz_space_1_1z_open_street.html',1,'zSpace']]],
   ['zscalar',['zScalar',['../structz_space_1_1z_scalar.html',1,'zSpace']]],
   ['zscalarfield2d',['zScalarField2D',['../classz_space_1_1z_scalar_field2_d.html',1,'zSpace']]],
   ['zscalarfield3d',['zScalarField3D',['../classz_space_1_1z_scalar_field3_d.html',1,'zSpace']]],
-  ['zscalarfield£d',['zScalarField£D',['../classz_scalar_field_xA3_d.html',1,'']]],
   ['zvector',['zVector',['../classz_space_1_1z_vector.html',1,'zSpace']]],
   ['zvertex',['zVertex',['../classz_space_1_1z_vertex.html',1,'zSpace']]],
   ['zways',['zWays',['../structz_space_1_1z_ways.html',1,'zSpace']]]

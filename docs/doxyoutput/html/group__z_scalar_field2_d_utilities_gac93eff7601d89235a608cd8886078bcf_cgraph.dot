@@ -1,0 +1,34 @@
+digraph "zSpace::assignScalarsAsVertexDistance"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node42 [label="zSpace::assignScalarsAsVertex\lDistance",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node42 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="zSpace::zGraph::numEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92",tooltip="This method returns the number of half edges in the graph or mesh. "];
+  Node42 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="zSpace::zEdge::getVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a07c082aa54f78145fdcd5e5e4bb889f1",tooltip="This method returns the vertex pointed to by the current zEdge. "];
+  Node42 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="zSpace::zVertex::getVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e",tooltip="This method returns the vertexId of current zVertex. "];
+  Node42 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge. "];
+  Node42 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="zSpace::minDist_Edge\l_Point",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e",tooltip="This method computes the minimum distance between a point and edge and the closest Point on the edge..."];
+  Node47 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length. "];
+  Node47 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="zSpace::zVector::distanceTo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca",tooltip="This method returns the distance between the current zVector and input zVector. "];
+  Node42 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::F_of_r",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_d_utilities.html#gae517a8c132412ab539812a48edf9e97c",tooltip="This method computes the distance function. "];
+  Node42 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::getMinMaxOfScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_d_utilities.html#gaae4f4dee2c6e1fb6a64c1811018da4fe",tooltip="This method computes the min and max scalar values at the given Scalars buffer. "];
+  Node51 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="zSpace::zMin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga2eb6fc5b163e7ebfbc3af744f9dfe8bd",tooltip="This method returns the minimum of the two input values. "];
+  Node51 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="zSpace::zMax",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gacb877a2c4d1cc7223201689ba437d5dd",tooltip="This method returns the maximum of the two input values. "];
+  Node42 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="zSpace::normaliseScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_d_utilities.html#ga524f0acafcab3796882c6cd327564965",tooltip="This method normalises the scalar values at the given field buffer. "];
+  Node54 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::ofMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a",tooltip="This method maps the input value from the input domain to output domain. "];
+}

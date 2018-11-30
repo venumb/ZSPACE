@@ -510,7 +510,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zScalarField£D
+	/*! \class zScalarField3D
 	*	\brief A class for 3D scalar field.
 	*	\since version 0.0.1
 	*/

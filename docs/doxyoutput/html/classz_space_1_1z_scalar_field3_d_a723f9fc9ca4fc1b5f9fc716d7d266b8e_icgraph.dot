@@ -1,0 +1,22 @@
+digraph "zSpace::zScalarField3D::getNumScalars"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node31 [label="zSpace::zScalarField3D\l::getNumScalars",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node31 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="zSpace::zScalarField3D\l::setPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#a2ff83bcfa2991cf3d5e685762a3d3cde",tooltip="This method sets the position of the scalar at the input index. "];
+  Node31 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="zSpace::zScalarField3D\l::getPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#acc20468e298eea91fbf240b4257572b5",tooltip="This method gets the position of the scalar at the input index. "];
+  Node31 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="zSpace::zScalarField3D\l::setWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#abaa015b5d4d0a79d569000e9a5a775c5",tooltip="This method sets the weight/value of the scalar at the input index. "];
+  Node31 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="zSpace::zScalarField3D\l::getWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#a15a112c7ca88140dfc12c9c8e4352952",tooltip="This method gets the waight/value of the scalar at the input index. "];
+  Node31 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="zSpace::zScalarField3D\l::getNeighbourHoodRing",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#a2cf66dccc3b37f58b517e85a5a4c3517",tooltip="This method gets the ring neighbours of the scalar at the input index. "];
+  Node36 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="zSpace::zScalarField3D\l::zScalarField3D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#ab22ec07068590b240d6df4755526fd52",tooltip="Overloaded constructor. "];
+  Node31 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="zSpace::zScalarField3D\l::getNeighbourAdjacents",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field3_d.html#a5760b9058d3ba333a594af076520cfcf",tooltip="This method gets the immediate adjacent neighbours of the scalar at the input index. "];
+  Node38 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

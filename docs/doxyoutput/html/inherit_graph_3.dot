@@ -3,5 +3,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="zSpace::zBuildings",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structz_space_1_1z_buildings.html",tooltip="A struct for storing information of OSM buildings and building graph. "];
+  Node0 [label="zSpace::zCurvature",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structz_space_1_1z_curvature.html",tooltip="A curvature struct defined to hold defined to hold curvature information of a half-edge Mesh..."];
 }

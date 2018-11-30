@@ -1,0 +1,39 @@
+digraph "zSpace::zOpenStreet::createBuildingGraph"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node13 [label="zSpace::zOpenStreet\l::createBuildingGraph",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node13 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="zSpace::zDatabase::\lsqlCommand",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_database.html#a4d5d00809e93cd250637d53432d2513e",tooltip="This method queries the database with the command given by the input SQL statement. "];
+  Node13 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="zSpace::zOpenStreet\l::fromCoordinates",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#ad57dc144a2d627dd20d7b8f105ca49f9",tooltip="This method computes the 3D position based on the input latitude and longitude, using the bounds of t..."];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="zSpace::ofMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a",tooltip="This method maps the input value from the input domain to output domain. "];
+  Node13 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="zSpace::zOpenStreet\l::getBuildingType",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a1bb16c896389ff73b999cc25d059deb6",tooltip="This method gets the street type from the OSM data for the given wayId if it corresponds to a street..."];
+  Node17 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga2ef9ee7a2c33012bc55bc2592fa6ffdb",tooltip="This method sets edge color of all the edges to the input color. "];
+  Node18 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga7cd47e65d56a0587e3ca4babd1c233e3",tooltip="This method sets vertex color of all the vertices to the input color. "];
+  Node19 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="zSpace::zGraph::computeEdge\lColorfromVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a9d24b6ca7f58c16f1284671797267f21",tooltip="This method computes the Edge colors based on the vertex colors. "];
+  Node20 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="zSpace::zEdge::getVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a07c082aa54f78145fdcd5e5e4bb889f1",tooltip="This method returns the vertex pointed to by the current zEdge. "];
+  Node20 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="zSpace::zVertex::getVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e",tooltip="This method returns the vertexId of current zVertex. "];
+  Node18 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="zSpace::zGraph::computeVertex\lColorfromEdgeColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a654f5d383500ccf87c9c7f87bc8301c4",tooltip="This method computes the vertex colors based on the face colors. "];
+  Node23 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="zSpace::zGraph::getConnected\lEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#ab623e9a3bfc70e1f140b911cb0645bd2",tooltip="This method gets the edges connected to input zVertex or zEdge. "];
+  Node24 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="zSpace::zVertex::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a7d187864963f642666b8c3bcfecee6e9",tooltip="This method returns the associated edge of current zVertex. "];
+  Node24 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
+  Node24 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="zSpace::zEdge::getPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30",tooltip="This method returns the previous edge of current zEdge. "];
+  Node24 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge. "];
+}

@@ -9,6 +9,7 @@ var z_vector_matrix_utilities_8h =
     [ "getDimsFromBounds", "z_vector_matrix_utilities_8h.html#gaee9483a83e291d886bd7cdc38435fdb5", null ],
     [ "line_lineClosestPoints", "z_vector_matrix_utilities_8h.html#ga9d845a521da011abf5e4baacf0505c0e", null ],
     [ "line_PlaneIntersection", "z_vector_matrix_utilities_8h.html#ga398dc6bba5cc5ca9eed7a45255548bf8", null ],
+    [ "minDist_Edge_Point", "z_vector_matrix_utilities_8h.html#gab0d76a80305185982ec89050ff322a3e", null ],
     [ "plane_planeIntersection", "z_vector_matrix_utilities_8h.html#gae7d696f4950769b14a966fed33490fa4", null ],
     [ "PlanetoPlane", "z_vector_matrix_utilities_8h.html#ga5ca0bb8666f0cb1b43fc6de191f3cfaa", null ],
     [ "pointInTriangle", "z_vector_matrix_utilities_8h.html#ga5d522fc391c13d491f20a1d3a87996ca", null ],

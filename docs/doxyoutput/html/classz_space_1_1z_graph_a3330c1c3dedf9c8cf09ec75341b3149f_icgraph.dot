@@ -1,0 +1,9 @@
+digraph "zSpace::zGraph::checkVertexValency"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node94 [label="zSpace::zGraph::checkVertex\lValency",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node94 -> Node95 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node95 [label="zSpace::zGraph::averageVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f",tooltip="This method averages the positions of vertex except for the ones on the boundary. ..."];
+}

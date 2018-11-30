@@ -1,0 +1,46 @@
+digraph "zSpace::zMatrix::getNumRows"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node47 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node47 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::zMatrix::operator+",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a26441ad72e77c2954829e24a78f8df82",tooltip="This operator is used for matrix addition. "];
+  Node47 -> Node49 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="zSpace::zMatrix::operator-",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#afaa326b6909e926cb4848ba78654e973",tooltip="This operator is used for matrix subtraction. "];
+  Node47 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::zMatrix::operator*",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#add605d3bcc6aab142a799671171821e8",tooltip="This operator is used for matrix multiplication. "];
+  Node47 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::zMatrix::operator+=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#af1ce91b548b450da6a2573280694fc69",tooltip="This operator is used for matrix addition and assigment of the result to the current matrix..."];
+  Node47 -> Node52 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="zSpace::zMatrix::operator-=",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#afcbeb89e1fec61a8ae71c921fb5c1be7",tooltip="This operator is used for matrix subtraction and assigment of the result to the current matrix..."];
+  Node47 -> Node53 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="zSpace::zVector::operator*",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a8e674c9f4e04a4685f0571f95734ca82",tooltip="This operator is used for 4x4 / 3X3 matrix muliplication of a vector. "];
+  Node47 -> Node54 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="zSpace::zVector::fromRow\lMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a10c955506bd52a5a845e58f680632b50",tooltip="This method returns the vector from the input row matrix. "];
+  Node47 -> Node55 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::zVector::fromColumn\lMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a12b8d25bfa4d24a70e24faeb5114931e",tooltip="This method returns the vector from the input column matrix. "];
+  Node47 -> Node56 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="zSpace::fromMatrixColumn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga57229ba8064031163267f155e9236d7e",tooltip="This method returns extracts a zVector from the input matrix column. "];
+  Node56 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::zGraph::cyclic\l_sortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a",tooltip="This method sorts edges cyclically around a given vertex using a bestfit plane. "];
+  Node57 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::zGraph::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",tooltip="Overloaded constructor. "];
+  Node56 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::clipwithPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga88c4618ac754f6fffab5d2ab00021ffc",tooltip="This method uses an input plane to clip an existing scalar field. "];
+  Node47 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="zSpace::toWorldMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e",tooltip="This method computes the tranformation to the world space of the input 4x4 matrix. "];
+  Node60 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="zSpace::PlanetoPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga5ca0bb8666f0cb1b43fc6de191f3cfaa",tooltip="This method computes the tranformation from one 4X4 matrix to another. "];
+  Node60 -> Node62 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="zSpace::ChangeBasis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga60aec2272693d052ec4cf78de73b4572",tooltip="This method computes the tranformation to change the baseis from one 4X4 matrix to another..."];
+  Node60 -> Node63 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node63 [label="zSpace::boundingboxPCA",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gae2aefe021083b57bd53dd24d34704dbf",tooltip="This method computes the bounding box for the given points using PCA. "];
+  Node47 -> Node64 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="zSpace::toLocalMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9",tooltip="This method computes the tranformation to the local space of the input 4x4 matrix. "];
+  Node64 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 -> Node62 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 -> Node63 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 -> Node65 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node65 [label="zSpace::printMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_print_utilities.html#ga39c1cea9e659a5977a50288ddc9e399b",tooltip="This methods prints the zMatrix values to the console. "];
+}

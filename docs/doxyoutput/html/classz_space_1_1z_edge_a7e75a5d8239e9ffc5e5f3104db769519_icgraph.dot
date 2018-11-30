@@ -1,0 +1,34 @@
+digraph "zSpace::zEdge::setFace"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node309 [label="zSpace::zEdge::setFace",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node309 -> Node310 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node310 [label="zSpace::zGraph::resizeArray",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a8b28611b85ceff8555b9230e3af6f47a",tooltip="This method resizes the array connected with the input type to the specified newSize. "];
+  Node310 -> Node311 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node311 [label="zSpace::zGraph::addVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#acf5cd0b78050f671984cfc4341de8b32",tooltip="This method adds a vertex to the vertices array. "];
+  Node311 -> Node312 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node312 [label="zSpace::zGraph::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",tooltip="Overloaded constructor. "];
+  Node310 -> Node313 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node313 [label="zSpace::zGraph::addEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3",tooltip="This method adds an edge and its symmetry edge to the edges array. "];
+  Node313 -> Node312 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node309 -> Node314 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node314 [label="zSpace::zMesh::addPolygon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#ada4fb88bb2402a06f75d730e23597407",tooltip="This method adds a face to the faces array and updates the pointers of vertices, edges and polygons o..."];
+  Node309 -> Node315 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node315 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c",tooltip="This method deletes the zMesh vertices given in the input vertex list. "];
+  Node309 -> Node316 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node316 [label="zSpace::splitEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24",tooltip="This method splits an edge and inserts a vertex along the edge at the input factor. "];
+  Node316 -> Node317 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node317 [label="zSpace::splitFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80",tooltip="This method splits a set of edges and faces of a mesh in a continuous manner. "];
+  Node316 -> Node318 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node318 [label="zSpace::subDivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760",tooltip="This method subdivides all the faces and edges of the mesh. "];
+  Node309 -> Node319 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node319 [label="zSpace::triangulate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de",tooltip="This method triangulates the input mesh. "];
+  Node309 -> Node317 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node309 -> Node318 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node309 -> Node320 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node320 [label="zSpace::zMeshJSON::\lfrom_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh_j_s_o_n.html#a50e0cbaadd094cf4f26179cdf23b9464",tooltip="This method creates the HE data structure from JSON file using JSON Modern Library. "];
+  Node320 -> Node321 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node321 [label="zSpace::fromJSON",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html#gad2f07c6da97272b61502c6fab57d83b0",tooltip="This method imports zMesh from a JSON file format using JSON Modern Library. "];
+}

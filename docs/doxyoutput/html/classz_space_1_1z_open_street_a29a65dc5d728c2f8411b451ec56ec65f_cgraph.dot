@@ -1,0 +1,23 @@
+digraph "zSpace::zOpenStreet::updateScalars_fromCSV"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node81 [label="zSpace::zOpenStreet\l::updateScalars_fromCSV",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node81 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="zSpace::zScalarField2D\l::getNumScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#aaf22a7a8c12ad18dcfcd5b8fda13fc56",tooltip="This method retruns the number of scalars in the field. "];
+  Node81 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="zSpace::zScalarField2D\l::setWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#a39b442eb9403f94b2e2535310a6286cf",tooltip="This method sets the weight/value of the scalar at the input index. "];
+  Node83 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="zSpace::splitString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga4632c0bf9aaa9b88d6e928244a77cda5",tooltip="This method splits the input string based on the input delimiter. "];
+  Node81 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="zSpace::zOpenStreet\l::fromCoordinates",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#ad57dc144a2d627dd20d7b8f105ca49f9",tooltip="This method computes the 3D position based on the input latitude and longitude, using the bounds of t..."];
+  Node85 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node86 [label="zSpace::ofMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a",tooltip="This method maps the input value from the input domain to output domain. "];
+  Node81 -> Node87 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 [label="zSpace::zScalarField2D\l::getIndex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#a64e9bde7d315224d66222b9579023d9b",tooltip="This method gets the index of the scalar at the input position. "];
+  Node81 -> Node88 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node88 [label="zSpace::zScalarField2D\l::getWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#a0609257306a40fcae5ef2e9385cf91d2",tooltip="This method gets the waight/value of the scalar at the input index. "];
+  Node88 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

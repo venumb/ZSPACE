@@ -1,0 +1,45 @@
+digraph "zSpace::fromJSON"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="zSpace::fromJSON",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="zSpace::zMeshJSON::\lfrom_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh_j_s_o_n.html#a50e0cbaadd094cf4f26179cdf23b9464",tooltip="This method creates the HE data structure from JSON file using JSON Modern Library. "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="zSpace::zGraph::setNumVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a6ecdde9a2885d33d3488f3eaea7b98c9",tooltip="This method sets the number of vertices in zGraph the input value. "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="zSpace::zGraph::setNumEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8",tooltip="This method sets the number of edges in zMesh the input value. "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="zSpace::zMesh::setNumPolygons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#a89cdf1318823cbab683ffc0fee150979",tooltip="This method sets the number of faces in zMesh the input value. "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="zSpace::zVertex::setVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#acdc6ae4132453c803268949dcc104df1",tooltip="This method sets the vertexId of current zVertex to the the input value. "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="zSpace::zVertex::setEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a5fdd172f3ae9dcb71b720574f05ca037",tooltip="This method sets the associated edge of current zVertex to the the input edge. "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="zSpace::zEdge::setEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3569f2c4f69d82e27db48867a064d40f",tooltip="This method sets the edgeId of current zEdge to the the input value. "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="zSpace::zEdge::setPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#af97abc7295676b01bc278123c86ba0b9",tooltip="This method sets the previous edge of current zEdge to the the input edge. "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="zSpace::zEdge::setNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a5998712a83b56abd65880f3125f0d3c9",tooltip="This method sets the next edge of current zEdge to the the input edge. "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="zSpace::zEdge::setVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a93530eb3a1da2c02225f30e011db6b7f",tooltip="This method sets the vertex pointed to by the current zEdge to the the input zVertex. "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="zSpace::zEdge::setFace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a7e75a5d8239e9ffc5e5f3104db769519",tooltip="This method sets the face pointed to by the current zEdge to the the input zFace. ..."];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="zSpace::zEdge::setSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a7d1c8dcd2272dff68a7f38a3326e8a7d",tooltip="This method sets the symmetry edge of current zEdge to the the input edge. "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="zSpace::zFace::setFaceId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a86c38a1ccc49701e0f35eb2c64a13b8a",tooltip="This method sets the faceId of current zFace to the the input value. "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="zSpace::zFace::setEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a3701746b7939f7e780ed042bad050ad7",tooltip="This method sets the associated edge of current zFace to the the input edge. "];
+  Node0 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="zSpace::zGraph::addToPositionMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a68823d66afc73b8d1393bafc64e40226",tooltip="This method adds the position given by input vector to the positionVertex Map. "];
+  Node0 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="zSpace::zGraph::numEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92",tooltip="This method returns the number of half edges in the graph or mesh. "];
+  Node0 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="zSpace::zEdge::getVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a07c082aa54f78145fdcd5e5e4bb889f1",tooltip="This method returns the vertex pointed to by the current zEdge. "];
+  Node0 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="zSpace::zVertex::getVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e",tooltip="This method returns the vertexId of current zVertex. "];
+  Node0 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="zSpace::zGraph::addToVerticesEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a2fc8a067026f05b77331a484827d7db9",tooltip="This method adds both the half-edges given by input vertex indices to the VerticesEdge Map..."];
+}

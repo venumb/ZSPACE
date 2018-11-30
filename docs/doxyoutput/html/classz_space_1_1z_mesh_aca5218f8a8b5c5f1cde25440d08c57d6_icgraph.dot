@@ -1,0 +1,20 @@
+digraph "zSpace::zMesh::onBoundary"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node300 [label="zSpace::zMesh::onBoundary",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node300 -> Node301 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node301 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer. "];
+  Node300 -> Node302 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node302 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c",tooltip="This method deletes the zMesh vertices given in the input vertex list. "];
+  Node300 -> Node303 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node303 [label="zSpace::triangulate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de",tooltip="This method triangulates the input mesh. "];
+  Node300 -> Node304 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node304 [label="zSpace::getPrincipalCurvature",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga1e60d7d324e3a491f9e60060fa3258e2",tooltip="This method computes the local curvature of the mesh vertices. "];
+  Node300 -> Node305 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node305 [label="zSpace::getEdgeDihedralAngles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#gaf531920d8d86c1c508bec8c71d5d9954",tooltip="This method computes the dihedral angle per edge of zMesh. "];
+  Node305 -> Node301 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node300 -> Node306 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node306 [label="zSpace::extrudeMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8",tooltip="This method returns an extruded mesh from the input mesh. "];
+}

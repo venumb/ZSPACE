@@ -1,0 +1,11 @@
+digraph "zSpace::fromMatrixColumn"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node18 [label="zSpace::fromMatrixColumn",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node18 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5",tooltip="This method gets the number of rows in the matrix. "];
+  Node18 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="zSpace::zMatrix::getCol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#aeac2ded2fa3667acd6d3e28c7ece183d",tooltip="This method gets the column values at the input column index. "];
+}

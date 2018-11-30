@@ -1,0 +1,28 @@
+digraph "zSpace::boundingboxPCA"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="zSpace::boundingboxPCA",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="zSpace::getBestFitPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga064d5638571054d5232b149a75fc9e30",tooltip="This method return a 4X4 matrix of the best fit plane for the given points using Principal Component ..."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="zSpace::zVector::getComponent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a90d8f98859c540c5fd0bdea52a87d897",tooltip="This method returns the component value of the current zVector. "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="zSpace::zMatrix::setCol",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#aed2d0cb2a763840e9182d79a16ec85ef",tooltip="This method sets the col values at the input col index with the input value. "];
+  Node0 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="zSpace::toLocalMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9",tooltip="This method computes the tranformation to the local space of the input 4x4 matrix. "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix. "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5",tooltip="This method gets the number of rows in the matrix. "];
+  Node4 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="zSpace::zMatrix::setIdentity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1",tooltip="This method sets the matrix to identity if it is a square matrix. "];
+  Node0 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="zSpace::getBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gaa38548275368bdaf6c0a049a085adf38",tooltip="This method returns the bounds of the input list points. "];
+  Node0 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="zSpace::toWorldMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e",tooltip="This method computes the tranformation to the world space of the input 4x4 matrix. "];
+  Node9 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}
