@@ -223,7 +223,7 @@ namespace zSpace
 	//--- SPANNING TREE METHODS 
 	//--------------------------
 
-	/*! \brief This method returns the vertex with minimum distance value, from the set of vertices not yet included in shortest path tree. To be used with shortestDistance method.
+	/*! \brief This method returns the vertex with minimum distance value, from the set of vertices not yet included in shortest path tree. To be used with shortestDistance method for mesh/graph.
 	*
 	*	\details based on Dijkstra’s shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
 	*	\param		[out]	dist					- container of distance to each vertex from source.
@@ -250,7 +250,12 @@ namespace zSpace
 		return min_index;
 	}
 
+
+
 	/** @}*/
+
+	
 
 	/** @}*/
 }
+

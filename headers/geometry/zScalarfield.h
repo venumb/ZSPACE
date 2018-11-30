@@ -65,7 +65,7 @@ namespace zSpace
 
 	class zScalarField2D
 	{
-	public:
+	private:
 
 		//--------------------------
 		//----  ATTRIBUTES
@@ -91,6 +91,8 @@ namespace zSpace
 
 		/*!	\brief container for the scalar field values  */
 		vector<zScalar> scalars;
+
+	public:
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -247,6 +249,31 @@ namespace zSpace
 		int getNumScalars()
 		{
 			return scalars.size();
+		}
+
+		/*! \brief This method gets the unit distances of the field.
+		*
+		*	\param		[out]	_n_X		- pixel resolution in x direction.
+		*	\param		[out]	_n_Y		- pixel resolution in y direction.
+		*	\since version 0.0.1
+		*/
+		void getResolution(int &_n_X, int &_n_Y)
+		{
+			_n_X = n_X;
+			_n_Y = n_Y;
+		}
+
+		/*! \brief This method gets the unit distances of the field.
+		*
+		*	\param		[out]	_unit_X		- size of each pixel in x direction.
+		*	\param		[out]	_unit_Y		- size of each pixel in y direction.
+		*	\since version 0.0.1
+		*/
+		void getUnitDistances(double &_unit_X, double &_unit_Y)
+		{
+			_unit_X = unit_X;
+			_unit_Y = unit_Y;
+		
 		}
 
 		/*! \brief This method sets the bounds of the field.
@@ -494,7 +521,7 @@ namespace zSpace
 
 	class zScalarField3D
 	{
-	public:
+	private:
 
 		//--------------------------
 		//----  ATTRIBUTES
@@ -526,6 +553,8 @@ namespace zSpace
 
 		/*!	\brief container for the scalar field values  */
 		vector<zScalar> scalars;
+
+	public:
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -703,6 +732,34 @@ namespace zSpace
 		int getNumScalars()
 		{
 			return scalars.size();
+		}
+
+		/*! \brief This method gets the unit distances of the field.
+		*
+		*	\param		[out]	_n_X		- pixel resolution in x direction.
+		*	\param		[out]	_n_Y		- pixel resolution in y direction.
+		*	\param		[out]	_n_Z		- pixel resolution in z direction.
+		*	\since version 0.0.1
+		*/
+		void getResolution(int &_n_X, int &_n_Y, int &_n_Z)
+		{
+			_n_X = n_X;
+			_n_Y = n_Y;
+			_n_Z = n_Z;
+		}
+
+		/*! \brief This method gets the unit distances of the field.
+		*
+		*	\param		[out]	_unit_X		- size of each voxel in x direction.
+		*	\param		[out]	_unit_Y		- size of each voxel in y direction.
+		*	\param		[out]	_unit_Z		- size of each voxel in z direction
+		*	\since version 0.0.1
+		*/
+		void getUnitDistances(double &_unit_X, double &_unit_Y, double &_unit_Z)
+		{
+			_unit_X = unit_X;
+			_unit_Y = unit_Y;
+			_unit_Z = unit_Z;
 		}
 
 		/*! \brief This method sets the bounds of the field.

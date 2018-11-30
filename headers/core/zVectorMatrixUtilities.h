@@ -316,6 +316,41 @@ namespace zSpace
 		
 	}
 
+	/*! \brief This method computes the minimum distance between a point and edge and the closest Point on the edge.
+	*
+	*	\details based on http://paulbourke.net/geometry/pointlineplane/
+	*	\param	[in]	pt			- point
+	*	\param	[in]	e0			- start point of edge.
+	*	\param	[in]	e1			- end point of edge.
+	*	\param	[out]	closest_Pt	- closest point on edge to the input point.
+	*	\return			minDist		- distance to closest point.
+	*	\since version 0.0.1
+	*/
+
+	double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
+	{
+		double out = 0.0;
+
+		zVector n = (e1 - e0) ^ (zVector(0, 0, 1));
+		n.normalize();
+		closest_Pt = n * ((e0 - pt) * n);
+		closest_Pt += pt;
+
+		float len = e0.distanceTo(e1);
+
+		zVector ed = (e0 - e1) / len;
+		double param = (closest_Pt - e1) * ed;
+
+
+
+		if (param > len)param = len;
+		if (param < 0) param = 0;
+
+		closest_Pt = e1 + ed * param;
+
+		return closest_Pt.distanceTo(pt);
+	}
+
 	//--------------------------
 	//---- zMATRIX METHODS
 	//--------------------------

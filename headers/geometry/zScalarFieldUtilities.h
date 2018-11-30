@@ -26,42 +26,7 @@ namespace zSpace
 	//--------------------------
 	//----  FIELD UTILITIES
 	//--------------------------	
-	
-	
-	/*! \brief This method computes the minimum distance between a point and edge and the closest Point on the edge. 
-	*
-	*	\details based on http://paulbourke.net/geometry/pointlineplane/
-	*	\param	[in]	pt			- point
-	*	\param	[in]	e0			- start point of edge.
-	*	\param	[in]	e1			- end point of edge.
-	*	\param	[out]	closest_Pt	- closest point on edge to the input point.
-	*	\return			minDist		- distance to closest point.
-	*	\since version 0.0.1
-	*/
-	
-	double minDist_Edge_Point_2D(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
-	{
-		double out = 0.0;
 
-		zVector n = (e1 - e0) ^ (zVector(0, 0, 1));
-		n.normalize();
-		closest_Pt = n * ((e0 - pt) * n);
-		closest_Pt += pt;
-
-		float len = e0.distanceTo(e1);
-
-		zVector ed = (e0 - e1) / len;
-		double param = (closest_Pt - e1) * ed;
-
-
-
-		if (param > len)param = len;
-		if (param < 0) param = 0;
-
-		closest_Pt = e1 + ed * param;
-
-		return closest_Pt.distanceTo(pt);
-	}
 
 	/*! \brief This method computes the distance function.
 	*
@@ -140,6 +105,30 @@ namespace zSpace
 	//----  2D FIELD METHODS
 	//--------------------------
 
+	/*! \brief This method computes the filed index of each input position and stores them in a container per field index.
+	*
+	*	\param		[in]	inField				- input zScalarfield2D
+	*	\param		[in]	positions			- container of positions.
+	*	\param		[out]	fieldIndexPositions	- container of positions per field  index.
+	*	\since version 0.0.1
+	*/
+
+	void computePositionsInFieldIndex(zScalarField2D &inField, vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
+	{
+		for (int i = 0; i < inField.getNumScalars(); i++)
+		{
+			vector<zVector> temp;
+			fieldIndexPositions.push_back(temp);
+		}
+
+
+		for (int i = 0; i < positions.size(); i++)
+		{
+			int fieldIndex = inField.getIndex(positions[i]);
+								
+			fieldIndexPositions[fieldIndex].push_back(positions[i]);
+		}
+	}
 
 	/*! \brief This method creates a mesh from the input scalar field.
 	*
@@ -148,7 +137,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	
-	zMesh fromScalarField2D(zScalarField2D inField)
+	zMesh fromScalarField2D(zScalarField2D &inField)
 	{
 		zMesh out;
 
@@ -156,11 +145,20 @@ namespace zSpace
 		vector<int>polyConnects;
 		vector<int>polyCounts;
 
-		zVector unitVec = zVector(inField.unit_X, inField.unit_Y, 0);
-		zVector startPt = inField.minBB;
+		zVector minBB, maxBB;
+		double unit_X, unit_Y;
+		int n_X, n_Y;
 
-		int resX = inField.n_X + 1;
-		int resY = inField.n_Y + 1;
+		inField.getUnitDistances(unit_X, unit_Y);
+		inField.getResolution(n_X, n_Y);
+
+		inField.getBoundingBox(minBB, maxBB);
+
+		zVector unitVec = zVector(unit_X, unit_Y, 0);
+		zVector startPt = minBB;
+
+		int resX = n_X + 1;
+		int resY = n_Y + 1;
 
 		for (int i = 0; i<resX; i++)
 		{
@@ -287,7 +285,7 @@ namespace zSpace
 
 				zVector closestPt;
 
-				double r = minDist_Edge_Point_2D(fieldMesh.vertexPositions[i], inMesh.vertexPositions[e0], inMesh.vertexPositions[e1], closestPt);
+				double r = minDist_Edge_Point(fieldMesh.vertexPositions[i], inMesh.vertexPositions[e0], inMesh.vertexPositions[e1], closestPt);
 
 				if (r < tempDist)
 				{
@@ -338,7 +336,7 @@ namespace zSpace
 
 				zVector closestPt;
 
-				double r = minDist_Edge_Point_2D(fieldMesh.vertexPositions[i], inGraph.vertexPositions[e0], inGraph.vertexPositions[e1], closestPt);
+				double r = minDist_Edge_Point(fieldMesh.vertexPositions[i], inGraph.vertexPositions[e0], inGraph.vertexPositions[e1], closestPt);
 
 
 
@@ -402,7 +400,7 @@ namespace zSpace
 
 				zVector closestPt;
 
-				double r = minDist_Edge_Point_2D(fieldMesh.vertexPositions[i], inMesh.vertexPositions[e0], inMesh.vertexPositions[e1], closestPt);
+				double r = minDist_Edge_Point(fieldMesh.vertexPositions[i], inMesh.vertexPositions[e0], inMesh.vertexPositions[e1], closestPt);
 
 
 				if (r < tempDist)
@@ -457,7 +455,7 @@ namespace zSpace
 
 				zVector closestPt;
 
-				double r = minDist_Edge_Point_2D(fieldMesh.vertexPositions[i], inGraph.vertexPositions[e0], inGraph.vertexPositions[e1], closestPt);
+				double r = minDist_Edge_Point(fieldMesh.vertexPositions[i], inGraph.vertexPositions[e0], inGraph.vertexPositions[e1], closestPt);
 
 
 				if (r < tempDist)

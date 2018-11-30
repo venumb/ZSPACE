@@ -107,7 +107,7 @@ namespace zSpace
 
 	class zOpenStreet
 	{
-		
+
 	public:
 
 		//--------------------------
@@ -117,10 +117,10 @@ namespace zSpace
 		//---- STREET ATTRIBUTES
 
 		/*! \brief stores current number of ways		*/
-		int n_zWays;		
-		
+		int n_zWays;
+
 		/*! \brief graph of the street network given by OSM		*/
-		zGraph streetGraph;		
+		zGraph streetGraph;
 
 		/*! \brief zWays container		*/
 		zWays *way;
@@ -137,7 +137,7 @@ namespace zSpace
 		int n_zBuildings;
 
 		/*! \brief graph of the buildings given by OSM		*/
-		zGraph buildingGraph;	
+		zGraph buildingGraph;
 
 		/*! \brief zBuildings container		*/
 		zBuildings *buildings;
@@ -151,7 +151,7 @@ namespace zSpace
 		//---- BOUNDS ATTRIBUTES
 
 		/*!	\brief bounds of OSM data in latitute and logitude.  */
-		double lat_lon[4];	
+		double lat_lon[4];
 
 		/*!	\brief minimum bounds of OSM data in 3D space given by a zVector.  */
 		zVector minBB;
@@ -205,7 +205,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		~zOpenStreet(){}
+		~zOpenStreet() {}
 
 
 		//--------------------------
@@ -256,28 +256,12 @@ namespace zSpace
 			return d; // in kilometers
 		}
 
-		/*! \brief This method computes the 3D position based on the input latitude and longitude, using the bounds of the OSM data as the domain. 
-		*
-		*	\param		[in]	lat		- input latitude.
-		*	\param		[in]	lon		- input longitude.
-		*	\return				zVector	- output vector.
-		*	\since version 0.0.1
-		*/
-		zVector fromCoordinates(double &lat, double &lon)
-		{
-			double mappedX = ofMap(lon, lat_lon[1], lat_lon[3], minBB.x, maxBB.x);
-			double mappedY = ofMap(lat, lat_lon[0], lat_lon[2], minBB.y, maxBB.y);
-
-			//printf("\n X : %1.2f Y: %1.2f", mappedX, mappedY);
-
-			return zVector(mappedX, mappedY, 0);
-		}
 
 
 		/*! \brief This method computes the scalar field from the bounds and input resolution. It also computes the field mesh.
 		*
 		*	\param		[in]	_n_X		- number of pixels in x direction.
-		*	\param		[in]	_n_Y		- number of pixels in y direction.		
+		*	\param		[in]	_n_Y		- number of pixels in y direction.
 		*/
 		void fieldFromBounds(int _n_X = 100, int _n_Y = 100)
 		{
@@ -286,10 +270,10 @@ namespace zSpace
 			scalarfield = zScalarField2D(this->minBB - offset, this->maxBB + offset, _n_X, _n_Y);
 
 			fieldMesh = fromScalarField2D(this->scalarfield);
-			
+
 		}
 
-		
+
 
 		//--------------------------
 		//---- STREET GRAPH METHODS
@@ -306,14 +290,14 @@ namespace zSpace
 			vector<string> sqlStm = { "SELECT v FROM ways_tags WHERE ways_tags.id = " + wayId + ";" };
 			bool stat = zDB->sqlCommand(sqlStm, zSelect, false, outStm, false);
 
-		
+
 
 			zDataStreet out = zUndefinedStreet;
 
 			if (outStm.size() > 0)
 			{
 				if (outStm[0] == "trunk" || outStm[0] == "trunk_link") out = zTrunkStreet;
-				
+
 				if (outStm[0] == "primary" || outStm[0] == "primary_link") out = zPrimaryStreet;
 
 				if (outStm[0] == "secondary" || outStm[0] == "secondary_link") out = zSecondaryStreet;
@@ -323,13 +307,13 @@ namespace zSpace
 				if (outStm[0] == "residential" || outStm[0] == "living_street") out = zResidentialStreet;
 
 				if (outStm[0] == "pedestrian" || outStm[0] == "footway") out = zPrimaryStreet;
-				
-				if (outStm[0] == "cycleway" ) out = zCycleStreet;
 
-				if (outStm[0] == "service") out = zServiceStreet;				
-				
+				if (outStm[0] == "cycleway") out = zCycleStreet;
+
+				if (outStm[0] == "service") out = zServiceStreet;
+
 			}
-			
+
 
 			return out;
 
@@ -352,7 +336,7 @@ namespace zSpace
 			vector<string> outStm_nodes;
 			vector<string> sqlStm_nodes = { " SELECT * FROM nodes WHERE id IN (SELECT node_id FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"highway\")) ;" };
 			bool stat = zDB->sqlCommand(sqlStm_nodes, zSelect, false, outStm_nodes, false);
-			
+
 
 			printf("\n outStm_nodes: %i", outStm_nodes.size());
 
@@ -379,7 +363,7 @@ namespace zSpace
 			vector<string> sqlStm_ways = { " SELECT * FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"highway\");" };
 			stat = zDB->sqlCommand(sqlStm_ways, zSelect, false, outStm_ways, false);
 
-		
+
 			way = new zWays[outStm_ways.size()];
 			n_zWays = 0;
 
@@ -395,7 +379,7 @@ namespace zSpace
 				way[n_zWays].streetType = getStreetType(wayId);
 
 
-				while (outStm_ways[i] == wayId && i <outStm_ways.size() - 3)
+				while (outStm_ways[i] == wayId && i < outStm_ways.size() - 3)
 				{
 					string hashKey = outStm_ways[i + 1];
 					std::unordered_map<string, int>::const_iterator got = node_streetVertices.find(hashKey);
@@ -406,7 +390,7 @@ namespace zSpace
 						{
 							string hashKey1 = outStm_ways[i + 3 + 1].c_str();
 							std::unordered_map<string, int>::const_iterator got1 = node_streetVertices.find(hashKey1);
-							
+
 							if (got1 != node_streetVertices.end())
 							{
 								way[n_zWays].streetGraph_edgeId.push_back(edgeConnects.size());
@@ -431,9 +415,9 @@ namespace zSpace
 			}
 
 
-						
 
-		
+
+
 			streetGraph = zGraph(positions, edgeConnects);
 
 
@@ -441,7 +425,7 @@ namespace zSpace
 			setEdgeColor(streetGraph, edgeCol, true);
 
 		}
-		
+
 
 		//--------------------------
 		//---- BUILDING GRAPH METHODS
@@ -464,17 +448,17 @@ namespace zSpace
 
 			if (outStm.size() > 0)
 			{
-				if (outStm[0] == "office" || outStm[0] == "commercial" || outStm[0] == "hotel" || outStm[0] == "theatre" || outStm[0] == "retail" ) out = zCommercialBuilding;
+				if (outStm[0] == "office" || outStm[0] == "commercial" || outStm[0] == "hotel" || outStm[0] == "theatre" || outStm[0] == "retail") out = zCommercialBuilding;
 				if (outStm[0] == "Commercial" || outStm[0] == "Arts_&_Office_Complex" || outStm[0] == "shop" || outStm[0] == "offices") out = zCommercialBuilding;
 
-				if (outStm[0] == "apartments" || outStm[0] == "flats" || outStm[0] == "residential" || outStm[0] == "council_flats" ) out = zResidentialBuilding;
+				if (outStm[0] == "apartments" || outStm[0] == "flats" || outStm[0] == "residential" || outStm[0] == "council_flats") out = zResidentialBuilding;
 				if (outStm[0] == "house" || outStm[0] == "hall_of_residence" || outStm[0] == "Student hostel") out = zResidentialBuilding;
 
-				if (outStm[0] == "gallery" || outStm[0] == "hospital" || outStm[0] == "church" || outStm[0] == "place_of_worship" || outStm[0] == "museum" || outStm[0] == "cathedral" ) out = zPublicBuilding;
+				if (outStm[0] == "gallery" || outStm[0] == "hospital" || outStm[0] == "church" || outStm[0] == "place_of_worship" || outStm[0] == "museum" || outStm[0] == "cathedral") out = zPublicBuilding;
 				if (outStm[0] == "railway_station" || outStm[0] == "Community_Building" || outStm[0] == "train_station" || outStm[0] == "station" || outStm[0] == "civic") out = zPublicBuilding;
 
 				if (outStm[0] == "school" || outStm[0] == "university" || outStm[0] == "college" || outStm[0] == "Nursery,_School") out = zUniversityBuilding;
-				
+
 			}
 
 
@@ -541,7 +525,7 @@ namespace zSpace
 
 				buildings[n_zBuildings].buildingType = getBuildingType(wayId);
 
-				while (outStm_ways[i] == wayId && i <outStm_ways.size() - 3)
+				while (outStm_ways[i] == wayId && i < outStm_ways.size() - 3)
 				{
 					string hashKey = outStm_ways[i + 1];
 					std::unordered_map<string, int>::const_iterator got = node_buildingVertices.find(hashKey);
@@ -551,10 +535,10 @@ namespace zSpace
 						if (outStm_ways[i + 3] == wayId)
 						{
 
-						
+
 							string hashKey1 = outStm_ways[i + 3 + 1].c_str();
 							std::unordered_map<string, int>::const_iterator got1 = node_buildingVertices.find(hashKey1);
-							
+
 
 							if (got1 != node_buildingVertices.end())
 							{
@@ -586,9 +570,204 @@ namespace zSpace
 
 
 		//--------------------------
+		//---- GET DATA METHODS
+		//--------------------------
+
+		/*! \brief This method computes the 3D position based on the input latitude and longitude, using the bounds of the OSM data as the domain.
+		*
+		*	\param		[in]	lat		- input latitude.
+		*	\param		[in]	lon		- input longitude.
+		*	\return				zVector	- output vector.
+		*	\since version 0.0.1
+		*/
+		zVector fromCoordinates(double &lat, double &lon)
+		{
+			double mappedX = ofMap(lon, lat_lon[1], lat_lon[3], minBB.x, maxBB.x);
+			double mappedY = ofMap(lat, lat_lon[0], lat_lon[2], minBB.y, maxBB.y);
+
+			//printf("\n X : %1.2f Y: %1.2f", mappedX, mappedY);
+
+			return zVector(mappedX, mappedY, 0);
+		}
+
+		/*! \brief This method gets data positions from input CSV data file with the first 2 columns being latitude and longitude.
+		*
+		*	\param		[in]	infile_Nodes		- input file name including the directory path and extension for position information.
+		*	\param		[in]	infile_Attribute	- input file name including the directory path and extension for attribute information.
+		*	\param		[in]	attributeData		- container for sttribute data as a string.
+		*	\param		[out]	outgraph			- out graph.
+		*	\since version 0.0.1
+		*/
+		void fromCoordinates_ShapeCSV(string infile_Nodes, string infile_Attribute, vector<vector<string>> &attributeData, zGraph &outgraph)
+		{
+			attributeData.clear();
+
+			vector<zVector> positions;
+			vector<int> edgeConnects;
+
+			unordered_map <string, int> positionVertex;
+
+			vector<string> shapeIds;
+
+			// nodes
+			ifstream myfile;
+			myfile.open(infile_Nodes.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infile_Nodes.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+			
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+
+					if (perlineData[0] == " " || perlineData[0] == "\"shapeid\"") continue;
+
+					string shapeId = (perlineData[0]);					
+
+					vector<int> tempConnects;
+
+					//printf("\n%s : ", shapeId.c_str());
+					bool exit = false;									
+				
+					
+					do
+					{
+						if (perlineData[0] == " ")continue;
+						
+			
+
+						vector<string> x = splitString(perlineData[2], "\"");
+						vector<string> y = splitString(perlineData[1], "\"");
+
+						//printf("\n %s %s |", x[0].c_str(), y[0].c_str());
+
+						double lat = atof(x[0].c_str());
+						double lon = atof(y[0].c_str());
+
+						// get mapped position
+
+						zVector p0 = fromCoordinates(lat, lon);
+
+						// check if position alread exists. 
+						int v0;
+						bool vExists = vertexExists(positionVertex, p0, v0);
+
+						if (!vExists)
+						{
+							v0 = positions.size();
+							positions.push_back(p0);
+
+							string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+							positionVertex[hashKey] = v0;
+						}
+
+					
+						tempConnects.push_back(v0);
+
+
+
+						if (!myfile.eof())
+						{
+							getline(myfile, str);
+							perlineData.clear();
+							perlineData = splitString(str, ",");
+						}
+						else exit = true;
+
+						if (myfile.eof()) exit = true;
+						else
+						{					
+							if (perlineData[0] != shapeId) 	exit = true;
+						}
+							
+						
+							
+					} while (!exit);
+													
+
+					for (int k = 0; k < tempConnects.size() - 1; k++)
+					{
+						edgeConnects.push_back(tempConnects[k]);
+						edgeConnects.push_back(tempConnects[k + 1]);
+
+						
+					}					
+									
+					
+				}
+			}
+
+			myfile.close();
+
+			outgraph = zGraph(positions, edgeConnects);
+
+
+			// attributes
+
+	
+
+			myfile.open(infile_Attribute.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infile_Attribute.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+				if (perlineData.size() < 1) continue;
+
+				if (perlineData[0] == " ") continue;
+
+				if (perlineData[0] == "\"shapeid\"") continue;
+				
+
+				vector<string> data;
+
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+					
+					vector<string> attrib = splitString(perlineData[i], "\"");
+					data.push_back(attrib[0]);
+
+				}
+
+				if( data.size() > 0) attributeData.push_back(data);
+
+			}
+
+			myfile.close();
+				
+
+		}
+	
+
+
+
+
+		//--------------------------
 		//---- FIELD DATA METHODS
 		//--------------------------
 
+	
 		/*! \brief This method updates the scalars in the scalar field based on input graph connectivity.
 		*
 		*	\param		[in]	inGraph		- input graph.
@@ -615,138 +794,544 @@ namespace zSpace
 		}
 	
 
-		/*! \brief This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,string.
+		/*! \brief This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,data.
 		*
+		*	\tparam				T			- Type to work with standard c++ datatypes of int, float,double, string. 
 		*	\param		[in]	infilename	- input file name including the directory path and extension.
 		*	\param		[out]	data		- output data.
 		*	\since version 0.0.1
-		*/
+		*/		
+		template <typename T>
+		void updateScalars_fromCSV(string infilename, vector<T> &data);
+		
 				
-		void updateScalars_fromCSV(string infilename, vector<string> &data)
-		{
-			data.clear();
-
-			for (int i = 0; i < scalarfield.getNumScalars(); i++)
-			{
-				scalarfield.setWeight(0.0, i);
-			}
-
-			ifstream myfile;
-			myfile.open(infilename.c_str());
-
-			if (myfile.fail())
-			{
-				cout << " \n error in opening file  " << infilename.c_str() << endl;
-				return;
-
-			}
-
-			while (!myfile.eof())
-			{
-				string str;
-				getline(myfile, str);
-
-				vector<string> perlineData = splitString(str, ",");
-
-				for (int i = 0; i < perlineData.size(); i++)
-				{
-					double lat = atof(perlineData[0].c_str());
-					double lon = atof(perlineData[1].c_str());
-
-					
-
-					if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-					{
-						
-						// get mapped position
-						zVector pos = fromCoordinates(lat, lon);
-
-						// get field index
-						int fieldIndex = scalarfield.getIndex(pos);
-
-						// get data
-						string inData = perlineData[2];
-
-						data.push_back(inData);
-
-						
-						double curWeight = scalarfield.getWeight(fieldIndex);
-						curWeight++;
-						scalarfield.setWeight(curWeight, fieldIndex);		
-
-					
-									
-					}
-
-					
-
-				}
-
-			}
-		}
-
-		/*! \brief This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,double.
+		/*! \brief This method updates the scalars in the scalar field and gets data positions based on input CSV data file with format - lat,lon,data.
 		*
-		*	\param		[in]	infilename	- input file name including the directory path and extension.
-		*	\param		[out]	data		- output data.
+		*	\tparam				T				- Type to work with standard c++ datatypes of int, float,double, string.
+		*	\param		[in]	infilename		- input file name including the directory path and extension.
+		*	\param		[out]	dataPositions	- output positions in the bounds of the map.
+		*	\param		[out]	data			- output data.
 		*	\since version 0.0.1
 		*/
-
-		void updateScalars_fromCSV(string infilename, vector<double> &data)
-		{
-			data.clear();
-
-			for (int i = 0; i < scalarfield.getNumScalars(); i++)
-			{
-				scalarfield.setWeight(0.0, i);
-			}
-
-			ifstream myfile;
-			myfile.open(infilename.c_str());
-
-			if (myfile.fail())
-			{
-				cout << " error in opening file  " << infilename.c_str() << endl;
-				return;
-
-			}
-
-			while (!myfile.eof())
-			{
-				string str;
-				getline(myfile, str);
-
-				vector<string> perlineData = splitString(str, ",");
-
-				for (int i = 0; i < perlineData.size(); i++)
-				{
-					double lat = atof(perlineData[0].c_str());
-					double lon = atof(perlineData[1].c_str());
-
-					if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-					{
-						// get mapped position
-						zVector pos = fromCoordinates(lat, lon);
-
-						// get field index
-						int fieldIndex = scalarfield.getIndex(pos);
-
-						// get data
-						double inData = atof(perlineData[2].c_str());
-
-						data.push_back(inData);
-
-						scalarfield.setWeight(inData, fieldIndex);
-
-					}
-
-
-
-				}
-
-			}
-		}
-				
+		template <typename T>
+		void updateScalars_fromCSV(string infilename, vector<zVector> &dataPositions, vector<T> &data);
+		
 
 	};
+}
+
+
+
+
+//--------------------------
+//---- TEMPLATE SPECIALIZATION DEFINITIONS 
+//--------------------------
+
+//---- string specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string> &data)
+{
+	data.clear();
+
+	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	{
+		scalarfield.setWeight(0.0, i);
+	}
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				string inData = (perlineData[2]);
+
+				data.push_back(inData);
+
+				double weight;
+				weight = scalarfield.getWeight(fieldIndex);
+				weight++;
+				
+				scalarfield.setWeight(weight, fieldIndex);
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+//---- double specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double> &data)
+{
+	data.clear();
+
+	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	{
+		scalarfield.setWeight(0.0, i);
+	}
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				double inData = atof(perlineData[2].c_str());
+
+				data.push_back(inData);
+
+				double weight;
+				weight = inData;;				
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+//---- float specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float> &data)
+{
+	data.clear();
+
+	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	{
+		scalarfield.setWeight(0.0, i);
+	}
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				double inData = atof(perlineData[2].c_str());
+
+				data.push_back(inData);
+
+				double weight;
+				weight = inData;;
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+//---- int specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &data)
+{
+	data.clear();
+
+	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	{
+		scalarfield.setWeight(0.0, i);
+	}
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				double inData = atoi(perlineData[2].c_str());
+
+				data.push_back(inData);
+
+				double weight;
+				weight = inData;;
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+
+
+
+//---- string specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpace::zVector> &dataPositions, vector<string> &data)
+{
+	dataPositions.clear();
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " \n error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+				dataPositions.push_back(pos);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				string inData = (perlineData[2]);
+
+				data.push_back(inData);
+
+				double weight;
+				weight = scalarfield.getWeight(fieldIndex);
+				weight++;
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+//---- double specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<double> &data)
+{
+	dataPositions.clear();
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " \n error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+				dataPositions.push_back(pos);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				double inData = atof(perlineData[2].c_str());
+
+				data.push_back(inData);
+
+				double weight;
+				weight = inData;;
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+//---- float specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<float> &data)
+{
+	dataPositions.clear();
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " \n error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+				dataPositions.push_back(pos);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				double inData = atof(perlineData[2].c_str());
+
+				data.push_back(inData);
+
+				double weight;
+				weight = inData;;
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
+}
+
+//---- int specialization
+template <>
+void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<int> &data)
+{
+	dataPositions.clear();
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " \n error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		for (int i = 0; i < perlineData.size(); i++)
+		{
+			double lat = atof(perlineData[0].c_str());
+			double lon = atof(perlineData[1].c_str());
+
+
+
+			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
+			{
+
+				// get mapped position
+				zVector pos = fromCoordinates(lat, lon);
+				dataPositions.push_back(pos);
+
+				// get field index
+				int fieldIndex = scalarfield.getIndex(pos);
+
+				// get data
+				double inData = atoi(perlineData[2].c_str());
+
+				data.push_back(inData);
+
+				double weight;
+				weight = inData;;
+
+				scalarfield.setWeight(weight, fieldIndex);
+
+
+
+			}
+
+
+
+		}
+
+	}
+
+	myfile.close();
 }
