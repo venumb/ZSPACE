@@ -589,7 +589,7 @@ namespace zSpace
 			return zVector(mappedX, mappedY, 0);
 		}
 
-		/*! \brief This method gets data positions from input CSV data file with the first 2 columns being latitude and longitude.
+		/*! \brief This method gets graph and data attributes from input shape CSV data files.
 		*
 		*	\param		[in]	infile_Nodes		- input file name including the directory path and extension for position information.
 		*	\param		[in]	infile_Attribute	- input file name including the directory path and extension for attribute information.
@@ -709,6 +709,7 @@ namespace zSpace
 
 			myfile.close();
 
+			printf("\n positions: %i ", positions.size());
 			outgraph = zGraph(positions, edgeConnects);
 
 
@@ -759,7 +760,86 @@ namespace zSpace
 		}
 	
 
+		/*! \brief This method gets data positions and attributes from input CSV shape data file .
+		*
+		*	\param		[in]	infile_Nodes		- input file name including the directory path and extension for position information.
+		*	\param		[in]	attributeData		- container for sttribute data as a string.
+		*	\param		[out]	positions			- out point cloud.
+		*	\since version 0.0.1
+		*/
+		void fromCoordinates_ShapeCSV(string infile_Nodes,vector<vector<string>> &attributeData, vector<zVector> &positions)
+		{
+			attributeData.clear();
+			positions.clear();
+		
+			// nodes
+			ifstream myfile;
+			myfile.open(infile_Nodes.c_str());
 
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infile_Nodes.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+
+					if (perlineData[0] == " " || perlineData[0] == "\"shapeid\"") continue;
+
+					string shapeId = (perlineData[0]);
+
+					vector<string> x = splitString(perlineData[2], "\"");
+					vector<string> y = splitString(perlineData[1], "\"");
+
+					//printf("\n %s %s |", x[0].c_str(), y[0].c_str());
+
+					double lat = atof(x[0].c_str());
+					double lon = atof(y[0].c_str());
+
+					// get mapped position
+
+					zVector p0 = fromCoordinates(lat, lon);
+					
+					positions.push_back(p0);
+
+					
+					if (perlineData.size() > 3)
+					{
+						vector<string> data;
+
+						vector<string> shapeId = splitString(perlineData[0], "\"");
+						data.push_back(shapeId[0]);
+
+						for (int i = 3; i < perlineData.size(); i++)
+						{
+
+							vector<string> attrib = splitString(perlineData[i], "\"");
+							data.push_back(attrib[0]);
+
+						}
+
+						if (data.size() > 0) attributeData.push_back(data);
+					}
+
+					
+
+
+				}
+			}
+
+			myfile.close();
+				
+		}
 
 
 		//--------------------------
@@ -853,6 +933,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+		
+
+		if (perlineData[0] == " ") continue;
 
 		for (int i = 0; i < perlineData.size(); i++)
 		{
@@ -916,6 +999,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+		if (perlineData[0] == " ") continue;
 
 		for (int i = 0; i < perlineData.size(); i++)
 		{
@@ -978,6 +1062,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+		if (perlineData[0] == " ") continue;
 
 		for (int i = 0; i < perlineData.size(); i++)
 		{
@@ -1041,6 +1126,8 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 
 		vector<string> perlineData = splitString(str, ",");
 
+		if (perlineData[0] == " ") continue;
+
 		for (int i = 0; i < perlineData.size(); i++)
 		{
 			double lat = atof(perlineData[0].c_str());
@@ -1102,16 +1189,19 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 
 		vector<string> perlineData = splitString(str, ",");
 
+		if (perlineData.size() != 3) continue;
+		if (perlineData[0] == " ") continue;		
+
 		for (int i = 0; i < perlineData.size(); i++)
 		{
 			double lat = atof(perlineData[0].c_str());
 			double lon = atof(perlineData[1].c_str());
 
-
+			
 
 			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 			{
-
+				
 				// get mapped position
 				zVector pos = fromCoordinates(lat, lon);
 				dataPositions.push_back(pos);
@@ -1166,6 +1256,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+
+		if (perlineData.size() != 3) continue;
+		if (perlineData[0] == " ") continue;
 
 		for (int i = 0; i < perlineData.size(); i++)
 		{
@@ -1231,6 +1324,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 
 		vector<string> perlineData = splitString(str, ",");
 
+		if (perlineData.size() != 3) continue;
+		if (perlineData[0] == " ") continue;
+
 		for (int i = 0; i < perlineData.size(); i++)
 		{
 			double lat = atof(perlineData[0].c_str());
@@ -1294,6 +1390,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+
+		if (perlineData.size() != 3) continue;
+		if (perlineData[0] == " ") continue;
 
 		for (int i = 0; i < perlineData.size(); i++)
 		{
