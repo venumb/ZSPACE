@@ -987,10 +987,22 @@ namespace zSpace
 	{
 		edgeVisited.clear();
 
+		vector<bool> computeDone;
+
 		// initialise edge visits to 0
 		for (int i = 0; i < inMesh.numEdges(); i++)
 		{
 			edgeVisited.push_back(0);
+		}
+
+		// initialise compute done to false
+		for (int i = 0; i < inMesh.numVertices(); i++)
+		{
+			for (int j = 0; j < inMesh.numVertices(); j++)
+			{
+				if (j == i) computeDone.push_back(true);
+				else computeDone.push_back(false);
+			}
 		}
 
 		for (int i = 0; i < inMesh.numVertices(); i++)
@@ -1001,10 +1013,15 @@ namespace zSpace
 			// get Dijkstra shortest distance spanning tree
 			shortestDistance(inMesh, i, dists, parent);
 
+
 			// compute shortes path from all vertices to current vertex 
 			for (int j = 0; j < inMesh.numVertices(); j++)
 			{
-				if (j == i) continue;
+				int id = (i*inMesh.numVertices()) + j;
+
+				if (computeDone[id]) continue;
+
+				printf("\n total: %i source: %i  destination: %i ", inMesh.numVertices(), i, j);
 
 				vector<int> edgePath;
 				shortestPath(inMesh, i, j, edgePath);
@@ -1017,6 +1034,9 @@ namespace zSpace
 					// adding to the other half edge
 					(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
 				}
+
+				computeDone[id] = true;
+				computeDone[(j*inMesh.numVertices()) + i] = true;
 
 			}
 		}

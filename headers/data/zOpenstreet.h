@@ -894,6 +894,9 @@ namespace zSpace
 		*/
 		template <typename T>
 		void updateScalars_fromCSV(string infilename, vector<zVector> &dataPositions, vector<T> &data);
+
+
+			
 		
 
 	};
@@ -1433,3 +1436,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 
 	myfile.close();
 }
+
+
+
+

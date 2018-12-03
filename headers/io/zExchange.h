@@ -8,18 +8,99 @@ namespace zSpace
 	*	\brief The data transfer classes and utility methods of the library.
 	*  @{
 	*/
-
+	
 	//--------------------------
-	//---- IMPORT METHODS
-	//--------------------------
-
-
 	//---- MESH METHODS
+	//--------------------------
 
 	/** \addtogroup zIO_Mesh
 	*	\brief Collection of input - output methods for zMesh.
 	*  @{
 	*/
+
+	/*! \brief This method exports zMesh as an OBJ file.
+	*
+	*	\param [in]		inMesh				- mesh create from the obj file.
+	*	\param [in]		infilename			- output file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	void toOBJ(zMesh &inMesh, string outfilename)
+	{
+		ofstream myfile;
+		myfile.open(outfilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+			return;
+
+		}
+
+		myfile << "\n ";
+
+		// vertex positions
+		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+		{
+			myfile << "\n v " << inMesh.vertexPositions[i].x << " " << inMesh.vertexPositions[i].y << " " << inMesh.vertexPositions[i].z;
+
+		}
+
+		myfile << "\n ";
+
+		// face connectivity
+		for (int i = 0; i < inMesh.numPolygons(); i++)
+		{
+			vector<int> fVerts;
+			inMesh.getVertices(i, zFaceData, fVerts);
+
+			myfile << "\n f ";
+
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				myfile << fVerts[j] + 1;
+
+				if (j != fVerts.size() - 1) myfile << " ";
+			}
+
+		}
+
+		myfile << "\n ";
+
+		myfile.close();
+
+		cout << endl << " OBJ exported. File:   " << outfilename.c_str() << endl;
+
+	}
+
+	/*! \brief This method exports zMesh to a JSON file format using JSON Modern Library.
+	*
+	*	\param [in]		inMesh				- input mesh.
+	*	\param [in]		outfilename			- output file name including the directory path and extension.
+	*	\param [in]		vColors				- export vertex color information if true.
+	*	\since version 0.0.1
+	*/
+
+	void toJSON(zMesh &inMesh, string outfilename, bool vColors = false)
+	{
+		zMeshJSON inMeshJSON;
+		json j;
+
+		inMeshJSON.to_json(j, inMesh, vColors);
+
+		ofstream myfile;
+		myfile.open(outfilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+			return;
+		}
+
+		//myfile.precision(16);
+		myfile << j.dump();
+		myfile.close();
+	}
+
 
 	/*! \brief This method imports zMesh from an OBJ file.
 	*
@@ -176,8 +257,10 @@ namespace zSpace
 	
 	/** @}*/
 	
+	//--------------------------
 	//---- GRAPH METHODS
-		
+	//--------------------------
+
 	/** \addtogroup zIO_Graph
 	*	\brief Collection of input - output methods for zGraph.
 	*  @{
@@ -304,110 +387,7 @@ namespace zSpace
 
 	}
 	
-	/** @}*/
-
-	//--------------------------
-	//---- EXPORT METHODS
-	//--------------------------
-
-	//---- MESH METHODS
-
-	/** \addtogroup zIO_Mesh
-	*	\brief Collection of input - output methods for zMesh.
-	*  @{
-	*/
-
-	/*! \brief This method exports zMesh as an OBJ file.
-	*
-	*	\param [in]		inMesh				- mesh create from the obj file.
-	*	\param [in]		infilename			- output file name including the directory path and extension.
-	*	\since version 0.0.1
-	*/
-	void toOBJ(zMesh &inMesh, string outfilename)
-	{
-		ofstream myfile;
-		myfile.open(outfilename.c_str());
-
-		if (myfile.fail())
-		{
-			cout << " error in opening file  " << outfilename.c_str() << endl;
-			return;
-
-		}
-
-		myfile << "\n ";
-
-		// vertex positions
-		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
-		{
-			myfile<< "\n v " << inMesh.vertexPositions[i].x << " " << inMesh.vertexPositions[i].y << " " << inMesh.vertexPositions[i].z;
-
-		}
-
-		myfile << "\n ";
-
-		// face connectivity
-		for (int i = 0; i < inMesh.numPolygons(); i++)
-		{
-			vector<int> fVerts;
-			inMesh.getVertices(i, zFaceData, fVerts);
-
-			myfile << "\n f ";
-
-			for (int j = 0; j < fVerts.size(); j++)
-			{
-				myfile << fVerts[j] + 1;
-
-				if( j!= fVerts.size() -1 ) myfile << " ";
-			}
-			
-		}	
-
-		myfile << "\n ";
-
-		myfile.close();
-
-		cout << endl << " OBJ exported. File:   " << outfilename.c_str() << endl;
-
-	}
-
-	/*! \brief This method exports zMesh to a JSON file format using JSON Modern Library.
-	*
-	*	\param [in]		inMesh				- input mesh.
-	*	\param [in]		outfilename			- output file name including the directory path and extension.
-	*	\param [in]		vColors				- export vertex color information if true.
-	*	\since version 0.0.1
-	*/
 	
-	void toJSON(zMesh &inMesh, string outfilename, bool vColors = false)
-	{
-		zMeshJSON inMeshJSON;
-		json j;
-
-		inMeshJSON.to_json(j, inMesh, vColors);
-
-		ofstream myfile;
-		myfile.open(outfilename.c_str());
-
-		if (myfile.fail())
-		{
-			cout << " error in opening file  " << outfilename.c_str() << endl;
-			return;
-		}
-
-		//myfile.precision(16);
-		myfile << j.dump();
-		myfile.close();
-	}
-
-	/** @}*/
-
-	//---- GRAPH METHODS
-
-	/** \addtogroup zIO_Graph
-	*	\brief Collection of input - output methods for zGraph.
-	*  @{
-	*/
 
 	/*! \brief This method exports zGraph to a TXT file format. 
 	*
@@ -487,7 +467,322 @@ namespace zSpace
 		myfile.close();
 	}
 
+	//--------------------------
+	//---- GRAPH ATTRIBUTE METHODS
+	//--------------------------
+
+	/*! \brief This method exports the graph attribute data to a CSV file.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	outfilename		- output file name including the directory path and extension.
+	*	\param		[in]	type			- zVertexData / zEdgedata
+	*	\param		[in]	inGraph			- input graph.
+	*	\param		[out]	data			- output data.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void toCSV(string outfilename, zHEData type, zGraph& inGraph, vector<T> &data)
+	{
+
+		ofstream myfile;
+		myfile.open(outfilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+			return;
+
+		}
+
+		if (type == zVertexData)
+		{
+			if (data.size() != inGraph.vertexActive.size())
+			{
+				myfile.close();
+				throw std::invalid_argument(" error: data size and number of vertices dont match.");
+			}
+
+
+
+			myfile << "\n ";
+
+			// vertex 
+			for (int i = 0; i < inGraph.vertexActive.size(); i++)
+			{
+				myfile << "\n " << i << "," << data[i];
+
+			}
+
+		}
+
+		if (type == zEdgeData)
+		{
+			if (data.size() != inGraph.edgeActive.size())
+			{
+				myfile.close();
+				throw std::invalid_argument(" error: data size and number of edges dont match.");
+			}
+
+
+
+			myfile << "\n ";
+
+			// edge 
+			for (int i = 0; i < inGraph.edgeActive.size(); i++)
+			{
+				myfile << "\n " << i << "," << data[i];
+
+			}
+
+		}
+
+		myfile.close();
+	}
+
+
+	/*! \brief This method imports the graph attribute data from a CSV file.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	infilename		- input file name including the directory path and extension.
+	*	\param		[in]	type			- zVertexData / zEdgedata
+	*	\param		[in]	inGraph			- input graph.
+	*	\param		[out]	data			- input data.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void fromCSV(string infilename, zHEData type, zGraph& inGraph, vector<T> &data);
+
 	/** @}*/
 
 	/** @}*/
+}
+
+
+//--------------------------
+//---- TEMPLATE SPECIALIZATION DEFINITIONS 
+//--------------------------
+
+
+//---- string specialization
+template <>
+void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<string> &data)
+{
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		if (perlineData.size() != 2) continue;
+
+		// get data
+		string inData = (perlineData[1]);
+
+		data.push_back(inData);
+
+	}
+	
+	myfile.close();
+
+	if (type == zVertexData)
+	{
+		if (data.size() != inGraph.vertexActive.size())
+		{
+			
+			throw std::invalid_argument(" error: data size and number of vertices dont match.");
+		}
+
+	}
+
+
+	if (type == zEdgeData)
+	{
+		if (data.size() != inGraph.edgeActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of edges dont match.");
+		}
+	}
+
+
+
+
+}
+
+//---- int specialization
+template <>
+void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<int> &data)
+{
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+	
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		if (perlineData.size()!= 2) continue;
+
+		// get data
+		int inData = atoi(perlineData[1].c_str());
+
+		data.push_back(inData);
+
+	}
+	myfile.close();
+
+	if (type == zVertexData)
+	{
+		if (data.size() != inGraph.vertexActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of vertices dont match.");
+		}
+
+	}
+
+
+	if (type == zEdgeData)
+	{
+		if (data.size() != inGraph.edgeActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of edges dont match.");
+		}
+	}
+
+}
+
+
+//---- float specialization
+template <>
+void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<float> &data)
+{
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		if (perlineData.size() != 2) continue;
+
+		// get data
+		float inData = atof(perlineData[1].c_str());
+
+		data.push_back(inData);
+
+	}
+	myfile.close();
+
+	if (type == zVertexData)
+	{
+		if (data.size() != inGraph.vertexActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of vertices dont match.");
+		}
+
+	}
+
+
+	if (type == zEdgeData)
+	{
+		if (data.size() != inGraph.edgeActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of edges dont match.");
+		}
+	}
+
+
+}
+
+//---- double specialization
+template <>
+void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<double> &data)
+{
+	data.clear();
+
+	ifstream myfile;
+	myfile.open(infilename.c_str());
+
+	if (myfile.fail())
+	{
+		cout << " error in opening file  " << infilename.c_str() << endl;
+		return;
+
+	}
+
+	while (!myfile.eof())
+	{
+		string str;
+		getline(myfile, str);
+
+		vector<string> perlineData = splitString(str, ",");
+
+		if (perlineData.size() != 2) continue;
+
+		// get data
+		double inData = atof(perlineData[1].c_str());
+
+		data.push_back(inData);
+
+	}
+
+	myfile.close();
+
+	if (type == zVertexData)
+	{
+		if (data.size() != inGraph.vertexActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of vertices dont match.");
+		}
+
+	}
+
+
+	if (type == zEdgeData)
+	{
+		if (data.size() != inGraph.edgeActive.size())
+		{
+			throw std::invalid_argument(" error: data size and number of edges dont match.");
+		}
+	}
+
+
+	
+
 }

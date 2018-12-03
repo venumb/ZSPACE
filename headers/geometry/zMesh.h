@@ -539,7 +539,7 @@ namespace zSpace
 			// get edgeIds of face
 			vector<int> fEdge;
 
-			int currentNumEdges = n_e;
+			int currentNumEdges = edgeActive.size();
 
 			for (int i = 0; i < fVertices.size(); i++)
 			{
@@ -554,13 +554,10 @@ namespace zSpace
 				else
 				{
 					addEdges(fVertices[i], fVertices[(i + 1) % fVertices.size()]);
-					fEdge.push_back(edges[n_e - 2].getEdgeId());
+					fEdge.push_back(edges[edgeActive.size() - 2].getEdgeId());
 
 				}
 			}
-
-			// update curent face edge
-			faces[n_f - 1].setEdge(&edges[fEdge[0]]);
 
 			//update current face verts edge pointer
 			for (int i = 0; i < fVertices.size(); i++)
@@ -571,11 +568,14 @@ namespace zSpace
 			// update face, next and prev edge pointers for face Edges
 			for (int i = 0; i < fEdge.size(); i++)
 			{
-				edges[fEdge[i]].setFace(&faces[n_f - 1]);
+				edges[fEdge[i]].setFace(&faces[faceActive.size() - 1]);
 
 				edges[fEdge[i]].setNext(&edges[fEdge[(i + 1) % fEdge.size()]]);
 				edges[fEdge[i]].setPrev(&edges[fEdge[(i - 1 + fEdge.size()) % fEdge.size()]]);
 			}
+
+			// update curent face edge
+			faces[faceActive.size() - 1].setEdge(&edges[fEdge[0]]);
 
 			return out;
 		}
@@ -972,6 +972,7 @@ namespace zSpace
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
+				
 
 		/*! \brief This method updates the pointers for boundary Edges.
 		*
@@ -1011,12 +1012,7 @@ namespace zSpace
 			}
 		}
 
-		/*! \brief This method resizes and copies information in to the vertex, edge and faces arrays of the current mesh from the coresponding arrays of input mesh.
-		*
-		*	\param		[in]	other			- input mesh to copy arrays from.
-		*	\since version 0.0.1
-		*/
-		void copyArraysfromMesh(zMesh &other);
+
 
 	};
 

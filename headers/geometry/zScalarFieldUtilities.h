@@ -112,7 +112,6 @@ namespace zSpace
 	*	\param		[out]	fieldIndexPositions	- container of positions per field  index.
 	*	\since version 0.0.1
 	*/
-
 	void computePositionsInFieldIndex(zScalarField2D &inField, vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
 	{
 		for (int i = 0; i < inField.getNumScalars(); i++)
@@ -135,8 +134,7 @@ namespace zSpace
 	*	\param	[in]	inField				- input zScalarfield2D
 	*	\return			zMesh				- mesh of the scalar field.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	zMesh fromScalarField2D(zScalarField2D &inField)
 	{
 		zMesh out;
@@ -207,8 +205,7 @@ namespace zSpace
 	*	\param	[in]	points				- container of positions.
 	*	\param	[out]	scalars				- container for storing scalar values.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<double> &scalars)
 	{
 		vector<double> out;
@@ -266,7 +263,6 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-
 	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars)
 	{
 		vector<double> out;
@@ -317,7 +313,6 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-
 	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars)
 	{
 		vector<double> out;
@@ -381,7 +376,6 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-	
 	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars)
 	{
 		vector<double> out;
@@ -436,7 +430,6 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-
 	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars)
 	{
 		vector<double> out;
@@ -487,8 +480,7 @@ namespace zSpace
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void union_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
 	{
 		vector<double> out;
@@ -509,8 +501,7 @@ namespace zSpace
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void subtract_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
 	{
 		vector<double> out;
@@ -532,7 +523,6 @@ namespace zSpace
 	*	\param	[in]	res_buffer			- value of buffer to store the results.
 	*	\since version 0.0.1
 	*/
-
 	void intersect_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
 	{
 		vector<double> out;
@@ -553,8 +543,7 @@ namespace zSpace
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void difference_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
 	{
 		vector<double> out;
@@ -576,8 +565,7 @@ namespace zSpace
 	*	\param	[in]	scalars				- vector of scalar values. Need to be equivalent to number of mesh vertices.
 	*	\param	[in]	clipPlane			- input zPlane used for clipping.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void clipwithPlane(zMesh &fieldMesh, vector<double>& scalars, zMatrixd& clipPlane)
 	{
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -606,8 +594,7 @@ namespace zSpace
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void updateColors(zMesh &fieldMesh, vector<double>& scalars)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
@@ -640,7 +627,6 @@ namespace zSpace
 	*	\param	[in]	field		- scalar field.
 	*	\since version 0.0.1
 	*/
-
 	void updateColors(zMesh &fieldMesh, zScalarField2D &field)
 	{
 		double dMax, dMin;
@@ -833,7 +819,6 @@ namespace zSpace
 	*	\return			int				- case type.
 	*	\since version 0.0.1
 	*/
-
 	int getIsolineCase(bool vertexBinary[4])
 	{
 		int out = -1;
@@ -879,8 +864,7 @@ namespace zSpace
 	*	\param	[in]	vertexTernary	- vertex ternary values.
 	*	\return			int				- case type.
 	*	\since version 0.0.1
-	*/	
-	
+	*/		
 	int getIsobandCase(int vertexTernary[4])
 	{
 		int out = -1;
@@ -1024,7 +1008,6 @@ namespace zSpace
 	*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 	*	\since version 0.0.1
 	*/
-
 	zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh)
 	{
 
@@ -1048,8 +1031,7 @@ namespace zSpace
 	*	\param	[in]	threshold		- field threshold.
 	*	\param	[in]	invertMesh	- true if inverted mesh is required.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void getIsolinePoly(int& faceId, zMesh &fieldMesh, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &threshold, bool invertMesh)
 	{
 		vector<int> fVerts;
@@ -1630,8 +1612,7 @@ namespace zSpace
 	*	\param	[in]	thresholdLow	- field threshold domain minimum.
 	*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void getIsobandPoly(int& faceId, zMesh &fieldMesh, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh)	
 	{
 		vector<int> fVerts;
@@ -2566,7 +2547,6 @@ namespace zSpace
 	*	\return			zMesh		- isoline mesh.
 	*	\since version 0.0.1
 	*/
-
 	zMesh getIsolineMesh(zMesh &fieldMesh, double threshold = 0.5, bool invertMesh = false)
 	{
 		zMesh out;
@@ -2601,7 +2581,6 @@ namespace zSpace
 	*	\return			zMesh			- isoband mesh.
 	*	\since version 0.0.1
 	*/
-
 	zMesh getIsobandMesh(zMesh &fieldMesh, double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
 	{
 		zMesh out;

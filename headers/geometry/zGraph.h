@@ -581,11 +581,15 @@ namespace zSpace
 		*	\param		[in]		pos		- input position.
 		*	\param		[in]		index	- input vertex index in the vertex position container.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void addToPositionMap(zVector &pos, int index)
 		{
-			string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
+			double factor = pow(10, 3);
+			double x = round(pos.x *factor) / factor;
+			double y = round(pos.y *factor) / factor;
+			double z = round(pos.z *factor) / factor;
+
+			string hashKey = (to_string(x) + "," + to_string(y) + "," + to_string(z));
 			positionVertex[hashKey] = index;
 		}
 
@@ -593,10 +597,14 @@ namespace zSpace
 		*	\param		[in]		pos		- input position.
 		*	\since version 0.0.1
 		*/
-
 		void removeFromPositionMap(zVector &pos)
 		{
-			string removeHashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
+			double factor = pow(10, 3);
+			double x = round(pos.x *factor) / factor;
+			double y = round(pos.y *factor) / factor;
+			double z = round(pos.z *factor) / factor;
+
+			string removeHashKey = (to_string(x) + "," + to_string(y) + "," + to_string(z));
 			positionVertex.erase(removeHashKey);
 		}
 
@@ -606,7 +614,6 @@ namespace zSpace
 		*	\param		[in]		index	- input edge index in the edge container.
 		*	\since version 0.0.1
 		*/
-
 		void addToVerticesEdge(int v1, int v2, int index)
 		{
 			string hashKey = (to_string(v1) + "," + to_string(v2));
@@ -622,7 +629,6 @@ namespace zSpace
 		*	\param		[in]		v2		- input vertex index B.
 		*	\since version 0.0.1
 		*/
-
 		void removeFromVerticesEdge(int v1, int v2)
 		{
 			string removeHashKey = (to_string(v1) + "," + to_string(v2));
@@ -645,7 +651,6 @@ namespace zSpace
 		*	\return				bool		- true if the edges container is resized.
 		*	\since version 0.0.1
 		*/
-
 		bool addEdges(int &v1, int &v2)
 		{
 			bool out = false;
@@ -699,8 +704,7 @@ namespace zSpace
 		/*! \brief This method returns the number of half edges in the graph or mesh.
 		*	\return				number of edges.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		int numEdges()
 		{
 			return n_e;
@@ -710,8 +714,7 @@ namespace zSpace
 		*	\param		[in]		_n_e	- number of edges.
 		*	\param		[in]		setMax	- if true, sets max edges as amultiple of _n_e.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		void setNumEdges(int _n_e, bool setMax = true)
 		{
 			n_e = _n_e;
@@ -726,8 +729,7 @@ namespace zSpace
 		*	\param		[out]	outEdgeId	- stores edgeId if the edge exists else it is -1.
 		*	\return		[out]	bool		- true if edge exists else false.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		bool edgeExists(int v1, int v2, int &outEdgeId)
 		{
 
@@ -754,7 +756,6 @@ namespace zSpace
 		*	\param		[out]	sortedEdges			- vector of zVertex holding the sorted edges.
 		*	\since version 0.0.1
 		*/
-
 		void cyclic_sortEdges(vector<int> &unSortedEdges, zVector &center, int sortReferenceIndex, vector<int> &sortedEdges)
 		{
 
@@ -847,8 +848,7 @@ namespace zSpace
 		*	\param		[in]	newSize			- new size of the array.
 		*	\param		[in]	type			- zVertexData or zEdgeData.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void resizeArray(int newSize, zHEData type = zVertexData)
 		{
 

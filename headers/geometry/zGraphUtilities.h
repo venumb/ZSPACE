@@ -267,10 +267,22 @@ namespace zSpace
 	{
 		edgeVisited.clear();
 
+		vector<bool> computeDone;
+
 		// initialise edge visits to 0
 		for (int i = 0; i < inGraph.numEdges(); i++)
 		{
 			edgeVisited.push_back(0);
+		}
+
+		// initialise compute done to false
+		for (int i = 0; i < inGraph.numVertices(); i++)
+		{
+			for (int j = 0; j < inGraph.numVertices(); j++)
+			{
+				if (j == i) computeDone.push_back(true);
+				else computeDone.push_back(false);
+			}
 		}
 
 		for (int i = 0; i < inGraph.numVertices(); i++)
@@ -285,7 +297,9 @@ namespace zSpace
 			// compute shortes path from all vertices to current vertex 
 			for (int j = 0; j < inGraph.numVertices(); j++)
 			{
-				if (j == i) continue;
+				int id = (i*inGraph.numVertices()) + j;
+				
+				if (computeDone[id]) continue;
 
 				printf("\n total: %i source: %i  destination: %i ", inGraph.numVertices(), i,j);
 
@@ -300,7 +314,10 @@ namespace zSpace
 					// adding to the other half edge
 					(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
 				}
-								
+
+				computeDone[id] = true;
+				computeDone[(j*inGraph.numVertices()) + i] = true;
+
 			}
 		}
 	}
