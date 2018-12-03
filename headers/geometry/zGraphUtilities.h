@@ -212,6 +212,8 @@ namespace zSpace
 	{
 		edgePath.clear();
 
+		vector<int> tempEdgePath;
+
 		if(indexA >inGraph.vertexActive.size()) throw std::invalid_argument("indexA out of bounds.");
 		if (indexB >inGraph.vertexActive.size()) throw std::invalid_argument("indexB out of bounds.");
 
@@ -226,7 +228,7 @@ namespace zSpace
 		do
 		{
 			int nextId = parent[id];
-			if (nextId != -1)
+			if (nextId >= 0)
 			{
 				// get the edge if it exists
 				int eId;
@@ -235,15 +237,24 @@ namespace zSpace
 				if (chkEdge)
 				{
 					// update edge visits
-					edgePath.push_back(eId);
+					tempEdgePath.push_back(eId);
 				}
 			}
 
 
 			id = nextId;
 
-		} while (id != -1);	
-		
+		} while (id >= 0);
+
+
+		if (id == -1)
+		{
+			edgePath = tempEdgePath;
+		}
+		else
+		{
+			printf("\n shortest path between %i & %i doesnt exists as they are part of disconnected graph. ");
+		}
 	}
 
 	/*! \brief This method computes the shortest path from the all vertices to all vertices of a graph and returns the number of times an edge is visited in those walks.
@@ -269,11 +280,14 @@ namespace zSpace
 
 			// get Dijkstra shortest distance spanning tree
 			shortestDistance(inGraph, i, dists, parent);
+			
 
 			// compute shortes path from all vertices to current vertex 
 			for (int j = 0; j < inGraph.numVertices(); j++)
 			{
 				if (j == i) continue;
+
+				printf("\n total: %i source: %i  destination: %i ", inGraph.numVertices(), i,j);
 
 				vector<int> edgePath;
 				shortestPath(inGraph, i, j, edgePath);
