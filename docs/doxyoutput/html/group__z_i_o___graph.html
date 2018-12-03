@@ -121,10 +121,78 @@ Functions</h2></td></tr>
 <tr class="memitem:gac49cfef1063731952f6decc21775c747"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747">zSpace::toJSON</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, string outfilename, bool vColors=false)</td></tr>
 <tr class="memdesc:gac49cfef1063731952f6decc21775c747"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method exports <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> to a JSON file format using JSON Modern Library.  <a href="group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747">More...</a><br /></td></tr>
 <tr class="separator:gac49cfef1063731952f6decc21775c747"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3e8492524d3eff240bdd307684d26609"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga3e8492524d3eff240bdd307684d26609"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_i_o___graph.html#ga3e8492524d3eff240bdd307684d26609">zSpace::toCSV</a> (string outfilename, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, vector&lt; T &gt; &amp;data)</td></tr>
+<tr class="memdesc:ga3e8492524d3eff240bdd307684d26609"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method exports the graph attribute data to a CSV file.  <a href="group__z_i_o___graph.html#ga3e8492524d3eff240bdd307684d26609">More...</a><br /></td></tr>
+<tr class="separator:ga3e8492524d3eff240bdd307684d26609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac52e1e0cd02bf6faaa8db1034508b1bf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gac52e1e0cd02bf6faaa8db1034508b1bf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_i_o___graph.html#gac52e1e0cd02bf6faaa8db1034508b1bf">zSpace::fromCSV</a> (string infilename, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, vector&lt; T &gt; &amp;data)</td></tr>
+<tr class="memdesc:gac52e1e0cd02bf6faaa8db1034508b1bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method imports the graph attribute data from a CSV file.  <a href="group__z_i_o___graph.html#gac52e1e0cd02bf6faaa8db1034508b1bf">More...</a><br /></td></tr>
+<tr class="separator:gac52e1e0cd02bf6faaa8db1034508b1bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of input - output methods for <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a>. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gac52e1e0cd02bf6faaa8db1034508b1bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac52e1e0cd02bf6faaa8db1034508b1bf">&#9670;&nbsp;</a></span>fromCSV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::fromCSV </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>infilename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>inGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method imports the graph attribute data from a CSV file. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">infilename</td><td>- input file name including the directory path and extension. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zVertexData / zEdgedata </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inGraph</td><td>- input graph. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>- input data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+</div>
+</div>
 <a id="ga72f18c5d3de0d92bea72ed214d7ba159"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga72f18c5d3de0d92bea72ed214d7ba159">&#9670;&nbsp;</a></span>fromJSON()</h2>
 
@@ -161,7 +229,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00262">262</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00345">345</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -208,7 +276,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00291">291</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00374">374</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -255,7 +323,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00192">192</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00275">275</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -263,6 +331,68 @@ Here is the call graph for this function:</div>
 <map name="group__z_i_o___graph_ga8a777733141d990b954475902e8a8cdc_cgraph" id="group__z_i_o___graph_ga8a777733141d990b954475902e8a8cdc_cgraph">
 </map>
 </div>
+
+</div>
+</div>
+<a id="ga3e8492524d3eff240bdd307684d26609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3e8492524d3eff240bdd307684d26609">&#9670;&nbsp;</a></span>toCSV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::toCSV </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>outfilename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>inGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method exports the graph attribute data to a CSV file. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">outfilename</td><td>- output file name including the directory path and extension. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zVertexData / zEdgedata </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inGraph</td><td>- input graph. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">data</td><td>- output data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00484">484</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
 
 </div>
 </div>
@@ -309,7 +439,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00469">469</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00449">449</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -356,7 +486,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00418">418</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_exchange_8h_source.html#l00398">398</a> of file <a class="el" href="z_exchange_8h_source.html">zExchange.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

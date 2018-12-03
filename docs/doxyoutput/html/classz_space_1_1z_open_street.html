@@ -143,8 +143,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad57dc144a2d627dd20d7b8f105ca49f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the 3D position based on the input latitude and longitude, using the bounds of the OSM data as the domain.  <a href="#ad57dc144a2d627dd20d7b8f105ca49f9">More...</a><br /></td></tr>
 <tr class="separator:ad57dc144a2d627dd20d7b8f105ca49f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af93fddbdfc4a6547ddd710a7ec9699af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#af93fddbdfc4a6547ddd710a7ec9699af">fromCoordinates_ShapeCSV</a> (string infile_Nodes, string infile_Attribute, vector&lt; vector&lt; string &gt;&gt; &amp;attributeData, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;outgraph)</td></tr>
-<tr class="memdesc:af93fddbdfc4a6547ddd710a7ec9699af"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets data positions from input CSV data file with the first 2 columns being latitude and longitude.  <a href="#af93fddbdfc4a6547ddd710a7ec9699af">More...</a><br /></td></tr>
+<tr class="memdesc:af93fddbdfc4a6547ddd710a7ec9699af"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets graph and data attributes from input shape CSV data files.  <a href="#af93fddbdfc4a6547ddd710a7ec9699af">More...</a><br /></td></tr>
 <tr class="separator:af93fddbdfc4a6547ddd710a7ec9699af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7baaf3cac65775e1c0268faf6e9d74a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ab7baaf3cac65775e1c0268faf6e9d74a">fromCoordinates_ShapeCSV</a> (string infile_Nodes, vector&lt; vector&lt; string &gt;&gt; &amp;attributeData, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions)</td></tr>
+<tr class="memdesc:ab7baaf3cac65775e1c0268faf6e9d74a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets data positions and attributes from input CSV shape data file .  <a href="#ab7baaf3cac65775e1c0268faf6e9d74a">More...</a><br /></td></tr>
+<tr class="separator:ab7baaf3cac65775e1c0268faf6e9d74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a832d06aa1ecf8fed5e82b6447a0cf278">updateScalars_GraphConnectivity</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph)</td></tr>
 <tr class="memdesc:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field based on input graph connectivity.  <a href="#a832d06aa1ecf8fed5e82b6447a0cf278">More...</a><br /></td></tr>
 <tr class="separator:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -663,7 +666,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="af93fddbdfc4a6547ddd710a7ec9699af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af93fddbdfc4a6547ddd710a7ec9699af">&#9670;&nbsp;</a></span>fromCoordinates_ShapeCSV()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af93fddbdfc4a6547ddd710a7ec9699af">&#9670;&nbsp;</a></span>fromCoordinates_ShapeCSV() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -708,7 +711,7 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>This method gets data positions from input CSV data file with the first 2 columns being latitude and longitude. </p>
+<p>This method gets graph and data attributes from input shape CSV data files. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">infile_Nodes</td><td>- input file name including the directory path and extension for position information. </td></tr>
@@ -726,6 +729,68 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classz_space_1_1z_open_street_af93fddbdfc4a6547ddd710a7ec9699af_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_af93fddbdfc4a6547ddd710a7ec9699af_cgraph" alt=""/></div>
 <map name="classz_space_1_1z_open_street_af93fddbdfc4a6547ddd710a7ec9699af_cgraph" id="classz_space_1_1z_open_street_af93fddbdfc4a6547ddd710a7ec9699af_cgraph">
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab7baaf3cac65775e1c0268faf6e9d74a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7baaf3cac65775e1c0268faf6e9d74a">&#9670;&nbsp;</a></span>fromCoordinates_ShapeCSV() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zOpenStreet::fromCoordinates_ShapeCSV </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>infile_Nodes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; string &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>attributeData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>positions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets data positions and attributes from input CSV shape data file . </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">infile_Nodes</td><td>- input file name including the directory path and extension for position information. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">attributeData</td><td>- container for sttribute data as a string. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">positions</td><td>- out point cloud. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00770">770</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_open_street_ab7baaf3cac65775e1c0268faf6e9d74a_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_ab7baaf3cac65775e1c0268faf6e9d74a_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_open_street_ab7baaf3cac65775e1c0268faf6e9d74a_cgraph" id="classz_space_1_1z_open_street_ab7baaf3cac65775e1c0268faf6e9d74a_cgraph">
 </map>
 </div>
 
@@ -960,7 +1025,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00831">831</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00914">914</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -999,7 +1064,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00894">894</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00980">980</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1038,7 +1103,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00956">956</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01043">1043</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1077,7 +1142,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01018">1018</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01106">1106</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1122,7 +1187,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01083">1083</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01173">1173</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1167,7 +1232,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01148">1148</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01241">1241</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1212,7 +1277,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01212">1212</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01308">1308</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1257,7 +1322,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01276">1276</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01375">1375</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1301,7 +1366,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00775">775</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00855">855</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

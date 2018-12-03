@@ -3,7 +3,7 @@ digraph "zSpace::zGraph::removeFromVerticesEdge"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node257 [label="zSpace::zGraph::removeFrom\lVerticesEdge",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node257 -> Node258 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node258 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c",tooltip="This method deletes the zMesh vertices given in the input vertex list. "];
+  Node256 [label="zSpace::zGraph::removeFrom\lVerticesEdge",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node256 -> Node257 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node257 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gad7f05263e242d0a98e3dbd09199246b1",tooltip="This method deletes the zMesh vertices given in the input vertex list. "];
 }

@@ -6,6 +6,7 @@ var searchData=
   ['target_5fnewbasis',['target_newBasis',['../group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7',1,'zSpace']]],
   ['to_5fjson',['to_json',['../classz_space_1_1z_mesh_j_s_o_n.html#a2f9c901ed11d790ecec40f3ca6ea4a17',1,'zSpace::zMeshJSON::to_json()'],['../classz_space_1_1z_graph_j_s_o_n.html#a0325de934ba660bfda600cd91beafc6c',1,'zSpace::zGraphJSON::to_json()']]],
   ['tocolumnmatrix',['toColumnMatrix',['../classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14',1,'zSpace::zVector']]],
+  ['tocsv',['toCSV',['../group__z_i_o___graph.html#ga3e8492524d3eff240bdd307684d26609',1,'zSpace']]],
   ['tohsv',['toHSV',['../classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05',1,'zSpace::zColor']]],
   ['tojson',['toJSON',['../group__z_i_o___mesh.html#ga6fccda275363a86353d2750673122d6f',1,'zSpace::toJSON(zMesh &amp;inMesh, string outfilename, bool vColors=false)'],['../group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747',1,'zSpace::toJSON(zGraph &amp;inGraph, string outfilename, bool vColors=false)']]],
   ['tolocalmatrix',['toLocalMatrix',['../group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9',1,'zSpace']]],

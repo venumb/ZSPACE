@@ -3,11 +3,11 @@ digraph "zSpace::zMesh::getEdges"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node176 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node176 -> Node177 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node177 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace. "];
-  Node176 -> Node178 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node178 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
-  Node176 -> Node179 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node179 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge. "];
+  Node178 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node178 -> Node179 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node179 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace. "];
+  Node178 -> Node180 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node180 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
+  Node178 -> Node181 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node181 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge. "];
 }

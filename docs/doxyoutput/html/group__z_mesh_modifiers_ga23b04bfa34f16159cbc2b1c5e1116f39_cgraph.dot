@@ -1,0 +1,45 @@
+digraph "zSpace::flipTriangleEdge"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node39 [label="zSpace::flipTriangleEdge",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node39 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge. "];
+  Node39 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="zSpace::zEdge::getFace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a5646e5bc6a828a39ea287c3c78cfefc9",tooltip="This method returns the face pointed to by the current zEdge. "];
+  Node39 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="zSpace::zMesh::getVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b",tooltip="This method gets the vertices attached to input zEdge or zFace. "];
+  Node42 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa705d823873a948a1b62723f24a921b2",tooltip="This method gets the edges of a zFace. "];
+  Node43 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace. "];
+  Node43 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
+  Node43 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge. "];
+  Node39 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="zSpace::zFace::getFaceId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a117849660e4f7f800a8562a61964c8e9",tooltip="This method returns the faceId of current zFace. "];
+  Node39 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::zEdge::getPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30",tooltip="This method returns the previous edge of current zEdge. "];
+  Node39 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="zSpace::zEdge::getVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a07c082aa54f78145fdcd5e5e4bb889f1",tooltip="This method returns the vertex pointed to by the current zEdge. "];
+  Node39 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::zVertex::getVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e",tooltip="This method returns the vertexId of current zVertex. "];
+  Node39 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::zVertex::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a7d187864963f642666b8c3bcfecee6e9",tooltip="This method returns the associated edge of current zVertex. "];
+  Node39 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="zSpace::zVertex::setEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a5fdd172f3ae9dcb71b720574f05ca037",tooltip="This method sets the associated edge of current zVertex to the the input edge. "];
+  Node39 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="zSpace::zEdge::setVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a93530eb3a1da2c02225f30e011db6b7f",tooltip="This method sets the vertex pointed to by the current zEdge to the the input zVertex. "];
+  Node39 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="zSpace::zEdge::setNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a5998712a83b56abd65880f3125f0d3c9",tooltip="This method sets the next edge of current zEdge to the the input edge. "];
+  Node39 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::zEdge::setPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#af97abc7295676b01bc278123c86ba0b9",tooltip="This method sets the previous edge of current zEdge to the the input edge. "];
+  Node39 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="zSpace::zEdge::setFace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a7e75a5d8239e9ffc5e5f3104db769519",tooltip="This method sets the face pointed to by the current zEdge to the the input zFace. ..."];
+  Node39 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::zFace::setEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a3701746b7939f7e780ed042bad050ad7",tooltip="This method sets the associated edge of current zFace to the the input edge. "];
+  Node39 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

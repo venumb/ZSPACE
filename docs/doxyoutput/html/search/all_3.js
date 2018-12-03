@@ -2,7 +2,7 @@ var searchData=
 [
   ['deg_5fto_5frad',['DEG_TO_RAD',['../group__z_core_definitions.html#ga212460e743fecb084d717bb2180c5a56',1,'zDefinitions.h']]],
   ['deleteedge',['deleteEdge',['../group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897',1,'zSpace']]],
-  ['deletevertex',['deleteVertex',['../group__z_mesh_modifiers.html#ga5890a69c67d5749099678ef906c7278c',1,'zSpace']]],
+  ['deletevertex',['deleteVertex',['../group__z_mesh_modifiers.html#gad7f05263e242d0a98e3dbd09199246b1',1,'zSpace']]],
   ['det',['det',['../classz_space_1_1z_matrix.html#a131871f68be2ee2f7679c3e1154d5d44',1,'zSpace::zMatrix']]],
   ['difference_5ffields',['difference_fields',['../group__z_scalar_field2_d_utilities.html#ga85a7941898597ec1f94aea7d9239fec4',1,'zSpace']]],
   ['dihedralangle',['dihedralAngle',['../classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c',1,'zSpace::zVector']]],
