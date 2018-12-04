@@ -41,7 +41,7 @@ namespace zSpace
 		// vertex positions
 		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
 		{
-			myfile << "\n v " << inMesh.vertexPositions[i].x << " " << inMesh.vertexPositions[i].y << " " << inMesh.vertexPositions[i].z;
+			 myfile << "\n v " << inMesh.vertexPositions[i].x << " " << inMesh.vertexPositions[i].y << " " << inMesh.vertexPositions[i].z;
 
 		}
 

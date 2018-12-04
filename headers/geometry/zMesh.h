@@ -1013,6 +1013,189 @@ namespace zSpace
 		}
 
 
+		/*! \brief This method resizes the array connected with the input type to the specified newSize.
+		*
+		*	\param		[in]	newSize			- new size of the array.
+		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
+		*	\since version 0.0.1
+		*/
+
+	public:
+		void removeInactiveElements(zHEData type = zVertexData)
+		{
+			//  Vertex
+			if (type == zVertexData)
+			{
+
+				zVertex *resized = new zVertex[max_n_v];
+
+				int vertexActiveID =0;
+				int numOrginalVertexActive = vertexActive.size();
+
+				for (int i = 0; i < numVertices(); i++)
+				{
+					
+					while (!vertexActive[i])
+					{
+						vertexActive.erase(vertexActive.begin() + i);
+						
+						vertexPositions.erase(vertexPositions.begin() + i);
+
+						vertexColors.erase(vertexColors.begin() + i);
+
+						vertexNormals.erase(vertexNormals.begin() + i);
+
+						vertexActiveID++;
+					}
+					
+					resized[i].setVertexId(i);
+
+
+					// get connected edges and repoint their pointers
+					if (vertexActiveID < numOrginalVertexActive)
+					{
+						vector<int> cEdges; 
+						getConnectedEdges(vertexActiveID, zVertexData, cEdges);
+
+						for (int j = 0; j < cEdges.size(); j++)
+						{
+							edges[cEdges[j]].getSym()->setVertex(&resized[i]);
+						}
+
+
+						resized[i].setEdge(&edges[vertices[vertexActiveID].getEdge()->getEdgeId()]);
+
+						edges[vertices[vertexActiveID].getEdge()->getEdgeId()].getSym()->setVertex(&resized[i]);
+					}	
+					
+
+					vertexActiveID++;
+					
+				}
+
+				printf("\n m: %i %i ", numVertices(), vertexActive.size());
+							
+
+				delete[] vertices;
+
+				vertices = resized;
+
+				printf("\n removed inactive vertices. ");
+
+			}
+
+			//  Edge
+			else if (type == zEdgeData) {
+
+				zEdge *resized = new zEdge[max_n_e];
+
+				int edgeActiveID = 0;
+				int numOrginalEdgeActive = edgeActive.size();
+
+				int inactiveCounter = 0;
+
+				
+
+				for (int i = 0; i < numEdges(); i+= 2)
+				{
+
+					while (!edgeActive[i])
+					{
+						edgeActive.erase(edgeActive.begin() + i);
+						edgeActiveID++;
+					}
+
+					
+					resized[i].setEdgeId(i);
+					resized[i+1].setEdgeId(i+1);
+
+					// get connected edges and repoint their pointers
+					if (edgeActiveID < numOrginalEdgeActive)
+					{
+						
+
+						resized[i].setSym(&resized[i+1]);
+
+						if (edges[edgeActiveID].getNext()) resized[i].setNext(&resized[edges[edgeActiveID].getNext()->getEdgeId()]);
+						if (edges[edgeActiveID].getPrev()) resized[i].setPrev(&resized[edges[edgeActiveID].getPrev()->getEdgeId()]);
+
+						if (edges[edgeActiveID].getVertex()) resized[i].setVertex(&vertices[edges[edgeActiveID].getVertex()->getVertexId()]);
+						vertices[edges[edgeActiveID].getVertex()->getVertexId()].setEdge(resized[i].getSym());
+
+						if (edges[edgeActiveID].getFace()) resized[i].setFace(&faces[edges[edgeActiveID].getFace()->getFaceId()]);
+						faces[edges[edgeActiveID].getFace()->getFaceId()].setEdge(&resized[i]);
+
+						//sym edge
+						if (edges[edgeActiveID +1].getNext()) resized[i+1].setNext(&resized[edges[edgeActiveID+1].getNext()->getEdgeId()]);
+						if (edges[edgeActiveID + 1].getPrev()) resized[i+1].setPrev(&resized[edges[edgeActiveID+1].getPrev()->getEdgeId()]);
+
+						if (edges[edgeActiveID + 1].getVertex()) resized[i+1].setVertex(&vertices[edges[edgeActiveID + 1].getVertex()->getVertexId()]);
+						vertices[edges[edgeActiveID + 1].getVertex()->getVertexId()].setEdge(resized[i +1].getSym());
+
+						if (edges[edgeActiveID + 1].getFace())
+						{
+							resized[i+1].setFace(&faces[edges[edgeActiveID + 1].getFace()->getFaceId()]);
+							faces[edges[edgeActiveID + 1].getFace()->getFaceId()].setEdge(&resized[i + 1]);
+						}
+						
+						
+					}
+
+					edgeActiveID += 2;
+
+				}
+
+				printf("\n m: %i %i ", numEdges(), edgeActive.size());
+
+				for (int i = 0; i < vertexActive.size(); i++)
+				{
+					if (vertices[i].getEdge()) vertices[i].setEdge(&resized[vertices[i].getEdge()->getEdgeId()]);
+				}
+
+				for (int i = 0; i < faceActive.size(); i++)
+				{
+					if (faces[i].getEdge()) faces[i].setEdge(&resized[faces[i].getEdge()->getEdgeId()]);
+
+				}
+
+				delete[] edges;
+				edges = resized;
+
+				printf("\n mesh edges resized. ");
+
+			}
+
+			// Mesh Face
+			else if (type == zFaceData)
+			{
+
+				zFace *resized = new zFace[max_n_f];
+
+				for (int i = 0; i < faceActive.size(); i++)
+				{
+					resized[i].setFaceId(i);
+					if (faces[i].getEdge()) resized[i].setEdge(&edges[faces[i].getEdge()->getEdgeId()]);
+
+					//printf("\n %i : %i ", (resized[i].getEdge()) ? resized[i].getEdge()->getEdgeId():-1 , (faces[i].getEdge()) ? faces[i].getEdge()->getEdgeId():-1);
+				}
+
+
+				for (int i = 0; i < edgeActive.size(); i++)
+				{
+					if (edges[i].getFace())
+					{
+						edges[i].setFace(&resized[edges[i].getFace()->getFaceId()]);
+					}
+				}
+
+				delete[] faces;
+				faces = resized;
+
+				printf("\n mesh faces resized. ");
+			}
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
+		}
 
 	};
 

@@ -4,8 +4,8 @@
 #include <headers/geometry/zMeshUtilities.h>
 #include <headers/geometry/zMeshModifiers.h>
 
-#include <headers/geometry/zScalarField.h>
-#include <headers/geometry/zScalarFieldUtilities.h>
+#include <headers/geometry/zField.h>
+#include <headers/geometry/zFieldUtilities.h>
 
 #include <headers/data/zDatabase.h>
 
@@ -166,7 +166,7 @@ namespace zSpace
 		//---- FIELD ATTRIBUTES
 
 		/*!	\brief scalar field covering the bounds of data.  */
-		zScalarField2D scalarfield;
+		zField2D<double> scalarfield;
 
 		/*!	\brief mesh of the scalar field.  */
 		zMesh  fieldMesh;
@@ -266,9 +266,9 @@ namespace zSpace
 		{
 			zVector offset(0.5, 0.5, 0);
 
-			scalarfield = zScalarField2D(this->minBB - offset, this->maxBB + offset, _n_X, _n_Y);
+			scalarfield = zField2D<double>(this->minBB - offset, this->maxBB + offset, _n_X, _n_Y);
 
-			fieldMesh = fromScalarField2D(this->scalarfield);
+			fieldMesh = fromField2D(this->scalarfield);
 
 		}
 
@@ -854,9 +854,9 @@ namespace zSpace
 		*/
 		void updateScalars_GraphConnectivity(zGraph& inGraph)
 		{
-			for (int i = 0; i < scalarfield.getNumScalars(); i++)
+			for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
 			{
-				scalarfield.setWeight(0.0,i);
+				scalarfield.setFieldValue(0.0,i);
 			}
 
 			for (int i = 0; i < inGraph.vertexActive.size(); i++)
@@ -865,9 +865,9 @@ namespace zSpace
 
 				int fieldIndex = scalarfield.getIndex(inGraph.vertexPositions[i]);
 
-				int valence = inGraph.getVertexValence((double)i, zVertexData);		
+				int valence = inGraph.getVertexValence(i, zVertexData);		
 								
-				scalarfield.setWeight(valence, fieldIndex);			
+				scalarfield.setFieldValue((double)valence, fieldIndex);	
 
 			}
 		}
@@ -915,9 +915,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
 	{
-		scalarfield.setWeight(0.0, i);
+		scalarfield.setFieldValue(0.0, i);
 	}
 
 	ifstream myfile;
@@ -959,10 +959,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 				data.push_back(inData);
 
 				double weight;
-				weight = scalarfield.getWeight(fieldIndex);
+				weight = scalarfield.getFieldValue(fieldIndex);
 				weight++;
 				
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 			}
 
@@ -981,9 +981,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
 	{
-		scalarfield.setWeight(0.0, i);
+		scalarfield.setFieldValue(0.0, i);
 	}
 
 	ifstream myfile;
@@ -1025,7 +1025,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 				double weight;
 				weight = inData;;				
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 			}
 
@@ -1044,9 +1044,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
 	{
-		scalarfield.setWeight(0.0, i);
+		scalarfield.setFieldValue(0.0, i);
 	}
 
 	ifstream myfile;
@@ -1088,7 +1088,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 				double weight;
 				weight = inData;;
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 			}
 
@@ -1107,9 +1107,9 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumScalars(); i++)
+	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
 	{
-		scalarfield.setWeight(0.0, i);
+		scalarfield.setFieldValue(0.0, i);
 	}
 
 	ifstream myfile;
@@ -1152,7 +1152,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 				double weight;
 				weight = inData;;
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 			}
 
@@ -1218,10 +1218,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 				data.push_back(inData);
 
 				double weight;
-				weight = scalarfield.getWeight(fieldIndex);
+				weight = scalarfield.getFieldValue(fieldIndex);
 				weight++;
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 
 
@@ -1288,7 +1288,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 				double weight;
 				weight = inData;;
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 
 
@@ -1355,7 +1355,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 				double weight;
 				weight = inData;;
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 
 
@@ -1422,7 +1422,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 				double weight;
 				weight = inData;;
 
-				scalarfield.setWeight(weight, fieldIndex);
+				scalarfield.setFieldValue(weight, fieldIndex);
 
 
 

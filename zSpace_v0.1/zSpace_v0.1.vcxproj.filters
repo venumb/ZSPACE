@@ -95,12 +95,6 @@
     <ClInclude Include="..\headers\IO\zJSON.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\geometry\zScalarfield.h">
-      <Filter>Header Files\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\geometry\zScalarFieldUtilities.h">
-      <Filter>Header Files\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\include\zCore.h">
       <Filter>Header Files\Include</Filter>
     </ClInclude>
@@ -124,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="..\headers\data\zOpenstreet.h">
       <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zField.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\geometry\zFieldUtilities.h">
+      <Filter>Header Files\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

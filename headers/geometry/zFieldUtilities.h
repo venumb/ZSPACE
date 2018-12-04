@@ -2,7 +2,7 @@
 
 #include<headers/geometry/zGraph.h>
 #include<headers/geometry/zMesh.h>
-#include<headers/geometry/zScalarfield.h>
+#include<headers/geometry/zField.h>
 
 
 
@@ -45,36 +45,20 @@ namespace zSpace
 
 	/*! \brief This method computes the min and max scalar values at the given Scalars buffer.
 	*
+	*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+	*	\param	[in]	scalars	- input scalars
 	*	\param	[out]	dMin	- stores the minimum scalar value
 	*	\param	[out]	dMax	- stores the maximum scalar value
 	*	\param	[in]	buffer	- buffer of scalars.
 	*	\since version 0.0.1
 	*/	
-	void getMinMaxOfScalars(vector<double>& scalars, double &dMin, double &dMax)
+	template <typename T>
+	void getMinMaxOfScalars(vector<T>& scalars, T &dMin, T &dMax)
 	{
 		dMin = zMin(scalars);
 		dMax = zMax(scalars);		
 	}
 
-	/*! \brief This method computes the min and max scalar values at the given Scalars buffer.
-	*
-	*	\param	[out]	dMin	- stores the minimum scalar value
-	*	\param	[out]	dMax	- stores the maximum scalar value
-	*	\param	[in]	buffer	- buffer of scalars.
-	*	\since version 0.0.1
-	*/
-	void getMinMaxOfScalars(zScalarField2D &scalarfield, double &dMin, double &dMax)
-	{
-		dMin = 1000000;
-		dMax = -1000000;
-		
-		for (int i = 0; i < scalarfield.getNumScalars(); i++)
-		{
-			dMin = zMin(scalarfield.getWeight(i), dMin);
-			dMax = zMax(scalarfield.getWeight(i), dMax);
-		}
-	
-	}
 
 	/*! \brief This method normalises the scalar values at the given field buffer.
 	*
@@ -107,14 +91,16 @@ namespace zSpace
 
 	/*! \brief This method computes the filed index of each input position and stores them in a container per field index.
 	*
-	*	\param		[in]	inField				- input zScalarfield2D
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param		[in]	inField				- input zField2D
 	*	\param		[in]	positions			- container of positions.
 	*	\param		[out]	fieldIndexPositions	- container of positions per field  index.
 	*	\since version 0.0.1
 	*/
-	void computePositionsInFieldIndex(zScalarField2D &inField, vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
+	template <typename T>
+	void computePositionsInFieldIndex(zField2D<T> &inField, vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
 	{
-		for (int i = 0; i < inField.getNumScalars(); i++)
+		for (int i = 0; i < inField.getNumFieldValues(); i++)
 		{
 			vector<zVector> temp;
 			fieldIndexPositions.push_back(temp);
@@ -131,11 +117,13 @@ namespace zSpace
 
 	/*! \brief This method creates a mesh from the input scalar field.
 	*
-	*	\param	[in]	inField				- input zScalarfield2D
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param	[in]	inField				- input zField2D
 	*	\return			zMesh				- mesh of the scalar field.
 	*	\since version 0.0.1
 	*/	
-	zMesh fromScalarField2D(zScalarField2D &inField)
+	template <typename T>
+	zMesh fromField2D(zField2D<T> &inField)
 	{
 		zMesh out;
 
@@ -201,14 +189,16 @@ namespace zSpace
 
 	/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 	*
+	*	\tparam				T   - Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh			- zMesh of the field.
 	*	\param	[in]	points				- container of positions.
 	*	\param	[out]	scalars				- container for storing scalar values.
 	*	\since version 0.0.1
 	*/	
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<double> &scalars)
+	template <typename T>
+	void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<T> &scalars)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		vector<double> distVals;
 		double dMin = 100000;
@@ -240,7 +230,9 @@ namespace zSpace
 
 		for (int j = 0; j < fieldMesh.vertexColors.size(); j++)
 		{
-			double val = ofMap(distVals[j], dMin, dMax, 0.0, 1.0);
+			T outMin = 0;
+			T outMax = 0;
+			T val = ofMap(distVals[j], dMin, dMax, outMin0, outMax);
 			fieldMesh.vertexColors[j] = (zColor(val, 0, 0, 1));
 		}
 
@@ -256,6 +248,7 @@ namespace zSpace
 
 	/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
 	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh		- input field mesh.
 	*	\param	[in]	inMesh			- input mesh for distance calculations.
 	*	\param	[in]	a				- input variable for distance function.
@@ -263,9 +256,10 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars)
+	template <typename T>
+	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<T> &scalars)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		// update values from edge distance
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -306,6 +300,7 @@ namespace zSpace
 
 	/*! \brief This method creates a vertex distance Field from the input graph vertex positions.
 	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh		- input field mesh.
 	*	\param	[in]	inGraph			- input graph for distance calculations.
 	*	\param	[in]	a				- input variable for distance function.
@@ -313,9 +308,10 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars)
+	template <typename T>
+	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<T> &scalars)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		// update values from edge distance
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -369,6 +365,7 @@ namespace zSpace
 
 	/*! \brief This method creates a edge distance Field from the input mesh.
 	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh		- input field mesh.
 	*	\param	[in]	inMesh			- input mesh for distance calculations.
 	*	\param	[in]	a				- input variable for distance function.
@@ -376,9 +373,10 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars)
+	template <typename T>
+	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<T> &scalars)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		// update values from edge distance
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -423,6 +421,7 @@ namespace zSpace
 
 	/*! \brief This method creates a edge distance Field from the input graph.
 	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh		- input field mesh.
 	*	\param	[in]	inGraph			- input graph for distance calculations.
 	*	\param	[in]	a				- input variable for distance function.
@@ -430,9 +429,10 @@ namespace zSpace
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars)
+	template <typename T>
+	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<T> &scalars)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		// update values from edge distance
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -476,14 +476,16 @@ namespace zSpace
 
 	/*! \brief This method creates a union of the fields at the input buffers and stores them in the result buffer.
 	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	scalars0				- value of buffer.
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
 	*	\since version 0.0.1
 	*/	
-	void union_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
+	template <typename T>
+	void union_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		for (int i = 0; i < scalars0.size(); i++)
 		{
@@ -497,12 +499,14 @@ namespace zSpace
 
 	/*! \brief This method creates a subtraction of the fields at the input buffers and stores them in the result buffer.
 	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	scalars0				- value of buffer.
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
 	*	\since version 0.0.1
 	*/	
-	void subtract_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
+	template <typename T>
+	void subtract_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
 	{
 		vector<double> out;
 		
@@ -518,14 +522,16 @@ namespace zSpace
 
 	/*! \brief This method creates a intersect of the fields at the input buffers and stores them in the result buffer.
 	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	buffer0				- value of buffer.
 	*	\param	[in]	buffer1				- value of buffer.
 	*	\param	[in]	res_buffer			- value of buffer to store the results.
 	*	\since version 0.0.1
 	*/
-	void intersect_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
+	template <typename T>
+	void intersect_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		for (int i = 0; i < scalars0.size(); i++)
 		{
@@ -539,14 +545,16 @@ namespace zSpace
 	
 	/*! \brief This method creates a difference of the fields at the input buffers and stores them in the result buffer.
 	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	scalars0				- value of buffer.
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
 	*	\since version 0.0.1
 	*/	
-	void difference_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult)
+	template <typename T>
+	void difference_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
 	{
-		vector<double> out;
+		vector<T> out;
 
 		intersect_fields(scalars0, scalars1, out);
 
@@ -561,12 +569,14 @@ namespace zSpace
 
 	/*! \brief This method uses an input plane to clip an existing scalar field.
 	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh			- input field mesh.
 	*	\param	[in]	scalars				- vector of scalar values. Need to be equivalent to number of mesh vertices.
 	*	\param	[in]	clipPlane			- input zPlane used for clipping.
 	*	\since version 0.0.1
 	*/	
-	void clipwithPlane(zMesh &fieldMesh, vector<double>& scalars, zMatrixd& clipPlane)
+	template <typename T>
+	void clipwithPlane(zMesh &fieldMesh, vector<T>& scalars, zMatrixd& clipPlane)
 	{
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
@@ -591,11 +601,13 @@ namespace zSpace
 
 	/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
 	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\since version 0.0.1
 	*/	
-	void updateColors(zMesh &fieldMesh, vector<double>& scalars)
+	template <typename T>
+	void updateColors(zMesh &fieldMesh, vector<T>& scalars)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -606,8 +618,8 @@ namespace zSpace
 			{
 				zColor col;
 
-				double outMin = 0.00;
-				double outMax = 1.00;
+				T outMin = 0;
+				T outMax = 1;
 				double val = ofMap(scalars[i], dMin, dMax, outMin, outMax);
 
 				col.r = val;
@@ -621,48 +633,18 @@ namespace zSpace
 
 	}
 
-	/*! \brief This method updates the color values of the field mesh based on the scalarfield. Gradient - Black to Red
-	*
-	*	\param	[in]	fieldMesh	- input field mesh.
-	*	\param	[in]	field		- scalar field.
-	*	\since version 0.0.1
-	*/
-	void updateColors(zMesh &fieldMesh, zScalarField2D &field)
-	{
-		double dMax, dMin;
-		getMinMaxOfScalars(field, dMin, dMax);
-
-		printf("\n min max: %1.2f %1.2f", dMin, dMax);
-
-		for (int i = 0; i < field.getNumScalars(); i++)
-		{
-			double scalar = field.getWeight(i);
-
-			zColor col;
-
-			double outMin = 0.00;
-			double outMax = 1.00;
-			double val = ofMap(scalar, dMin, dMax, outMin, outMax);
-
-			col.r = val;
-
-			fieldMesh.faceColors[i] = col;
-
-			if (i % 10 == 0) printf("\n %i : %1.2f %1.2f %1.2f ", i, fieldMesh.faceColors[i].r, fieldMesh.faceColors[i].g, fieldMesh.faceColors[i].b);
-		}
-
-		fieldMesh.computeVertexColorfromFaceColor();
-	}
 
 	/*! \brief This method updates the color values of the field mesh based on the scalar values.
 	*
+	*	\tparam			T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\param	[in]	col1		- blend color 1.
 	*	\param	[in]	col2		- blend color 2.
 	*	\since version 0.0.1
 	*/
-	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2)
+	template <typename T>
+	void updateBlendColors(zMesh &fieldMesh, vector<T>& scalars, zColor &col1, zColor &col2)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -686,7 +668,7 @@ namespace zSpace
 				else fieldMesh.faceColors[i] = col;
 			}
 
-			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeFaceColorfromVertexColor();				
+			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeVertexColorfromFaceColor();				
 			
 		}
 
@@ -694,51 +676,17 @@ namespace zSpace
 	}
 
 
-	/*! \brief This method updates the color values of the field mesh based on the scalarField.
-	*
-	*	\param	[in]	fieldMesh	- input field mesh.
-	*	\param	[in]	field		- scalar field.
-	*	\param	[in]	col1		- blend color 1.
-	*	\param	[in]	col2		- blend color 2.
-	*	\since version 0.0.1
-	*/
-	void updateBlendColors(zMesh &fieldMesh, zScalarField2D &field, zColor &col1, zColor &col2)
-	{
-		double dMax, dMin;
-		getMinMaxOfScalars(field, dMin, dMax);
-
-		printf("\n min max: %1.2f %1.2f", dMin, dMax);
-
-		for (int i = 0; i < field.getNumScalars(); i++)
-		{
-			double scalar = field.getWeight(i);
-
-			zColor col;
-
-			
-
-			col.h = ofMap(scalar, dMin, dMax, col1.h, col2.h);
-			col.s = ofMap(scalar, dMin, dMax, col1.s, col2.s);
-			col.v = ofMap(scalar, dMin, dMax, col1.v, col2.v);
-
-			col.toRGB();
-
-			fieldMesh.faceColors[i] = col;			
-		}
-
-		fieldMesh.computeVertexColorfromFaceColor();		
-	}
-
-
 	/*! \brief This method updates the color values of the field mesh based on the scalar values.
 	*
+	*	\tparam			T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\param	[in]	col1		- blend color 1.
 	*	\param	[in]	col2		- blend color 2.
 	*	\since version 0.0.1
 	*/
-	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
+	template <typename T>
+	void updateBlendColors(zMesh &fieldMesh, vector<T>& scalars, zColor &col1, zColor &col2, T dMin, T dMax)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -765,48 +713,13 @@ namespace zSpace
 				else fieldMesh.faceColors[i] = col;
 			}
 
-			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeFaceColorfromVertexColor();
+			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeVertexColorfromFaceColor();
 
 		}
 
 		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
 	}
 
-
-	/*! \brief This method updates the color values of the field mesh based on the scalarField.
-	*
-	*	\param	[in]	fieldMesh	- input field mesh.
-	*	\param	[in]	field		- scalar field.
-	*	\param	[in]	col1		- blend color 1.
-	*	\param	[in]	col2		- blend color 2.
-	*	\since version 0.0.1
-	*/
-	void updateBlendColors(zMesh &fieldMesh, zScalarField2D &field, zColor &col1, zColor &col2, double dMin, double dMax)
-	{
-		printf("\n min max: %1.2f %1.2f", dMin, dMax);
-
-		for (int i = 0; i < field.getNumScalars(); i++)
-		{
-			double scalar = field.getWeight(i);
-
-			zColor col;
-
-			if (scalar < dMin) col = col1;
-			else if (scalar > dMax) col = col2;
-			else
-			{
-				col.h = ofMap(scalar, dMin, dMax, col1.h, col2.h);
-				col.s = ofMap(scalar, dMin, dMax, col1.s, col2.s);
-				col.v = ofMap(scalar, dMin, dMax, col1.v, col2.v);
-
-				col.toRGB();
-			}
-
-			fieldMesh.faceColors[i] = col;
-		}
-
-		fieldMesh.computeVertexColorfromFaceColor();
-	}
 
 	//--------------------------
 	//---- MARCHING SQUARES METHODS

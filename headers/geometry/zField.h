@@ -13,49 +13,19 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
-	*	\brief The geometry classes of the library.
-	*  @{
-	*/
-
-	/*! \struct zScalar
-	*	\brief A struct for storing scalar field information
-	*	\since version 0.0.1
-	*/
-
-	/** @}*/
-
-	/** @}*/
-	struct zScalar
-	{
-		/*!	\brief stores the index of the scalar in the scalars container  */
-		int id;
-
-		/*!	\brief stores the position of the scalar  */
-		zVector pos;
-
-		/*!	\brief stores the value of the scalar  */
-		double weight;
-
-		/*!	\brief stores the ring neighbourhood indicies in the scalars container  */
-		vector<int> ringNeighbours;
-
-		/*!	\brief stores the adjacent neighbourhood indicies in the scalars container  */
-		vector<int> adjacentNeighbours;
-	};
-
 	/** \addtogroup zGeometry
 	*	\brief The geometry classes, modifier and utility methods of the library.
 	*  @{
 	*/
 
 	/** \addtogroup zGeometryClasses
-	*	\brief The geometry classes of the library.
+	*	\brief The geometry classes of the library.	
 	*  @{
 	*/
 
-	/*! \class zScalarField2D
-	*	\brief A class for 2D scalar field.
+	/*! \class zField2D
+	*	\brief A template class for 2D fields - scalar and vector.
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 	*	\since version 0.0.1
 	*/
 
@@ -63,12 +33,13 @@ namespace zSpace
 
 	/** @}*/
 
-	class zScalarField2D
+	template <typename T>
+	class zField2D
 	{
 	private:
 
 		//--------------------------
-		//----  ATTRIBUTES
+		//----  PRIVATE ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief stores the resolution in X direction  */
@@ -89,10 +60,25 @@ namespace zSpace
 		/*!	\brief stores the minimum bounds of the scalar field  */
 		zVector maxBB;
 
-		/*!	\brief container for the scalar field values  */
-		vector<zScalar> scalars;
+		/*!	\brief stores the position of the scalar  */
+		vector<zVector> positions;
+
+		/*!	\brief stores the ring neighbourhood indicies in the scalars container  */
+		vector<vector<int>> ringNeighbours;
+
+		/*!	\brief stores the adjacent neighbourhood indicies in the scalars container  */
+		vector<vector<int>> adjacentNeighbours;
+
+		
 
 	public:
+
+		//--------------------------
+		//----  ATTRIBUTES
+		//--------------------------
+		
+		/*!	\brief container for the scalar field values  */
+		vector<T> fieldValues;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -103,9 +89,9 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		zScalarField2D()
+		zField2D()
 		{
-			scalars.clear();
+			fieldValues.clear();
 
 			minBB = zVector(10000, 10000, 10000);
 			maxBB = zVector(-10000, -10000, -10000);
@@ -117,6 +103,7 @@ namespace zSpace
 
 
 		/*! \brief Overloaded constructor.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	_minBB		- minimum bounds of the scalar field.
 		*	\param		[in]	_maxBB		- maximum bounds of the scalar field.
 		*	\param		[in]	_n_X		- number of pixels in x direction.
@@ -124,7 +111,7 @@ namespace zSpace
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1. 
 		*	\since version 0.0.1
 		*/
-		zScalarField2D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1)
+		zField2D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1)
 		{
 			minBB = _minBB;
 			maxBB = _maxBB;
@@ -137,7 +124,7 @@ namespace zSpace
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
 			zVector startPt = minBB + (unitVec * 0.5);
 
-			scalars.clear();
+			fieldValues.clear();
 
 			printf("unit_X : %1.2f unit_Y : %1.2f ", unit_X, unit_Y);
 
@@ -149,36 +136,37 @@ namespace zSpace
 					pos.x = startPt.x + i * unitVec.x;
 					pos.y = startPt.y + j * unitVec.y;
 
-					zScalar scalar;
-					scalar.id = scalars.size();
-					scalar.pos = pos;
-					scalar.weight = 1;
+					positions.push_back(pos);
+
+					T defaultValue;
+					fieldValues.push_back(defaultValue);
 					
-					scalars.push_back(scalar);
 				}
 			}
 
 			// compute one ring neighbour
-			for (int i = 0; i < scalars.size(); i++)
+			for (int i = 0; i < positions.size(); i++)
 			{
-				scalars[i].ringNeighbours.clear();
-				getNeighbourHoodRing(i, _NR, scalars[i].ringNeighbours);
+				vector<int> temp_ringNeighbour;
+				getNeighbourHoodRing(i, _NR, temp_ringNeighbour);
+				ringNeighbours.push_back(temp_ringNeighbour);
 
-				scalars[i].adjacentNeighbours.clear();
-				getNeighbourAdjacents(i, scalars[i].adjacentNeighbours);
+				vector<int> temp_adjacentNeighbour;				
+				getNeighbourAdjacents(i, temp_adjacentNeighbour);
+				adjacentNeighbours.push_back(temp_adjacentNeighbour);
 			}
 		}
 
 		/*! \brief Overloaded constructor.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	_unit_X		- size of each pixel in x direction.
 		*	\param		[in]	_unit_Y		- size of each pixel in y direction.
 		*	\param		[in]	_n_X		- number of pixels in x direction.
 		*	\param		[in]	_n_Y		- number of pixels in y direction.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
 		*	\since version 0.0.1
-		*/
-		
-		zScalarField2D(double _unit_X, double _unit_Y, int _n_X, int _n_Y, int _NR = 1)
+		*/		
+		zField2D(double _unit_X, double _unit_Y, int _n_X, int _n_Y, int _NR = 1)
 		{
 			unit_X = _unit_X;
 			unit_Y = _unit_Y;
@@ -191,7 +179,8 @@ namespace zSpace
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
 			zVector startPt = minBB + (unitVec * 0.5);
-
+			
+			fieldValues.clear();
 
 			for (int i = 0; i< n_X; i++)
 			{
@@ -201,24 +190,24 @@ namespace zSpace
 					pos.x = startPt.x + i * unitVec.x;
 					pos.y = startPt.y + j * unitVec.y;
 
+					positions.push_back(pos);
 
-					zScalar scalar;
-					scalar.id = scalars.size();
-					scalar.pos = pos;
-					scalar.weight = 1;
-				
-					scalars.push_back(scalar);
+					T defaultValue;
+					fieldValues.push_back(defaultValue);
+
 				}
 			}
 
 			// compute one ring neighbour
-			for (int i = 0; i < scalars.size(); i++)
+			for (int i = 0; i < positions.size(); i++)
 			{
-				scalars[i].ringNeighbours.clear();
-				getNeighbourHoodRing(i, _NR, scalars[i].ringNeighbours);
+				vector<int> temp_ringNeighbour;
+				getNeighbourHoodRing(i, _NR, temp_ringNeighbour);
+				ringNeighbours.push_back(temp_ringNeighbour);
 
-				scalars[i].adjacentNeighbours.clear();
-				getNeighbourAdjacents(i, scalars[i].adjacentNeighbours);
+				vector<int> temp_adjacentNeighbour;
+				getNeighbourAdjacents(i, temp_adjacentNeighbour);
+				adjacentNeighbours.push_back(temp_adjacentNeighbour);
 			}
 
 
@@ -231,24 +220,23 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\since version 0.0.1
 		*/
-
-		~zScalarField2D(){}
+		~zField2D(){}
 
 		//--------------------------
 		//---- GET-SET METHODS
 		//--------------------------
 
 		/*! \brief This method retruns the number of scalars in the field.
-		*		
+		*	
 		*	\return			int	- number of scalars in the field.
 		*	\since version 0.0.1
-		*/
-		
-		int getNumScalars()
+		*/		
+		int getNumFieldValues()
 		{
-			return scalars.size();
+			return fieldValues.size();
 		}
 
 		/*! \brief This method gets the unit distances of the field.
@@ -302,7 +290,7 @@ namespace zSpace
 			_maxBB = maxBB;
 		}
 
-		/*! \brief This method sets the position of the scalar at the input index.
+		/*! \brief This method sets the position of the field at the input index.
 		*
 		*	\param		[in]	pos			- input position.
 		*	\param		[in]	index		- index in the scalar container.
@@ -313,11 +301,11 @@ namespace zSpace
 		{
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 			
-			scalars[index].pos = _pos;
+			positions[index] = _pos;
 		
 		}
 
-		/*! \brief This method gets the position of the scalar at the input index.
+		/*! \brief This method gets the position of the field at the input index.
 		*
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
@@ -327,34 +315,36 @@ namespace zSpace
 		{
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return scalars[index].pos;
+			return positions[index];
 		}
 
-		/*! \brief This method sets the weight/value of the scalar at the input index.
+		/*! \brief This method sets the value of the field at the input index.
 		*
-		*	\param		[in]	weight		- input value.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+		*	\param		[in]	fValue		- input value.
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
 
-		void setWeight(double weight, int index)
+		void setFieldValue(T fValue, int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
-			scalars[index].weight = weight;
+			fieldValues[index] = fValue;
 		}
 
-		/*! \brief This method gets the waight/value of the scalar at the input index.
+		/*! \brief This method gets the value of the field at the input index.
 		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
 		
-		double getWeight(int index)
+		T getFieldValue(int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return scalars[index].weight;
+			return fieldValues[index];
 		}			
 
 		
@@ -432,7 +422,7 @@ namespace zSpace
 					int newId = (newId_X * n_Y) + (newId_Y);
 
 
-					if (newId < getNumScalars()) out.push_back(newId);
+					if (newId < getNumFieldValues()) out.push_back(newId);
 				}
 
 			}
@@ -479,7 +469,7 @@ namespace zSpace
 					int newId = (newId_X * n_Y) + (newId_Y);
 
 
-					if (newId < getNumScalars())
+					if (newId < getNumFieldValues())
 					{
 						if (i == 0 || j == 0) out.push_back(newId);
 					}
@@ -510,8 +500,9 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zScalarField3D
-	*	\brief A class for 3D scalar field.
+	/*! \class zField3D
+	*	\brief A template class for 3D fields - scalar and vector.
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 	*	\since version 0.0.1
 	*/
 
@@ -519,12 +510,13 @@ namespace zSpace
 
 	/** @}*/
 
-	class zScalarField3D
+	template <typename T>
+	class zField3D
 	{
 	private:
 
 		//--------------------------
-		//----  ATTRIBUTES
+		//----  PRIVATE ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief stores the resolution in X direction  */
@@ -551,10 +543,25 @@ namespace zSpace
 		/*!	\brief stores the minimum bounds of the scalar field  */
 		zVector maxBB;
 
-		/*!	\brief container for the scalar field values  */
-		vector<zScalar> scalars;
+		/*!	\brief stores the position of the scalar  */
+		vector<zVector> positions;
 
+		/*!	\brief stores the ring neighbourhood indicies in the scalars container  */
+		vector<vector<int>> ringNeighbours;
+
+		/*!	\brief stores the adjacent neighbourhood indicies in the scalars container  */
+		vector<vector<int>> adjacentNeighbours;
+
+		
 	public:
+
+		//--------------------------
+		//----  ATTRIBUTES
+		//--------------------------
+		
+		/*!	\brief container for the scalar field values  */
+		vector<T> fieldValues;
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -565,9 +572,9 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		zScalarField3D()
+		zField3D()
 		{
-			scalars.clear();
+			fieldValues.clear();
 
 			minBB = zVector(10000, 10000, 10000);
 			maxBB = zVector(-10000, -10000, -10000);
@@ -589,7 +596,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		
-		zScalarField3D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _n_Z, int _NR = 1)
+		zField3D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _n_Z, int _NR = 1)
 		{
 			minBB = _minBB;
 			maxBB = _maxBB;
@@ -621,25 +628,25 @@ namespace zSpace
 						pos.y = startPt.y + j * unitVec.y;
 						pos.z = startPt.z + k * unitVec.z;
 
-						zScalar scalar;
-						scalar.id = scalars.size();
-						scalar.pos = pos;
-						scalar.weight = 1;
+						positions.push_back(pos);
 
-						scalars.push_back(scalar);
+						T defaultValue;
+						fieldValues.push_back(defaultValue);						
 					}
 					
 				}
 			}
 
 			// compute one ring neighbour
-			for (int i = 0; i < scalars.size(); i++)
+			for (int i = 0; i < fieldValues.size(); i++)
 			{
-				scalars[i].ringNeighbours.clear();
-				getNeighbourHoodRing(i, _NR, scalars[i].ringNeighbours);
+				vector<int> temp_ringNeighbours;
+				getNeighbourHoodRing(i, _NR, temp_ringNeighbours);
+				ringNeighbours.push_back(temp_ringNeighbours);
 
-				scalars[i].adjacentNeighbours.clear();
-				getNeighbourAdjacents(i, scalars[i].adjacentNeighbours);
+				vector<int> temp_adjacentNeighbours;
+				getNeighbourAdjacents(i, temp_adjacentNeighbours);
+				adjacentNeighbours.push_back(temp_adjacentNeighbours);
 			}
 		}
 
@@ -654,7 +661,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		zScalarField3D(double _unit_X, double _unit_Y, double _unit_Z, int _n_X, int _n_Y, int _n_Z, int _NR = 1)
+		zField3D(double _unit_X, double _unit_Y, double _unit_Z, int _n_X, int _n_Y, int _n_Z, int _NR = 1)
 		{
 			unit_X = _unit_X;
 			unit_Y = _unit_Y;
@@ -684,24 +691,24 @@ namespace zSpace
 						pos.y = startPt.y + j * unitVec.y;
 						pos.z = startPt.z + k * unitVec.z;
 
-						zScalar scalar;
-						scalar.id = scalars.size();
-						scalar.pos = pos;
-						scalar.weight = 1;
+						positions.push_back(pos);
 
-						scalars.push_back(scalar);
+						T defaultValue;
+						fieldValues.push_back(defaultValue);
 					}
 				}
 			}
 
 			// compute one ring neighbour
-			for (int i = 0; i < scalars.size(); i++)
+			for (int i = 0; i < fieldValues.size(); i++)
 			{
-				scalars[i].ringNeighbours.clear();
-				 getNeighbourHoodRing(i, _NR, scalars[i].ringNeighbours);
+				vector<int> temp_ringNeighbours;
+				getNeighbourHoodRing(i, _NR, temp_ringNeighbours);
+				ringNeighbours.push_back(temp_ringNeighbours);
 
-				scalars[i].adjacentNeighbours.clear();
-				getNeighbourAdjacents(i, scalars[i].adjacentNeighbours);
+				vector<int> temp_adjacentNeighbours;
+				getNeighbourAdjacents(i, temp_adjacentNeighbours);
+				adjacentNeighbours.push_back(temp_adjacentNeighbours);
 			}
 
 
@@ -717,7 +724,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		~zScalarField3D() {}
+		~zField3D() {}
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -729,9 +736,9 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		int getNumScalars()
+		int getNumFieldValues()
 		{
-			return scalars.size();
+			return fieldValues.size();
 		}
 
 		/*! \brief This method gets the unit distances of the field.
@@ -799,7 +806,7 @@ namespace zSpace
 		{
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 
-			scalars[index].pos = _pos;
+			positions[index] = _pos;
 
 		}
 
@@ -813,34 +820,36 @@ namespace zSpace
 		{
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return scalars[index].pos;
+			return positions[index];
 		}
 
 		/*! \brief This method sets the weight/value of the scalar at the input index.
 		*
-		*	\param		[in]	weight		- input value.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+		*	\param		[in]	fvalue		- input value.
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
 
-		void setWeight(double weight, int index)
+		void setFieldValue(T fvalue, int index)
 		{
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 
-			scalars[index].weight = weight;
+			fieldValues[index] = fValue;
 		}
 
 		/*! \brief This method gets the waight/value of the scalar at the input index.
 		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
 
-		double getWeight(int index)
+		T getFieldValue(int index)
 		{
 			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return scalars[index].weight;
+			return fieldValues[index];
 		}
 
 

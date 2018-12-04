@@ -56,8 +56,8 @@
     <ClInclude Include="..\headers\geometry\zMesh.h" />
     <ClInclude Include="..\headers\geometry\zMeshModifiers.h" />
     <ClInclude Include="..\headers\geometry\zMeshUtilities.h" />
-    <ClInclude Include="..\headers\geometry\zScalarfield.h" />
-    <ClInclude Include="..\headers\geometry\zScalarFieldUtilities.h" />
+    <ClInclude Include="..\headers\geometry\zField.h" />
+    <ClInclude Include="..\headers\geometry\zFieldUtilities.h" />
     <ClInclude Include="..\headers\include\zCore.h" />
     <ClInclude Include="..\headers\include\zData.h" />
     <ClInclude Include="..\headers\include\zDisplay.h" />

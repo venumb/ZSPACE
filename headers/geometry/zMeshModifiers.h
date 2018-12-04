@@ -558,11 +558,34 @@ namespace zSpace
 		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-		// get connected faces
-		vector<int> eFaces;
-		inMesh.getFaces(index, zEdgeData, eFaces);
+		int vertexRemoveID = inMesh.edges[index].getVertex()->getVertexId();
 
-		
+		// get connected faces
+		vector<int> cFaces;
+		inMesh.getConnectedFaces(vertexRemoveID, zEdgeData, cFaces);
+
+		// get connected edges
+		vector<int> cEdges;
+		inMesh.getConnectedEdges(vertexRemoveID, zVertexData, cEdges);
+
+
+		vector<int> tempVertices;
+		vector<int> tempPolyCounts;
+
+		for (int i = 0; i < cFaces.size(); i++)
+		{
+			vector<int> fVerts;
+			inMesh.getVertices(cFaces[i], zFaceData, fVerts);
+
+			
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				if(fVerts[j] != vertexRemoveID) tempVertices.push_back(fVerts[j]);
+			}
+
+			tempPolyCounts.push_back(fVerts.size() - 1);
+
+		}
 
 
 	}
