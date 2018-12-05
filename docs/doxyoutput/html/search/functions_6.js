@@ -44,6 +44,8 @@ var searchData=
   ['getprincipalcurvature',['getPrincipalCurvature',['../group__z_mesh_utilities.html#ga1e60d7d324e3a491f9e60060fa3258e2',1,'zSpace']]],
   ['getresolution',['getResolution',['../classz_space_1_1z_field2_d.html#aed9865d37d4b2c47e44977b0d5e66ddc',1,'zSpace::zField2D::getResolution()'],['../classz_space_1_1z_field3_d.html#a2a6b9fcdb41e48fe7c28381a74852c23',1,'zSpace::zField3D::getResolution()']]],
   ['getrow',['getRow',['../classz_space_1_1z_matrix.html#a65c848d1249b713e9c1e5e4dbb096d15',1,'zSpace::zMatrix']]],
+  ['getstreetedgesfromrelations',['getStreetEdgesFromRelations',['../classz_space_1_1z_open_street.html#a6258d9864f730d099285f54da6396614',1,'zSpace::zOpenStreet']]],
+  ['getstreetedgesfromways',['getStreetEdgesFromWays',['../classz_space_1_1z_open_street.html#a4f6233b0aa505d4c167e338950bf5281',1,'zSpace::zOpenStreet']]],
   ['getstreettype',['getStreetType',['../classz_space_1_1z_open_street.html#aa7f42839db83e70d8077afa3a8b7d16e',1,'zSpace::zOpenStreet']]],
   ['getsym',['getSym',['../classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536',1,'zSpace::zEdge']]],
   ['getunitdistances',['getUnitDistances',['../classz_space_1_1z_field2_d.html#ab590568f512f105d15af28c67cbcc3ed',1,'zSpace::zField2D::getUnitDistances()'],['../classz_space_1_1z_field3_d.html#a0655507b3ab84a0ba526132d4f6e7fe7',1,'zSpace::zField3D::getUnitDistances()']]],

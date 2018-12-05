@@ -10,12 +10,15 @@ var hierarchy =
     [ "zSpace::zField2D< T >", "classz_space_1_1z_field2_d.html", null ],
     [ "zSpace::zField2D< double >", "classz_space_1_1z_field2_d.html", null ],
     [ "zSpace::zField3D< T >", "classz_space_1_1z_field3_d.html", null ],
+    [ "zSpace::zFieldObject< T >", "classz_space_1_1z_field_object.html", null ],
     [ "zSpace::zGraph", "classz_space_1_1z_graph.html", [
       [ "zSpace::zMesh", "classz_space_1_1z_mesh.html", null ]
     ] ],
     [ "zSpace::zGraphJSON", "classz_space_1_1z_graph_j_s_o_n.html", null ],
     [ "zSpace::zMatrix< T >", "classz_space_1_1z_matrix.html", null ],
+    [ "zSpace::zMatrix< double >", "classz_space_1_1z_matrix.html", null ],
     [ "zSpace::zMeshJSON", "classz_space_1_1z_mesh_j_s_o_n.html", null ],
+    [ "zSpace::zObject< T >", "structz_space_1_1z_object.html", null ],
     [ "zSpace::zOpenStreet", "classz_space_1_1z_open_street.html", null ],
     [ "zSpace::zVector", "classz_space_1_1z_vector.html", null ],
     [ "zSpace::zVertex", "classz_space_1_1z_vertex.html", null ],

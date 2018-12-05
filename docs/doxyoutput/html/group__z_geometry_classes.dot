@@ -4,8 +4,10 @@ digraph "ZGeometryClasses"
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir=LR;
   Node1 [label="ZGeometry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_geometry.html",tooltip="The geometry classes, modifier and utility methods of the library. "];
-  Node2 [label="ZMeshModifiers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html",tooltip="Collection of mesh modifiers methods. "];
+  Node2 [label="ZObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_object.html",tooltip="The geometry classes, modifier and utility methods of the library. "];
+  Node3 [label="ZMeshModifiers",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html",tooltip="Collection of mesh modifiers methods. "];
   Node0 [label="ZGeometryClasses",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node1->Node0 [shape=plaintext, dir="back", style="solid"];
-  Node0->Node2 [shape=plaintext, dir="back", style="solid"];
+  Node2->Node0 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node3 [shape=plaintext, dir="back", style="solid"];
 }

@@ -149,5 +149,10 @@ var group__z_geometry_classes =
       [ "faces", "classz_space_1_1z_mesh.html#a389f99a0ac6f68f6ef9d806685ea3029", null ],
       [ "VBO_FaceId", "classz_space_1_1z_mesh.html#a79b06255dabad53e71c6f98b31629574", null ],
       [ "vertexNormals", "classz_space_1_1z_mesh.html#adf5bedc7a509ccdaf044a6b65224f514", null ]
+    ] ],
+    [ "zObject", "structz_space_1_1z_object.html", [
+      [ "zObject", "structz_space_1_1z_object.html#a6c57c815dde7b45cd48bc2ed5db2abf6", null ],
+      [ "objectType", "structz_space_1_1z_object.html#a7c2218c46404b4c47f7915157f1d5899", null ],
+      [ "transform", "structz_space_1_1z_object.html#a498f45e63ebb889858f9f09703a73e5f", null ]
     ] ]
 ];

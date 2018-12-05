@@ -72,4 +72,6 @@ digraph "C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/zVector.h"
   Node25 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node5 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="C:/Users/vishu.b/source\l/repos/zSpace_v0.1/headers\l/object/zObject.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_object_8h.html"];
 }

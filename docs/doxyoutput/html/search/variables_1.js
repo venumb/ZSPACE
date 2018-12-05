@@ -1,7 +1,6 @@
 var searchData=
 [
   ['b',['b',['../classz_space_1_1z_color.html#a51ed2db08ecaeea40a54c2e4d16ba18a',1,'zSpace::zColor']]],
-  ['building_5fbuildingedges',['Building_buildingEdges',['../classz_space_1_1z_open_street.html#a0c054f62854a13e690ac2751929fd556',1,'zSpace::zOpenStreet']]],
   ['buildingedges_5fbuilding',['buildingEdges_Building',['../classz_space_1_1z_open_street.html#a8a99f2bd2979b198a6dd9e583f13cb0f',1,'zSpace::zOpenStreet']]],
   ['buildinggraph',['buildingGraph',['../classz_space_1_1z_open_street.html#a5a2ca71cb3c3ad452aad3152f27fe75a',1,'zSpace::zOpenStreet']]],
   ['buildinggraph_5fedgeid',['buildingGraph_edgeId',['../structz_space_1_1z_buildings.html#af07cec273e2a1f3f6e8e58f45cfb6646',1,'zSpace::zBuildings']]],

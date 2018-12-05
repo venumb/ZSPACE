@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['objecttype',['objectType',['../structz_space_1_1z_object.html#a7c2218c46404b4c47f7915157f1d5899',1,'zSpace::zObject']]],
   ['offsetmeshface',['offsetMeshFace',['../group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1',1,'zSpace']]],
   ['offsetmeshface_5fvariable',['offsetMeshFace_Variable',['../group__z_mesh_utilities.html#ga2d1e96823d5ddafb0c578999217416f5',1,'zSpace']]],
   ['ofmap',['ofMap',['../group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace']]],
@@ -16,5 +17,7 @@ var searchData=
   ['operator_2f_3d',['operator/=',['../classz_space_1_1z_matrix.html#afef6e0917239fe5f6cfa9904b148048a',1,'zSpace::zMatrix::operator/=()'],['../classz_space_1_1z_vector.html#a3f18877fe16d6a6cf4c0774ec313ad7e',1,'zSpace::zVector::operator/=()']]],
   ['operator_3d_3d',['operator==',['../classz_space_1_1z_color.html#a70f7239f26d14ac1203813b1a5e0244a',1,'zSpace::zColor::operator==()'],['../classz_space_1_1z_vector.html#a6276ac67b4df65d78a42030b08259a12',1,'zSpace::zVector::operator==()']]],
   ['operator_5e',['operator^',['../classz_space_1_1z_vector.html#a9f686a2bd88e144b7a5e9a72e372d655',1,'zSpace::zVector']]],
-  ['os_5fwayid',['OS_wayId',['../structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700',1,'zSpace::zWays::OS_wayId()'],['../structz_space_1_1z_buildings.html#a5b6c3d30f5fcc8efc186bac1c29c595b',1,'zSpace::zBuildings::OS_wayId()']]]
+  ['os_5fwayid',['OS_wayId',['../structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700',1,'zSpace::zWays::OS_wayId()'],['../structz_space_1_1z_buildings.html#a5b6c3d30f5fcc8efc186bac1c29c595b',1,'zSpace::zBuildings::OS_wayId()']]],
+  ['osmwaysid_5fzbuildingsid',['OSMwaysID_zBuildingsId',['../classz_space_1_1z_open_street.html#a0bb5898c54d3700b2801aa0a684eb115',1,'zSpace::zOpenStreet']]],
+  ['osmwaysid_5fzwayid',['OSMwaysID_zWayId',['../classz_space_1_1z_open_street.html#ae9b4c3e743a05a72501015887e249fab',1,'zSpace::zOpenStreet']]]
 ];

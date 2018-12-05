@@ -1,0 +1,11 @@
+digraph "C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/object" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_fd8be38ecb671794cbf508314cbbc8e5 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="headers" fontname="Helvetica", fontsize="10", URL="dir_fd8be38ecb671794cbf508314cbbc8e5.html"]
+  dir_69178c08111e5c3ae2aea13c53e081f8 [shape=box, label="object", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_69178c08111e5c3ae2aea13c53e081f8.html"];
+  }
+  dir_67ee8d2864d599d6ef5c9e7bde8e4cfe [shape=box label="core" URL="dir_67ee8d2864d599d6ef5c9e7bde8e4cfe.html"];
+  dir_69178c08111e5c3ae2aea13c53e081f8->dir_67ee8d2864d599d6ef5c9e7bde8e4cfe [headlabel="2", labeldistance=1.5 headhref="dir_000010_000004.html"];
+}

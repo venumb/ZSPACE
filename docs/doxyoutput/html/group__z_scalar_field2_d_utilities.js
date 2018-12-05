@@ -17,6 +17,8 @@ var group__z_scalar_field2_d_utilities =
     [ "getIsolineCase", "group__z_scalar_field2_d_utilities.html#ga639523b2f15f9ee934cf381e2ee48856", null ],
     [ "getIsolineMesh", "group__z_scalar_field2_d_utilities.html#ga63d805729d97ddd318cf0700a234b469", null ],
     [ "getIsolinePoly", "group__z_scalar_field2_d_utilities.html#gaf7fddb03661f768390489b84311fe0c4", null ],
+    [ "idw_DistanceTo", "group__z_scalar_field2_d_utilities.html#ga34dd3e1d50d2be7c60d60effa589630b", null ],
+    [ "idw_ValueAt", "group__z_scalar_field2_d_utilities.html#ga278b111953d2ca76a69df7020260c60c", null ],
     [ "intersect_fields", "group__z_scalar_field2_d_utilities.html#ga65f46131efc2cbe876ba5d4384d76dd9", null ],
     [ "subtract_fields", "group__z_scalar_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611", null ],
     [ "union_fields", "group__z_scalar_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b", null ],

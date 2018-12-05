@@ -19,6 +19,8 @@ var z_field_utilities_8h =
     [ "getIsolineMesh", "z_field_utilities_8h.html#ga63d805729d97ddd318cf0700a234b469", null ],
     [ "getIsolinePoly", "z_field_utilities_8h.html#gaf7fddb03661f768390489b84311fe0c4", null ],
     [ "getMinMaxOfScalars", "z_field_utilities_8h.html#ga9ff370b9c2198d7f4a19d3ebbe75529f", null ],
+    [ "idw_DistanceTo", "z_field_utilities_8h.html#ga34dd3e1d50d2be7c60d60effa589630b", null ],
+    [ "idw_ValueAt", "z_field_utilities_8h.html#ga278b111953d2ca76a69df7020260c60c", null ],
     [ "intersect_fields", "z_field_utilities_8h.html#ga65f46131efc2cbe876ba5d4384d76dd9", null ],
     [ "normaliseScalars", "z_field_utilities_8h.html#ga524f0acafcab3796882c6cd327564965", null ],
     [ "subtract_fields", "z_field_utilities_8h.html#ga92ff3f50a3ac8669fdd2417a5f8ac611", null ],
