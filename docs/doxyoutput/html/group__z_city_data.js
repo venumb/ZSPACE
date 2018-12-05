@@ -47,7 +47,7 @@ var group__z_city_data =
       [ "minBB", "classz_space_1_1z_open_street.html#a0aa0b300e431dc6bb71fdc4c4a0c7284", null ],
       [ "n_zBuildings", "classz_space_1_1z_open_street.html#a24ed0ac76d61fd301a9879dd36c00dba", null ],
       [ "n_zWays", "classz_space_1_1z_open_street.html#a3823ce1c7cddf4013c3bff562fac07ac", null ],
-      [ "scalarfield", "classz_space_1_1z_open_street.html#abbe6bfe5ac23b0ddd4c71e979260fea6", null ],
+      [ "scalarfield", "classz_space_1_1z_open_street.html#aa8c6be85f18593193e526dfc58fb91f3", null ],
       [ "streetEdges_Way", "classz_space_1_1z_open_street.html#a1738ccc2187ba74ba19ab95133ed7ed8", null ],
       [ "streetGraph", "classz_space_1_1z_open_street.html#abab1273280f3e5f4be3e60845196efe4", null ],
       [ "way", "classz_space_1_1z_open_street.html#aed3fbaf8ff4d9ea7f06c4221ed93a301", null ],

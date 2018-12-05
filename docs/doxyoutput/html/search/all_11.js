@@ -1,8 +1,8 @@
 var searchData=
 [
   ['s',['s',['../classz_space_1_1z_color.html#acea773d7d78ebcfe8234d631b042a974',1,'zSpace::zColor']]],
-  ['scalarfield',['scalarfield',['../classz_space_1_1z_open_street.html#abbe6bfe5ac23b0ddd4c71e979260fea6',1,'zSpace::zOpenStreet']]],
-  ['setboundingbox',['setBoundingBox',['../classz_space_1_1z_scalar_field2_d.html#a82f0f40093960483241d5ac70e10054f',1,'zSpace::zScalarField2D::setBoundingBox()'],['../classz_space_1_1z_scalar_field3_d.html#aaf8b1fa356f0622f4c5dccac2b3926b1',1,'zSpace::zScalarField3D::setBoundingBox()']]],
+  ['scalarfield',['scalarfield',['../classz_space_1_1z_open_street.html#aa8c6be85f18593193e526dfc58fb91f3',1,'zSpace::zOpenStreet']]],
+  ['setboundingbox',['setBoundingBox',['../classz_space_1_1z_field2_d.html#a743f7b887cffcfab41c35c67edf792fc',1,'zSpace::zField2D::setBoundingBox()'],['../classz_space_1_1z_field3_d.html#a38f75b9805e67e99730dff9317a51e55',1,'zSpace::zField3D::setBoundingBox()']]],
   ['setcol',['setCol',['../classz_space_1_1z_matrix.html#aed2d0cb2a763840e9182d79a16ec85ef',1,'zSpace::zMatrix::setCol(int index, T val)'],['../classz_space_1_1z_matrix.html#a81e01aa4a2d9ee8f17f1ae201ee1e997',1,'zSpace::zMatrix::setCol(int index, vector&lt; T &gt; &amp;vals)']]],
   ['setdiagonal',['setDiagonal',['../classz_space_1_1z_matrix.html#a4f5f8550531f785c493536140fe5e34b',1,'zSpace::zMatrix::setDiagonal(T val)'],['../classz_space_1_1z_matrix.html#ae850d71ff5a0136c910a6cb30d6af0dd',1,'zSpace::zMatrix::setDiagonal(vector&lt; T &gt; vals)']]],
   ['setedge',['setEdge',['../classz_space_1_1z_vertex.html#a5fdd172f3ae9dcb71b720574f05ca037',1,'zSpace::zVertex::setEdge()'],['../classz_space_1_1z_face.html#a3701746b7939f7e780ed042bad050ad7',1,'zSpace::zFace::setEdge()']]],
@@ -14,6 +14,7 @@ var searchData=
   ['setfacecolors',['setFaceColors',['../group__z_mesh_utilities.html#ga46a15e7c994f4fb6a25f8e7cd111e536',1,'zSpace']]],
   ['setfaceid',['setFaceId',['../classz_space_1_1z_face.html#a86c38a1ccc49701e0f35eb2c64a13b8a',1,'zSpace::zFace']]],
   ['setfacenormals',['setFaceNormals',['../group__z_mesh_utilities.html#ga70201847356b120e967968c37670801f',1,'zSpace::setFaceNormals(zMesh &amp;inMesh, zVector &amp;fNormal)'],['../group__z_mesh_utilities.html#ga85fbc73b08a0aea238561b81be8efeaa',1,'zSpace::setFaceNormals(zMesh &amp;inMesh, vector&lt; zVector &gt; &amp;fNormals)']]],
+  ['setfieldvalue',['setFieldValue',['../classz_space_1_1z_field2_d.html#af5d518e9d615527f99de36bf915b28b2',1,'zSpace::zField2D::setFieldValue()'],['../classz_space_1_1z_field3_d.html#a9b6d76b86caa047f5608afe2acc1a515',1,'zSpace::zField3D::setFieldValue()']]],
   ['setidentity',['setIdentity',['../classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1',1,'zSpace::zMatrix']]],
   ['setmat',['setMat',['../classz_space_1_1z_matrix.html#a3b3df110fc5151cbe9dde9d9ef4aa37c',1,'zSpace::zMatrix']]],
   ['setnext',['setNext',['../classz_space_1_1z_edge.html#a5998712a83b56abd65880f3125f0d3c9',1,'zSpace::zEdge']]],
@@ -21,7 +22,7 @@ var searchData=
   ['setnumpolygons',['setNumPolygons',['../classz_space_1_1z_mesh.html#a89cdf1318823cbab683ffc0fee150979',1,'zSpace::zMesh']]],
   ['setnumvertices',['setNumVertices',['../classz_space_1_1z_graph.html#a6ecdde9a2885d33d3488f3eaea7b98c9',1,'zSpace::zGraph']]],
   ['setone',['setOne',['../classz_space_1_1z_matrix.html#a560fab1967f0e35e58e9e98f2e912355',1,'zSpace::zMatrix']]],
-  ['setposition',['setPosition',['../classz_space_1_1z_scalar_field2_d.html#aec662ddd024d0916b2e0adf93eee35f2',1,'zSpace::zScalarField2D::setPosition()'],['../classz_space_1_1z_scalar_field3_d.html#a2ff83bcfa2991cf3d5e685762a3d3cde',1,'zSpace::zScalarField3D::setPosition()']]],
+  ['setposition',['setPosition',['../classz_space_1_1z_field2_d.html#adaa69822a5cf74cee3da87e665a5fc12',1,'zSpace::zField2D::setPosition()'],['../classz_space_1_1z_field3_d.html#a0133c250c54e24a1ee17d9796d9bb888',1,'zSpace::zField3D::setPosition()']]],
   ['setprev',['setPrev',['../classz_space_1_1z_edge.html#af97abc7295676b01bc278123c86ba0b9',1,'zSpace::zEdge']]],
   ['setrow',['setRow',['../classz_space_1_1z_matrix.html#ae4d1edb48ef79097b18a02755cc859e1',1,'zSpace::zMatrix::setRow(int index, T val)'],['../classz_space_1_1z_matrix.html#a6a8915e7dbe2804d0abef17b7a5b3124',1,'zSpace::zMatrix::setRow(int index, vector&lt; T &gt; &amp;vals)']]],
   ['setsym',['setSym',['../classz_space_1_1z_edge.html#a7d1c8dcd2272dff68a7f38a3326e8a7d',1,'zSpace::zEdge']]],
@@ -29,7 +30,6 @@ var searchData=
   ['setvertexcolor',['setVertexColor',['../group__z_graph_utilities.html#ga7cd47e65d56a0587e3ca4babd1c233e3',1,'zSpace::setVertexColor(zGraph &amp;ingraph, zColor col, bool setEdgeColor)'],['../group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9',1,'zSpace::setVertexColor(zMesh &amp;inMesh, zColor col, bool setFaceColor=false)']]],
   ['setvertexcolors',['setVertexColors',['../group__z_graph_utilities.html#gaa088392382ec3b36cc77066a4392349c',1,'zSpace::setVertexColors(zGraph &amp;ingraph, vector&lt; zColor &gt; &amp;col, bool setEdgeColor)'],['../group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7',1,'zSpace::setVertexColors(zMesh &amp;inMesh, vector&lt; zColor &gt; &amp;col, bool setFaceColor=false)']]],
   ['setvertexid',['setVertexId',['../classz_space_1_1z_vertex.html#acdc6ae4132453c803268949dcc104df1',1,'zSpace::zVertex']]],
-  ['setweight',['setWeight',['../classz_space_1_1z_scalar_field2_d.html#a39b442eb9403f94b2e2535310a6286cf',1,'zSpace::zScalarField2D::setWeight()'],['../classz_space_1_1z_scalar_field3_d.html#abaa015b5d4d0a79d569000e9a5a775c5',1,'zSpace::zScalarField3D::setWeight()']]],
   ['setzero',['setZero',['../classz_space_1_1z_matrix.html#a0c99ec33a4f87ef9b7d0d8df37fb7299',1,'zSpace::zMatrix']]],
   ['shortestdistance',['shortestDistance',['../group__z_graph_utilities.html#gac451c64cc2f99f8c743332bdcd1a97c0',1,'zSpace::shortestDistance(zGraph &amp;inGraph, int index, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent)'],['../group__z_mesh_utilities.html#ga5068fb2a4e28b0470ed20ad483ce8d25',1,'zSpace::shortestDistance(zMesh &amp;inMesh, int index, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent)']]],
   ['shortestpath',['shortestPath',['../group__z_graph_utilities.html#gac71495a08e215c7e886b989bebaee053',1,'zSpace::shortestPath(zGraph &amp;inGraph, int indexA, int indexB, vector&lt; int &gt; &amp;edgePath)'],['../group__z_mesh_utilities.html#ga0fc4786ce92f8d9cc833dc7b4a5f0004',1,'zSpace::shortestPath(zMesh &amp;inMesh, int indexA, int indexB, vector&lt; int &gt; &amp;edgePath)']]],
@@ -45,5 +45,5 @@ var searchData=
   ['streetgraph_5fedgeid',['streetGraph_edgeId',['../structz_space_1_1z_ways.html#a45f24389bb0f3a53c9cb9cbe5115f9cc',1,'zSpace::zWays']]],
   ['streettype',['streetType',['../structz_space_1_1z_ways.html#a5e620271952a345fbc57e0670d6e5e71',1,'zSpace::zWays']]],
   ['subdividemesh',['subDivideMesh',['../group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760',1,'zSpace']]],
-  ['subtract_5ffields',['subtract_fields',['../group__z_scalar_field2_d_utilities.html#ga836f6d70e5a69bf15368d5dec4aea8ac',1,'zSpace']]]
+  ['subtract_5ffields',['subtract_fields',['../group__z_scalar_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611',1,'zSpace']]]
 ];

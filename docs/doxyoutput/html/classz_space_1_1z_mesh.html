@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.1</span>
    </div>
   </td>
  </tr>
@@ -173,6 +173,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a42be75e01f9b3704fcc85fd745952b22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a42be75e01f9b3704fcc85fd745952b22">computeMeshNormals</a> ()</td></tr>
 <tr class="memdesc:a42be75e01f9b3704fcc85fd745952b22"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the normals assoicated with vertices and polygon faces .  <a href="#a42be75e01f9b3704fcc85fd745952b22">More...</a><br /></td></tr>
 <tr class="separator:a42be75e01f9b3704fcc85fd745952b22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab21d59eecb169921b427a7e766d47aa5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#ab21d59eecb169921b427a7e766d47aa5">removeInactiveElements</a> (<a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type=<a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a>)</td></tr>
+<tr class="memdesc:ab21d59eecb169921b427a7e766d47aa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method resizes the array connected with the input type to the specified newSize.  <a href="#ab21d59eecb169921b427a7e766d47aa5">More...</a><br /></td></tr>
+<tr class="separator:ab21d59eecb169921b427a7e766d47aa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classz_space_1_1z_graph"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classz_space_1_1z_graph')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classz_space_1_1z_graph.html">zSpace::zGraph</a></td></tr>
 <tr class="memitem:a36f1eda5558e76e980a646e450237a58 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a36f1eda5558e76e980a646e450237a58">zGraph</a> ()</td></tr>
 <tr class="memdesc:a36f1eda5558e76e980a646e450237a58 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="classz_space_1_1z_graph.html#a36f1eda5558e76e980a646e450237a58">More...</a><br /></td></tr>
@@ -1213,6 +1216,51 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classz_space_1_1z_mesh_aca5218f8a8b5c5f1cde25440d08c57d6_icgraph.png" border="0" usemap="#classz_space_1_1z_mesh_aca5218f8a8b5c5f1cde25440d08c57d6_icgraph" alt=""/></div>
 <map name="classz_space_1_1z_mesh_aca5218f8a8b5c5f1cde25440d08c57d6_icgraph" id="classz_space_1_1z_mesh_aca5218f8a8b5c5f1cde25440d08c57d6_icgraph">
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab21d59eecb169921b427a7e766d47aa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab21d59eecb169921b427a7e766d47aa5">&#9670;&nbsp;</a></span>removeInactiveElements()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zMesh::removeInactiveElements </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a></code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method resizes the array connected with the input type to the specified newSize. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">newSize</td><td>- new size of the array. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zVertexData or zEdgeData or zFaceData. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l01024">1024</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_mesh_ab21d59eecb169921b427a7e766d47aa5_cgraph.png" border="0" usemap="#classz_space_1_1z_mesh_ab21d59eecb169921b427a7e766d47aa5_cgraph" alt=""/></div>
+<map name="classz_space_1_1z_mesh_ab21d59eecb169921b427a7e766d47aa5_cgraph" id="classz_space_1_1z_mesh_ab21d59eecb169921b427a7e766d47aa5_cgraph">
 </map>
 </div>
 

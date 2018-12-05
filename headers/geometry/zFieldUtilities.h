@@ -18,7 +18,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zFieldDUtilities
+	/** \addtogroup zFieldUtilities
 	*	\brief Collection of general utility methods for fields.
 	*  @{
 	*/

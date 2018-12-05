@@ -17,6 +17,7 @@ var classz_space_1_1z_mesh =
     [ "getVertices", "classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b", null ],
     [ "numPolygons", "classz_space_1_1z_mesh.html#a495dcfd61cc83ad601179a0696f23225", null ],
     [ "onBoundary", "classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6", null ],
+    [ "removeInactiveElements", "classz_space_1_1z_mesh.html#ab21d59eecb169921b427a7e766d47aa5", null ],
     [ "setNumPolygons", "classz_space_1_1z_mesh.html#a89cdf1318823cbab683ffc0fee150979", null ],
     [ "smoothColors", "classz_space_1_1z_mesh.html#a63e68abd857c24a63ad06d426b112d11", null ],
     [ "faceActive", "classz_space_1_1z_mesh.html#affe80dcfa5bbf14956b1a6061e4dd35f", null ],

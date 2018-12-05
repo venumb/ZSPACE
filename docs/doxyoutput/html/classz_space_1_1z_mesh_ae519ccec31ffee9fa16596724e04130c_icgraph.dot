@@ -3,17 +3,15 @@ digraph "zSpace::zMesh::computeVertexColorfromFaceColor"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node118 [label="zSpace::zMesh::computeVertex\lColorfromFaceColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node118 -> Node119 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node117 [label="zSpace::zMesh::computeVertex\lColorfromFaceColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node117 -> Node118 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node118 [label="zSpace::updateBlendColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a",tooltip="This method updates the color values of the field mesh based on the scalar values. "];
+  Node117 -> Node119 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node119 [label="zSpace::setFaceColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga3dc508ddd0979a3c05704b3a5f8c724e",tooltip="This method sets face color of all the faces to the input color. "];
   Node119 -> Node120 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node120 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9"];
   Node119 -> Node121 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node121 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7",tooltip="This method sets vertex color of all the vertices with the input color contatiner. "];
-  Node118 -> Node122 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node117 -> Node122 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node122 [label="zSpace::setFaceColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga46a15e7c994f4fb6a25f8e7cd111e536",tooltip="This method sets face color of all the faces to the input color contatiner. "];
-  Node118 -> Node123 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node123 [label="zSpace::updateColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#gac0a6e93e7bb823acd7f95334f7b24027",tooltip="This method updates the color values of the field mesh based on the scalarfield. Gradient - Black to ..."];
-  Node118 -> Node124 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node124 [label="zSpace::updateBlendColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga7bc531e7f4cc38cb70a89ced4946fce9",tooltip="This method updates the color values of the field mesh based on the scalarField. "];
 }

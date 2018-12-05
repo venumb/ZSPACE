@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.1</span>
    </div>
   </td>
  </tr>
@@ -106,60 +106,66 @@ Collaboration diagram for ZScalarField2DUtilities:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gaf05f0b1d1bce34d617d92902a00a8c8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gaf05f0b1d1bce34d617d92902a00a8c8b">zSpace::computePositionsInFieldIndex</a> (<a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndexPositions)</td></tr>
-<tr class="memdesc:gaf05f0b1d1bce34d617d92902a00a8c8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the filed index of each input position and stores them in a container per field index.  <a href="group__z_scalar_field2_d_utilities.html#gaf05f0b1d1bce34d617d92902a00a8c8b">More...</a><br /></td></tr>
-<tr class="separator:gaf05f0b1d1bce34d617d92902a00a8c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga60b2c694356889487025ea4817c89010"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga60b2c694356889487025ea4817c89010">zSpace::fromScalarField2D</a> (<a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;inField)</td></tr>
-<tr class="memdesc:ga60b2c694356889487025ea4817c89010"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a mesh from the input scalar field.  <a href="group__z_scalar_field2_d_utilities.html#ga60b2c694356889487025ea4817c89010">More...</a><br /></td></tr>
-<tr class="separator:ga60b2c694356889487025ea4817c89010"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7cc01a1a4b086da37490bd7a6baea6f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga7cc01a1a4b086da37490bd7a6baea6f9">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;points, vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga7cc01a1a4b086da37490bd7a6baea6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input vector of <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> positions.  <a href="group__z_scalar_field2_d_utilities.html#ga7cc01a1a4b086da37490bd7a6baea6f9">More...</a><br /></td></tr>
-<tr class="separator:ga7cc01a1a4b086da37490bd7a6baea6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac93eff7601d89235a608cd8886078bcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gac93eff7601d89235a608cd8886078bcf">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gac93eff7601d89235a608cd8886078bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input mesh vertex positions.  <a href="group__z_scalar_field2_d_utilities.html#gac93eff7601d89235a608cd8886078bcf">More...</a><br /></td></tr>
-<tr class="separator:gac93eff7601d89235a608cd8886078bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac0d4bd64d305fe8241858b54a245e527"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gac0d4bd64d305fe8241858b54a245e527">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gac0d4bd64d305fe8241858b54a245e527"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input graph vertex positions.  <a href="group__z_scalar_field2_d_utilities.html#gac0d4bd64d305fe8241858b54a245e527">More...</a><br /></td></tr>
-<tr class="separator:gac0d4bd64d305fe8241858b54a245e527"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafedda5c1bbae225132fbd221a3fd7e42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gafedda5c1bbae225132fbd221a3fd7e42">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gafedda5c1bbae225132fbd221a3fd7e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input mesh.  <a href="group__z_scalar_field2_d_utilities.html#gafedda5c1bbae225132fbd221a3fd7e42">More...</a><br /></td></tr>
-<tr class="separator:gafedda5c1bbae225132fbd221a3fd7e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga46dbe0efe2077a997b880912065e05e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga46dbe0efe2077a997b880912065e05e6">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga46dbe0efe2077a997b880912065e05e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input graph.  <a href="group__z_scalar_field2_d_utilities.html#ga46dbe0efe2077a997b880912065e05e6">More...</a><br /></td></tr>
-<tr class="separator:ga46dbe0efe2077a997b880912065e05e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9d820a9af25c28ae4fe39afd2aa0cb14"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga9d820a9af25c28ae4fe39afd2aa0cb14">zSpace::union_fields</a> (vector&lt; double &gt; &amp;scalars0, vector&lt; double &gt; &amp;scalars1, vector&lt; double &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga9d820a9af25c28ae4fe39afd2aa0cb14"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a union of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga9d820a9af25c28ae4fe39afd2aa0cb14">More...</a><br /></td></tr>
-<tr class="separator:ga9d820a9af25c28ae4fe39afd2aa0cb14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga836f6d70e5a69bf15368d5dec4aea8ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga836f6d70e5a69bf15368d5dec4aea8ac">zSpace::subtract_fields</a> (vector&lt; double &gt; &amp;scalars0, vector&lt; double &gt; &amp;scalars1, vector&lt; double &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga836f6d70e5a69bf15368d5dec4aea8ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a subtraction of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga836f6d70e5a69bf15368d5dec4aea8ac">More...</a><br /></td></tr>
-<tr class="separator:ga836f6d70e5a69bf15368d5dec4aea8ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga89947f8bba98a6edaf6a3a084d79c19d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga89947f8bba98a6edaf6a3a084d79c19d">zSpace::intersect_fields</a> (vector&lt; double &gt; &amp;scalars0, vector&lt; double &gt; &amp;scalars1, vector&lt; double &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga89947f8bba98a6edaf6a3a084d79c19d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a intersect of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga89947f8bba98a6edaf6a3a084d79c19d">More...</a><br /></td></tr>
-<tr class="separator:ga89947f8bba98a6edaf6a3a084d79c19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga85a7941898597ec1f94aea7d9239fec4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga85a7941898597ec1f94aea7d9239fec4">zSpace::difference_fields</a> (vector&lt; double &gt; &amp;scalars0, vector&lt; double &gt; &amp;scalars1, vector&lt; double &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga85a7941898597ec1f94aea7d9239fec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a difference of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga85a7941898597ec1f94aea7d9239fec4">More...</a><br /></td></tr>
-<tr class="separator:ga85a7941898597ec1f94aea7d9239fec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga88c4618ac754f6fffab5d2ab00021ffc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga88c4618ac754f6fffab5d2ab00021ffc">zSpace::clipwithPlane</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars, <a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;clipPlane)</td></tr>
-<tr class="memdesc:ga88c4618ac754f6fffab5d2ab00021ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method uses an input plane to clip an existing scalar field.  <a href="group__z_scalar_field2_d_utilities.html#ga88c4618ac754f6fffab5d2ab00021ffc">More...</a><br /></td></tr>
-<tr class="separator:ga88c4618ac754f6fffab5d2ab00021ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2b8f595bd1fccaa3086c7d841f3137c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga2b8f595bd1fccaa3086c7d841f3137c7">zSpace::updateColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga2b8f595bd1fccaa3086c7d841f3137c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red.  <a href="group__z_scalar_field2_d_utilities.html#ga2b8f595bd1fccaa3086c7d841f3137c7">More...</a><br /></td></tr>
-<tr class="separator:ga2b8f595bd1fccaa3086c7d841f3137c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac0a6e93e7bb823acd7f95334f7b24027"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gac0a6e93e7bb823acd7f95334f7b24027">zSpace::updateColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;field)</td></tr>
-<tr class="memdesc:gac0a6e93e7bb823acd7f95334f7b24027"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalarfield. Gradient - Black to Red.  <a href="group__z_scalar_field2_d_utilities.html#gac0a6e93e7bb823acd7f95334f7b24027">More...</a><br /></td></tr>
-<tr class="separator:gac0a6e93e7bb823acd7f95334f7b24027"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga98c941196d269404150977048849513f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga98c941196d269404150977048849513f">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2)</td></tr>
-<tr class="memdesc:ga98c941196d269404150977048849513f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_scalar_field2_d_utilities.html#ga98c941196d269404150977048849513f">More...</a><br /></td></tr>
-<tr class="separator:ga98c941196d269404150977048849513f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7bc531e7f4cc38cb70a89ced4946fce9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga7bc531e7f4cc38cb70a89ced4946fce9">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;field, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2)</td></tr>
-<tr class="memdesc:ga7bc531e7f4cc38cb70a89ced4946fce9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalarField.  <a href="group__z_scalar_field2_d_utilities.html#ga7bc531e7f4cc38cb70a89ced4946fce9">More...</a><br /></td></tr>
-<tr class="separator:ga7bc531e7f4cc38cb70a89ced4946fce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga362305de05d0ce3c7c8001b58ae75280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga362305de05d0ce3c7c8001b58ae75280">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2, double dMin, double dMax)</td></tr>
-<tr class="memdesc:ga362305de05d0ce3c7c8001b58ae75280"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_scalar_field2_d_utilities.html#ga362305de05d0ce3c7c8001b58ae75280">More...</a><br /></td></tr>
-<tr class="separator:ga362305de05d0ce3c7c8001b58ae75280"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga62a086d47d09f7c05625836033dba3a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga62a086d47d09f7c05625836033dba3a7">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;field, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2, double dMin, double dMax)</td></tr>
-<tr class="memdesc:ga62a086d47d09f7c05625836033dba3a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalarField.  <a href="group__z_scalar_field2_d_utilities.html#ga62a086d47d09f7c05625836033dba3a7">More...</a><br /></td></tr>
-<tr class="separator:ga62a086d47d09f7c05625836033dba3a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga77605acb8c8722a5914d6aa834df482b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga77605acb8c8722a5914d6aa834df482b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b">zSpace::computePositionsInFieldIndex</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndexPositions)</td></tr>
+<tr class="memdesc:ga77605acb8c8722a5914d6aa834df482b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the filed index of each input position and stores them in a container per field index.  <a href="group__z_scalar_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b">More...</a><br /></td></tr>
+<tr class="separator:ga77605acb8c8722a5914d6aa834df482b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga963ebae1f0956162a52d4d78639a5802"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga963ebae1f0956162a52d4d78639a5802"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802">zSpace::fromField2D</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField)</td></tr>
+<tr class="memdesc:ga963ebae1f0956162a52d4d78639a5802"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a mesh from the input scalar field.  <a href="group__z_scalar_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802">More...</a><br /></td></tr>
+<tr class="separator:ga963ebae1f0956162a52d4d78639a5802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4b304f57284b5f4a4907fcf3c8455570"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga4b304f57284b5f4a4907fcf3c8455570"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga4b304f57284b5f4a4907fcf3c8455570">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;points, vector&lt; T &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:ga4b304f57284b5f4a4907fcf3c8455570"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input vector of <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> positions.  <a href="group__z_scalar_field2_d_utilities.html#ga4b304f57284b5f4a4907fcf3c8455570">More...</a><br /></td></tr>
+<tr class="separator:ga4b304f57284b5f4a4907fcf3c8455570"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga28516c1df87b7ab952dfefb60e2d3921"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga28516c1df87b7ab952dfefb60e2d3921"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:ga28516c1df87b7ab952dfefb60e2d3921"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input mesh vertex positions.  <a href="group__z_scalar_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921">More...</a><br /></td></tr>
+<tr class="separator:ga28516c1df87b7ab952dfefb60e2d3921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga6bd2bfb390e165891bde9b17d973fdd2">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input graph vertex positions.  <a href="group__z_scalar_field2_d_utilities.html#ga6bd2bfb390e165891bde9b17d973fdd2">More...</a><br /></td></tr>
+<tr class="separator:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae0e4895a659cd46728f0f9d13adf58ed"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gae0e4895a659cd46728f0f9d13adf58ed"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:gae0e4895a659cd46728f0f9d13adf58ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input mesh.  <a href="group__z_scalar_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed">More...</a><br /></td></tr>
+<tr class="separator:gae0e4895a659cd46728f0f9d13adf58ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga6fdfc4e3f7643ae9be3665d5742bfbc4">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input graph.  <a href="group__z_scalar_field2_d_utilities.html#ga6fdfc4e3f7643ae9be3665d5742bfbc4">More...</a><br /></td></tr>
+<tr class="separator:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae68c3cc003ddb91163a995e1235c938b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gae68c3cc003ddb91163a995e1235c938b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b">zSpace::union_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
+<tr class="memdesc:gae68c3cc003ddb91163a995e1235c938b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a union of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b">More...</a><br /></td></tr>
+<tr class="separator:gae68c3cc003ddb91163a995e1235c938b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611">zSpace::subtract_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
+<tr class="memdesc:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a subtraction of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611">More...</a><br /></td></tr>
+<tr class="separator:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga65f46131efc2cbe876ba5d4384d76dd9">zSpace::intersect_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
+<tr class="memdesc:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a intersect of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga65f46131efc2cbe876ba5d4384d76dd9">More...</a><br /></td></tr>
+<tr class="separator:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga19783b321eeeebfef2f3d5a0388c2278"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga19783b321eeeebfef2f3d5a0388c2278"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278">zSpace::difference_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
+<tr class="memdesc:ga19783b321eeeebfef2f3d5a0388c2278"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a difference of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_scalar_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278">More...</a><br /></td></tr>
+<tr class="separator:ga19783b321eeeebfef2f3d5a0388c2278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6">zSpace::clipwithPlane</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, <a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;clipPlane)</td></tr>
+<tr class="memdesc:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method uses an input plane to clip an existing scalar field.  <a href="group__z_scalar_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6">More...</a><br /></td></tr>
+<tr class="separator:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa729c665b3b653a45b8d18366cb0db16"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaa729c665b3b653a45b8d18366cb0db16"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16">zSpace::updateColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:gaa729c665b3b653a45b8d18366cb0db16"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red.  <a href="group__z_scalar_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16">More...</a><br /></td></tr>
+<tr class="separator:gaa729c665b3b653a45b8d18366cb0db16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2)</td></tr>
+<tr class="memdesc:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_scalar_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a">More...</a><br /></td></tr>
+<tr class="separator:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2f49512e60cd8d85090877fe3fce5467"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga2f49512e60cd8d85090877fe3fce5467"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga2f49512e60cd8d85090877fe3fce5467">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2, T dMin, T dMax)</td></tr>
+<tr class="memdesc:ga2f49512e60cd8d85090877fe3fce5467"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_scalar_field2_d_utilities.html#ga2f49512e60cd8d85090877fe3fce5467">More...</a><br /></td></tr>
+<tr class="separator:ga2f49512e60cd8d85090877fe3fce5467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga639523b2f15f9ee934cf381e2ee48856"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_scalar_field2_d_utilities.html#ga639523b2f15f9ee934cf381e2ee48856">zSpace::getIsolineCase</a> (bool vertexBinary[4])</td></tr>
 <tr class="memdesc:ga639523b2f15f9ee934cf381e2ee48856"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the isoline case based on the input vertex binary values.  <a href="group__z_scalar_field2_d_utilities.html#ga639523b2f15f9ee934cf381e2ee48856">More...</a><br /></td></tr>
 <tr class="separator:ga639523b2f15f9ee934cf381e2ee48856"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,11 +194,13 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of utility methods for scalar fields 2D. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gafedda5c1bbae225132fbd221a3fd7e42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gafedda5c1bbae225132fbd221a3fd7e42">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[1/2]</span></h2>
+<a id="gae0e4895a659cd46728f0f9d13adf58ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae0e4895a659cd46728f0f9d13adf58ed">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsEdgeDistance </td>
@@ -221,7 +229,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -233,6 +241,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>This method creates a edge distance Field from the input mesh. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -245,22 +259,24 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00379">379</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00377">377</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_gafedda5c1bbae225132fbd221a3fd7e42_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gafedda5c1bbae225132fbd221a3fd7e42_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_gafedda5c1bbae225132fbd221a3fd7e42_cgraph" id="group__z_scalar_field2_d_utilities_gafedda5c1bbae225132fbd221a3fd7e42_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_gae0e4895a659cd46728f0f9d13adf58ed_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gae0e4895a659cd46728f0f9d13adf58ed_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_gae0e4895a659cd46728f0f9d13adf58ed_cgraph" id="group__z_scalar_field2_d_utilities_gae0e4895a659cd46728f0f9d13adf58ed_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga46dbe0efe2077a997b880912065e05e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga46dbe0efe2077a997b880912065e05e6">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[2/2]</span></h2>
+<a id="ga6fdfc4e3f7643ae9be3665d5742bfbc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6fdfc4e3f7643ae9be3665d5742bfbc4">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsEdgeDistance </td>
@@ -289,7 +305,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -301,6 +317,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a edge distance Field from the input graph. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -313,22 +335,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00433">433</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00433">433</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga46dbe0efe2077a997b880912065e05e6_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga46dbe0efe2077a997b880912065e05e6_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga46dbe0efe2077a997b880912065e05e6_cgraph" id="group__z_scalar_field2_d_utilities_ga46dbe0efe2077a997b880912065e05e6_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga6fdfc4e3f7643ae9be3665d5742bfbc4_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga6fdfc4e3f7643ae9be3665d5742bfbc4_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga6fdfc4e3f7643ae9be3665d5742bfbc4_cgraph" id="group__z_scalar_field2_d_utilities_ga6fdfc4e3f7643ae9be3665d5742bfbc4_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga7cc01a1a4b086da37490bd7a6baea6f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7cc01a1a4b086da37490bd7a6baea6f9">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[1/3]</span></h2>
+<a id="ga4b304f57284b5f4a4907fcf3c8455570"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4b304f57284b5f4a4907fcf3c8455570">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsVertexDistance </td>
@@ -345,7 +369,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -357,6 +381,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a vertex distance Field from the input vector of <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> positions. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> of the field. </td></tr>
@@ -367,22 +397,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00209">209</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00199">199</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga7cc01a1a4b086da37490bd7a6baea6f9_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga7cc01a1a4b086da37490bd7a6baea6f9_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga7cc01a1a4b086da37490bd7a6baea6f9_cgraph" id="group__z_scalar_field2_d_utilities_ga7cc01a1a4b086da37490bd7a6baea6f9_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga4b304f57284b5f4a4907fcf3c8455570_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga4b304f57284b5f4a4907fcf3c8455570_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga4b304f57284b5f4a4907fcf3c8455570_cgraph" id="group__z_scalar_field2_d_utilities_ga4b304f57284b5f4a4907fcf3c8455570_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="gac93eff7601d89235a608cd8886078bcf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac93eff7601d89235a608cd8886078bcf">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[2/3]</span></h2>
+<a id="ga28516c1df87b7ab952dfefb60e2d3921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga28516c1df87b7ab952dfefb60e2d3921">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsVertexDistance </td>
@@ -411,7 +443,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -423,6 +455,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a vertex distance Field from the input mesh vertex positions. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -435,22 +473,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00266">266</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00260">260</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_gac93eff7601d89235a608cd8886078bcf_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gac93eff7601d89235a608cd8886078bcf_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_gac93eff7601d89235a608cd8886078bcf_cgraph" id="group__z_scalar_field2_d_utilities_gac93eff7601d89235a608cd8886078bcf_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga28516c1df87b7ab952dfefb60e2d3921_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga28516c1df87b7ab952dfefb60e2d3921_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga28516c1df87b7ab952dfefb60e2d3921_cgraph" id="group__z_scalar_field2_d_utilities_ga28516c1df87b7ab952dfefb60e2d3921_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="gac0d4bd64d305fe8241858b54a245e527"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac0d4bd64d305fe8241858b54a245e527">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[3/3]</span></h2>
+<a id="ga6bd2bfb390e165891bde9b17d973fdd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6bd2bfb390e165891bde9b17d973fdd2">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsVertexDistance </td>
@@ -479,7 +519,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -491,6 +531,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a vertex distance Field from the input graph vertex positions. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -503,22 +549,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00316">316</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00312">312</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_gac0d4bd64d305fe8241858b54a245e527_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gac0d4bd64d305fe8241858b54a245e527_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_gac0d4bd64d305fe8241858b54a245e527_cgraph" id="group__z_scalar_field2_d_utilities_gac0d4bd64d305fe8241858b54a245e527_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga6bd2bfb390e165891bde9b17d973fdd2_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga6bd2bfb390e165891bde9b17d973fdd2_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga6bd2bfb390e165891bde9b17d973fdd2_cgraph" id="group__z_scalar_field2_d_utilities_ga6bd2bfb390e165891bde9b17d973fdd2_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga88c4618ac754f6fffab5d2ab00021ffc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga88c4618ac754f6fffab5d2ab00021ffc">&#9670;&nbsp;</a></span>clipwithPlane()</h2>
+<a id="gaca32f244ab7a2dbd98378990ec1edfa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaca32f244ab7a2dbd98378990ec1edfa6">&#9670;&nbsp;</a></span>clipwithPlane()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::clipwithPlane </td>
@@ -529,7 +577,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>, </td>
         </tr>
         <tr>
@@ -547,6 +595,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method uses an input plane to clip an existing scalar field. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -557,27 +611,29 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00569">569</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00579">579</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga88c4618ac754f6fffab5d2ab00021ffc_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga88c4618ac754f6fffab5d2ab00021ffc_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga88c4618ac754f6fffab5d2ab00021ffc_cgraph" id="group__z_scalar_field2_d_utilities_ga88c4618ac754f6fffab5d2ab00021ffc_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_gaca32f244ab7a2dbd98378990ec1edfa6_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gaca32f244ab7a2dbd98378990ec1edfa6_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_gaca32f244ab7a2dbd98378990ec1edfa6_cgraph" id="group__z_scalar_field2_d_utilities_gaca32f244ab7a2dbd98378990ec1edfa6_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="gaf05f0b1d1bce34d617d92902a00a8c8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf05f0b1d1bce34d617d92902a00a8c8b">&#9670;&nbsp;</a></span>computePositionsInFieldIndex()</h2>
+<a id="ga77605acb8c8722a5914d6aa834df482b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga77605acb8c8722a5914d6aa834df482b">&#9670;&nbsp;</a></span>computePositionsInFieldIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::computePositionsInFieldIndex </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>inField</em>, </td>
         </tr>
         <tr>
@@ -601,9 +657,15 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method computes the filed index of each input position and stores them in a container per field index. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes and <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input zScalarfield2D </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input <a class="el" href="classz_space_1_1z_field2_d.html" title="A template class for 2D fields - scalar and vector. ">zField2D</a> </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">positions</td><td>- container of positions. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">fieldIndexPositions</td><td>- container of positions per field index. </td></tr>
   </table>
@@ -611,39 +673,41 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00115">115</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00101">101</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_gaf05f0b1d1bce34d617d92902a00a8c8b_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gaf05f0b1d1bce34d617d92902a00a8c8b_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_gaf05f0b1d1bce34d617d92902a00a8c8b_cgraph" id="group__z_scalar_field2_d_utilities_gaf05f0b1d1bce34d617d92902a00a8c8b_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph" id="group__z_scalar_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga85a7941898597ec1f94aea7d9239fec4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga85a7941898597ec1f94aea7d9239fec4">&#9670;&nbsp;</a></span>difference_fields()</h2>
+<a id="ga19783b321eeeebfef2f3d5a0388c2278"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga19783b321eeeebfef2f3d5a0388c2278">&#9670;&nbsp;</a></span>difference_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::difference_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars0</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalarsResult</em>&#160;</td>
         </tr>
         <tr>
@@ -655,6 +719,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a difference of the fields at the input buffers and stores them in the result buffer. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">scalars0</td><td>- value of buffer. </td></tr>
@@ -665,27 +735,29 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00547">547</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00555">555</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga85a7941898597ec1f94aea7d9239fec4_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga85a7941898597ec1f94aea7d9239fec4_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga85a7941898597ec1f94aea7d9239fec4_cgraph" id="group__z_scalar_field2_d_utilities_ga85a7941898597ec1f94aea7d9239fec4_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga19783b321eeeebfef2f3d5a0388c2278_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga19783b321eeeebfef2f3d5a0388c2278_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga19783b321eeeebfef2f3d5a0388c2278_cgraph" id="group__z_scalar_field2_d_utilities_ga19783b321eeeebfef2f3d5a0388c2278_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga60b2c694356889487025ea4817c89010"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga60b2c694356889487025ea4817c89010">&#9670;&nbsp;</a></span>fromScalarField2D()</h2>
+<a id="ga963ebae1f0956162a52d4d78639a5802"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga963ebae1f0956162a52d4d78639a5802">&#9670;&nbsp;</a></span>fromField2D()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::fromScalarField2D </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::fromField2D </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>inField</em></td><td>)</td>
           <td></td>
         </tr>
@@ -693,28 +765,34 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a mesh from the input scalar field. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes and <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input zScalarfield2D </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input <a class="el" href="classz_space_1_1z_field2_d.html" title="A template class for 2D fields - scalar and vector. ">zField2D</a> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> - mesh of the scalar field. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00138">138</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00126">126</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_cgraph" id="group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_cgraph" id="group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_cgraph">
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_icgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_icgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_icgraph" id="group__z_scalar_field2_d_utilities_ga60b2c694356889487025ea4817c89010_icgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_icgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_icgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_icgraph" id="group__z_scalar_field2_d_utilities_ga963ebae1f0956162a52d4d78639a5802_icgraph">
 </map>
 </div>
 
@@ -777,7 +855,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l01011">1011</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00924">924</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -821,7 +899,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>int - case type. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00868">868</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00781">781</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -883,7 +961,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> - isoband mesh. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l02584">2584</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02497">2497</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -972,7 +1050,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l01616">1616</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01529">1529</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1027,7 +1105,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> - contour graph. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l02452">2452</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02365">2365</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1064,7 +1142,7 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>int - case type. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00822">822</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00735">735</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1119,7 +1197,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a> - isoline mesh. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l02550">2550</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02463">2463</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1215,7 +1293,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l01035">1035</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00948">948</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1233,28 +1311,30 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ga89947f8bba98a6edaf6a3a084d79c19d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga89947f8bba98a6edaf6a3a084d79c19d">&#9670;&nbsp;</a></span>intersect_fields()</h2>
+<a id="ga65f46131efc2cbe876ba5d4384d76dd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga65f46131efc2cbe876ba5d4384d76dd9">&#9670;&nbsp;</a></span>intersect_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::intersect_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars0</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalarsResult</em>&#160;</td>
         </tr>
         <tr>
@@ -1266,6 +1346,12 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a intersect of the fields at the input buffers and stores them in the result buffer. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">buffer0</td><td>- value of buffer. </td></tr>
@@ -1276,46 +1362,48 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00526">526</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00532">532</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_cgraph" id="group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_cgraph" id="group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_cgraph">
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_icgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_icgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_icgraph" id="group__z_scalar_field2_d_utilities_ga89947f8bba98a6edaf6a3a084d79c19d_icgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_icgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_icgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_icgraph" id="group__z_scalar_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_icgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga836f6d70e5a69bf15368d5dec4aea8ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga836f6d70e5a69bf15368d5dec4aea8ac">&#9670;&nbsp;</a></span>subtract_fields()</h2>
+<a id="ga92ff3f50a3ac8669fdd2417a5f8ac611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga92ff3f50a3ac8669fdd2417a5f8ac611">&#9670;&nbsp;</a></span>subtract_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::subtract_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars0</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalarsResult</em>&#160;</td>
         </tr>
         <tr>
@@ -1327,6 +1415,12 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a subtraction of the fields at the input buffers and stores them in the result buffer. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">scalars0</td><td>- value of buffer. </td></tr>
@@ -1337,39 +1431,41 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00505">505</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00509">509</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga836f6d70e5a69bf15368d5dec4aea8ac_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga836f6d70e5a69bf15368d5dec4aea8ac_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga836f6d70e5a69bf15368d5dec4aea8ac_cgraph" id="group__z_scalar_field2_d_utilities_ga836f6d70e5a69bf15368d5dec4aea8ac_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga92ff3f50a3ac8669fdd2417a5f8ac611_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga92ff3f50a3ac8669fdd2417a5f8ac611_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga92ff3f50a3ac8669fdd2417a5f8ac611_cgraph" id="group__z_scalar_field2_d_utilities_ga92ff3f50a3ac8669fdd2417a5f8ac611_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga9d820a9af25c28ae4fe39afd2aa0cb14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9d820a9af25c28ae4fe39afd2aa0cb14">&#9670;&nbsp;</a></span>union_fields()</h2>
+<a id="gae68c3cc003ddb91163a995e1235c938b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae68c3cc003ddb91163a995e1235c938b">&#9670;&nbsp;</a></span>union_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::union_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars0</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalarsResult</em>&#160;</td>
         </tr>
         <tr>
@@ -1381,6 +1477,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method creates a union of the fields at the input buffers and stores them in the result buffer. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">scalars0</td><td>- value of buffer. </td></tr>
@@ -1391,22 +1493,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00484">484</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00486">486</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga9d820a9af25c28ae4fe39afd2aa0cb14_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga9d820a9af25c28ae4fe39afd2aa0cb14_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga9d820a9af25c28ae4fe39afd2aa0cb14_cgraph" id="group__z_scalar_field2_d_utilities_ga9d820a9af25c28ae4fe39afd2aa0cb14_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_gae68c3cc003ddb91163a995e1235c938b_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gae68c3cc003ddb91163a995e1235c938b_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_gae68c3cc003ddb91163a995e1235c938b_cgraph" id="group__z_scalar_field2_d_utilities_gae68c3cc003ddb91163a995e1235c938b_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga98c941196d269404150977048849513f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga98c941196d269404150977048849513f">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[1/4]</span></h2>
+<a id="ga3bb0d7e6c79864a2448cfcdab850d53a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3bb0d7e6c79864a2448cfcdab850d53a">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::updateBlendColors </td>
@@ -1417,7 +1521,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>, </td>
         </tr>
         <tr>
@@ -1441,6 +1545,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method updates the color values of the field mesh based on the scalar values. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -1452,22 +1562,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00665">665</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00647">647</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga98c941196d269404150977048849513f_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga98c941196d269404150977048849513f_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga98c941196d269404150977048849513f_cgraph" id="group__z_scalar_field2_d_utilities_ga98c941196d269404150977048849513f_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga3bb0d7e6c79864a2448cfcdab850d53a_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga3bb0d7e6c79864a2448cfcdab850d53a_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga3bb0d7e6c79864a2448cfcdab850d53a_cgraph" id="group__z_scalar_field2_d_utilities_ga3bb0d7e6c79864a2448cfcdab850d53a_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga7bc531e7f4cc38cb70a89ced4946fce9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7bc531e7f4cc38cb70a89ced4946fce9">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[2/4]</span></h2>
+<a id="ga2f49512e60cd8d85090877fe3fce5467"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2f49512e60cd8d85090877fe3fce5467">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::updateBlendColors </td>
@@ -1478,68 +1590,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;&#160;</td>
-          <td class="paramname"><em>col1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;&#160;</td>
-          <td class="paramname"><em>col2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method updates the color values of the field mesh based on the scalarField. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>- scalar field. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">col1</td><td>- blend color 1. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">col2</td><td>- blend color 2. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00705">705</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga7bc531e7f4cc38cb70a89ced4946fce9_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga7bc531e7f4cc38cb70a89ced4946fce9_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga7bc531e7f4cc38cb70a89ced4946fce9_cgraph" id="group__z_scalar_field2_d_utilities_ga7bc531e7f4cc38cb70a89ced4946fce9_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ga362305de05d0ce3c7c8001b58ae75280"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga362305de05d0ce3c7c8001b58ae75280">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[3/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::updateBlendColors </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
-          <td class="paramname"><em>fieldMesh</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>, </td>
         </tr>
         <tr>
@@ -1557,13 +1608,13 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>dMin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
+          <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>dMax</em>&#160;</td>
         </tr>
         <tr>
@@ -1575,6 +1626,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method updates the color values of the field mesh based on the scalar values. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -1586,95 +1643,24 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00741">741</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00689">689</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga362305de05d0ce3c7c8001b58ae75280_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga362305de05d0ce3c7c8001b58ae75280_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga362305de05d0ce3c7c8001b58ae75280_cgraph" id="group__z_scalar_field2_d_utilities_ga362305de05d0ce3c7c8001b58ae75280_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_ga2f49512e60cd8d85090877fe3fce5467_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga2f49512e60cd8d85090877fe3fce5467_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_ga2f49512e60cd8d85090877fe3fce5467_cgraph" id="group__z_scalar_field2_d_utilities_ga2f49512e60cd8d85090877fe3fce5467_cgraph">
 </map>
 </div>
 
 </div>
 </div>
-<a id="ga62a086d47d09f7c05625836033dba3a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga62a086d47d09f7c05625836033dba3a7">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[4/4]</span></h2>
+<a id="gaa729c665b3b653a45b8d18366cb0db16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa729c665b3b653a45b8d18366cb0db16">&#9670;&nbsp;</a></span>updateColors()</h2>
 
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::updateBlendColors </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
-          <td class="paramname"><em>fieldMesh</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;&#160;</td>
-          <td class="paramname"><em>col1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;&#160;</td>
-          <td class="paramname"><em>col2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dMin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dMax</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method updates the color values of the field mesh based on the scalarField. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>- scalar field. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">col1</td><td>- blend color 1. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">col2</td><td>- blend color 2. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00784">784</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga62a086d47d09f7c05625836033dba3a7_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga62a086d47d09f7c05625836033dba3a7_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga62a086d47d09f7c05625836033dba3a7_cgraph" id="group__z_scalar_field2_d_utilities_ga62a086d47d09f7c05625836033dba3a7_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ga2b8f595bd1fccaa3086c7d841f3137c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2b8f595bd1fccaa3086c7d841f3137c7">&#9670;&nbsp;</a></span>updateColors() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::updateColors </td>
@@ -1685,7 +1671,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -1697,6 +1683,12 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -1706,59 +1698,12 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00598">598</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00610">610</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_ga2b8f595bd1fccaa3086c7d841f3137c7_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_ga2b8f595bd1fccaa3086c7d841f3137c7_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_ga2b8f595bd1fccaa3086c7d841f3137c7_cgraph" id="group__z_scalar_field2_d_utilities_ga2b8f595bd1fccaa3086c7d841f3137c7_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="gac0a6e93e7bb823acd7f95334f7b24027"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac0a6e93e7bb823acd7f95334f7b24027">&#9670;&nbsp;</a></span>updateColors() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::updateColors </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
-          <td class="paramname"><em>fieldMesh</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_scalar_field2_d.html">zScalarField2D</a> &amp;&#160;</td>
-          <td class="paramname"><em>field</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method updates the color values of the field mesh based on the scalarfield. Gradient - Black to Red. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>- scalar field. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_scalar_field_utilities_8h_source.html#l00630">630</a> of file <a class="el" href="z_scalar_field_utilities_8h_source.html">zScalarFieldUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_scalar_field2_d_utilities_gac0a6e93e7bb823acd7f95334f7b24027_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gac0a6e93e7bb823acd7f95334f7b24027_cgraph" alt=""/></div>
-<map name="group__z_scalar_field2_d_utilities_gac0a6e93e7bb823acd7f95334f7b24027_cgraph" id="group__z_scalar_field2_d_utilities_gac0a6e93e7bb823acd7f95334f7b24027_cgraph">
+<div class="center"><img src="group__z_scalar_field2_d_utilities_gaa729c665b3b653a45b8d18366cb0db16_cgraph.png" border="0" usemap="#group__z_scalar_field2_d_utilities_gaa729c665b3b653a45b8d18366cb0db16_cgraph" alt=""/></div>
+<map name="group__z_scalar_field2_d_utilities_gaa729c665b3b653a45b8d18366cb0db16_cgraph" id="group__z_scalar_field2_d_utilities_gaa729c665b3b653a45b8d18366cb0db16_cgraph">
 </map>
 </div>
 

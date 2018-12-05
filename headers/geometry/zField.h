@@ -13,11 +13,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
-	*  @{
-	*/
-
+	
 	/** \addtogroup zGeometryClasses
 	*	\brief The geometry classes of the library.	
 	*  @{
@@ -60,13 +56,13 @@ namespace zSpace
 		/*!	\brief stores the minimum bounds of the scalar field  */
 		zVector maxBB;
 
-		/*!	\brief stores the position of the scalar  */
+		/*!	\brief container of field positions.   */
 		vector<zVector> positions;
 
-		/*!	\brief stores the ring neighbourhood indicies in the scalars container  */
+		/*!	\brief container of the ring neighbourhood indicies.  */
 		vector<vector<int>> ringNeighbours;
 
-		/*!	\brief stores the adjacent neighbourhood indicies in the scalars container  */
+		/*!	\brief container of adjacent neighbourhood indicies.  */
 		vector<vector<int>> adjacentNeighbours;
 
 		
@@ -77,7 +73,7 @@ namespace zSpace
 		//----  ATTRIBUTES
 		//--------------------------
 		
-		/*!	\brief container for the scalar field values  */
+		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
 
 		//--------------------------
@@ -104,8 +100,8 @@ namespace zSpace
 
 		/*! \brief Overloaded constructor.
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
-		*	\param		[in]	_minBB		- minimum bounds of the scalar field.
-		*	\param		[in]	_maxBB		- maximum bounds of the scalar field.
+		*	\param		[in]	_minBB		- minimum bounds of the field.
+		*	\param		[in]	_maxBB		- maximum bounds of the field.
 		*	\param		[in]	_n_X		- number of pixels in x direction.
 		*	\param		[in]	_n_Y		- number of pixels in y direction.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1. 
@@ -293,13 +289,13 @@ namespace zSpace
 		/*! \brief This method sets the position of the field at the input index.
 		*
 		*	\param		[in]	pos			- input position.
-		*	\param		[in]	index		- index in the scalar container.
+		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
 
 		void setPosition(zVector &_pos, int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 			
 			positions[index] = _pos;
 		
@@ -307,13 +303,13 @@ namespace zSpace
 
 		/*! \brief This method gets the position of the field at the input index.
 		*
-		*	\param		[in]	index		- index in the scalar container.
+		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
 
 		zVector getPosition(int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return positions[index];
 		}
@@ -322,7 +318,7 @@ namespace zSpace
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	fValue		- input value.
-		*	\param		[in]	index		- index in the scalar container.
+		*	\param		[in]	index		- index in the fieldvalues container.
 		*	\since version 0.0.1
 		*/
 
@@ -336,7 +332,7 @@ namespace zSpace
 		/*! \brief This method gets the value of the field at the input index.
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
-		*	\param		[in]	index		- index in the scalar container.
+		*	\param		[in]	index		- index in the fieldvalues container.
 		*	\since version 0.0.1
 		*/
 		
@@ -349,7 +345,7 @@ namespace zSpace
 
 		
 
-		/*! \brief This method gets the index of the scalar at the input position.
+		/*! \brief This method gets the index of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
 		*	\since version 0.0.1
@@ -367,7 +363,7 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method gets the indicies of the scalar at the input position.
+		/*! \brief This method gets the indicies of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
 		*	\param		[out]	index_X		- output index in X.
@@ -383,7 +379,7 @@ namespace zSpace
 			if (index_X >  (n_X - 1) || index_X <  0 || index_Y >(n_Y - 1) || index_Y <  0) throw std::invalid_argument(" error: input position out of bounds.");
 		}
 
-		/*! \brief This method gets the ring neighbours of the scalar at the input index.
+		/*! \brief This method gets the ring neighbours of the field at the input index.
 		*
 		*	\param		[in]	index			- input index.
 		*	\param		[in]	numRings		- number of rings.	
@@ -430,7 +426,7 @@ namespace zSpace
 			ringNeighbours = out;
 		}
 
-		/*! \brief This method gets the immediate adjacent neighbours of the scalar at the input index.
+		/*! \brief This method gets the immediate adjacent neighbours of the field at the input index.
 		*
 		*	\param		[in]	index				- input index.		
 		*	\param		[out]	adjacentNeighbours	- contatiner of neighbour indicies.
@@ -537,19 +533,19 @@ namespace zSpace
 		/*!	\brief stores the size of one unit in Z direction  */
 		double unit_Z;
 
-		/*!	\brief stores the minimum bounds of the scalar field  */
+		/*!	\brief stores the minimum bounds of the field  */
 		zVector minBB;
 
-		/*!	\brief stores the minimum bounds of the scalar field  */
+		/*!	\brief stores the minimum bounds of the field  */
 		zVector maxBB;
 
-		/*!	\brief stores the position of the scalar  */
+		/*!	\brief cantainer of field  positions  */
 		vector<zVector> positions;
 
-		/*!	\brief stores the ring neighbourhood indicies in the scalars container  */
+		/*!	\brief container of the ring neighbourhood indicies.  */
 		vector<vector<int>> ringNeighbours;
 
-		/*!	\brief stores the adjacent neighbourhood indicies in the scalars container  */
+		/*!	\brief container of  the adjacent neighbourhood indicies.  */
 		vector<vector<int>> adjacentNeighbours;
 
 		
@@ -559,7 +555,7 @@ namespace zSpace
 		//----  ATTRIBUTES
 		//--------------------------
 		
-		/*!	\brief container for the scalar field values  */
+		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
 
 
@@ -587,8 +583,8 @@ namespace zSpace
 
 
 		/*! \brief Overloaded constructor.
-		*	\param		[in]	_minBB		- minimum bounds of the scalar field.
-		*	\param		[in]	_maxBB		- maximum bounds of the scalar field.
+		*	\param		[in]	_minBB		- minimum bounds of the field.
+		*	\param		[in]	_maxBB		- maximum bounds of the field.
 		*	\param		[in]	_n_X		- number of voxels in x direction.
 		*	\param		[in]	_n_Y		- number of voxels in y direction.
 		*	\param		[in]	_n_Z		- number of voxels in z direction.
@@ -730,9 +726,9 @@ namespace zSpace
 		//---- GET-SET METHODS
 		//--------------------------
 
-		/*! \brief This method retruns the number of scalars in the field.
+		/*! \brief This method retruns the number of fieldvalues in the field.
 		*
-		*	\return			int	- number of scalars in the field.
+		*	\return			int	- number of fieldvalues in the field.
 		*	\since version 0.0.1
 		*/
 
@@ -795,10 +791,10 @@ namespace zSpace
 			_maxBB = maxBB;
 		}
 
-		/*! \brief This method sets the position of the scalar at the input index.
+		/*! \brief This method sets the position of the field at the input index.
 		*
 		*	\param		[in]	pos			- input position.
-		*	\param		[in]	index		- index in the scalar container.
+		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
 
@@ -810,9 +806,9 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method gets the position of the scalar at the input index.
+		/*! \brief This method gets the position of the field at the input index.
 		*
-		*	\param		[in]	index		- index in the scalar container.
+		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
 
@@ -823,7 +819,7 @@ namespace zSpace
 			return positions[index];
 		}
 
-		/*! \brief This method sets the weight/value of the scalar at the input index.
+		/*! \brief This method sets the value of the field at the input index.
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	fvalue		- input value.
@@ -833,7 +829,7 @@ namespace zSpace
 
 		void setFieldValue(T fvalue, int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getFieldValue()) throw std::invalid_argument(" error: index out of bounds.");
 
 			fieldValues[index] = fValue;
 		}
@@ -847,13 +843,13 @@ namespace zSpace
 
 		T getFieldValue(int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getFieldValue()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return fieldValues[index];
 		}
 
 
-		/*! \brief This method gets the index of the scalar at the input position.
+		/*! \brief This method gets the index of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
 		*	\since version 0.0.1
@@ -870,7 +866,7 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method gets the indicies of the scalar at the input position.
+		/*! \brief This method gets the indicies of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
 		*	\param		[out]	index_X		- output index in X.
@@ -887,7 +883,7 @@ namespace zSpace
 			if (index_X >  (n_X - 1) || index_X <  0 || index_Y >(n_Y - 1) || index_Y <  0 || index_Z >(n_Z - 1) || index_Z <  0) throw std::invalid_argument(" error: input position out of bounds.");
 		}
 
-		/*! \brief This method gets the ring neighbours of the scalar at the input index.
+		/*! \brief This method gets the ring neighbours of the field at the input index.
 		*
 		*	\param		[in]	index			- input index.
 		*	\param		[in]	numRings		- number of rings.
@@ -947,7 +943,7 @@ namespace zSpace
 			ringNeighbours = out;
 		}
 
-		/*! \brief This method gets the immediate adjacent neighbours of the scalar at the input index.
+		/*! \brief This method gets the immediate adjacent neighbours of the field at the input index.
 		*
 		*	\param		[in]	index				- input index.
 		*	\param		[out]	adjacentNeighbours	- contatiner of neighbour indicies.

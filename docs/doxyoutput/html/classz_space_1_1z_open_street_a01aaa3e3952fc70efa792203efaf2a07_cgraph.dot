@@ -7,12 +7,9 @@ digraph "zSpace::zOpenStreet::updateScalars_fromCSV"
   Node113 -> Node114 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node114 [label="zSpace::splitString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga4632c0bf9aaa9b88d6e928244a77cda5",tooltip="This method splits the input string based on the input delimiter. "];
   Node113 -> Node115 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node115 [label="zSpace::zScalarField2D\l::getIndex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#a64e9bde7d315224d66222b9579023d9b",tooltip="This method gets the index of the scalar at the input position. "];
+  Node115 [label="zSpace::zField2D::getIndex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#a5e8bfbc48161640cd7516ea0a46b901c",tooltip="This method gets the index of the field at the input position. "];
   Node113 -> Node116 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node116 [label="zSpace::zScalarField2D\l::getWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#a0609257306a40fcae5ef2e9385cf91d2",tooltip="This method gets the waight/value of the scalar at the input index. "];
-  Node116 -> Node117 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node117 [label="zSpace::zScalarField2D\l::getNumScalars",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#aaf22a7a8c12ad18dcfcd5b8fda13fc56",tooltip="This method retruns the number of scalars in the field. "];
-  Node113 -> Node118 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node118 [label="zSpace::zScalarField2D\l::setWeight",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_scalar_field2_d.html#a39b442eb9403f94b2e2535310a6286cf",tooltip="This method sets the weight/value of the scalar at the input index. "];
-  Node118 -> Node117 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node116 [label="zSpace::zField2D::getField\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#a79d31ed66860954d1626558c50fcbc4e",tooltip="This method gets the value of the field at the input index. "];
+  Node113 -> Node117 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node117 [label="zSpace::zField2D::setField\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#af5d518e9d615527f99de36bf915b28b2",tooltip="This method sets the value of the field at the input index. "];
 }
