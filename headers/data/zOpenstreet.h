@@ -127,8 +127,8 @@ namespace zSpace
 		/*!	\brief street graph edgeId to wayId map. Used to get correponding wayId given the street graph EdgeId.  */
 		map <int, string> streetEdges_Way;
 
-		/*!	\brief wayId to street graph EdgeId map. Used to get correponding street graph EdgeId given the wayId.  */
-		unordered_map <string, int> way_streetEdges;
+		/*!	\brief OSMwayId to wayId. Used to get correponding street graph edges given the osm way id.  */
+		unordered_map <string, int> OSMwaysID_zWayId;
 
 		//---- BUILDING ATTRIBUTES
 
@@ -144,8 +144,8 @@ namespace zSpace
 		/*!	\brief building graph edgeId to wayId map. Used to get correponding wayId given the building graph EdgeId.  */
 		map <int, string> buildingEdges_Building;
 
-		/*!	\brief wayId to building graph EdgeId map. Used to get correponding building graph EdgeId given the wayId.  */
-		unordered_map <string, int> Building_buildingEdges;
+		/*!	\brief OSMwayId to zbuildingId. Used to get correponding building graph edges given the osm way id.  */
+		unordered_map <string, int> OSMwaysID_zBuildingsId;
 
 		//---- BOUNDS ATTRIBUTES
 
@@ -377,6 +377,8 @@ namespace zSpace
 
 				way[n_zWays].streetType = getStreetType(wayId);
 
+				// map
+				OSMwaysID_zWayId[wayId] = n_zWays;
 
 				while (outStm_ways[i] == wayId && i < outStm_ways.size() - 3)
 				{
@@ -393,13 +395,11 @@ namespace zSpace
 							if (got1 != node_streetVertices.end())
 							{
 								way[n_zWays].streetGraph_edgeId.push_back(edgeConnects.size());
-								streetEdges_Way[edgeConnects.size()] = wayId;
-								way_streetEdges[wayId] = edgeConnects.size();
+								streetEdges_Way[edgeConnects.size()] = wayId;								
 								edgeConnects.push_back(got->second);
 
 								way[n_zWays].streetGraph_edgeId.push_back(edgeConnects.size());
-								streetEdges_Way[edgeConnects.size()] = wayId;
-								way_streetEdges[wayId] = edgeConnects.size();
+								streetEdges_Way[edgeConnects.size()] = wayId;								
 								edgeConnects.push_back(got1->second);
 
 							}
@@ -422,6 +422,76 @@ namespace zSpace
 
 
 			setEdgeColor(streetGraph, edgeCol, true);
+
+		}
+
+		/*! \brief This method extracts the edges from the street graph based on the input key and value for OSM ways tags.
+		*
+		*	\param		[in]	k			- key of the relations tag.
+		*	\param		[in]	v			- value of the relations tag.
+		*	\param		[out]	graphEdges	- edge indicies correponding to k and v.
+		*	\since version 0.0.1
+		*/
+		void getStreetEdgesFromWays(string k, string v, vector<int> &graphEdges)
+		{
+			graphEdges.clear();
+
+			vector<string> outStm_wayIds;
+			vector<string> sqlStm_wayIds = { " SELECT id FROM ways_tags WHERE ways_tags.k = \"" + k + "\" AND way_tags.v =\"" + v + "\";" };
+			bool stat = zDB->sqlCommand(sqlStm_wayIds, zSelect, false, outStm_wayIds, false);
+
+			for (int i = 0; i < outStm_wayIds.size(); i += 1)
+			{
+
+
+				string hashKey = outStm_wayIds[i];;
+				int zWayId;
+
+				bool chk = existsInMap(hashKey, OSMwaysID_zWayId, zWayId);
+
+				if (chk)
+				{
+					for (int j = 0; j < way[zWayId].streetGraph_edgeId.size(); j++)
+					{
+						graphEdges.push_back(way[zWayId].streetGraph_edgeId[j]);
+					}
+				}
+			}
+
+		}
+
+		/*! \brief This method extracts the edges from the street graph based on the input key and value for OSM relations tags.
+		*
+		*	\param		[in]	k			- key of the relations tag.
+		*	\param		[in]	v			- value of the relations tag.
+		*	\param		[out]	graphEdges	- edge indicies correponding to k and v.
+		*	\since version 0.0.1
+		*/
+		void getStreetEdgesFromRelations(string k , string v , vector<int> &graphEdges)
+		{
+			graphEdges.clear();
+
+			vector<string> outStm_wayIds;
+			vector<string> sqlStm_wayIds = { " SELECT ref FROM relations_members WHERE id  IN ( SELECT id FROM relations_tags WHERE relations_tags.k = \"" + k + "\" AND relations_tags.v =\"" + v + "\");" };
+			bool stat = zDB->sqlCommand(sqlStm_wayIds, zSelect, false, outStm_wayIds, false);
+
+			for (int i = 0; i < outStm_wayIds.size(); i += 1)
+			{
+
+
+				string hashKey = outStm_wayIds[i];;
+				int zWayId;
+				
+				bool chk = existsInMap(hashKey, OSMwaysID_zWayId, zWayId);
+
+				if (chk)
+				{
+					for (int j = 0; j < way[zWayId].streetGraph_edgeId.size(); j++)
+					{
+						graphEdges.push_back(way[zWayId].streetGraph_edgeId[j]);
+					}
+				}
+			}
 
 		}
 
@@ -524,6 +594,9 @@ namespace zSpace
 
 				buildings[n_zBuildings].buildingType = getBuildingType(wayId);
 
+				// map
+				OSMwaysID_zBuildingsId[wayId] = n_zBuildings;
+
 				while (outStm_ways[i] == wayId && i < outStm_ways.size() - 3)
 				{
 					string hashKey = outStm_ways[i + 1];
@@ -543,12 +616,10 @@ namespace zSpace
 							{
 								buildings[n_zBuildings].buildingGraph_edgeId.push_back(edgeConnects.size());
 								buildingEdges_Building[edgeConnects.size()] = wayId;
-								Building_buildingEdges[wayId] = edgeConnects.size();
 								edgeConnects.push_back(got->second);
 
 								buildings[n_zBuildings].buildingGraph_edgeId.push_back(edgeConnects.size());
 								buildingEdges_Building[edgeConnects.size()] = wayId;
-								Building_buildingEdges[wayId] = edgeConnects.size();
 								edgeConnects.push_back(got1->second);
 
 							}
@@ -758,6 +829,182 @@ namespace zSpace
 				
 
 		}
+
+
+		/*! \brief This method gets mesh and data attributes from input shape CSV data files.
+		*
+		*	\param		[in]	infile_Nodes		- input file name including the directory path and extension for position information.
+		*	\param		[in]	infile_Attribute	- input file name including the directory path and extension for attribute information.
+		*	\param		[in]	attributeData		- container for sttribute data as a string.
+		*	\param		[out]	outgraph			- out graph.
+		*	\since version 0.0.1
+		*/
+		void fromCoordinates_ShapeCSV(string infile_Nodes, string infile_Attribute, vector<vector<string>> &attributeData, zMesh &outmesh)
+		{
+			attributeData.clear();
+
+			vector<zVector> positions;
+			vector<int> polyConnects;
+			vector<int> polyCounts;
+
+			unordered_map <string, int> positionVertex;
+
+			vector<string> shapeIds;
+
+			// nodes
+			ifstream myfile;
+			myfile.open(infile_Nodes.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infile_Nodes.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+
+					if (perlineData[0] == " " || perlineData[0] == "\"shapeid\"") continue;
+
+					string shapeId = (perlineData[0]);
+
+					vector<int> tempConnects;
+
+					//printf("\n%s : ", shapeId.c_str());
+					bool exit = false;
+
+
+					do
+					{
+						if (perlineData[0] == " ")continue;
+
+
+
+						vector<string> x = splitString(perlineData[2], "\"");
+						vector<string> y = splitString(perlineData[1], "\"");
+
+						//printf("\n %s %s |", x[0].c_str(), y[0].c_str());
+
+						double lat = atof(x[0].c_str());
+						double lon = atof(y[0].c_str());
+
+						// get mapped position
+
+						zVector p0 = fromCoordinates(lat, lon);
+
+						// check if position alread exists. 
+						int v0;
+						bool vExists = vertexExists(positionVertex, p0, v0);
+
+						if (!vExists)
+						{
+							v0 = positions.size();
+							if (polyCounts.size() <= 100) positions.push_back(p0);
+
+							string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+							positionVertex[hashKey] = v0;
+						}
+
+
+						if(!vExists) tempConnects.push_back(v0);
+
+
+
+						if (!myfile.eof())
+						{
+							getline(myfile, str);
+							perlineData.clear();
+							perlineData = splitString(str, ",");
+						}
+						else exit = true;
+
+						if (myfile.eof()) exit = true;
+						else
+						{
+							if (perlineData[0] != shapeId) 	exit = true;
+						}
+
+
+
+					} while (!exit);
+
+
+					if (polyCounts.size() <= 100 && tempConnects.size() >= 3)
+					{
+						for (int k = 0; k < tempConnects.size(); k++)
+						{
+							polyConnects.push_back(tempConnects[k]);
+						}
+
+						polyCounts.push_back(tempConnects.size());
+					}
+					
+
+
+				}
+			}
+
+			myfile.close();
+
+			printf("\n positions: %i , polyCounts: %i, polyConnects: %i  ", positions.size(), polyCounts.size(), polyConnects.size());
+			outmesh = zMesh(positions,polyCounts, polyConnects,true);
+
+			printf("\n mesh: %i %i %i ", outmesh.numVertices(), outmesh.numEdges(), outmesh.numPolygons());
+
+			// attributes
+
+
+
+			myfile.open(infile_Attribute.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infile_Attribute.c_str() << endl;
+				return;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, ",");
+
+				if (perlineData.size() < 1) continue;
+
+				if (perlineData[0] == " ") continue;
+
+				if (perlineData[0] == "\"shapeid\"") continue;
+
+
+				vector<string> data;
+
+				for (int i = 0; i < perlineData.size(); i++)
+				{
+
+					vector<string> attrib = splitString(perlineData[i], "\"");
+					data.push_back(attrib[0]);
+
+				}
+
+				if (data.size() > 0) attributeData.push_back(data);
+
+			}
+
+			myfile.close();
+
+
+		}
 	
 
 		/*! \brief This method gets data positions and attributes from input CSV shape data file .
@@ -895,8 +1142,175 @@ namespace zSpace
 		template <typename T>
 		void updateScalars_fromCSV(string infilename, vector<zVector> &dataPositions, vector<T> &data);
 
+		/*! \brief This method exports the relations from an OSM file to 3 CSV files.
+		*
+		*	\param		[in]	infilename						- input file name including the directory path and extension.
+		*	\param		[out]	outfilename_Relations			- output CSV file of relation ids.
+		*	\param		[out]	outfilename_Relations_members	- output CSV file of relation members.
+		*	\param		[out]	outfilename_RelationTags		- output CSV file of relation tags.
+		*	\since version 0.0.1
+		*/			
+		void exportOSMRelationsToCSV(string infilename, string outfilename_Relations, string outfilename_Relations_members, string outfilename_RelationTags)
+		{
+			vector<string> relations;
+			vector<vector<string>> relations_members;
+			vector<vector<string>> relationsTags;
+			
+			// nodes
+			ifstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " \n error in opening file  " << infilename.c_str() << endl;
+				return;
+
+			}
+			bool exit = false;
+			while (!myfile.eof() && !exit)
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = splitString(str, " ");
+
+				if (perlineData.size() == 0) continue;
+
+				if (perlineData[0] == "</osm>") exit = true;
+
+				if (perlineData[0] == "<relation")
+				{
+					vector<string> relationId = splitString(perlineData[1], "\"");
+
+					printf("\n %s ", perlineData[1].c_str());
+
+					relations.push_back(relationId[1]);
+
+					while (perlineData[0] != "</relation>")
+					{
+						perlineData.clear();
+						str.clear();
+						getline(myfile, str);
+						perlineData = splitString(str, " ");
+
+						if (perlineData[0] == "<member")
+						{
+							vector<string> type = splitString(perlineData[1], "\"");
+							vector<string> ref = splitString(perlineData[2], "\"");
+						
+
+							vector<string> temp;
+
+							temp.push_back(relationId[1]);
+							temp.push_back(type[1]);
+							temp.push_back(ref[1]);		
+
+							relations_members.push_back(temp);
+						}
+
+						if (perlineData[0] == "<tag")
+						{
+							vector<string> k = splitString(perlineData[1], "\"");
+							vector<string> v = splitString(perlineData[2], "\"");
+							
+
+							vector<string> temp;
+
+							temp.push_back(relationId[1]);
+							temp.push_back(k[1]);
+							temp.push_back(v[1]);
+
+							relationsTags.push_back(temp);
+							
+						}
+					}
+				}
+			}
+
+			myfile.close();
+
+
+			// exportToCSV _ Relations
+
+			ofstream myExportfile;
+			myExportfile.open(outfilename_Relations.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfilename_Relations.c_str() << endl;
+				return;
+
+			}
+
+			myExportfile << "id";
+
+
+			for (int i = 0; i < relations.size(); i++)
+			{
+				myExportfile << "\n" << relations[i];				
+			}
+
+			myExportfile.close();
 
 			
+			// exportToCSV _ Relations_members
+				
+			myExportfile.open(outfilename_Relations_members.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfilename_Relations_members.c_str() << endl;
+				return;
+
+			}
+
+			myExportfile << "id,type,ref";
+
+			
+			for (int i = 0; i < relations_members.size(); i++)
+			{
+				myExportfile << "\n";
+				for (int j = 0; j < relations_members[i].size(); j++)
+				{
+					myExportfile << relations_members[i][j];
+					
+					if(j!= relations_members[i].size() -1) myExportfile << "," ;
+				}	
+			}
+
+			myExportfile.close();
+
+
+
+			// exportToCSV_relationsTags
+
+			
+			myExportfile.open(outfilename_RelationTags.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfilename_RelationTags.c_str() << endl;
+				return;
+
+			}
+
+			myExportfile << "id,k,v";
+
+
+			for (int i = 0; i < relationsTags.size(); i++)
+			{
+				myExportfile << "\n";
+				for (int j = 0; j < relationsTags[i].size(); j++)
+				{
+					myExportfile << relationsTags[i][j];
+
+					if (j != relationsTags[i].size() - 1) myExportfile << ",";
+				}
+			}
+
+			myExportfile.close();
+
+		}
 		
 
 	};

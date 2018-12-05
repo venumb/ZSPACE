@@ -65,6 +65,7 @@
     <ClInclude Include="..\headers\include\zIO.h" />
     <ClInclude Include="..\headers\IO\zJSON.h" />
     <ClInclude Include="..\headers\IO\zExchange.h" />
+    <ClInclude Include="..\headers\object\zObject.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -88,6 +88,35 @@ namespace zSpace
 	//--------------------------
 	//----  2D FIELD METHODS
 	//--------------------------
+	
+	/*! \brief This method computes the weight inverse distance to the the input position.
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double), zVector and zMesh.
+	*	\param		[in]	inPos				- input position
+	*	\param		[in]	inObject			- input object to which the distance is computed.
+	*	\return				double				- weighted inverse distance.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	double idw_DistanceTo(zVector& inPos, T& inObject);
+
+	/*! \brief This method computes the weight inverse distance to the the input position.
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double) and zVector.
+	*	\param		[in]	inPos				- input position
+	*	\param		[in]	fieldValue			- input fieldValue.
+	*	\param		[in]	influence			- input influence Value.
+	*	\param		[in]	epsilon				- input epsilon Value.
+	*	\param		[in]	power				- input influence Value.
+	*	\return				T					- weighted inverse distance value.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	T idw_ValueAt(zVector inPos, T& fieldValue, double& influence, double& epsilon, double& power);
+
+	//--------------------------
+	//----  2D SCALAR FIELD METHODS
+	//--------------------------
 
 	/*! \brief This method computes the filed index of each input position and stores them in a container per field index.
 	*
@@ -2548,4 +2577,131 @@ namespace zSpace
 	/** @}*/
 
 	/** @}*/
+}
+
+
+//--------------------------
+//---- TEMPLATE SPECIALIZATION DEFINITIONS 
+//--------------------------
+
+//---- idw_DistanceTo  mesh specialization
+
+template<>
+double zSpace::idw_DistanceTo(zVector& point, zMesh& inMesh)
+{
+	int idClosest;
+	double minDist = -10000000;
+
+	for (int i = 0; i < inMesh.numVertices(); i++)
+	{
+		zVector verts = inMesh.vertexPositions[i];
+
+		double dist = (point - verts).length();
+
+		if (dist > minDist)
+		{
+			minDist = dist;
+			idClosest = i;
+		}
+	}
+
+	zVector closestVert = inMesh.vertexPositions[idClosest];
+
+	double d = (point - closestVert).length();
+
+	return d;
+}
+
+//---- idw_DistanceTo zVector specialization
+
+template<>
+double zSpace::idw_DistanceTo(zVector& point, zVector& inPt)
+{
+	return point.distanceTo(inPt);
+}
+
+//---- idw_DistanceTo double specialization
+
+template<>
+double zSpace::idw_DistanceTo(zVector& point, double& constant)
+{
+	return constant;
+}
+
+//---- idw_DistanceTo float specialization
+
+template<>
+double zSpace::idw_DistanceTo(zVector& point, float& constant)
+{
+	return constant;
+}
+
+//---- idw_DistanceTo int specialization
+
+template<>
+double zSpace::idw_DistanceTo(zVector& point, int& constant)
+{
+	return constant;
+}
+
+
+
+//---- idw_ValueAt double specialization
+
+template<>
+double zSpace::idw_ValueAt( zVector point, double& value, double& influence, double& epsilon, double& power)
+{
+	double sum = 0.0;
+	double wsum = 0.0;
+
+	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
+	sum += value * w;
+	wsum += w;
+
+	return (wsum > 0.0) ? sum / wsum : 0.0;
+}
+
+//---- idw_ValueAt int specialization
+
+template<>
+int zSpace::idw_ValueAt( zVector point, int& value, double& influence, double& epsilon, double& power)
+{
+	int sum = 0;
+	double wsum = 0.0;
+
+	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
+	sum += value * w;
+	wsum += w;
+
+	return (wsum > 0.0) ? sum / wsum : 0;
+}
+
+//---- idw_ValueAt float specialization
+
+template<>
+float zSpace::idw_ValueAt( zVector point, float& value, double& influence, double& epsilon, double& power)
+{
+	float sum = 0.0;
+	double wsum = 0.0;
+
+	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
+	sum += value * w;
+	wsum += w;
+
+	return (wsum > 0.0) ? sum / wsum : 0.0;
+}
+
+//---- idw_ValueAt zVector specialization
+
+template<>
+zSpace::zVector zSpace::idw_ValueAt( zVector point, zVector& value, double& influence, double& epsilon, double& power)
+{
+	zVector sum = zVector();
+	double wsum = 0.0;
+
+	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
+	sum += value * w;
+	wsum += w;
+
+	return (wsum > 0.0) ? sum / wsum : zVector();
 }

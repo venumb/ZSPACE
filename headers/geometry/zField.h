@@ -84,7 +84,6 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-
 		zField2D()
 		{
 			fieldValues.clear();

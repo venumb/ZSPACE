@@ -37,6 +37,9 @@
     <Filter Include="Header Files\Application">
       <UniqueIdentifier>{5fafa59e-d163-4acc-bcf1-6097d9ea1253}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Object">
+      <UniqueIdentifier>{0fbccf63-2f51-4dfe-920e-66c48afd8fa7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zSpace.cpp">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="..\headers\geometry\zFieldUtilities.h">
       <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\object\zObject.h">
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

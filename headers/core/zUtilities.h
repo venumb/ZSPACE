@@ -39,7 +39,6 @@ namespace zSpace
 	*	\return				vector<string>	- list of elements of split string.
 	*	\since version 0.0.1
 	*/
-
 	vector<string> splitString(const string& str, const string& delimiter)
 	{
 		vector<string> elements;
@@ -100,7 +99,6 @@ namespace zSpace
 	*	\param		[in]	vals			- container of values.
 	*	\return 			double			- minimum value
 	*/
-
 	template <typename T>
 	T zMin(vector<T> &vals)
 	{
@@ -116,8 +114,7 @@ namespace zSpace
 	*	\param		[in]	val0			- input value 1.
 	*	\param		[in]	val1			- input value 2.
 	*	\return 			double			- maximum value
-	*/
-	
+	*/	
 	template <typename T>
 	T zMax(T val0, T val1)
 	{
@@ -130,7 +127,6 @@ namespace zSpace
 	*	\param		[in]	vals			- container of values.
 	*	\return 			double			- maximum value
 	*/
-
 	template <typename T>
 	T zMax(vector<T> &vals)
 	{
@@ -157,7 +153,6 @@ namespace zSpace
 	*	\param		[in]	max			- domain maximum value.
 	*	\return				double		- random number between the 2 input values.
 	*/
-
 	double randomNumber_double(double min, double max)
 	{
 		return (max - min) * ((double)rand() / (double)RAND_MAX) + min;
@@ -175,7 +170,6 @@ namespace zSpace
 	*	\param		[out]	outVal		- index of the string in the map if it exists.
 	*	\return				bool		- true if the string exists in the map.
 	*/
-
 	bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal)
 	{
 
@@ -199,7 +193,6 @@ namespace zSpace
 	*	\param		[out]	outVertexId	- index of the position in the map if it exists.
 	*	\return				bool		- true if the position exists in the map.
 	*/
-
 	bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int & outVertexId)
 	{
 		bool out = false;;
@@ -230,7 +223,6 @@ namespace zSpace
 	*	\param		[out]	sptSet					- container of shortest path tree for each vertex..
 	*	\since version 0.0.1
 	*/
-
 	int minDistance(vector<float> &dist, vector<bool> &sptSet)
 	{
 		if (dist.size() != sptSet.size()) throw std::invalid_argument("input container sizes are not equal.");
