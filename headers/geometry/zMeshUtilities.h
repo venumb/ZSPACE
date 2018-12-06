@@ -24,6 +24,13 @@ namespace zSpace
 	//--- SET METHODS 
 	//--------------------------
 
+	/*! \brief This method sets vertex color of all the vertices to the input color.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	col				- input color.
+	*	\param		[in]	setFaceColor	- face color is computed based on the vertex color if true.
+	*	\since version 0.0.1
+	*/
 	void setVertexColor(zMesh &inMesh, zColor col, bool setFaceColor = false)
 	{
 
@@ -43,7 +50,6 @@ namespace zSpace
 	*	\param		[in]	setFaceColor	- face color is computed based on the vertex color if true.
 	*	\since version 0.0.1
 	*/
-
 	void setVertexColors(zMesh &inMesh, vector<zColor>& col, bool setFaceColor = false)
 	{
 		if (col.size() != inMesh.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh vertices.");
@@ -63,7 +69,6 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the face color if true.
 	*	\since version 0.0.1
 	*/
-
 	void setFaceColor(zMesh &inMesh, zColor col, bool setVertexColor = false)
 	{
 
@@ -82,7 +87,6 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the face color if true.
 	*	\since version 0.0.1
 	*/
-
 	void setFaceColors(zMesh &inMesh, vector<zColor>& col, bool setVertexColor = false)
 	{
 		if (col.size() != inMesh.faceColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
@@ -102,7 +106,6 @@ namespace zSpace
 	*	\param		[in]	fNormal			- input normal.
 	*	\since version 0.0.1
 	*/
-
 	void setFaceNormals(zMesh &inMesh, zVector &fNormal)
 	{	
 
@@ -123,7 +126,6 @@ namespace zSpace
 	*	\param		[in]	fNormals		- input normals contatiner. The size of the contatiner should be equal to number of faces in the mesh.
 	*	\since version 0.0.1
 	*/
-
 	void setFaceNormals(zMesh &inMesh, vector<zVector> &fNormals)
 	{
 
@@ -261,112 +263,7 @@ namespace zSpace
 		}
 	}
 
-	/*! \brief This method computes the centers of a zEdge or zFace.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	type			- zEdgeData or zFaceData.
-	*	\param		[out]	centers			- vector of centers of type zVector.
-	*	\since version 0.0.1
-	*/
 	
-	void getCenters(zMesh &inMesh, zHEData type, vector<zVector> &centers)
-	{
-		// Mesh Edge 
-		if (type == zEdgeData)
-		{
-			vector<zVector> edgeCenters;
-
-			edgeCenters.clear();
-
-			for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
-			{
-				if (inMesh.edgeActive[i])
-				{
-					vector<int> eVerts;
-					inMesh.getVertices(i, zEdgeData, eVerts);
-
-					zVector cen = (inMesh.vertexPositions[eVerts[0]] + inMesh.vertexPositions[eVerts[1]]) * 0.5;
-
-					edgeCenters.push_back(cen);
-					edgeCenters.push_back(cen);
-				}
-				else
-				{
-					edgeCenters.push_back(zVector());
-					edgeCenters.push_back(zVector());
-				}
-			}
-
-			centers = edgeCenters;
-		}
-
-		// Mesh Face 
-		else if (type == zFaceData)
-		{
-			vector<zVector> faceCenters;
-			faceCenters.clear();
-
-			for (int i = 0; i < inMesh.faceActive.size(); i++)
-			{
-				if (inMesh.faceActive[i])
-				{
-					vector<int> fVerts;
-					inMesh.getVertices(i, zFaceData, fVerts);
-					zVector cen;
-
-					for (int j = 0; j < fVerts.size(); j++) cen += inMesh.vertexPositions[fVerts[j]];
-
-					cen /= fVerts.size();
-					faceCenters.push_back(cen);
-				}
-				else
-				{
-					faceCenters.push_back(zVector());
-				}
-			}
-
-			centers = faceCenters;
-		}
-		else throw std::invalid_argument(" error: invalid zHEData type");
-	}
-
-	/*! \brief This method computes the lengths of the edges of a zMesh.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[out]	edgeLengths			- vector of edge lengths.
-	*	\since version 0.0.1
-	*/
-	void getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
-	{
-		vector<double> out;
-
-		for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
-		{
-			if (inMesh.edgeActive[i])
-			{
-				int v1 = inMesh.edges[i].getVertex()->getVertexId();
-				int v2 = inMesh.edges[i].getSym()->getVertex()->getVertexId();
-
-				zVector e = inMesh.vertexPositions[v1] - inMesh.vertexPositions[v2];
-				double e_len = e.length();
-
-				out.push_back(e_len);
-				out.push_back(e_len);
-			}
-			else
-			{
-				out.push_back(0);
-				out.push_back(0);
-
-			}
-
-
-		}
-
-		edgeLengths = out;
-	}
-
-
 	/*! \brief This method computes the dihedral angle per edge of zMesh.
 	*
 	*	\param		[in]	inMesh			- input mesh.
@@ -432,8 +329,7 @@ namespace zSpace
 	*	\param		[out]	vertexAreas		- vector of vertex Areas.
 	*	\return				double			- total area of the mesh.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	double getVertexArea(zMesh &inMesh, vector<zVector> &faceCenters, vector<zVector> &edgeCenters, vector<double> &vertexAreas)
 	{
 		vector<double> out;
@@ -489,43 +385,6 @@ namespace zSpace
 		return totalArea;
 	}
 
-	/*! \brief This method returns the minimum and maximum edge lengths in the mesh.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[out]	minVal		- minimum edge length in the mesh.
-	*	\param		[out]	maxVal		- maximum edge length in the mesh.
-	*	\since version 0.0.1
-	*/
-
-	void getEdgeLengthDomain(zMesh &inMesh, double &minVal, double &maxVal)
-	{
-		minVal = 10000;
-		maxVal = 0;
-
-		for (int i = 0; i <inMesh.edgeActive.size(); i += 2)
-		{
-			if (inMesh.edgeActive[i])
-			{
-				vector<int> eVerts;
-				inMesh.getVertices(i, zEdgeData, eVerts);
-
-				double len = inMesh.vertexPositions[eVerts[0]].distanceTo(inMesh.vertexPositions[eVerts[1]]);
-
-				if (len < minVal) minVal = len;
-				if (len > maxVal) maxVal = len;
-			}
-		}
-
-		printf("\n Edgelength min : %1.2f max : %1.2f ", minVal, maxVal);
-	}
-
-	/*! \brief This method sets vertex color of all the vertices to the input color.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	col				- input color.
-	*	\param		[in]	setFaceColor	- face color is computed based on the vertex color if true.
-	*	\since version 0.0.1
-	*/
 
 
 	//--------------------------
@@ -855,190 +714,6 @@ namespace zSpace
 		{			
 			zVector newPos = inMesh.vertexPositions[j] * transform;
 			inMesh.vertexPositions[j] = newPos;		
-		}
-	}
-
-
-	//--------------------------
-	//--- WALK METHODS 
-	//--------------------------
-	
-
-	/*! \brief This method computes the shortest path from the source vertex to all vertices of the mesh.
-	*
-	*	\details based on Dijkstra’s shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
-	*	\param		[in]	inMesh					- input mesh.
-	*	\param		[in]	index					- source vertex index.
-	*	\param		[out]	dist					- container of distance to each vertex from source.
-	*	\param		[out]	parent					- container of parent vertex index of each to each vertex. Required to get the path information.
-	*	\since version 0.0.1
-	*/
-
-	void shortestDistance(zMesh &inMesh, int index, vector<float> &dist , vector<int> &parent)
-	{
-		float maxDIST = 100000;
-		
-		dist.clear();
-		parent.clear();
-
-		vector<bool> sptSet;
-
-		// Initialize all distances as INFINITE and stpSet[] as false 
-		for (int i = 0; i < inMesh.vertexActive.size(); i++)
-		{
-			dist.push_back(maxDIST);
-			sptSet.push_back(false);
-			
-			parent.push_back(-2);
-		}
-
-		// Distance of source vertex from itself is always 0 
-		dist[index] = 0;
-		parent[index] = -1;
-
-		// Find shortest path for all vertices 
-		for (int i = 0; i < inMesh.vertexActive.size(); i++)
-		{
-			if (!inMesh.vertexActive[i]) continue;
-
-			// Pick the minimum distance vertex from the set of vertices not 
-			// yet processed. u is always equal to src in the first iteration. 
-			int u = minDistance(dist, sptSet);
-
-			// Mark the picked vertex as processed 
-			sptSet[u] = true;
-
-			// Update dist value of the adjacent vertices of the picked vertex. 
-			
-			vector<int> cVerts;
-			inMesh.getConnectedVertices(u, zVertexData, cVerts);
-
-			for (int j = 0; j < cVerts.size(); j++)
-			{
-				int v = cVerts[j];
-				float distUV = inMesh.vertexPositions[u].distanceTo(inMesh.vertexPositions[v]);
-
-				if (!sptSet[v] && dist[u] != maxDIST && dist[u] + distUV < dist[v])
-				{
-					dist[v] = dist[u] + distUV;
-					parent[v] = u;
-				}
-			}
-				
-		}
-
-
-	}
-
-
-	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the mesh.
-	*
-	*	\param		[in]	inMesh					- input mesh.
-	*	\param		[in]	indexA					- source vertex index.
-	*	\param		[in]	indexB					- destination vertex index.
-	*	\param		[out]	edgePath				- container of edges of the shortest path.
-	*	\since version 0.0.1
-	*/
-	void shortestPath(zMesh &inMesh, int indexA, int indexB, vector<int> &edgePath)
-	{
-		edgePath.clear();
-
-		if (indexA >inMesh.vertexActive.size()) throw std::invalid_argument("indexA out of bounds.");
-		if (indexB >inMesh.vertexActive.size()) throw std::invalid_argument("indexB out of bounds.");
-
-		vector<float> dists;
-		vector<int> parent;
-
-		// get Dijkstra shortest distance spanning tree
-		shortestDistance(inMesh, indexA, dists, parent);
-
-		int id = indexB;
-
-		do
-		{
-			int nextId = parent[id];
-			if (nextId != -1)
-			{
-				// get the edge if it exists
-				int eId;
-				bool chkEdge = inMesh.edgeExists(id, nextId, eId);
-
-				if (chkEdge)
-				{
-					// update edge visits
-					edgePath.push_back(eId);
-				}
-			}
-
-
-			id = nextId;
-
-		} while (id != -1);
-
-	}
-
-	/*! \brief This method computes the shortest path from the all vertices to all vertices of a mesh and returns the number of times an edge is visited in those walks.
-	*
-	*	\param		[in]	inMesh					- input mesh.
-	*	\param		[out]	edgeVisited				- container of number of times edge is visited.
-	*	\since version 0.0.1
-	*/
-	void shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
-	{
-		edgeVisited.clear();
-
-		vector<bool> computeDone;
-
-		// initialise edge visits to 0
-		for (int i = 0; i < inMesh.numEdges(); i++)
-		{
-			edgeVisited.push_back(0);
-		}
-
-		// initialise compute done to false
-		for (int i = 0; i < inMesh.numVertices(); i++)
-		{
-			for (int j = 0; j < inMesh.numVertices(); j++)
-			{
-				if (j == i) computeDone.push_back(true);
-				else computeDone.push_back(false);
-			}
-		}
-
-		for (int i = 0; i < inMesh.numVertices(); i++)
-		{
-			vector<float> dists;
-			vector<int> parent;
-
-			// get Dijkstra shortest distance spanning tree
-			shortestDistance(inMesh, i, dists, parent);
-
-
-			// compute shortes path from all vertices to current vertex 
-			for (int j = 0; j < inMesh.numVertices(); j++)
-			{
-				int id = (i*inMesh.numVertices()) + j;
-
-				if (computeDone[id]) continue;
-
-				printf("\n total: %i source: %i  destination: %i ", inMesh.numVertices(), i, j);
-
-				vector<int> edgePath;
-				shortestPath(inMesh, i, j, edgePath);
-
-				for (int k = 0; k < edgePath.size(); k++)
-				{
-					// update edge visits
-					edgeVisited[edgePath[k]]++;
-
-					// adding to the other half edge
-					(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-				}
-
-				computeDone[id] = true;
-				computeDone[(j*inMesh.numVertices()) + i] = true;
-
-			}
 		}
 	}
 

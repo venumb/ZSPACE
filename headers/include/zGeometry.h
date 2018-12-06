@@ -12,5 +12,7 @@
 #include <headers/geometry/zMeshUtilities.h>
 #include <headers/geometry/zMeshModifiers.h>
 
+#include <headers/geometry/zGraphMeshUtilities.h>
+
 #include <headers/geometry/zField.h>
 #include <headers/geometry/zFieldUtilities.h>

@@ -52,6 +52,7 @@
     <ClInclude Include="..\headers\display\zPrintUtilities.h" />
     <ClInclude Include="..\headers\geometry\zGeometryDatatypes.h" />
     <ClInclude Include="..\headers\geometry\zGraph.h" />
+    <ClInclude Include="..\headers\geometry\zGraphMeshUtilities.h" />
     <ClInclude Include="..\headers\geometry\zGraphUtilities.h" />
     <ClInclude Include="..\headers\geometry\zMesh.h" />
     <ClInclude Include="..\headers\geometry\zMeshModifiers.h" />

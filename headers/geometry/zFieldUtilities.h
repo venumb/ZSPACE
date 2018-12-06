@@ -118,12 +118,12 @@ namespace zSpace
 	//----  2D SCALAR FIELD METHODS
 	//--------------------------
 
-	/*! \brief This method computes the filed index of each input position and stores them in a container per field index.
+	/*! \brief This method computes the field index of each input position and stores them in a container per field index.
 	*
 	*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
 	*	\param		[in]	inField				- input zField2D
 	*	\param		[in]	positions			- container of positions.
-	*	\param		[out]	fieldIndexPositions	- container of positions per field  index.
+	*	\param		[out]	fieldIndexPositions	- container of position per field  index.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
@@ -139,8 +139,34 @@ namespace zSpace
 		for (int i = 0; i < positions.size(); i++)
 		{
 			int fieldIndex = inField.getIndex(positions[i]);
-								
+
 			fieldIndexPositions[fieldIndex].push_back(positions[i]);
+		}
+	}
+
+	/*! \brief This method computes the field index of each input position and stores the indicies in a container per field index.
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param		[in]	inField				- input zField2D
+	*	\param		[in]	positions			- container of positions.
+	*	\param		[out]	fieldIndexPositions	- container of position indicies per field  index.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void computePositionsInFieldIndex(zField2D<T> &inField, vector<zVector> &positions, vector<vector<int>> &fieldIndexPositionIndicies)
+	{
+		for (int i = 0; i < inField.getNumFieldValues(); i++)
+		{
+			vector<zVector> temp;
+			fieldIndexPositions.push_back(temp);
+		}
+
+
+		for (int i = 0; i < positions.size(); i++)
+		{
+			int fieldIndex = inField.getIndex(positions[i]);
+								
+			fieldIndexPositions[fieldIndex].push_back(i);
 		}
 	}
 

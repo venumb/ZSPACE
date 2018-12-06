@@ -1142,6 +1142,7 @@ namespace zSpace
 		template <typename T>
 		void updateScalars_fromCSV(string infilename, vector<zVector> &dataPositions, vector<T> &data);
 
+
 		/*! \brief This method exports the relations from an OSM file to 3 CSV files.
 		*
 		*	\param		[in]	infilename						- input file name including the directory path and extension.
@@ -1351,38 +1352,37 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 
 		vector<string> perlineData = splitString(str, ",");
 		
-
+		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
 
-		for (int i = 0; i < perlineData.size(); i++)
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			// get data
+			string inData = (perlineData[2]);
 
-				// get data
-				string inData = (perlineData[2]);
+			data.push_back(inData);
 
-				data.push_back(inData);
+			double weight;
+			weight = scalarfield.getFieldValue(fieldIndex);
+			weight++;
 
-				double weight;
-				weight = scalarfield.getFieldValue(fieldIndex);
-				weight++;
-				
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-			}
-
-
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 		}
+			
+
+
+
+	
 
 	}
 
@@ -1416,36 +1416,38 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+		
+		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
+		
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
 
-		for (int i = 0; i < perlineData.size(); i++)
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			// get data
+			double inData = atof(perlineData[2].c_str());
 
-				// get data
-				double inData = atof(perlineData[2].c_str());
+			data.push_back(inData);
 
-				data.push_back(inData);
+			double weight;
+			weight = inData;;
 
-				double weight;
-				weight = inData;;				
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-			}
-
-
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 		}
+		
+			
+
+
+
+		
 
 	}
 
@@ -1479,36 +1481,33 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
+		
+		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
 
-		for (int i = 0; i < perlineData.size(); i++)
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			// get data
+			double inData = atof(perlineData[2].c_str());
 
-				// get data
-				double inData = atof(perlineData[2].c_str());
+			data.push_back(inData);
 
-				data.push_back(inData);
+			double weight;
+			weight = inData;;
 
-				double weight;
-				weight = inData;;
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-			}
-
-
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 		}
+			
 
 	}
 
@@ -1542,35 +1541,30 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 		getline(myfile, str);
 
 		vector<string> perlineData = splitString(str, ",");
-
+		
+		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
 
-		for (int i = 0; i < perlineData.size(); i++)
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			// get data
+			double inData = atoi(perlineData[2].c_str());
 
-				// get data
-				double inData = atoi(perlineData[2].c_str());
+			data.push_back(inData);
 
-				data.push_back(inData);
+			double weight;
+			weight = inData;;
 
-				double weight;
-				weight = inData;;
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-			}
-
-
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 		}
 
@@ -1609,41 +1603,40 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;		
 
-		for (int i = 0; i < perlineData.size(); i++)
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+
+
+
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
 
-			
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
+			dataPositions.push_back(pos);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
-				
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
-				dataPositions.push_back(pos);
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			// get data
+			string inData = (perlineData[2]);
 
-				// get data
-				string inData = (perlineData[2]);
+			data.push_back(inData);
 
-				data.push_back(inData);
+			double weight;
+			weight = scalarfield.getFieldValue(fieldIndex);
+			weight++;
 
-				double weight;
-				weight = scalarfield.getFieldValue(fieldIndex);
-				weight++;
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-
-
-			}
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 
 
 		}
+			
+
+
+
+		
 
 	}
 
@@ -1677,40 +1670,34 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
 
-		for (int i = 0; i < perlineData.size(); i++)
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
 
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
+			dataPositions.push_back(pos);
 
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
+			// get data
+			double inData = atof(perlineData[2].c_str());
 
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
-				dataPositions.push_back(pos);
+			data.push_back(inData);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			double weight;
+			weight = inData;;
 
-				// get data
-				double inData = atof(perlineData[2].c_str());
-
-				data.push_back(inData);
-
-				double weight;
-				weight = inData;;
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-
-
-			}
-
-
-
+			scalarfield.setFieldValue(weight, fieldIndex);
 		}
+			
+
+
+
+		
 
 	}
 
@@ -1744,40 +1731,35 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
 
-		for (int i = 0; i < perlineData.size(); i++)
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+
+
+
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
 
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
+			dataPositions.push_back(pos);
 
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
+			// get data
+			double inData = atof(perlineData[2].c_str());
 
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
-				dataPositions.push_back(pos);
+			data.push_back(inData);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			double weight;
+			weight = inData;;
 
-				// get data
-				double inData = atof(perlineData[2].c_str());
-
-				data.push_back(inData);
-
-				double weight;
-				weight = inData;;
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-
-
-			}
-
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 
 		}
+			
+
 
 	}
 
@@ -1811,36 +1793,29 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 		if (perlineData.size() != 3) continue;
 		if (perlineData[0] == " ") continue;
 
-		for (int i = 0; i < perlineData.size(); i++)
+		
+		double lat = atof(perlineData[0].c_str());
+		double lon = atof(perlineData[1].c_str());
+		
+		if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
 		{
-			double lat = atof(perlineData[0].c_str());
-			double lon = atof(perlineData[1].c_str());
 
+			// get mapped position
+			zVector pos = fromCoordinates(lat, lon);
+			dataPositions.push_back(pos);
 
+			// get field index
+			int fieldIndex = scalarfield.getIndex(pos);
 
-			if (lat >= lat_lon[0] && lat <= lat_lon[2] && lon >= lat_lon[1] && lon <= lat_lon[3])
-			{
+			// get data
+			double inData = atoi(perlineData[2].c_str());
 
-				// get mapped position
-				zVector pos = fromCoordinates(lat, lon);
-				dataPositions.push_back(pos);
+			data.push_back(inData);
 
-				// get field index
-				int fieldIndex = scalarfield.getIndex(pos);
+			double weight;
+			weight = inData;;
 
-				// get data
-				double inData = atoi(perlineData[2].c_str());
-
-				data.push_back(inData);
-
-				double weight;
-				weight = inData;;
-
-				scalarfield.setFieldValue(weight, fieldIndex);
-
-
-
-			}
+			scalarfield.setFieldValue(weight, fieldIndex);
 
 
 

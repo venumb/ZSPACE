@@ -57,8 +57,7 @@ namespace zSpace
 	*	\param		[in]		col			- color of the line.
 	*	\param		[in]		wt			- weight of the line.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void drawLine(zVector &p0, zVector &p1, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 	 {
 		 glColor3f(col.r, col.g, col.b);
@@ -73,6 +72,65 @@ namespace zSpace
 		 glColor3f(0, 0, 1);
 
 	 }
+
+	/*! \brief This method draws a poly-circle on the XY Plane given input center, radius and number of points.
+	*	\param		[in]		c0			- center of circle.
+	*	\param		[in]		numPoints	- number of points in the the circle.
+	*	\param		[in]		radius		- radius of circle.
+	*	\param		[in]		dispLines	- draws lines if true, else displays points.
+	*	\param		[in]		col			- color of the circle.
+	*	\param		[in]		wt			- weight of the circle.
+	*	\since version 0.0.1
+	*/
+	void drawCircle(zVector &c0, int numPoints = 16, double radius = 1, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+	{
+		vector<zVector> circlePts;
+		double theta = 0;
+
+		for (int i = 0; i < numPoints+1; i++)
+		{
+			zVector pos; 
+			pos.x =  radius * cos(theta);
+			pos.y =  radius * sin(theta);
+
+			pos += c0;
+
+			circlePts.push_back(pos);
+			
+			theta += (TWO_PI / numPoints);
+		}
+
+		for (int i = 0; i < circlePts.size(); i++)
+		{
+			if (dispLines) drawLine(circlePts[i], circlePts[(i + 1) % circlePts.size()], col, wt);
+			else drawPoint(circlePts[i], col, wt);
+		}
+	
+
+	}
+
+	/*! \brief This method draws a rectangle on the XY Plane given input bound vectors.
+	*	\param		[in]		minBB		- min bounds of the rectangle.
+	*	\param		[in]		maxBB		- max bounds of the rectangle.
+	*	\param		[in]		col			- color of the rectangle.
+	*	\param		[in]		wt			- weight of the rectangle.
+	*	\since version 0.0.1
+	*/
+	void drawRectangle(zVector &minBB, zVector &maxBB, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+	{
+		
+		zVector p0(minBB.x, minBB.y, minBB.z);
+		zVector p1(minBB.x, maxBB.y, minBB.z);
+		zVector p2(maxBB.x, maxBB.y, minBB.z);
+		zVector p3(maxBB.x, minBB.y, minBB.z);
+		
+
+		drawLine(p0, p1, col, wt);
+		drawLine(p1, p2, col, wt);
+		drawLine(p2, p3, col, wt);
+		drawLine(p3, p0, col, wt);
+
+	}
 
 	/*! \brief This method displays the a face of zMesh.
 	*

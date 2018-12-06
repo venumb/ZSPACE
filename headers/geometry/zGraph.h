@@ -534,8 +534,12 @@ namespace zSpace
 		{
 			bool out = false;;
 
+			double factor = pow(10, 3);
+			double x = round(pos.x *factor) / factor;
+			double y = round(pos.y *factor) / factor;
+			double z = round(pos.z *factor) / factor;
 
-			string hashKey = (to_string(pos.x) + "," + to_string(pos.y) + "," + to_string(pos.z));
+			string hashKey = (to_string(x) + "," + to_string(y) + "," + to_string(z));
 			std::unordered_map<std::string, int>::const_iterator got = positionVertex.find(hashKey);
 
 

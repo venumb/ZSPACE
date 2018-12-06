@@ -1,5 +1,6 @@
 #pragma once
 #include <headers/geometry/zMesh.h>
+#include <headers/geometry/zGraphMeshUtilities.h>
 #include <headers/geometry/zMeshUtilities.h>
 
 
