@@ -5,7 +5,7 @@ digraph "zSpace::combineDisjointMesh"
   rankdir="LR";
   Node0 [label="zSpace::combineDisjointMesh",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="zSpace::computePolyConnects\l_PolyCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga1311698c2fce00e59bcfafcbfb29a29e",tooltip="This method sets vertex color of all the vertices to the input color. "];
+  Node1 [label="zSpace::computePolyConnects\l_PolyCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga1311698c2fce00e59bcfafcbfb29a29e",tooltip="This method stores input mesh connectivity information in the input containers. "];
   Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="zSpace::zMesh::getVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b",tooltip="This method gets the vertices attached to input zEdge or zFace. "];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

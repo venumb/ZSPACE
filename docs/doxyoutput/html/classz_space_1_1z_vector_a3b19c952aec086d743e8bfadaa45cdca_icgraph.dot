@@ -7,7 +7,7 @@ digraph "zSpace::zVector::distanceTo"
   Node20 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node21 [label="zSpace::minDist_Edge\l_Point",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e",tooltip="This method computes the minimum distance between a point and edge and the closest Point on the edge..."];
   Node21 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node22 [label="zSpace::assignScalarsAsVertex\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921",tooltip="This method creates a vertex distance Field from the input mesh vertex positions. ..."];
+  Node22 [label="zSpace::assignScalarsAsVertex\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921",tooltip="This method creates a vertex distance Field from the input mesh vertex positions. ..."];
   Node21 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node23 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh. "];
+  Node23 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh. "];
 }

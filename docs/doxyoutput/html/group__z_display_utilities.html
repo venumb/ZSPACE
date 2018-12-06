@@ -112,6 +112,12 @@ Functions</h2></td></tr>
 <tr class="memitem:gaec82cd49ab7e71265e211454bf3f721b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_display_utilities.html#gaec82cd49ab7e71265e211454bf3f721b">zSpace::drawLine</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;p1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> col=<a class="el" href="classz_space_1_1z_color.html">zColor</a>(0, 0, 0, 1), double wt=1)</td></tr>
 <tr class="memdesc:gaec82cd49ab7e71265e211454bf3f721b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method draws a line between the given two points.  <a href="group__z_display_utilities.html#gaec82cd49ab7e71265e211454bf3f721b">More...</a><br /></td></tr>
 <tr class="separator:gaec82cd49ab7e71265e211454bf3f721b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaff155f616638d3e5e8de07c441d2ade5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_display_utilities.html#gaff155f616638d3e5e8de07c441d2ade5">zSpace::drawCircle</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;c0, int numPoints=16, double radius=1, bool dispLines=true, <a class="el" href="classz_space_1_1z_color.html">zColor</a> col=<a class="el" href="classz_space_1_1z_color.html">zColor</a>(0, 0, 0, 1), double wt=1)</td></tr>
+<tr class="memdesc:gaff155f616638d3e5e8de07c441d2ade5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method draws a poly-circle on the XY Plane given input center, radius and number of points.  <a href="group__z_display_utilities.html#gaff155f616638d3e5e8de07c441d2ade5">More...</a><br /></td></tr>
+<tr class="separator:gaff155f616638d3e5e8de07c441d2ade5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a98547837cb532b2a6ec8f604afc150"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_display_utilities.html#ga0a98547837cb532b2a6ec8f604afc150">zSpace::drawRectangle</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB, <a class="el" href="classz_space_1_1z_color.html">zColor</a> col=<a class="el" href="classz_space_1_1z_color.html">zColor</a>(0, 0, 0, 1), double wt=1)</td></tr>
+<tr class="memdesc:ga0a98547837cb532b2a6ec8f604afc150"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method draws a rectangle on the XY Plane given input bound vectors.  <a href="group__z_display_utilities.html#ga0a98547837cb532b2a6ec8f604afc150">More...</a><br /></td></tr>
+<tr class="separator:ga0a98547837cb532b2a6ec8f604afc150"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad14784b04e32ec43250c2c69fbe69505"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_display_utilities.html#gad14784b04e32ec43250c2c69fbe69505">zSpace::drawPolygon</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;pos, <a class="el" href="classz_space_1_1z_color.html">zColor</a> col=<a class="el" href="classz_space_1_1z_color.html">zColor</a>(0.5, 0.5, 0.5, 1))</td></tr>
 <tr class="memdesc:gad14784b04e32ec43250c2c69fbe69505"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method displays the a face of <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a>.  <a href="group__z_display_utilities.html#gad14784b04e32ec43250c2c69fbe69505">More...</a><br /></td></tr>
 <tr class="separator:gad14784b04e32ec43250c2c69fbe69505"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,6 +153,81 @@ Functions</h2></td></tr>
 <p>Collection of methods for console printing. </p>
 <p>It uses OPENGL framework for the display operations. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gaff155f616638d3e5e8de07c441d2ade5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaff155f616638d3e5e8de07c441d2ade5">&#9670;&nbsp;</a></span>drawCircle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::drawCircle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>c0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numPoints</em> = <code>16</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radius</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>dispLines</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td>
+          <td class="paramname"><em>col</em> = <code><a class="el" href="classz_space_1_1z_color.html">zColor</a>(0,&#160;0,&#160;0,&#160;1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wt</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method draws a poly-circle on the XY Plane given input center, radius and number of points. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">c0</td><td>- center of circle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numPoints</td><td>- number of points in the the circle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">radius</td><td>- radius of circle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dispLines</td><td>- draws lines if true, else displays points. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- color of the circle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">wt</td><td>- weight of the circle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00085">85</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_display_utilities_gaff155f616638d3e5e8de07c441d2ade5_cgraph.png" border="0" usemap="#group__z_display_utilities_gaff155f616638d3e5e8de07c441d2ade5_cgraph" alt=""/></div>
+<map name="group__z_display_utilities_gaff155f616638d3e5e8de07c441d2ade5_cgraph" id="group__z_display_utilities_gaff155f616638d3e5e8de07c441d2ade5_cgraph">
+</map>
+</div>
+
+</div>
+</div>
 <a id="ga19e4aa1b12bc2b30484025feecb7554c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga19e4aa1b12bc2b30484025feecb7554c">&#9670;&nbsp;</a></span>drawGraph()</h2>
 
@@ -190,7 +271,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00104">104</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00162">162</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -251,7 +332,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00062">62</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00061">61</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -298,7 +379,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00395">395</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00453">453</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -352,7 +433,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00163">163</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00221">221</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -406,7 +487,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00252">252</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00310">310</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -460,7 +541,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00313">313</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00371">371</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -507,7 +588,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00285">285</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00343">343</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -610,7 +691,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00359">359</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00417">417</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -650,7 +731,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00084">84</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00142">142</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -697,7 +778,68 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00462">462</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00520">520</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga0a98547837cb532b2a6ec8f604afc150"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0a98547837cb532b2a6ec8f604afc150">&#9670;&nbsp;</a></span>drawRectangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::drawRectangle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>minBB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>maxBB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td>
+          <td class="paramname"><em>col</em> = <code><a class="el" href="classz_space_1_1z_color.html">zColor</a>(0,&#160;0,&#160;0,&#160;1)</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>wt</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method draws a rectangle on the XY Plane given input bound vectors. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">minBB</td><td>- min bounds of the rectangle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxBB</td><td>- max bounds of the rectangle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">col</td><td>- color of the rectangle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">wt</td><td>- weight of the rectangle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00119">119</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_display_utilities_ga0a98547837cb532b2a6ec8f604afc150_cgraph.png" border="0" usemap="#group__z_display_utilities_ga0a98547837cb532b2a6ec8f604afc150_cgraph" alt=""/></div>
+<map name="group__z_display_utilities_ga0a98547837cb532b2a6ec8f604afc150_cgraph" id="group__z_display_utilities_ga0a98547837cb532b2a6ec8f604afc150_cgraph">
+</map>
+</div>
 
 </div>
 </div>
@@ -737,7 +879,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00429">429</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_display_utilities_8h_source.html#l00487">487</a> of file <a class="el" href="z_display_utilities_8h_source.html">zDisplayUtilities.h</a>.</p>
 
 </div>
 </div>

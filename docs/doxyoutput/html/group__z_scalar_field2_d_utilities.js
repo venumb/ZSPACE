@@ -7,6 +7,7 @@ var group__z_scalar_field2_d_utilities =
     [ "assignScalarsAsVertexDistance", "group__z_scalar_field2_d_utilities.html#ga6bd2bfb390e165891bde9b17d973fdd2", null ],
     [ "clipwithPlane", "group__z_scalar_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6", null ],
     [ "computePositionsInFieldIndex", "group__z_scalar_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b", null ],
+    [ "computePositionsInFieldIndex", "group__z_scalar_field2_d_utilities.html#ga678dd964a37ed7b5eb8303df2c5952e1", null ],
     [ "difference_fields", "group__z_scalar_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278", null ],
     [ "fromField2D", "group__z_scalar_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802", null ],
     [ "getContourPosition", "group__z_scalar_field2_d_utilities.html#ga7b6e4a8f51dba83412e13209ab1f4193", null ],

@@ -1,5 +1,6 @@
 var z_display_utilities_8h =
 [
+    [ "drawCircle", "z_display_utilities_8h.html#gaff155f616638d3e5e8de07c441d2ade5", null ],
     [ "drawGraph", "z_display_utilities_8h.html#ga19e4aa1b12bc2b30484025feecb7554c", null ],
     [ "drawLine", "z_display_utilities_8h.html#gaec82cd49ab7e71265e211454bf3f721b", null ],
     [ "drawLinesFromBuffer", "z_display_utilities_8h.html#gab4216758386b722eca9fb84d9ae5553e", null ],
@@ -11,5 +12,6 @@ var z_display_utilities_8h =
     [ "drawPointsFromBuffer", "z_display_utilities_8h.html#gab6231c27a907a604fc8015bb198b8a71", null ],
     [ "drawPolygon", "z_display_utilities_8h.html#gad14784b04e32ec43250c2c69fbe69505", null ],
     [ "drawQuadsFromBuffer", "z_display_utilities_8h.html#ga54bff62f190e84d27a291acdc9d86cd7", null ],
+    [ "drawRectangle", "z_display_utilities_8h.html#ga0a98547837cb532b2a6ec8f604afc150", null ],
     [ "drawTrianglesFromBuffer", "z_display_utilities_8h.html#gad945bdd143687fe9c6bf5e5ae9c9a38e", null ]
 ];

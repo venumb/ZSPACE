@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['walkingdistance',['walkingDistance',['../group__z_graph_utilities.html#gafd378ff769dac616752ca4857a82d9f5',1,'zSpace']]]
+  ['walkingdistance',['walkingDistance',['../group__z_graph_mesh_utilities.html#gac5f1bcc96e1afa320c8bf56b58b40af8',1,'zSpace']]]
 ];

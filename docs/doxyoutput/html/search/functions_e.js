@@ -29,9 +29,11 @@ var searchData=
   ['setvertexcolors',['setVertexColors',['../group__z_graph_utilities.html#gaa088392382ec3b36cc77066a4392349c',1,'zSpace::setVertexColors(zGraph &amp;ingraph, vector&lt; zColor &gt; &amp;col, bool setEdgeColor)'],['../group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7',1,'zSpace::setVertexColors(zMesh &amp;inMesh, vector&lt; zColor &gt; &amp;col, bool setFaceColor=false)']]],
   ['setvertexid',['setVertexId',['../classz_space_1_1z_vertex.html#acdc6ae4132453c803268949dcc104df1',1,'zSpace::zVertex']]],
   ['setzero',['setZero',['../classz_space_1_1z_matrix.html#a0c99ec33a4f87ef9b7d0d8df37fb7299',1,'zSpace::zMatrix']]],
-  ['shortestdistance',['shortestDistance',['../group__z_graph_utilities.html#gac451c64cc2f99f8c743332bdcd1a97c0',1,'zSpace::shortestDistance(zGraph &amp;inGraph, int index, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent)'],['../group__z_mesh_utilities.html#ga5068fb2a4e28b0470ed20ad483ce8d25',1,'zSpace::shortestDistance(zMesh &amp;inMesh, int index, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent)']]],
-  ['shortestpath',['shortestPath',['../group__z_graph_utilities.html#gac71495a08e215c7e886b989bebaee053',1,'zSpace::shortestPath(zGraph &amp;inGraph, int indexA, int indexB, vector&lt; int &gt; &amp;edgePath)'],['../group__z_mesh_utilities.html#ga0fc4786ce92f8d9cc833dc7b4a5f0004',1,'zSpace::shortestPath(zMesh &amp;inMesh, int indexA, int indexB, vector&lt; int &gt; &amp;edgePath)']]],
-  ['shortestpathwalks',['shortestPathWalks',['../group__z_graph_utilities.html#gac6d2ed4a56f24d0a48bc41967e9612ce',1,'zSpace::shortestPathWalks(zGraph &amp;inGraph, vector&lt; int &gt; &amp;edgeVisited)'],['../group__z_mesh_utilities.html#ga4a81498a7b711e05d33acf06bc2d5e3e',1,'zSpace::shortestPathWalks(zMesh &amp;inMesh, vector&lt; int &gt; &amp;edgeVisited)']]],
+  ['shortestdistance',['shortestDistance',['../group__z_graph_mesh_utilities.html#ga1ac292244338c6d16bf2951f8e2350a1',1,'zSpace']]],
+  ['shortestpath',['shortestPath',['../group__z_graph_mesh_utilities.html#ga2aa441c4310eb6047263f94c7872ac23',1,'zSpace']]],
+  ['shortestpathwalks',['shortestPathWalks',['../group__z_graph_mesh_utilities.html#gab18e2165cef96dfbf630a487ccceb92b',1,'zSpace']]],
+  ['shortestpathwalks_5fsourcetoall',['shortestPathWalks_SourceToAll',['../group__z_graph_mesh_utilities.html#ga1449469f2adf9dcd1087acb8cd1c593e',1,'zSpace']]],
+  ['shortestpathwalks_5fsourcetoothersource',['shortestPathWalks_SourceToOtherSource',['../group__z_graph_mesh_utilities.html#ga98e94e63a237e40f7843ede1be794979',1,'zSpace']]],
   ['smoothcolors',['smoothColors',['../classz_space_1_1z_mesh.html#a63e68abd857c24a63ad06d426b112d11',1,'zSpace::zMesh']]],
   ['splitedge',['splitEdge',['../group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24',1,'zSpace']]],
   ['splitfaces',['splitFaces',['../group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80',1,'zSpace']]],
@@ -39,5 +41,5 @@ var searchData=
   ['splitstring',['splitString',['../group__z_core_utilities.html#ga4632c0bf9aaa9b88d6e928244a77cda5',1,'zSpace']]],
   ['sqlcommand',['sqlCommand',['../classz_space_1_1z_database.html#a4d5d00809e93cd250637d53432d2513e',1,'zSpace::zDatabase']]],
   ['subdividemesh',['subDivideMesh',['../group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760',1,'zSpace']]],
-  ['subtract_5ffields',['subtract_fields',['../group__z_scalar_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611',1,'zSpace']]]
+  ['subtract_5ffields',['subtract_fields',['../group__z_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611',1,'zSpace']]]
 ];

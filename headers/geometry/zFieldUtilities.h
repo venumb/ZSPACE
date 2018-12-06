@@ -14,7 +14,7 @@ namespace zSpace
 	*/
 
 	/** \addtogroup zGeometryUtilities
-	*	\brief Collection of utility methods for graphs, meshes and scalarfields.
+	*	\brief Collection of utility methods for graphs, meshes and fields.
 	*  @{
 	*/
 
@@ -80,8 +80,8 @@ namespace zSpace
 	
 	
 	
-	/** \addtogroup zScalarField2DUtilities
-	*	\brief Collection of utility methods for scalar fields 2D.
+	/** \addtogroup zField2DUtilities
+	*	\brief Collection of utility methods for fields 2D.
 	*  @{
 	*/	
 
@@ -2606,9 +2606,14 @@ namespace zSpace
 }
 
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 //--------------------------
 //---- TEMPLATE SPECIALIZATION DEFINITIONS 
 //--------------------------
+
+
+//---------------//
 
 //---- idw_DistanceTo  mesh specialization
 
@@ -2670,6 +2675,7 @@ double zSpace::idw_DistanceTo(zVector& point, int& constant)
 	return constant;
 }
 
+//---------------//
 
 
 //---- idw_ValueAt double specialization
@@ -2731,3 +2737,7 @@ zSpace::zVector zSpace::idw_ValueAt( zVector point, zVector& value, double& infl
 
 	return (wsum > 0.0) ? sum / wsum : zVector();
 }
+
+//---------------//
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */

@@ -3,10 +3,7 @@ var group__z_mesh_utilities =
     [ "combineDisjointMesh", "group__z_mesh_utilities.html#ga4db96d817f6d701261569fd42594ea8b", null ],
     [ "computePolyConnects_PolyCount", "group__z_mesh_utilities.html#ga1311698c2fce00e59bcfafcbfb29a29e", null ],
     [ "extrudeMesh", "group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8", null ],
-    [ "getCenters", "group__z_mesh_utilities.html#ga826208b35103e15619810111bc0816fa", null ],
     [ "getEdgeDihedralAngles", "group__z_mesh_utilities.html#gaf531920d8d86c1c508bec8c71d5d9954", null ],
-    [ "getEdgeLengthDomain", "group__z_mesh_utilities.html#ga635266671a0649c47f02211fccab75fc", null ],
-    [ "getEdgeLengths", "group__z_mesh_utilities.html#ga2079033806dcb822adcd8d9e6e92ae45", null ],
     [ "getPrincipalCurvature", "group__z_mesh_utilities.html#ga1e60d7d324e3a491f9e60060fa3258e2", null ],
     [ "getVertexArea", "group__z_mesh_utilities.html#gad8b0ab5019853bb7e4851014310554d0", null ],
     [ "offsetMeshFace", "group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1", null ],
@@ -17,8 +14,5 @@ var group__z_mesh_utilities =
     [ "setFaceNormals", "group__z_mesh_utilities.html#ga85fbc73b08a0aea238561b81be8efeaa", null ],
     [ "setVertexColor", "group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9", null ],
     [ "setVertexColors", "group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7", null ],
-    [ "shortestDistance", "group__z_mesh_utilities.html#ga5068fb2a4e28b0470ed20ad483ce8d25", null ],
-    [ "shortestPath", "group__z_mesh_utilities.html#ga0fc4786ce92f8d9cc833dc7b4a5f0004", null ],
-    [ "shortestPathWalks", "group__z_mesh_utilities.html#ga4a81498a7b711e05d33acf06bc2d5e3e", null ],
     [ "transformMesh", "group__z_mesh_utilities.html#ga6fa4734567c66b681445d824d6b76ab8", null ]
 ];

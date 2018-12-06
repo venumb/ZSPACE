@@ -5,7 +5,7 @@ digraph "zSpace::zOpenStreet::fieldFromBounds"
   rankdir="LR";
   Node50 [label="zSpace::zOpenStreet\l::fieldFromBounds",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node50 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node51 [label="zSpace::fromField2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_scalar_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802",tooltip="This method creates a mesh from the input scalar field. "];
+  Node51 [label="zSpace::fromField2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802",tooltip="This method creates a mesh from the input scalar field. "];
   Node51 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node52 [label="zSpace::zField2D::getUnit\lDistances",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#ab590568f512f105d15af28c67cbcc3ed",tooltip="This method gets the unit distances of the field. "];
   Node51 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

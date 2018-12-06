@@ -1318,13 +1318,14 @@ namespace zSpace
 }
 
 
-
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------
 //---- TEMPLATE SPECIALIZATION DEFINITIONS 
 //--------------------------
 
-//---- string specialization
+//---------------//
+//---- string specialization for updateScalars_fromCSV 
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string> &data)
 {
@@ -1389,7 +1390,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 	myfile.close();
 }
 
-//---- double specialization
+//---- double specialization for updateScalars_fromCSV 
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double> &data)
 {
@@ -1454,7 +1455,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 	myfile.close();
 }
 
-//---- float specialization
+//---- float specialization for updateScalars_fromCSV 
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float> &data)
 {
@@ -1514,7 +1515,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 	myfile.close();
 }
 
-//---- int specialization
+//---- int specialization for updateScalars_fromCSV 
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &data)
 {
@@ -1573,10 +1574,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 	myfile.close();
 }
 
+//---------------//
 
 
-
-//---- string specialization
+//---- string specialization for updateScalars_fromCSV  with datapositions
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpace::zVector> &dataPositions, vector<string> &data)
 {
@@ -1643,7 +1644,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 	myfile.close();
 }
 
-//---- double specialization
+//---- double specialization for updateScalars_fromCSV  with datapositions
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<double> &data)
 {
@@ -1704,7 +1705,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 	myfile.close();
 }
 
-//---- float specialization
+//---- float specialization for updateScalars_fromCSV  with datapositions
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<float> &data)
 {
@@ -1766,7 +1767,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 	myfile.close();
 }
 
-//---- int specialization
+//---- int specialization for updateScalars_fromCSV  with datapositions
 template <>
 void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<int> &data)
 {
@@ -1826,6 +1827,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 	myfile.close();
 }
 
+//---------------//
 
 
-
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */

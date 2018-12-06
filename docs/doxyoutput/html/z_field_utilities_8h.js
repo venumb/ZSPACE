@@ -7,6 +7,7 @@ var z_field_utilities_8h =
     [ "assignScalarsAsVertexDistance", "z_field_utilities_8h.html#ga6bd2bfb390e165891bde9b17d973fdd2", null ],
     [ "clipwithPlane", "z_field_utilities_8h.html#gaca32f244ab7a2dbd98378990ec1edfa6", null ],
     [ "computePositionsInFieldIndex", "z_field_utilities_8h.html#ga77605acb8c8722a5914d6aa834df482b", null ],
+    [ "computePositionsInFieldIndex", "z_field_utilities_8h.html#ga678dd964a37ed7b5eb8303df2c5952e1", null ],
     [ "difference_fields", "z_field_utilities_8h.html#ga19783b321eeeebfef2f3d5a0388c2278", null ],
     [ "F_of_r", "z_field_utilities_8h.html#gae517a8c132412ab539812a48edf9e97c", null ],
     [ "fromField2D", "z_field_utilities_8h.html#ga963ebae1f0956162a52d4d78639a5802", null ],

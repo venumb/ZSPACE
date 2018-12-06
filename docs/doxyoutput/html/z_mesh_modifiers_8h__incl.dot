@@ -72,6 +72,10 @@ digraph "C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/geometry/zMeshModifie
   Node29 [label="headers/geometry/zGraphUtilities.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_graph_utilities_8h.html"];
   Node29 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node0 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node30 [label="headers/geometry/zMeshUtilities.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_mesh_utilities_8h.html"];
+  Node30 [label="headers/geometry/zGraphMesh\lUtilities.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_graph_mesh_utilities_8h.html"];
+  Node30 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node30 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="headers/geometry/zMeshUtilities.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_mesh_utilities_8h.html"];
+  Node31 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

@@ -12,7 +12,7 @@ namespace zSpace
 */
 
 /** \addtogroup zGeometryUtilities
-*	\brief Collection of utility methods for graphs, meshes and scalarfields.
+*	\brief Collection of utility methods for graphs, meshes and fields.
 *  @{
 */
 
