@@ -384,9 +384,7 @@ namespace zSpace
 
 		return totalArea;
 	}
-
-
-
+	
 	//--------------------------
 	//--- UTILITY METHODS 
 	//--------------------------

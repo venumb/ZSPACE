@@ -98,6 +98,13 @@ namespace zSpace
 
 	enum zDatatypes { zInt = 110, zFloat, zDouble, zString };
 
+	/*! \enum	zDatatypes
+	*	\brief	Grid levels for data in London.
+	*	\since	version 0.0.1
+	*/
+
+	enum zWalkType { zEdgePath = 120, zEdgeVisited};
+
 
 	/** @}*/
 

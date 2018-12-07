@@ -63,6 +63,20 @@ namespace zSpace
 	template<typename T>
 	void shortestDistance(T &inHEDataStructure, int index, vector<float> &dist, vector<int> &parent);
 
+	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh. The distance and parent containers need to be computed before using the shortest distance method.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[in]	indexA					- source vertex index.
+	*	\param		[in]	indexB					- destination vertex index.
+	*	\param		[in]	dist					- container of shortest distances to each vertex from the source. To be computed using the shortest distance method.
+	*	\param		[in]	parent					- container of parent to each vertex. To be computed using the shortest distance method.
+	*	\param		[in]	type					- zWalkType - zEdgePath or zEdgeVisited.
+	*	\param		[out]	edgePath				- container of edges of the shortest path.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	void shortestPath_DistanceParent(T &inHEDataStructure, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath);
 
 	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.
 	*
@@ -74,7 +88,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPath(T &inHEDataStructure, int indexA, int indexB, vector<int> &edgePath);
+	void shortestPath(T &inHEDataStructure, int indexA, int indexB, zWalkType type, vector<int> &edgePath);
 
 	/*! \brief This method computes the shortest path from the all vertices to all vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 	*
@@ -425,9 +439,129 @@ void  zSpace::shortestDistance(zMesh &inMesh, int index, vector<float> &dist, ve
 
 //---- graph specilization for shortestPath
 template<>
-void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, vector<int> &edgePath)
+void zSpace::shortestPath_DistanceParent(zGraph &inGraph, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath)
 {
-	edgePath.clear();
+	vector<int> tempEdgePath;
+
+	if (indexA >inGraph.vertexActive.size()) throw std::invalid_argument("indexA out of bounds.");
+	if (indexB >inGraph.vertexActive.size()) throw std::invalid_argument("indexB out of bounds.");
+
+	int id = indexB;
+
+	do
+	{
+		int nextId = parent[id];
+		if (nextId >= 0)
+		{
+			// get the edge if it exists
+			int eId;
+			bool chkEdge = inGraph.edgeExists(id, nextId, eId);
+
+			if (chkEdge)
+			{
+				// update edge visits
+				tempEdgePath.push_back(eId);
+			}
+		}
+
+
+		id = nextId;
+
+	} while (id >= 0);
+
+
+	if (id == -1)
+	{
+		if (type == zEdgeVisited)
+		{
+			for (int i = 0; i < tempEdgePath.size(); i++)
+			{
+				edgePath[tempEdgePath[i]] ++;
+
+				int symEdge = inGraph.edges[tempEdgePath[i]].getSym()->getEdgeId();
+				edgePath[symEdge] ++;
+			}
+		}
+
+		if (type == zEdgePath)
+		{
+			edgePath.clear();
+			edgePath = tempEdgePath;
+		}
+
+	}
+	else
+	{
+		printf("\n shortest path between %i & %i doesnt exists as they are part of disconnected graph. ");
+	}
+}
+
+//---- mesh specilization for shortestPath
+template<>
+void zSpace::shortestPath_DistanceParent(zMesh &inMesh, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath)
+{
+	vector<int> tempEdgePath;
+
+	if (indexA >inMesh.vertexActive.size()) throw std::invalid_argument("indexA out of bounds.");
+	if (indexB >inMesh.vertexActive.size()) throw std::invalid_argument("indexB out of bounds.");
+
+	int id = indexB;
+
+	do
+	{
+		int nextId = parent[id];
+		if (nextId >= 0)
+		{
+			// get the edge if it exists
+			int eId;
+			bool chkEdge = inMesh.edgeExists(id, nextId, eId);
+
+			if (chkEdge)
+			{
+				// update edge visits
+				tempEdgePath.push_back(eId);
+			}
+		}
+
+
+		id = nextId;
+
+	} while (id >= 0);
+
+
+	if (id == -1)
+	{
+		if (type == zEdgeVisited)
+		{
+			for (int i = 0; i < tempEdgePath.size(); i++)
+			{
+				edgePath[tempEdgePath[i]] ++;
+
+				int symEdge = inMesh.edges[tempEdgePath[i]].getSym()->getEdgeId();
+				edgePath[symEdge] ++;
+			}
+		}
+
+		if (type == zEdgePath)
+		{
+			edgePath.clear();
+			edgePath = tempEdgePath;
+		}
+
+	}
+	else
+	{
+		printf("\n shortest path between %i & %i doesnt exists as they are part of disconnected mesh. ");
+	}
+}
+
+//---------------//
+
+//---- graph specilization for shortestPath
+template<>
+void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, zWalkType type, vector<int> &edgePath )
+{
+	
 
 	vector<int> tempEdgePath;
 
@@ -466,7 +600,23 @@ void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, vector<int> &
 
 	if (id == -1)
 	{
-		edgePath = tempEdgePath;
+		if (type == zEdgeVisited)
+		{
+			for (int i = 0; i < tempEdgePath.size(); i++)
+			{
+				edgePath[tempEdgePath[i]] ++;
+
+				int symEdge = inGraph.edges[tempEdgePath[i]].getSym()->getEdgeId();
+				edgePath[symEdge] ++;
+			}
+		}
+
+		if (type == zEdgePath)
+		{
+			edgePath.clear();
+			edgePath = tempEdgePath;
+		}
+			
 	}
 	else
 	{
@@ -476,9 +626,9 @@ void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, vector<int> &
 
 //---- mesh specilization for shortestPath
 template<>
-void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, vector<int> &edgePath)
+void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, zWalkType type, vector<int> &edgePath)
 {
-	edgePath.clear();
+	vector<int> tempEdgePath;
 
 	if (indexA >inMesh.vertexActive.size()) throw std::invalid_argument("indexA out of bounds.");
 	if (indexB >inMesh.vertexActive.size()) throw std::invalid_argument("indexB out of bounds.");
@@ -512,6 +662,31 @@ void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, vector<int> &e
 
 	} while (id != -1);
 
+	if (id == -1)
+	{
+		if (type == zEdgeVisited)
+		{
+			for (int i = 0; i < tempEdgePath.size(); i++)
+			{
+				edgePath[tempEdgePath[i]] ++;
+
+				int symEdge = inMesh.edges[tempEdgePath[i]].getSym()->getEdgeId();
+				edgePath[symEdge] ++;
+			}
+		}
+
+		if (type == zEdgePath)
+		{
+			edgePath.clear();
+			edgePath = tempEdgePath;
+		}
+
+	}
+	else
+	{
+		printf("\n shortest path between %i & %i doesnt exists as they are part of disconnected mesh. ");
+	}
+
 }
 
 //---------------//
@@ -520,9 +695,7 @@ void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, vector<int> &e
 template<>
 void zSpace::shortestPathWalks(zGraph &inGraph, vector<int> &edgeVisited)
 {
-	edgeVisited.clear();
-
-	vector<bool> computeDone;
+	edgeVisited.clear();		
 
 	// initialise edge visits to 0
 	for (int i = 0; i < inGraph.numEdges(); i++)
@@ -530,15 +703,6 @@ void zSpace::shortestPathWalks(zGraph &inGraph, vector<int> &edgeVisited)
 		edgeVisited.push_back(0);
 	}
 
-	// initialise compute done to false
-	for (int i = 0; i < inGraph.numVertices(); i++)
-	{
-		for (int j = 0; j < inGraph.numVertices(); j++)
-		{
-			if (j == i) computeDone.push_back(true);
-			else computeDone.push_back(false);
-		}
-	}
 
 	for (int i = 0; i < inGraph.numVertices(); i++)
 	{
@@ -548,31 +712,12 @@ void zSpace::shortestPathWalks(zGraph &inGraph, vector<int> &edgeVisited)
 		// get Dijkstra shortest distance spanning tree
 		shortestDistance(inGraph, i, dists, parent);
 
+		printf("\n total: %i source: %i ", inGraph.numVertices(), i);
 
 		// compute shortes path from all vertices to current vertex 
-		for (int j = 0; j < inGraph.numVertices(); j++)
+		for (int j = i+1; j < inGraph.numVertices(); j++)
 		{
-			int id = (i*inGraph.numVertices()) + j;
-
-			if (computeDone[id]) continue;
-
-			printf("\n total: %i source: %i  destination: %i ", inGraph.numVertices(), i, j);
-
-			vector<int> edgePath;
-			shortestPath(inGraph, i, j, edgePath);
-
-			for (int k = 0; k < edgePath.size(); k++)
-			{
-				// update edge visits
-				edgeVisited[edgePath[k]]++;
-
-				// adding to the other half edge
-				(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-			}
-
-			computeDone[id] = true;
-			computeDone[(j*inGraph.numVertices()) + i] = true;
-
+			shortestPath_DistanceParent(inGraph, i, j, dists,parent, zEdgeVisited,edgeVisited );
 		}
 	}
 }
@@ -583,23 +728,12 @@ void zSpace::shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
 {
 	edgeVisited.clear();
 
-	vector<bool> computeDone;
-
 	// initialise edge visits to 0
 	for (int i = 0; i < inMesh.numEdges(); i++)
 	{
 		edgeVisited.push_back(0);
 	}
 
-	// initialise compute done to false
-	for (int i = 0; i < inMesh.numVertices(); i++)
-	{
-		for (int j = 0; j < inMesh.numVertices(); j++)
-		{
-			if (j == i) computeDone.push_back(true);
-			else computeDone.push_back(false);
-		}
-	}
 
 	for (int i = 0; i < inMesh.numVertices(); i++)
 	{
@@ -609,31 +743,12 @@ void zSpace::shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
 		// get Dijkstra shortest distance spanning tree
 		shortestDistance(inMesh, i, dists, parent);
 
+		printf("\n total: %i source: %i ", inMesh.numVertices(), i);
 
 		// compute shortes path from all vertices to current vertex 
-		for (int j = 0; j < inMesh.numVertices(); j++)
+		for (int j = i + 1; j < inMesh.numVertices(); j++)
 		{
-			int id = (i*inMesh.numVertices()) + j;
-
-			if (computeDone[id]) continue;
-
-			printf("\n total: %i source: %i  destination: %i ", inMesh.numVertices(), i, j);
-
-			vector<int> edgePath;
-			shortestPath(inMesh, i, j, edgePath);
-
-			for (int k = 0; k < edgePath.size(); k++)
-			{
-				// update edge visits
-				edgeVisited[edgePath[k]]++;
-
-				// adding to the other half edge
-				(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-			}
-
-			computeDone[id] = true;
-			computeDone[(j*inMesh.numVertices()) + i] = true;
-
+			shortestPath_DistanceParent(inMesh, i, j, dists, parent, zEdgeVisited, edgeVisited);
 		}
 	}
 }
@@ -643,24 +758,15 @@ void zSpace::shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
 //---- graph specilization for shortestPathWalks_SourceToAll 
 template<>
 void zSpace::shortestPathWalks_SourceToAll(zGraph &inGraph, vector<int> &sourceVertices, vector<int> &edgeVisited)
-{
-	edgeVisited.clear();
-
-	vector<bool> computeDone;
+{		
 
 	// initialise edge visits to 0
-	for (int i = 0; i < inGraph.numEdges(); i++)
+	if (edgeVisited.size() == 0 || edgeVisited.size() < inGraph.numEdges())
 	{
-		edgeVisited.push_back(0);
-	}
-
-	// initialise compute done to false
-	for (int i = 0; i < inGraph.numVertices(); i++)
-	{
-		for (int j = 0; j < inGraph.numVertices(); j++)
+		edgeVisited.clear();
+		for (int i = 0; i < inGraph.numEdges(); i++)
 		{
-			if (j == i) computeDone.push_back(true);
-			else computeDone.push_back(false);
+			edgeVisited.push_back(0);
 		}
 	}
 
@@ -672,30 +778,10 @@ void zSpace::shortestPathWalks_SourceToAll(zGraph &inGraph, vector<int> &sourceV
 		// get Dijkstra shortest distance spanning tree
 		shortestDistance(inGraph, sourceVertices[i], dists, parent);
 
-
 		// compute shortes path from all vertices to current vertex 
 		for (int j = 0; j < inGraph.numVertices(); j++)
 		{
-			int id = (sourceVertices[i] * inGraph.numVertices()) + j;
-
-			if (computeDone[id]) continue;
-
-			printf("\n total: %i source: %i  destination: %i ", inGraph.numVertices(), sourceVertices[i], j);
-
-			vector<int> edgePath;
-			shortestPath(inGraph, sourceVertices[i], j, edgePath);
-
-			for (int k = 0; k < edgePath.size(); k++)
-			{
-				// update edge visits
-				edgeVisited[edgePath[k]]++;
-
-				// adding to the other half edge
-				(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-			}
-
-			computeDone[id] = true;
-			computeDone[(j * inGraph.numVertices()) + sourceVertices[i]] = true;
+			shortestPath_DistanceParent(inGraph, sourceVertices[i], j,dists,parent,zEdgeVisited, edgeVisited);
 		}
 	}
 }
@@ -704,23 +790,13 @@ void zSpace::shortestPathWalks_SourceToAll(zGraph &inGraph, vector<int> &sourceV
 template<>
 void zSpace::shortestPathWalks_SourceToAll(zMesh &inMesh, vector<int> &sourceVertices, vector<int> &edgeVisited)
 {
-	edgeVisited.clear();
-
-	vector<bool> computeDone;
-
 	// initialise edge visits to 0
-	for (int i = 0; i < inMesh.numEdges(); i++)
+	if (edgeVisited.size() == 0 || edgeVisited.size() < inMesh.numEdges())
 	{
-		edgeVisited.push_back(0);
-	}
-
-	// initialise compute done to false
-	for (int i = 0; i < inMesh.numVertices(); i++)
-	{
-		for (int j = 0; j < inMesh.numVertices(); j++)
+		edgeVisited.clear();
+		for (int i = 0; i < inMesh.numEdges(); i++)
 		{
-			if (j == i) computeDone.push_back(true);
-			else computeDone.push_back(false);
+			edgeVisited.push_back(0);
 		}
 	}
 
@@ -732,30 +808,10 @@ void zSpace::shortestPathWalks_SourceToAll(zMesh &inMesh, vector<int> &sourceVer
 		// get Dijkstra shortest distance spanning tree
 		shortestDistance(inMesh, sourceVertices[i], dists, parent);
 
-
 		// compute shortes path from all vertices to current vertex 
 		for (int j = 0; j < inMesh.numVertices(); j++)
 		{
-			int id = (sourceVertices[i] * inMesh.numVertices()) + j;
-
-			if (computeDone[id]) continue;
-
-			printf("\n total: %i source: %i  destination: %i ", inMesh.numVertices(), sourceVertices[i], j);
-
-			vector<int> edgePath;
-			shortestPath(inMesh, sourceVertices[i], j, edgePath);
-
-			for (int k = 0; k < edgePath.size(); k++)
-			{
-				// update edge visits
-				edgeVisited[edgePath[k]]++;
-
-				// adding to the other half edge
-				(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-			}
-
-			computeDone[id] = true;
-			computeDone[(j * inMesh.numVertices()) + sourceVertices[i]] = true;
+			shortestPath_DistanceParent(inMesh, sourceVertices[i], j,dists,parent,zEdgeVisited, edgeVisited);
 		}
 	}
 }
@@ -776,16 +832,7 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zGraph &inGraph, vector<int> 
 		edgeVisited.push_back(0);
 	}
 
-	// initialise compute done to false
-	for (int i = 0; i < inGraph.numVertices(); i++)
-	{
-		for (int j = 0; j < inGraph.numVertices(); j++)
-		{
-			if (j == i) computeDone.push_back(true);
-			else computeDone.push_back(false);
-		}
-	}
-
+	
 	for (int i = 0; i < sourceVertices.size(); i++)
 	{
 		vector<float> dists;
@@ -794,30 +841,12 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zGraph &inGraph, vector<int> 
 		// get Dijkstra shortest distance spanning tree
 		shortestDistance(inGraph, sourceVertices[i], dists, parent);
 
+		printf("\n total: %i source: %i ", inGraph.numVertices(), sourceVertices[i]);
 
 		// compute shortes path from all vertices to current vertex 
-		for (int j = 0; j < sourceVertices.size(); j++)
+		for (int j = sourceVertices[i] + 1; j < sourceVertices.size(); j++)
 		{
-			int id = (sourceVertices[i] *inGraph.numVertices()) + sourceVertices[j];
-
-			if (computeDone[id]) continue;
-
-			printf("\n total: %i source: %i  destination: %i ", inGraph.numVertices(), sourceVertices[i], sourceVertices[j]);
-
-			vector<int> edgePath;
-			shortestPath(inGraph, sourceVertices[i], sourceVertices[j], edgePath);
-
-			for (int k = 0; k < edgePath.size(); k++)
-			{
-				// update edge visits
-				edgeVisited[edgePath[k]]++;
-
-				// adding to the other half edge
-				(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-			}
-
-			computeDone[id] = true;
-			computeDone[(sourceVertices[j] *inGraph.numVertices()) + sourceVertices[i]] = true;
+			shortestPath_DistanceParent(inGraph, sourceVertices[i], sourceVertices[j],dists,parent,zEdgeVisited, edgeVisited);			
 		}
 	}
 }
@@ -836,15 +865,6 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &s
 		edgeVisited.push_back(0);
 	}
 
-	// initialise compute done to false
-	for (int i = 0; i < inMesh.numVertices(); i++)
-	{
-		for (int j = 0; j < inMesh.numVertices(); j++)
-		{
-			if (j == i) computeDone.push_back(true);
-			else computeDone.push_back(false);
-		}
-	}
 
 	for (int i = 0; i < sourceVertices.size(); i++)
 	{
@@ -854,30 +874,12 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &s
 		// get Dijkstra shortest distance spanning tree
 		shortestDistance(inMesh, sourceVertices[i], dists, parent);
 
+		printf("\n total: %i source: %i ", inMesh.numVertices(), sourceVertices[i]);
 
 		// compute shortes path from all vertices to current vertex 
-		for (int j = 0; j < sourceVertices.size(); j++)
+		for (int j = sourceVertices[i] + 1; j < sourceVertices.size(); j++)
 		{
-			int id = (sourceVertices[i] * inMesh.numVertices()) + sourceVertices[j];
-
-			if (computeDone[id]) continue;
-
-			printf("\n total: %i source: %i  destination: %i ", inMesh.numVertices(), sourceVertices[i], sourceVertices[j]);
-
-			vector<int> edgePath;
-			shortestPath(inMesh, sourceVertices[i], sourceVertices[j], edgePath);
-
-			for (int k = 0; k < edgePath.size(); k++)
-			{
-				// update edge visits
-				edgeVisited[edgePath[k]]++;
-
-				// adding to the other half edge
-				(edgePath[k] % 2 == 0) ? edgeVisited[edgePath[k] + 1]++ : edgeVisited[edgePath[k] - 1]++;
-			}
-
-			computeDone[id] = true;
-			computeDone[(sourceVertices[j] * inMesh.numVertices()) + sourceVertices[i]] = true;
+			shortestPath_DistanceParent(inMesh, sourceVertices[i], sourceVertices[j], dists, parent, zEdgeVisited, edgeVisited);
 		}
 	}
 }

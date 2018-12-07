@@ -153,12 +153,12 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void computePositionsInFieldIndex(zField2D<T> &inField, vector<zVector> &positions, vector<vector<int>> &fieldIndexPositionIndicies)
+	void computePositionIndicesInFieldIndex(zField2D<T> &inField, vector<zVector> &positions, vector<vector<int>> &fieldIndexPositionIndicies)
 	{
 		for (int i = 0; i < inField.getNumFieldValues(); i++)
 		{
-			vector<zVector> temp;
-			fieldIndexPositions.push_back(temp);
+			vector<int> temp;
+			fieldIndexPositionIndicies.push_back(temp);
 		}
 
 
@@ -166,7 +166,7 @@ namespace zSpace
 		{
 			int fieldIndex = inField.getIndex(positions[i]);
 								
-			fieldIndexPositions[fieldIndex].push_back(i);
+			fieldIndexPositionIndicies[fieldIndex].push_back(i);
 		}
 	}
 

@@ -243,6 +243,142 @@ namespace zSpace
 	}
 
 
+	//--------------------------
+	//---- COLOR  METHODS
+	//--------------------------
+
+	/*! \brief This method returns the average color of the two input colors.
+	*
+	*	\param		[in]	c1		- input color 1.
+	*	\param		[in]	c2		- input color 2.
+	*	\param		[in]	type	- color type - zRGB / zHSV.
+	*	\since version 0.0.1
+	*/
+	zColor averageColor(zColor &c1, zColor &c2, zColorType type)
+	{
+		zColor out;
+
+		if (type = zRGB)
+		{
+			out.r = (c2.r + c1.r)	* 0.5;
+			out.g = (c2.g + c1.g)	* 0.5;
+			out.b = (c2.b + c1.b)	* 0.5;
+
+			out.a = (c2.a + c1.a)	* 0.5;
+
+			out.toHSV();
+
+		}
+
+		if (type = zHSV)
+		{
+			out.h = (c2.h + c1.h)	* 0.5;
+			out.s = (c2.s + c1.s)	* 0.5;
+			out.v = (c2.v + c1.v)	* 0.5;			
+
+			out.toRGB();
+		}
+	
+
+		return out;
+
+	}
+
+	/*! \brief This method returns the average color of the input color container.
+	*
+	*	\param		[in]	c1		- input color container.
+	*	\param		[in]	c2		- input color 2.
+	*	\param		[in]	type	- color type - zRGB / zHSV.
+	*	\since version 0.0.1
+	*/
+	zColor averageColor(vector<zColor> &c1, zColorType type)
+	{
+		zColor out;
+
+		if (type = zRGB)
+		{
+			for (int i = 0; i < c1.size(); i++)
+			{
+				out.r += c1[i].r;
+				out.g += c1[i].g;
+				out.b += c1[i].b;
+
+				out.a += c1[i].a;
+			}
+
+			out.r /= c1.size();
+			out.g /= c1.size();
+			out.b /= c1.size();
+			out.a /= c1.size();
+
+
+			out.toHSV();
+
+		}
+
+		if (type = zHSV)
+		{
+			for (int i = 0; i < c1.size(); i++)
+			{
+				out.h += c1[i].h;
+				out.s += c1[i].s;
+				out.v += c1[i].v;				
+			}
+
+			out.h /= c1.size();
+			out.s /= c1.size();
+			out.v /= c1.size();
+			
+			out.toRGB();
+		}
+
+
+		return out;
+
+	}
+
+	/*! \brief This method returns the blend color based on the input value, domain and the color domains.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	value			- input value to be mapped.
+	*	\param		[in]	inputMin		- input domain minimum.
+	*	\param		[in]	inputMax		- input domain maximum.
+	*	\param		[in]	cMin			- input color domain minimum.
+	*	\param		[in]	cMax			- input color domain maximum.
+	*	\param		[in]	type			- color type - zRGB / zHSV.
+	*	\return				zColor			- output color.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	zColor blendColor(T inputValue, T inputMin, T inputMax,  zColor &cMin, zColor &cMax, zColorType type)
+	{
+		zColor out;
+
+		if (type = zRGB)
+		{
+			out.r = ofMap(inputValue, inputMin, inputMax, c1.r,c2.r);
+			out.g = ofMap(inputValue, inputMin, inputMax, c1.g, c2.g);
+			out.b = ofMap(inputValue, inputMin, inputMax, c1.b, c2.b);
+
+			out.a = ofMap(inputValue, inputMin, inputMax, c1.a, c2.a);
+
+			out.toHSV();
+
+		}
+
+		if (type = zHSV)
+		{
+			out.h = ofMap(inputValue, inputMin, inputMax, c1.h, c2.h);
+			out.s = ofMap(inputValue, inputMin, inputMax, c1.s, c2.s);
+			out.v = ofMap(inputValue, inputMin, inputMax, c1.v, c2.v);
+
+			out.toRGB();
+		}
+
+
+		return out;
+
+	}
 
 	/** @}*/
 

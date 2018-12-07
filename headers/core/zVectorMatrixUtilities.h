@@ -351,6 +351,30 @@ namespace zSpace
 		return closest_Pt.distanceTo(pt);
 	}
 
+
+	/*! \brief This method gets the bary-center of the input positions based on the input weights.
+	*
+	*	\param		[in]	inPositions		- input container of positions.
+	*	\param		[in]	weights			- input container of weights.
+	*	\return				zVector			- bary-center.
+	*	\since version 0.0.1
+	*/
+	zVector getBaryCenter(vector<zVector> &inPositions, vector<double>& weights)
+	{
+		if (inPositions.size() != weights.size()) throw std::invalid_argument("size of inPositions and weights not equal.");
+
+		zVector out;
+
+		for (int i = 0; i < inPositions.size(); i++)
+		{
+			out += inPositions[i] * weights[i];
+		}
+
+		out /= inPositions.size();
+
+		return out;
+	}
+
 	//--------------------------
 	//---- zMATRIX METHODS
 	//--------------------------

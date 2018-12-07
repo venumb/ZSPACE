@@ -240,27 +240,27 @@ namespace zSpace
 
 		}
 
+	
 
 		//--------------------------
-		//---- OPERATORS
+		//---- OVERLOADED OPERATORS
 		//--------------------------
 
 		/*! \brief This operator checks for equality of two zColors.
 		*
-		*	\param		[in]	v1		- input color.
+		*	\param		[in]	c1		- input color.
 		*	\return				bool	- true if colors are the same.
 		*	\since version 0.0.1
 		*/
 				
-		bool operator==(zColor &v1)
+		bool operator==(zColor &c1)
 		{
 			bool out;
 
-			if (r == v1.r && g == v1.g && b == v1.b) out = true;
+			if (r == c1.r && g == c1.g && b == c1.b) out = true;
 
 			return false;
 		}
 
-	
 	};
 }

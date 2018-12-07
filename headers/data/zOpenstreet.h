@@ -765,14 +765,17 @@ namespace zSpace
 							
 					} while (!exit);
 													
-
-					for (int k = 0; k < tempConnects.size() - 1; k++)
+					if (tempConnects.size() > 1)
 					{
-						edgeConnects.push_back(tempConnects[k]);
-						edgeConnects.push_back(tempConnects[k + 1]);
+						for (int k = 0; k < tempConnects.size() - 1; k++)
+						{
+							edgeConnects.push_back(tempConnects[k]);
+							edgeConnects.push_back(tempConnects[k + 1]);
 
-						
-					}					
+
+						}
+					}
+								
 									
 					
 				}
@@ -908,7 +911,7 @@ namespace zSpace
 						if (!vExists)
 						{
 							v0 = positions.size();
-							if (polyCounts.size() <= 100) positions.push_back(p0);
+							positions.push_back(p0);
 
 							string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
 							positionVertex[hashKey] = v0;
@@ -938,7 +941,7 @@ namespace zSpace
 					} while (!exit);
 
 
-					if (polyCounts.size() <= 100 && tempConnects.size() >= 3)
+					if (tempConnects.size() >= 3)
 					{
 						for (int k = 0; k < tempConnects.size(); k++)
 						{
@@ -955,7 +958,7 @@ namespace zSpace
 
 			myfile.close();
 
-			printf("\n positions: %i , polyCounts: %i, polyConnects: %i  ", positions.size(), polyCounts.size(), polyConnects.size());
+			//printf("\n positions: %i , polyCounts: %i, polyConnects: %i  ", positions.size(), polyCounts.size(), polyConnects.size());
 			outmesh = zMesh(positions,polyCounts, polyConnects,true);
 
 			printf("\n mesh: %i %i %i ", outmesh.numVertices(), outmesh.numEdges(), outmesh.numPolygons());

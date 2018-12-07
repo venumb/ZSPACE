@@ -984,6 +984,186 @@ namespace zSpace
 		
 	}
 
+	/*! \brief This method applies Catmull-Clark subdivision to the mesh.
+	*
+	*	\details Based on https://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface and https://rosettacode.org/wiki/Catmull%E2%80%93Clark_subdivision_surface.
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
+	*	\param		[in]	smoothCorner	- corner vertex( only 2 Connected Edges) is also smothed if true.
+	*	\since version 0.0.1
+	*/
+	void smoothMesh(zMesh &inMesh, int numDivisions = 1, bool smoothCorner = false)
+	{
+		for (int j = 0; j < numDivisions; j++)
+		{
+
+			// get face centers
+			vector<zVector> fCenters;
+			getCenters(inMesh, zFaceData, fCenters);
+
+			// get edge centers
+			vector<zVector> tempECenters;
+			vector<zVector> eCenters;
+			getCenters(inMesh, zEdgeData, eCenters);
+
+			tempECenters = eCenters;
+
+			// compute new smooth positions of the edge centers
+			for (int i = 0; i < eCenters.size(); i += 2)
+			{
+
+				zVector newPos;
+
+				if (inMesh.onBoundary(i, zEdgeData) || inMesh.onBoundary(i + 1, zEdgeData)) continue;
+
+				int eId = i;
+
+				vector<int> eVerts;
+				inMesh.getVertices(i, zEdgeData, eVerts);
+				for (int j = 0; j < eVerts.size(); j++) newPos += inMesh.vertexPositions[eVerts[j]];
+
+
+				vector<int> eFaces;
+				inMesh.getFaces(i, zEdgeData, eFaces);
+				for (int j = 0; j < eFaces.size(); j++) newPos += fCenters[eFaces[j]];
+
+				newPos /= (eFaces.size() + eVerts.size());
+
+				eCenters[i] = newPos;
+				eCenters[i + 1] = newPos;
+
+			}
+
+			// compute new smooth positions for the original vertices
+			for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+			{
+				if (inMesh.onBoundary(i, zVertexData))
+				{
+					vector<int> cEdges;
+					inMesh.getConnectedEdges(i, zVertexData, cEdges);
+
+					if (!smoothCorner && cEdges.size() == 2) continue;
+
+					zVector P = inMesh.vertexPositions[i];
+					int n = 1;
+
+					zVector R;
+					for (int j = 0; j < cEdges.size(); j++)
+					{
+						int symEdge = inMesh.edges[cEdges[j]].getSym()->getEdgeId();
+
+						if (inMesh.onBoundary(cEdges[j], zEdgeData) || inMesh.onBoundary(symEdge, zEdgeData))
+						{
+							R += tempECenters[cEdges[j]];
+							n++;
+						}
+					}
+
+					inMesh.vertexPositions[i] = (P + R) / n;
+
+				}
+				else
+				{
+					zVector R;
+					vector<int> cEdges;
+					inMesh.getConnectedEdges(i, zVertexData, cEdges);
+					for (int j = 0; j < cEdges.size(); j++) R += tempECenters[cEdges[j]];
+					R /= cEdges.size();
+
+					zVector F;
+					vector<int> cFaces;
+					inMesh.getConnectedFaces(i, zVertexData, cFaces);
+					for (int j = 0; j < cFaces.size(); j++) F += fCenters[cFaces[j]];
+					F /= cFaces.size();
+
+					zVector P = inMesh.vertexPositions[i];
+					int n = cFaces.size();
+
+					inMesh.vertexPositions[i] = (F + (R * 2) + (P * (n - 3))) / n;
+				}
+
+
+			}
+
+
+			int numOriginalVertices = inMesh.vertexActive.size();
+
+			// split edges at center
+			int numOriginaledges = inMesh.edgeActive.size();
+
+			for (int i = 0; i < numOriginaledges; i += 2)
+			{
+				if (inMesh.edgeActive[i])
+				{
+					int newVert = splitEdge(inMesh, i);
+
+					inMesh.vertexPositions[newVert] = eCenters[i];
+				}
+			}
+
+
+
+			// add faces
+			int numOriginalfaces = inMesh.faceActive.size();
+
+			for (int i = 0; i < numOriginalfaces; i++)
+			{
+				if (!inMesh.faceActive[i]) continue;
+
+				vector<int> fEdges;
+				inMesh.getEdges(i, zFaceData, fEdges);
+
+				vector<int> fVerts;
+				inMesh.getVertices(i, zFaceData, fVerts);
+
+
+				// disable current face
+				inMesh.faceActive[i] = false;
+
+				int numCurrentEdges = inMesh.edgeActive.size();;
+
+				// check if vertex exists if not add new vertex
+				int VertId;
+				bool vExists = inMesh.vertexExists(fCenters[i], VertId);
+				if (!vExists)
+				{
+					inMesh.addVertex(fCenters[i]);
+					VertId = inMesh.vertexActive.size() - 1;
+				}
+
+
+				// add new faces				
+				int startId = 0;
+				if (inMesh.edges[fEdges[0]].getVertex()->getVertexId() < numOriginalVertices) startId = 1;
+
+				for (int k = startId; k < fEdges.size() + startId; k += 2)
+				{
+					vector<int> newFVerts;
+
+					int v1 = inMesh.edges[fEdges[k]].getVertex()->getVertexId();
+					newFVerts.push_back(v1);
+
+					int v2 = VertId; // face center
+					newFVerts.push_back(v2);
+
+					int v3 = inMesh.edges[fEdges[k]].getPrev()->getSym()->getVertex()->getVertexId();
+					newFVerts.push_back(v3);
+
+					int v4 = inMesh.edges[fEdges[k]].getPrev()->getVertex()->getVertexId();
+					newFVerts.push_back(v4);
+
+					inMesh.addPolygon(newFVerts);
+
+				}
+
+			}
+
+			inMesh.computeMeshNormals();
+
+		}
+
+	}
+
 
 	//--------------------------
 	//---- REMESH METHODS
@@ -1024,6 +1204,11 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	void tangentialRelaxation(zMesh &inMesh);
+
+
+
+
+
 
 	/** @}*/
 
