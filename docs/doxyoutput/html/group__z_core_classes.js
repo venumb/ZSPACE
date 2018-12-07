@@ -5,7 +5,7 @@ var group__z_core_classes =
       [ "zColor", "classz_space_1_1z_color.html#ab833b81d117fed592f5a54b373988464", null ],
       [ "zColor", "classz_space_1_1z_color.html#a360f1dc204c68d848f1454cf321551d0", null ],
       [ "~zColor", "classz_space_1_1z_color.html#a0748e3af63d398761735fb7c0010a762", null ],
-      [ "operator==", "classz_space_1_1z_color.html#a70f7239f26d14ac1203813b1a5e0244a", null ],
+      [ "operator==", "classz_space_1_1z_color.html#a376a78451bb730211ff8a5cca2fa44a3", null ],
       [ "toHSV", "classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05", null ],
       [ "toRGB", "classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f", null ],
       [ "a", "classz_space_1_1z_color.html#a293d04be06f8584cd8125a4d34a6a072", null ],

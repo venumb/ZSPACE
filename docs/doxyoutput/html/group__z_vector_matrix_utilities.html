@@ -136,6 +136,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gab0d76a80305185982ec89050ff322a3e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e">zSpace::minDist_Edge_Point</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pt, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;e0, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;e1, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;closest_Pt)</td></tr>
 <tr class="memdesc:gab0d76a80305185982ec89050ff322a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the minimum distance between a point and edge and the closest Point on the edge.  <a href="group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e">More...</a><br /></td></tr>
 <tr class="separator:gab0d76a80305185982ec89050ff322a3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac0d625cd9feda1c95d6660cd867aadd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gac0d625cd9feda1c95d6660cd867aadd6">zSpace::getBaryCenter</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inPositions, vector&lt; double &gt; &amp;weights)</td></tr>
+<tr class="memdesc:gac0d625cd9feda1c95d6660cd867aadd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the bary-center of the input positions based on the input weights.  <a href="group__z_vector_matrix_utilities.html#gac0d625cd9feda1c95d6660cd867aadd6">More...</a><br /></td></tr>
+<tr class="separator:gac0d625cd9feda1c95d6660cd867aadd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae38960f4001de62196fbdacc7c8be53e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gae38960f4001de62196fbdacc7c8be53e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e">zSpace::toWorldMatrix</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;inMatrix)</td></tr>
 <tr class="memdesc:gae38960f4001de62196fbdacc7c8be53e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the tranformation to the world space of the input 4x4 matrix.  <a href="group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e">More...</a><br /></td></tr>
@@ -220,7 +223,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00572">572</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00596">596</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -275,7 +278,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00457">457</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00481">481</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -389,6 +392,47 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="gac0d625cd9feda1c95d6660cd867aadd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac0d625cd9feda1c95d6660cd867aadd6">&#9670;&nbsp;</a></span>getBaryCenter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::getBaryCenter </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inPositions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>weights</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method gets the bary-center of the input positions based on the input weights. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inPositions</td><td>- input container of positions. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">weights</td><td>- input container of weights. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - bary-center. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00362">362</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+
+</div>
+</div>
 <a id="ga064d5638571054d5232b149a75fc9e30"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga064d5638571054d5232b149a75fc9e30">&#9670;&nbsp;</a></span>getBestFitPlane()</h2>
 
@@ -414,7 +458,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>zMatrixd - Best fit plane as a 4X4 matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00507">507</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00531">531</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -853,7 +897,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00434">434</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00458">458</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -974,7 +1018,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - new target matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00476">476</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00500">500</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1018,7 +1062,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - world transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00398">398</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00422">422</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1069,7 +1113,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - world transformation matrix. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00367">367</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_vector_matrix_utilities_8h_source.html#l00391">391</a> of file <a class="el" href="z_vector_matrix_utilities_8h_source.html">zVectorMatrixUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

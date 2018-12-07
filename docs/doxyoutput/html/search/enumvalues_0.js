@@ -8,6 +8,8 @@ var searchData=
   ['zdouble',['zDouble',['../group__z_core_enumerators.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba8948023c606a884296ee95e63e142ddb',1,'zSpace']]],
   ['zdrop',['zDrop',['../group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa60de7229950b524aef5c3c0573fedd34',1,'zSpace']]],
   ['zedgedata',['zEdgeData',['../group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefa44c50ce3cdac17dcfab4c4f875780fc7',1,'zSpace']]],
+  ['zedgepath',['zEdgePath',['../group__z_core_enumerators.html#gga295130fe904706c1d25bc04181cf3191a929dd8fd051fc534546d0d570edba9fe',1,'zSpace']]],
+  ['zedgevisited',['zEdgeVisited',['../group__z_core_enumerators.html#gga295130fe904706c1d25bc04181cf3191aaab343c412cf1ca4a2b252ff96148932',1,'zSpace']]],
   ['zeuler',['zEuler',['../group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482a1d838c8189d609faef94dd1e8ae26af6',1,'zSpace']]],
   ['zexportcsv',['zExportCSV',['../group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afac5620949f6bf5735a7d31e552427ed35',1,'zSpace']]],
   ['zfacedata',['zFaceData',['../group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefae2e243f1c863c625af021f7a61a01437',1,'zSpace']]],

@@ -4,6 +4,7 @@ var z_vector_matrix_utilities_8h =
     [ "ChangeBasis", "z_vector_matrix_utilities_8h.html#ga60aec2272693d052ec4cf78de73b4572", null ],
     [ "fromMatrixColumn", "z_vector_matrix_utilities_8h.html#ga57229ba8064031163267f155e9236d7e", null ],
     [ "fromMatrixRow", "z_vector_matrix_utilities_8h.html#ga8a6437d21ef1d59766c0660d2837b84f", null ],
+    [ "getBaryCenter", "z_vector_matrix_utilities_8h.html#gac0d625cd9feda1c95d6660cd867aadd6", null ],
     [ "getBestFitPlane", "z_vector_matrix_utilities_8h.html#ga064d5638571054d5232b149a75fc9e30", null ],
     [ "getBounds", "z_vector_matrix_utilities_8h.html#gaa38548275368bdaf6c0a049a085adf38", null ],
     [ "getDimsFromBounds", "z_vector_matrix_utilities_8h.html#gaee9483a83e291d886bd7cdc38435fdb5", null ],

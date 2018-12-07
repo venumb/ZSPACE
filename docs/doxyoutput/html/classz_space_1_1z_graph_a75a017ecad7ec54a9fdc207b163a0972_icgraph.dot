@@ -3,11 +3,11 @@ digraph "zSpace::zGraph::getConnectedVertices"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node192 [label="zSpace::zGraph::getConnected\lVertices",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node192 -> Node193 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node193 [label="zSpace::zGraph::averageVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f",tooltip="This method averages the positions of vertex except for the ones on the boundary. ..."];
-  Node192 -> Node194 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node194 [label="zSpace::zMesh::smoothColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#a63e68abd857c24a63ad06d426b112d11",tooltip="This method smoothens the color attributes. "];
-  Node192 -> Node195 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node195 [label="zSpace::getPrincipalCurvature",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga1e60d7d324e3a491f9e60060fa3258e2",tooltip="This method computes the local curvature of the mesh vertices. "];
+  Node195 [label="zSpace::zGraph::getConnected\lVertices",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node195 -> Node196 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node196 [label="zSpace::zGraph::averageVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f",tooltip="This method averages the positions of vertex except for the ones on the boundary. ..."];
+  Node195 -> Node197 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node197 [label="zSpace::zMesh::smoothColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#a63e68abd857c24a63ad06d426b112d11",tooltip="This method smoothens the color attributes. "];
+  Node195 -> Node198 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node198 [label="zSpace::getPrincipalCurvature",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga1e60d7d324e3a491f9e60060fa3258e2",tooltip="This method computes the local curvature of the mesh vertices. "];
 }

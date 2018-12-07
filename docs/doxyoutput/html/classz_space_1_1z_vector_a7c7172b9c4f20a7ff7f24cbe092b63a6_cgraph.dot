@@ -3,7 +3,7 @@ digraph "zSpace::zVector::rotateAboutAxis"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node126 [label="zSpace::zVector::rotateAboutAxis",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node126 -> Node127 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node127 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length. "];
+  Node128 [label="zSpace::zVector::rotateAboutAxis",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node128 -> Node129 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node129 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length. "];
 }

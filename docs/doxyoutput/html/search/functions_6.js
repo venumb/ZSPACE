@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['getbarycenter',['getBaryCenter',['../group__z_vector_matrix_utilities.html#gac0d625cd9feda1c95d6660cd867aadd6',1,'zSpace']]],
   ['getbestfitplane',['getBestFitPlane',['../group__z_vector_matrix_utilities.html#ga064d5638571054d5232b149a75fc9e30',1,'zSpace']]],
   ['getboundingbox',['getBoundingBox',['../classz_space_1_1z_field2_d.html#aec18cdb580199ce1802e5529ab4da29a',1,'zSpace::zField2D::getBoundingBox()'],['../classz_space_1_1z_field3_d.html#a05ec496339dcf124866335d4de206cb1',1,'zSpace::zField3D::getBoundingBox()']]],
   ['getbounds',['getBounds',['../group__z_vector_matrix_utilities.html#gaa38548275368bdaf6c0a049a085adf38',1,'zSpace']]],

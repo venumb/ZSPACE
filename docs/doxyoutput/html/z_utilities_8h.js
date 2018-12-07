@@ -1,5 +1,8 @@
 var z_utilities_8h =
 [
+    [ "averageColor", "z_utilities_8h.html#gabb018fff433019cb4f943ad5c685a474", null ],
+    [ "averageColor", "z_utilities_8h.html#ga46bc357c8f3422e9d721f45967b44d13", null ],
+    [ "blendColor", "z_utilities_8h.html#ga8cb9d5c8a798d6bf28cd0350a7115c61", null ],
     [ "existsInMap", "z_utilities_8h.html#gaa8375b752d259554eef39b2c7985fa14", null ],
     [ "minDistance", "z_utilities_8h.html#gad872a79a1b5f6d2ff4e46e086f7d282b", null ],
     [ "ofMap", "z_utilities_8h.html#ga772c31654e2dcf5f5ac0a884f3f9612a", null ],

@@ -11,7 +11,7 @@ namespace zSpace
 	
 
 
-	/** \addtogroup zObject
+	/** \addtogroup zGeometry
 	*	\brief The geometry classes, modifier and utility methods of the library.
 	*  @{
 	*/

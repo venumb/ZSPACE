@@ -118,10 +118,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ga77605acb8c8722a5914d6aa834df482b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b">zSpace::computePositionsInFieldIndex</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndexPositions)</td></tr>
 <tr class="memdesc:ga77605acb8c8722a5914d6aa834df482b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the field index of each input position and stores them in a container per field index.  <a href="group__z_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b">More...</a><br /></td></tr>
 <tr class="separator:ga77605acb8c8722a5914d6aa834df482b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga678dd964a37ed7b5eb8303df2c5952e1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga678dd964a37ed7b5eb8303df2c5952e1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga678dd964a37ed7b5eb8303df2c5952e1">zSpace::computePositionsInFieldIndex</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; int &gt;&gt; &amp;fieldIndexPositionIndicies)</td></tr>
-<tr class="memdesc:ga678dd964a37ed7b5eb8303df2c5952e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the field index of each input position and stores the indicies in a container per field index.  <a href="group__z_field2_d_utilities.html#ga678dd964a37ed7b5eb8303df2c5952e1">More...</a><br /></td></tr>
-<tr class="separator:ga678dd964a37ed7b5eb8303df2c5952e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gac86a8f27ccd43c0ac3356e44cf17f904">zSpace::computePositionIndicesInFieldIndex</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; int &gt;&gt; &amp;fieldIndexPositionIndicies)</td></tr>
+<tr class="memdesc:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the field index of each input position and stores the indicies in a container per field index.  <a href="group__z_field2_d_utilities.html#gac86a8f27ccd43c0ac3356e44cf17f904">More...</a><br /></td></tr>
+<tr class="separator:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga963ebae1f0956162a52d4d78639a5802"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga963ebae1f0956162a52d4d78639a5802"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802">zSpace::fromField2D</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField)</td></tr>
 <tr class="memdesc:ga963ebae1f0956162a52d4d78639a5802"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a mesh from the input scalar field.  <a href="group__z_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802">More...</a><br /></td></tr>
@@ -634,8 +634,70 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="gac86a8f27ccd43c0ac3356e44cf17f904"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac86a8f27ccd43c0ac3356e44cf17f904">&#9670;&nbsp;</a></span>computePositionIndicesInFieldIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::computePositionIndicesInFieldIndex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>positions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; int &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldIndexPositionIndicies</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the field index of each input position and stores the indicies in a container per field index. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes and <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input <a class="el" href="classz_space_1_1z_field2_d.html" title="A template class for 2D fields - scalar and vector. ">zField2D</a> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">positions</td><td>- container of positions. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fieldIndexPositions</td><td>- container of position indicies per field index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00156">156</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_field2_d_utilities_gac86a8f27ccd43c0ac3356e44cf17f904_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gac86a8f27ccd43c0ac3356e44cf17f904_cgraph" alt=""/></div>
+<map name="group__z_field2_d_utilities_gac86a8f27ccd43c0ac3356e44cf17f904_cgraph" id="group__z_field2_d_utilities_gac86a8f27ccd43c0ac3356e44cf17f904_cgraph">
+</map>
+</div>
+
+</div>
+</div>
 <a id="ga77605acb8c8722a5914d6aa834df482b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga77605acb8c8722a5914d6aa834df482b">&#9670;&nbsp;</a></span>computePositionsInFieldIndex() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ga77605acb8c8722a5914d6aa834df482b">&#9670;&nbsp;</a></span>computePositionsInFieldIndex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -691,68 +753,6 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="group__z_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph" alt=""/></div>
 <map name="group__z_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph" id="group__z_field2_d_utilities_ga77605acb8c8722a5914d6aa834df482b_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ga678dd964a37ed7b5eb8303df2c5952e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga678dd964a37ed7b5eb8303df2c5952e1">&#9670;&nbsp;</a></span>computePositionsInFieldIndex() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::computePositionsInFieldIndex </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inField</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>positions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; vector&lt; int &gt;&gt; &amp;&#160;</td>
-          <td class="paramname"><em>fieldIndexPositionIndicies</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method computes the field index of each input position and stores the indicies in a container per field index. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes and <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input <a class="el" href="classz_space_1_1z_field2_d.html" title="A template class for 2D fields - scalar and vector. ">zField2D</a> </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">positions</td><td>- container of positions. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">fieldIndexPositions</td><td>- container of position indicies per field index. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00156">156</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga678dd964a37ed7b5eb8303df2c5952e1_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga678dd964a37ed7b5eb8303df2c5952e1_cgraph" alt=""/></div>
-<map name="group__z_field2_d_utilities_ga678dd964a37ed7b5eb8303df2c5952e1_cgraph" id="group__z_field2_d_utilities_ga678dd964a37ed7b5eb8303df2c5952e1_cgraph">
 </map>
 </div>
 

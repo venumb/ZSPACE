@@ -68,5 +68,9 @@ var z_enumerators_8h =
       [ "zUpdate", "z_enumerators_8h.html#gga98d3345b0fa49fd821ad7674f7ec91afa10352b0ffa48dce03dd429d1550d1395", null ],
       [ "zDrop", "z_enumerators_8h.html#gga98d3345b0fa49fd821ad7674f7ec91afa60de7229950b524aef5c3c0573fedd34", null ],
       [ "zExportCSV", "z_enumerators_8h.html#gga98d3345b0fa49fd821ad7674f7ec91afac5620949f6bf5735a7d31e552427ed35", null ]
+    ] ],
+    [ "zWalkType", "z_enumerators_8h.html#ga295130fe904706c1d25bc04181cf3191", [
+      [ "zEdgePath", "z_enumerators_8h.html#gga295130fe904706c1d25bc04181cf3191a929dd8fd051fc534546d0d570edba9fe", null ],
+      [ "zEdgeVisited", "z_enumerators_8h.html#gga295130fe904706c1d25bc04181cf3191aaab343c412cf1ca4a2b252ff96148932", null ]
     ] ]
 ];

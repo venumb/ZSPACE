@@ -7,6 +7,7 @@ var z_mesh_modifiers_8h =
     [ "equalizeValences", "z_mesh_modifiers_8h.html#ga50d27f458f57c4f90fa9242b05ded2d2", null ],
     [ "flipTriangleEdge", "z_mesh_modifiers_8h.html#ga23b04bfa34f16159cbc2b1c5e1116f39", null ],
     [ "polyTriangulate", "z_mesh_modifiers_8h.html#gaee0ef1222f28a05e210cc139a92e7774", null ],
+    [ "smoothMesh", "z_mesh_modifiers_8h.html#ga41f9be96453c21ac7b33b2991c284775", null ],
     [ "splitEdge", "z_mesh_modifiers_8h.html#ga2259376b4c9c7cebc97c491574a47e24", null ],
     [ "splitFaces", "z_mesh_modifiers_8h.html#gaeda022d590a10b38c94e75bc0e278d80", null ],
     [ "splitLongEdges", "z_mesh_modifiers_8h.html#ga5205dea46f5be4a546801c664d10fbb1", null ],

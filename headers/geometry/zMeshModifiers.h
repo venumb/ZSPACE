@@ -12,8 +12,8 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
-	*	\brief The geometry classes of the library.
+	/** \addtogroup zGeometryUtilities
+	*	\brief Collection of utility methods for graphs, meshes and fields.
 	*  @{
 	*/
 

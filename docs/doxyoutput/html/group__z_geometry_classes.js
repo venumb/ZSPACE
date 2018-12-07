@@ -1,6 +1,5 @@
 var group__z_geometry_classes =
 [
-    [ "ZMeshModifiers", "group__z_mesh_modifiers.html", "group__z_mesh_modifiers" ],
     [ "zField2D", "classz_space_1_1z_field2_d.html", [
       [ "zField2D", "classz_space_1_1z_field2_d.html#ad8dc9f6faa119f4a903ae99002c96977", null ],
       [ "zField2D", "classz_space_1_1z_field2_d.html#ad31805be6c55b01509c0bf97ef1695dd", null ],

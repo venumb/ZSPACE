@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('group__z_mesh_modifiers.html','');});
   <div class="summary">
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">ZMeshModifiers<div class="ingroups"><a class="el" href="group__z_geometry.html">ZGeometry</a> &#124; <a class="el" href="group__z_object.html">ZObject</a> &raquo; <a class="el" href="group__z_geometry_classes.html">ZGeometryClasses</a></div></div>  </div>
+<div class="title">ZMeshModifiers<div class="ingroups"><a class="el" href="group__z_geometry.html">ZGeometry</a> &raquo; <a class="el" href="group__z_geometry_utilities.html">ZGeometryUtilities</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -133,6 +133,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaaa9902fbf3ac2600afbf54335c286760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760">zSpace::subDivideMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int numDivisions)</td></tr>
 <tr class="memdesc:gaaa9902fbf3ac2600afbf54335c286760"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method subdivides all the faces and edges of the mesh.  <a href="group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760">More...</a><br /></td></tr>
 <tr class="separator:gaaa9902fbf3ac2600afbf54335c286760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga41f9be96453c21ac7b33b2991c284775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775">zSpace::smoothMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int numDivisions=1, bool smoothCorner=false)</td></tr>
+<tr class="memdesc:ga41f9be96453c21ac7b33b2991c284775"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method applies Catmull-Clark subdivision to the mesh.  <a href="group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775">More...</a><br /></td></tr>
+<tr class="separator:ga41f9be96453c21ac7b33b2991c284775"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5205dea46f5be4a546801c664d10fbb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga5205dea46f5be4a546801c664d10fbb1">zSpace::splitLongEdges</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double maxEdgeLength=0.5)</td></tr>
 <tr class="memdesc:ga5205dea46f5be4a546801c664d10fbb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge longer than the given input value at its midpoint and triangulates the mesh. the adjacent triangles are split into 2-4 triangles.  <a href="group__z_mesh_modifiers.html#ga5205dea46f5be4a546801c664d10fbb1">More...</a><br /></td></tr>
 <tr class="separator:ga5205dea46f5be4a546801c664d10fbb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -463,6 +466,60 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="group__z_mesh_modifiers_gaee0ef1222f28a05e210cc139a92e7774_icgraph.png" border="0" usemap="#group__z_mesh_modifiers_gaee0ef1222f28a05e210cc139a92e7774_icgraph" alt=""/></div>
 <map name="group__z_mesh_modifiers_gaee0ef1222f28a05e210cc139a92e7774_icgraph" id="group__z_mesh_modifiers_gaee0ef1222f28a05e210cc139a92e7774_icgraph">
+</map>
+</div>
+
+</div>
+</div>
+<a id="ga41f9be96453c21ac7b33b2991c284775"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga41f9be96453c21ac7b33b2991c284775">&#9670;&nbsp;</a></span>smoothMesh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::smoothMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numDivisions</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>smoothCorner</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method applies Catmull-Clark subdivision to the mesh. </p>
+<p>Based on <a href="https://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface">https://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface</a> and <a href="https://rosettacode.org/wiki/Catmull%E2%80%93Clark_subdivision_surface">https://rosettacode.org/wiki/Catmull%E2%80%93Clark_subdivision_surface</a>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numDivisions</td><td>- number of subdivision to be done on the mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">smoothCorner</td><td>- corner vertex( only 2 Connected Edges) is also smothed if true. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00995">995</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_mesh_modifiers_ga41f9be96453c21ac7b33b2991c284775_cgraph.png" border="0" usemap="#group__z_mesh_modifiers_ga41f9be96453c21ac7b33b2991c284775_cgraph" alt=""/></div>
+<map name="group__z_mesh_modifiers_ga41f9be96453c21ac7b33b2991c284775_cgraph" id="group__z_mesh_modifiers_ga41f9be96453c21ac7b33b2991c284775_cgraph">
 </map>
 </div>
 

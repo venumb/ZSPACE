@@ -1,0 +1,13 @@
+digraph "zSpace::blendColor"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node8 [label="zSpace::blendColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node8 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="zSpace::ofMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a",tooltip="This method maps the input value from the input domain to output domain. "];
+  Node8 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="zSpace::zColor::toHSV",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05",tooltip="This methods calculates the HSV components based on the RGB_A components of color. "];
+  Node8 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="zSpace::zColor::toRGB",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f",tooltip="This methods calculates the RGB_A components based on the HSV components of color. "];
+}

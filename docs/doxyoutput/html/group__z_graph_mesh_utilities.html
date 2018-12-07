@@ -118,10 +118,14 @@ Functions</h2></td></tr>
 <tr class="memitem:ga1ac292244338c6d16bf2951f8e2350a1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga1ac292244338c6d16bf2951f8e2350a1">zSpace::shortestDistance</a> (T &amp;inHEDataStructure, int index, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent)</td></tr>
 <tr class="memdesc:ga1ac292244338c6d16bf2951f8e2350a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to all vertices of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga1ac292244338c6d16bf2951f8e2350a1">More...</a><br /></td></tr>
 <tr class="separator:ga1ac292244338c6d16bf2951f8e2350a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2aa441c4310eb6047263f94c7872ac23"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga2aa441c4310eb6047263f94c7872ac23"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga2aa441c4310eb6047263f94c7872ac23">zSpace::shortestPath</a> (T &amp;inHEDataStructure, int indexA, int indexB, vector&lt; int &gt; &amp;edgePath)</td></tr>
-<tr class="memdesc:ga2aa441c4310eb6047263f94c7872ac23"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga2aa441c4310eb6047263f94c7872ac23">More...</a><br /></td></tr>
-<tr class="separator:ga2aa441c4310eb6047263f94c7872ac23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">zSpace::shortestPath_DistanceParent</a> (T &amp;inHEDataStructure, int indexA, int indexB, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent, <a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> type, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memdesc:ga2a70cef9d589619168d7b39f03b045d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh. The distance and parent containers need to be computed before using the shortest distance method.  <a href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">More...</a><br /></td></tr>
+<tr class="separator:ga2a70cef9d589619168d7b39f03b045d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">zSpace::shortestPath</a> (T &amp;inHEDataStructure, int indexA, int indexB, <a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> type, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memdesc:ga71c897289f30df16864fb1f9ead8d478"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">More...</a><br /></td></tr>
+<tr class="separator:ga71c897289f30df16864fb1f9ead8d478"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab18e2165cef96dfbf630a487ccceb92b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gab18e2165cef96dfbf630a487ccceb92b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#gab18e2165cef96dfbf630a487ccceb92b">zSpace::shortestPathWalks</a> (T &amp;inHEDataStructure, vector&lt; int &gt; &amp;edgeVisited)</td></tr>
 <tr class="memdesc:gab18e2165cef96dfbf630a487ccceb92b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the all vertices to all vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.  <a href="group__z_graph_mesh_utilities.html#gab18e2165cef96dfbf630a487ccceb92b">More...</a><br /></td></tr>
@@ -308,8 +312,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ga2aa441c4310eb6047263f94c7872ac23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2aa441c4310eb6047263f94c7872ac23">&#9670;&nbsp;</a></span>shortestPath()</h2>
+<a id="ga71c897289f30df16864fb1f9ead8d478"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga71c897289f30df16864fb1f9ead8d478">&#9670;&nbsp;</a></span>shortestPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -337,6 +341,12 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>edgePath</em>&#160;</td>
         </tr>
@@ -360,6 +370,87 @@ template&lt;typename T &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">inHEDataStructure</td><td>- input graph or mesh. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">indexA</td><td>- source vertex index. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">indexB</td><td>- destination vertex index. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">edgePath</td><td>- container of edges of the shortest path. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+</div>
+</div>
+<a id="ga2a70cef9d589619168d7b39f03b045d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2a70cef9d589619168d7b39f03b045d1">&#9670;&nbsp;</a></span>shortestPath_DistanceParent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::shortestPath_DistanceParent </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>inHEDataStructure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>indexA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>indexB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>dist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>parent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>edgePath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh. The distance and parent containers need to be computed before using the shortest distance method. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> and <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inHEDataStructure</td><td>- input graph or mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indexA</td><td>- source vertex index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indexB</td><td>- destination vertex index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dist</td><td>- container of shortest distances to each vertex from the source. To be computed using the shortest distance method. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">parent</td><td>- container of parent to each vertex. To be computed using the shortest distance method. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- zWalkType - zEdgePath or zEdgeVisited. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">edgePath</td><td>- container of edges of the shortest path. </td></tr>
   </table>
   </dd>

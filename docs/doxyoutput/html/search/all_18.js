@@ -39,6 +39,8 @@ var searchData=
   ['zdrop',['zDrop',['../group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa60de7229950b524aef5c3c0573fedd34',1,'zSpace']]],
   ['zedge',['zEdge',['../classz_space_1_1z_edge.html',1,'zSpace::zEdge'],['../classz_space_1_1z_edge.html#a9cd7a75bfc661a867ec24051e08f6095',1,'zSpace::zEdge::zEdge()']]],
   ['zedgedata',['zEdgeData',['../group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefa44c50ce3cdac17dcfab4c4f875780fc7',1,'zSpace']]],
+  ['zedgepath',['zEdgePath',['../group__z_core_enumerators.html#gga295130fe904706c1d25bc04181cf3191a929dd8fd051fc534546d0d570edba9fe',1,'zSpace']]],
+  ['zedgevisited',['zEdgeVisited',['../group__z_core_enumerators.html#gga295130fe904706c1d25bc04181cf3191aaab343c412cf1ca4a2b252ff96148932',1,'zSpace']]],
   ['zenumerators_2eh',['zEnumerators.h',['../z_enumerators_8h.html',1,'']]],
   ['zeuler',['zEuler',['../group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482a1d838c8189d609faef94dd1e8ae26af6',1,'zSpace']]],
   ['zexchange_2eh',['zExchange.h',['../z_exchange_8h.html',1,'']]],
@@ -98,7 +100,7 @@ var searchData=
   ['zmeshutilities_2eh',['zMeshUtilities.h',['../z_mesh_utilities_8h.html',1,'']]],
   ['zmin',['zMin',['../group__z_core_utilities.html#ga2eb6fc5b163e7ebfbc3af744f9dfe8bd',1,'zSpace::zMin(T val0, T val1)'],['../group__z_core_utilities.html#ga4385ede517cdd435e08c9866c6ac110b',1,'zSpace::zMin(vector&lt; T &gt; &amp;vals)']]],
   ['zmsoadata',['zMsoaData',['../group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3da84c56cf03c3b7cc44d08d4791f62f50a',1,'zSpace']]],
-  ['zobject',['zObject',['../structz_space_1_1z_object.html',1,'zSpace::zObject&lt; T &gt;'],['../structz_space_1_1z_object.html#a6c57c815dde7b45cd48bc2ed5db2abf6',1,'zSpace::zObject::zObject()'],['../group__z_object.html',1,'(Global Namespace)']]],
+  ['zobject',['zObject',['../structz_space_1_1z_object.html',1,'zSpace::zObject&lt; T &gt;'],['../structz_space_1_1z_object.html#a6c57c815dde7b45cd48bc2ed5db2abf6',1,'zSpace::zObject::zObject()']]],
   ['zobject_2eh',['zObject.h',['../z_object_8h.html',1,'']]],
   ['zopenstreet',['zOpenStreet',['../classz_space_1_1z_open_street.html',1,'zSpace::zOpenStreet'],['../classz_space_1_1z_open_street.html#aa275e86f58fb6d86e9f0d5c3b814c1c7',1,'zSpace::zOpenStreet::zOpenStreet()'],['../classz_space_1_1z_open_street.html#a2e7b90856d95856f56a763933cae27eb',1,'zSpace::zOpenStreet::zOpenStreet(char *DatabaseFileName)']]],
   ['zopenstreet_2eh',['zOpenstreet.h',['../z_openstreet_8h.html',1,'']]],
@@ -141,5 +143,6 @@ var searchData=
   ['zvectormatrixutilities_2eh',['zVectorMatrixUtilities.h',['../z_vector_matrix_utilities_8h.html',1,'']]],
   ['zvertex',['zVertex',['../classz_space_1_1z_vertex.html',1,'zSpace::zVertex'],['../classz_space_1_1z_vertex.html#a8a7e3bee86554204412e9f097bc7f359',1,'zSpace::zVertex::zVertex()']]],
   ['zvertexdata',['zVertexData',['../group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea',1,'zSpace']]],
+  ['zwalktype',['zWalkType',['../group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191',1,'zSpace']]],
   ['zways',['zWays',['../structz_space_1_1z_ways.html',1,'zSpace']]]
 ];

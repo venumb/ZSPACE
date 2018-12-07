@@ -10,5 +10,6 @@ var searchData=
   ['zintergrationtype',['zIntergrationType',['../group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482',1,'zSpace']]],
   ['zscalarfielddata',['zScalarfieldData',['../group__z_core_enumerators.html#ga76e15373806980eba7c2ee288e63ba2a',1,'zSpace']]],
   ['zslimeparameter',['zSlimeParameter',['../group__z_core_enumerators.html#ga7a472aa37aef63632adf4ed5460d8fc9',1,'zSpace']]],
-  ['zsqlcommand',['zSQLCommand',['../group__z_core_enumerators.html#ga98d3345b0fa49fd821ad7674f7ec91af',1,'zSpace']]]
+  ['zsqlcommand',['zSQLCommand',['../group__z_core_enumerators.html#ga98d3345b0fa49fd821ad7674f7ec91af',1,'zSpace']]],
+  ['zwalktype',['zWalkType',['../group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191',1,'zSpace']]]
 ];
