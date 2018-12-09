@@ -356,11 +356,11 @@ namespace zSpace
 
 		if (type = zRGB)
 		{
-			out.r = ofMap(inputValue, inputMin, inputMax, c1.r,c2.r);
-			out.g = ofMap(inputValue, inputMin, inputMax, c1.g, c2.g);
-			out.b = ofMap(inputValue, inputMin, inputMax, c1.b, c2.b);
+			out.r = ofMap(inputValue, inputMin, inputMax, cMin.r, cMax.r);
+			out.g = ofMap(inputValue, inputMin, inputMax, cMin.g, cMax.g);
+			out.b = ofMap(inputValue, inputMin, inputMax, cMin.b, cMax.b);
 
-			out.a = ofMap(inputValue, inputMin, inputMax, c1.a, c2.a);
+			out.a = ofMap(inputValue, inputMin, inputMax, cMin.a, cMax.a);
 
 			out.toHSV();
 
@@ -368,9 +368,9 @@ namespace zSpace
 
 		if (type = zHSV)
 		{
-			out.h = ofMap(inputValue, inputMin, inputMax, c1.h, c2.h);
-			out.s = ofMap(inputValue, inputMin, inputMax, c1.s, c2.s);
-			out.v = ofMap(inputValue, inputMin, inputMax, c1.v, c2.v);
+			out.h = ofMap(inputValue, inputMin, inputMax, cMin.h, cMax.h);
+			out.s = ofMap(inputValue, inputMin, inputMax, cMin.s, cMax.s);
+			out.v = ofMap(inputValue, inputMin, inputMax, cMin.v, cMax.v);
 
 			out.toRGB();
 		}

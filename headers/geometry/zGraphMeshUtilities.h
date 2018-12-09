@@ -844,7 +844,7 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zGraph &inGraph, vector<int> 
 		printf("\n total: %i source: %i ", inGraph.numVertices(), sourceVertices[i]);
 
 		// compute shortes path from all vertices to current vertex 
-		for (int j = sourceVertices[i] + 1; j < sourceVertices.size(); j++)
+		for (int j = i + 1; j < sourceVertices.size(); j++)
 		{
 			shortestPath_DistanceParent(inGraph, sourceVertices[i], sourceVertices[j],dists,parent,zEdgeVisited, edgeVisited);			
 		}
@@ -877,7 +877,7 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &s
 		printf("\n total: %i source: %i ", inMesh.numVertices(), sourceVertices[i]);
 
 		// compute shortes path from all vertices to current vertex 
-		for (int j = sourceVertices[i] + 1; j < sourceVertices.size(); j++)
+		for (int j = i + 1; j < sourceVertices.size(); j++)
 		{
 			shortestPath_DistanceParent(inMesh, sourceVertices[i], sourceVertices[j], dists, parent, zEdgeVisited, edgeVisited);
 		}
