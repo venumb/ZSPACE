@@ -10,6 +10,4 @@ digraph "zSpace::zOpenStreet::fromCoordinates"
   Node63 [label="zSpace::zOpenStreet\l::createBuildingGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a1c815f333ca41c75227a60c76db85884",tooltip="This method creates the building graph from the OSM data. "];
   Node61 -> Node64 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node64 [label="zSpace::zOpenStreet\l::fromCoordinates_ShapeCSV",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#af93fddbdfc4a6547ddd710a7ec9699af",tooltip="This method gets graph and data attributes from input shape CSV data files. "];
-  Node61 -> Node65 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node65 [label="zSpace::zOpenStreet\l::updateScalars_fromCSV",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a29a65dc5d728c2f8411b451ec56ec65f"];
 }

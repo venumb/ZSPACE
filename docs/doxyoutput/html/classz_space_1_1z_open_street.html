@@ -32,6 +32,7 @@
    <div id="projectname">zSpace
    &#160;<span id="projectnumber">v 0.0.1</span>
    </div>
+   <div id="projectbrief">zSpace is a C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('classz_space_1_1z_open_street.html',''
 </div><!--header-->
 <div class="contents">
 
-<p>A struct for storing information of OSM buildings and building graph.  
+<p>A class for storing OSM and other external data as graphs, meshes, fields, attributes etc.  
  <a href="classz_space_1_1z_open_street.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>&gt;</code></p>
@@ -171,84 +172,108 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a781c071dbd990a4c2e54d2cb062a6907"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a781c071dbd990a4c2e54d2cb062a6907">exportOSMRelationsToCSV</a> (string infilename, string outfilename_Relations, string outfilename_Relations_members, string outfilename_RelationTags)</td></tr>
 <tr class="memdesc:a781c071dbd990a4c2e54d2cb062a6907"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method exports the relations from an OSM file to 3 CSV files.  <a href="#a781c071dbd990a4c2e54d2cb062a6907">More...</a><br /></td></tr>
 <tr class="separator:a781c071dbd990a4c2e54d2cb062a6907"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29a65dc5d728c2f8411b451ec56ec65f"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a29a65dc5d728c2f8411b451ec56ec65f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a29a65dc5d728c2f8411b451ec56ec65f">updateScalars_fromCSV</a> (string infilename, vector&lt; string &gt; &amp;data)</td></tr>
+<tr class="memitem:a29a65dc5d728c2f8411b451ec56ec65f"><td class="memTemplParams" colspan="2"><a id="a29a65dc5d728c2f8411b451ec56ec65f"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:a29a65dc5d728c2f8411b451ec56ec65f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; string &gt; &amp;data)</td></tr>
 <tr class="separator:a29a65dc5d728c2f8411b451ec56ec65f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad269b797c4433cb85543622ee4aba027"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:ad269b797c4433cb85543622ee4aba027"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ad269b797c4433cb85543622ee4aba027">updateScalars_fromCSV</a> (string infilename, vector&lt; double &gt; &amp;data)</td></tr>
+<tr class="memitem:ad269b797c4433cb85543622ee4aba027"><td class="memTemplParams" colspan="2"><a id="ad269b797c4433cb85543622ee4aba027"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:ad269b797c4433cb85543622ee4aba027"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; double &gt; &amp;data)</td></tr>
 <tr class="separator:ad269b797c4433cb85543622ee4aba027"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ddb6ee57ee321538202dde564feadad"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a4ddb6ee57ee321538202dde564feadad"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a4ddb6ee57ee321538202dde564feadad">updateScalars_fromCSV</a> (string infilename, vector&lt; float &gt; &amp;data)</td></tr>
+<tr class="memitem:a4ddb6ee57ee321538202dde564feadad"><td class="memTemplParams" colspan="2"><a id="a4ddb6ee57ee321538202dde564feadad"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:a4ddb6ee57ee321538202dde564feadad"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; float &gt; &amp;data)</td></tr>
 <tr class="separator:a4ddb6ee57ee321538202dde564feadad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a897fbffa0be8d0077bce191d8fe633e4"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a897fbffa0be8d0077bce191d8fe633e4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a897fbffa0be8d0077bce191d8fe633e4">updateScalars_fromCSV</a> (string infilename, vector&lt; int &gt; &amp;data)</td></tr>
+<tr class="memitem:a897fbffa0be8d0077bce191d8fe633e4"><td class="memTemplParams" colspan="2"><a id="a897fbffa0be8d0077bce191d8fe633e4"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:a897fbffa0be8d0077bce191d8fe633e4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; int &gt; &amp;data)</td></tr>
 <tr class="separator:a897fbffa0be8d0077bce191d8fe633e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01aaa3e3952fc70efa792203efaf2a07"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a01aaa3e3952fc70efa792203efaf2a07"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a01aaa3e3952fc70efa792203efaf2a07">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; string &gt; &amp;data)</td></tr>
+<tr class="memitem:a01aaa3e3952fc70efa792203efaf2a07"><td class="memTemplParams" colspan="2"><a id="a01aaa3e3952fc70efa792203efaf2a07"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:a01aaa3e3952fc70efa792203efaf2a07"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; string &gt; &amp;data)</td></tr>
 <tr class="separator:a01aaa3e3952fc70efa792203efaf2a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ef23193dee9904c0a08420bbc54ca26"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a4ef23193dee9904c0a08420bbc54ca26"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a4ef23193dee9904c0a08420bbc54ca26">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; double &gt; &amp;data)</td></tr>
+<tr class="memitem:a4ef23193dee9904c0a08420bbc54ca26"><td class="memTemplParams" colspan="2"><a id="a4ef23193dee9904c0a08420bbc54ca26"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:a4ef23193dee9904c0a08420bbc54ca26"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; double &gt; &amp;data)</td></tr>
 <tr class="separator:a4ef23193dee9904c0a08420bbc54ca26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac15a309d13a4abb5491c9e8a28b96a11"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:ac15a309d13a4abb5491c9e8a28b96a11"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ac15a309d13a4abb5491c9e8a28b96a11">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; float &gt; &amp;data)</td></tr>
+<tr class="memitem:ac15a309d13a4abb5491c9e8a28b96a11"><td class="memTemplParams" colspan="2"><a id="ac15a309d13a4abb5491c9e8a28b96a11"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:ac15a309d13a4abb5491c9e8a28b96a11"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; float &gt; &amp;data)</td></tr>
 <tr class="separator:ac15a309d13a4abb5491c9e8a28b96a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08a737361b26bf7c33a6b9b9f81aa7dc"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a08a737361b26bf7c33a6b9b9f81aa7dc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a08a737361b26bf7c33a6b9b9f81aa7dc">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; int &gt; &amp;data)</td></tr>
+<tr class="memitem:a08a737361b26bf7c33a6b9b9f81aa7dc"><td class="memTemplParams" colspan="2"><a id="a08a737361b26bf7c33a6b9b9f81aa7dc"></a>
+template&lt;&gt; </td></tr>
+<tr class="memitem:a08a737361b26bf7c33a6b9b9f81aa7dc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>updateScalars_fromCSV</b> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;dataPositions, vector&lt; int &gt; &amp;data)</td></tr>
 <tr class="separator:a08a737361b26bf7c33a6b9b9f81aa7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a3823ce1c7cddf4013c3bff562fac07ac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a3823ce1c7cddf4013c3bff562fac07ac">n_zWays</a></td></tr>
-<tr class="memdesc:a3823ce1c7cddf4013c3bff562fac07ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores current number of ways  <a href="#a3823ce1c7cddf4013c3bff562fac07ac">More...</a><br /></td></tr>
+<tr class="memitem:a3823ce1c7cddf4013c3bff562fac07ac"><td class="memItemLeft" align="right" valign="top"><a id="a3823ce1c7cddf4013c3bff562fac07ac"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a3823ce1c7cddf4013c3bff562fac07ac">n_zWays</a></td></tr>
+<tr class="memdesc:a3823ce1c7cddf4013c3bff562fac07ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores current number of ways <br /></td></tr>
 <tr class="separator:a3823ce1c7cddf4013c3bff562fac07ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abab1273280f3e5f4be3e60845196efe4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#abab1273280f3e5f4be3e60845196efe4">streetGraph</a></td></tr>
-<tr class="memdesc:abab1273280f3e5f4be3e60845196efe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">graph of the street network given by OSM  <a href="#abab1273280f3e5f4be3e60845196efe4">More...</a><br /></td></tr>
+<tr class="memitem:abab1273280f3e5f4be3e60845196efe4"><td class="memItemLeft" align="right" valign="top"><a id="abab1273280f3e5f4be3e60845196efe4"></a>
+<a class="el" href="classz_space_1_1z_graph.html">zGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#abab1273280f3e5f4be3e60845196efe4">streetGraph</a></td></tr>
+<tr class="memdesc:abab1273280f3e5f4be3e60845196efe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">graph of the street network given by OSM <br /></td></tr>
 <tr class="separator:abab1273280f3e5f4be3e60845196efe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed3fbaf8ff4d9ea7f06c4221ed93a301"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structz_space_1_1z_ways.html">zWays</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#aed3fbaf8ff4d9ea7f06c4221ed93a301">way</a></td></tr>
-<tr class="memdesc:aed3fbaf8ff4d9ea7f06c4221ed93a301"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structz_space_1_1z_ways.html" title="A struct for storing information of OSM ways and street graph. ">zWays</a> container  <a href="#aed3fbaf8ff4d9ea7f06c4221ed93a301">More...</a><br /></td></tr>
+<tr class="memitem:aed3fbaf8ff4d9ea7f06c4221ed93a301"><td class="memItemLeft" align="right" valign="top"><a id="aed3fbaf8ff4d9ea7f06c4221ed93a301"></a>
+<a class="el" href="structz_space_1_1z_ways.html">zWays</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#aed3fbaf8ff4d9ea7f06c4221ed93a301">way</a></td></tr>
+<tr class="memdesc:aed3fbaf8ff4d9ea7f06c4221ed93a301"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structz_space_1_1z_ways.html" title="A struct for storing information of OSM ways and street graph. ">zWays</a> container <br /></td></tr>
 <tr class="separator:aed3fbaf8ff4d9ea7f06c4221ed93a301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1738ccc2187ba74ba19ab95133ed7ed8"><td class="memItemLeft" align="right" valign="top">map&lt; int, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a1738ccc2187ba74ba19ab95133ed7ed8">streetEdges_Way</a></td></tr>
-<tr class="memdesc:a1738ccc2187ba74ba19ab95133ed7ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">street graph edgeId to wayId map. Used to get correponding wayId given the street graph EdgeId.  <a href="#a1738ccc2187ba74ba19ab95133ed7ed8">More...</a><br /></td></tr>
+<tr class="memitem:a1738ccc2187ba74ba19ab95133ed7ed8"><td class="memItemLeft" align="right" valign="top"><a id="a1738ccc2187ba74ba19ab95133ed7ed8"></a>
+map&lt; int, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a1738ccc2187ba74ba19ab95133ed7ed8">streetEdges_Way</a></td></tr>
+<tr class="memdesc:a1738ccc2187ba74ba19ab95133ed7ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">street graph edgeId to wayId map. Used to get correponding wayId given the street graph EdgeId. <br /></td></tr>
 <tr class="separator:a1738ccc2187ba74ba19ab95133ed7ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9b4c3e743a05a72501015887e249fab"><td class="memItemLeft" align="right" valign="top">unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ae9b4c3e743a05a72501015887e249fab">OSMwaysID_zWayId</a></td></tr>
-<tr class="memdesc:ae9b4c3e743a05a72501015887e249fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">OSMwayId to wayId. Used to get correponding street graph edges given the osm way id.  <a href="#ae9b4c3e743a05a72501015887e249fab">More...</a><br /></td></tr>
+<tr class="memitem:ae9b4c3e743a05a72501015887e249fab"><td class="memItemLeft" align="right" valign="top"><a id="ae9b4c3e743a05a72501015887e249fab"></a>
+unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ae9b4c3e743a05a72501015887e249fab">OSMwaysID_zWayId</a></td></tr>
+<tr class="memdesc:ae9b4c3e743a05a72501015887e249fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">OSMwayId to wayId. Used to get correponding street graph edges given the osm way id. <br /></td></tr>
 <tr class="separator:ae9b4c3e743a05a72501015887e249fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24ed0ac76d61fd301a9879dd36c00dba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a24ed0ac76d61fd301a9879dd36c00dba">n_zBuildings</a></td></tr>
-<tr class="memdesc:a24ed0ac76d61fd301a9879dd36c00dba"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores current number of buildings  <a href="#a24ed0ac76d61fd301a9879dd36c00dba">More...</a><br /></td></tr>
+<tr class="memitem:a24ed0ac76d61fd301a9879dd36c00dba"><td class="memItemLeft" align="right" valign="top"><a id="a24ed0ac76d61fd301a9879dd36c00dba"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a24ed0ac76d61fd301a9879dd36c00dba">n_zBuildings</a></td></tr>
+<tr class="memdesc:a24ed0ac76d61fd301a9879dd36c00dba"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores current number of buildings <br /></td></tr>
 <tr class="separator:a24ed0ac76d61fd301a9879dd36c00dba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a2ca71cb3c3ad452aad3152f27fe75a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a5a2ca71cb3c3ad452aad3152f27fe75a">buildingGraph</a></td></tr>
-<tr class="memdesc:a5a2ca71cb3c3ad452aad3152f27fe75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">graph of the buildings given by OSM  <a href="#a5a2ca71cb3c3ad452aad3152f27fe75a">More...</a><br /></td></tr>
+<tr class="memitem:a5a2ca71cb3c3ad452aad3152f27fe75a"><td class="memItemLeft" align="right" valign="top"><a id="a5a2ca71cb3c3ad452aad3152f27fe75a"></a>
+<a class="el" href="classz_space_1_1z_graph.html">zGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a5a2ca71cb3c3ad452aad3152f27fe75a">buildingGraph</a></td></tr>
+<tr class="memdesc:a5a2ca71cb3c3ad452aad3152f27fe75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">graph of the buildings given by OSM <br /></td></tr>
 <tr class="separator:a5a2ca71cb3c3ad452aad3152f27fe75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72c0b1d1180daf5e2834090ce5e8eda2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structz_space_1_1z_buildings.html">zBuildings</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a72c0b1d1180daf5e2834090ce5e8eda2">buildings</a></td></tr>
-<tr class="memdesc:a72c0b1d1180daf5e2834090ce5e8eda2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structz_space_1_1z_buildings.html" title="A class for accessing the openstreet data and other city level data stored in a SQL database ...">zBuildings</a> container  <a href="#a72c0b1d1180daf5e2834090ce5e8eda2">More...</a><br /></td></tr>
+<tr class="memitem:a72c0b1d1180daf5e2834090ce5e8eda2"><td class="memItemLeft" align="right" valign="top"><a id="a72c0b1d1180daf5e2834090ce5e8eda2"></a>
+<a class="el" href="structz_space_1_1z_buildings.html">zBuildings</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a72c0b1d1180daf5e2834090ce5e8eda2">buildings</a></td></tr>
+<tr class="memdesc:a72c0b1d1180daf5e2834090ce5e8eda2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structz_space_1_1z_buildings.html" title="A class for accessing the openstreet data and other city level data stored in a SQL database ...">zBuildings</a> container <br /></td></tr>
 <tr class="separator:a72c0b1d1180daf5e2834090ce5e8eda2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a99f2bd2979b198a6dd9e583f13cb0f"><td class="memItemLeft" align="right" valign="top">map&lt; int, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a8a99f2bd2979b198a6dd9e583f13cb0f">buildingEdges_Building</a></td></tr>
-<tr class="memdesc:a8a99f2bd2979b198a6dd9e583f13cb0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">building graph edgeId to wayId map. Used to get correponding wayId given the building graph EdgeId.  <a href="#a8a99f2bd2979b198a6dd9e583f13cb0f">More...</a><br /></td></tr>
+<tr class="memitem:a8a99f2bd2979b198a6dd9e583f13cb0f"><td class="memItemLeft" align="right" valign="top"><a id="a8a99f2bd2979b198a6dd9e583f13cb0f"></a>
+map&lt; int, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a8a99f2bd2979b198a6dd9e583f13cb0f">buildingEdges_Building</a></td></tr>
+<tr class="memdesc:a8a99f2bd2979b198a6dd9e583f13cb0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">building graph edgeId to wayId map. Used to get correponding wayId given the building graph EdgeId. <br /></td></tr>
 <tr class="separator:a8a99f2bd2979b198a6dd9e583f13cb0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bb5898c54d3700b2801aa0a684eb115"><td class="memItemLeft" align="right" valign="top">unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a0bb5898c54d3700b2801aa0a684eb115">OSMwaysID_zBuildingsId</a></td></tr>
-<tr class="memdesc:a0bb5898c54d3700b2801aa0a684eb115"><td class="mdescLeft">&#160;</td><td class="mdescRight">OSMwayId to zbuildingId. Used to get correponding building graph edges given the osm way id.  <a href="#a0bb5898c54d3700b2801aa0a684eb115">More...</a><br /></td></tr>
+<tr class="memitem:a0bb5898c54d3700b2801aa0a684eb115"><td class="memItemLeft" align="right" valign="top"><a id="a0bb5898c54d3700b2801aa0a684eb115"></a>
+unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a0bb5898c54d3700b2801aa0a684eb115">OSMwaysID_zBuildingsId</a></td></tr>
+<tr class="memdesc:a0bb5898c54d3700b2801aa0a684eb115"><td class="mdescLeft">&#160;</td><td class="mdescRight">OSMwayId to zbuildingId. Used to get correponding building graph edges given the osm way id. <br /></td></tr>
 <tr class="separator:a0bb5898c54d3700b2801aa0a684eb115"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f633b703165a03fd4ed2a70f983c291"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a1f633b703165a03fd4ed2a70f983c291">lat_lon</a> [4]</td></tr>
-<tr class="memdesc:a1f633b703165a03fd4ed2a70f983c291"><td class="mdescLeft">&#160;</td><td class="mdescRight">bounds of OSM data in latitute and logitude.  <a href="#a1f633b703165a03fd4ed2a70f983c291">More...</a><br /></td></tr>
+<tr class="memitem:a1f633b703165a03fd4ed2a70f983c291"><td class="memItemLeft" align="right" valign="top"><a id="a1f633b703165a03fd4ed2a70f983c291"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a1f633b703165a03fd4ed2a70f983c291">lat_lon</a> [4]</td></tr>
+<tr class="memdesc:a1f633b703165a03fd4ed2a70f983c291"><td class="mdescLeft">&#160;</td><td class="mdescRight">bounds of OSM data in latitute and logitude. <br /></td></tr>
 <tr class="separator:a1f633b703165a03fd4ed2a70f983c291"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0aa0b300e431dc6bb71fdc4c4a0c7284"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a0aa0b300e431dc6bb71fdc4c4a0c7284">minBB</a></td></tr>
-<tr class="memdesc:a0aa0b300e431dc6bb71fdc4c4a0c7284"><td class="mdescLeft">&#160;</td><td class="mdescRight">minimum bounds of OSM data in 3D space given by a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#a0aa0b300e431dc6bb71fdc4c4a0c7284">More...</a><br /></td></tr>
+<tr class="memitem:a0aa0b300e431dc6bb71fdc4c4a0c7284"><td class="memItemLeft" align="right" valign="top"><a id="a0aa0b300e431dc6bb71fdc4c4a0c7284"></a>
+<a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a0aa0b300e431dc6bb71fdc4c4a0c7284">minBB</a></td></tr>
+<tr class="memdesc:a0aa0b300e431dc6bb71fdc4c4a0c7284"><td class="mdescLeft">&#160;</td><td class="mdescRight">minimum bounds of OSM data in 3D space given by a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. <br /></td></tr>
 <tr class="separator:a0aa0b300e431dc6bb71fdc4c4a0c7284"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6799edb64504f0d013d346307c36de17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a6799edb64504f0d013d346307c36de17">maxBB</a></td></tr>
-<tr class="memdesc:a6799edb64504f0d013d346307c36de17"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum bounds of OSM data in 3D space given by a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>.  <a href="#a6799edb64504f0d013d346307c36de17">More...</a><br /></td></tr>
+<tr class="memitem:a6799edb64504f0d013d346307c36de17"><td class="memItemLeft" align="right" valign="top"><a id="a6799edb64504f0d013d346307c36de17"></a>
+<a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a6799edb64504f0d013d346307c36de17">maxBB</a></td></tr>
+<tr class="memdesc:a6799edb64504f0d013d346307c36de17"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum bounds of OSM data in 3D space given by a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. <br /></td></tr>
 <tr class="separator:a6799edb64504f0d013d346307c36de17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22e26b35b38a6a65ca840b33e2015816"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_database.html">zDatabase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a22e26b35b38a6a65ca840b33e2015816">zDB</a></td></tr>
-<tr class="memdesc:a22e26b35b38a6a65ca840b33e2015816"><td class="mdescLeft">&#160;</td><td class="mdescRight">database needed to acces the OSM and other data.  <a href="#a22e26b35b38a6a65ca840b33e2015816">More...</a><br /></td></tr>
+<tr class="memitem:a22e26b35b38a6a65ca840b33e2015816"><td class="memItemLeft" align="right" valign="top"><a id="a22e26b35b38a6a65ca840b33e2015816"></a>
+<a class="el" href="classz_space_1_1z_database.html">zDatabase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a22e26b35b38a6a65ca840b33e2015816">zDB</a></td></tr>
+<tr class="memdesc:a22e26b35b38a6a65ca840b33e2015816"><td class="mdescLeft">&#160;</td><td class="mdescRight">database needed to acces the OSM and other data. <br /></td></tr>
 <tr class="separator:a22e26b35b38a6a65ca840b33e2015816"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8c6be85f18593193e526dfc58fb91f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#aa8c6be85f18593193e526dfc58fb91f3">scalarfield</a></td></tr>
-<tr class="memdesc:aa8c6be85f18593193e526dfc58fb91f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar field covering the bounds of data.  <a href="#aa8c6be85f18593193e526dfc58fb91f3">More...</a><br /></td></tr>
+<tr class="memitem:aa8c6be85f18593193e526dfc58fb91f3"><td class="memItemLeft" align="right" valign="top"><a id="aa8c6be85f18593193e526dfc58fb91f3"></a>
+<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#aa8c6be85f18593193e526dfc58fb91f3">scalarfield</a></td></tr>
+<tr class="memdesc:aa8c6be85f18593193e526dfc58fb91f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">scalar field covering the bounds of data. <br /></td></tr>
 <tr class="separator:aa8c6be85f18593193e526dfc58fb91f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8e72a5b114e67fcd4e59b6107b19039"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#af8e72a5b114e67fcd4e59b6107b19039">fieldMesh</a></td></tr>
-<tr class="memdesc:af8e72a5b114e67fcd4e59b6107b19039"><td class="mdescLeft">&#160;</td><td class="mdescRight">mesh of the scalar field.  <a href="#af8e72a5b114e67fcd4e59b6107b19039">More...</a><br /></td></tr>
+<tr class="memitem:af8e72a5b114e67fcd4e59b6107b19039"><td class="memItemLeft" align="right" valign="top"><a id="af8e72a5b114e67fcd4e59b6107b19039"></a>
+<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#af8e72a5b114e67fcd4e59b6107b19039">fieldMesh</a></td></tr>
+<tr class="memdesc:af8e72a5b114e67fcd4e59b6107b19039"><td class="mdescLeft">&#160;</td><td class="mdescRight">mesh of the scalar field. <br /></td></tr>
 <tr class="separator:af8e72a5b114e67fcd4e59b6107b19039"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A struct for storing information of OSM buildings and building graph. </p>
+<div class="textblock"><p>A class for storing OSM and other external data as graphs, meshes, fields, attributes etc. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00107">107</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1173,7 +1198,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="ab7ecf6222f0b81a52c0878db794e23e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7ecf6222f0b81a52c0878db794e23e7">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[1/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7ecf6222f0b81a52c0878db794e23e7">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1219,7 +1244,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a66a2aaab656121ed4b8841f2281119d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66a2aaab656121ed4b8841f2281119d6">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[2/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a66a2aaab656121ed4b8841f2281119d6">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1271,342 +1296,6 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a29a65dc5d728c2f8411b451ec56ec65f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29a65dc5d728c2f8411b451ec56ec65f">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[3/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01333">1333</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_a29a65dc5d728c2f8411b451ec56ec65f_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_a29a65dc5d728c2f8411b451ec56ec65f_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_a29a65dc5d728c2f8411b451ec56ec65f_cgraph" id="classz_space_1_1z_open_street_a29a65dc5d728c2f8411b451ec56ec65f_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ad269b797c4433cb85543622ee4aba027"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad269b797c4433cb85543622ee4aba027">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[4/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01398">1398</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_ad269b797c4433cb85543622ee4aba027_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_ad269b797c4433cb85543622ee4aba027_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_ad269b797c4433cb85543622ee4aba027_cgraph" id="classz_space_1_1z_open_street_ad269b797c4433cb85543622ee4aba027_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a4ddb6ee57ee321538202dde564feadad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ddb6ee57ee321538202dde564feadad">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[5/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01463">1463</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_a4ddb6ee57ee321538202dde564feadad_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_a4ddb6ee57ee321538202dde564feadad_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_a4ddb6ee57ee321538202dde564feadad_cgraph" id="classz_space_1_1z_open_street_a4ddb6ee57ee321538202dde564feadad_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a897fbffa0be8d0077bce191d8fe633e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a897fbffa0be8d0077bce191d8fe633e4">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[6/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01523">1523</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_a897fbffa0be8d0077bce191d8fe633e4_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_a897fbffa0be8d0077bce191d8fe633e4_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_a897fbffa0be8d0077bce191d8fe633e4_cgraph" id="classz_space_1_1z_open_street_a897fbffa0be8d0077bce191d8fe633e4_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a01aaa3e3952fc70efa792203efaf2a07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01aaa3e3952fc70efa792203efaf2a07">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[7/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>dataPositions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; string &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01585">1585</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_a01aaa3e3952fc70efa792203efaf2a07_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_a01aaa3e3952fc70efa792203efaf2a07_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_a01aaa3e3952fc70efa792203efaf2a07_cgraph" id="classz_space_1_1z_open_street_a01aaa3e3952fc70efa792203efaf2a07_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a4ef23193dee9904c0a08420bbc54ca26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ef23193dee9904c0a08420bbc54ca26">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[8/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>dataPositions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01652">1652</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_a4ef23193dee9904c0a08420bbc54ca26_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_a4ef23193dee9904c0a08420bbc54ca26_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_a4ef23193dee9904c0a08420bbc54ca26_cgraph" id="classz_space_1_1z_open_street_a4ef23193dee9904c0a08420bbc54ca26_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac15a309d13a4abb5491c9e8a28b96a11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac15a309d13a4abb5491c9e8a28b96a11">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[9/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>dataPositions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01713">1713</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_ac15a309d13a4abb5491c9e8a28b96a11_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_ac15a309d13a4abb5491c9e8a28b96a11_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_ac15a309d13a4abb5491c9e8a28b96a11_cgraph" id="classz_space_1_1z_open_street_ac15a309d13a4abb5491c9e8a28b96a11_cgraph">
-</map>
-</div>
-
-</div>
-</div>
-<a id="a08a737361b26bf7c33a6b9b9f81aa7dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08a737361b26bf7c33a6b9b9f81aa7dc">&#9670;&nbsp;</a></span>updateScalars_fromCSV() <span class="overload">[10/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>infilename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zSpace::zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>dataPositions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01775">1775</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_open_street_a08a737361b26bf7c33a6b9b9f81aa7dc_cgraph.png" border="0" usemap="#classz_space_1_1z_open_street_a08a737361b26bf7c33a6b9b9f81aa7dc_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_open_street_a08a737361b26bf7c33a6b9b9f81aa7dc_cgraph" id="classz_space_1_1z_open_street_a08a737361b26bf7c33a6b9b9f81aa7dc_cgraph">
-</map>
-</div>
-
-</div>
-</div>
 <a id="a832d06aa1ecf8fed5e82b6447a0cf278"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a832d06aa1ecf8fed5e82b6447a0cf278">&#9670;&nbsp;</a></span>updateScalars_GraphConnectivity()</h2>
 
@@ -1651,297 +1340,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a8a99f2bd2979b198a6dd9e583f13cb0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a99f2bd2979b198a6dd9e583f13cb0f">&#9670;&nbsp;</a></span>buildingEdges_Building</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">map&lt;int, string&gt; zSpace::zOpenStreet::buildingEdges_Building</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>building graph edgeId to wayId map. Used to get correponding wayId given the building graph EdgeId. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00145">145</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a5a2ca71cb3c3ad452aad3152f27fe75a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a2ca71cb3c3ad452aad3152f27fe75a">&#9670;&nbsp;</a></span>buildingGraph</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> zSpace::zOpenStreet::buildingGraph</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>graph of the buildings given by OSM </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00139">139</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a72c0b1d1180daf5e2834090ce5e8eda2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72c0b1d1180daf5e2834090ce5e8eda2">&#9670;&nbsp;</a></span>buildings</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structz_space_1_1z_buildings.html">zBuildings</a>* zSpace::zOpenStreet::buildings</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="structz_space_1_1z_buildings.html" title="A class for accessing the openstreet data and other city level data stored in a SQL database ...">zBuildings</a> container </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00142">142</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="af8e72a5b114e67fcd4e59b6107b19039"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8e72a5b114e67fcd4e59b6107b19039">&#9670;&nbsp;</a></span>fieldMesh</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::zOpenStreet::fieldMesh</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>mesh of the scalar field. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00172">172</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a1f633b703165a03fd4ed2a70f983c291"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f633b703165a03fd4ed2a70f983c291">&#9670;&nbsp;</a></span>lat_lon</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::zOpenStreet::lat_lon[4]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>bounds of OSM data in latitute and logitude. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00153">153</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a6799edb64504f0d013d346307c36de17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6799edb64504f0d013d346307c36de17">&#9670;&nbsp;</a></span>maxBB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zOpenStreet::maxBB</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>maximum bounds of OSM data in 3D space given by a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00159">159</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a0aa0b300e431dc6bb71fdc4c4a0c7284"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0aa0b300e431dc6bb71fdc4c4a0c7284">&#9670;&nbsp;</a></span>minBB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zOpenStreet::minBB</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>minimum bounds of OSM data in 3D space given by a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a>. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00156">156</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a24ed0ac76d61fd301a9879dd36c00dba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24ed0ac76d61fd301a9879dd36c00dba">&#9670;&nbsp;</a></span>n_zBuildings</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int zSpace::zOpenStreet::n_zBuildings</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores current number of buildings </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00136">136</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a3823ce1c7cddf4013c3bff562fac07ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3823ce1c7cddf4013c3bff562fac07ac">&#9670;&nbsp;</a></span>n_zWays</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int zSpace::zOpenStreet::n_zWays</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores current number of ways </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00119">119</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a0bb5898c54d3700b2801aa0a684eb115"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bb5898c54d3700b2801aa0a684eb115">&#9670;&nbsp;</a></span>OSMwaysID_zBuildingsId</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unordered_map&lt;string, int&gt; zSpace::zOpenStreet::OSMwaysID_zBuildingsId</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>OSMwayId to zbuildingId. Used to get correponding building graph edges given the osm way id. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00148">148</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="ae9b4c3e743a05a72501015887e249fab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9b4c3e743a05a72501015887e249fab">&#9670;&nbsp;</a></span>OSMwaysID_zWayId</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">unordered_map&lt;string, int&gt; zSpace::zOpenStreet::OSMwaysID_zWayId</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>OSMwayId to wayId. Used to get correponding street graph edges given the osm way id. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00131">131</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="aa8c6be85f18593193e526dfc58fb91f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8c6be85f18593193e526dfc58fb91f3">&#9670;&nbsp;</a></span>scalarfield</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt;double&gt; zSpace::zOpenStreet::scalarfield</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>scalar field covering the bounds of data. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00169">169</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a1738ccc2187ba74ba19ab95133ed7ed8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1738ccc2187ba74ba19ab95133ed7ed8">&#9670;&nbsp;</a></span>streetEdges_Way</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">map&lt;int, string&gt; zSpace::zOpenStreet::streetEdges_Way</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>street graph edgeId to wayId map. Used to get correponding wayId given the street graph EdgeId. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00128">128</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="abab1273280f3e5f4be3e60845196efe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abab1273280f3e5f4be3e60845196efe4">&#9670;&nbsp;</a></span>streetGraph</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> zSpace::zOpenStreet::streetGraph</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>graph of the street network given by OSM </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00122">122</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="aed3fbaf8ff4d9ea7f06c4221ed93a301"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed3fbaf8ff4d9ea7f06c4221ed93a301">&#9670;&nbsp;</a></span>way</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structz_space_1_1z_ways.html">zWays</a>* zSpace::zOpenStreet::way</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="structz_space_1_1z_ways.html" title="A struct for storing information of OSM ways and street graph. ">zWays</a> container </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00125">125</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a22e26b35b38a6a65ca840b33e2015816"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22e26b35b38a6a65ca840b33e2015816">&#9670;&nbsp;</a></span>zDB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_database.html">zDatabase</a>* zSpace::zOpenStreet::zDB</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>database needed to acces the OSM and other data. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00164">164</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/data/<a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a></li>
+<li>C:/Users/vishu/Source/Repos/zSpace_v001/headers/data/<a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

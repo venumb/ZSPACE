@@ -97,7 +97,7 @@ namespace zSpace
 	*/
 
 	/*! \class zOpenStreet
-	*	\brief A struct for storing  information of OSM buildings and building graph.
+	*	\brief A class for storing OSM and other external data as graphs, meshes, fields, attributes etc.
 	*	\since version 0.0.1
 	*/
 
