@@ -32,7 +32,6 @@
    <div id="projectname">zSpace
    &#160;<span id="projectnumber">v 0.0.1</span>
    </div>
-   <div id="projectbrief">zSpace is a C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -140,7 +139,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae1621b16757e7c12b778aa32ca936948"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#ae1621b16757e7c12b778aa32ca936948">getVertexValence</a> (int index, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type)</td></tr>
 <tr class="memdesc:ae1621b16757e7c12b778aa32ca936948"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method calculate the valency of the input <a class="el" href="classz_space_1_1z_vertex.html" title="A vertex class to hold vertex information of a half-edge data structure. ">zVertex</a>.  <a href="#ae1621b16757e7c12b778aa32ca936948">More...</a><br /></td></tr>
 <tr class="separator:ae1621b16757e7c12b778aa32ca936948"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3330c1c3dedf9c8cf09ec75341b3149f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a3330c1c3dedf9c8cf09ec75341b3149f">checkVertexValency</a> (int index, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type=zVertexData, int valence=1)</td></tr>
+<tr class="memitem:a3330c1c3dedf9c8cf09ec75341b3149f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a3330c1c3dedf9c8cf09ec75341b3149f">checkVertexValency</a> (int index, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type=<a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a>, int valence=1)</td></tr>
 <tr class="memdesc:a3330c1c3dedf9c8cf09ec75341b3149f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method determines if input <a class="el" href="classz_space_1_1z_vertex.html" title="A vertex class to hold vertex information of a half-edge data structure. ">zVertex</a> valency is equal to the input valence number.  <a href="#a3330c1c3dedf9c8cf09ec75341b3149f">More...</a><br /></td></tr>
 <tr class="separator:a3330c1c3dedf9c8cf09ec75341b3149f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d24b6ca7f58c16f1284671797267f21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a9d24b6ca7f58c16f1284671797267f21">computeEdgeColorfromVertexColor</a> ()</td></tr>
@@ -194,86 +193,68 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a832a721ec5d6e854abb8292f2f021103"><td class="memItemLeft" align="right" valign="top"><a id="a832a721ec5d6e854abb8292f2f021103"></a>
-<a class="el" href="classz_space_1_1z_vertex.html">zVertex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a832a721ec5d6e854abb8292f2f021103">vertices</a></td></tr>
-<tr class="memdesc:a832a721ec5d6e854abb8292f2f021103"><td class="mdescLeft">&#160;</td><td class="mdescRight">vertex container <br /></td></tr>
+<tr class="memitem:a832a721ec5d6e854abb8292f2f021103"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vertex.html">zVertex</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a832a721ec5d6e854abb8292f2f021103">vertices</a></td></tr>
+<tr class="memdesc:a832a721ec5d6e854abb8292f2f021103"><td class="mdescLeft">&#160;</td><td class="mdescRight">vertex container  <a href="#a832a721ec5d6e854abb8292f2f021103">More...</a><br /></td></tr>
 <tr class="separator:a832a721ec5d6e854abb8292f2f021103"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd835a1073581d7fee5991c1c27bb599"><td class="memItemLeft" align="right" valign="top"><a id="acd835a1073581d7fee5991c1c27bb599"></a>
-<a class="el" href="classz_space_1_1z_edge.html">zEdge</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#acd835a1073581d7fee5991c1c27bb599">edges</a></td></tr>
-<tr class="memdesc:acd835a1073581d7fee5991c1c27bb599"><td class="mdescLeft">&#160;</td><td class="mdescRight">edge container <br /></td></tr>
+<tr class="memitem:acd835a1073581d7fee5991c1c27bb599"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_edge.html">zEdge</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#acd835a1073581d7fee5991c1c27bb599">edges</a></td></tr>
+<tr class="memdesc:acd835a1073581d7fee5991c1c27bb599"><td class="mdescLeft">&#160;</td><td class="mdescRight">edge container  <a href="#acd835a1073581d7fee5991c1c27bb599">More...</a><br /></td></tr>
 <tr class="separator:acd835a1073581d7fee5991c1c27bb599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a113c5f823109cd33359febabb28d0"><td class="memItemLeft" align="right" valign="top"><a id="a49a113c5f823109cd33359febabb28d0"></a>
-vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a49a113c5f823109cd33359febabb28d0">vertexPositions</a></td></tr>
-<tr class="memdesc:a49a113c5f823109cd33359febabb28d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex positions. <br /></td></tr>
+<tr class="memitem:a49a113c5f823109cd33359febabb28d0"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a49a113c5f823109cd33359febabb28d0">vertexPositions</a></td></tr>
+<tr class="memdesc:a49a113c5f823109cd33359febabb28d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex positions.  <a href="#a49a113c5f823109cd33359febabb28d0">More...</a><br /></td></tr>
 <tr class="separator:a49a113c5f823109cd33359febabb28d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2580b8c91abe92485bdce62259845a56"><td class="memItemLeft" align="right" valign="top"><a id="a2580b8c91abe92485bdce62259845a56"></a>
-unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a2580b8c91abe92485bdce62259845a56">verticesEdge</a></td></tr>
-<tr class="memdesc:a2580b8c91abe92485bdce62259845a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence. <br /></td></tr>
+<tr class="memitem:a2580b8c91abe92485bdce62259845a56"><td class="memItemLeft" align="right" valign="top">unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a2580b8c91abe92485bdce62259845a56">verticesEdge</a></td></tr>
+<tr class="memdesc:a2580b8c91abe92485bdce62259845a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence.  <a href="#a2580b8c91abe92485bdce62259845a56">More...</a><br /></td></tr>
 <tr class="separator:a2580b8c91abe92485bdce62259845a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438d7472530c96e84041c46e4d5cf654"><td class="memItemLeft" align="right" valign="top"><a id="a438d7472530c96e84041c46e4d5cf654"></a>
-unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a438d7472530c96e84041c46e4d5cf654">positionVertex</a></td></tr>
-<tr class="memdesc:a438d7472530c96e84041c46e4d5cf654"><td class="mdescLeft">&#160;</td><td class="mdescRight">position to vertexId map. Used to check if vertex exists with the haskey being the vertex position. <br /></td></tr>
+<tr class="memitem:a438d7472530c96e84041c46e4d5cf654"><td class="memItemLeft" align="right" valign="top">unordered_map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a438d7472530c96e84041c46e4d5cf654">positionVertex</a></td></tr>
+<tr class="memdesc:a438d7472530c96e84041c46e4d5cf654"><td class="mdescLeft">&#160;</td><td class="mdescRight">position to vertexId map. Used to check if vertex exists with the haskey being the vertex position.  <a href="#a438d7472530c96e84041c46e4d5cf654">More...</a><br /></td></tr>
 <tr class="separator:a438d7472530c96e84041c46e4d5cf654"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67f77c1915efb374879b0ae027a53b83"><td class="memItemLeft" align="right" valign="top"><a id="a67f77c1915efb374879b0ae027a53b83"></a>
-vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a67f77c1915efb374879b0ae027a53b83">vertexColors</a></td></tr>
-<tr class="memdesc:a67f77c1915efb374879b0ae027a53b83"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex colors. <br /></td></tr>
+<tr class="memitem:a67f77c1915efb374879b0ae027a53b83"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a67f77c1915efb374879b0ae027a53b83">vertexColors</a></td></tr>
+<tr class="memdesc:a67f77c1915efb374879b0ae027a53b83"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex colors.  <a href="#a67f77c1915efb374879b0ae027a53b83">More...</a><br /></td></tr>
 <tr class="separator:a67f77c1915efb374879b0ae027a53b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a284bf728d08d035c7c85bbdd1a167a67"><td class="memItemLeft" align="right" valign="top"><a id="a284bf728d08d035c7c85bbdd1a167a67"></a>
-vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a284bf728d08d035c7c85bbdd1a167a67">edgeColors</a></td></tr>
-<tr class="memdesc:a284bf728d08d035c7c85bbdd1a167a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores edge colors. <br /></td></tr>
+<tr class="memitem:a284bf728d08d035c7c85bbdd1a167a67"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a284bf728d08d035c7c85bbdd1a167a67">edgeColors</a></td></tr>
+<tr class="memdesc:a284bf728d08d035c7c85bbdd1a167a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores edge colors.  <a href="#a284bf728d08d035c7c85bbdd1a167a67">More...</a><br /></td></tr>
 <tr class="separator:a284bf728d08d035c7c85bbdd1a167a67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d73572369c4c38bd8da0c8f00bb7c2a"><td class="memItemLeft" align="right" valign="top"><a id="a7d73572369c4c38bd8da0c8f00bb7c2a"></a>
-vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a7d73572369c4c38bd8da0c8f00bb7c2a">vertexWeights</a></td></tr>
-<tr class="memdesc:a7d73572369c4c38bd8da0c8f00bb7c2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex weights. <br /></td></tr>
+<tr class="memitem:a7d73572369c4c38bd8da0c8f00bb7c2a"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a7d73572369c4c38bd8da0c8f00bb7c2a">vertexWeights</a></td></tr>
+<tr class="memdesc:a7d73572369c4c38bd8da0c8f00bb7c2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex weights.  <a href="#a7d73572369c4c38bd8da0c8f00bb7c2a">More...</a><br /></td></tr>
 <tr class="separator:a7d73572369c4c38bd8da0c8f00bb7c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b3655fb95f6249e599ffcfe3320bbdb"><td class="memItemLeft" align="right" valign="top"><a id="a0b3655fb95f6249e599ffcfe3320bbdb"></a>
-vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0b3655fb95f6249e599ffcfe3320bbdb">edgeWeights</a></td></tr>
-<tr class="memdesc:a0b3655fb95f6249e599ffcfe3320bbdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores edge weights. <br /></td></tr>
+<tr class="memitem:a0b3655fb95f6249e599ffcfe3320bbdb"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0b3655fb95f6249e599ffcfe3320bbdb">edgeWeights</a></td></tr>
+<tr class="memdesc:a0b3655fb95f6249e599ffcfe3320bbdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores edge weights.  <a href="#a0b3655fb95f6249e599ffcfe3320bbdb">More...</a><br /></td></tr>
 <tr class="separator:a0b3655fb95f6249e599ffcfe3320bbdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ecb2ba885869cb00b13c402d4263002"><td class="memItemLeft" align="right" valign="top"><a id="a1ecb2ba885869cb00b13c402d4263002"></a>
-vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a1ecb2ba885869cb00b13c402d4263002">vertexActive</a></td></tr>
-<tr class="memdesc:a1ecb2ba885869cb00b13c402d4263002"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex status - true if active. <br /></td></tr>
+<tr class="memitem:a1ecb2ba885869cb00b13c402d4263002"><td class="memItemLeft" align="right" valign="top">vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a1ecb2ba885869cb00b13c402d4263002">vertexActive</a></td></tr>
+<tr class="memdesc:a1ecb2ba885869cb00b13c402d4263002"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores vertex status - true if active.  <a href="#a1ecb2ba885869cb00b13c402d4263002">More...</a><br /></td></tr>
 <tr class="separator:a1ecb2ba885869cb00b13c402d4263002"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e47cf0c661274b89f598d1c32585217"><td class="memItemLeft" align="right" valign="top"><a id="a0e47cf0c661274b89f598d1c32585217"></a>
-vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0e47cf0c661274b89f598d1c32585217">edgeActive</a></td></tr>
-<tr class="memdesc:a0e47cf0c661274b89f598d1c32585217"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores edge status - true if active.. <br /></td></tr>
+<tr class="memitem:a0e47cf0c661274b89f598d1c32585217"><td class="memItemLeft" align="right" valign="top">vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0e47cf0c661274b89f598d1c32585217">edgeActive</a></td></tr>
+<tr class="memdesc:a0e47cf0c661274b89f598d1c32585217"><td class="mdescLeft">&#160;</td><td class="mdescRight">container which stores edge status - true if active..  <a href="#a0e47cf0c661274b89f598d1c32585217">More...</a><br /></td></tr>
 <tr class="separator:a0e47cf0c661274b89f598d1c32585217"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae66e46dde46b645e9f487f602c54d943"><td class="memItemLeft" align="right" valign="top"><a id="ae66e46dde46b645e9f487f602c54d943"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#ae66e46dde46b645e9f487f602c54d943">VBO_VertexId</a></td></tr>
-<tr class="memdesc:ae66e46dde46b645e9f487f602c54d943"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start vertex ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. <br /></td></tr>
+<tr class="memitem:ae66e46dde46b645e9f487f602c54d943"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#ae66e46dde46b645e9f487f602c54d943">VBO_VertexId</a></td></tr>
+<tr class="memdesc:ae66e46dde46b645e9f487f602c54d943"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start vertex ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>.  <a href="#ae66e46dde46b645e9f487f602c54d943">More...</a><br /></td></tr>
 <tr class="separator:ae66e46dde46b645e9f487f602c54d943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2cc0f046d89aead5386bdbfd26fc8739"><td class="memItemLeft" align="right" valign="top"><a id="a2cc0f046d89aead5386bdbfd26fc8739"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a2cc0f046d89aead5386bdbfd26fc8739">VBO_EdgeId</a></td></tr>
-<tr class="memdesc:a2cc0f046d89aead5386bdbfd26fc8739"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start edge ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. <br /></td></tr>
+<tr class="memitem:a2cc0f046d89aead5386bdbfd26fc8739"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a2cc0f046d89aead5386bdbfd26fc8739">VBO_EdgeId</a></td></tr>
+<tr class="memdesc:a2cc0f046d89aead5386bdbfd26fc8739"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start edge ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>.  <a href="#a2cc0f046d89aead5386bdbfd26fc8739">More...</a><br /></td></tr>
 <tr class="separator:a2cc0f046d89aead5386bdbfd26fc8739"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6db092479993e2e0ceeac64e1564aa44"><td class="memItemLeft" align="right" valign="top"><a id="a6db092479993e2e0ceeac64e1564aa44"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44">VBO_VertexColorId</a></td></tr>
-<tr class="memdesc:a6db092479993e2e0ceeac64e1564aa44"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start vertex color ID in the VBO, when attache to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. <br /></td></tr>
+<tr class="memitem:a6db092479993e2e0ceeac64e1564aa44"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44">VBO_VertexColorId</a></td></tr>
+<tr class="memdesc:a6db092479993e2e0ceeac64e1564aa44"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start vertex color ID in the VBO, when attache to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>.  <a href="#a6db092479993e2e0ceeac64e1564aa44">More...</a><br /></td></tr>
 <tr class="separator:a6db092479993e2e0ceeac64e1564aa44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a8b28611b85ceff8555b9230e3af6f47a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8b28611b85ceff8555b9230e3af6f47a">resizeArray</a> (int newSize, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type=zVertexData)</td></tr>
+<tr class="memitem:a8b28611b85ceff8555b9230e3af6f47a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8b28611b85ceff8555b9230e3af6f47a">resizeArray</a> (int newSize, <a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> type=<a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a>)</td></tr>
 <tr class="memdesc:a8b28611b85ceff8555b9230e3af6f47a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method resizes the array connected with the input type to the specified newSize.  <a href="#a8b28611b85ceff8555b9230e3af6f47a">More...</a><br /></td></tr>
 <tr class="separator:a8b28611b85ceff8555b9230e3af6f47a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a8de1d08ac2f00a5b17305f339489a092"><td class="memItemLeft" align="right" valign="top"><a id="a8de1d08ac2f00a5b17305f339489a092"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8de1d08ac2f00a5b17305f339489a092">n_v</a></td></tr>
-<tr class="memdesc:a8de1d08ac2f00a5b17305f339489a092"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of active vertices <br /></td></tr>
+<tr class="memitem:a8de1d08ac2f00a5b17305f339489a092"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8de1d08ac2f00a5b17305f339489a092">n_v</a></td></tr>
+<tr class="memdesc:a8de1d08ac2f00a5b17305f339489a092"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of active vertices  <a href="#a8de1d08ac2f00a5b17305f339489a092">More...</a><br /></td></tr>
 <tr class="separator:a8de1d08ac2f00a5b17305f339489a092"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8da81568c9f0c4ee4c25568911f198c"><td class="memItemLeft" align="right" valign="top"><a id="af8da81568c9f0c4ee4c25568911f198c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#af8da81568c9f0c4ee4c25568911f198c">n_e</a></td></tr>
-<tr class="memdesc:af8da81568c9f0c4ee4c25568911f198c"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of active edges <br /></td></tr>
+<tr class="memitem:af8da81568c9f0c4ee4c25568911f198c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#af8da81568c9f0c4ee4c25568911f198c">n_e</a></td></tr>
+<tr class="memdesc:af8da81568c9f0c4ee4c25568911f198c"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of active edges  <a href="#af8da81568c9f0c4ee4c25568911f198c">More...</a><br /></td></tr>
 <tr class="separator:af8da81568c9f0c4ee4c25568911f198c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab185d273d46853570cdb859e8600a9ad"><td class="memItemLeft" align="right" valign="top"><a id="ab185d273d46853570cdb859e8600a9ad"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#ab185d273d46853570cdb859e8600a9ad">max_n_v</a></td></tr>
-<tr class="memdesc:ab185d273d46853570cdb859e8600a9ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of max vertices, which is the size of the dynamic vertices array. <br /></td></tr>
+<tr class="memitem:ab185d273d46853570cdb859e8600a9ad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#ab185d273d46853570cdb859e8600a9ad">max_n_v</a></td></tr>
+<tr class="memdesc:ab185d273d46853570cdb859e8600a9ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of max vertices, which is the size of the dynamic vertices array.  <a href="#ab185d273d46853570cdb859e8600a9ad">More...</a><br /></td></tr>
 <tr class="separator:ab185d273d46853570cdb859e8600a9ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8770334b0d78e0ef38f2529546212c26"><td class="memItemLeft" align="right" valign="top"><a id="a8770334b0d78e0ef38f2529546212c26"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8770334b0d78e0ef38f2529546212c26">max_n_e</a></td></tr>
-<tr class="memdesc:a8770334b0d78e0ef38f2529546212c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of max edges, which is the size of the dynamic vertices array. <br /></td></tr>
+<tr class="memitem:a8770334b0d78e0ef38f2529546212c26"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a8770334b0d78e0ef38f2529546212c26">max_n_e</a></td></tr>
+<tr class="memdesc:a8770334b0d78e0ef38f2529546212c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores number of max edges, which is the size of the dynamic vertices array.  <a href="#a8770334b0d78e0ef38f2529546212c26">More...</a><br /></td></tr>
 <tr class="separator:a8770334b0d78e0ef38f2529546212c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -693,7 +674,7 @@ Here is the call graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a>&#160;</td>
-          <td class="paramname"><em>type</em> = <code>zVertexData</code>, </td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1420,7 +1401,7 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a>&#160;</td>
-          <td class="paramname"><em>type</em> = <code>zVertexData</code>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1629,8 +1610,365 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0e47cf0c661274b89f598d1c32585217"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e47cf0c661274b89f598d1c32585217">&#9670;&nbsp;</a></span>edgeActive</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;bool&gt; zSpace::zGraph::edgeActive</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores edge status - true if active.. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00095">95</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a284bf728d08d035c7c85bbdd1a167a67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a284bf728d08d035c7c85bbdd1a167a67">&#9670;&nbsp;</a></span>edgeColors</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;<a class="el" href="classz_space_1_1z_color.html">zColor</a>&gt; zSpace::zGraph::edgeColors</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores edge colors. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00083">83</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="acd835a1073581d7fee5991c1c27bb599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd835a1073581d7fee5991c1c27bb599">&#9670;&nbsp;</a></span>edges</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_edge.html">zEdge</a>* zSpace::zGraph::edges</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>edge container </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00067">67</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a0b3655fb95f6249e599ffcfe3320bbdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b3655fb95f6249e599ffcfe3320bbdb">&#9670;&nbsp;</a></span>edgeWeights</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;double&gt; zSpace::zGraph::edgeWeights</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores edge weights. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00089">89</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a8770334b0d78e0ef38f2529546212c26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8770334b0d78e0ef38f2529546212c26">&#9670;&nbsp;</a></span>max_n_e</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::max_n_e</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>stores number of max edges, which is the size of the dynamic vertices array. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00053">53</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="ab185d273d46853570cdb859e8600a9ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab185d273d46853570cdb859e8600a9ad">&#9670;&nbsp;</a></span>max_n_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::max_n_v</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>stores number of max vertices, which is the size of the dynamic vertices array. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00050">50</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="af8da81568c9f0c4ee4c25568911f198c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8da81568c9f0c4ee4c25568911f198c">&#9670;&nbsp;</a></span>n_e</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::n_e</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>stores number of active edges </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00047">47</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a8de1d08ac2f00a5b17305f339489a092"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8de1d08ac2f00a5b17305f339489a092">&#9670;&nbsp;</a></span>n_v</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::n_v</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>stores number of active vertices </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00044">44</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a438d7472530c96e84041c46e4d5cf654"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a438d7472530c96e84041c46e4d5cf654">&#9670;&nbsp;</a></span>positionVertex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unordered_map&lt;string, int&gt; zSpace::zGraph::positionVertex</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>position to vertexId map. Used to check if vertex exists with the haskey being the vertex position. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00076">76</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a2cc0f046d89aead5386bdbfd26fc8739"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cc0f046d89aead5386bdbfd26fc8739">&#9670;&nbsp;</a></span>VBO_EdgeId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::VBO_EdgeId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stores the start edge ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00102">102</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a6db092479993e2e0ceeac64e1564aa44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6db092479993e2e0ceeac64e1564aa44">&#9670;&nbsp;</a></span>VBO_VertexColorId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::VBO_VertexColorId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stores the start vertex color ID in the VBO, when attache to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00105">105</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="ae66e46dde46b645e9f487f602c54d943"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66e46dde46b645e9f487f602c54d943">&#9670;&nbsp;</a></span>VBO_VertexId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zGraph::VBO_VertexId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stores the start vertex ID in the VBO, when attached to the <a class="el" href="classz_space_1_1z_buffer_object.html" title="A vertex buffer object class used to append geometry to the buffer. ">zBufferObject</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00099">99</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a1ecb2ba885869cb00b13c402d4263002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ecb2ba885869cb00b13c402d4263002">&#9670;&nbsp;</a></span>vertexActive</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;bool&gt; zSpace::zGraph::vertexActive</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores vertex status - true if active. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00092">92</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a67f77c1915efb374879b0ae027a53b83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67f77c1915efb374879b0ae027a53b83">&#9670;&nbsp;</a></span>vertexColors</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;<a class="el" href="classz_space_1_1z_color.html">zColor</a>&gt; zSpace::zGraph::vertexColors</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores vertex colors. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00080">80</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a49a113c5f823109cd33359febabb28d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49a113c5f823109cd33359febabb28d0">&#9670;&nbsp;</a></span>vertexPositions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;<a class="el" href="classz_space_1_1z_vector.html">zVector</a>&gt; zSpace::zGraph::vertexPositions</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores vertex positions. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00070">70</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a7d73572369c4c38bd8da0c8f00bb7c2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d73572369c4c38bd8da0c8f00bb7c2a">&#9670;&nbsp;</a></span>vertexWeights</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;double&gt; zSpace::zGraph::vertexWeights</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container which stores vertex weights. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00086">86</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a832a721ec5d6e854abb8292f2f021103"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a832a721ec5d6e854abb8292f2f021103">&#9670;&nbsp;</a></span>vertices</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vertex.html">zVertex</a>* zSpace::zGraph::vertices</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>vertex container </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00064">64</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a2580b8c91abe92485bdce62259845a56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2580b8c91abe92485bdce62259845a56">&#9670;&nbsp;</a></span>verticesEdge</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unordered_map&lt;string, int&gt; zSpace::zGraph::verticesEdge</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00073">73</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/vishu/Source/Repos/zSpace_v001/headers/geometry/<a class="el" href="z_graph_8h_source.html">zGraph.h</a></li>
+<li>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/geometry/<a class="el" href="z_graph_8h_source.html">zGraph.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

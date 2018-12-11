@@ -32,7 +32,6 @@
    <div id="projectname">zSpace
    &#160;<span id="projectnumber">v 0.0.1</span>
    </div>
-   <div id="projectbrief">zSpace is a C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -120,11 +119,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga1ac292244338c6d16bf2951f8e2350a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to all vertices of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga1ac292244338c6d16bf2951f8e2350a1">More...</a><br /></td></tr>
 <tr class="separator:ga1ac292244338c6d16bf2951f8e2350a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">zSpace::shortestPath_DistanceParent</a> (T &amp;inHEDataStructure, int indexA, int indexB, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent, zWalkType type, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">zSpace::shortestPath_DistanceParent</a> (T &amp;inHEDataStructure, int indexA, int indexB, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent, <a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> type, vector&lt; int &gt; &amp;edgePath)</td></tr>
 <tr class="memdesc:ga2a70cef9d589619168d7b39f03b045d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh. The distance and parent containers need to be computed before using the shortest distance method.  <a href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">More...</a><br /></td></tr>
 <tr class="separator:ga2a70cef9d589619168d7b39f03b045d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">zSpace::shortestPath</a> (T &amp;inHEDataStructure, int indexA, int indexB, zWalkType type, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">zSpace::shortestPath</a> (T &amp;inHEDataStructure, int indexA, int indexB, <a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> type, vector&lt; int &gt; &amp;edgePath)</td></tr>
 <tr class="memdesc:ga71c897289f30df16864fb1f9ead8d478"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">More...</a><br /></td></tr>
 <tr class="separator:ga71c897289f30df16864fb1f9ead8d478"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab18e2165cef96dfbf630a487ccceb92b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -139,14 +138,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ga98e94e63a237e40f7843ede1be794979"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga98e94e63a237e40f7843ede1be794979">zSpace::shortestPathWalks_SourceToOtherSource</a> (T &amp;inHEDataStructure, vector&lt; int &gt; &amp;sourceVertices, vector&lt; int &gt; &amp;edgeVisited)</td></tr>
 <tr class="memdesc:ga98e94e63a237e40f7843ede1be794979"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the all input source vertices to all other input source vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.  <a href="group__z_graph_mesh_utilities.html#ga98e94e63a237e40f7843ede1be794979">More...</a><br /></td></tr>
 <tr class="separator:ga98e94e63a237e40f7843ede1be794979"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga230b74f5240be9060425dbb1fae0c998"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga230b74f5240be9060425dbb1fae0c998"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga230b74f5240be9060425dbb1fae0c998">zSpace::walk_DistanceFromSources</a> (T &amp;inHEDataStructure, vector&lt; int &gt; &amp;sourceVertices, vector&lt; double &gt; &amp;vertexDistances)</td></tr>
-<tr class="memdesc:ga230b74f5240be9060425dbb1fae0c998"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.  <a href="group__z_graph_mesh_utilities.html#ga230b74f5240be9060425dbb1fae0c998">More...</a><br /></td></tr>
-<tr class="separator:ga230b74f5240be9060425dbb1fae0c998"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9e796e648bc1a3281bbe159213817842"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga9e796e648bc1a3281bbe159213817842"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga9e796e648bc1a3281bbe159213817842">zSpace::walk_Animate</a> (T &amp;inHEDataStructure, double MaxDistance, vector&lt; double &gt; &amp;vertexDistances, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;walkedEdges, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;currentWalkingEdges)</td></tr>
-<tr class="memdesc:ga9e796e648bc1a3281bbe159213817842"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.  <a href="group__z_graph_mesh_utilities.html#ga9e796e648bc1a3281bbe159213817842">More...</a><br /></td></tr>
-<tr class="separator:ga9e796e648bc1a3281bbe159213817842"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#gac5f1bcc96e1afa320c8bf56b58b40af8">zSpace::walkingDistance</a> (T &amp;inHEDataStructure, int index, double distance, vector&lt; int &gt; &amp;edgeVisited)</td></tr>
+<tr class="memdesc:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the edges in the zGraph/zMesh. within the input distance of the source vertex.  <a href="group__z_graph_mesh_utilities.html#gac5f1bcc96e1afa320c8bf56b58b40af8">More...</a><br /></td></tr>
+<tr class="separator:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of utility methods common for meshes and graphs. </p>
@@ -346,7 +341,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">zWalkType&#160;</td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
@@ -424,7 +419,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">zWalkType&#160;</td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
@@ -616,8 +611,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ga9e796e648bc1a3281bbe159213817842"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9e796e648bc1a3281bbe159213817842">&#9670;&nbsp;</a></span>walk_Animate()</h2>
+<a id="gac5f1bcc96e1afa320c8bf56b58b40af8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac5f1bcc96e1afa320c8bf56b58b40af8">&#9670;&nbsp;</a></span>walkingDistance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -625,89 +620,28 @@ template&lt;typename T &gt; </div>
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void zSpace::walk_Animate </td>
+          <td class="memname">void zSpace::walkingDistance </td>
           <td>(</td>
           <td class="paramtype">T &amp;&#160;</td>
           <td class="paramname"><em>inHEDataStructure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>MaxDistance</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>vertexDistances</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>walkedEdges</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>currentWalkingEdges</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> and <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inHEDataStructure</td><td>- input graph or mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">MaxDistance</td><td>- maximum walk distance. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">vertexDistances</td><td>- container of distance to each vertex from the source. To be computed using the method walkingDistance_Sources. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">walkedEdges</td><td>- container of edges already walked - stores both the start and end positions of the edge. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">currentWalkingEdges</td><td>- container of edges not completely walked - stores both the start and end positions. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-</div>
-</div>
-<a id="ga230b74f5240be9060425dbb1fae0c998"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga230b74f5240be9060425dbb1fae0c998">&#9670;&nbsp;</a></span>walk_DistanceFromSources()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::walk_DistanceFromSources </td>
-          <td>(</td>
-          <td class="paramtype">T &amp;&#160;</td>
-          <td class="paramname"><em>inHEDataStructure</em>, </td>
+          <td class="paramname"><em>distance</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>sourceVertices</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>vertexDistances</em>&#160;</td>
+          <td class="paramname"><em>edgeVisited</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -717,7 +651,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies. </p>
+<p>This method computes the edges in the zGraph/zMesh. within the input distance of the source vertex. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>- Type to work with <a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class. ">zGraph</a> and <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class. ">zMesh</a>. </td></tr>
@@ -727,8 +661,9 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">inHEDataStructure</td><td>- input graph or mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">sourceVertices</td><td>- container of source vertex indicies. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">vertexDistances</td><td>- container of distance to each vertex from the source. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- source vertex index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">distance</td><td>- max distance from source vertex. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">edgeVisited</td><td>- container of number of times edge is visited. </td></tr>
   </table>
   </dd>
 </dl>

@@ -3,9 +3,9 @@ digraph "zSpace::existsInMap"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node7 [label="zSpace::existsInMap",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node8 [label="zSpace::zOpenStreet\l::getStreetEdgesFromWays",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a4f6233b0aa505d4c167e338950bf5281",tooltip="This method extracts the edges from the street graph based on the input key and value for OSM ways ta..."];
-  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node9 [label="zSpace::zOpenStreet\l::getStreetEdgesFromRelations",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a6258d9864f730d099285f54da6396614",tooltip="This method extracts the edges from the street graph based on the input key and value for OSM relatio..."];
+  Node14 [label="zSpace::existsInMap",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="zSpace::zOpenStreet\l::getStreetEdgesFromWays",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a4f6233b0aa505d4c167e338950bf5281",tooltip="This method extracts the edges from the street graph based on the input key and value for OSM ways ta..."];
+  Node14 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="zSpace::zOpenStreet\l::getStreetEdgesFromRelations",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a6258d9864f730d099285f54da6396614",tooltip="This method extracts the edges from the street graph based on the input key and value for OSM relatio..."];
 }
