@@ -1030,7 +1030,7 @@ void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& v
 
 		else if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] > MaxDistance)
 		{
-			currentWalkingEdges.push_back(inGraph.vertexPositions[v1]);
+
 
 			double remainingDist = MaxDistance - vertexDistances[v1];
 
@@ -1038,12 +1038,26 @@ void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& v
 			dir.normalize();
 
 			zVector pos = inGraph.vertexPositions[v1] + (dir * remainingDist);
-			currentWalkingEdges.push_back(pos);
+
+			double TempDist = pos.distanceTo(inGraph.vertexPositions[v1]);
+			double TempDist2 = inGraph.vertexPositions[v2].distanceTo(inGraph.vertexPositions[v1]);
+
+			if (TempDist< TempDist2)
+			{
+				currentWalkingEdges.push_back(inGraph.vertexPositions[v1]);
+				currentWalkingEdges.push_back(pos);
+			}
+			else
+			{
+				walkedEdges.push_back(inGraph.vertexPositions[v1]);
+				walkedEdges.push_back(inGraph.vertexPositions[v2]);
+			}
+
 		}
 
 		else if (vertexDistances[v1] > MaxDistance && vertexDistances[v2] <= MaxDistance)
 		{
-			currentWalkingEdges.push_back(inGraph.vertexPositions[v2]);
+
 
 			double remainingDist = MaxDistance - vertexDistances[v2];
 
@@ -1051,7 +1065,21 @@ void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& v
 			dir.normalize();
 
 			zVector pos = inGraph.vertexPositions[v2] + (dir * remainingDist);
-			currentWalkingEdges.push_back(pos);
+
+			double TempDist = pos.distanceTo(inGraph.vertexPositions[v2]);
+			double TempDist2 = inGraph.vertexPositions[v1].distanceTo(inGraph.vertexPositions[v2]);
+
+			if (TempDist < TempDist2)
+			{
+				currentWalkingEdges.push_back(inGraph.vertexPositions[v2]);
+				currentWalkingEdges.push_back(pos);
+			}
+			else
+			{
+				walkedEdges.push_back(inGraph.vertexPositions[v1]);
+				walkedEdges.push_back(inGraph.vertexPositions[v2]);
+			}
+
 		}
 	}
 }
@@ -1078,7 +1106,7 @@ void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& ver
 
 		else if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] > MaxDistance)
 		{
-			currentWalkingEdges.push_back(inMesh.vertexPositions[v1]);
+
 
 			double remainingDist = MaxDistance - vertexDistances[v1];
 
@@ -1086,12 +1114,26 @@ void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& ver
 			dir.normalize();
 
 			zVector pos = inMesh.vertexPositions[v1] + (dir * remainingDist);
-			currentWalkingEdges.push_back(pos);
+
+			double TempDist = pos.distanceTo(inMesh.vertexPositions[v1]);
+			double TempDist2 = inMesh.vertexPositions[v2].distanceTo(inMesh.vertexPositions[v1]);
+
+			if (TempDist< TempDist2)
+			{
+				currentWalkingEdges.push_back(inMesh.vertexPositions[v1]);
+				currentWalkingEdges.push_back(pos);
+			}
+			else
+			{
+				walkedEdges.push_back(inMesh.vertexPositions[v1]);
+				walkedEdges.push_back(inMesh.vertexPositions[v2]);
+			}
+
 		}
 
 		else if (vertexDistances[v1] > MaxDistance && vertexDistances[v2] <= MaxDistance)
 		{
-			currentWalkingEdges.push_back(inMesh.vertexPositions[v2]);
+
 
 			double remainingDist = MaxDistance - vertexDistances[v2];
 
@@ -1099,7 +1141,21 @@ void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& ver
 			dir.normalize();
 
 			zVector pos = inMesh.vertexPositions[v2] + (dir * remainingDist);
-			currentWalkingEdges.push_back(pos);
+
+			double TempDist = pos.distanceTo(inMesh.vertexPositions[v2]);
+			double TempDist2 = inMesh.vertexPositions[v1].distanceTo(inMesh.vertexPositions[v2]);
+
+			if (TempDist < TempDist2)
+			{
+				currentWalkingEdges.push_back(inMesh.vertexPositions[v2]);
+				currentWalkingEdges.push_back(pos);
+			}
+			else
+			{
+				walkedEdges.push_back(inMesh.vertexPositions[v1]);
+				walkedEdges.push_back(inMesh.vertexPositions[v2]);
+			}
+
 		}
 	}
 }
