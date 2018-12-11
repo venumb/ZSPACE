@@ -122,17 +122,29 @@ namespace zSpace
 	template<typename T>
 	void shortestPathWalks_SourceToOtherSource(T &inHEDataStructure,vector<int> &sourceVertices, vector<int> &edgeVisited);
 
-	/*! \brief This method computes the edges in the zGraph/zMesh. within the input distance of the source vertex.
+	/*! \brief This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.
 	*
 	*	\tparam				T						- Type to work with zGraph and zMesh.
 	*	\param		[in]	inHEDataStructure		- input graph or mesh.
-	*	\param		[in]	index					- source vertex index.
-	*	\param		[in]	distance				- max distance from source vertex.
-	*	\param		[out]	edgeVisited				- container of number of times edge is visited.
+	*	\param		[in]	sourceVertices			- container of source vertex indicies.
+	*	\param		[out]	vertexDistances			- container of distance to each vertex from the source.
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void walkingDistance(T &inHEDataStructure, int index, double distance, vector<int>& edgeVisited);
+	void walk_DistanceFromSources(T &inHEDataStructure, vector<int>& sourceVertices, vector<double>& vertexDistances);
+
+	/*! \brief This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[in]	MaxDistance				- maximum walk distance.
+	*	\param		[in]	vertexDistances			- container of distance to each vertex from the source. To be computed using the method walkingDistance_Sources.
+	*	\param		[out]	walkedEdges				- container of edges already walked - stores both the start and end positions of the edge.
+	*	\param		[out]	currentWalkingEdges		- container of edges not completely walked - stores both the start and end positions.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	void walk_Animate(T &inHEDataStructure, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges);
 
 
 /** @}*/
@@ -886,15 +898,122 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &s
 
 //---------------//
 
-//---- graph specilization for walking distance
-template<>
-void zSpace::walkingDistance(zGraph& inGraph, int index, double distance, vector<int>& edgeVisited)
-{
-	vector<float> dists;
-	vector<int> parent;
+////---- graph specilization for walking distance
+//template<>
+//void zSpace::walkingDistance(zGraph& inGraph, int index, double distance, vector<int>& edgeVisited)
+//{
+//	vector<float> dists;
+//	vector<int> parent;
+//
+//	// get Dijkstra shortest distance spanning tree
+//	shortestDistance(inGraph, index, dists, parent);
+//
+//	for (int i = 0; i < inGraph.edgeActive.size(); i += 2)
+//	{
+//		if (!inGraph.edgeActive[i]) continue;
+//
+//		int v1 = inGraph.edges[i].getVertex()->getVertexId();
+//		int v2 = inGraph.edges[i + 1].getVertex()->getVertexId();
+//
+//		if (dists[v1] < distance && dists[v2] < distance)
+//		{
+//			edgeVisited.push_back(i);
+//			edgeVisited.push_back(i + 1);
+//		}
+//	}
+//
+//}
+//
+////---- mesh specilization for walking distance
+//template<>
+//void zSpace::walkingDistance(zMesh& inMesh, int index, double distance, vector<int>& edgeVisited)
+//{
+//	vector<float> dists;
+//	vector<int> parent;
+//
+//	// get Dijkstra shortest distance spanning tree
+//	shortestDistance(inMesh, index, dists, parent);
+//
+//	for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
+//	{
+//		if (!inMesh.edgeActive[i]) continue;
+//
+//		int v1 = inMesh.edges[i].getVertex()->getVertexId();
+//		int v2 = inMesh.edges[i + 1].getVertex()->getVertexId();
+//
+//		if (dists[v1] < distance && dists[v2] < distance)
+//		{
+//			edgeVisited.push_back(i);
+//			edgeVisited.push_back(i + 1);
+//		}
+//	}
+//
+//}
 
-	// get Dijkstra shortest distance spanning tree
-	shortestDistance(inGraph, index, dists, parent);
+//---------------//
+
+//---- graph specilization for walking distance sources
+template<>
+void zSpace::walk_DistanceFromSources(zGraph& inGraph, vector<int>& sourceVertices, vector<double>& vertexDistances)
+{
+	float maxDIST = 100000;
+
+	for (int i = 0; i < inGraph.numVertices(); i++)
+	{
+		vertexDistances.push_back(maxDIST);
+	}
+	
+	for (int i = 0; i < sourceVertices.size(); i++)
+	{
+		vector<float> dists;
+		vector<int> parent;
+
+		// get Dijkstra shortest distance spanning tree
+		shortestDistance(inGraph, sourceVertices[i], dists, parent);
+
+		for (int j = 0; j < dists.size(); j++)
+		{
+			if (dists[j] < vertexDistances[j]) vertexDistances[j] = dists[j];
+		}
+	}
+
+}
+
+//---- mesh specilization for walking distance sources
+template<>
+void zSpace::walk_DistanceFromSources(zMesh& inMesh, vector<int>& sourceVertices, vector<double>& vertexDistances)
+{
+	float maxDIST = 100000;
+
+	for (int i = 0; i < inMesh.numVertices(); i++)
+	{
+		vertexDistances.push_back(maxDIST);
+	}
+
+	for (int i = 0; i < sourceVertices.size(); i++)
+	{
+		vector<float> dists;
+		vector<int> parent;
+
+		// get Dijkstra shortest distance spanning tree
+		shortestDistance(inMesh, sourceVertices[i], dists, parent);
+
+		for (int j = 0; j < dists.size(); j++)
+		{
+			if (dists[j] < vertexDistances[j]) vertexDistances[j] = dists[j];
+		}
+	}
+
+}
+
+//---------------//
+
+//---- graph specilization for walking distance sources
+template<>
+void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
+{
+	currentWalkingEdges.clear();
+	walkedEdges.clear();
 
 	for (int i = 0; i < inGraph.edgeActive.size(); i += 2)
 	{
@@ -903,24 +1022,46 @@ void zSpace::walkingDistance(zGraph& inGraph, int index, double distance, vector
 		int v1 = inGraph.edges[i].getVertex()->getVertexId();
 		int v2 = inGraph.edges[i + 1].getVertex()->getVertexId();
 
-		if (dists[v1] < distance && dists[v2] < distance)
+		if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] <= MaxDistance)
 		{
-			edgeVisited.push_back(i);
-			edgeVisited.push_back(i + 1);
+			walkedEdges.push_back(inGraph.vertexPositions[v1]);
+			walkedEdges.push_back(inGraph.vertexPositions[v2]);
+		}
+
+		else if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] > MaxDistance)
+		{
+			currentWalkingEdges.push_back(inGraph.vertexPositions[v1]);
+
+			double remainingDist = MaxDistance - vertexDistances[v1];
+
+			zVector dir = inGraph.vertexPositions[v2] - inGraph.vertexPositions[v1];
+			dir.normalize();
+
+			zVector pos = inGraph.vertexPositions[v1] + (dir * remainingDist);
+			currentWalkingEdges.push_back(pos);
+		}
+
+		else if (vertexDistances[v1] > MaxDistance && vertexDistances[v2] <= MaxDistance)
+		{
+			currentWalkingEdges.push_back(inGraph.vertexPositions[v2]);
+
+			double remainingDist = MaxDistance - vertexDistances[v2];
+
+			zVector dir = inGraph.vertexPositions[v1] - inGraph.vertexPositions[v2];
+			dir.normalize();
+
+			zVector pos = inGraph.vertexPositions[v2] + (dir * remainingDist);
+			currentWalkingEdges.push_back(pos);
 		}
 	}
-
 }
 
-//---- graph specilization for walking distance
+//---- mesh specilization for walking distance sources
 template<>
-void zSpace::walkingDistance(zMesh& inMesh, int index, double distance, vector<int>& edgeVisited)
+void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
 {
-	vector<float> dists;
-	vector<int> parent;
-
-	// get Dijkstra shortest distance spanning tree
-	shortestDistance(inMesh, index, dists, parent);
+	currentWalkingEdges.clear();
+	walkedEdges.clear();
 
 	for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
 	{
@@ -929,15 +1070,38 @@ void zSpace::walkingDistance(zMesh& inMesh, int index, double distance, vector<i
 		int v1 = inMesh.edges[i].getVertex()->getVertexId();
 		int v2 = inMesh.edges[i + 1].getVertex()->getVertexId();
 
-		if (dists[v1] < distance && dists[v2] < distance)
+		if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] <= MaxDistance)
 		{
-			edgeVisited.push_back(i);
-			edgeVisited.push_back(i + 1);
+			walkedEdges.push_back(inMesh.vertexPositions[v1]);
+			walkedEdges.push_back(inMesh.vertexPositions[v2]);
+		}
+
+		else if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] > MaxDistance)
+		{
+			currentWalkingEdges.push_back(inMesh.vertexPositions[v1]);
+
+			double remainingDist = MaxDistance - vertexDistances[v1];
+
+			zVector dir = inMesh.vertexPositions[v2] - inMesh.vertexPositions[v1];
+			dir.normalize();
+
+			zVector pos = inMesh.vertexPositions[v1] + (dir * remainingDist);
+			currentWalkingEdges.push_back(pos);
+		}
+
+		else if (vertexDistances[v1] > MaxDistance && vertexDistances[v2] <= MaxDistance)
+		{
+			currentWalkingEdges.push_back(inMesh.vertexPositions[v2]);
+
+			double remainingDist = MaxDistance - vertexDistances[v2];
+
+			zVector dir = inMesh.vertexPositions[v1] - inMesh.vertexPositions[v2];
+			dir.normalize();
+
+			zVector pos = inMesh.vertexPositions[v2] + (dir * remainingDist);
+			currentWalkingEdges.push_back(pos);
 		}
 	}
-
 }
-
-//---------------//
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
