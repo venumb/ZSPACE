@@ -9,14 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(initResizable);
-/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -30,8 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.01</span>
    </div>
+   <div id="projectbrief">zSpace is a C++  header-only  collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -54,23 +47,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('structz_space_1_1z_ways.html','');});
-/* @license-end */
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -85,6 +61,11 @@ $(document).ready(function(){initNavTree('structz_space_1_1z_ways.html','');});
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li><li class="navelem"><a class="el" href="structz_space_1_1z_ways.html">zWays</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
@@ -101,110 +82,35 @@ $(document).ready(function(){initNavTree('structz_space_1_1z_ways.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a3f7b55c52b1e8c75776a0996df4990bb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a3f7b55c52b1e8c75776a0996df4990bb">id</a></td></tr>
-<tr class="memdesc:a3f7b55c52b1e8c75776a0996df4990bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores index of the way in a ways container.  <a href="#a3f7b55c52b1e8c75776a0996df4990bb">More...</a><br /></td></tr>
+<tr class="memitem:a3f7b55c52b1e8c75776a0996df4990bb"><td class="memItemLeft" align="right" valign="top"><a id="a3f7b55c52b1e8c75776a0996df4990bb"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a3f7b55c52b1e8c75776a0996df4990bb">id</a></td></tr>
+<tr class="memdesc:a3f7b55c52b1e8c75776a0996df4990bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores index of the way in a ways container. <br /></td></tr>
 <tr class="separator:a3f7b55c52b1e8c75776a0996df4990bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e07097ac4597fc34cf1188a75f2c700"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700">OS_wayId</a></td></tr>
-<tr class="memdesc:a9e07097ac4597fc34cf1188a75f2c700"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores index of the OSM way.  <a href="#a9e07097ac4597fc34cf1188a75f2c700">More...</a><br /></td></tr>
+<tr class="memitem:a9e07097ac4597fc34cf1188a75f2c700"><td class="memItemLeft" align="right" valign="top"><a id="a9e07097ac4597fc34cf1188a75f2c700"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700">OS_wayId</a></td></tr>
+<tr class="memdesc:a9e07097ac4597fc34cf1188a75f2c700"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores index of the OSM way. <br /></td></tr>
 <tr class="separator:a9e07097ac4597fc34cf1188a75f2c700"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45f24389bb0f3a53c9cb9cbe5115f9cc"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a45f24389bb0f3a53c9cb9cbe5115f9cc">streetGraph_edgeId</a></td></tr>
-<tr class="memdesc:a45f24389bb0f3a53c9cb9cbe5115f9cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">container of streetgraph edges which correspond to the OSM way ID.  <a href="#a45f24389bb0f3a53c9cb9cbe5115f9cc">More...</a><br /></td></tr>
+<tr class="memitem:a45f24389bb0f3a53c9cb9cbe5115f9cc"><td class="memItemLeft" align="right" valign="top"><a id="a45f24389bb0f3a53c9cb9cbe5115f9cc"></a>
+vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a45f24389bb0f3a53c9cb9cbe5115f9cc">streetGraph_edgeId</a></td></tr>
+<tr class="memdesc:a45f24389bb0f3a53c9cb9cbe5115f9cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">container of streetgraph edges which correspond to the OSM way ID. <br /></td></tr>
 <tr class="separator:a45f24389bb0f3a53c9cb9cbe5115f9cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e620271952a345fbc57e0670d6e5e71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__z_core_enumerators.html#gaabb5d42d791984316f4991557592c450">zDataStreet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a5e620271952a345fbc57e0670d6e5e71">streetType</a></td></tr>
-<tr class="memdesc:a5e620271952a345fbc57e0670d6e5e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores type of the building as given by OSM.  <a href="#a5e620271952a345fbc57e0670d6e5e71">More...</a><br /></td></tr>
+<tr class="memitem:a5e620271952a345fbc57e0670d6e5e71"><td class="memItemLeft" align="right" valign="top"><a id="a5e620271952a345fbc57e0670d6e5e71"></a>
+<a class="el" href="group__z_core_enumerators.html#gaabb5d42d791984316f4991557592c450">zDataStreet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1z_ways.html#a5e620271952a345fbc57e0670d6e5e71">streetType</a></td></tr>
+<tr class="memdesc:a5e620271952a345fbc57e0670d6e5e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores type of the building as given by OSM. <br /></td></tr>
 <tr class="separator:a5e620271952a345fbc57e0670d6e5e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A struct for storing information of OSM ways and street graph. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00034">34</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a3f7b55c52b1e8c75776a0996df4990bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f7b55c52b1e8c75776a0996df4990bb">&#9670;&nbsp;</a></span>id</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int zSpace::zWays::id</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores index of the way in a ways container. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00037">37</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a9e07097ac4597fc34cf1188a75f2c700"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e07097ac4597fc34cf1188a75f2c700">&#9670;&nbsp;</a></span>OS_wayId</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string zSpace::zWays::OS_wayId</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores index of the OSM way. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00040">40</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a45f24389bb0f3a53c9cb9cbe5115f9cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45f24389bb0f3a53c9cb9cbe5115f9cc">&#9670;&nbsp;</a></span>streetGraph_edgeId</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;int&gt; zSpace::zWays::streetGraph_edgeId</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>container of streetgraph edges which correspond to the OSM way ID. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00043">43</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<a id="a5e620271952a345fbc57e0670d6e5e71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e620271952a345fbc57e0670d6e5e71">&#9670;&nbsp;</a></span>streetType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__z_core_enumerators.html#gaabb5d42d791984316f4991557592c450">zDataStreet</a> zSpace::zWays::streetType</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>stores type of the building as given by OSM. </p>
-
-<p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l00046">46</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/data/<a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a></li>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>C:/Users/vishu/Source/Repos/zSpace_v001/headers/data/<a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a></li>
 </ul>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li><li class="navelem"><a class="el" href="structz_space_1_1z_ways.html">zWays</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
 </body>
 </html>

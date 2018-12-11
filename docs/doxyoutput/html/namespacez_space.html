@@ -9,14 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(initResizable);
-/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -30,8 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.01</span>
    </div>
+   <div id="projectbrief">zSpace is a C++  header-only  collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -54,23 +47,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('namespacez_space.html','');});
-/* @license-end */
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -85,6 +61,7 @@ $(document).ready(function(){initNavTree('namespacez_space.html','');});
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -178,98 +155,98 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:gacc8e3e94f8d366585b2bbbe7baafeeef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> { <a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea">zVertexData</a> = 0, 
-<a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefa44c50ce3cdac17dcfab4c4f875780fc7">zEdgeData</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefae2e243f1c863c625af021f7a61a01437">zFaceData</a>
+<tr class="memitem:gacc8e3e94f8d366585b2bbbe7baafeeef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">zHEData</a> { <b>zVertexData</b> = 0, 
+<b>zEdgeData</b>, 
+<b>zFaceData</b>
  }</td></tr>
 <tr class="memdesc:gacc8e3e94f8d366585b2bbbe7baafeeef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data types of a halfedge data structure.  <a href="group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef">More...</a><br /></td></tr>
 <tr class="separator:gacc8e3e94f8d366585b2bbbe7baafeeef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga76e15373806980eba7c2ee288e63ba2a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga76e15373806980eba7c2ee288e63ba2a">zScalarfieldData</a> { <a class="el" href="group__z_core_enumerators.html#gga76e15373806980eba7c2ee288e63ba2aa2fc58dd1d641a926651c4e6a7157cdca">zGradientDescent</a> =30, 
-<a class="el" href="group__z_core_enumerators.html#gga76e15373806980eba7c2ee288e63ba2aab1767bfe4675e60744294000515aab8c">zGradientAscent</a>
+<tr class="memitem:ga76e15373806980eba7c2ee288e63ba2a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga76e15373806980eba7c2ee288e63ba2a">zScalarfieldData</a> { <b>zGradientDescent</b> =30, 
+<b>zGradientAscent</b>
  }</td></tr>
 <tr class="memdesc:ga76e15373806980eba7c2ee288e63ba2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Algorithm types for field navigation.  <a href="group__z_core_enumerators.html#ga76e15373806980eba7c2ee288e63ba2a">More...</a><br /></td></tr>
 <tr class="separator:ga76e15373806980eba7c2ee288e63ba2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga09594bf00b27116aa4c4a7628ab25b68"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> { <a class="el" href="group__z_core_enumerators.html#gga09594bf00b27116aa4c4a7628ab25b68ace1c71566a1c58977d8d3e1a6637baf3">zRGB</a> = 40, 
-<a class="el" href="group__z_core_enumerators.html#gga09594bf00b27116aa4c4a7628ab25b68a9fbfb064c94d290bd310464596f2e271">zHSV</a>
+<tr class="memitem:ga09594bf00b27116aa4c4a7628ab25b68"><td class="memItemLeft" align="right" valign="top"><a id="ga09594bf00b27116aa4c4a7628ab25b68"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>zColorType</b> { <b>zRGB</b> = 40, 
+<b>zHSV</b>
  }</td></tr>
 <tr class="separator:ga09594bf00b27116aa4c4a7628ab25b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga68aa0c774f88018583ac1f8698817482"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> { <a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482a1d838c8189d609faef94dd1e8ae26af6">zEuler</a> = 60, 
-<a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482af7780a13a08fdbffef80ddfb13a3d808">zRK4</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482ae3003424a020f5c3fdbeec6c2bdcb67d">zPixel</a>
+<tr class="memitem:ga68aa0c774f88018583ac1f8698817482"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> { <b>zEuler</b> = 60, 
+<b>zRK4</b>, 
+<b>zPixel</b>
  }</td></tr>
 <tr class="memdesc:ga68aa0c774f88018583ac1f8698817482"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integration types.  <a href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">More...</a><br /></td></tr>
 <tr class="separator:ga68aa0c774f88018583ac1f8698817482"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga888f1737963f7efc6cd87ca3bfff378f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga888f1737963f7efc6cd87ca3bfff378f">zDiffusionType</a> { <a class="el" href="group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fab1257cc5dce828706b545f4ec90df0ec">zLaplacian</a> = 70, 
-<a class="el" href="group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fa3733d36d2ce021f46543606c8ef27185">zAverage</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fad58916e6918e13a911d94e752dd85b4c">zLaplacianAdjacent</a>
+<tr class="memitem:ga888f1737963f7efc6cd87ca3bfff378f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga888f1737963f7efc6cd87ca3bfff378f">zDiffusionType</a> { <b>zLaplacian</b> = 70, 
+<b>zAverage</b>, 
+<b>zLaplacianAdjacent</b>
  }</td></tr>
 <tr class="memdesc:ga888f1737963f7efc6cd87ca3bfff378f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Diffusion or averaging types.  <a href="group__z_core_enumerators.html#ga888f1737963f7efc6cd87ca3bfff378f">More...</a><br /></td></tr>
 <tr class="separator:ga888f1737963f7efc6cd87ca3bfff378f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7a472aa37aef63632adf4ed5460d8fc9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga7a472aa37aef63632adf4ed5460d8fc9">zSlimeParameter</a> { <a class="el" href="group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a37dfbfe3251a6881ca6204cdf01bc0ac">zSO</a> = 80, 
-<a class="el" href="group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a20db6e2ea8f02fcbf419cb03c5f60fef">zSA</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a95bcbeec27bbd969b2ef23ec261d3705">zRA</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga7a472aa37aef63632adf4ed5460d8fc9a73af2975c45f6f3cd99a7cdf8d101a94">zdepT</a>
+<tr class="memitem:ga7a472aa37aef63632adf4ed5460d8fc9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga7a472aa37aef63632adf4ed5460d8fc9">zSlimeParameter</a> { <b>zSO</b> = 80, 
+<b>zSA</b>, 
+<b>zRA</b>, 
+<b>zdepT</b>
  }</td></tr>
 <tr class="memdesc:ga7a472aa37aef63632adf4ed5460d8fc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slime mold parameters.  <a href="group__z_core_enumerators.html#ga7a472aa37aef63632adf4ed5460d8fc9">More...</a><br /></td></tr>
 <tr class="separator:ga7a472aa37aef63632adf4ed5460d8fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga98d3345b0fa49fd821ad7674f7ec91af"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga98d3345b0fa49fd821ad7674f7ec91af">zSQLCommand</a> { <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afaaa095ac865394fe09ea06241fa61cf2e">zCreate</a> = 90, 
-<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa92565082837d95459899dd3f42d35ce2">zInsert</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afaf7815d9ef6597b75aa953e6488d22815">zSelect</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afadf535efdd1e9d3dbb15b9f24505bac19">zSelectExists</a>, 
+&#160;&#160;<b>zCreate</b> = 90, 
+<b>zInsert</b>, 
+<b>zSelect</b>, 
+<b>zSelectExists</b>, 
 <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa51d07059bd7056831f6b06008032a91d">zSelectCreate</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa3881e5c80062312ad8e1a9e297e06102">zSelectCount</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa10352b0ffa48dce03dd429d1550d1395">zUpdate</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afa60de7229950b524aef5c3c0573fedd34">zDrop</a>, 
+&#160;&#160;<b>zSelectCreate</b>, 
+<b>zSelectCount</b>, 
+<b>zUpdate</b>, 
+<b>zDrop</b>, 
 <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afac5620949f6bf5735a7d31e552427ed35">zExportCSV</a>
+&#160;&#160;<b>zExportCSV</b>
 <br />
  }</td></tr>
 <tr class="memdesc:ga98d3345b0fa49fd821ad7674f7ec91af"><td class="mdescLeft">&#160;</td><td class="mdescRight">SQLite database command types.  <a href="group__z_core_enumerators.html#ga98d3345b0fa49fd821ad7674f7ec91af">More...</a><br /></td></tr>
 <tr class="separator:ga98d3345b0fa49fd821ad7674f7ec91af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaac31e495d9c712f436496e4cb02b6c3d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#gaac31e495d9c712f436496e4cb02b6c3d">zDataLevel</a> { <a class="el" href="group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3dabfe1ec231d9878afdae890ff7b60eef2">zLsoaData</a> = 50, 
-<a class="el" href="group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3da84c56cf03c3b7cc44d08d4791f62f50a">zMsoaData</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggaac31e495d9c712f436496e4cb02b6c3daf9c1b2f3a3a17325a9c6006c88eeac73">zPostcodeData</a>
+<tr class="memitem:gaac31e495d9c712f436496e4cb02b6c3d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#gaac31e495d9c712f436496e4cb02b6c3d">zDataLevel</a> { <b>zLsoaData</b> = 50, 
+<b>zMsoaData</b>, 
+<b>zPostcodeData</b>
  }</td></tr>
 <tr class="memdesc:gaac31e495d9c712f436496e4cb02b6c3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grid levels for data in London.  <a href="group__z_core_enumerators.html#gaac31e495d9c712f436496e4cb02b6c3d">More...</a><br /></td></tr>
 <tr class="separator:gaac31e495d9c712f436496e4cb02b6c3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga18a5c022e44dc0c7b0aef70881b07602"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga18a5c022e44dc0c7b0aef70881b07602">zDataBuilding</a> { <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a82fdc8d7474e75d6af668d4ff2518384">zCommercialBuilding</a> = 100, 
-<a class="el" href="group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a1992c70e36dd25700ee4d7f6cfa4c3fa">zResidentialBuilding</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602aea200b2385a987a06b8a72affb9bfdae">zPublicBuilding</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a58a9c3a2d59d1d134dfda2d8539f157d">zUniversityBuilding</a>, 
+&#160;&#160;<b>zCommercialBuilding</b> = 100, 
+<b>zResidentialBuilding</b>, 
+<b>zPublicBuilding</b>, 
+<b>zUniversityBuilding</b>, 
 <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a947fabfb371158f5e3da4d34a11b56c1">zUndefinedBuilding</a>
+&#160;&#160;<b>zUndefinedBuilding</b>
 <br />
  }</td></tr>
 <tr class="memdesc:ga18a5c022e44dc0c7b0aef70881b07602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grid levels for data in London.  <a href="group__z_core_enumerators.html#ga18a5c022e44dc0c7b0aef70881b07602">More...</a><br /></td></tr>
 <tr class="separator:ga18a5c022e44dc0c7b0aef70881b07602"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaabb5d42d791984316f4991557592c450"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#gaabb5d42d791984316f4991557592c450">zDataStreet</a> { <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450ac0524f0aade8f22ef7d034f7ed51c253">zTrunkStreet</a> = 20, 
-<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450acef4b805ed308155040eaa220bd2c65b">zPrimaryStreet</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a3810a72337e2fc1fe72e8c045f56e962">zSecondaryStreet</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450aa2ed427a092f006046c1520b3d6b125e">zTertiaryStreet</a>, 
+&#160;&#160;<b>zTrunkStreet</b> = 20, 
+<b>zPrimaryStreet</b>, 
+<b>zSecondaryStreet</b>, 
+<b>zTertiaryStreet</b>, 
 <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a4ab6cda489fa49b682fadcc51a54e52e">zResidentialStreet</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450aed50bbcec7cafcc051ca6a1bb910f83e">zPedestrianStreet</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a2ed568a3422894b520907b485e36155a">zCycleStreet</a>, 
-<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a6953b6c2cb35777076ef8043840bc1b5">zServiceStreet</a>, 
+&#160;&#160;<b>zResidentialStreet</b>, 
+<b>zPedestrianStreet</b>, 
+<b>zCycleStreet</b>, 
+<b>zServiceStreet</b>, 
 <br />
-&#160;&#160;<a class="el" href="group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a152bf887aae2d2eecfcaf215f25d98d7">zUndefinedStreet</a>
+&#160;&#160;<b>zUndefinedStreet</b>
 <br />
  }</td></tr>
 <tr class="memdesc:gaabb5d42d791984316f4991557592c450"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grid levels for data in London.  <a href="group__z_core_enumerators.html#gaabb5d42d791984316f4991557592c450">More...</a><br /></td></tr>
 <tr class="separator:gaabb5d42d791984316f4991557592c450"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f45e3c691b4e6190cc9aceb0a5be83b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga0f45e3c691b4e6190cc9aceb0a5be83b">zDatatypes</a> { <a class="el" href="group__z_core_enumerators.html#gga0f45e3c691b4e6190cc9aceb0a5be83bab222e4d9e86232abf7f23e95f3e9b922">zInt</a> = 110, 
-<a class="el" href="group__z_core_enumerators.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba16c4222b125f5f6a2d02cc4f6af7916c">zFloat</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba8948023c606a884296ee95e63e142ddb">zDouble</a>, 
-<a class="el" href="group__z_core_enumerators.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba39faf88b0e00ae50b8366c9250bd9a6f">zString</a>
+<tr class="memitem:ga0f45e3c691b4e6190cc9aceb0a5be83b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga0f45e3c691b4e6190cc9aceb0a5be83b">zDatatypes</a> { <b>zInt</b> = 110, 
+<b>zFloat</b>, 
+<b>zDouble</b>, 
+<b>zString</b>
  }</td></tr>
 <tr class="memdesc:ga0f45e3c691b4e6190cc9aceb0a5be83b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grid levels for data in London.  <a href="group__z_core_enumerators.html#ga0f45e3c691b4e6190cc9aceb0a5be83b">More...</a><br /></td></tr>
 <tr class="separator:ga0f45e3c691b4e6190cc9aceb0a5be83b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga295130fe904706c1d25bc04181cf3191"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> { <a class="el" href="group__z_core_enumerators.html#gga295130fe904706c1d25bc04181cf3191a929dd8fd051fc534546d0d570edba9fe">zEdgePath</a> = 120, 
-<a class="el" href="group__z_core_enumerators.html#gga295130fe904706c1d25bc04181cf3191aaab343c412cf1ca4a2b252ff96148932">zEdgeVisited</a>
+<tr class="memitem:ga295130fe904706c1d25bc04181cf3191"><td class="memItemLeft" align="right" valign="top"><a id="ga295130fe904706c1d25bc04181cf3191"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>zWalkType</b> { <b>zEdgePath</b> = 120, 
+<b>zEdgeVisited</b>
  }</td></tr>
 <tr class="separator:ga295130fe904706c1d25bc04181cf3191"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -313,14 +290,14 @@ Functions</h2></td></tr>
 <tr class="memitem:gad872a79a1b5f6d2ff4e46e086f7d282b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b">minDistance</a> (vector&lt; float &gt; &amp;dist, vector&lt; bool &gt; &amp;sptSet)</td></tr>
 <tr class="memdesc:gad872a79a1b5f6d2ff4e46e086f7d282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the vertex with minimum distance value, from the set of vertices not yet included in shortest path tree. To be used with shortestDistance method for mesh/graph.  <a href="group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b">More...</a><br /></td></tr>
 <tr class="separator:gad872a79a1b5f6d2ff4e46e086f7d282b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabb018fff433019cb4f943ad5c685a474"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474">averageColor</a> (<a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c2, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memitem:gabb018fff433019cb4f943ad5c685a474"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474">averageColor</a> (<a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c2, zColorType type)</td></tr>
 <tr class="memdesc:gabb018fff433019cb4f943ad5c685a474"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the average color of the two input colors.  <a href="group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474">More...</a><br /></td></tr>
 <tr class="separator:gabb018fff433019cb4f943ad5c685a474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga46bc357c8f3422e9d721f45967b44d13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga46bc357c8f3422e9d721f45967b44d13">averageColor</a> (vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt; &amp;c1, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memitem:ga46bc357c8f3422e9d721f45967b44d13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga46bc357c8f3422e9d721f45967b44d13">averageColor</a> (vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt; &amp;c1, zColorType type)</td></tr>
 <tr class="memdesc:ga46bc357c8f3422e9d721f45967b44d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the average color of the input color container.  <a href="group__z_core_utilities.html#ga46bc357c8f3422e9d721f45967b44d13">More...</a><br /></td></tr>
 <tr class="separator:ga46bc357c8f3422e9d721f45967b44d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61">blendColor</a> (T inputValue, T inputMin, T inputMax, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMin, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMax, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memitem:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61">blendColor</a> (T inputValue, T inputMin, T inputMax, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMin, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMax, zColorType type)</td></tr>
 <tr class="memdesc:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the blend color based on the input value, domain and the color domains.  <a href="group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61">More...</a><br /></td></tr>
 <tr class="separator:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8a6437d21ef1d59766c0660d2837b84f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_vector_matrix_utilities.html#ga8a6437d21ef1d59766c0660d2837b84f">fromMatrixRow</a> (<a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix, int rowIndex=0)</td></tr>
@@ -431,7 +408,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ga26f008d23a3bfd98b3ca9d5f6b6e40df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_print_utilities.html#ga26f008d23a3bfd98b3ca9d5f6b6e40df">printVector</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;inVec)</td></tr>
 <tr class="memdesc:ga26f008d23a3bfd98b3ca9d5f6b6e40df"><td class="mdescLeft">&#160;</td><td class="mdescRight">This methods prints the <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> values to the console.  <a href="group__z_print_utilities.html#ga26f008d23a3bfd98b3ca9d5f6b6e40df">More...</a><br /></td></tr>
 <tr class="separator:ga26f008d23a3bfd98b3ca9d5f6b6e40df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4b1ab40cea634bb41052ae843103363d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_print_utilities.html#ga4b1ab40cea634bb41052ae843103363d">printColor</a> (<a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;inCol, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> colType)</td></tr>
+<tr class="memitem:ga4b1ab40cea634bb41052ae843103363d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_print_utilities.html#ga4b1ab40cea634bb41052ae843103363d">printColor</a> (<a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;inCol, zColorType colType)</td></tr>
 <tr class="memdesc:ga4b1ab40cea634bb41052ae843103363d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This methods prints the <a class="el" href="classz_space_1_1z_color.html" title="A color math class. ">zColor</a> values to the console.  <a href="group__z_print_utilities.html#ga4b1ab40cea634bb41052ae843103363d">More...</a><br /></td></tr>
 <tr class="separator:ga4b1ab40cea634bb41052ae843103363d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga96cf7a290a07af957dbe1740993c721d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_print_utilities.html#ga96cf7a290a07af957dbe1740993c721d">printGraph</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph)</td></tr>
@@ -559,11 +536,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga1ac292244338c6d16bf2951f8e2350a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to all vertices of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga1ac292244338c6d16bf2951f8e2350a1">More...</a><br /></td></tr>
 <tr class="separator:ga1ac292244338c6d16bf2951f8e2350a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">shortestPath_DistanceParent</a> (T &amp;inHEDataStructure, int indexA, int indexB, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent, <a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> type, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memitem:ga2a70cef9d589619168d7b39f03b045d1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">shortestPath_DistanceParent</a> (T &amp;inHEDataStructure, int indexA, int indexB, vector&lt; float &gt; &amp;dist, vector&lt; int &gt; &amp;parent, zWalkType type, vector&lt; int &gt; &amp;edgePath)</td></tr>
 <tr class="memdesc:ga2a70cef9d589619168d7b39f03b045d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh. The distance and parent containers need to be computed before using the shortest distance method.  <a href="group__z_graph_mesh_utilities.html#ga2a70cef9d589619168d7b39f03b045d1">More...</a><br /></td></tr>
 <tr class="separator:ga2a70cef9d589619168d7b39f03b045d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">shortestPath</a> (T &amp;inHEDataStructure, int indexA, int indexB, <a class="el" href="group__z_core_enumerators.html#ga295130fe904706c1d25bc04181cf3191">zWalkType</a> type, vector&lt; int &gt; &amp;edgePath)</td></tr>
+<tr class="memitem:ga71c897289f30df16864fb1f9ead8d478"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">shortestPath</a> (T &amp;inHEDataStructure, int indexA, int indexB, zWalkType type, vector&lt; int &gt; &amp;edgePath)</td></tr>
 <tr class="memdesc:ga71c897289f30df16864fb1f9ead8d478"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.  <a href="group__z_graph_mesh_utilities.html#ga71c897289f30df16864fb1f9ead8d478">More...</a><br /></td></tr>
 <tr class="separator:ga71c897289f30df16864fb1f9ead8d478"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab18e2165cef96dfbf630a487ccceb92b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -578,10 +555,14 @@ Functions</h2></td></tr>
 <tr class="memitem:ga98e94e63a237e40f7843ede1be794979"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga98e94e63a237e40f7843ede1be794979">shortestPathWalks_SourceToOtherSource</a> (T &amp;inHEDataStructure, vector&lt; int &gt; &amp;sourceVertices, vector&lt; int &gt; &amp;edgeVisited)</td></tr>
 <tr class="memdesc:ga98e94e63a237e40f7843ede1be794979"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the shortest path from the all input source vertices to all other input source vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.  <a href="group__z_graph_mesh_utilities.html#ga98e94e63a237e40f7843ede1be794979">More...</a><br /></td></tr>
 <tr class="separator:ga98e94e63a237e40f7843ede1be794979"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#gac5f1bcc96e1afa320c8bf56b58b40af8">walkingDistance</a> (T &amp;inHEDataStructure, int index, double distance, vector&lt; int &gt; &amp;edgeVisited)</td></tr>
-<tr class="memdesc:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the edges in the zGraph/zMesh. within the input distance of the source vertex.  <a href="group__z_graph_mesh_utilities.html#gac5f1bcc96e1afa320c8bf56b58b40af8">More...</a><br /></td></tr>
-<tr class="separator:gac5f1bcc96e1afa320c8bf56b58b40af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga230b74f5240be9060425dbb1fae0c998"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga230b74f5240be9060425dbb1fae0c998"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga230b74f5240be9060425dbb1fae0c998">walk_DistanceFromSources</a> (T &amp;inHEDataStructure, vector&lt; int &gt; &amp;sourceVertices, vector&lt; double &gt; &amp;vertexDistances)</td></tr>
+<tr class="memdesc:ga230b74f5240be9060425dbb1fae0c998"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.  <a href="group__z_graph_mesh_utilities.html#ga230b74f5240be9060425dbb1fae0c998">More...</a><br /></td></tr>
+<tr class="separator:ga230b74f5240be9060425dbb1fae0c998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9e796e648bc1a3281bbe159213817842"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga9e796e648bc1a3281bbe159213817842"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_graph_mesh_utilities.html#ga9e796e648bc1a3281bbe159213817842">walk_Animate</a> (T &amp;inHEDataStructure, double MaxDistance, vector&lt; double &gt; &amp;vertexDistances, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;walkedEdges, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;currentWalkingEdges)</td></tr>
+<tr class="memdesc:ga9e796e648bc1a3281bbe159213817842"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.  <a href="group__z_graph_mesh_utilities.html#ga9e796e648bc1a3281bbe159213817842">More...</a><br /></td></tr>
+<tr class="separator:ga9e796e648bc1a3281bbe159213817842"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga35460aaad2c88df17da9be878dcc72f4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_graph_utilities.html#ga35460aaad2c88df17da9be878dcc72f4">totalEdgeLength</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph)</td></tr>
 <tr class="memdesc:ga35460aaad2c88df17da9be878dcc72f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the total edge length of the graph.  <a href="group__z_graph_utilities.html#ga35460aaad2c88df17da9be878dcc72f4">More...</a><br /></td></tr>
 <tr class="separator:ga35460aaad2c88df17da9be878dcc72f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -724,15 +705,11 @@ Functions</h2></td></tr>
 <div class="textblock"><p>namespace for the library. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 </div></div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
 </body>
 </html>

@@ -1,25 +1,11 @@
 var searchData=
 [
-  ['tablecreate',['tableCreate',['../classz_space_1_1z_database.html#ae0eafed99fc6b74a953455a76fe01cd8',1,'zSpace::zDatabase']]],
-  ['tableinsert',['tableInsert',['../classz_space_1_1z_database.html#aacb3de07d038e6733a52f155b9c4a01e',1,'zSpace::zDatabase']]],
-  ['tangentialrelaxation',['tangentialRelaxation',['../group__z_mesh_modifiers.html#gae42402c3129540241452c44109dcd068',1,'zSpace']]],
-  ['target_5fnewbasis',['target_newBasis',['../group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7',1,'zSpace']]],
-  ['to_5fjson',['to_json',['../classz_space_1_1z_mesh_j_s_o_n.html#a2f9c901ed11d790ecec40f3ca6ea4a17',1,'zSpace::zMeshJSON::to_json()'],['../classz_space_1_1z_graph_j_s_o_n.html#a0325de934ba660bfda600cd91beafc6c',1,'zSpace::zGraphJSON::to_json()']]],
-  ['tocolumnmatrix',['toColumnMatrix',['../classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14',1,'zSpace::zVector']]],
-  ['tocsv',['toCSV',['../group__z_i_o___graph.html#ga3e8492524d3eff240bdd307684d26609',1,'zSpace']]],
-  ['tohsv',['toHSV',['../classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05',1,'zSpace::zColor']]],
-  ['tojson',['toJSON',['../group__z_i_o___mesh.html#ga6fccda275363a86353d2750673122d6f',1,'zSpace::toJSON(zMesh &amp;inMesh, string outfilename, bool vColors=false)'],['../group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747',1,'zSpace::toJSON(zGraph &amp;inGraph, string outfilename, bool vColors=false)']]],
-  ['tolocalmatrix',['toLocalMatrix',['../group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9',1,'zSpace']]],
-  ['toobj',['toOBJ',['../group__z_i_o___mesh.html#ga56d1123fee7864f1a5da2f740b9e589d',1,'zSpace']]],
-  ['torgb',['toRGB',['../classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f',1,'zSpace::zColor']]],
-  ['torowmatrix',['toRowMatrix',['../classz_space_1_1z_vector.html#ae565bb4a1cadd5ff51efb1a9da290158',1,'zSpace::zVector']]],
-  ['totaledgelength',['totalEdgeLength',['../group__z_graph_utilities.html#ga35460aaad2c88df17da9be878dcc72f4',1,'zSpace']]],
-  ['totxt',['toTXT',['../group__z_i_o___graph.html#ga6578d361dabd565a48e2093a80e6f8b6',1,'zSpace']]],
-  ['toworldmatrix',['toWorldMatrix',['../group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e',1,'zSpace']]],
-  ['transform',['transform',['../structz_space_1_1z_object.html#a498f45e63ebb889858f9f09703a73e5f',1,'zSpace::zObject']]],
-  ['transformmesh',['transformMesh',['../group__z_mesh_utilities.html#ga6fa4734567c66b681445d824d6b76ab8',1,'zSpace']]],
-  ['transpose',['transpose',['../classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426',1,'zSpace::zMatrix']]],
-  ['trianglearea',['triangleArea',['../group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1',1,'zSpace']]],
-  ['triangulate',['triangulate',['../group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de',1,'zSpace']]],
-  ['two_5fpi',['TWO_PI',['../group__z_core_definitions.html#ga3b947f4b635461030ff2d87833e5049e',1,'zDefinitions.h']]]
+  ['union_5ffields',['union_fields',['../group__z_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b',1,'zSpace']]],
+  ['updateblendcolors',['updateBlendColors',['../group__z_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a',1,'zSpace::updateBlendColors(zMesh &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, zColor &amp;col1, zColor &amp;col2)'],['../group__z_field2_d_utilities.html#ga2f49512e60cd8d85090877fe3fce5467',1,'zSpace::updateBlendColors(zMesh &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, zColor &amp;col1, zColor &amp;col2, T dMin, T dMax)']]],
+  ['updatecolors',['updateColors',['../group__z_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16',1,'zSpace']]],
+  ['updatescalars_5ffromcsv',['updateScalars_fromCSV',['../classz_space_1_1z_open_street.html#ab7ecf6222f0b81a52c0878db794e23e7',1,'zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector&lt; T &gt; &amp;data)'],['../classz_space_1_1z_open_street.html#a66a2aaab656121ed4b8841f2281119d6',1,'zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector&lt; zVector &gt; &amp;dataPositions, vector&lt; T &gt; &amp;data)']]],
+  ['updatescalars_5fgraphconnectivity',['updateScalars_GraphConnectivity',['../classz_space_1_1z_open_street.html#a832d06aa1ecf8fed5e82b6447a0cf278',1,'zSpace::zOpenStreet']]],
+  ['updatevertexcolors',['updateVertexColors',['../classz_space_1_1z_buffer_object.html#a878600b6a32a08f8736d19085812a190',1,'zSpace::zBufferObject']]],
+  ['updatevertexnormals',['updateVertexNormals',['../classz_space_1_1z_buffer_object.html#afe75da53b58f7570902829a063f96468',1,'zSpace::zBufferObject']]],
+  ['updatevertexpositions',['updateVertexPositions',['../classz_space_1_1z_buffer_object.html#aaf7b0ac9267f1bbf24c7357ccafb039c',1,'zSpace::zBufferObject']]]
 ];

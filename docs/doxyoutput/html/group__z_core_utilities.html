@@ -9,14 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(initResizable);
-/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -30,8 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.01</span>
    </div>
+   <div id="projectbrief">zSpace is a C++  header-only  collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -55,22 +48,6 @@ $(function() {
 /* @license-end */</script>
 <div id="main-nav"></div>
 </div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('group__z_core_utilities.html','');});
-/* @license-end */
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -151,14 +128,14 @@ Functions</h2></td></tr>
 <tr class="memitem:gad872a79a1b5f6d2ff4e46e086f7d282b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b">zSpace::minDistance</a> (vector&lt; float &gt; &amp;dist, vector&lt; bool &gt; &amp;sptSet)</td></tr>
 <tr class="memdesc:gad872a79a1b5f6d2ff4e46e086f7d282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the vertex with minimum distance value, from the set of vertices not yet included in shortest path tree. To be used with shortestDistance method for mesh/graph.  <a href="group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b">More...</a><br /></td></tr>
 <tr class="separator:gad872a79a1b5f6d2ff4e46e086f7d282b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabb018fff433019cb4f943ad5c685a474"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474">zSpace::averageColor</a> (<a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c2, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memitem:gabb018fff433019cb4f943ad5c685a474"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474">zSpace::averageColor</a> (<a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;c2, zColorType type)</td></tr>
 <tr class="memdesc:gabb018fff433019cb4f943ad5c685a474"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the average color of the two input colors.  <a href="group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474">More...</a><br /></td></tr>
 <tr class="separator:gabb018fff433019cb4f943ad5c685a474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga46bc357c8f3422e9d721f45967b44d13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga46bc357c8f3422e9d721f45967b44d13">zSpace::averageColor</a> (vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt; &amp;c1, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memitem:ga46bc357c8f3422e9d721f45967b44d13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga46bc357c8f3422e9d721f45967b44d13">zSpace::averageColor</a> (vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt; &amp;c1, zColorType type)</td></tr>
 <tr class="memdesc:ga46bc357c8f3422e9d721f45967b44d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the average color of the input color container.  <a href="group__z_core_utilities.html#ga46bc357c8f3422e9d721f45967b44d13">More...</a><br /></td></tr>
 <tr class="separator:ga46bc357c8f3422e9d721f45967b44d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61">zSpace::blendColor</a> (T inputValue, T inputMin, T inputMax, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMin, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMax, <a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memitem:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61">zSpace::blendColor</a> (T inputValue, T inputMin, T inputMax, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMin, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;cMax, zColorType type)</td></tr>
 <tr class="memdesc:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the blend color based on the input value, domain and the color domains.  <a href="group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61">More...</a><br /></td></tr>
 <tr class="separator:ga8cb9d5c8a798d6bf28cd0350a7115c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -186,7 +163,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a>&#160;</td>
+          <td class="paramtype">zColorType&#160;</td>
           <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
@@ -208,15 +185,6 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00257">257</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_gabb018fff433019cb4f943ad5c685a474_cgraph.png" border="0" usemap="#group__z_core_utilities_gabb018fff433019cb4f943ad5c685a474_cgraph" alt=""/></div>
-<map name="group__z_core_utilities_gabb018fff433019cb4f943ad5c685a474_cgraph" id="group__z_core_utilities_gabb018fff433019cb4f943ad5c685a474_cgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="ga46bc357c8f3422e9d721f45967b44d13"></a>
@@ -234,7 +202,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a>&#160;</td>
+          <td class="paramtype">zColorType&#160;</td>
           <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
@@ -255,15 +223,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00294">294</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_ga46bc357c8f3422e9d721f45967b44d13_cgraph.png" border="0" usemap="#group__z_core_utilities_ga46bc357c8f3422e9d721f45967b44d13_cgraph" alt=""/></div>
-<map name="group__z_core_utilities_ga46bc357c8f3422e9d721f45967b44d13_cgraph" id="group__z_core_utilities_ga46bc357c8f3422e9d721f45967b44d13_cgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -308,7 +267,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a>&#160;</td>
+          <td class="paramtype">zColorType&#160;</td>
           <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
@@ -339,15 +298,6 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_color.html" title="A color math class. ">zColor</a> - output color. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00353">353</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_ga8cb9d5c8a798d6bf28cd0350a7115c61_cgraph.png" border="0" usemap="#group__z_core_utilities_ga8cb9d5c8a798d6bf28cd0350a7115c61_cgraph" alt=""/></div>
-<map name="group__z_core_utilities_ga8cb9d5c8a798d6bf28cd0350a7115c61_cgraph" id="group__z_core_utilities_ga8cb9d5c8a798d6bf28cd0350a7115c61_cgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -394,15 +344,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the string exists in the map. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00173">173</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_gaa8375b752d259554eef39b2c7985fa14_icgraph.png" border="0" usemap="#group__z_core_utilities_gaa8375b752d259554eef39b2c7985fa14_icgraph" alt=""/></div>
-<map name="group__z_core_utilities_gaa8375b752d259554eef39b2c7985fa14_icgraph" id="group__z_core_utilities_gaa8375b752d259554eef39b2c7985fa14_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="gad872a79a1b5f6d2ff4e46e086f7d282b"></a>
@@ -440,8 +381,6 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00226">226</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -511,15 +450,6 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - mapped value. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00078">78</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_ga772c31654e2dcf5f5ac0a884f3f9612a_icgraph.png" border="0" usemap="#group__z_core_utilities_ga772c31654e2dcf5f5ac0a884f3f9612a_icgraph" alt=""/></div>
-<map name="group__z_core_utilities_ga772c31654e2dcf5f5ac0a884f3f9612a_icgraph" id="group__z_core_utilities_ga772c31654e2dcf5f5ac0a884f3f9612a_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="ga48337d006eea339e5973eb9bc47f178f"></a>
@@ -557,8 +487,6 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int - random number between the 2 input values. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00145">145</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -598,8 +526,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - random number between the 2 input values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00156">156</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-
 </div>
 </div>
 <a id="ga4632c0bf9aaa9b88d6e928244a77cda5"></a>
@@ -638,15 +564,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;string&gt; - list of elements of split string. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00042">42</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_ga4632c0bf9aaa9b88d6e928244a77cda5_icgraph.png" border="0" usemap="#group__z_core_utilities_ga4632c0bf9aaa9b88d6e928244a77cda5_icgraph" alt=""/></div>
-<map name="group__z_core_utilities_ga4632c0bf9aaa9b88d6e928244a77cda5_icgraph" id="group__z_core_utilities_ga4632c0bf9aaa9b88d6e928244a77cda5_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -692,15 +609,6 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the position exists in the map. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00196">196</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_ga60b24175b18ed33fb7631aeb21a290dd_icgraph.png" border="0" usemap="#group__z_core_utilities_ga60b24175b18ed33fb7631aeb21a290dd_icgraph" alt=""/></div>
-<map name="group__z_core_utilities_ga60b24175b18ed33fb7631aeb21a290dd_icgraph" id="group__z_core_utilities_ga60b24175b18ed33fb7631aeb21a290dd_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -748,15 +656,6 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - maximum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00119">119</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_gacb877a2c4d1cc7223201689ba437d5dd_icgraph.png" border="0" usemap="#group__z_core_utilities_gacb877a2c4d1cc7223201689ba437d5dd_icgraph" alt=""/></div>
-<map name="group__z_core_utilities_gacb877a2c4d1cc7223201689ba437d5dd_icgraph" id="group__z_core_utilities_gacb877a2c4d1cc7223201689ba437d5dd_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="ga8284eb6898603a7fa62909145abb6ddc"></a>
@@ -791,8 +690,6 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - maximum value </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00131">131</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
 
 </div>
 </div>
@@ -840,15 +737,6 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - minimum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00091">91</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_core_utilities_ga2eb6fc5b163e7ebfbc3af744f9dfe8bd_icgraph.png" border="0" usemap="#group__z_core_utilities_ga2eb6fc5b163e7ebfbc3af744f9dfe8bd_icgraph" alt=""/></div>
-<map name="group__z_core_utilities_ga2eb6fc5b163e7ebfbc3af744f9dfe8bd_icgraph" id="group__z_core_utilities_ga2eb6fc5b163e7ebfbc3af744f9dfe8bd_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="ga4385ede517cdd435e08c9866c6ac110b"></a>
@@ -884,19 +772,14 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - minimum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utilities_8h_source.html#l00103">103</a> of file <a class="el" href="z_utilities_8h_source.html">zUtilities.h</a>.</p>
-
 </div>
 </div>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
 </body>
 </html>

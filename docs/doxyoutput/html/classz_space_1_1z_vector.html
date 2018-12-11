@@ -9,14 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(initResizable);
-/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -30,8 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.01</span>
    </div>
+   <div id="projectbrief">zSpace is a C++  header-only  collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -54,23 +47,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classz_space_1_1z_vector.html','');});
-/* @license-end */
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -85,6 +61,11 @@ $(document).ready(function(){initNavTree('classz_space_1_1z_vector.html','');});
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li><li class="navelem"><a class="el" href="classz_space_1_1z_vector.html">zVector</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -195,21 +176,22 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aa45dd954bd0fc27951899df92a152008"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#aa45dd954bd0fc27951899df92a152008">x</a></td></tr>
-<tr class="memdesc:aa45dd954bd0fc27951899df92a152008"><td class="mdescLeft">&#160;</td><td class="mdescRight">x component  <a href="#aa45dd954bd0fc27951899df92a152008">More...</a><br /></td></tr>
+<tr class="memitem:aa45dd954bd0fc27951899df92a152008"><td class="memItemLeft" align="right" valign="top"><a id="aa45dd954bd0fc27951899df92a152008"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#aa45dd954bd0fc27951899df92a152008">x</a></td></tr>
+<tr class="memdesc:aa45dd954bd0fc27951899df92a152008"><td class="mdescLeft">&#160;</td><td class="mdescRight">x component <br /></td></tr>
 <tr class="separator:aa45dd954bd0fc27951899df92a152008"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c43ae2d708b746205d9f6c8691cd753"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a7c43ae2d708b746205d9f6c8691cd753">y</a></td></tr>
-<tr class="memdesc:a7c43ae2d708b746205d9f6c8691cd753"><td class="mdescLeft">&#160;</td><td class="mdescRight">y component  <a href="#a7c43ae2d708b746205d9f6c8691cd753">More...</a><br /></td></tr>
+<tr class="memitem:a7c43ae2d708b746205d9f6c8691cd753"><td class="memItemLeft" align="right" valign="top"><a id="a7c43ae2d708b746205d9f6c8691cd753"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#a7c43ae2d708b746205d9f6c8691cd753">y</a></td></tr>
+<tr class="memdesc:a7c43ae2d708b746205d9f6c8691cd753"><td class="mdescLeft">&#160;</td><td class="mdescRight">y component <br /></td></tr>
 <tr class="separator:a7c43ae2d708b746205d9f6c8691cd753"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba8f22352b3e277987cdff71f4dcd96e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#aba8f22352b3e277987cdff71f4dcd96e">z</a></td></tr>
-<tr class="memdesc:aba8f22352b3e277987cdff71f4dcd96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">z component  <a href="#aba8f22352b3e277987cdff71f4dcd96e">More...</a><br /></td></tr>
+<tr class="memitem:aba8f22352b3e277987cdff71f4dcd96e"><td class="memItemLeft" align="right" valign="top"><a id="aba8f22352b3e277987cdff71f4dcd96e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_vector.html#aba8f22352b3e277987cdff71f4dcd96e">z</a></td></tr>
+<tr class="memdesc:aba8f22352b3e277987cdff71f4dcd96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">z component <br /></td></tr>
 <tr class="separator:aba8f22352b3e277987cdff71f4dcd96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A 3 dimensional vector math class. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00032">32</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5a0b5f364ed921eee55e847039d7c542"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a0b5f364ed921eee55e847039d7c542">&#9670;&nbsp;</a></span>zVector() <span class="overload">[1/2]</span></h2>
@@ -236,8 +218,6 @@ Public Attributes</h2></td></tr>
 
 <p>Default constructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00052">52</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -292,8 +272,6 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00067">67</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="a3bd8cc1995a059136070c7dc3c91b788"></a>
@@ -321,8 +299,6 @@ Public Attributes</h2></td></tr>
 
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00080">80</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -360,22 +336,6 @@ Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the angle between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00353">353</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_cgraph.png" border="0" usemap="#classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_cgraph" id="classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_cgraph">
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_icgraph.png" border="0" usemap="#classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_icgraph" id="classz_space_1_1z_vector_acf4156a0599baccfab7d3ff64bf4c209_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -424,22 +384,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the dihedral angle between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00388">388</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_cgraph.png" border="0" usemap="#classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_cgraph" id="classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_cgraph">
-</map>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_icgraph.png" border="0" usemap="#classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_icgraph" id="classz_space_1_1z_vector_ad8817c8e347d109784cec18a3e35728c_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a3b19c952aec086d743e8bfadaa45cdca"></a>
@@ -475,15 +419,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the distance between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00341">341</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a3b19c952aec086d743e8bfadaa45cdca_icgraph.png" border="0" usemap="#classz_space_1_1z_vector_a3b19c952aec086d743e8bfadaa45cdca_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a3b19c952aec086d743e8bfadaa45cdca_icgraph" id="classz_space_1_1z_vector_a3b19c952aec086d743e8bfadaa45cdca_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -521,15 +456,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of the column matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00476">476</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a12b8d25bfa4d24a70e24faeb5114931e_cgraph.png" border="0" usemap="#classz_space_1_1z_vector_a12b8d25bfa4d24a70e24faeb5114931e_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a12b8d25bfa4d24a70e24faeb5114931e_cgraph" id="classz_space_1_1z_vector_a12b8d25bfa4d24a70e24faeb5114931e_cgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a10c955506bd52a5a845e58f680632b50"></a>
@@ -565,15 +491,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> of the row matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00461">461</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a10c955506bd52a5a845e58f680632b50_cgraph.png" border="0" usemap="#classz_space_1_1z_vector_a10c955506bd52a5a845e58f680632b50_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a10c955506bd52a5a845e58f680632b50_cgraph" id="classz_space_1_1z_vector_a10c955506bd52a5a845e58f680632b50_cgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -611,15 +528,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the dihedral angle between the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00415">415</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a90d8f98859c540c5fd0bdea52a87d897_icgraph.png" border="0" usemap="#classz_space_1_1z_vector_a90d8f98859c540c5fd0bdea52a87d897_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a90d8f98859c540c5fd0bdea52a87d897_icgraph" id="classz_space_1_1z_vector_a90d8f98859c540c5fd0bdea52a87d897_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="aa3e1fd350f48b30428f95e716a4e3400"></a>
@@ -649,15 +557,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>double - value of the maginute of the vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00316">316</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_aa3e1fd350f48b30428f95e716a4e3400_icgraph.png" border="0" usemap="#classz_space_1_1z_vector_aa3e1fd350f48b30428f95e716a4e3400_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_aa3e1fd350f48b30428f95e716a4e3400_icgraph" id="classz_space_1_1z_vector_aa3e1fd350f48b30428f95e716a4e3400_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a27d075d5055bb92ddfe63fae4010339b"></a>
@@ -685,15 +584,6 @@ Here is the caller graph for this function:</div>
 
 <p>This method normalizes the vector to unit length. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00325">325</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a27d075d5055bb92ddfe63fae4010339b_icgraph.png" border="0" usemap="#classz_space_1_1z_vector_a27d075d5055bb92ddfe63fae4010339b_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a27d075d5055bb92ddfe63fae4010339b_icgraph" id="classz_space_1_1z_vector_a27d075d5055bb92ddfe63fae4010339b_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -731,8 +621,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>double - resultant value after the dot product. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00130">130</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="a95e70a933c305a2d596e61a7c543f720"></a>
@@ -768,8 +656,6 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00178">178</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -807,15 +693,6 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the matrix multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00190">190</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a8e674c9f4e04a4685f0571f95734ca82_cgraph.png" border="0" usemap="#classz_space_1_1z_vector_a8e674c9f4e04a4685f0571f95734ca82_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a8e674c9f4e04a4685f0571f95734ca82_cgraph" id="classz_space_1_1z_vector_a8e674c9f4e04a4685f0571f95734ca82_cgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a0bbeed0c887b54b11c7c29b61cf5f47c"></a>
@@ -850,8 +727,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00284">284</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -889,8 +764,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00106">106</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="aecf15e1bb50c971a05664f602c485b3b"></a>
@@ -927,8 +800,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00154">154</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="ab68bb4b940277d024fbf09b88d302b1c"></a>
@@ -964,8 +835,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00227">227</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="a0e9834baf61b170bfe123bdbec396872"></a>
@@ -1000,8 +869,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00256">256</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1039,8 +906,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00118">118</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="af2df9677aaf35677b00c992f935d191b"></a>
@@ -1077,8 +942,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00166">166</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="acea861f52211a1807549f165bab2ead6"></a>
@@ -1114,8 +977,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00241">241</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="ae05e5ca367ab5f1de48c4b76ddedf944"></a>
@@ -1150,8 +1011,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00270">270</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1189,8 +1048,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the scalar division. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00209">209</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="a3f18877fe16d6a6cf4c0774ec313ad7e"></a>
@@ -1225,8 +1082,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00298">298</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1264,8 +1119,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if vectors are equal. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00091">91</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <a id="a9f686a2bd88e144b7a5e9a72e372d655"></a>
@@ -1301,8 +1154,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - resultant vector after the cross product. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00142">142</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1351,15 +1202,6 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class. ">zVector</a> - rotated vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00492">492</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_vector_a7c7172b9c4f20a7ff7f24cbe092b63a6_cgraph.png" border="0" usemap="#classz_space_1_1z_vector_a7c7172b9c4f20a7ff7f24cbe092b63a6_cgraph" alt=""/></div>
-<map name="classz_space_1_1z_vector_a7c7172b9c4f20a7ff7f24cbe092b63a6_cgraph" id="classz_space_1_1z_vector_a7c7172b9c4f20a7ff7f24cbe092b63a6_cgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a5b8c358245e800e05a737ae21fb5bd14"></a>
@@ -1395,8 +1237,6 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>zMatrixd - column matrix of the vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00446">446</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
 
 </div>
 </div>
@@ -1434,78 +1274,17 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>zMatrixd - row matrix of the vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00429">429</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa45dd954bd0fc27951899df92a152008"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa45dd954bd0fc27951899df92a152008">&#9670;&nbsp;</a></span>x</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::zVector::x</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>x component </p>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00036">36</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
-</div>
-</div>
-<a id="a7c43ae2d708b746205d9f6c8691cd753"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c43ae2d708b746205d9f6c8691cd753">&#9670;&nbsp;</a></span>y</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::zVector::y</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>y component </p>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00039">39</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
-</div>
-</div>
-<a id="aba8f22352b3e277987cdff71f4dcd96e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba8f22352b3e277987cdff71f4dcd96e">&#9670;&nbsp;</a></span>z</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::zVector::z</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>z component </p>
-
-<p class="definition">Definition at line <a class="el" href="z_vector_8h_source.html#l00042">42</a> of file <a class="el" href="z_vector_8h_source.html">zVector.h</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/<a class="el" href="z_vector_8h_source.html">zVector.h</a></li>
+<li>C:/Users/vishu/Source/Repos/zSpace_v001/headers/core/<a class="el" href="z_vector_8h_source.html">zVector.h</a></li>
 </ul>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li><li class="navelem"><a class="el" href="classz_space_1_1z_vector.html">zVector</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
 </body>
 </html>

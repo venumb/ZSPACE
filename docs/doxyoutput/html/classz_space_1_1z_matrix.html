@@ -9,14 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
-<script type="text/javascript" src="navtreedata.js"></script>
-<script type="text/javascript" src="navtree.js"></script>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-  $(document).ready(initResizable);
-/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -30,8 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">zSpace
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.01</span>
    </div>
+   <div id="projectbrief">zSpace is a C++  header-only  collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
  </tr>
  </tbody>
@@ -54,23 +47,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
-<div id="side-nav" class="ui-resizable side-nav-resizable">
-  <div id="nav-tree">
-    <div id="nav-tree-contents">
-      <div id="nav-sync" class="sync"></div>
-    </div>
-  </div>
-  <div id="splitbar" style="-moz-user-select:none;" 
-       class="ui-resizable-handle">
-  </div>
-</div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('classz_space_1_1z_matrix.html','');});
-/* @license-end */
-</script>
-<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -85,6 +61,11 @@ $(document).ready(function(){initNavTree('classz_space_1_1z_matrix.html','');});
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li><li class="navelem"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -225,14 +206,17 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a9ed947d13a14c0f90710da09b0493609"><td class="memItemLeft" align="right" valign="top">vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a9ed947d13a14c0f90710da09b0493609">mat</a></td></tr>
-<tr class="memdesc:a9ed947d13a14c0f90710da09b0493609"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of values in the matrix  <a href="#a9ed947d13a14c0f90710da09b0493609">More...</a><br /></td></tr>
+<tr class="memitem:a9ed947d13a14c0f90710da09b0493609"><td class="memItemLeft" align="right" valign="top"><a id="a9ed947d13a14c0f90710da09b0493609"></a>
+vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a9ed947d13a14c0f90710da09b0493609">mat</a></td></tr>
+<tr class="memdesc:a9ed947d13a14c0f90710da09b0493609"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of values in the matrix <br /></td></tr>
 <tr class="separator:a9ed947d13a14c0f90710da09b0493609"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef984b58d15fbaf5881d0e36fc08a1df"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aef984b58d15fbaf5881d0e36fc08a1df">rows</a></td></tr>
-<tr class="memdesc:aef984b58d15fbaf5881d0e36fc08a1df"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of rows in the matrix  <a href="#aef984b58d15fbaf5881d0e36fc08a1df">More...</a><br /></td></tr>
+<tr class="memitem:aef984b58d15fbaf5881d0e36fc08a1df"><td class="memItemLeft" align="right" valign="top"><a id="aef984b58d15fbaf5881d0e36fc08a1df"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aef984b58d15fbaf5881d0e36fc08a1df">rows</a></td></tr>
+<tr class="memdesc:aef984b58d15fbaf5881d0e36fc08a1df"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of rows in the matrix <br /></td></tr>
 <tr class="separator:aef984b58d15fbaf5881d0e36fc08a1df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac826dbe36f7973a441c83befebabae06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ac826dbe36f7973a441c83befebabae06">cols</a></td></tr>
-<tr class="memdesc:ac826dbe36f7973a441c83befebabae06"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of columns in the matrix  <a href="#ac826dbe36f7973a441c83befebabae06">More...</a><br /></td></tr>
+<tr class="memitem:ac826dbe36f7973a441c83befebabae06"><td class="memItemLeft" align="right" valign="top"><a id="ac826dbe36f7973a441c83befebabae06"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ac826dbe36f7973a441c83befebabae06">cols</a></td></tr>
+<tr class="memdesc:ac826dbe36f7973a441c83befebabae06"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of columns in the matrix <br /></td></tr>
 <tr class="separator:ac826dbe36f7973a441c83befebabae06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -247,8 +231,6 @@ class zSpace::zMatrix&lt; T &gt;</h3>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00032">32</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a73e667fabb7c1ed6894cc917af7b7618"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a73e667fabb7c1ed6894cc917af7b7618">&#9670;&nbsp;</a></span>zMatrix() <span class="overload">[1/4]</span></h2>
@@ -283,8 +265,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00057">57</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -347,8 +327,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00083">83</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="aad83a902a46b1f25c8738cf2b27c3e0c"></a>
@@ -391,8 +369,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00101">101</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -448,8 +424,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00124">124</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="af682a3225ce8a8dfcc0fb26b3c797a6d"></a>
@@ -479,8 +453,6 @@ template&lt;typename T&gt; </div>
 
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00146">146</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -520,8 +492,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant adjoint <a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a>. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00853">853</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a356ae1d5f9ba149ef3726a71cdd78fcb"></a>
@@ -559,8 +529,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant cofactor <a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a>. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00809">809</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a131871f68be2ee2f7679c3e1154d5d44"></a>
@@ -597,15 +565,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>T - determinant value. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00909">909</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_a131871f68be2ee2f7679c3e1154d5d44_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_a131871f68be2ee2f7679c3e1154d5d44_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_a131871f68be2ee2f7679c3e1154d5d44_icgraph" id="classz_space_1_1z_matrix_a131871f68be2ee2f7679c3e1154d5d44_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -651,15 +610,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;T&gt; - vector of column values. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00205">205</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_aeac2ded2fa3667acd6d3e28c7ece183d_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_aeac2ded2fa3667acd6d3e28c7ece183d_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_aeac2ded2fa3667acd6d3e28c7ece183d_icgraph" id="classz_space_1_1z_matrix_aeac2ded2fa3667acd6d3e28c7ece183d_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a3d650d1d927fee3b0d3a1891829c511d"></a>
@@ -697,8 +647,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;T&gt; - vector of diagonal values. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00225">225</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a9f99bbcdb6224e24488e8e01d51937be"></a>
@@ -730,15 +678,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>int - number of columns. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00171">171</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_a9f99bbcdb6224e24488e8e01d51937be_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_a9f99bbcdb6224e24488e8e01d51937be_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_a9f99bbcdb6224e24488e8e01d51937be_icgraph" id="classz_space_1_1z_matrix_a9f99bbcdb6224e24488e8e01d51937be_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="ae85a1183dc320f27fca7608431d5c4f5"></a>
@@ -769,15 +708,6 @@ template&lt;typename T&gt; </div>
 <p>This method gets the number of rows in the matrix. </p>
 <dl class="section return"><dt>Returns</dt><dd>int - number of rows. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00160">160</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_ae85a1183dc320f27fca7608431d5c4f5_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_ae85a1183dc320f27fca7608431d5c4f5_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_ae85a1183dc320f27fca7608431d5c4f5_icgraph" id="classz_space_1_1z_matrix_ae85a1183dc320f27fca7608431d5c4f5_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -823,15 +753,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;T&gt; - vector of row values. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00184">184</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_a65c848d1249b713e9c1e5e4dbb096d15_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_a65c848d1249b713e9c1e5e4dbb096d15_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_a65c848d1249b713e9c1e5e4dbb096d15_icgraph" id="classz_space_1_1z_matrix_a65c848d1249b713e9c1e5e4dbb096d15_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="ac16780181dc4b4684aac87c36fe57383"></a>
@@ -875,15 +796,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if inverse matrix exists. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00871">871</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_ac16780181dc4b4684aac87c36fe57383_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_ac16780181dc4b4684aac87c36fe57383_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_ac16780181dc4b4684aac87c36fe57383_icgraph" id="classz_space_1_1z_matrix_ac16780181dc4b4684aac87c36fe57383_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -938,8 +850,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant leftover matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00775">775</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -996,8 +906,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - reference to the coefficient. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00445">445</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="ab747f9edecdc13479d4cc18b9a8e1961"></a>
@@ -1041,8 +949,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>T - reference to the coefficient. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00461">461</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1088,8 +994,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant matrix after the multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00569">569</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a5eb908056b857eae15b1c25a78f818d2"></a>
@@ -1134,8 +1038,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant matrix after the multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00606">606</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a7755f2663062228887f70c4ada9ae962"></a>
@@ -1178,8 +1080,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00708">708</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1225,8 +1125,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant matrix after the addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00476">476</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a89750b940abc295fc15fb06271edb533"></a>
@@ -1271,8 +1169,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant matrix after the addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00501">501</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="af1ce91b548b450da6a2573280694fc69"></a>
@@ -1316,8 +1212,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00631">631</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a2e28c95d530fe2c8cdbf45039fc04c73"></a>
@@ -1360,8 +1254,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00652">652</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1407,8 +1299,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant matrix after the subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00523">523</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a13d7c217fd2dd47790dd4ed6155d8ad7"></a>
@@ -1453,8 +1343,6 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant matrix after the subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00548">548</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="afcbeb89e1fec61a8ae71c921fb5c1be7"></a>
@@ -1497,8 +1385,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00668">668</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1543,8 +1429,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00689">689</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="afef6e0917239fe5f6cfa9904b148048a"></a>
@@ -1587,8 +1471,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00727">727</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1644,15 +1526,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00309">309</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_aed2d0cb2a763840e9182d79a16ec85ef_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_aed2d0cb2a763840e9182d79a16ec85ef_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_aed2d0cb2a763840e9182d79a16ec85ef_icgraph" id="classz_space_1_1z_matrix_aed2d0cb2a763840e9182d79a16ec85ef_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a81e01aa4a2d9ee8f17f1ae201ee1e997"></a>
@@ -1707,8 +1580,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00328">328</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a4f5f8550531f785c493536140fe5e34b"></a>
@@ -1751,8 +1622,6 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00347">347</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1797,8 +1666,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00368">368</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a6dbef309a8f7a801bb28909c90ce0de1"></a>
@@ -1828,15 +1695,6 @@ template&lt;typename T&gt; </div>
 
 <p>This method sets the matrix to identity if it is a square matrix. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00424">424</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_a6dbef309a8f7a801bb28909c90ce0de1_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_a6dbef309a8f7a801bb28909c90ce0de1_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_a6dbef309a8f7a801bb28909c90ce0de1_icgraph" id="classz_space_1_1z_matrix_a6dbef309a8f7a801bb28909c90ce0de1_icgraph">
-</map>
-</div>
 
 </div>
 </div>
@@ -1881,8 +1739,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00254">254</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a560fab1967f0e35e58e9e98f2e912355"></a>
@@ -1912,8 +1768,6 @@ template&lt;typename T&gt; </div>
 
 <p>This method sets values of the matrix to one. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00407">407</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1969,15 +1823,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00269">269</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_ae4d1edb48ef79097b18a02755cc859e1_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_ae4d1edb48ef79097b18a02755cc859e1_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_ae4d1edb48ef79097b18a02755cc859e1_icgraph" id="classz_space_1_1z_matrix_ae4d1edb48ef79097b18a02755cc859e1_icgraph">
-</map>
-</div>
-
 </div>
 </div>
 <a id="a6a8915e7dbe2804d0abef17b7a5b3124"></a>
@@ -2032,8 +1877,6 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00289">289</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <a id="a0c99ec33a4f87ef9b7d0d8df37fb7299"></a>
@@ -2063,8 +1906,6 @@ template&lt;typename T&gt; </div>
 
 <p>This method sets values of the matrix to zero. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00389">389</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -2103,115 +1944,17 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class. ">zMatrix</a> - resultant transpose matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00750">750</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classz_space_1_1z_matrix_a364dca7a222638c9fbec32c9c82a9426_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_a364dca7a222638c9fbec32c9c82a9426_icgraph" alt=""/></div>
-<map name="classz_space_1_1z_matrix_a364dca7a222638c9fbec32c9c82a9426_icgraph" id="classz_space_1_1z_matrix_a364dca7a222638c9fbec32c9c82a9426_icgraph">
-</map>
-</div>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="ac826dbe36f7973a441c83befebabae06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac826dbe36f7973a441c83befebabae06">&#9670;&nbsp;</a></span>cols</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::cols</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>number of columns in the matrix </p>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00043">43</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
-</div>
-</div>
-<a id="a9ed947d13a14c0f90710da09b0493609"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ed947d13a14c0f90710da09b0493609">&#9670;&nbsp;</a></span>mat</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">vector&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::mat</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>list of values in the matrix </p>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00037">37</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
-</div>
-</div>
-<a id="aef984b58d15fbaf5881d0e36fc08a1df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef984b58d15fbaf5881d0e36fc08a1df">&#9670;&nbsp;</a></span>rows</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::rows</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>number of rows in the matrix </p>
-
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00040">40</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/vishu.b/source/repos/zSpace_v0.1/headers/core/<a class="el" href="z_matrix_8h_source.html">zMatrix.h</a></li>
+<li>C:/Users/vishu/Source/Repos/zSpace_v001/headers/core/<a class="el" href="z_matrix_8h_source.html">zMatrix.h</a></li>
 </ul>
 </div><!-- contents -->
-</div><!-- doc-content -->
 <!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="navelem"><a class="el" href="namespacez_space.html">zSpace</a></li><li class="navelem"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
-  </ul>
-</div>
+<hr class="footer"/><address class="footer"><small>
+Generated by &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.14
+</small></address>
 </body>
 </html>
