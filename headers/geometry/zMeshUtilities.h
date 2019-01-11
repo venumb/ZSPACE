@@ -384,6 +384,21 @@ namespace zSpace
 
 		return totalArea;
 	}
+
+	/*! \brief This method return the number of vertices in the face given by the input index.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	index			- index of the face.
+	*	\return				int				- number of vertices in the face.
+	*	\since version 0.0.1
+	*/
+	int getNumPolyVerts(zMesh &inMesh, int index)
+	{
+		vector<int> fEdges; 
+		inMesh.getEdges(index, zFaceData, fEdges);
+
+		return fEdges.size();
+	}
 	
 	//--------------------------
 	//--- UTILITY METHODS 

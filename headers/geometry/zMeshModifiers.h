@@ -3,7 +3,7 @@
 #include <headers/geometry/zGraphMeshUtilities.h>
 #include <headers/geometry/zMeshUtilities.h>
 
-
+#include <headers/display/zPrintUtilities.h>
 
 namespace zSpace
 {
@@ -257,8 +257,9 @@ namespace zSpace
 	void triangulate(zMesh &inMesh)
 	{
 
-		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.numPolygons()) inMesh.computeMeshNormals();
+		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
 
+		
 
 		// iterate through faces and triangulate faces with more than 3 vetices
 		int numfaces_original = inMesh.faceActive.size();
@@ -290,7 +291,7 @@ namespace zSpace
 					triVerts.push_back(Tri_connects[j * 3 + 1]);
 					triVerts.push_back(Tri_connects[j * 3 + 2]);
 
-
+					//printf("\n %i %i %i ", Tri_connects[j * 3], Tri_connects[j * 3 + 1], Tri_connects[j * 3 + 2]);
 
 					// check if edges e01, e12 or e20
 					int e01_ID, e12_ID, e20_ID;
@@ -390,8 +391,8 @@ namespace zSpace
 					zEdge* e12 = &inMesh.edges[e12_ID];
 					zEdge* e20 = &inMesh.edges[e20_ID];
 
-
-					// add face if the current face edge points to the edges of the current triangle
+					//printf("\n %i %i %i ", e01_ID, e12_ID, e20_ID);
+					
 
 					if (j > 0)
 					{
@@ -433,17 +434,21 @@ namespace zSpace
 
 	}
 
-	/*! \brief This method deletes the zMesh vertices given in the input vertex list.
+	/*! \brief This method deletes the mesh vertex given by the input vertex index.
 	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	pos			- zVector holding the position information of the vertex.
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	index					- index of the vertex to be removed.
+	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/
 	
-	void deleteVertex(zMesh &inMesh, int index)
+	void deleteVertex(zMesh &inMesh, int index, bool removeInactiveElements = true)
 	{
 		if(index > inMesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		// check if boundary vertex
+		bool boundaryVertex = (inMesh.onBoundary(index, zVertexData)) ;
 
 		// get connected faces
 		vector<int> cFaces;
@@ -452,7 +457,6 @@ namespace zSpace
 		// get connected edges
 		vector<int> cEdges;
 		inMesh.getConnectedEdges(index, zVertexData, cEdges);
-
 
 
 
@@ -541,53 +545,220 @@ namespace zSpace
 
 		// add new face if outerVertices has more than 2 vertices
 		
-		if (outerVertices.size() > 2) inMesh.addPolygon(outerVertices);	
+		if (outerVertices.size() > 2)
+		{
+			inMesh.addPolygon(outerVertices);
+
+			if (boundaryVertex)  inMesh.update_BoundaryEdgePointers();
+		}
+
+
 
 		inMesh.computeMeshNormals();
+
+		if (removeInactiveElements)
+		{
+			inMesh.removeInactiveElements(zVertexData);			
+
+			inMesh.removeInactiveElements(zEdgeData);
+			inMesh.removeInactiveElements(zFaceData);
+		}
 	}
 		
 
 	/*! \brief This method collapses an edge into a vertex.
 	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	index	- index of the edge to be collapsed.
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	index					- index of the edge to be collapsed.
+	*	\param		[in]	edgeFactor				- position factor of the remaining vertex after collapse on the original egde. Needs to be between 0.0 and 1.0.
+	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/
 	
-	void collapseEdge(zMesh &inMesh, int index)
+	void collapseEdge(zMesh &inMesh, int index, double edgeFactor = 0.0,  bool removeInactiveElements = true)
 	{
 		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
+		int nFVerts = (inMesh.onBoundary(index, zEdgeData))? getNumPolyVerts(inMesh, inMesh.edges[index].getSym()->getFace()->getFaceId()) : getNumPolyVerts(inMesh, inMesh.edges[index].getFace()->getFaceId());
+
+		// check if there is only 1 polygon and its a triangle. If true, cant perform collapse.
+		if (inMesh.numPolygons() == 1 && nFVerts == 3)
+		{
+			printf("\n Can't perform collapse on single trianglular face.");
+			return;
+		}
+
 		int vertexRemoveID = inMesh.edges[index].getVertex()->getVertexId();
+		int vertexRetainID = inMesh.edges[index].getSym()->getVertex()->getVertexId();
+
+		printf("\n vertexRemoveID: %i vertexRetainID: %i ", vertexRemoveID, vertexRetainID);
+
+		// check if vertexRemoveID is a boundary vertex
+		bool boundaryVertex = (inMesh.onBoundary(vertexRemoveID, zVertexData));
+
+		// set new position of retained vertex
+		zVector e = inMesh.vertexPositions[vertexRemoveID] - inMesh.vertexPositions[vertexRetainID];
+		double eLength = e.length();		
+		e.normalize();
+
+		inMesh.vertexPositions[vertexRetainID] = inMesh.vertexPositions[vertexRetainID] + e * (edgeFactor * eLength);
+
+		// get edge faces
+		vector<int> eFaces;
+		inMesh.getFaces(index, zEdgeData, eFaces);
 
 		// get connected faces
 		vector<int> cFaces;
-		inMesh.getConnectedFaces(vertexRemoveID, zEdgeData, cFaces);
+		inMesh.getConnectedFaces(vertexRemoveID, zVertexData, cFaces);
 
 		// get connected edges
 		vector<int> cEdges;
 		inMesh.getConnectedEdges(vertexRemoveID, zVertexData, cEdges);
 
 
-		vector<int> tempVertices;
+		vector<int> tempPolyConnects;
 		vector<int> tempPolyCounts;
 
 		for (int i = 0; i < cFaces.size(); i++)
 		{
+
+			// check if it also a edge face
+			bool eFace = false; 
+			for (int j = 0; j < eFaces.size(); j++)
+			{
+				if (eFaces[j] == cFaces[i])
+				{
+					eFace = true;
+					break;
+				}
+			}
+
 			vector<int> fVerts;
 			inMesh.getVertices(cFaces[i], zFaceData, fVerts);
 
-			
-			for (int j = 0; j < fVerts.size(); j++)
+		
+
+			if (eFace)
 			{
-				if(fVerts[j] != vertexRemoveID) tempVertices.push_back(fVerts[j]);
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					if (fVerts[j] != vertexRemoveID) tempPolyConnects.push_back(fVerts[j]);
+				}
+
+				
+
+				tempPolyCounts.push_back(fVerts.size() - 1);
 			}
 
-			tempPolyCounts.push_back(fVerts.size() - 1);
+			else
+			{
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					if (fVerts[j] == vertexRemoveID)  tempPolyConnects.push_back(vertexRetainID);
+					else tempPolyConnects.push_back(fVerts[j]);
+				}
+
+				tempPolyCounts.push_back(fVerts.size() );
+			}	
+			
 
 		}
 
+
+		// disable connected edges 
+
+		for (int i = 0; i < cEdges.size(); i++)
+		{
+			int symEdge = inMesh.edges[cEdges[i]].getSym()->getEdgeId();
+
+			inMesh.removeFromVerticesEdge(inMesh.edges[cEdges[i]].getVertex()->getVertexId(), inMesh.edges[cEdges[i]].getSym()->getVertex()->getVertexId());
+
+			inMesh.edges[cEdges[i]] = zEdge();
+			inMesh.edges[symEdge] = zEdge();
+
+			inMesh.edgeActive[cEdges[i]] = false;
+			inMesh.edgeActive[symEdge] = false;
+
+		}
+
+		int newNumEdges = inMesh.numEdges() - (2 * cEdges.size());
+		inMesh.setNumEdges(newNumEdges, false);
+
+		
+		// disable connected faces
+		for (int i = 0; i < cFaces.size(); i++)
+		{
+			inMesh.faces[cFaces[i]] = zFace();
+
+			inMesh.faceActive[cFaces[i]] = false;
+
+		}
+
+		int newNumFaces = inMesh.numPolygons() - cFaces.size();
+		inMesh.setNumPolygons(newNumFaces, false);
+
+		
+		// remove from vertexPosition map
+		inMesh.removeFromPositionMap(inMesh.vertexPositions[vertexRemoveID]);
+
+		// disable vertexRemoveID vertex
+
+		inMesh.vertexActive[vertexRemoveID] = false;
+
+		inMesh.vertexPositions[vertexRemoveID] = zVector(10000, 10000, 10000); // dummy position for VBO
+		inMesh.vertexNormals[vertexRemoveID] = zVector(0, 0, 1); // dummy normal for VBO
+		inMesh.vertexColors[vertexRemoveID] = zColor(1, 1, 1, 1); // dummy color for VBO
+
+
+
+		int newNumVertices = inMesh.numVertices() - 1;
+		inMesh.setNumVertices(newNumVertices, false);
+
+			
+
+		// create faces and edges connection
+		int polyconnectsCurrentIndex = 0;
+
+		for (int i = 0; i < tempPolyCounts.size(); i++)
+		{
+			int num_faceVerts = tempPolyCounts[i];
+
+			vector<int> newfVerts;
+
+			printf("\n newfVerts : ");
+			for (int j = 0; j < num_faceVerts; j++)
+			{
+				newfVerts.push_back(tempPolyConnects[polyconnectsCurrentIndex + j]);	
+
+				printf(" %i ", newfVerts[j]);
+			}
+
+			if(newfVerts.size() > 2) inMesh.addPolygon(newfVerts);
+			polyconnectsCurrentIndex += num_faceVerts;
+
+		}
+
+		if (boundaryVertex)
+		{
+			printf("\n boundary working! ");
+
+			printMesh(inMesh);
+
+			inMesh.update_BoundaryEdgePointers();
+		}
+
+		// compute normals
+		inMesh.computeMeshNormals();
+
+
+		// remove inactive elements
+		if (removeInactiveElements)
+		{
+			inMesh.removeInactiveElements(zVertexData);
+			inMesh.removeInactiveElements(zEdgeData);
+			inMesh.removeInactiveElements(zFaceData);
+		}
 
 	}
 
@@ -780,11 +951,15 @@ namespace zSpace
 
 	/*! \brief This method deletes the zMesh vertices given in the input vertex list.
 	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	pos			- zVector holding the position information of the vertex.
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	index					- index of the edge to be removed.
+	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/
-	void deleteEdge(zMesh &inMesh, vector<int> &edgeList);
+	void deleteEdge(zMesh &inMesh, int index, bool removeInactiveElements = true)
+	{
+
+	}
 	
 
 
@@ -902,7 +1077,7 @@ namespace zSpace
 	*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
 	*	\since version 0.0.1
 	*/	
-	void subDivideMesh(zMesh &inMesh, int numDivisions)
+	void subdivideMesh(zMesh &inMesh, int numDivisions)
 	{
 		for (int j = 0; j < numDivisions; j++)
 		{

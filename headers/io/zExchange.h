@@ -26,6 +26,13 @@ namespace zSpace
 	*/
 	void toOBJ(zMesh &inMesh, string outfilename)
 	{
+
+		// remove inactive elements
+		if (inMesh.numVertices() != inMesh.vertexActive.size()) inMesh.removeInactiveElements(zVertexData);
+		if (inMesh.numEdges() != inMesh.edgeActive.size()) inMesh.removeInactiveElements(zEdgeData);
+		if (inMesh.numPolygons() != inMesh.faceActive.size()) inMesh.removeInactiveElements(zFaceData);
+
+		// output file
 		ofstream myfile;
 		myfile.open(outfilename.c_str());
 
@@ -36,7 +43,7 @@ namespace zSpace
 
 		}
 
-		myfile << "\n ";
+		
 
 		// vertex positions
 		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
@@ -45,7 +52,14 @@ namespace zSpace
 
 		}
 
-		myfile << "\n ";
+		// vertex nornmals
+		for (int i = 0; i < inMesh.vertexNormals.size(); i++)
+		{
+			myfile << "\n vn " << inMesh.vertexNormals[i].x << " " << inMesh.vertexNormals[i].y << " " << inMesh.vertexNormals[i].z;
+
+		}
+		
+		myfile << "\n";
 
 		// face connectivity
 		for (int i = 0; i < inMesh.numPolygons(); i++)
@@ -64,7 +78,8 @@ namespace zSpace
 
 		}
 
-		myfile << "\n ";
+		
+		
 
 		myfile.close();
 
@@ -82,6 +97,13 @@ namespace zSpace
 
 	void toJSON(zMesh &inMesh, string outfilename, bool vColors = false)
 	{
+
+		// remove inactive elements
+		if (inMesh.numVertices() != inMesh.vertexActive.size()) inMesh.removeInactiveElements(zVertexData);
+		if (inMesh.numEdges() != inMesh.edgeActive.size()) inMesh.removeInactiveElements(zEdgeData);
+		if (inMesh.numPolygons() != inMesh.faceActive.size()) inMesh.removeInactiveElements(zFaceData);
+
+		// output file
 		zMeshJSON inMeshJSON;
 		json j;
 
@@ -397,6 +419,12 @@ namespace zSpace
 	*/
 	void toTXT(zGraph &inGraph, string outfilename)
 	{
+		// remove inactive elements
+		if (inGraph.numVertices() != inGraph.vertexActive.size()) inGraph.removeInactiveElements(zVertexData);
+		if (inGraph.numEdges() != inGraph.edgeActive.size()) inGraph.removeInactiveElements(zEdgeData);
+		
+
+		// output file
 		ofstream myfile;
 		myfile.open(outfilename.c_str());
 
@@ -448,6 +476,12 @@ namespace zSpace
 	*/
 	void toJSON(zGraph &inGraph, string outfilename, bool vColors = false)
 	{
+		// remove inactive elements
+		if (inGraph.numVertices() != inGraph.vertexActive.size()) inGraph.removeInactiveElements(zVertexData);
+		if (inGraph.numEdges() != inGraph.edgeActive.size()) inGraph.removeInactiveElements(zEdgeData);
+
+
+		// output file
 		zGraphJSON inGraphJSON;
 		json j;
 
