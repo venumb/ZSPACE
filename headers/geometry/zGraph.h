@@ -242,6 +242,9 @@ namespace zSpace
 					do
 					{
 						out.push_back(e->getEdgeId());
+
+						//printf("\n %i %i ", e->getEdgeId(), start->getEdgeId());
+
 						if (e->getPrev())
 						{
 							if (e->getPrev()->getSym()) e = e->getPrev()->getSym();
@@ -341,19 +344,14 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		
-		int getVertexValence(int index, zHEData type)
+		int getVertexValence(int index)
 		{
 			int out;
+			
+			vector<int> connectedEdges;
+			getConnectedEdges(index, zVertexData, connectedEdges);
 
-			if (type == zVertexData)
-			{
-				vector<int> connectedEdges;
-				getConnectedEdges(index, type, connectedEdges);
-
-				out = connectedEdges.size();
-			}			
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
+			out = connectedEdges.size();				
 
 			return out;
 		}
@@ -362,20 +360,15 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\param		[in]	valence	- input valence value.
-		*	\param		[in]	type	- zVertexData.
 		*	\return				bool	- true if valency is equal to input valence.
 		*	\since version 0.0.1
 		*/
 		
-		bool checkVertexValency(int index, zHEData type = zVertexData, int valence = 1)
+		bool checkVertexValency(int index,  int valence = 1)
 		{
-			bool out = false;
-
-			if (type == zVertexData)
-			{
-				out = (getVertexValence(index, type) == valence) ? true: false;
-			}
-			else throw std::invalid_argument(" error: invalid zHEData type");
+			bool out = false;			
+			out = (getVertexValence(index) == valence) ? true: false;
+			
 
 			return out;
 		}
@@ -459,7 +452,7 @@ namespace zSpace
 				{
 					tempVertPos.push_back(vertexPositions[i]);
 
-					if (!checkVertexValency(i,zVertexData, 1))
+					if (!checkVertexValency(i, 1))
 					{
 						vector<int> cVerts;
 

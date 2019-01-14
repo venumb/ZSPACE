@@ -1115,7 +1115,7 @@ namespace zSpace
 
 				int fieldIndex = scalarfield.getIndex(inGraph.vertexPositions[i]);
 
-				int valence = inGraph.getVertexValence(i, zVertexData);		
+				int valence = inGraph.getVertexValence(i);		
 								
 				scalarfield.setFieldValue((double)valence, fieldIndex);	
 

@@ -210,7 +210,28 @@ namespace zSpace
 			this->f = _f;
 		}
 
+		/*! \brief This method makes the pointer of the current and symmetry zEdge to null.
+		*	\since version 0.0.1
+		*/
+		void removeEdge()
+		{
+			if (this->getNext()) this->getNext()->setPrev(this->getSym()->getPrev());
+			if (this->getPrev()) this->getPrev()->setNext(this->getSym()->getNext());
+						
+			this->next = nullptr;
+			this->prev = nullptr;
+			this->v = nullptr;
+			this->f = nullptr;
 
+			if (this->getSym())
+			{
+				this->getSym()->next = nullptr;
+				this->getSym()->prev = nullptr;
+				this->getSym()->v = nullptr;
+				this->getSym()->f = nullptr;
+			}			
+
+		}
 
 
 	};
@@ -319,6 +340,14 @@ namespace zSpace
 			this->e = _e;	
 		}
 
+		/*! \brief This method makes the pointers of the current zVertex to null.
+		*	\since version 0.0.1
+		*/
+		void removeVertex()
+		{
+			this->e = nullptr;
+		}
+
 	};
 
 
@@ -415,6 +444,14 @@ namespace zSpace
 		void setEdge(zEdge* _e)
 		{
 			this->e = _e;			
+		}
+
+		/*! \brief This method makes the pointers of the current zFace to null.
+		*	\since version 0.0.1
+		*/
+		void removeFace()
+		{
+			this->e = nullptr;
 		}
 
 	};

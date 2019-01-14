@@ -1003,8 +1003,6 @@ namespace zSpace
 
 						do
 						{
-							printf("\n %i ", e->getEdgeId());
-
 							e = e->getPrev();
 							e = e->getSym();
 
@@ -1074,9 +1072,12 @@ namespace zSpace
 						}
 
 
-						resized[i].setEdge(&edges[vertices[vertexActiveID].getEdge()->getEdgeId()]);
+						if (vertices[vertexActiveID].getEdge())
+						{
+							resized[i].setEdge(&edges[vertices[vertexActiveID].getEdge()->getEdgeId()]);
 
-						edges[vertices[vertexActiveID].getEdge()->getEdgeId()].getSym()->setVertex(&resized[i]);
+							edges[vertices[vertexActiveID].getEdge()->getEdgeId()].getSym()->setVertex(&resized[i]);
+						}
 					}	
 					
 
@@ -1143,11 +1144,17 @@ namespace zSpace
 						}
 
 
-						if (edges[edgeActiveID].getVertex()) resized[i].setVertex(&vertices[edges[edgeActiveID].getVertex()->getVertexId()]);
-						vertices[edges[edgeActiveID].getVertex()->getVertexId()].setEdge(resized[i].getSym());
+						if (edges[edgeActiveID].getVertex())
+						{
+							resized[i].setVertex(&vertices[edges[edgeActiveID].getVertex()->getVertexId()]);
+							vertices[edges[edgeActiveID].getVertex()->getVertexId()].setEdge(resized[i].getSym());
+						}
 
-						if (edges[edgeActiveID].getFace()) resized[i].setFace(&faces[edges[edgeActiveID].getFace()->getFaceId()]);
-						faces[edges[edgeActiveID].getFace()->getFaceId()].setEdge(&resized[i]);
+						if (edges[edgeActiveID].getFace())
+						{
+							resized[i].setFace(&faces[edges[edgeActiveID].getFace()->getFaceId()]);
+							faces[edges[edgeActiveID].getFace()->getFaceId()].setEdge(&resized[i]);
+						}
 
 
 
@@ -1166,8 +1173,11 @@ namespace zSpace
 							edges[edgeActiveID + 1].getPrev()->setNext(&resized[i + 1]);
 						}
 
-						if (edges[edgeActiveID + 1].getVertex()) resized[i+1].setVertex(&vertices[edges[edgeActiveID + 1].getVertex()->getVertexId()]);
-						vertices[edges[edgeActiveID + 1].getVertex()->getVertexId()].setEdge(resized[i +1].getSym());
+						if (edges[edgeActiveID + 1].getVertex())
+						{
+							resized[i + 1].setVertex(&vertices[edges[edgeActiveID + 1].getVertex()->getVertexId()]);
+							vertices[edges[edgeActiveID + 1].getVertex()->getVertexId()].setEdge(resized[i + 1].getSym());
+						}
 
 						if (edges[edgeActiveID + 1].getFace())
 						{
@@ -1244,7 +1254,7 @@ namespace zSpace
 						}
 
 
-						resized[i].setEdge(&edges[faces[faceActiveID].getEdge()->getEdgeId()]);
+						if(faces[faceActiveID].getEdge()) resized[i].setEdge(&edges[faces[faceActiveID].getEdge()->getEdgeId()]);
 
 						
 					}
