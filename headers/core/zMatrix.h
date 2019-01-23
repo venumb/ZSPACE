@@ -224,7 +224,7 @@ namespace zSpace
 
 		vector<T> getDiagonal()
 		{
-			if (this->getNumRows() != index > this->getNumCols()) throw std::invalid_argument("input is not a square matrix.");
+			if (this->getNumRows() != this->getNumCols()) throw std::invalid_argument("input is not a square matrix.");
 
 			vector<T> out;
 

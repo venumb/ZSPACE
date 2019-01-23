@@ -37,7 +37,7 @@ namespace zSpace
 	*	\param		[out]	tris			- index array of each triangle associated with the face.
 	*	\since version 0.0.1
 	*/
-	void polyTriangulate(zMesh &inMesh, int faceIndex, int &numTris, vector<int> &tris)
+	void getFaceTriangles(zMesh &inMesh, int faceIndex, int &numTris, vector<int> &tris)
 	{
 		double angle_Max = 90;
 		bool noEars = true; // check for if there are no ears
@@ -247,10 +247,178 @@ namespace zSpace
 
 	}
 
+	/*! \brief This method triangulates the input face of the mesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	faceIndex		- face index  of the face to be triangulated in the faces container.
+	*	\since version 0.0.1
+	*/
+	void faceTriangulate(zMesh &inMesh, int faceIndex)
+	{
+
+		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
+
+		vector<int> fVerts;
+		inMesh.getVertices(faceIndex, zFaceData, fVerts);
+
+		//printf("\n %i : nV %i ", i, fVerts.size());
+
+		int numfaces_original = inMesh.faceActive.size();
+		int numEdges_original = inMesh.edgeActive.size();
+
+		if (fVerts.size() != 3)
+		{
+			// compute polygon Triangles
+			int n_Tris = 0;
+			vector<int> Tri_connects;
+			getFaceTriangles(inMesh, faceIndex, n_Tris, Tri_connects);
+
+			//printf("\n %i numtris: %i %i ",i, n_Tris, Tri_connects.size());
+
+			for (int j = 0; j < n_Tris; j++)
+			{
+				vector<int> triVerts;
+				triVerts.push_back(Tri_connects[j * 3]);
+				triVerts.push_back(Tri_connects[j * 3 + 1]);
+				triVerts.push_back(Tri_connects[j * 3 + 2]);
+
+				//printf("\n %i %i %i ", Tri_connects[j * 3], Tri_connects[j * 3 + 1], Tri_connects[j * 3 + 2]);
+
+				// check if edges e01, e12 or e20
+				int e01_ID, e12_ID, e20_ID;
+				bool e01_Boundary = false;
+				bool e12_Boundary = false;
+				bool e20_Boundary = false;
+
+				for (int k = 0; k < triVerts.size(); k++)
+				{
+					int e;
+					bool eExists = inMesh.edgeExists(triVerts[k], triVerts[(k + 1) % triVerts.size()], e);
+
+
+					if (k == 0)
+					{
+
+						if (eExists)
+						{
+							e01_ID = e;
+
+							if (e01_ID < numEdges_original)
+							{
+								if (inMesh.onBoundary(e, zEdgeData))
+								{
+									e01_Boundary = true;
+
+								}
+							}
+
+
+						}
+						else
+						{
+							inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
+							e01_ID = inMesh.edgeActive.size() - 2;
+
+
+						}
+					}
+
+
+					if (k == 1)
+					{
+						if (eExists)
+						{
+							e12_ID = e;
+
+							if (e12_ID < numEdges_original)
+							{
+								if (inMesh.onBoundary(e, zEdgeData))
+								{
+									e12_Boundary = true;
+								}
+							}
+
+						}
+						else
+						{
+							inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
+
+							e12_ID = inMesh.edgeActive.size() - 2;
+						}
+					}
+
+
+
+					if (k == 2)
+					{
+						if (eExists)
+						{
+
+							e20_ID = e;
+
+							if (e20_ID < numEdges_original)
+							{
+								if (inMesh.onBoundary(e, zEdgeData))
+								{
+									e20_Boundary = true;
+
+								}
+							}
+
+						}
+						else
+						{
+							inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
+							e20_ID = inMesh.edgeActive.size() - 2;
+						}
+
+					}
+
+
+
+				}
+
+				zEdge* e01 = &inMesh.edges[e01_ID];
+				zEdge* e12 = &inMesh.edges[e12_ID];
+				zEdge* e20 = &inMesh.edges[e20_ID];
+
+				//printf("\n %i %i %i ", e01_ID, e12_ID, e20_ID);
+
+
+				if (j > 0)
+				{
+					inMesh.addPolygon();
+					inMesh.faces[inMesh.faceActive.size() - 1].setEdge(e01);
+
+					if (!e01_Boundary) e01->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
+					if (!e12_Boundary) e12->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
+					if (!e20_Boundary) e20->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
+				}
+				else
+				{
+					if (!e01_Boundary) inMesh.faces[faceIndex].setEdge(e01);
+					else if (!e12_Boundary) inMesh.faces[faceIndex].setEdge(e12);
+					else if (!e20_Boundary) inMesh.faces[faceIndex].setEdge(e20);
+
+
+					if (!e01_Boundary) e01->setFace(&inMesh.faces[faceIndex]);
+					if (!e12_Boundary) e12->setFace(&inMesh.faces[faceIndex]);
+					if (!e20_Boundary) e20->setFace(&inMesh.faces[faceIndex]);
+				}
+
+				// update edge pointers
+				e01->setNext(e12);
+				e01->setPrev(e20);
+				e12->setNext(e20);
+
+			}
+		}
+
+	}
+
 	/*! \brief This method triangulates the input mesh.
 	*
 	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	computeNormal	-	true if normals are not computed previously.
 	*	\since version 0.0.1
 	*/
 	void triangulate(zMesh &inMesh)
@@ -270,163 +438,7 @@ namespace zSpace
 		{
 			if (!inMesh.faceActive[i]) continue;
 
-			vector<int> fVerts;
-			inMesh.getVertices(i, zFaceData, fVerts);
-
-			//printf("\n %i : nV %i ", i, fVerts.size());
-
-			if (fVerts.size() != 3)
-			{
-				// compute polygon Triangles
-				int n_Tris = 0;
-				vector<int> Tri_connects;
-				polyTriangulate(inMesh, i, n_Tris, Tri_connects);
-
-				//printf("\n %i numtris: %i %i ",i, n_Tris, Tri_connects.size());
-
-				for (int j = 0; j < n_Tris; j++)
-				{
-
-					vector<int> triVerts;
-					triVerts.push_back(Tri_connects[j * 3]);
-					triVerts.push_back(Tri_connects[j * 3 + 1]);
-					triVerts.push_back(Tri_connects[j * 3 + 2]);
-
-					//printf("\n %i %i %i ", Tri_connects[j * 3], Tri_connects[j * 3 + 1], Tri_connects[j * 3 + 2]);
-
-					// check if edges e01, e12 or e20
-					int e01_ID, e12_ID, e20_ID;
-					bool e01_Boundary = false;
-					bool e12_Boundary = false;
-					bool e20_Boundary = false;
-
-					for (int k = 0; k < triVerts.size(); k++)
-					{
-						int e;
-						bool eExists = inMesh.edgeExists(triVerts[k], triVerts[(k + 1) % triVerts.size()], e);
-
-
-						if (k == 0)
-						{
-
-							if (eExists)
-							{
-								e01_ID = e;
-
-								if (e01_ID < numEdges_original)
-								{
-									if (inMesh.onBoundary(e, zEdgeData))
-									{
-										e01_Boundary = true;
-
-									}
-								}
-
-
-							}
-							else
-							{
-								inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e01_ID = inMesh.edgeActive.size() - 2;
-
-
-							}
-						}
-
-
-						if (k == 1)
-						{
-							if (eExists)
-							{
-								e12_ID = e;
-
-								if (e12_ID < numEdges_original)
-								{
-									if (inMesh.onBoundary(e, zEdgeData))
-									{
-										e12_Boundary = true;
-									}
-								}
-
-							}
-							else
-							{
-								inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-
-								e12_ID = inMesh.edgeActive.size() - 2;
-							}
-						}
-
-
-
-						if (k == 2)
-						{
-							if (eExists)
-							{
-
-								e20_ID = e;
-
-								if (e20_ID < numEdges_original)
-								{
-									if (inMesh.onBoundary(e, zEdgeData))
-									{
-										e20_Boundary = true;
-
-									}
-								}
-
-							}
-							else
-							{
-								inMesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e20_ID = inMesh.edgeActive.size() - 2;
-							}
-
-						}
-
-
-
-					}
-
-					zEdge* e01 = &inMesh.edges[e01_ID];
-					zEdge* e12 = &inMesh.edges[e12_ID];
-					zEdge* e20 = &inMesh.edges[e20_ID];
-
-					//printf("\n %i %i %i ", e01_ID, e12_ID, e20_ID);
-					
-
-					if (j > 0)
-					{
-						inMesh.addPolygon();
-						inMesh.faces[inMesh.faceActive.size() - 1].setEdge(e01);
-
-						if (!e01_Boundary) e01->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
-						if (!e12_Boundary) e12->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
-						if (!e20_Boundary) e20->setFace(&inMesh.faces[inMesh.faceActive.size() - 1]);
-					}
-					else
-					{
-						if (!e01_Boundary) inMesh.faces[i].setEdge(e01);
-						else if (!e12_Boundary) inMesh.faces[i].setEdge(e12);
-						else if (!e20_Boundary) inMesh.faces[i].setEdge(e20);
-
-
-						if (!e01_Boundary) e01->setFace(&inMesh.faces[i]);
-						if (!e12_Boundary) e12->setFace(&inMesh.faces[i]);
-						if (!e20_Boundary) e20->setFace(&inMesh.faces[i]);
-					}
-
-					// update edge pointers
-					e01->setNext(e12);
-					e01->setPrev(e20);
-					e12->setNext(e20);
-
-
-
-
-
-				}
-			}
+			faceTriangulate(inMesh, i);		
 
 		}
 
@@ -1003,13 +1015,17 @@ namespace zSpace
 	*	\param		[in]	inMesh			- input mesh.
 	*	\param		[in]	index			- index of the edge to be split.
 	*	\param		[in]	edgeFactor		- factor in the range [0,1] that represent how far along each edge must the split be done.
+	*	\param		[in]	fTriangulate	- true if contained edge faces needs to be triangulated after the edge spliting.
 	*	\return				int				- index of the new vertex added after splitinng the edge.
 	*	\since version 0.0.1
 	*/
-	int splitEdge(zMesh &inMesh, int index, double edgeFactor = 0.5)
+	int splitEdge(zMesh &inMesh, int index, double edgeFactor = 0.5 , bool fTriangulate = false)
 	{
 		if( index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if ( !inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		vector<int> eFaces;
+		inMesh.getFaces(index, zEdgeData, eFaces);
 
 		zEdge* edgetoSplit = &inMesh.edges[index];
 		zEdge* edgetoSplitSym = edgetoSplit->getSym();
@@ -1086,6 +1102,11 @@ namespace zSpace
 			// update verticesEdge map
 			inMesh.addToVerticesEdge(edgetoSplitSym->getVertex()->getVertexId(), edgetoSplit->getVertex()->getVertexId(), edgetoSplit->getEdgeId());
 
+		}
+
+		if (fTriangulate)
+		{
+			for(int i =0; i< eFaces.size(); i++) faceTriangulate(inMesh, eFaces[i]);
 		}
 
 		return VertId;
@@ -1578,7 +1599,7 @@ namespace zSpace
 
 				while (eLength > maxEdgeLength)
 				{
-					splitEdge(inMesh, i, 0.5);
+					splitEdge(inMesh, i, 0.5, true);
 					eLength = getEdgelength(inMesh, i);
 					
 				}
@@ -1661,6 +1682,18 @@ namespace zSpace
 			if (inMesh.edgeActive[i])
 			{
 				if (inMesh.onBoundary(i, zEdgeData) || inMesh.onBoundary(i + 1, zEdgeData)) continue;
+
+				vector<int> fVerts;
+				inMesh.getVertices(inMesh.edges[i].getFace()->getFaceId(), zFaceData, fVerts);
+
+				vector<int> sym_fVerts;
+				inMesh.getVertices(inMesh.edges[i+1].getFace()->getFaceId(), zFaceData, sym_fVerts);
+
+				if (fVerts.size() != 3 || sym_fVerts.size() != 3)
+				{
+					printf("\n Cannot flip edge %i as it not shared by two Triangles.", i);
+					continue;
+				}
 
 				int v1 = inMesh.edges[i].getVertex()->getVertexId();
 				int v2 = inMesh.edges[i + 1].getVertex()->getVertexId();

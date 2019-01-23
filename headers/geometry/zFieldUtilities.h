@@ -287,7 +287,7 @@ namespace zSpace
 		{
 			T outMin = 0;
 			T outMax = 0;
-			T val = ofMap(distVals[j], dMin, dMax, outMin0, outMax);
+			T val = ofMap(distVals[j], dMin, dMax, outMin, outMax);
 			fieldMesh.vertexColors[j] = (zColor(val, 0, 0, 1));
 		}
 

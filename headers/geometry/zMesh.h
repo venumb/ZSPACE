@@ -92,7 +92,6 @@ namespace zSpace
 		*	\param		[in]	computeNormals	- computes the face and vertex normals if true.
 		*	\since version 0.0.1
 		*/
-
 		zMesh(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects), bool computeNormals = true)
 		{
 			int _num_vertices = _positions.size();

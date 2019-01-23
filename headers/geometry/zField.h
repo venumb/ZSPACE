@@ -607,7 +607,7 @@ namespace zSpace
 			zVector unitVec = zVector(unit_X, unit_Y, unit_Z);
 			zVector startPt = minBB + (unitVec * 0.5);
 
-			scalars.clear();
+			fieldValues.clear();
 
 			printf("unit_X : %1.2f unit_Y : %1.2f unit_Z : %1.2f ", unit_X, unit_Y, unit_Z);
 
@@ -799,7 +799,7 @@ namespace zSpace
 
 		void setPosition(zVector &_pos, int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			positions[index] = _pos;
 
@@ -813,7 +813,7 @@ namespace zSpace
 
 		zVector getPosition(int index)
 		{
-			if (index > getNumScalars()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return positions[index];
 		}
@@ -821,12 +821,12 @@ namespace zSpace
 		/*! \brief This method sets the value of the field at the input index.
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
-		*	\param		[in]	fvalue		- input value.
+		*	\param		[in]	fValue		- input value.
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
 
-		void setFieldValue(T fvalue, int index)
+		void setFieldValue(T fValue, int index)
 		{
 			if (index > getFieldValue()) throw std::invalid_argument(" error: index out of bounds.");
 
@@ -932,7 +932,7 @@ namespace zSpace
 						int newId = (newId_X * (n_Y*n_Z)) + (newId_Y * n_Z) + newId_Z;
 
 
-						if (newId < getNumScalars()) out.push_back(newId);
+						if (newId < getNumFieldValues()) out.push_back(newId);
 					}
 					
 				}
@@ -991,7 +991,7 @@ namespace zSpace
 						int newId = (newId_X * (n_Y*n_Z)) + (newId_Y * n_Z) + newId_Z;
 
 
-						if (newId < getNumScalars())
+						if (newId < getNumFieldValues())
 						{
 							if (i == 0 || j == 0 || k == 0) out.push_back(newId);
 						}

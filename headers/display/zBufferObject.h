@@ -160,7 +160,6 @@ namespace zSpace
 		*	\param		[in]	_normals		- container of type zVector containing normal information of vertices.
 		*	\since version 0.0.1
 		*/
-
 		int appendVertexAttributes(vector<zVector>(&_positions), vector<zVector>(&_normals))
 		{
 
@@ -198,7 +197,6 @@ namespace zSpace
 		*	\param		[in]	_colors			- container of type zColor containing color information of vertices.
 		*	\since version 0.0.1
 		*/
-
 		int appendVertexColors(vector<zColor> &_colors)
 		{
 
@@ -231,7 +229,6 @@ namespace zSpace
 		*	\param		[in]	_edgeIndicies			- container of edge vertex connectivity indicies.
 		*	\since version 0.0.1
 		*/
-
 		int appendEdgeIndices(vector<int> &_edgeIndicies)
 		{
 			int out = nEdges;
@@ -260,7 +257,6 @@ namespace zSpace
 		*	\param		[in]	_faceIndicies			- container of face vertex connectivity indicies.
 		*	\since version 0.0.1
 		*/
-
 		int appendFaceIndices(vector<int> &_faceIndicies)
 		{
 			int out = nFaces;
@@ -291,7 +287,6 @@ namespace zSpace
 		*	\param		[in]	angleThreshold		- angle threshold for the edge dihedral angles.
 		*	\since version 0.0.1
 		*/
-
 		void appendMesh(zMesh &inMesh, bool DihedralEdges = false, double angleThreshold = 45)
 		{
 			// Edge Indicies

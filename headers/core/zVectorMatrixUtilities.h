@@ -447,8 +447,9 @@ namespace zSpace
 	template <typename T>
 	zMatrix<T> PlanetoPlane(zMatrix<T> &from, zMatrix<T> &to)
 	{
-		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
-		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
+		if (from.getNumCols() != from.getNumRows()) 	throw std::invalid_argument("input from Matrix is not a square.");
+		if (from.getNumCols() != to.getNumCols()) 	throw std::invalid_argument("input matrices dont match in size.");
+		if (from.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
 
 		zMatrix<T> world = toWorldMatrix(to);
 		zMatrix<T> local = toLocalMatrix(from);

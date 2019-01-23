@@ -134,5 +134,8 @@
     <ClInclude Include="..\headers\geometry\zGraphMeshUtilities.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\application\zPolytopal.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
