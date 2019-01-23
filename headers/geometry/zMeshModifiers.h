@@ -22,8 +22,7 @@ namespace zSpace
 	*  @{
 	*/
 
-
-
+	
 	//--------------------------
 	//---- TRI-MESH MODIFIER METHODS
 	//--------------------------
@@ -274,6 +273,8 @@ namespace zSpace
 			vector<int> fVerts;
 			inMesh.getVertices(i, zFaceData, fVerts);
 
+			//printf("\n %i : nV %i ", i, fVerts.size());
+
 			if (fVerts.size() != 3)
 			{
 				// compute polygon Triangles
@@ -281,7 +282,7 @@ namespace zSpace
 				vector<int> Tri_connects;
 				polyTriangulate(inMesh, i, n_Tris, Tri_connects);
 
-				//printf("\n numtris: %i %i ", n_Tris, Tri_connects.size());
+				//printf("\n %i numtris: %i %i ",i, n_Tris, Tri_connects.size());
 
 				for (int j = 0; j < n_Tris; j++)
 				{
@@ -462,6 +463,27 @@ namespace zSpace
 		// get vertices in cyclical orders without the  the vertex to be removed. remove duplicates if any
 		vector<int> outerVertices;
 
+		vector<int> deactivateVertices;
+		vector<int> deactivateEdges;
+
+		deactivateVertices.push_back(index);
+
+		// add to deactivate edges connected edges
+		for (int i = 0; i < cEdges.size(); i++) deactivateEdges.push_back(cEdges[i]);
+
+		// add to deactivate vertices with valence 2 and  connected edges of that vertex
+		for (int i = 0; i < cEdges.size(); i++)
+		{
+			int v0 = inMesh.edges[cEdges[i]].getVertex()->getVertexId();
+
+			if ( !inMesh.onBoundary(v0, zVertexData) && inMesh.checkVertexValency(v0, 2))
+			{				
+				deactivateVertices.push_back(v0);
+				deactivateEdges.push_back(inMesh.edges[cEdges[i]].getNext()->getEdgeId());
+			}
+		}
+
+		// compute new face vertices
 		for (int i = 0; i < cEdges.size();i++)
 		{
 			if (!inMesh.edges[cEdges[i]].getFace()) continue;
@@ -482,8 +504,22 @@ namespace zSpace
 					}
 				}
 
+				if (!vertExists)
+				{
+					for (int k = 0; k < deactivateVertices.size(); k++)
+					{
+						if (v0 == deactivateVertices[k])
+						{
+							vertExists = true;
+							break;
+						}
+					}
+				}
+
 				if (!vertExists) outerVertices.push_back(v0);
-				
+					
+			
+			
 				curEdge = curEdge->getNext();
 				v0 = curEdge->getVertex()->getVertexId();
 
@@ -492,123 +528,41 @@ namespace zSpace
 
 		}
 
-		// disable connected edges 
-
-
-
-		for (int i = 0; i < cEdges.size(); i++)
+		
+		// deactivate connected edges 
+		for (int i = 0; i < deactivateEdges.size(); i++)
 		{
-			int symEdge = inMesh.edges[cEdges[i]].getSym()->getEdgeId();
-			
-			inMesh.removeFromVerticesEdge(inMesh.edges[cEdges[i]].getVertex()->getVertexId(), inMesh.edges[cEdges[i]].getSym()->getVertex()->getVertexId());
-			
-		
-
-			// disable connected edges 
-			inMesh.edges[cEdges[i]].removeEdge();
-			inMesh.edges[symEdge].removeEdge();
-
-			inMesh.edgeActive[cEdges[i]] = false;
-			inMesh.edgeActive[symEdge] = false;
-
+			if(inMesh.edgeActive[deactivateEdges[i]]) inMesh.deactivateElement(deactivateEdges[i],zEdgeData);
 		}
-				
-		int newNumEdges = inMesh.numEdges() - (2* cEdges.size());
-		inMesh.setNumEdges(newNumEdges, false);
-		
+
 		// disable connected faces
 		for (int i = 0; i < cFaces.size(); i++)
 		{
-			inMesh.faces[cFaces[i]] = zFace();
-
-			inMesh.faceActive[cFaces[i]] = false;
-			
+			if (inMesh.faceActive[cFaces[i]]) inMesh.deactivateElement(cFaces[i], zFaceData);
 		}
-
-		int newNumFaces = inMesh.numPolygons() - cFaces.size();
-		inMesh.setNumPolygons(newNumFaces, false);
-
-		// remove from vertexPosition map
-		inMesh.removeFromPositionMap(inMesh.vertexPositions[index]);
-
-		// disable indexed vertex
-
-		inMesh.vertexActive[index] = false;
-
-		inMesh.vertexPositions[index] = zVector(10000, 10000, 10000); // dummy position for VBO
-		inMesh.vertexNormals[index] = zVector(0, 0, 1); // dummy normal for VBO
-		inMesh.vertexColors[index] = zColor(1, 1, 1, 1); // dummy color for VBO
-
-		
-
-		int newNumVertices = inMesh.numVertices() - 1;
-		inMesh.setNumVertices(newNumVertices, false);
 	
-
-		// add new face if outerVertices has more than 2 vertices
+		// deactivate vertex
+		for (int i = 0; i < deactivateVertices.size(); i++)
+		{
+			if (inMesh.vertexActive[deactivateVertices[i]]) inMesh.deactivateElement(deactivateVertices[i], zVertexData);
+		}
 		
+	
+	
+		// add new face if outerVertices has more than 2 vertices
+	
 		if (outerVertices.size() > 2)
 		{
 			inMesh.addPolygon(outerVertices);
 
 			if (boundaryVertex)  inMesh.update_BoundaryEdgePointers();
 		}
-
-		
-
-		// removed vertices with valence 1. 
-		printMesh(inMesh);
-
-		for (int i = 0; i < inMesh.numVertices(); i++)
-		{
-			if (inMesh.vertexActive[i])
-			{
-				//printf("\n working!");
-				//if (inMesh.checkVertexValency(i, 1))
-				//{
-				//	
-
-				//	//// disable connected edge
-
-				//	//int cEdge = inMesh.vertices[i].getEdge()->getEdgeId();
-				//	//int symEdge = inMesh.edges[cEdge].getSym()->getEdgeId();
-
-				//	//inMesh.removeFromVerticesEdge(inMesh.edges[cEdge].getVertex()->getVertexId(), inMesh.edges[symEdge].getVertex()->getVertexId());
-
-				//	//inMesh.edges[cEdge].removeEdge();
-				//	//inMesh.edges[symEdge].removeEdge();
-
-				//	//inMesh.edgeActive[cEdge] = false;
-				//	//inMesh.edgeActive[symEdge] = false;
-
-				//	//int newNumEdges = inMesh.numEdges() - (2);
-				//	//inMesh.setNumEdges(newNumEdges, false);
-
-				//	//// remove from vertexPosition map
-				//	//inMesh.removeFromPositionMap(inMesh.vertexPositions[index]);
-
-				//	//// disable vertex
-				//	//inMesh.vertexActive[index] = false;
-
-				//	//inMesh.vertexPositions[index] = zVector(10000, 10000, 10000); // dummy position for VBO
-				//	//inMesh.vertexNormals[index] = zVector(0, 0, 1); // dummy normal for VBO
-				//	//inMesh.vertexColors[index] = zColor(1, 1, 1, 1); // dummy color for VBO
-
-
-
-				//	//int newNumVertices = inMesh.numVertices() - 1;
-				//	//inMesh.setNumVertices(newNumVertices, false);
-				//}
-			}
-			
-		}
-
+	
 		inMesh.computeMeshNormals();
 
 		if (removeInactiveElements)
 		{
-			inMesh.removeInactiveElements(zVertexData);			
-
+			inMesh.removeInactiveElements(zVertexData);
 			inMesh.removeInactiveElements(zEdgeData);
 			inMesh.removeInactiveElements(zFaceData);
 		}
@@ -689,23 +643,11 @@ namespace zSpace
 
 			if (inMesh.onBoundary(fEdges[i], zEdgeData) && inMesh.onBoundary(symEdge, zEdgeData))
 			{
-
-				inMesh.removeFromVerticesEdge(inMesh.edges[fEdges[i]].getVertex()->getVertexId(), inMesh.edges[symEdge].getVertex()->getVertexId());
-
-				
-							
-				inMesh.edges[fEdges[i]].removeEdge();
-
-				// disable edges
-				inMesh.edgeActive[fEdges[i]] = false;
-				inMesh.edgeActive[symEdge] = false;
-
-				int newNumEdges = inMesh.numEdges() - (2);
-				inMesh.setNumEdges(newNumEdges, false);
+				inMesh.deactivateElement(fEdges[i], zEdgeData);				
 			}
 		}
 
-		// get face vertices and disable them if all connected half edges are in active.
+		// get face vertices and deactivate them if all connected half edges are in active.
 		for (int i = 0; i < fVerts.size(); i++)
 		{
 			bool removeVertex = true;
@@ -714,36 +656,15 @@ namespace zSpace
 
 			if (removeVertex)
 			{
-				inMesh.vertices[fVerts[i]].removeVertex();
-
-				// disable vertex
-
-				inMesh.vertexActive[fVerts[i]] = false;
-
-				
-				
-			
-				inMesh.vertexPositions[fVerts[i]] = zVector(10000, 10000, 10000); // dummy position for VBO
-				inMesh.vertexNormals[fVerts[i]] = zVector(0, 0, 1); // dummy normal for VBO
-				inMesh.vertexColors[fVerts[i]] = zColor(1, 1, 1, 1); // dummy color for VBO
-
-				// remove from vertexPosition map
-				inMesh.removeFromPositionMap(inMesh.vertexPositions[fVerts[i]]);
-
-				int newNumVertices = inMesh.numVertices() - 1;
-				inMesh.setNumVertices(newNumVertices, false);
+				inMesh.deactivateElement(fVerts[i], zVertexData);			
 			}
 
 		}
 
 
-		// disable face
-		
-		inMesh.faces[index].removeFace();
-		inMesh.faceActive[index] = false;	
-
-		int newNumFaces = inMesh.numPolygons() - 1;
-		inMesh.setNumPolygons(newNumFaces, false);
+		// deactivate face
+		inMesh.deactivateElement(index, zFaceData);
+	
 		
 		if (removeInactiveElements)
 		{
@@ -761,24 +682,8 @@ namespace zSpace
 	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/
-
-	void deleteEdge(zMesh &inMesh, int index, bool removeInactiveElements = true)
-	{
-		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-		int symEdge = inMesh.edges[index].getSym()->getEdgeId();
-
-		if (inMesh.onBoundary(index, zEdgeData) && inMesh.onBoundary(symEdge, zEdgeData))
-		{
-			printf("\n Can't perform deleteEdge on bundary Edge.");
-			return;
-		}
-
-		// check if boundary vertex
-		bool boundaryVertex = (inMesh.onBoundary(index, zVertexData));
-
-	}
+	void deleteEdge(zMesh &inMesh, int index, bool removeInactiveElements = true);
+	
 
 	/*! \brief This method collapses an edge into a vertex.
 	*
@@ -787,192 +692,303 @@ namespace zSpace
 	*	\param		[in]	edgeFactor				- position factor of the remaining vertex after collapse on the original egde. Needs to be between 0.0 and 1.0.
 	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void collapseEdge(zMesh &inMesh, int index, double edgeFactor = 0.5,  bool removeInactiveElements = true)
 	{
 		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-		int nFVerts = (inMesh.onBoundary(index, zEdgeData)) ? getNumPolyVerts(inMesh, inMesh.edges[index].getSym()->getFace()->getFaceId()) : getNumPolyVerts(inMesh, inMesh.edges[index].getFace()->getFaceId());
+		int nFVerts = (inMesh.onBoundary(index, zEdgeData)) ? 0 : getNumPolyVerts(inMesh, inMesh.edges[index].getFace()->getFaceId());
+
+		int sEdge = inMesh.edges[index].getSym()->getEdgeId();
+		int nFVerts_Sym = (inMesh.onBoundary(sEdge, zEdgeData)) ? 0 : getNumPolyVerts(inMesh, inMesh.edges[sEdge].getFace()->getFaceId());
 
 		// check if there is only 1 polygon and its a triangle. If true, cant perform collapse.
-		if (inMesh.numPolygons() == 1 && nFVerts == 3)
+		if (inMesh.numPolygons() == 1)
 		{
-			printf("\n Can't perform collapse on single trianglular face.");
-			return;
+			if (nFVerts == 3 || nFVerts_Sym == 3)
+			{
+				printf("\n Can't perform collapse on single trianglular face.");
+				return;
+			}
+			
 		}
 
-		int vertexRemoveID = inMesh.edges[index].getVertex()->getVertexId();
-		int vertexRetainID = inMesh.edges[index].getSym()->getVertex()->getVertexId();
+		// get edge faces
+		vector<int> eFaces;
+		inMesh.getFaces(index, zEdgeData, eFaces);
 
-		//printf("\n vertexRemoveID: %i vertexRetainID: %i ", vertexRemoveID, vertexRetainID);
+		if (inMesh.numPolygons() == eFaces.size())
+		{
+			if (nFVerts == nFVerts_Sym && nFVerts_Sym == 3)
+			{
+				printf("\n Can't perform collapse on common edge of 2 triangular face mesh.");
+				return;
+			}
+			
+		}
 
-		// check if vertexRemoveID is a boundary vertex
-		bool boundaryVertex = (inMesh.onBoundary(vertexRemoveID, zVertexData));
+		int v1 = inMesh.edges[index].getVertex()->getVertexId();
+		int v2 = inMesh.edges[sEdge].getVertex()->getVertexId();
 
+		int vertexRemoveID = v1;
+		int vertexRetainID = v2;
+
+		if (inMesh.getVertexValence(v1) > inMesh.getVertexValence(v2))
+		{
+			vertexRemoveID = v2;
+			vertexRetainID = v1;
+
+			edgeFactor = 1 - edgeFactor;
+
+		}
+				
 		// set new position of retained vertex
 		zVector e = inMesh.vertexPositions[vertexRemoveID] - inMesh.vertexPositions[vertexRetainID];
 		double eLength = e.length();
 		e.normalize();
 
 		inMesh.vertexPositions[vertexRetainID] = inMesh.vertexPositions[vertexRetainID] + e * (edgeFactor * eLength);
-
-		// get edge faces
-		vector<int> eFaces;
-		inMesh.getFaces(index, zEdgeData, eFaces);
-
-		// get connected faces
-		vector<int> cFaces;
-		inMesh.getConnectedFaces(vertexRemoveID, zVertexData, cFaces);
-
-		// get connected edges
+		
+		
+		// get connected edges of vertexRemoveID
 		vector<int> cEdges;
 		inMesh.getConnectedEdges(vertexRemoveID, zVertexData, cEdges);
 
+	
+		// get connected edges
 
-		vector<int> tempPolyConnects;
-		vector<int> tempPolyCounts;
+		int vNext = inMesh.edges[index].getNext()->getVertex()->getVertexId();
+		vector<int> cEdgesVNext;
+		inMesh.getConnectedEdges(vNext, zVertexData, cEdgesVNext);
 
-		for (int i = 0; i < cFaces.size(); i++)
-		{
+		int vPrev = inMesh.edges[index].getPrev()->getVertex()->getVertexId();
+		vector<int> cEdgesVPrev;
+		inMesh.getConnectedEdges(vPrev, zVertexData, cEdgesVPrev);
 
-			// check if it also a edge face
-			bool eFace = false;
-			for (int j = 0; j < eFaces.size(); j++)
+		int vNext_sEdge = inMesh.edges[sEdge].getNext()->getVertex()->getVertexId();
+		vector<int> cEdgesVNext_sEdge;
+		inMesh.getConnectedEdges(vNext_sEdge, zVertexData, cEdgesVNext_sEdge);
+
+		int vPrev_sEdge = inMesh.edges[sEdge].getPrev()->getVertex()->getVertexId();
+		vector<int> cEdgesVPrev_sEdge;
+		inMesh.getConnectedEdges(vPrev_sEdge, zVertexData, cEdgesVPrev_sEdge);
+
+		// current edge 
+		if (nFVerts == 3)
+		{			
+			
+			// update pointers
+			inMesh.edges[index].getNext()->setNext(inMesh.edges[index].getPrev()->getSym()->getNext());
+			inMesh.edges[index].getNext()->setPrev(inMesh.edges[index].getPrev()->getSym()->getPrev());
+
+			inMesh.edges[index].getPrev()->setPrev(nullptr);
+			inMesh.edges[index].getPrev()->setNext(nullptr);
+
+			inMesh.edges[index].getPrev()->getSym()->setPrev(nullptr);
+			inMesh.edges[index].getPrev()->getSym()->setNext(nullptr);
+
+			inMesh.edges[index].getNext()->setFace(inMesh.edges[index].getPrev()->getSym()->getFace());
+			
+			if (inMesh.edges[index].getPrev()->getSym()->getFace())
 			{
-				if (eFaces[j] == cFaces[i])
+				inMesh.edges[index].getPrev()->getSym()->getFace()->setEdge(inMesh.edges[index].getNext());
+				inMesh.edges[index].getPrev()->getSym()->setFace(nullptr);
+			}
+		
+			// update vertex edge pointer if pointing to prev edge
+
+			if (inMesh.vertices[vNext].getEdge()->getEdgeId() == inMesh.edges[index].getPrev()->getEdgeId())
+			{
+				for (int i = 0; i < cEdgesVNext.size(); i++)
 				{
-					eFace = true;
-					break;
+					if (cEdgesVNext[i] != inMesh.edges[index].getPrev()->getEdgeId())
+					{
+						inMesh.vertices[vNext].setEdge(&inMesh.edges[cEdgesVNext[i]]);
+					}
 				}
 			}
 
-			vector<int> fVerts;
-			inMesh.getVertices(cFaces[i], zFaceData, fVerts);
-
-
-
-			if (eFace)
+			// update vertex edge pointer if pointing to prev edge
+			
+			if (inMesh.vertices[vPrev].getEdge()->getEdgeId() == inMesh.edges[index].getPrev()->getSym()->getEdgeId() || inMesh.vertices[vPrev].getEdge()->getEdgeId() == index)
 			{
-				for (int j = 0; j < fVerts.size(); j++)
+				for (int i = 0; i < cEdgesVPrev.size(); i++)
 				{
-					if (fVerts[j] != vertexRemoveID) tempPolyConnects.push_back(fVerts[j]);
+					if (cEdgesVPrev[i] != inMesh.edges[index].getPrev()->getSym()->getEdgeId() && cEdgesVPrev[i] != index)
+					{
+						inMesh.vertices[vPrev].setEdge(&inMesh.edges[cEdgesVPrev[i]]);
+					}
 				}
-
-
-
-				tempPolyCounts.push_back(fVerts.size() - 1);
 			}
 
-			else
-			{
-				for (int j = 0; j < fVerts.size(); j++)
-				{
-					if (fVerts[j] == vertexRemoveID)  tempPolyConnects.push_back(vertexRetainID);
-					else tempPolyConnects.push_back(fVerts[j]);
-				}
+			// decativate prev edge
+			inMesh.deactivateElement(inMesh.edges[index].getPrev()->getEdgeId(), zEdgeData);
 
-				tempPolyCounts.push_back(fVerts.size());
+			// decativate next and sym pointer of the next edge are same, deactivate edge
+			if (inMesh.edges[index].getNext()->getNext() == inMesh.edges[index].getNext()->getSym())
+			{
+				
+				inMesh.deactivateElement(inMesh.edges[index].getNext()->getEdgeId(), zEdgeData);
+				inMesh.deactivateElement(vNext, zVertexData);
 			}
 
+			// decativate prev and sym pointer of the next edge are same, deactivate edge
+			else if (inMesh.edges[index].getNext()->getPrev() == inMesh.edges[index].getNext()->getSym())
+			{
+				inMesh.deactivateElement(inMesh.edges[index].getNext()->getVertex()->getVertexId(), zVertexData);
+				inMesh.deactivateElement(vNext, zVertexData);
+			}
+
+			// deactivate face pointed by collapse edge
+			inMesh.deactivateElement(inMesh.edges[index].getFace()->getFaceId(), zFaceData);
+
+			inMesh.edges[index].setFace(nullptr);
+
+			inMesh.edges[index].setNext(nullptr);
+			inMesh.edges[index].setPrev(nullptr);
 
 		}
-
-		// make all edges of the faces boundary edges
-		for (int i = 0; i < cFaces.size(); i++)
+		else
 		{
-			vector<int> fEdges;
-			inMesh.getEdges(cFaces[i], zFaceData, fEdges);
-
-			for (int j = 0; j < fEdges.size(); j++)
+			// update vertex edge pointer if pointing to current edge
+			if (inMesh.vertices[vPrev].getEdge()->getEdgeId() == inMesh.edges[index].getEdgeId())
 			{
-				inMesh.edges[fEdges[j]].setFace(nullptr);
+				inMesh.vertices[vPrev].setEdge(inMesh.edges[index].getPrev()->getSym());
 			}
-		}
-
-		// disable connected edges 
-		for (int i = 0; i < cEdges.size(); i++)
-		{
-			int symEdge = inMesh.edges[cEdges[i]].getSym()->getEdgeId();
-
-			inMesh.removeFromVerticesEdge(inMesh.edges[cEdges[i]].getVertex()->getVertexId(), inMesh.edges[symEdge].getVertex()->getVertexId());
 
 			// update pointers
-			inMesh.edges[cEdges[i]].removeEdge();
+			inMesh.edges[index].getNext()->setPrev(inMesh.edges[index].getPrev());
 
-			// disable connected edges
-			inMesh.edgeActive[cEdges[i]] = false;
-			inMesh.edgeActive[symEdge] = false;
-
+			inMesh.edges[index].setNext(nullptr);
+			inMesh.edges[index].setPrev(nullptr);
 		}
 
-		int newNumEdges = inMesh.numEdges() - (2 * cEdges.size());
-		inMesh.setNumEdges(newNumEdges, false);
-
-
-		// disable connected faces
-		for (int i = 0; i < cFaces.size(); i++)
+		// symmetry edge 
+		if (nFVerts_Sym == 3)
 		{
-			inMesh.faces[cFaces[i]] = zFace();
-
-			inMesh.faceActive[cFaces[i]] = false;
-		}
-
-		int newNumFaces = inMesh.numPolygons() - cFaces.size();
-		inMesh.setNumPolygons(newNumFaces, false);
-
-
-		// remove from vertexPosition map
-		inMesh.removeFromPositionMap(inMesh.vertexPositions[vertexRemoveID]);
-
-		// disable vertexRemoveID vertex
-		inMesh.vertices[vertexRemoveID].removeVertex();
-		inMesh.vertexActive[vertexRemoveID] = false;
-
-		inMesh.vertexPositions[vertexRemoveID] = zVector(10000, 10000, 10000); // dummy position for VBO
-		inMesh.vertexNormals[vertexRemoveID] = zVector(0, 0, 1); // dummy normal for VBO
-		inMesh.vertexColors[vertexRemoveID] = zColor(1, 1, 1, 1); // dummy color for VBO
-
-
-
-		int newNumVertices = inMesh.numVertices() - 1;
-		inMesh.setNumVertices(newNumVertices, false);
-
-
-
-		// create faces and edges connection
-		int polyconnectsCurrentIndex = 0;
-
-		for (int i = 0; i < tempPolyCounts.size(); i++)
-		{
-			int num_faceVerts = tempPolyCounts[i];
-
-			vector<int> newfVerts;
-
 			
-			for (int j = 0; j < num_faceVerts; j++)
+
+			// update pointers
+			inMesh.edges[sEdge].getNext()->setNext(inMesh.edges[sEdge].getPrev()->getSym()->getNext());
+			inMesh.edges[sEdge].getNext()->setPrev(inMesh.edges[sEdge].getPrev()->getSym()->getPrev());
+
+			inMesh.edges[sEdge].getPrev()->setPrev(nullptr);
+			inMesh.edges[sEdge].getPrev()->setNext(nullptr);
+
+			inMesh.edges[sEdge].getPrev()->getSym()->setPrev(nullptr);
+			inMesh.edges[sEdge].getPrev()->getSym()->setNext(nullptr);
+
+			inMesh.edges[sEdge].getNext()->setFace(inMesh.edges[sEdge].getPrev()->getSym()->getFace());
+
+			if (inMesh.edges[sEdge].getPrev()->getSym()->getFace())
 			{
-				newfVerts.push_back(tempPolyConnects[polyconnectsCurrentIndex + j]);				
+				inMesh.edges[sEdge].getPrev()->getSym()->getFace()->setEdge(inMesh.edges[sEdge].getNext());
+				inMesh.edges[sEdge].getPrev()->getSym()->setFace(nullptr);
 			}
 
-			if (newfVerts.size() > 2) inMesh.addPolygon(newfVerts);
-			polyconnectsCurrentIndex += num_faceVerts;
+			// update vertex edge pointer if pointing to prev edge
+
+			if (inMesh.vertices[vNext_sEdge].getEdge()->getEdgeId() == inMesh.edges[sEdge].getPrev()->getEdgeId())
+			{
+				for (int i = 0; i < cEdgesVNext_sEdge.size(); i++)
+				{
+					if (cEdgesVNext_sEdge[i] != inMesh.edges[sEdge].getPrev()->getEdgeId())
+					{
+						inMesh.vertices[vNext_sEdge].setEdge(&inMesh.edges[cEdgesVNext_sEdge[i]]);
+					}
+				}
+			}
+
+			// update vertex edge pointer if pointing to prev edge
+
+			if (inMesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == inMesh.edges[sEdge].getPrev()->getSym()->getEdgeId() || inMesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == sEdge)
+			{
+				for (int i = 0; i < cEdgesVPrev_sEdge.size(); i++)
+				{					
+					if (cEdgesVPrev_sEdge[i] != inMesh.edges[sEdge].getPrev()->getSym()->getEdgeId() && cEdgesVPrev_sEdge[i] != sEdge)
+					{
+						inMesh.vertices[vPrev_sEdge].setEdge(&inMesh.edges[cEdgesVPrev_sEdge[i]]);
+					}
+				}
+			}
+
+			// decativate prev edge
+			inMesh.deactivateElement(inMesh.edges[sEdge].getPrev()->getEdgeId(), zEdgeData);
+
+			// decativate next and sym pointer of the next edge are same, deactivate edge
+			if (inMesh.edges[sEdge].getNext()->getNext() == inMesh.edges[sEdge].getNext()->getSym())
+			{
+				inMesh.deactivateElement(inMesh.edges[sEdge].getNext()->getEdgeId(), zEdgeData);
+				inMesh.deactivateElement(vNext_sEdge, zVertexData);
+			}
+
+			// decativate prev and sym pointer of the next edge are same, deactivate edge
+			else if (inMesh.edges[sEdge].getNext()->getPrev() == inMesh.edges[sEdge].getNext()->getSym())
+			{
+				inMesh.deactivateElement(inMesh.edges[sEdge].getNext()->getEdgeId(), zEdgeData);
+				inMesh.deactivateElement(vNext_sEdge, zVertexData);
+			}
+
+			// deactivate face pointed by collapse edge
+			inMesh.deactivateElement(inMesh.edges[sEdge].getFace()->getFaceId(), zFaceData);
+
+			inMesh.edges[sEdge].setFace(nullptr);
+
+			inMesh.edges[sEdge].setNext(nullptr);
+			inMesh.edges[sEdge].setPrev(nullptr);
 
 		}
-
-		if (boundaryVertex)
+		else
 		{
-			inMesh.update_BoundaryEdgePointers();
+			// update vertex edge pointer if pointing to current edge
+			if (inMesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == inMesh.edges[sEdge].getEdgeId())
+			{
+				inMesh.vertices[vPrev_sEdge].setEdge(inMesh.edges[sEdge].getPrev()->getSym());
+			}
+
+			// update pointers
+			inMesh.edges[sEdge].getNext()->setPrev(inMesh.edges[sEdge].getPrev());
+
+			inMesh.edges[sEdge].setNext(nullptr);
+			inMesh.edges[sEdge].setPrev(nullptr);
 		}
 
-		// compute normals
+		// update connected edges verter pointer
+		for (int i = 0; i < cEdges.size(); i++)
+		{
+			if (inMesh.edgeActive[cEdges[i]])
+			{
+				int v1 = inMesh.edges[cEdges[i]].getVertex()->getVertexId();
+				int v2 = vertexRemoveID;
+				inMesh.removeFromVerticesEdge(v1, v2);
+
+				inMesh.edges[cEdges[i]].getSym()->setVertex(&inMesh.vertices[vertexRetainID]);
+
+				inMesh.addToVerticesEdge(v1, vertexRetainID, cEdges[i]);
+			}
+		}
+				
+
+		// deactivate collapse edge
+		if (inMesh.edgeActive[index])
+		{
+			inMesh.deactivateElement(index, zEdgeData);
+		}
+
+		// deactivate vertexRemoveID
+		if (inMesh.vertexActive[vertexRemoveID])
+		{
+			inMesh.deactivateElement(vertexRemoveID, zVertexData);
+		}
+	
+		// compute normals		
 		inMesh.computeMeshNormals();
 
 
 		// remove inactive elements
 		if (removeInactiveElements)
-		{
+		{						
 			inMesh.removeInactiveElements(zVertexData);
 			inMesh.removeInactiveElements(zEdgeData);
 			inMesh.removeInactiveElements(zFaceData);
@@ -1027,11 +1043,7 @@ namespace zSpace
 		if (!vExists)
 		{
 			// remove from verticesEdge map
-			string removeHashKey = (to_string(edgetoSplit->getVertex()->getVertexId()) + "," + to_string(edgetoSplitSym->getVertex()->getVertexId()));
-			inMesh.verticesEdge.erase(removeHashKey);
-
-			string removeHashKey1 = (to_string(edgetoSplitSym->getVertex()->getVertexId()) + "," + to_string(edgetoSplit->getVertex()->getVertexId()));
-			inMesh.verticesEdge.erase(removeHashKey1);
+			inMesh.removeFromVerticesEdge(edgetoSplit->getVertex()->getVertexId(), edgetoSplitSym->getVertex()->getVertexId());
 
 			// add new edges
 			int v1 = VertId;
@@ -1072,12 +1084,7 @@ namespace zSpace
 			if (edgetoSplit->getFace()) inMesh.edges[inMesh.edgeActive.size() - 2].setFace(edgetoSplit->getFace());
 
 			// update verticesEdge map
-
-			string hashKey = (to_string(edgetoSplit->getVertex()->getVertexId()) + "," + to_string(edgetoSplitSym->getVertex()->getVertexId()));
-			inMesh.verticesEdge[hashKey] = edgetoSplitSym->getEdgeId();
-
-			string hashKey1 = (to_string(edgetoSplitSym->getVertex()->getVertexId()) + "," + to_string(edgetoSplit->getVertex()->getVertexId()));
-			inMesh.verticesEdge[hashKey1] = edgetoSplit->getEdgeId();
+			inMesh.addToVerticesEdge(edgetoSplitSym->getVertex()->getVertexId(), edgetoSplit->getVertex()->getVertexId(), edgetoSplit->getEdgeId());
 
 		}
 
@@ -1498,8 +1505,8 @@ namespace zSpace
 				inMesh.getVertices(i, zFaceData, fVerts);
 
 
-				// disable current face
-				inMesh.faceActive[i] = false;
+				//// disable current face
+				//inMesh.faceActive[i] = false;
 
 				int numCurrentEdges = inMesh.edgeActive.size();;
 
@@ -1543,6 +1550,9 @@ namespace zSpace
 
 		}
 
+	
+
+
 	}
 
 
@@ -1553,38 +1563,175 @@ namespace zSpace
 
 	/*! \brief This method splits an edge longer than the given input value at its midpoint and  triangulates the mesh. the adjacent triangles are split into 2-4 triangles.
 	*
-	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf
+	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf page 64 -67
 	*	\param		[in]	inMesh			- input mesh.
 	*	\param		[in]	maxEdgeLength	- maximum edge length.
 	*	\since version 0.0.1
 	*/
-	void splitLongEdges(zMesh &inMesh, double maxEdgeLength = 0.5);
+	void splitLongEdges(zMesh &inMesh, double maxEdgeLength)
+	{
+		for (int i = 0; i < inMesh.edgeActive.size(); i+=2 )
+		{
+			if (inMesh.edgeActive[i])
+			{
+				double eLength = getEdgelength(inMesh, i);				
+
+				while (eLength > maxEdgeLength)
+				{
+					splitEdge(inMesh, i, 0.5);
+					eLength = getEdgelength(inMesh, i);
+					
+				}
+			}				
+		}
+	}
 
 	/*! \brief This method collapses an edge shorter than the given minimum edge length value if the collapsing doesnt produce adjacent edges longer than the maximum edge length.
 	*
-	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf
+	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf page 64 -67
 	*	\param		[in]	inMesh				- input mesh.
 	*	\param		[in]	minEdgeLength		- minimum edge length.
 	*	\param		[in]	maxEdgeLength		- maximum edge length.
 	*	\since version 0.0.1
 	*/
-	void collapseShortEdges(zMesh &inMesh, double minEdgeLength = 0.1, double maxEdgeLength = 0.5);
+	void collapseShortEdges(zMesh &inMesh, double minEdgeLength, double maxEdgeLength)
+	{
+		int finished = false;
+
+		vector<bool> edgeFinished;
+
+		while (!finished)
+		{
+			for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
+			{
+				if (inMesh.edgeActive[i])
+				{
+
+					double eLength = getEdgelength(inMesh, i);
+
+					if (eLength < minEdgeLength)
+					{
+						int v1 = inMesh.edges[i].getVertex()->getVertexId();
+						int v2 = inMesh.edges[i + 1].getVertex()->getVertexId();
+
+						zVector pos = inMesh.vertexPositions[v2]; /*(inMesh.vertexPositions[v1] + inMesh.vertexPositions[v2]) * 0.5;*/
+
+						vector<int> cVertsV1;
+						inMesh.getConnectedVertices(v1, zVertexData, cVertsV1);
+
+						bool collapse_ok = true;
+
+						for (int j = 0; j < cVertsV1.size(); j++)
+						{
+							if (pos.distanceTo(inMesh.vertexPositions[cVertsV1[j]]) > maxEdgeLength)
+							{
+								collapse_ok = false;
+								break;
+							}
+						}
+
+						if (collapse_ok)
+						{
+							printf("\n working %i \n", i);
+							collapseEdge(inMesh, i, 0.5, false);
+
+							//printMesh(inMesh);
+						}
+					}
+
+
+					
+				}
+			}
+		}
+
+		
+	}
 
 	/*! \brief This method equalizes the vertex valences by flipping edges of the input triangulated mesh. Target valence for interior vertex is 4 and boundary vertex is 6.
 	*
-	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf
+	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf page 64 -67
 	*	\param		[in]	inMesh				- input mesh.
 	*	\since version 0.0.1
 	*/
-	void equalizeValences(zMesh &inMesh);
+	void equalizeValences(zMesh &inMesh)
+	{
+		for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
+		{
+			if (inMesh.edgeActive[i])
+			{
+				if (inMesh.onBoundary(i, zEdgeData) || inMesh.onBoundary(i + 1, zEdgeData)) continue;
+
+				int v1 = inMesh.edges[i].getVertex()->getVertexId();
+				int v2 = inMesh.edges[i + 1].getVertex()->getVertexId();
+
+				int v3 = inMesh.edges[i].getNext()->getVertex()->getVertexId();
+				int v4 = inMesh.edges[i+1].getNext()->getVertex()->getVertexId();
+
+				int tarVal_v1 = (inMesh.onBoundary(v1, zVertexData)) ? 4 : 6;
+				int tarVal_v2 = (inMesh.onBoundary(v2, zVertexData)) ? 4 : 6;
+				int tarVal_v3 = (inMesh.onBoundary(v3, zVertexData)) ? 4 : 6;
+				int tarVal_v4 = (inMesh.onBoundary(v4, zVertexData)) ? 4 : 6;
+
+				int val_v1 = inMesh.getVertexValence(v1);
+				int val_v2 = inMesh.getVertexValence(v2);
+				int val_v3 = inMesh.getVertexValence(v3);
+				int val_v4 = inMesh.getVertexValence(v4);
+
+				int dev_pre = abs(val_v1 - tarVal_v1) + abs(val_v2 - tarVal_v2) + abs(val_v3 - tarVal_v3) + abs(val_v4 - tarVal_v4);
+
+				flipTriangleEdge(inMesh, i);
+
+				val_v1 = inMesh.getVertexValence(v1);
+				val_v2 = inMesh.getVertexValence(v2);
+				val_v3 = inMesh.getVertexValence(v3);
+				val_v4 = inMesh.getVertexValence(v4);
+
+
+				int dev_post = abs(val_v1 - tarVal_v1) + abs(val_v2 - tarVal_v2) + abs(val_v3 - tarVal_v3) + abs(val_v4 - tarVal_v4);
+
+				if(dev_pre <= dev_post) flipTriangleEdge(inMesh, i);
+			}
+		}
+	}
 
 	/*! \brief This method applies an iterative smoothing to the mesh by  moving the vertex but constrained to its tangent plane.
 	*
-	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf
+	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf page 64 -67
 	*	\param		[in]	inMesh				- input mesh.
 	*	\since version 0.0.1
 	*/
-	void tangentialRelaxation(zMesh &inMesh);
+	void tangentialRelaxation(zMesh &inMesh)
+	{
+		for (int i = 0; i < inMesh.vertexActive.size(); i++)
+		{
+			if (inMesh.vertexActive[i])
+			{
+				vector<int> cVerts;
+				inMesh.getConnectedVertices(i, zVertexData, cVerts);
+
+				vector<zVector> cVerts_Pos;
+				vector<double> weights;
+
+				for (int j = 0; j < cVerts.size(); j++)
+				{
+					cVerts_Pos.push_back(inMesh.vertexPositions[cVerts[j]]);
+					weights.push_back(1.0);
+				}
+
+				zVector v_bary = getBaryCenter(cVerts_Pos, weights);
+
+				zVector v_norm = inMesh.vertexNormals[i];
+				zVector v_pos = inMesh.vertexPositions[i];
+
+				double dotP = v_norm * (v_pos - v_bary);
+
+				inMesh.vertexPositions[i] = v_bary + (v_norm * dotP);
+
+			}
+		}
+
+	}
 
 
 

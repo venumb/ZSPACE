@@ -139,35 +139,32 @@ namespace zSpace
 		}
 
 		/*! \brief This method sets the previous edge of current zEdge to the the input edge
-		*	\param		[in]	previous edge of type zEdge.
+		*	\param		[in]	_prev		- previous edge of type zEdge.
 		*	\since version 0.0.1
 		*/
-
 		void setPrev(zEdge* _prev)
 		{
 			this->prev = _prev;
-			_prev->next = this;
+			if(this->getPrev()) _prev->next = this;
 		}
 
 		/*! \brief This method returns the next edge of current zEdge.
 		*	\return				next edge of type zEdge.
 		*	\since version 0.0.1
 		*/
-
 		zEdge* getNext()
 		{
 			return this->next;
 		}
 
 		/*! \brief This method sets the next edge of current zEdge to the the input edge
-		*	\param		[in]	next edge of type zEdge.
+		*	\param		[in]	_next		- next edge of type zEdge.
 		*	\since version 0.0.1
 		*/
-
 		void setNext(zEdge* _next)
 		{
 			this->next = _next;
-			_next->prev = this;
+			if (this->getNext()) _next->prev = this;
 		}
 
 		/*! \brief This method returns the vertex pointed to by the current zEdge.
@@ -217,6 +214,7 @@ namespace zSpace
 		{
 			if (this->getNext()) this->getNext()->setPrev(this->getSym()->getPrev());
 			if (this->getPrev()) this->getPrev()->setNext(this->getSym()->getNext());
+
 						
 			this->next = nullptr;
 			this->prev = nullptr;

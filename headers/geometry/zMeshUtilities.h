@@ -152,8 +152,7 @@ namespace zSpace
 	*	\param		[in]	inMesh				- input mesh.
 	*	\param		[out]	vertexCurvature		- container of vertex curvature.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void getPrincipalCurvature(zMesh &inMesh, vector<zCurvature> &vertexCurvatures)
 	{
 		for (int j = 0; j < inMesh.numVertices(); j++)
@@ -269,8 +268,7 @@ namespace zSpace
 	*	\param		[in]	inMesh			- input mesh.
 	*	\param		[out]	dihedralAngles		- vector of edge dihedralAngles.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void getEdgeDihedralAngles(zMesh &inMesh, vector<double> &dihedralAngles)
 	{
 		vector<double> out;
@@ -320,6 +318,25 @@ namespace zSpace
 		dihedralAngles = out;
 	}
 
+	/*! \brief This method computes the edge length of the input edge of zMesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	index			- edge index.
+	*	\return				double			- edge length.
+	*	\since version 0.0.1
+	*/
+	double getEdgelength(zMesh &inMesh, int index)
+	{
+		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		int v1 = inMesh.edges[index].getVertex()->getVertexId();
+		int v2 = inMesh.edges[index].getSym() ->getVertex()->getVertexId();
+
+		double out = inMesh.vertexPositions[v1].distanceTo(inMesh.vertexPositions[v2]);
+
+		return out;
+	}
 	
 	/*! \brief This method computes the area around every vertex of a zMesh based on face centers.
 	*
@@ -384,7 +401,7 @@ namespace zSpace
 
 		return totalArea;
 	}
-
+	
 	/*! \brief This method return the number of vertices in the face given by the input index.
 	*
 	*	\param		[in]	inMesh			- input mesh.

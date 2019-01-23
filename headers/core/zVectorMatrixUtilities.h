@@ -61,7 +61,6 @@ namespace zSpace
 	*	\return					zVector		- zVector of the column matrix.
 	*	\since version 0.0.1
 	*/
-
 	zVector fromMatrixColumn(zMatrixd &inMatrix, int colIndex)
 	{
 		if (inMatrix.getNumRows() < 3 || inMatrix.getNumRows() > 4) throw std::invalid_argument("cannot convert matrix column to vector.");
@@ -100,7 +99,6 @@ namespace zSpace
 	*	\param		[out]	Dims			- distances in X,Y,Z axis in local frame
 	*	\since version 0.0.1
 	*/
-
 	zVector getDimsFromBounds(zVector &minBB, zVector &maxBB)
 	{
 		zVector out;
@@ -124,7 +122,6 @@ namespace zSpace
 	*	\return					bool	- true if the planes intersect.
 	*	\since version 0.0.1
 	*/
-
 	bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2)
 	{
 		{
@@ -163,7 +160,6 @@ namespace zSpace
 	*	\return					bool	- true if the planes intersect.
 	*	\since version 0.0.1
 	*/
-
 	bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB)
 	{
 		bool out = false;
@@ -215,7 +211,6 @@ namespace zSpace
 	*	\return					bool			- true if the line and plane intersect.
 	*	\since version 0.0.1
 	*/
-
 	bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt)
 	{
 		bool out = false;
@@ -261,7 +256,6 @@ namespace zSpace
 	*	\return					double			- area of triangle defirned by the vectors.
 	*	\since version 0.0.1
 	*/
-
 	double triangleArea(zVector &v1, zVector &v2, zVector &v3)
 	{
 		double area = 0;
@@ -326,7 +320,6 @@ namespace zSpace
 	*	\return			minDist		- distance to closest point.
 	*	\since version 0.0.1
 	*/
-
 	double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
 	{
 		double out = 0.0;
@@ -385,8 +378,7 @@ namespace zSpace
 	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param		[in]	inMatrix	- input zMatrix to be transformed.
 	*	\return 			zMatrix		- world transformation matrix.
-	*/
-	
+	*/	
 	template <typename T>
 	zMatrix<T> toWorldMatrix(zMatrix<T> &inMatrix)
 	{
@@ -416,8 +408,7 @@ namespace zSpace
 	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param		[in]	inMatrix	- input 4X4 zMatrix to be transformed.
 	*	\return 			zMatrix		- world transformation matrix.
-	*/
-	
+	*/	
 	template <typename T>
 	zMatrix<T> toLocalMatrix(zMatrix<T> &inMatrix)
 	{
@@ -453,7 +444,6 @@ namespace zSpace
 	*	\param		[in]	to			- input 4X4 zMatrix.
 	*	\return 			zMatrix		- transformation matrix.
 	*/
-
 	template <typename T>
 	zMatrix<T> PlanetoPlane(zMatrix<T> &from, zMatrix<T> &to)
 	{
@@ -475,8 +465,7 @@ namespace zSpace
 	*	\param		[in]	from		- input 4X4 zMatrix.
 	*	\param		[in]	to			- input 4X4 zMatrix.
 	*	\return 			zMatrix		- transformation matrix.
-	*/
-	
+	*/	
 	template <typename T>
 	zMatrix<T> ChangeBasis(zMatrix<T> &from, zMatrix<T> &to)
 	{
@@ -494,8 +483,7 @@ namespace zSpace
 	*	\param		[in]	target		- input 4X4 zMatrix.
 	*	\param		[in]	newBasis	- input 4X4 zMatrix.
 	*	\return 			zMatrix		- new target matrix.
-	*/
-	
+	*/	
 	template <typename T>
 	zMatrix<T> target_newBasis(zMatrix<T> &target, zMatrix<T> &newBasis)
 	{		
@@ -527,7 +515,6 @@ namespace zSpace
 	*	\param		[in]	points		- input points.
 	*	\return 			zMatrixd	- Best fit plane as a 4X4 matrix.
 	*/
-
 	zMatrixd getBestFitPlane(vector<zVector>& points)
 	{
 
@@ -591,8 +578,7 @@ namespace zSpace
 	*	\param		[in]	points			- input points.
 	*	\param		[out]	minBB			- lower bounds as zVector
 	*	\param		[out]	maxBB			- upper bounds as zVector
-	*/
-	
+	*/	
 	void boundingboxPCA(vector<zVector> points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
 	{
 		zMatrixd bPlane_Mat = getBestFitPlane(points);
