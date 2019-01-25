@@ -11,6 +11,11 @@
 #include <headers/include/zGeometry.h>
 
 //--------------------------
+//---- zDYNAMICS
+//--------------------------
+#include <headers/include/zDynamics.h>
+
+//--------------------------
 //---- zData
 //--------------------------
 #include <headers/include/zData.h>

@@ -570,9 +570,7 @@ namespace zSpace
 
 		return out;
 	}
-
-
-
+	   
 
 	/*! \brief This method computes the bounding box for the given points using PCA
 	*

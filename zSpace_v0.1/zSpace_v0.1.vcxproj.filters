@@ -137,5 +137,14 @@
     <ClInclude Include="..\headers\application\zPolytopal.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\dynamics\zParticle.h">
+      <Filter>Header Files\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\include\zDynamics.h">
+      <Filter>Header Files\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\dynamics\zDynamicsUtilities.h">
+      <Filter>Header Files\Dynamics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

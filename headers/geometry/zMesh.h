@@ -157,7 +157,6 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-
 		~zMesh() {}
 
 
@@ -173,7 +172,6 @@ namespace zSpace
 		*	\param		[out]	edgeIndicies	- vector of edge indicies.
 		*	\since version 0.0.1
 		*/
-
 		void getEdges(int index, zHEData type, vector<int> &edgeIndicies)
 		{
 			vector<int> out;
@@ -211,7 +209,6 @@ namespace zSpace
 		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
 		*	\since version 0.0.1
 		*/
-
 		void getVertices(int index, zHEData type, vector<int> &vertexIndicies)
 		{
 			vector<int> out;
@@ -252,7 +249,6 @@ namespace zSpace
 		*	\param		[out]	faceIndicies	- vector of face indicies.
 		*	\since version 0.0.1
 		*/
-
 		void getConnectedFaces(int index, zHEData type, vector<int> &faceIndicies)
 		{
 			vector<int> out;
@@ -308,7 +304,6 @@ namespace zSpace
 		*	\param		[out]	faceIndicies	- vector of face indicies.
 		*	\since version 0.0.1
 		*/
-
 		void getFaces(int &index, zHEData type, vector<int> &faceIndicies)
 		{
 
@@ -332,7 +327,6 @@ namespace zSpace
 		*	\return				bool	- true if on boundary else false.
 		*	\since version 0.0.1
 		*/
-
 		bool onBoundary(int index, zHEData type = zVertexData)
 		{
 			bool out = false;
@@ -391,8 +385,7 @@ namespace zSpace
 		*	\param		[in]	pos			- zVector holding the position information of the vertex.
 		*	\return				bool		- true if the vertices container is resized.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		bool addVertex(zVector &pos)
 		{
 			bool out = false;
@@ -433,7 +426,6 @@ namespace zSpace
 		*	\return				bool		- true if the edges container is resized.
 		*	\since version 0.0.1
 		*/
-
 		bool addEdges(int &v1, int &v2)
 		{
 			bool out = false;
@@ -494,7 +486,6 @@ namespace zSpace
 		*	\return				bool		- true if the faces container is resized.
 		*	\since version 0.0.1
 		*/
-
 		bool addPolygon()
 		{
 			bool out = false;
@@ -529,7 +520,6 @@ namespace zSpace
 		*	\return				bool		- true if the faces container is resized.
 		*	\since version 0.0.1
 		*/
-
 		bool addPolygon(vector<int> &fVertices)
 		{
 			// add null polygon
@@ -589,7 +579,6 @@ namespace zSpace
 		*	\return		int		-	number of polygons
 		*	\since version 0.0.1
 		*/
-
 		int numPolygons()
 		{
 			return n_f;
@@ -599,8 +588,7 @@ namespace zSpace
 		*	\param		[in]	_n_f	-	number of faces.
 		*	\param		[in]	setMax	- if true, sets max edges as amultiple of _n_e.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void setNumPolygons(int _n_f, bool setMax = true)
 		{
 			n_f = _n_f;
@@ -615,8 +603,7 @@ namespace zSpace
 		/*! \brief This method computes the face colors based on the vertex colors.
 		*
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void computeFaceColorfromVertexColor()
 		{
 			for (int i = 0; i < faceActive.size(); i++)
@@ -645,8 +632,7 @@ namespace zSpace
 		/*! \brief This method computes the vertex colors based on the face colors.
 		*
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void computeVertexColorfromFaceColor()
 		{
 
@@ -677,8 +663,7 @@ namespace zSpace
 		*	\param		[in]	smoothVal		- number of iterations to run the smooth operation.
 		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void smoothColors(int smoothVal = 1, zHEData type = zVertexData)
 		{
 			for (int j = 0; j < smoothVal; j++)
@@ -776,7 +761,6 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-
 		void computeVertexNormalfromFaceNormal()
 		{
 
@@ -977,9 +961,6 @@ namespace zSpace
 		}
 			
 		
-	
-
-
 		//--------------------------
 		//---- UTILITY METHODS
 		//--------------------------

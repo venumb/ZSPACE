@@ -2,6 +2,8 @@
 
 #include<headers\IO\zJSON.h>
 
+#include <headers/dynamics/zParticle.h>
+
 namespace zSpace
 {
 	/** \addtogroup zIO
@@ -94,7 +96,6 @@ namespace zSpace
 	*	\param [in]		vColors				- export vertex color information if true.
 	*	\since version 0.0.1
 	*/
-
 	void toJSON(zMesh &inMesh, string outfilename, bool vColors = false)
 	{
 
@@ -238,7 +239,6 @@ namespace zSpace
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-
 	void fromJSON(zMesh &inMesh, string infilename)
 	{
 		json j_in;
@@ -362,8 +362,7 @@ namespace zSpace
 	*	\param [in]		inGraph				- graph created from the JSON file.
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void fromJSON(zGraph &inGraph, string infilename)
 	{
 		json j_in;
@@ -585,6 +584,95 @@ namespace zSpace
 	*/
 	template <typename T>
 	void fromCSV(string infilename, zHEData type, zGraph& inGraph, vector<T> &data);
+
+	/** @}*/
+
+
+
+	//--------------------------
+	//---- PARTICLES METHODS
+	//--------------------------
+
+	/** \addtogroup zIO_Mesh
+	*	\brief Collection of input - output methods for zMesh.
+	*  @{
+	*/
+
+	/*! \brief This method creates a container of particles with the positions initiaised at the input positions.
+	*
+	*	\param		[in]	inPartices				- container of particles created from the input positions.
+	*	\param		[in]	inPoints				- input container of positions.
+	*	\param		[in]	fixed					- input contatiner indicating if a particle is active or fixed.
+	*	\param		[in]	clear					- true if the input contatiner of particle is to be cleared.
+	*	\since version 0.0.1
+	*/
+	void fromPOSITIONS(vector<zParticle> &inParticles, vector<zVector> &inPoints, vector<bool> fixed, bool clear = true)
+	{
+		if(fixed.size() > 0 && fixed.size()!= inPoints.size() ) throw std::invalid_argument(" error: size of inPoints and active dont match.");
+
+		if(clear) inParticles.clear();
+
+		for (int i = 0; i < inPoints.size(); i++)
+		{
+			bool pActive = (fixed.size() > 0) ? fixed[i] : true;
+
+			inParticles.push_back(zParticle(&inPoints[i], pActive));
+		}		
+	}
+
+	/*! \brief This method creates a container of particles with the positions initiaised at the mesh vertex positions.
+	*
+	*	\param		[in]	inPartices				- container of particles created from the input positions.
+	*	\param		[in]	inMesh					- input mesh.
+	*	\param		[in]	fixBoundary				- true if the boundary vertices are to be fixed.
+	*	\param		[in]	clear					- true if the input contatiner of particle is to be cleared.
+	*	\since version 0.0.1
+	*/
+	void fromMESH(vector<zParticle> &inParticles, zMesh &inMesh, bool fixBoundary = false, bool clear = true)
+	{
+		
+		if (clear) inParticles.clear();
+
+		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+		{
+			bool fixed =  true;
+
+			if (fixBoundary) fixed = (inMesh.onBoundary(i, zVertexData)) ;
+
+			inParticles.push_back(zParticle(&inMesh.vertexPositions[i], fixed));
+
+			if (!fixed) inMesh.vertexColors[i] = zColor(0, 0, 1, 1);
+		}
+
+		
+	}
+
+	/*! \brief This method creates a container of particles with the positions initiaised at the graph vertex positions.
+	*
+	*	\param		[in]	inPartices				- container of particles created from the input positions.
+	*	\param		[in]	inGraph					- input graph.
+	*	\param		[in]	fixBoundary				- true if the boundary vertices are to be fixed.
+	*	\param		[in]	clear					- true if the input contatiner of particle is to be cleared.
+	*	\since version 0.0.1
+	*/
+	void fromGRAPH(vector<zParticle> &inParticles, zGraph &inGraph, bool fixBoundary = false, bool clear = true)
+	{
+
+		if (clear) inParticles.clear();
+
+		for (int i = 0; i < inGraph.vertexPositions.size(); i++)
+		{
+			bool fixed = true;
+
+			if (fixBoundary) fixed = inGraph.checkVertexValency(i,1);
+
+			inParticles.push_back(zParticle(&inGraph.vertexPositions[i], fixed));
+
+			if (!fixed) inGraph.vertexColors[i] = zColor(0, 0, 1, 1);
+		}
+
+
+	}
 
 	/** @}*/
 

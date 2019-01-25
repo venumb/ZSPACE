@@ -566,7 +566,6 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-
 		zField3D()
 		{
 			fieldValues.clear();
@@ -589,8 +588,7 @@ namespace zSpace
 		*	\param		[in]	_n_Z		- number of voxels in z direction.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		zField3D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _n_Z, int _NR = 1)
 		{
 			minBB = _minBB;
@@ -655,7 +653,6 @@ namespace zSpace
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
 		*	\since version 0.0.1
 		*/
-
 		zField3D(double _unit_X, double _unit_Y, double _unit_Z, int _n_X, int _n_Y, int _n_Z, int _NR = 1)
 		{
 			unit_X = _unit_X;
@@ -718,7 +715,6 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-
 		~zField3D() {}
 
 		//--------------------------
@@ -730,7 +726,6 @@ namespace zSpace
 		*	\return			int	- number of fieldvalues in the field.
 		*	\since version 0.0.1
 		*/
-
 		int getNumFieldValues()
 		{
 			return fieldValues.size();
@@ -770,7 +765,6 @@ namespace zSpace
 		*	\param		[in]	_maxBB		- maximum bounds of the field.
 		*	\since version 0.0.1
 		*/
-
 		void setBoundingBox(zVector &_minBB, zVector &_maxBB)
 		{
 			minBB = _minBB;
@@ -783,7 +777,6 @@ namespace zSpace
 		*	\param		[out]	_maxBB		- maximum bounds of the field.
 		*	\since version 0.0.1
 		*/
-
 		void getBoundingBox(zVector &_minBB, zVector &_maxBB)
 		{
 			_minBB = minBB;
@@ -796,7 +789,6 @@ namespace zSpace
 		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
-
 		void setPosition(zVector &_pos, int index)
 		{
 			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
@@ -810,7 +802,6 @@ namespace zSpace
 		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
-
 		zVector getPosition(int index)
 		{
 			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
@@ -825,7 +816,6 @@ namespace zSpace
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
-
 		void setFieldValue(T fValue, int index)
 		{
 			if (index > getFieldValue()) throw std::invalid_argument(" error: index out of bounds.");
@@ -839,14 +829,12 @@ namespace zSpace
 		*	\param		[in]	index		- index in the scalar container.
 		*	\since version 0.0.1
 		*/
-
 		T getFieldValue(int index)
 		{
 			if (index > getFieldValue()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return fieldValues[index];
 		}
-
 
 		/*! \brief This method gets the index of the field at the input position.
 		*
@@ -872,7 +860,6 @@ namespace zSpace
 		*	\param		[out]	index_Y		- output index in Y.
 		*	\since version 0.0.1
 		*/
-
 		void getIndices(zVector &pos, int &index_X, int &index_Y, int &index_Z)
 		{
 			index_X = floor((pos.x - minBB.x) / unit_X);
@@ -889,7 +876,6 @@ namespace zSpace
 		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.1
 		*/
-
 		void getNeighbourHoodRing(int index, int numRings, vector<int> &ringNeighbours)
 		{
 			vector<int> out;
@@ -948,7 +934,6 @@ namespace zSpace
 		*	\param		[out]	adjacentNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.1
 		*/
-
 		void getNeighbourAdjacents(int index, vector<int> &adjacentNeighbours)
 		{
 			vector<int> out;

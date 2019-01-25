@@ -429,7 +429,6 @@ namespace zSpace
 		*	\return				associated edge of type zEdge.
 		*	\since version 0.0.1
 		*/
-
 		zEdge* getEdge()
 		{
 			return this->e;

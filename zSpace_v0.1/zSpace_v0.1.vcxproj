@@ -51,6 +51,8 @@
     <ClInclude Include="..\headers\display\zBufferObject.h" />
     <ClInclude Include="..\headers\display\zDisplayUtilities.h" />
     <ClInclude Include="..\headers\display\zPrintUtilities.h" />
+    <ClInclude Include="..\headers\dynamics\zDynamicsUtilities.h" />
+    <ClInclude Include="..\headers\dynamics\zParticle.h" />
     <ClInclude Include="..\headers\geometry\zGeometryDatatypes.h" />
     <ClInclude Include="..\headers\geometry\zGraph.h" />
     <ClInclude Include="..\headers\geometry\zGraphMeshUtilities.h" />
@@ -63,6 +65,7 @@
     <ClInclude Include="..\headers\include\zCore.h" />
     <ClInclude Include="..\headers\include\zData.h" />
     <ClInclude Include="..\headers\include\zDisplay.h" />
+    <ClInclude Include="..\headers\include\zDynamics.h" />
     <ClInclude Include="..\headers\include\zGeometry.h" />
     <ClInclude Include="..\headers\include\zIO.h" />
     <ClInclude Include="..\headers\IO\zJSON.h" />

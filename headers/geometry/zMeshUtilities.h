@@ -33,7 +33,6 @@ namespace zSpace
 	*/
 	void setVertexColor(zMesh &inMesh, zColor col, bool setFaceColor = false)
 	{
-
 		for (int i = 0; i < inMesh.vertexColors.size(); i++)
 		{
 			inMesh.vertexColors[i] = col;
@@ -428,7 +427,6 @@ namespace zSpace
 	*	\param		[out]	polyCounts		- stores number of vertices per polygon.
 	*	\since version 0.0.1
 	*/
-
 	void computePolyConnects_PolyCount(zMesh &inMesh, vector<int>(&polyConnects), vector<int>(&polyCounts))
 	{
 		polyConnects.clear();
@@ -457,8 +455,7 @@ namespace zSpace
 	*	\param		[in]	m2				- input mesh 2.
 	*	\retrun				zMesh			- combined mesh.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	zMesh combineDisjointMesh(zMesh &m1, zMesh &m2)
 	{
 		zMesh out;
@@ -508,7 +505,6 @@ namespace zSpace
 	*	\retrun				zMesh				- extruded mesh.
 	*	\since version 0.0.1
 	*/
-
 	zMesh extrudeMesh(zMesh &inMesh, float extrudeThickness, bool thicknessTris = false)
 	{
 		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
@@ -601,8 +597,7 @@ namespace zSpace
 	*	\param		[in]	offset				- offset distance.
 	*	\param		[out]	offsetPositions		- container with the offset positions.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void offsetMeshFace(zMesh &inMesh, int faceIndex, double offset, vector<zVector>& offsetPositions)
 	{
 		vector<zVector> out;
@@ -659,7 +654,6 @@ namespace zSpace
 	*	\param		[out]	intersectionPositions	- container with the intersection positions.
 	*	\since version 0.0.1
 	*/
-
 	void offsetMeshFace_Variable(zMesh &m, int faceIndex, vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
 	{
 		vector<zVector> offsetPoints;
@@ -737,7 +731,6 @@ namespace zSpace
 	*	\param		[in]	transform				- transfrom matrix.
 	*	\since version 0.0.1
 	*/
-
 	void transformMesh(zMesh &inMesh, zMatrixd& transform)
 	{
 		for (int j = 0; j < inMesh.vertexPositions.size(); j++)

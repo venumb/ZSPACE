@@ -1405,6 +1405,7 @@ namespace zSpace
 	{
 		for (int j = 0; j < numDivisions; j++)
 		{
+			
 
 			// get face centers
 			vector<zVector> fCenters;
@@ -1510,7 +1511,7 @@ namespace zSpace
 				}
 			}
 
-
+			
 
 			// add faces
 			int numOriginalfaces = inMesh.faceActive.size();
@@ -1527,7 +1528,8 @@ namespace zSpace
 
 
 				//// disable current face
-				//inMesh.faceActive[i] = false;
+				
+				inMesh.faceActive[i] = false;
 
 				int numCurrentEdges = inMesh.edgeActive.size();;
 
@@ -1563,9 +1565,15 @@ namespace zSpace
 
 					inMesh.addPolygon(newFVerts);
 
+					
 				}
 
+				
+
 			}
+
+			
+			//printMesh(inMesh);
 
 			inMesh.computeMeshNormals();
 
