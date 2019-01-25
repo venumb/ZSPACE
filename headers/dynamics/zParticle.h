@@ -93,17 +93,6 @@ namespace zSpace
 
 		}
 
-		/*! \brief This operator is used for derivative scalar multiplication  and assigment of the result to the current derivative.
-		*
-		*	\param		[in]	val						- scalar value.
-		*	\since version 0.0.1
-		*/
-		void operator *=(double val)
-		{
-			this->dP *= val;
-			this->dV *= val;
-		}
-
 	};
 
 	/** \addtogroup zDynamics
@@ -334,10 +323,11 @@ namespace zSpace
 		/*! \brief This method computes the derivatives.
 		*
 		*	\details Based on https://gafferongames.com/post/integration_basics/ and http://paulbourke.net/miscellaneous/particle/particlelib.c
-		*	\param		[in]	type	- integration type. Works only for RK4.
+		*	\param		[in]	deriv	- current derivatives.
+		*	\param		[in]	dT		- timestep.
 		*	\since version 0.0.1
 		*/
-		zParticleDerivative getDerivative( zParticleDerivative &deriv, double dT)
+		zParticleDerivative getDerivatives( zParticleDerivative &deriv, double dT)
 		{
 			zParticleDerivative out;
 
@@ -364,7 +354,7 @@ namespace zSpace
 			// Semi-Implicit Euler Integrate
 			if (type == zEuler)
 			{
-				derivative = getDerivative(derivative, dT);
+				derivative = getDerivatives(derivative, dT);
 			}
 
 			// Renge Kutta 4th Derivative Integrate
@@ -373,16 +363,16 @@ namespace zSpace
 				
 				zParticleDerivative a, b, c, d, temp;		
 
-				a = getDerivative(derivative, dT) * 0.5;				
+				a = getDerivatives(derivative, dT) * 0.5;
 				
 				temp = derivative + a;
-				b = getDerivative( temp, dT) * 0.5;				
+				b = getDerivatives( temp, dT) * 0.5;
 				
 				temp = derivative + b;
-				c = getDerivative(temp, dT);				
+				c = getDerivatives(temp, dT);
 							
 				temp = derivative + c;
-				d = getDerivative(temp, dT);				
+				d = getDerivatives(temp, dT);
 
 				derivative = a * (0.167) + b *(0.334) + c * (0.334) + d*(0.167);			
 
