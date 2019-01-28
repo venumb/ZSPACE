@@ -3,20 +3,35 @@
 #include <headers/geometry/zMesh.h>
 #include <headers/geometry/zMeshUtilities.h>
 #include <headers/geometry/zGraphMeshUtilities.h>
+#include <headers/geometry/zMeshModifiers.h>
 
 namespace zSpace
-{
-			
-	/*! \brief This methods creates the center line graph based on the input volume meshes.
+{	
+	/** \addtogroup zApplication
+	*	\brief Collection of general applications.
+	*  @{
+	*/
+
+	/** \addtogroup zPolytopal
+	*	\brief Collection of methods for polytopal mesh creation.
+	*  @{
+	*/
+
+	
+
+
+	/*! \brief This method creates the center line graph based on the input volume meshes.
 	*
-	*	\param		[in]	inputVolumeMeshes		- input volume mesh.
-	*	\param		[in]	polyCounts				- container of type integer with number of vertices per polygon.
-	*	\param		[in]	polyConnects			- polygon connection list with vertex ids for each face.
-	*	\param		[in]	computeNormals			- computes the face and vertex normals if true.
-	*	\return				zGraph					- centerline graph.
+	*	\param		[in]	inputVolumeMeshes			- input volume mesh.
+	*	\param		[in]	offset						- input offset value.
+	*	\param		[in]	volumeFace_Vertex			- input volume face vertex container.
+	*	\param		[in]	graphPosition_volumeMesh	- input graph position volume mesh container.
+	*	\param		[in]	graphPosition_volumeFace	- input graph position volume face container.
+	*	\param		[in]	graphVertex_Offset			- input graph vertex offset container.
+	*	\return				zGraph						- centerline graph.
 	*	\since version 0.0.1
 	*/
-	zGraph createCentreLineGraph(vector<zMesh> & inputVolumeMeshes, vector<double> &volColor, unordered_map <string, int> &volumeFace_Vertex, vector<int> &graphPosition_volumeMesh, vector<int> &graphPosition_volumeFace, vector<double> &graphVertex_Offset)
+	zGraph createCentreLineGraph(vector<zMesh> &inputVolumeMeshes, vector<double> &offset, unordered_map <string, int> &volumeFace_Vertex, vector<int> &graphPosition_volumeMesh, vector<int> &graphPosition_volumeFace, vector<double> &graphVertex_Offset)
 	{
 		zGraph out;
 
@@ -26,7 +41,6 @@ namespace zSpace
 
 		//zAttributeUnorderedMap <string, int> volumeFace_Vertex;
 		volumeFace_Vertex.clear();
-
 		//vector<int> graphPosition_volumeMesh;
 		graphPosition_volumeMesh.clear();
 		//vector<int> graphPosition_volumeFace;
@@ -49,9 +63,12 @@ namespace zSpace
 
 			volCenter /= n_v;
 
+			double factor = pow(10, 2);
+			double x1 = round(volCenter.x *factor) / factor;
+			double y1 = round(volCenter.y *factor) / factor;
+			double z1 = round(volCenter.z *factor) / factor;
 
-
-			string hashKey = (to_string(volCenter.x) + "," + to_string(volCenter.y) + "," + to_string(volCenter.z));
+			string hashKey = (to_string(x1) + "," + to_string(y1) + "," + to_string(z1));
 
 			int vId_volCenter = -1;
 			bool chkExists = existsInMap(hashKey, positionVertex, vId_volCenter);
@@ -62,30 +79,30 @@ namespace zSpace
 				vId_volCenter = positions.size();
 				positions.push_back(volCenter);
 
-				graphVertex_Offset.push_back(volColor[j]);
+				graphVertex_Offset.push_back(offset[j]);
 
 				graphPosition_volumeFace.push_back(-1);
 				graphPosition_volumeFace.push_back(-1);
 
 				graphPosition_volumeMesh.push_back(j);
 				graphPosition_volumeMesh.push_back(-1);
-
 			}
 
 			string hashKey_volface = (to_string(j) + "," + to_string(-1));
 			volumeFace_Vertex[hashKey_volface] = vId_volCenter;
-
-			//printf("\n %i %i | %i ", j, -1, vId_volCenter);
 
 			vector<zVector> fCenters;
 			getCenters(inputVolumeMeshes[j], zFaceData, fCenters);
 
 			for (int i = 0; i < fCenters.size(); i++)
 			{
-				string hashKey_f = (to_string(fCenters[i].x) + "," + to_string(fCenters[i].y) + "," + to_string(fCenters[i].z));
+				double factor = pow(10, 2);
+				double x = round(fCenters[i].x *factor) / factor;
+				double y = round(fCenters[i].y *factor) / factor;
+				double z = round(fCenters[i].z *factor) / factor;
 
-				//printf("\n %i %i hashkey : %1.2f, %1.2f, %1.2f", j, i,fCenters.values[i].x, fCenters.values[i].y, fCenters.values[i].z);
-				//printf("\n %i %i hashkey : %s", j, i, hashKey_f.c_str());
+				
+				string hashKey_f = (to_string(x) + "," + to_string(y) + "," + to_string(z));
 
 				int vId_fCenter = -1;
 				bool chkExists_f = existsInMap(hashKey_f, positionVertex, vId_fCenter);
@@ -96,7 +113,7 @@ namespace zSpace
 					vId_fCenter = positions.size();
 					positions.push_back(fCenters[i]);
 
-					graphVertex_Offset.push_back(volColor[j]);
+					graphVertex_Offset.push_back(offset[j]);
 
 					graphPosition_volumeFace.push_back(i);
 					graphPosition_volumeFace.push_back(-1);
@@ -108,22 +125,16 @@ namespace zSpace
 				{
 					graphPosition_volumeFace[(vId_fCenter * 2) + 1] = i;
 					graphPosition_volumeMesh[(vId_fCenter * 2) + 1] = j;
-
 				}
-
 				string hashKey_volface = (to_string(j) + "," + to_string(i));
 				volumeFace_Vertex[hashKey_volface] = vId_fCenter;
-
-				//printf("\n %i %i | %i ", j, i, vId_fCenter);
 
 				edgeConnects.push_back(vId_volCenter);
 				edgeConnects.push_back(vId_fCenter);
 			}
-
 		}
 
 		out = zGraph(positions, edgeConnects);;
-		printf("\n polytopalGraph: %i %i ", out.numVertices(), out.numEdges());
 
 		for (int i = 0; i < out.numEdges(); i += 2)
 		{
@@ -137,11 +148,6 @@ namespace zSpace
 		// compute intersection point
 		for (int i = 0; i < out.numVertices(); i++)
 		{
-			printf("\n %i ,volMesh %i, %i | volFace %i, %i", i, graphPosition_volumeMesh[i * 2], graphPosition_volumeMesh[(i * 2) + 1], graphPosition_volumeFace[i * 2], graphPosition_volumeFace[(i * 2) + 1]);
-
-			printf("\n %i ,point %1.2f, %1.2f, %1.2f", i, out.vertexPositions[i].x, out.vertexPositions[i].y, out.vertexPositions[i].z);
-
-
 			if (graphPosition_volumeFace[i * 2] >= -1 && graphPosition_volumeFace[(i * 2) + 1] != -1)
 			{
 				int volMesh_1 = graphPosition_volumeMesh[i * 2];
@@ -152,8 +158,6 @@ namespace zSpace
 
 				vector<int> cVerts;
 				out.getConnectedVertices(i, zVertexData, cVerts);
-
-				printf("\n %i cVerts : %i ", i, cVerts.size());
 
 				if (cVerts.size() == 2)
 				{
@@ -167,8 +171,6 @@ namespace zSpace
 
 					if (chkIntersection)
 					{
-						printf("\n %i old | %1.2f %1.2f %1.2f ", i, currentPos.x, currentPos.y, currentPos.z);
-
 						out.vertexPositions[i] = (interPt);
 
 						double distTOp1 = interPt.distanceTo(p1);
@@ -180,39 +182,667 @@ namespace zSpace
 
 						graphVertex_Offset[i] = (graphVertex_Offset[cVerts[0]] * wt1) + (graphVertex_Offset[cVerts[1]] * wt2);
 
-
-						printf("\n %i new | %1.2f %1.2f %1.2f ", i, interPt.x, interPt.y, interPt.z);
 					}
 				}
-
-
 			}
-
-			printf("\n %i : %1.2f ", i, graphVertex_Offset[i]);
-
 		}
-
-		std::cout << std::endl;
-		for (auto it = positionVertex.begin(); it != positionVertex.end(); ++it)
-			std::cout << " " << it->first << ":" << it->second;
-		std::cout << std::endl;
-
-
-
 
 		return out;
 	}
 
 
-	zMesh createPolytopalMesh(zMesh &inputVolumeMesh, int &volMeshId, zGraph &centerLinegraph, unordered_map <string, int> &volumeFace_Vertex, vector<double> &graphVertex_Offset);
+	/*! \brief This method creates the polytopal mesh based on the input volume mesh and its center line graph.
+	*
+	*	\param		[in]	inputVolumeMeshes		- input volume mesh.
+	*	\param		[in]	volMeshId				- input volume mesh id.
+	*	\param		[in]	centerLinegraph			- input center line graph.
+	*	\param		[in]	volumeFace_Vertex		- input volume face vertex.
+	*	\param		[in]	graphVertex_Offset		- input graph vertex offset container.
+	*	\return				zMesh					- polytopal mesh.
+	*	\since version 0.0.1
+	*/
+	zMesh createPolytopalMesh(zMesh &inputVolumeMesh, int &volMeshId, zGraph &centerLinegraph, unordered_map <string, int> &volumeFace_Vertex, vector<double> &graphVertex_Offset)
+	{
+		zMesh out;
 
-	zMesh remeshSmoothPolytopalMesh(zMesh &lowPolytopalMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1);
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
 
-	void closePolytopalMesh(zMesh &inputVolumeMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1);
+		int n_v = inputVolumeMesh.numVertices();
+		int n_e = inputVolumeMesh.numEdges();
+		int n_f = inputVolumeMesh.numPolygons();
 
-	bool computeRulingIntersection(zMesh &smoothPolytopalMesh, int v0, int v1, zVector &closestPt);
+		/*zVector minBB, maxBB;
+		inputVolumeMesh.computeBoundingBox(minBB, maxBB);
+		zVector volCenter = (minBB + maxBB) / 2;*/
 
-	
-	void explodePolytopalMeshes(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<int> &graphPosition_volumeMesh, double scaleFactor = 1);
+		zVector volCenter;
 
+		for (int i = 0; i < n_v; i++)
+		{
+			volCenter += inputVolumeMesh.vertexPositions[i];
+		}
+
+		volCenter /= n_v;
+
+		vector<zVector> fCenters;
+		getCenters(inputVolumeMesh, zFaceData, fCenters);
+
+		for (int i = 0; i < n_e; i += 2)
+		{
+			vector<int> eFaces;
+			inputVolumeMesh.getFaces(i, zEdgeData, eFaces);
+			vector<int> eVertices;
+			inputVolumeMesh.getVertices(i, zEdgeData, eVertices);
+
+			zVector pos0 = inputVolumeMesh.vertexPositions[eVertices[1]];
+			zVector pos1 = inputVolumeMesh.vertexPositions[eVertices[0]];
+
+			if (eFaces.size() == 2)
+			{
+				int numVerts = positions.size();
+
+				for (int j = 0; j < eFaces.size(); j++)
+				{
+
+
+					string hashKey_f = (to_string(volMeshId) + "," + to_string(eFaces[j]));
+					int vId_fCenter = -1;
+					bool chkExists_f = existsInMap(hashKey_f, volumeFace_Vertex, vId_fCenter);
+					double boundaryOffset = graphVertex_Offset[vId_fCenter];
+
+
+					zVector fCenter = centerLinegraph.vertexPositions[vId_fCenter];/*fCenters.getValue(eFaces[j])*/;
+					zVector dir_fCenter_0 = pos0 - fCenter;
+					double len0 = dir_fCenter_0.length();
+					dir_fCenter_0.normalize();
+
+					positions.push_back(fCenter + (dir_fCenter_0 * len0 *boundaryOffset));
+
+
+					zVector dir_fCenter_1 = pos1 - fCenter;
+					double len1 = dir_fCenter_1.length();
+					dir_fCenter_1.normalize();
+
+					positions.push_back(fCenter + (dir_fCenter_1 * len1 *boundaryOffset));
+				}
+
+				zVector dir_volCenter_0 = pos0 - volCenter;
+				double len0 = dir_volCenter_0.length();
+				dir_volCenter_0.normalize();
+
+				string hashKey_v = (to_string(volMeshId) + "," + to_string(-1));
+				int vId_vCenter = -1;
+				bool chkExists_f = existsInMap(hashKey_v, volumeFace_Vertex, vId_vCenter);
+				double boundaryOffset = graphVertex_Offset[vId_vCenter];
+
+				double centerOffset = graphVertex_Offset[vId_vCenter];
+
+				positions.push_back(volCenter + (dir_volCenter_0 * len0 *centerOffset));
+
+
+				zVector dir_volCenter_1 = pos1 - volCenter;
+				double len1 = dir_volCenter_1.length();
+				dir_volCenter_1.normalize();
+
+				positions.push_back(volCenter + (dir_volCenter_1 * len1 *centerOffset));
+
+				polyConnects.push_back(numVerts);
+				polyConnects.push_back(numVerts + 4);
+				polyConnects.push_back(numVerts + 5);
+				polyConnects.push_back(numVerts + 1);
+				polyCounts.push_back(4);
+
+				polyConnects.push_back(numVerts + 5);
+				polyConnects.push_back(numVerts + 4);
+				polyConnects.push_back(numVerts + 2);
+				polyConnects.push_back(numVerts + 3);
+				polyCounts.push_back(4);
+
+			}
+		}
+
+		out = zMesh(positions, polyCounts, polyConnects);;
+		return out;
+	}
+
+
+	/*! \brief This method remeshes the smoothed polytopal mesh based on the low polytopal mesh.
+	*
+	*	\param		[in]	lowPolytopalMesh		- input low polytopal mesh.
+	*	\param		[in]	smoothPolytopalMesh		- input smooth polytopal mesh.
+	*	\param		[in]	SUBDIVS					- input number of subdivisions.
+	*	\return				zMesh					- remeshed smooothed polytopal mesh.
+	*	\since version 0.0.1
+	*/
+	zMesh remeshSmoothPolytopalMesh(zMesh &lowPolytopalMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
+	{
+		smoothMesh(smoothPolytopalMesh, SUBDIVS);
+
+		zMesh out;
+
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		int n_v_lowPoly = lowPolytopalMesh.numVertices();
+
+		int n_v = smoothPolytopalMesh.numVertices();
+		int n_e = smoothPolytopalMesh.numEdges();
+		int n_f = smoothPolytopalMesh.numPolygons();
+
+		for (int i = 0; i < n_v_lowPoly; i += 6)
+		{
+			int vert0 = i;
+			int vert1 = i + 1;
+			int edge0, edge1;
+
+			vector<int> cEdges0;
+			smoothPolytopalMesh.getConnectedEdges(vert0, zVertexData, cEdges0);
+
+			for (int j = 0; j < cEdges0.size(); j++)
+			{
+				if (!smoothPolytopalMesh.onBoundary(cEdges0[j], zEdgeData))
+				{
+					edge0 = smoothPolytopalMesh.edges[cEdges0[j]].getSym()->getEdgeId();
+				}
+			}
+
+			vector<int> cEdges1;
+			smoothPolytopalMesh.getConnectedEdges(vert1, zVertexData, cEdges1);
+
+			for (int j = 0; j < cEdges1.size(); j++)
+			{
+				if (smoothPolytopalMesh.onBoundary(cEdges1[j], zEdgeData))
+				{
+					edge1 = cEdges1[j];
+				}
+			}
+
+			positions.push_back(smoothPolytopalMesh.vertexPositions[vert0]);
+			positions.push_back(smoothPolytopalMesh.vertexPositions[vert1]);
+
+			//while (smoothPolytopalMesh.edges[edge0].getVertex()->getVertexId() != i + 2)
+			for (int k = 0; k < pow(2, (SUBDIVS + 1)); k++)
+			{
+				int numVerts = positions.size();
+
+				int vert2 = smoothPolytopalMesh.edges[edge0].getSym()->getVertex()->getVertexId();
+				int vert3 = smoothPolytopalMesh.edges[edge1].getVertex()->getVertexId();
+
+				positions.push_back(smoothPolytopalMesh.vertexPositions[vert2]);
+				positions.push_back(smoothPolytopalMesh.vertexPositions[vert3]);
+
+				polyConnects.push_back(numVerts - 2);
+				polyConnects.push_back(numVerts);
+				polyConnects.push_back(numVerts + 1);
+				polyConnects.push_back(numVerts - 1);
+				polyCounts.push_back(4);
+
+				int tempEdge0 = smoothPolytopalMesh.edges[edge0].getPrev()->getEdgeId();
+				int tempEdge1 = smoothPolytopalMesh.edges[edge1].getNext()->getEdgeId();
+
+				//vert0 = vert2;
+				//vert1 = vert3;
+
+				edge0 = tempEdge0;
+				edge1 = tempEdge1;
+			}
+		}
+
+		out = zMesh(positions, polyCounts, polyConnects);;
+		return out;
+	}
+
+	/*! \brief This method computes the ruling intersetions.
+	*
+	*	\param		[in]	smoothPolytopalMesh		- input smooth polytopal mesh.
+	*	\param		[in]	v0						- ??. // DOUBLECHECK!!
+	*	\param		[in]	v1						- ??. // DOUBLECHECK!!
+	*	\param		[in]	closestPt				- ??. // DOUBLECHECK!!
+	*	\return				bool					- ??. // DOUBLECHECK!!
+	*	\since version 0.0.1
+	*/
+	bool computeRulingIntersection(zMesh &smoothPolytopalMesh, int v0, int v1, zVector &closestPt)
+	{
+		bool out = false;
+
+		int e0 = -1;
+		int e1 = -1;
+
+		vector<int> cEdges0;
+		smoothPolytopalMesh.getConnectedEdges(v0, zVertexData, cEdges0);
+		if (cEdges0.size() == 3)
+		{
+			for (int i = 0; i < cEdges0.size(); i++)
+			{
+				if (!smoothPolytopalMesh.onBoundary(cEdges0[i], zEdgeData))
+				{
+					e0 = cEdges0[i];
+					break;
+				}
+			}
+		}
+
+		vector<int> cEdges1;
+		smoothPolytopalMesh.getConnectedEdges(v1, zVertexData, cEdges1);
+		if (cEdges1.size() == 3)
+		{
+			for (int i = 0; i < cEdges1.size(); i++)
+			{
+				if (!smoothPolytopalMesh.onBoundary(cEdges1[i], zEdgeData))
+				{
+					e1 = cEdges1[i];
+					break;
+				}
+			}
+		}
+
+		if (e0 != -1 && e1 != -1)
+		{
+			int v2 = (v0 % 2 == 0) ? v0 + 1 : v0 - 1;/*smoothPolytopalMesh.edges[e0].getVertex()->getVertexId()*/;
+			int v3 = (v1 % 2 == 0) ? v1 + 1 : v1 - 1/*smoothPolytopalMesh.edges[e1].getVertex()->getVertexId()*/;
+
+			zVector a0 = smoothPolytopalMesh.vertexPositions[v2];
+			zVector a1 = smoothPolytopalMesh.vertexPositions[v0];
+
+			zVector b0 = smoothPolytopalMesh.vertexPositions[v3];
+			zVector b1 = smoothPolytopalMesh.vertexPositions[v1];
+
+			double uA = -1;
+			double uB = -1;
+			out = line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
+
+			if (out)
+			{
+				if (uA >= uB)
+				{
+					zVector dir = a1 - a0;
+					double len = dir.length();
+					dir.normalize();
+
+					if (uA < 0) dir *= -1;
+					closestPt = a0 + dir * len * uA;
+				}
+				else
+				{
+					zVector dir = b1 - b0;
+					double len = dir.length();
+					dir.normalize();
+
+					if (uB < 0) dir *= -1;
+
+					closestPt = b0 + dir * len * uB;
+				}
+
+
+			}
+
+		}
+		return out;
+	}
+
+	/*! \brief This method is closing the smooth polytopal mesh.	
+	*
+	*	\param		[in]	inputVolumeMesh			- input volume mesh.
+	*	\param		[in]	smoothPolytopalMesh		- input smooth polytopal mesh.
+	*	\param		[in]	SUBDIVS					- input number of subdivisions.
+	*	\since version 0.0.1
+	*/
+	void closePolytopalMesh(zMesh &inputVolumeMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
+	{
+		int n_v = inputVolumeMesh.numVertices();
+		int n_e = inputVolumeMesh.numEdges();
+		int n_f = inputVolumeMesh.numPolygons();
+
+		int n_v_smooth = smoothPolytopalMesh.numVertices();
+		int n_e_smooth = smoothPolytopalMesh.numEdges();
+		int n_f_smooth = smoothPolytopalMesh.numPolygons();
+
+		int numVertsPerStrip = floor(n_v_smooth / (0.5 * n_e));
+		int half_NumVertsPerStrip = floor(numVertsPerStrip / 2);
+
+
+		vector<bool> vertVisited;
+
+		for (int i = 0; i < n_v_smooth; i++)
+		{
+			vertVisited.push_back(false);
+		}
+
+		for (int i = 0; i < n_e; i += 2)
+		{
+			int eStripId = floor(i / 2);
+
+
+			//-- Prev  Edge	
+
+			int ePrev = inputVolumeMesh.edges[i].getPrev()->getEdgeId();
+			int ePrevStripId = floor(ePrev / 2);
+
+
+			if (ePrev % 2 == 0)
+			{
+				for (int j = 1, k = 0; j < half_NumVertsPerStrip - 2, k < half_NumVertsPerStrip - 2; j += 2, k += 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = ePrevStripId * numVertsPerStrip + j;
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = (cPt);
+							smoothPolytopalMesh.vertexPositions[v1] = (cPt);
+						}
+
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+
+
+
+				}
+			}
+			else
+			{
+				for (int j = numVertsPerStrip - 2, k = 0; j > half_NumVertsPerStrip - 1, k < half_NumVertsPerStrip - 2; j -= 2, k += 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = ePrevStripId * numVertsPerStrip + j;
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = (cPt);
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+
+						}
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+				}
+			}
+
+			//-- Next Edge		
+
+			int eNext = inputVolumeMesh.edges[i].getNext()->getEdgeId();
+			int eNextStripId = floor(eNext / 2);
+
+			if (eNext % 2 == 0)
+			{
+				for (int j = 0, k = 1; j < half_NumVertsPerStrip - 2, k < half_NumVertsPerStrip; j += 2, k += 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = eNextStripId * numVertsPerStrip + j;
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = cPt;
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+						}
+
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+
+				}
+			}
+			else
+			{
+				for (int j = numVertsPerStrip - 2, k = 1; j > half_NumVertsPerStrip - 1, k < half_NumVertsPerStrip; j -= 2, k += 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = eNextStripId * numVertsPerStrip + j;
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = cPt;
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+						}
+
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+
+				}
+			}
+
+
+			//-- SYM Prev  Edge	
+
+			int eSymPrev = inputVolumeMesh.edges[i].getSym()->getPrev()->getEdgeId();
+			int eSymPrevStripId = floor(eSymPrev / 2);
+
+
+			if (eSymPrev % 2 == 0)
+			{
+				for (int j = 1, k = numVertsPerStrip - 1; j<half_NumVertsPerStrip - 2, k>half_NumVertsPerStrip; j += 2, k -= 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = eSymPrevStripId * numVertsPerStrip + j;
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = cPt;
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+						}
+
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+				}
+			}
+			else
+			{
+				for (int j = numVertsPerStrip - 2, k = numVertsPerStrip - 1; j > half_NumVertsPerStrip - 1, k > half_NumVertsPerStrip; j -= 2, k -= 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = eSymPrevStripId * numVertsPerStrip + j;
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = cPt;
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+						}
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+
+					}
+				}
+			}
+
+
+			//--SYM Next Edge		
+			int eSymNext = inputVolumeMesh.edges[i].getSym()->getNext()->getEdgeId();
+			int eSymNextStripId = floor(eSymNext / 2);
+
+			if (eSymNext % 2 == 0)
+			{
+				for (int j = 0, k = numVertsPerStrip - 2; j<half_NumVertsPerStrip - 2, k>half_NumVertsPerStrip - 1; j += 2, k -= 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = eSymNextStripId * numVertsPerStrip + j;
+
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = cPt;
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+						}
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+				}
+			}
+			else
+			{
+				for (int j = numVertsPerStrip - 1, k = numVertsPerStrip - 2; j > half_NumVertsPerStrip, k > half_NumVertsPerStrip - 1; j -= 2, k -= 2)
+				{
+					int v0 = eStripId * numVertsPerStrip + k;
+					int v1 = eSymNextStripId * numVertsPerStrip + j;
+
+
+					if (!vertVisited[v0] && !vertVisited[v1])
+					{
+						zVector cPt;
+						bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+						if (intersectChk)
+						{
+							smoothPolytopalMesh.vertexPositions[v0] = cPt;
+							smoothPolytopalMesh.vertexPositions[v1] = cPt;
+						}
+						vertVisited[v0] = true;
+						vertVisited[v1] = true;
+					}
+
+				}
+			}
+		}
+
+		for (int i = 0; i < n_v; i++)
+		{
+			vector<int> cEdges;
+			inputVolumeMesh.getConnectedEdges(i, zVertexData, cEdges);
+
+			vector<int> smoothMeshVerts;
+			vector<zVector> intersectPoints;
+
+			// get connected edge strips
+			for (int j = 0; j < cEdges.size(); j++)
+			{
+				int eStripId = floor(cEdges[j] / 2);
+				int vertId = eStripId * numVertsPerStrip + half_NumVertsPerStrip;
+
+				if (cEdges[j] % 2 == 0) vertId -= 1;
+				smoothMeshVerts.push_back(vertId);
+			}
+
+			// comput smooth mesh vertices
+			for (int j = 0; j < smoothMeshVerts.size(); j++)
+			{
+				int v0 = smoothMeshVerts[j];
+				int v1 = smoothMeshVerts[(j + 1) % smoothMeshVerts.size()];
+
+				vertVisited[v0] = true;
+
+				zVector cPt;
+				bool intersectChk = computeRulingIntersection(smoothPolytopalMesh, v0, v1, cPt);
+
+				if (intersectChk)
+				{
+					intersectPoints.push_back(cPt);
+				}
+			}
+
+			// get average intersection point
+			zVector avgIntersectPoint;
+
+			for (int j = 0; j < intersectPoints.size(); j++)
+			{
+				avgIntersectPoint += intersectPoints[j];
+			}
+
+			avgIntersectPoint = avgIntersectPoint / intersectPoints.size();
+
+			//// update positions
+			for (int j = 0; j < smoothMeshVerts.size(); j++)
+			{
+				smoothPolytopalMesh.vertexPositions[smoothMeshVerts[j]] = avgIntersectPoint;
+			}
+
+		}
+
+
+		//for (int i = 0; i < vertVisited.size(); i++)
+		//{
+		//	if (!vertVisited[i])
+		//	{
+		//		printf("\n %i ", i);
+		//	}
+		//}
+	}
+	   
+	/*! \brief This method is exploding the polytopal meshes. // DOUBLECHECK!!
+	*
+	*	\param		[in]	inputVolumeMeshes			- input volume meshes.
+	*	\param		[in]	centerlineGraph				- input center line graph.
+	*	\param		[in]	graphPosition_volumeMesh	- input graph position volume mesh container.
+	*	\param		[in]	scaleFactor					- input scale factor.
+	*	\since version 0.0.1
+	*/
+	void explodePolytopalMeshes(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<int> &graphPosition_volumeMesh, double scaleFactor = 1)
+	{
+		zVector g_minBB, g_maxBB;
+		//centerlineGraph.computeBoundingBox(g_minBB, g_maxBB);
+		getBounds(centerlineGraph.vertexPositions, g_minBB, g_maxBB);
+
+		zVector scalecCenter = (g_minBB + g_maxBB)*0.5;
+
+		for (int i = 0; i < centerlineGraph.numVertices(); i++)
+		{
+			if (graphPosition_volumeMesh[(i * 2) + 1] == -1)
+			{
+				zVector dir = centerlineGraph.vertexPositions[i] - scalecCenter;
+				double len = dir.length();
+				dir.normalize();
+
+				zVector newCenter = scalecCenter + (dir * len * scaleFactor);
+
+				zVector translateVec = newCenter - centerlineGraph.vertexPositions[i];
+
+				int volMeshId = graphPosition_volumeMesh[(i * 2)];
+
+				for (int j = 0; j < inputVolumeMeshes[volMeshId].numVertices(); j++)
+				{
+					zVector newPos = inputVolumeMeshes[volMeshId].vertexPositions[j];
+					newPos += translateVec;
+
+					inputVolumeMeshes[volMeshId].vertexPositions[j] = newPos;
+				}
+
+			}
+
+		}
+	}
+
+	/** @}*/
+
+	/** @}*/
 }
+
