@@ -5,6 +5,10 @@
 #include <headers/geometry/zGraphMeshUtilities.h>
 #include <headers/geometry/zMeshModifiers.h>
 
+#include <headers/dynamics/zParticle.h>
+
+#include <headers/IO/zExchange.h>
+
 namespace zSpace
 {	
 	/** \addtogroup zApplication
@@ -17,17 +21,15 @@ namespace zSpace
 	*  @{
 	*/
 
-	
-
 
 	/*! \brief This method creates the center line graph based on the input volume meshes.
 	*
-	*	\param		[in]	inputVolumeMeshes			- input volume mesh.
-	*	\param		[in]	offset						- input offset value.
-	*	\param		[in]	volumeFace_Vertex			- input volume face vertex container.
-	*	\param		[in]	graphPosition_volumeMesh	- input graph position volume mesh container.
-	*	\param		[in]	graphPosition_volumeFace	- input graph position volume face container.
-	*	\param		[in]	graphVertex_Offset			- input graph vertex offset container.
+	*	\param		[in]	inputVolumeMeshes			- input volume mesh container.
+	*	\param		[in]	offset						- input offset value container.
+	*	\param		[out]	volumeFace_Vertex			- input volume face vertex container. vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence.
+	*	\param		[out]	graphPosition_volumeMesh	- input graph position volume mesh container.
+	*	\param		[out]	graphPosition_volumeFace	- input graph position volume face container.
+	*	\param		[out]	graphVertex_Offset			- input graph vertex offset container.
 	*	\return				zGraph						- centerline graph.
 	*	\since version 0.0.1
 	*/
@@ -39,11 +41,11 @@ namespace zSpace
 		vector<int>edgeConnects;
 		unordered_map <string, int> positionVertex;
 
-		//zAttributeUnorderedMap <string, int> volumeFace_Vertex;
+		
 		volumeFace_Vertex.clear();
-		//vector<int> graphPosition_volumeMesh;
+
 		graphPosition_volumeMesh.clear();
-		//vector<int> graphPosition_volumeFace;
+	
 		graphPosition_volumeFace.clear();
 
 		graphVertex_Offset.clear();
@@ -139,7 +141,7 @@ namespace zSpace
 		for (int i = 0; i < out.numEdges(); i += 2)
 		{
 			zColor col(1, 1, 0, 1);
-			//out.setAttribute <zColor>(col, i, zColorAttribute, zGraphVertex);
+			
 
 			out.edgeColors[i] = (col);
 			out.edgeColors[i + 1] = (col);
@@ -308,17 +310,16 @@ namespace zSpace
 	}
 
 
-	/*! \brief This method remeshes the smoothed polytopal mesh based on the low polytopal mesh.
+	/*! \brief This method remeshes the smoothed polytopal mesh to have rulings in ony one direction.
 	*
-	*	\param		[in]	lowPolytopalMesh		- input low polytopal mesh.
 	*	\param		[in]	smoothPolytopalMesh		- input smooth polytopal mesh.
 	*	\param		[in]	SUBDIVS					- input number of subdivisions.
 	*	\return				zMesh					- remeshed smooothed polytopal mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh remeshSmoothPolytopalMesh(zMesh &lowPolytopalMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
+	zMesh remeshSmoothPolytopalMesh(zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
 	{
-		smoothMesh(smoothPolytopalMesh, SUBDIVS);
+		
 
 		zMesh out;
 
@@ -326,7 +327,9 @@ namespace zSpace
 		vector<int>polyConnects;
 		vector<int>polyCounts;
 
-		int n_v_lowPoly = lowPolytopalMesh.numVertices();
+		int n_v_lowPoly = smoothPolytopalMesh.numVertices();
+
+		smoothMesh(smoothPolytopalMesh, SUBDIVS);
 
 		int n_v = smoothPolytopalMesh.numVertices();
 		int n_e = smoothPolytopalMesh.numEdges();
@@ -398,10 +401,10 @@ namespace zSpace
 	/*! \brief This method computes the ruling intersetions.
 	*
 	*	\param		[in]	smoothPolytopalMesh		- input smooth polytopal mesh.
-	*	\param		[in]	v0						- ??. // DOUBLECHECK!!
-	*	\param		[in]	v1						- ??. // DOUBLECHECK!!
-	*	\param		[in]	closestPt				- ??. // DOUBLECHECK!!
-	*	\return				bool					- ??. // DOUBLECHECK!!
+	*	\param		[in]	v0						- input vertex index 0.
+	*	\param		[in]	v1						- input vertex index 1.
+	*	\param		[out]	closestPt				- stores closest point if there is intersection bettwen the two ruling edges.
+	*	\return				bool					- true if there is a intersection else false.
 	*	\since version 0.0.1
 	*/
 	bool computeRulingIntersection(zMesh &smoothPolytopalMesh, int v0, int v1, zVector &closestPt)
@@ -441,8 +444,8 @@ namespace zSpace
 
 		if (e0 != -1 && e1 != -1)
 		{
-			int v2 = (v0 % 2 == 0) ? v0 + 1 : v0 - 1;/*smoothPolytopalMesh.edges[e0].getVertex()->getVertexId()*/;
-			int v3 = (v1 % 2 == 0) ? v1 + 1 : v1 - 1/*smoothPolytopalMesh.edges[e1].getVertex()->getVertexId()*/;
+			int v2 = (v0 % 2 == 0) ? v0 + 1 : v0 - 1;
+			int v3 = (v1 % 2 == 0) ? v1 + 1 : v1 - 1;
 
 			zVector a0 = smoothPolytopalMesh.vertexPositions[v2];
 			zVector a1 = smoothPolytopalMesh.vertexPositions[v0];
@@ -483,7 +486,7 @@ namespace zSpace
 		return out;
 	}
 
-	/*! \brief This method is closing the smooth polytopal mesh.	
+	/*! \brief This method closes the smooth polytopal mesh.	
 	*
 	*	\param		[in]	inputVolumeMesh			- input volume mesh.
 	*	\param		[in]	smoothPolytopalMesh		- input smooth polytopal mesh.
@@ -798,9 +801,9 @@ namespace zSpace
 		//}
 	}
 	   
-	/*! \brief This method is exploding the polytopal meshes. // DOUBLECHECK!!
+	/*! \brief This method explodes the input volume meshes. 
 	*
-	*	\param		[in]	inputVolumeMeshes			- input volume meshes.
+	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
 	*	\param		[in]	centerlineGraph				- input center line graph.
 	*	\param		[in]	graphPosition_volumeMesh	- input graph position volume mesh container.
 	*	\param		[in]	scaleFactor					- input scale factor.
@@ -839,6 +842,145 @@ namespace zSpace
 			}
 
 		}
+	}
+
+	/*! \brief This method aligns the centerlinegraph to the compression network. 
+	*
+	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf)
+	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
+	*	\param		[in]	centerlineGraph				- input center line graph.
+	*	\param		[in]	graphVertex_volumeMesh		- input center line graph vertexID to volume meshID map. 
+	*	\param		[in]	graphVertex_volumeFace		- input center line graph vertexID to local volume mesh faceID map. 
+	*	\param		[in]	graphParticles				- input graph particle container.
+	*	\param		[in]	dT							- time step.
+	*	\param		[in]	type						- integration type.
+	*	\return				bool						- true if the compression graph is reached. 
+	*	\since version 0.0.1
+	*/
+	bool computeCompressionGraph(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<double> &original_edgeLengths,  vector<zVector> &original_positions,  vector<int> &graphVertex_volumeMesh,  vector<int> &graphVertex_volumeFace , vector<zParticle> &graphParticles, double dT, zIntergrationType type = zEuler)
+	{
+		if (graphParticles.size() != centerlineGraph.vertexActive.size()) fromGRAPH(graphParticles, centerlineGraph);
+
+		bool out = true;
+
+		vector<vector<zVector>> volmesh_fCenters;
+		for (int i = 0; i < inputVolumeMeshes.size(); i++)
+		{
+			vector<zVector> fCenters;
+			getCenters(inputVolumeMeshes[i], zFaceData, fCenters);
+
+			for (int j = 0; j < fCenters.size(); j++)volmesh_fCenters.push_back(fCenters);
+		}
+			   	
+		vector<double> edgeLengths;
+		getEdgeLengths(centerlineGraph, edgeLengths);
+		
+	
+		// get positions on the graph at volume centers only - 0 to inputVolumemesh size vertices of the graph
+		for (int i = 0; i < graphParticles.size(); i++)
+		{
+			if (!centerlineGraph.vertexActive[i]) continue;
+			if (graphParticles[i].fixed) continue;
+			
+			// get position of vertex
+			zVector V = centerlineGraph.vertexPositions[i];
+
+			int volId_V = graphVertex_volumeMesh[i * 2];
+			int faceId_V = graphVertex_volumeFace[i * 2];
+
+			// get connected vertices
+			vector<int> cEdges;
+			centerlineGraph.getConnectedEdges(i, zVertexData, cEdges);
+
+			zVector forceV;
+
+			// perpenducalrity force
+			for (int j = 0; j < cEdges.size(); j++)
+			{
+				// get edge 
+				int v1_ID = centerlineGraph.edges[cEdges[j]].getVertex()->getVertexId();
+				zVector V1 = centerlineGraph.vertexPositions[v1_ID];
+
+				zVector e = V - V1;
+				double len = edgeLengths[cEdges[j]];
+				e.normalize();
+				
+				// get volume and face Id of the connected Vertex				
+				int volId =  graphVertex_volumeMesh[v1_ID * 2];
+
+				int faceId = graphVertex_volumeFace[v1_ID * 2];
+				if (faceId == -1) faceId = faceId_V;
+			
+
+				// get face normal
+				zVector fNorm = inputVolumeMeshes[volId].faceNormals[faceId];
+				fNorm.normalize();
+		
+
+				// flipp if edge and face normal are in opposite direction
+				if (e*fNorm < 0) fNorm *= -1;
+
+				// get projected position of vertex along face normal 
+				zVector projV = V1 + (fNorm * len);
+
+				zVector f = (projV - V) * 0.5;					
+
+				forceV += f;
+
+
+			}
+
+			printf("\n v %i forceV1 %1.4f %1.4f %1.4f  l %1.4f", i, forceV.x, forceV.y, forceV.z, forceV.length());
+
+			// keep it in plane force
+			// get volume and face Id of the connected Vertex		
+		
+			if (faceId_V != -1 )
+			{
+				// add force to keep point in the plane of the face
+
+				zVector fNorm = inputVolumeMeshes[volId_V].faceNormals[faceId_V];
+				fNorm.normalize();
+				
+				zVector e = V - volmesh_fCenters[volId_V][faceId_V];
+
+				double minDist = minDist_Point_Plane(V, volmesh_fCenters[volId_V][faceId_V], fNorm);
+
+				if (minDist > 0)
+				{
+					if (e*fNorm >= 0) fNorm *= -1;
+					forceV += (fNorm * minDist);				
+				}
+
+				//forceV += (e * -1);
+
+			}		
+					
+
+			printf("\n v %i forceV2 %1.4f %1.4f %1.4f  l %1.4f", i, forceV.x, forceV.y, forceV.z, forceV.length());
+
+			if (forceV.length() > 0.001)
+			{			
+				
+				printf("\n working!");
+				out = false;
+			}
+
+			// add forces to particle
+			graphParticles[i].addForce(forceV);
+
+		}	
+
+
+		// update Particles
+		for (int i = 0; i < graphParticles.size(); i++)
+		{
+			graphParticles[i].integrateForces(dT, type);
+			graphParticles[i].updateParticle(true);
+		}
+
+		return out;
+
 	}
 
 	/** @}*/

@@ -231,6 +231,8 @@ namespace zSpace
 		printf("\n inMesh: %i %i %i", inMesh.numVertices(), inMesh.numEdges(), inMesh.numPolygons());
 
 		setFaceNormals(inMesh,faceNormals);
+
+		inMesh.computeMeshNormals();
 	}
 
 	/*! \brief This method imports zMesh from a JSON file format using JSON Modern Library.
@@ -635,7 +637,7 @@ namespace zSpace
 
 		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
 		{
-			bool fixed =  true;
+			bool fixed = false;
 
 			if (fixBoundary) fixed = (inMesh.onBoundary(i, zVertexData)) ;
 
@@ -662,7 +664,7 @@ namespace zSpace
 
 		for (int i = 0; i < inGraph.vertexPositions.size(); i++)
 		{
-			bool fixed = true;
+			bool fixed = false;
 
 			if (fixBoundary) fixed = inGraph.checkVertexValency(i,1);
 

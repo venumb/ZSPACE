@@ -824,10 +824,13 @@ namespace zSpace
 
 					if (fVerts.size() != 3)
 					{
-						for (int i = 0; i < fVerts.size(); i++)
+						for (int j = 0; j < fVerts.size(); j++)
 						{
-							fNorm += (points[i] - fCen) ^ (points[(i + 1) % fVerts.size()] - fCen);
+							fNorm += (points[j] - fCen) ^ (points[(j + 1) % fVerts.size()] - fCen);
+
+							
 						}
+						
 					}
 					else
 					{
@@ -835,6 +838,8 @@ namespace zSpace
 						cross.normalize();
 
 						fNorm = cross;
+
+						//printf("\n working! %i ", i);
 
 					}
 

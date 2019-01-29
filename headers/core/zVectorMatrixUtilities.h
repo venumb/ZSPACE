@@ -344,6 +344,22 @@ namespace zSpace
 		return closest_Pt.distanceTo(pt);
 	}
 
+	/*! \brief This method computes the minimum distance between a point and a plane.
+	*
+	*	\details based on http://paulbourke.net/geometry/pointlineplane/
+	*	\param	[in]	pA			- point
+	*	\param	[in]	pB			- point on the plane.
+	*	\param	[in]	norm		- normal of the plane.
+	*	\return			minDist		- minimum distance to plane.
+	*	\since version 0.0.1
+	*/
+	double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm)
+	{
+		norm.normalize();
+		
+		return (pA - pB) * norm;
+	}
+
 
 	/*! \brief This method gets the bary-center of the input positions based on the input weights.
 	*

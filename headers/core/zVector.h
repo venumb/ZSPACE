@@ -348,8 +348,7 @@ namespace  zSpace
 		*	\param		[in]	v1			- input vector.
 		*	\return				double		- value of the angle between the vectors.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		double angle(zVector v1)
 		{
 			// check if they are parallel
