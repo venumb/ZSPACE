@@ -17,23 +17,26 @@ namespace zSpace
 	*/
 
 	/** \addtogroup zPolytopal
-	*	\brief Collection of methods for polytopal mesh creation.
+	*	\brief Collection of methods for polytopal mesh and 3D Graphic Statics.
 	*  @{
 	*/
 
+	//--------------------------
+	//---- FORM DIAGRAM 
+	//--------------------------
 
 	/*! \brief This method creates the center line graph based on the input volume meshes.
 	*
 	*	\param		[in]	inputVolumeMeshes			- input volume mesh container.
-	*	\param		[in]	offset						- input offset value container.
+	*	\param		[in]	offsets						- input offsets value container.
 	*	\param		[out]	volumeFace_Vertex			- input volume face vertex container. vertices to edgeId map. Used to check if edge exists with the haskey being the vertex sequence.
-	*	\param		[out]	graphPosition_volumeMesh	- input graph position volume mesh container.
-	*	\param		[out]	graphPosition_volumeFace	- input graph position volume face container.
+	*	\param		[out]	graphVertex_volumeMesh	- input graph position volume mesh container.
+	*	\param		[out]	graphVertex_volumeFace	- input graph position volume face container.
 	*	\param		[out]	graphVertex_Offset			- input graph vertex offset container.
 	*	\return				zGraph						- centerline graph.
 	*	\since version 0.0.1
 	*/
-	zGraph createCentreLineGraph(vector<zMesh> &inputVolumeMeshes, vector<double> &offset, unordered_map <string, int> &volumeFace_Vertex, vector<int> &graphPosition_volumeMesh, vector<int> &graphPosition_volumeFace, vector<double> &graphVertex_Offset)
+	zGraph createFormGraph(vector<zMesh> &inputVolumeMeshes, vector<double> &offsets, unordered_map <string, int> &volumeFace_Vertex, vector<int> &graphVertex_volumeMesh, vector<int> &graphVertex_volumeFace, vector<double> &graphVertex_Offset)
 	{
 		zGraph out;
 
@@ -44,9 +47,9 @@ namespace zSpace
 		
 		volumeFace_Vertex.clear();
 
-		graphPosition_volumeMesh.clear();
+		graphVertex_volumeMesh.clear();
 	
-		graphPosition_volumeFace.clear();
+		graphVertex_volumeFace.clear();
 
 		graphVertex_Offset.clear();
 
@@ -81,13 +84,13 @@ namespace zSpace
 				vId_volCenter = positions.size();
 				positions.push_back(volCenter);
 
-				graphVertex_Offset.push_back(offset[j]);
+				graphVertex_Offset.push_back(offsets[j]);
 
-				graphPosition_volumeFace.push_back(-1);
-				graphPosition_volumeFace.push_back(-1);
+				graphVertex_volumeFace.push_back(-1);
+				graphVertex_volumeFace.push_back(-1);
 
-				graphPosition_volumeMesh.push_back(j);
-				graphPosition_volumeMesh.push_back(-1);
+				graphVertex_volumeMesh.push_back(j);
+				graphVertex_volumeMesh.push_back(-1);
 			}
 
 			string hashKey_volface = (to_string(j) + "," + to_string(-1));
@@ -115,18 +118,18 @@ namespace zSpace
 					vId_fCenter = positions.size();
 					positions.push_back(fCenters[i]);
 
-					graphVertex_Offset.push_back(offset[j]);
+					graphVertex_Offset.push_back(offsets[j]);
 
-					graphPosition_volumeFace.push_back(i);
-					graphPosition_volumeFace.push_back(-1);
+					graphVertex_volumeFace.push_back(i);
+					graphVertex_volumeFace.push_back(-1);
 
-					graphPosition_volumeMesh.push_back(j);
-					graphPosition_volumeMesh.push_back(-2);
+					graphVertex_volumeMesh.push_back(j);
+					graphVertex_volumeMesh.push_back(-2);
 				}
 				else
 				{
-					graphPosition_volumeFace[(vId_fCenter * 2) + 1] = i;
-					graphPosition_volumeMesh[(vId_fCenter * 2) + 1] = j;
+					graphVertex_volumeFace[(vId_fCenter * 2) + 1] = i;
+					graphVertex_volumeMesh[(vId_fCenter * 2) + 1] = j;
 				}
 				string hashKey_volface = (to_string(j) + "," + to_string(i));
 				volumeFace_Vertex[hashKey_volface] = vId_fCenter;
@@ -140,20 +143,22 @@ namespace zSpace
 
 		for (int i = 0; i < out.numEdges(); i += 2)
 		{
-			zColor col(1, 1, 0, 1);
+			zColor col(0.75, 0.5, 0, 1);
 			
 
 			out.edgeColors[i] = (col);
 			out.edgeColors[i + 1] = (col);
 		}
 
+		
+
 		// compute intersection point
 		for (int i = 0; i < out.numVertices(); i++)
 		{
-			if (graphPosition_volumeFace[i * 2] >= -1 && graphPosition_volumeFace[(i * 2) + 1] != -1)
+			if (graphVertex_volumeFace[i * 2] >= -1 && graphVertex_volumeFace[(i * 2) + 1] != -1)
 			{
-				int volMesh_1 = graphPosition_volumeMesh[i * 2];
-				int f1 = graphPosition_volumeFace[i * 2];
+				int volMesh_1 = graphVertex_volumeMesh[i * 2];
+				int f1 = graphVertex_volumeFace[i * 2];
 
 				zVector normF1 = inputVolumeMeshes[volMesh_1].faceNormals[f1];
 				zVector currentPos = out.vertexPositions[i];
@@ -192,18 +197,21 @@ namespace zSpace
 		return out;
 	}
 
+	//--------------------------
+	//---- POLYTOPAL MESH
+	//--------------------------
 
 	/*! \brief This method creates the polytopal mesh based on the input volume mesh and its center line graph.
 	*
 	*	\param		[in]	inputVolumeMeshes		- input volume mesh.
 	*	\param		[in]	volMeshId				- input volume mesh id.
-	*	\param		[in]	centerLinegraph			- input center line graph.
+	*	\param		[in]	formGraph				- input form graph.
 	*	\param		[in]	volumeFace_Vertex		- input volume face vertex.
 	*	\param		[in]	graphVertex_Offset		- input graph vertex offset container.
 	*	\return				zMesh					- polytopal mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh createPolytopalMesh(zMesh &inputVolumeMesh, int &volMeshId, zGraph &centerLinegraph, unordered_map <string, int> &volumeFace_Vertex, vector<double> &graphVertex_Offset)
+	zMesh createPolytopalMesh(zMesh &inputVolumeMesh, int &volMeshId, zGraph &formGraph, unordered_map <string, int> &volumeFace_Vertex, vector<double> &graphVertex_Offset)
 	{
 		zMesh out;
 
@@ -255,7 +263,7 @@ namespace zSpace
 					double boundaryOffset = graphVertex_Offset[vId_fCenter];
 
 
-					zVector fCenter = centerLinegraph.vertexPositions[vId_fCenter];/*fCenters.getValue(eFaces[j])*/;
+					zVector fCenter = formGraph.vertexPositions[vId_fCenter];/*fCenters.getValue(eFaces[j])*/;
 					zVector dir_fCenter_0 = pos0 - fCenter;
 					double len0 = dir_fCenter_0.length();
 					dir_fCenter_0.normalize();
@@ -804,32 +812,32 @@ namespace zSpace
 	/*! \brief This method explodes the input volume meshes. 
 	*
 	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
-	*	\param		[in]	centerlineGraph				- input center line graph.
-	*	\param		[in]	graphPosition_volumeMesh	- input graph position volume mesh container.
+	*	\param		[in]	formGraph				- input center line graph.
+	*	\param		[in]	graphVertex_volumeMesh	- input graph position volume mesh container.
 	*	\param		[in]	scaleFactor					- input scale factor.
 	*	\since version 0.0.1
 	*/
-	void explodePolytopalMeshes(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<int> &graphPosition_volumeMesh, double scaleFactor = 1)
+	void explodePolytopalMeshes(vector<zMesh> & inputVolumeMeshes, zGraph &formGraph, vector<int> &graphVertex_volumeMesh, double scaleFactor = 1)
 	{
 		zVector g_minBB, g_maxBB;
-		//centerlineGraph.computeBoundingBox(g_minBB, g_maxBB);
-		getBounds(centerlineGraph.vertexPositions, g_minBB, g_maxBB);
+		//formGraph.computeBoundingBox(g_minBB, g_maxBB);
+		getBounds(formGraph.vertexPositions, g_minBB, g_maxBB);
 
 		zVector scalecCenter = (g_minBB + g_maxBB)*0.5;
 
-		for (int i = 0; i < centerlineGraph.numVertices(); i++)
+		for (int i = 0; i < formGraph.numVertices(); i++)
 		{
-			if (graphPosition_volumeMesh[(i * 2) + 1] == -1)
+			if (graphVertex_volumeMesh[(i * 2) + 1] == -1)
 			{
-				zVector dir = centerlineGraph.vertexPositions[i] - scalecCenter;
+				zVector dir = formGraph.vertexPositions[i] - scalecCenter;
 				double len = dir.length();
 				dir.normalize();
 
 				zVector newCenter = scalecCenter + (dir * len * scaleFactor);
 
-				zVector translateVec = newCenter - centerlineGraph.vertexPositions[i];
+				zVector translateVec = newCenter - formGraph.vertexPositions[i];
 
-				int volMeshId = graphPosition_volumeMesh[(i * 2)];
+				int volMeshId = graphVertex_volumeMesh[(i * 2)];
 
 				for (int j = 0; j < inputVolumeMeshes[volMeshId].numVertices(); j++)
 				{
@@ -844,53 +852,135 @@ namespace zSpace
 		}
 	}
 
+	//--------------------------
+	//---- UTILITIES
+	//--------------------------
+
+	/*! \brief This method computes the face centers of the input volume mesh container and stores it in a 2 Dimensional Container.
+	*
+	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
+	*	\param		[out]	volmesh_fCenters			- 2 Dimensional Container of face centers of volumeMesh.
+	*	\since version 0.0.1
+	*/
+	void getVolumeMeshFaceCenters(vector<zMesh> & inputVolumeMeshes, vector<vector<zVector>> &volmesh_fCenters)
+	{
+		for (int i = 0; i < inputVolumeMeshes.size(); i++)
+		{
+			vector<zVector> fCenters;
+			getCenters(inputVolumeMeshes[i], zFaceData, fCenters);
+
+			volmesh_fCenters.push_back(fCenters);
+		}
+	}
+
+	/*! \brief This method computes the form graph edge weights based on the force volume mesh face areas.
+	*
+	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf)
+	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
+	*	\param		[in]	formGraph					- input form graph.
+	*	\param		[in]	graphVertex_volumeMesh		- input form graph vertexID to volume meshID map.
+	*	\param		[in]	graphVertex_volumeFace		- input form graph vertexID to local volume mesh faceID map.
+	*	\param		[in]	minWeight					- minimum weight of the edge.
+	*	\param		[in]	maxWeight					- maximum weight of the edge.
+	*	\since version 0.0.1
+	*/
+	void computeFormGraphEdgeWeights( vector<zMesh> & inputVolumeMeshes, zGraph &formGraph, vector<int> &graphVertex_volumeMesh, vector<int> &graphVertex_volumeFace , double minWeight = 2.0 , double maxWeight = 10.0)
+	{
+		//compute edgeWeights
+		vector<vector<double>> volMesh_fAreas;
+
+		double minArea = 10000, maxArea = -100000;
+		zColor maxCol(0.784, 0, 0.157,1);
+		zColor minCol(0.027, 0, 0.157,1);
+
+		for (int i = 0; i < inputVolumeMeshes.size(); i++)
+		{
+			vector<double> fAreas;
+			getPlanarFaceAreas(inputVolumeMeshes[i], fAreas);
+
+			double temp_MinArea = zMin(fAreas);
+			minArea = (temp_MinArea < minArea) ? temp_MinArea : minArea;
+
+			double temp_maxArea = zMax(fAreas);
+			maxArea = (temp_maxArea > maxArea) ? temp_maxArea : maxArea;
+
+			volMesh_fAreas.push_back(fAreas);
+		}	
+
+		for (int i = 0; i < formGraph.numVertices(); i++)
+		{
+			if (graphVertex_volumeFace[i * 2] == -1 && graphVertex_volumeFace[(i * 2) + 1] == -1) continue;
+
+			vector<int> cEdges;
+			formGraph.getConnectedEdges(i, zVertexData, cEdges);
+
+			int volID = graphVertex_volumeMesh[i * 2];
+			int faceID = graphVertex_volumeFace[i * 2];
+
+			double fArea = volMesh_fAreas[volID][faceID];
+
+			for (int j = 0; j < cEdges.size(); j++)
+			{
+				double val = ofMap(fArea, minArea, maxArea, minWeight, maxWeight);
+
+				zColor col = blendColor(fArea, minArea, maxArea, minCol, maxCol, zRGB);
+
+				int symEdge = (cEdges[j] % 2 == 0) ? cEdges[j] + 1 : cEdges[j] - 1;
+
+				formGraph.edgeWeights[cEdges[j]] = val;
+				formGraph.edgeWeights[symEdge] = val;
+
+				formGraph.edgeColors[cEdges[j]] = col;
+				formGraph.edgeColors[symEdge] = col;
+
+
+		
+			}
+
+		}
+	}
+
+	//--------------------------
+	//---- UPDATE FORM & FORCE DIAGRAM METHODS
+	//--------------------------
+
 	/*! \brief This method updates the form diagram. 
 	*
 	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf)
 	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
-	*	\param		[in]	centerlineGraph				- input center line graph.
-	*	\param		[in]	graphVertex_volumeMesh		- input center line graph vertexID to volume meshID map. 
-	*	\param		[in]	graphVertex_volumeFace		- input center line graph vertexID to local volume mesh faceID map. 
+	*	\param		[in]	formGraph					- input form graph.
+	*	\param		[in]	graphVertex_volumeMesh		- input form graph vertexID to volume meshID map. 
+	*	\param		[in]	graphVertex_volumeFace		- input form graph vertexID to local volume mesh faceID map. 
 	*	\param		[in]	graphParticles				- input graph particle container.
 	*	\param		[in]	dT							- time step.
 	*	\param		[in]	type						- integration type.
 	*	\return				bool						- true if the compression graph is reached. 
 	*	\since version 0.0.1
 	*/
-	bool updateFormDiagram(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<double> &original_edgeLengths,  vector<zVector> &original_positions,  vector<int> &graphVertex_volumeMesh,  vector<int> &graphVertex_volumeFace , vector<zParticle> &graphParticles, double dT, zIntergrationType type = zEuler)
+	bool updateFormGraph(vector<zMesh> & inputVolumeMeshes, zGraph &formGraph, vector<vector<zVector>> &volmesh_fCenters ,  vector<int> &graphVertex_volumeMesh,  vector<int> &graphVertex_volumeFace , vector<zParticle> &formGraphParticles, double dT, zIntergrationType type = zEuler)
 	{
-		if (graphParticles.size() != centerlineGraph.vertexActive.size()) fromGRAPH(graphParticles, centerlineGraph);
+		if (formGraphParticles.size() != formGraph.vertexActive.size()) fromGRAPH(formGraphParticles, formGraph);
 
-		bool out = true;
-
-		vector<vector<zVector>> volmesh_fCenters;
-		for (int i = 0; i < inputVolumeMeshes.size(); i++)
-		{
-			vector<zVector> fCenters;
-			getCenters(inputVolumeMeshes[i], zFaceData, fCenters);
-
-			for (int j = 0; j < fCenters.size(); j++)volmesh_fCenters.push_back(fCenters);
-		}
+		bool out = true;		
 			   	
 		vector<double> edgeLengths;
-		getEdgeLengths(centerlineGraph, edgeLengths);
-		
+		getEdgeLengths(formGraph, edgeLengths);		
 	
 		// get positions on the graph at volume centers only - 0 to inputVolumemesh size vertices of the graph
-		for (int i = 0; i < graphParticles.size(); i++)
+		for (int i = 0; i < formGraphParticles.size(); i++)
 		{
-			if (!centerlineGraph.vertexActive[i]) continue;
-			if (graphParticles[i].fixed) continue;
+			if (!formGraph.vertexActive[i]) continue;
+			if (formGraphParticles[i].fixed) continue;
 			
 			// get position of vertex
-			zVector V = centerlineGraph.vertexPositions[i];
+			zVector V = formGraph.vertexPositions[i];
 
 			int volId_V = graphVertex_volumeMesh[i * 2];
 			int faceId_V = graphVertex_volumeFace[i * 2];
 
 			// get connected vertices
 			vector<int> cEdges;
-			centerlineGraph.getConnectedEdges(i, zVertexData, cEdges);
+			formGraph.getConnectedEdges(i, zVertexData, cEdges);
 
 			zVector forceV;
 
@@ -898,22 +988,22 @@ namespace zSpace
 			for (int j = 0; j < cEdges.size(); j++)
 			{
 				// get edge 
-				int v1_ID = centerlineGraph.edges[cEdges[j]].getVertex()->getVertexId();
+				int v1_ID = formGraph.edges[cEdges[j]].getVertex()->getVertexId();
 
-				if (centerlineGraph.checkVertexValency(v1_ID, 2)) v1_ID = centerlineGraph.edges[cEdges[j]].getNext()->getVertex()->getVertexId();
+				// get volume and face Id of the connected Vertex
+				int volId = graphVertex_volumeMesh[v1_ID * 2];
+				int faceId = graphVertex_volumeFace[v1_ID * 2];
+				if (faceId == -1) faceId = faceId_V;				
+		
 
-				zVector V1 = centerlineGraph.vertexPositions[v1_ID];
+				if (formGraph.checkVertexValency(v1_ID, 2)) v1_ID = formGraph.edges[cEdges[j]].getNext()->getVertex()->getVertexId();
+				zVector V1 = formGraph.vertexPositions[v1_ID];
 
 				zVector e = V - V1;
 				double len = e.length();;
 				e.normalize();
 				
-				// get volume and face Id of the connected Vertex				
-				int volId =  graphVertex_volumeMesh[v1_ID * 2];
-
-				int faceId = graphVertex_volumeFace[v1_ID * 2];
-				if (faceId == -1) faceId = faceId_V;
-			
+				
 
 				// get face normal
 				zVector fNorm = inputVolumeMeshes[volId].faceNormals[faceId];
@@ -932,8 +1022,7 @@ namespace zSpace
 
 
 			}
-
-			printf("\n v %i forceV1 %1.4f %1.4f %1.4f  l %1.4f", i, forceV.x, forceV.y, forceV.z, forceV.length());
+	
 
 			// keep it in plane force
 			// get volume and face Id of the connected Vertex		
@@ -947,11 +1036,13 @@ namespace zSpace
 				
 				zVector e = V - volmesh_fCenters[volId_V][faceId_V];
 
-				double minDist = minDist_Point_Plane(V, volmesh_fCenters[volId_V][faceId_V], fNorm);
+				double minDist = minDist_Point_Plane(V, volmesh_fCenters[volId_V][faceId_V], fNorm);			
 
 				if (minDist > 0)
 				{
-					if (e * fNorm >= 0) fNorm *= -1;
+					if (e * fNorm >= 0)	fNorm *= -1;
+						
+					
 					forceV += (fNorm * minDist);				
 				}
 
@@ -962,62 +1053,58 @@ namespace zSpace
 			// common face vertex between volumne centers
 			if (faceId_V != -1 && graphVertex_volumeFace[i * 2 + 1] != -1)
 			{
-				graphParticles[i].fixed = true;
-				centerlineGraph.vertexColors[i] = zColor(1, 0, 0, 1);
+				formGraphParticles[i].fixed = true;
+				formGraph.vertexColors[i] = zColor(1, 0, 0, 1);
 
 				forceV = zVector();
 			}
-					
-
-			printf("\n v %i forceV2 %1.4f %1.4f %1.4f  l %1.4f", i, forceV.x, forceV.y, forceV.z, forceV.length());
+						
 
 			if (forceV.length() > 0.001)
-			{			
+			{	
 				
-				printf("\n working!");
 				out = false;
 			}
 
 			// add forces to particle
-			graphParticles[i].addForce(forceV);
+			formGraphParticles[i].addForce(forceV);
 
 		}	
 
 
 		// update Particles
-		for (int i = 0; i < graphParticles.size(); i++)
+		for (int i = 0; i < formGraphParticles.size(); i++)
 		{
-			graphParticles[i].integrateForces(dT, type);
-			graphParticles[i].updateParticle(true);
+			formGraphParticles[i].integrateForces(dT, type);
+			formGraphParticles[i].updateParticle(true);
 		}
 
 		// update fixed particle positions ( ones with a common face) 
-		for (int i = 0; i < graphParticles.size(); i++)
+		for (int i = 0; i < formGraphParticles.size(); i++)
 		{
-			if (!graphParticles[i].fixed) continue;
+			if (!formGraphParticles[i].fixed) continue;
 
 			vector<int> cVerts;
-			centerlineGraph.getConnectedVertices(i, zVertexData, cVerts);
+			formGraph.getConnectedVertices(i, zVertexData, cVerts);
 					   	
 
 			int volId_V = graphVertex_volumeMesh[i * 2];
 			int faceId_V = graphVertex_volumeFace[i * 2];
 
 			zVector normF1 = inputVolumeMeshes[volId_V].faceNormals[faceId_V];
-			zVector currentPos = centerlineGraph.vertexPositions[i];
+			zVector currentPos = formGraph.vertexPositions[i];
 
 			if (cVerts.size() == 2)
 			{
-				zVector p1 = centerlineGraph.vertexPositions[cVerts[0]];
-				zVector p2 = centerlineGraph.vertexPositions[cVerts[1]];				
+				zVector p1 = formGraph.vertexPositions[cVerts[0]];
+				zVector p2 = formGraph.vertexPositions[cVerts[1]];
 
 				zVector interPt;
 				bool chkIntersection = line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
 
 				if (chkIntersection)
 				{
-					centerlineGraph.vertexPositions[i] = (interPt);			
-
+					formGraph.vertexPositions[i] = (interPt);
 				}
 			}
 

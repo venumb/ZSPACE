@@ -272,7 +272,7 @@ namespace zSpace
 	{
 		vector<double> out;
 
-		if(inMesh.faceNormals.size() != inMesh.faceActive.size()) throw std::invalid_argument(" error: invalid zHEData type");
+		if(inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
 
 		for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
 		{
@@ -337,7 +337,7 @@ namespace zSpace
 		return out;
 	}
 	
-	/*! \brief This method computes the area around every vertex of a zMesh based on face centers.
+	/*! \brief This method computes the area around every vertex of a mesh based on face centers.
 	*
 	*	\param		[in]	inMesh			- input mesh.
 	*	\param		[in]	faceCenters		- vector of face centers of type zVector.
@@ -401,6 +401,57 @@ namespace zSpace
 		return totalArea;
 	}
 	
+	/*! \brief This method computes the area of every face of the mesh. It works only for if the faces are planar.
+	*
+	*	\details	Based on http://geomalgorithms.com/a01-_area.html.
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	faceAreas		- vector of vertex Areas.
+	*	\return				double			- total area of the mesh.
+	*	\since version 0.0.1
+	*/
+	double getPlanarFaceAreas(zMesh &inMesh, vector<double> &faceAreas)
+	{
+
+
+		if (inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
+
+		vector<double> out;
+
+		double totalArea = 0;
+
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
+		{
+			double fArea = 0;			
+
+			if (inMesh.faceActive[i])
+			{
+				zVector fNorm = inMesh.faceNormals[i];
+
+				vector<int> fVerts;
+				inMesh.getVertices(i, zFaceData, fVerts);
+
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					zVector v1 = inMesh.vertexPositions[fVerts[j]];
+					zVector v2 = inMesh.vertexPositions[fVerts[(j+1) % fVerts.size()]];
+
+
+					fArea += fNorm * (v1 ^ v2);
+				}
+			}
+
+			fArea *= 0.5;
+
+			out.push_back(fArea);
+
+			totalArea += fArea;
+		}
+
+		faceAreas = out;
+
+		return totalArea;
+	}
+
 	/*! \brief This method return the number of vertices in the face given by the input index.
 	*
 	*	\param		[in]	inMesh			- input mesh.

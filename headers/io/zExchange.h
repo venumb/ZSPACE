@@ -408,8 +408,7 @@ namespace zSpace
 
 		inGraph = zGraph(inMesh.vertexPositions, edgeConnects);
 
-	}
-	
+	}	
 	
 
 	/*! \brief This method exports zGraph to a TXT file format. 
@@ -596,7 +595,7 @@ namespace zSpace
 	//--------------------------
 
 	/** \addtogroup zIO_Dynamics
-	*	\brief Collection of input - output methods for zMesh.
+	*	\brief Collection of input - output methods for particles.
 	*  @{
 	*/
 
@@ -685,8 +684,8 @@ namespace zSpace
 	//---- POINT CLOUD METHODS
 	//--------------------------
 
-	/** \addtogroup zIO_Dynamics
-	*	\brief Collection of input - output methods for zMesh.
+	/** \addtogroup zIO_PointCloud
+	*	\brief Collection of input - output methods for point clouds.
 	*  @{
 	*/
 
