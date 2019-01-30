@@ -844,7 +844,7 @@ namespace zSpace
 		}
 	}
 
-	/*! \brief This method aligns the centerlinegraph to the compression network. 
+	/*! \brief This method updates the form diagram. 
 	*
 	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf)
 	*	\param		[in]	inputVolumeMeshes			- input volume meshes container.
@@ -857,7 +857,7 @@ namespace zSpace
 	*	\return				bool						- true if the compression graph is reached. 
 	*	\since version 0.0.1
 	*/
-	bool computeCompressionGraph(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<double> &original_edgeLengths,  vector<zVector> &original_positions,  vector<int> &graphVertex_volumeMesh,  vector<int> &graphVertex_volumeFace , vector<zParticle> &graphParticles, double dT, zIntergrationType type = zEuler)
+	bool updateFormDiagram(vector<zMesh> & inputVolumeMeshes, zGraph &centerlineGraph, vector<double> &original_edgeLengths,  vector<zVector> &original_positions,  vector<int> &graphVertex_volumeMesh,  vector<int> &graphVertex_volumeFace , vector<zParticle> &graphParticles, double dT, zIntergrationType type = zEuler)
 	{
 		if (graphParticles.size() != centerlineGraph.vertexActive.size()) fromGRAPH(graphParticles, centerlineGraph);
 
@@ -899,10 +899,13 @@ namespace zSpace
 			{
 				// get edge 
 				int v1_ID = centerlineGraph.edges[cEdges[j]].getVertex()->getVertexId();
+
+				if (centerlineGraph.checkVertexValency(v1_ID, 2)) v1_ID = centerlineGraph.edges[cEdges[j]].getNext()->getVertex()->getVertexId();
+
 				zVector V1 = centerlineGraph.vertexPositions[v1_ID];
 
 				zVector e = V - V1;
-				double len = edgeLengths[cEdges[j]];
+				double len = e.length();;
 				e.normalize();
 				
 				// get volume and face Id of the connected Vertex				
@@ -935,7 +938,7 @@ namespace zSpace
 			// keep it in plane force
 			// get volume and face Id of the connected Vertex		
 		
-			if (faceId_V != -1 )
+			if (faceId_V != -1  && graphVertex_volumeFace[i * 2 + 1] == -1)
 			{
 				// add force to keep point in the plane of the face
 
@@ -948,13 +951,22 @@ namespace zSpace
 
 				if (minDist > 0)
 				{
-					if (e*fNorm >= 0) fNorm *= -1;
+					if (e * fNorm >= 0) fNorm *= -1;
 					forceV += (fNorm * minDist);				
 				}
 
 				//forceV += (e * -1);
 
-			}		
+			}	
+			
+			// common face vertex between volumne centers
+			if (faceId_V != -1 && graphVertex_volumeFace[i * 2 + 1] != -1)
+			{
+				graphParticles[i].fixed = true;
+				centerlineGraph.vertexColors[i] = zColor(1, 0, 0, 1);
+
+				forceV = zVector();
+			}
 					
 
 			printf("\n v %i forceV2 %1.4f %1.4f %1.4f  l %1.4f", i, forceV.x, forceV.y, forceV.z, forceV.length());
@@ -977,6 +989,38 @@ namespace zSpace
 		{
 			graphParticles[i].integrateForces(dT, type);
 			graphParticles[i].updateParticle(true);
+		}
+
+		// update fixed particle positions ( ones with a common face) 
+		for (int i = 0; i < graphParticles.size(); i++)
+		{
+			if (!graphParticles[i].fixed) continue;
+
+			vector<int> cVerts;
+			centerlineGraph.getConnectedVertices(i, zVertexData, cVerts);
+					   	
+
+			int volId_V = graphVertex_volumeMesh[i * 2];
+			int faceId_V = graphVertex_volumeFace[i * 2];
+
+			zVector normF1 = inputVolumeMeshes[volId_V].faceNormals[faceId_V];
+			zVector currentPos = centerlineGraph.vertexPositions[i];
+
+			if (cVerts.size() == 2)
+			{
+				zVector p1 = centerlineGraph.vertexPositions[cVerts[0]];
+				zVector p2 = centerlineGraph.vertexPositions[cVerts[1]];				
+
+				zVector interPt;
+				bool chkIntersection = line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
+
+				if (chkIntersection)
+				{
+					centerlineGraph.vertexPositions[i] = (interPt);			
+
+				}
+			}
+
 		}
 
 		return out;

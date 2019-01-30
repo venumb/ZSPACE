@@ -72,11 +72,11 @@ namespace zSpace
 	*	\param		[in]	dist					- container of shortest distances to each vertex from the source. To be computed using the shortest distance method.
 	*	\param		[in]	parent					- container of parent to each vertex. To be computed using the shortest distance method.
 	*	\param		[in]	type					- zWalkType - zEdgePath or zEdgeVisited.
-	*	\param		[out]	edgePath				- container of edges of the shortest path.
+	*	\param		[out]	edgeContainer			- container of edges of the shortest path(zEdgePath) or number of times an edge is visited(zEdgeVisited).
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPath_DistanceParent(T &inHEDataStructure, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath);
+	void shortestPath_DistanceParent(T &inHEDataStructure, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgeContainer);
 
 	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.
 	*
@@ -84,11 +84,12 @@ namespace zSpace
 	*	\param		[in]	inHEDataStructure		- input graph or mesh.
 	*	\param		[in]	indexA					- source vertex index.
 	*	\param		[in]	indexB					- destination vertex index.
-	*	\param		[out]	edgePath				- container of edges of the shortest path.
+	*	\param		[in]	type					- zWalkType - zEdgePath or zEdgeVisited.
+	*	\param		[out]	edgeContainer			- container of edges of the shortest path(zEdgePath) or number of times an edge is visited(zEdgeVisited).
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPath(T &inHEDataStructure, int indexA, int indexB, zWalkType type, vector<int> &edgePath);
+	void shortestPath(T &inHEDataStructure, int indexA, int indexB, zWalkType type, vector<int> &edgeContainer);
 
 	/*! \brief This method computes the shortest path from the all vertices to all vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 	*

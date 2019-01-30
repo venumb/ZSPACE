@@ -22,7 +22,7 @@ namespace zSpace
 
 	/*! \brief This method exports zMesh as an OBJ file.
 	*
-	*	\param [in]		inMesh				- mesh create from the obj file.
+	*	\param [in]		inMesh				- mesh to be exported.
 	*	\param [in]		infilename			- output file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
@@ -127,7 +127,7 @@ namespace zSpace
 
 	/*! \brief This method imports zMesh from an OBJ file.
 	*
-	*	\param [in]		inMesh				- mesh create from the obj file.
+	*	\param [in]		inMesh				- mesh created from the obj file.
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
@@ -292,7 +292,7 @@ namespace zSpace
 
 	/*! \brief This method imports zGraph from an TXT file.
 	*
-	*	\param [in]		inGraph				- mesh create from the obj file.
+	*	\param [in]		inGraph				- graph created from the txt file.
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
@@ -595,7 +595,7 @@ namespace zSpace
 	//---- PARTICLES METHODS
 	//--------------------------
 
-	/** \addtogroup zIO_Mesh
+	/** \addtogroup zIO_Dynamics
 	*	\brief Collection of input - output methods for zMesh.
 	*  @{
 	*/
@@ -674,6 +674,112 @@ namespace zSpace
 		}
 
 
+	}
+
+	/** @}*/
+
+
+
+
+	//--------------------------
+	//---- POINT CLOUD METHODS
+	//--------------------------
+
+	/** \addtogroup zIO_Dynamics
+	*	\brief Collection of input - output methods for zMesh.
+	*  @{
+	*/
+
+	/*! \brief This method imports a point cloud from an TXT file.
+*
+*	\param [in]		inPositions			- container of positions created from the txt file.
+*	\param [in]		infilename			- input file name including the directory path and extension.
+*	\since version 0.0.1
+*/
+	void fromTXT(vector<zVector> &inPositions, string infilename)
+	{
+		inPositions.clear();
+
+		ifstream myfile;
+		myfile.open(infilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << infilename.c_str() << endl;
+			return;
+
+		}
+
+		while (!myfile.eof())
+		{
+			string str;
+			getline(myfile, str);
+
+			vector<string> perlineData = splitString(str, " ");
+
+			if (perlineData.size() > 0)
+			{
+				// vertex
+				if (perlineData[0] == "v")
+				{
+					if (perlineData.size() == 4)
+					{
+						zVector pos;
+						pos.x = atof(perlineData[1].c_str());
+						pos.y = atof(perlineData[2].c_str());
+						pos.z = atof(perlineData[3].c_str());
+
+						inPositions.push_back(pos);
+					}
+					//printf("\n working vertex");
+				}
+
+				
+			}
+		}
+
+		myfile.close();
+
+
+		
+		printf("\n inPositions: %i ", inPositions.size());
+
+
+	}
+
+	/*! \brief This method exports the input point cloud to a TXT file format.
+	*
+	*	\param [in]		inPositions			- input container of position.
+	*	\param [in]		outfilename			- output file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	void toTXT(vector<zVector> &inPositions, string outfilename)
+	{
+		
+
+
+		// output file
+		ofstream myfile;
+		myfile.open(outfilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+			return;
+
+		}
+
+		// vertex positions
+		for (int i = 0; i < inPositions.size(); i++)
+		{
+			
+			myfile << "\n v " << inPositions[i].x << " " << inPositions[i].y << " " << inPositions[i].z;
+
+		}
+
+		myfile.close();
+
+		cout << endl << " TXT exported. File:   " << outfilename.c_str() << endl;
 	}
 
 	/** @}*/

@@ -56,6 +56,8 @@ namespace zSpace
 }
 
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 
 //--------------------------
 //---- TEMPLATE SPECIALIZATION DEFINITIONS 
@@ -145,3 +147,5 @@ void zSpace::addEdgeForce(vector<zParticle> &inParticles, zMesh &inMesh, vector<
 }
 
 //---------------//
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
