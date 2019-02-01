@@ -46,6 +46,17 @@ namespace zSpace
 	template<typename T>
 	void getEdgeLengths(T &inHEDataStructure, vector<double> &edgeLengths);
 
+	/*! \brief This method gets the ring neighbours of the input vertex of a zGraph/zMesh.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[in]	numRings				- number of rings.
+	*	\param		[out]	ringNeighbours			- contatiner of neighbour vertex indicies.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	void getNeighbourhoodRing(T &inHEDataStructure, int numRings, vector<int> &ringNeighbours);
+
 	//--------------------------
 	//--- WALK METHODS 
 	//--------------------------
@@ -1161,4 +1172,15 @@ void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& ver
 	}
 }
 
+
+//---------------//
+
+//---- graph specilization for walking distance sources
+//template<>
+//void zSpace::getNeighbourhoodRing(zGraph &inGraph, int numRings, vector<int> &ringNeighbours)
+//{
+//	
+//}
+
+//---------------//
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */

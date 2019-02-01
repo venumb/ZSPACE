@@ -103,79 +103,55 @@ namespace zSpace
 		int n_X, n_Y;
 		scalarField.getResolution(n_X, n_Y);
 
-		vectorField = zField2D<zVector>(unit_X, unit_Y, n_X, n_Y);
+		zVector minBB, maxBB;
+		scalarField.getBoundingBox(minBB, maxBB);
+
+		vectorField = zField2D<zVector>(minBB, maxBB, n_X, n_Y);
 
 		for (int i = 0; i < scalarField.numFieldValues(); i++)
 		{
+
 			vector<int> ringNeighbours;
-			scalarField.getNeighbourHoodRing(i, 1, ringNeighbours);
+			scalarField.getNeighbourhoodRing(i, 1, ringNeighbours);
 
 			T val = scalarField.getFieldValue(i);
 			zVector fValue;
 
 			int maxId = -1;
-			T maxVal = val;
+			T maxVal = -10000;
 
 			for (int j = 0; j < ringNeighbours.size(); j++)
 			{
+				//if (ringNeighbours[j] == i) continue;
+
 				T tempVal = scalarField.getFieldValue(ringNeighbours[j]);
 
 				if (tempVal > maxVal)
 				{
-					maxId = j;
+					maxId = ringNeighbours[j];
 					maxVal = tempVal;
 				}
 			}
 
 
-			if (maxId != -1)
+			if (maxId != -1 && maxId != i)
 			{
 				fValue = scalarField.getPosition(maxId) - scalarField.getPosition(i);
-				fValue.normalize();
 			}
-
+						
 			vectorField.setFieldValue(fValue, i);
 
 		}
 	}
 	
-	/*! \brief This method computes the weight inverse distance to the the input position.
-	*
-	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double), zVector and zMesh.
-	*	\param		[in]	inPos				- input position
-	*	\param		[in]	inObject			- input object to which the distance is computed.
-	*	\return				double				- weighted inverse distance.
-	*	\since version 0.0.1
-	*/
-	template<typename T>
-	double idw_DistanceTo(zVector& inPos, T& inObject);
-
-	/*! \brief This method computes the weight inverse distance to the the input position.
-	*
-	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double) and zVector.
-	*	\param		[in]	inPos				- input position
-	*	\param		[in]	fieldValue			- input fieldValue.
-	*	\param		[in]	influence			- input influence Value.
-	*	\param		[in]	epsilon				- input epsilon Value.
-	*	\param		[in]	power				- input influence Value.
-	*	\return				T					- weighted inverse distance value.
-	*	\since version 0.0.1
-	*/
-	template<typename T>
-	T idw_ValueAt(zVector inPos, T& fieldValue, double& influence, double& epsilon, double& power);
-
-	//--------------------------
-	//----  2D SCALAR FIELD METHODS
-	//--------------------------
-
 	/*! \brief This method computes the field index of each input position and stores them in a container per field index.
-	*
-	*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
-	*	\param		[in]	inField				- input zField2D
-	*	\param		[in]	positions			- container of positions.
-	*	\param		[out]	fieldIndexPositions	- container of position per field  index.
-	*	\since version 0.0.1
-	*/
+*
+*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
+*	\param		[in]	inField				- input zField2D
+*	\param		[in]	positions			- container of positions.
+*	\param		[out]	fieldIndexPositions	- container of position per field  index.
+*	\since version 0.0.1
+*/
 	template <typename T>
 	void computePositionsInFieldIndex(zField2D<T> &inField, vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
 	{
@@ -215,11 +191,192 @@ namespace zSpace
 		for (int i = 0; i < positions.size(); i++)
 		{
 			int fieldIndex = inField.getIndex(positions[i]);
-								
+
 			fieldIndexPositionIndicies[fieldIndex].push_back(i);
 		}
 	}
-		
+
+
+	//--------------------------
+	//----  2D IDW FIELD METHODS
+	//--------------------------
+
+	/*! \brief This method computes the weight inverse distance to the the input position.
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double), zVector and zMesh.
+	*	\param		[in]	inPos				- input position
+	*	\param		[in]	inObject			- input object to which the distance is computed.
+	*	\return				double				- weighted inverse distance.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	double idw_DistanceTo(zVector& inPos, T& inObject);
+
+	/*! \brief This method computes the weight inverse distance to the the input position.
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double) and zVector.
+	*	\param		[in]	inPos				- input position
+	*	\param		[in]	fieldValue			- input fieldValue.
+	*	\param		[in]	influence			- input influence Value.
+	*	\param		[in]	epsilon				- input epsilon Value.
+	*	\param		[in]	power				- input influence Value.
+	*	\return				T					- weighted inverse distance value.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	T idw_ValueAt(zVector inPos, T& fieldValue, double& influence, double& epsilon, double& power);
+
+	/*! \brief This method computes a inverse weighted distance field from the input mesh vertex positions.
+	*
+	*	\tparam			T				- Type to work with standard c++ numerical datatypes.
+	*	\param	[in]	fieldMesh		- input field mesh.
+	*	\param	[in]	inMesh			- input mesh for distance calculations.
+	*	\param	[in]	power			- input power value used for weight calculation.
+	*	\param	[in]	influence		- input influence of the inMesh.
+	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zMesh &inMesh, double power, double influence, vector<T> &scalars)
+	{
+		vector<double> out;
+
+		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
+		{
+			double d = 0.0;
+			double tempDist = 10000;
+
+			for (int j = 0; j < inMesh.numVertices(); j++)
+			{
+				double r = fieldMesh.vertexPositions[i].distanceTo(inMesh.vertexPositions[j]);
+
+				if (r < tempDist)
+				{
+					double w = 1 / pow(r, power);
+
+					d = r * w * influence;
+
+					tempDist = r;
+				}
+
+			}
+
+			out.push_back(d);
+		}
+
+		double dMin, dMax;
+		getMinMaxOfScalars(out, dMin, dMax);
+
+		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
+
+		normaliseScalars(out);
+
+		scalars = out;
+	}
+
+	/*! \brief This method computes a inverse weighted distance field from the input graph vertex positions.
+	*
+	*	\tparam			T				- Type to work with standard c++ numerical datatypes.
+	*	\param	[in]	fieldMesh		- input field mesh.
+	*	\param	[in]	inGraph			- input graph for distance calculations.
+	*	\param	[in]	power			- input power value used for weight calculation.
+	*	\param	[in]	influence		- input influence of the inMesh.
+	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zGraph &inGraph, double power, double influence, vector<T> &scalars)
+	{
+		vector<double> out;
+
+		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
+		{
+			double d ;
+			double tempDist = 10000;
+
+			for (int j = 0; j < inGraph.numVertices(); j++)
+			{
+				double r = fieldMesh.vertexPositions[i].distanceTo(inGraph.vertexPositions[j]);
+
+				if (r < tempDist)
+				{
+					double w = 1 / pow(r, power);
+
+					d =  r * w * influence;
+
+					
+
+					tempDist = r;
+				}
+
+			}
+
+			out.push_back(d);
+
+			
+		}
+
+		double dMin, dMax;
+		getMinMaxOfScalars(out, dMin, dMax);		
+
+		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
+
+		normaliseScalars(out);
+
+		scalars = out;
+	}
+
+	/*! \brief This method computes a inverse weighted distance field from the input positions.
+	*
+	*	\tparam			T				- Type to work with standard c++ numerical datatypes.
+	*	\param	[in]	fieldMesh		- input field mesh.
+	*	\param	[in]	inPositions		- container of input positions for distance calculations.
+	*	\param	[in]	power			- input power value used for weight calculation.
+	*	\param	[in]	influences		- input container of influence of each input position.
+	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, vector<zVector> &inPositions, double power, vector<double>& influences, vector<T> &scalars)
+	{
+		vector<double> out;
+
+		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
+		{
+			double d ;
+			double tempDist = 10000;
+
+			double w;
+
+			for (int j = 0; j < inPositions.size(); j++)
+			{
+				double r = fieldMesh.vertexPositions[i].distanceTo(inPositions[j]);
+
+				w = 1 / pow(r, power);
+
+				double influence = (influences.size() == inPositions.size()) ? influences[j] : 1.0;
+
+				d += (r * w * influence);					
+				
+				printf("\n r %1.2f w %1.2f i %1.2f", r, w, influence);
+			}
+
+			out.push_back(d);
+		}
+
+		double dMin, dMax;
+		getMinMaxOfScalars(out, dMin, dMax);
+
+		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
+
+		normaliseScalars(out);
+
+		scalars = out;
+	}
+
+	//--------------------------
+	//----  2D SCALAR FIELD METHODS
+	//--------------------------
 
 	/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 	*
@@ -282,12 +439,13 @@ namespace zSpace
 
 	/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
 	*
-	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	fieldMesh		- input field mesh.
-	*	\param	[in]	inMesh			- input mesh for distance calculations.
-	*	\param	[in]	a				- input variable for distance function.
-	*	\param	[in]	b				- input variable for distance function.
-	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\tparam			T					- Type to work with standard c++ numerical datatypes.
+	*	\tparam			U					- Type to work with zmesh or zGraph.
+	*	\param	[in]	fieldMesh			- input field mesh.
+	*	\param	[in]	inHEdatastructure	- input HE datastructure for distance calculations.
+	*	\param	[in]	a					- input variable for distance function.
+	*	\param	[in]	b					- input variable for distance function.
+	*	\param	[out]	scalars				- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
@@ -619,6 +777,48 @@ namespace zSpace
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void updateFieldValues(zField2D<T> &inField, zMesh &fieldMesh, vector<T>& scalars)
+	{
+		if (fieldMesh.vertexActive.size() == scalars.size() )
+		{
+			for (int i = 0; i < fieldMesh.numPolygons(); i++)
+			{
+				vector<int> fVerts;
+				fieldMesh.getVertices(i, zFaceData, fVerts);
+				T val;
+
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					val += scalars[fVerts[j]];
+				}
+
+				val /= fVerts.size();
+
+				inField.setFieldValue(val, i);
+			}			
+						
+		}
+		else if(fieldMesh.faceActive.size() == scalars.size())
+		{			
+			for (int i = 0; i < fieldMesh.numPolygons(); i++)
+			{
+				inField.setFieldValue(scalars[i], i);
+			}
+
+		}
+		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
+
+	}
+
+
+	/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
+	*
+	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
+	*	\param	[in]	fieldMesh	- input field mesh.
+	*	\param	[in]	scalars		- container of  scalar values.
+	*	\since version 0.0.1
 	*/	
 	template <typename T>
 	void updateColors(zMesh &fieldMesh, vector<T>& scalars)
@@ -641,7 +841,7 @@ namespace zSpace
 				else fieldMesh.faceColors[i] = col;
 			}
 
-			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeFaceColorfromVertexColor();
+			if (fieldMesh.faceActive.size() == scalars.size()) fieldMesh.computeVertexColorfromFaceColor();
 		}
 		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
 

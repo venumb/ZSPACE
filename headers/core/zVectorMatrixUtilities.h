@@ -4,7 +4,7 @@
 #include<headers/core/zDefinitions.h>
 #include<headers/core/zVector.h>
 #include<headers/core/zMatrix.h>
-
+#include<headers/core/zUtilities.h>
 
 #include<depends/Eigen/Core>
 #include<depends/Eigen/Dense>
@@ -69,6 +69,23 @@ namespace zSpace
 		return zVector(cVals[0], cVals[1], cVals[2]);
 	}
 
+	/*! \brief This method returns the factorised vector to the input precision.
+	*
+	*	\param		[in]		inVector		- input vector.
+	*	\param		[in]		precision		- precision or number of digits after the decimal point.
+	*	\return					zVector			- factorised vector.
+	*	\since version 0.0.1
+	*/
+	zVector factorise(zVector &inVector, int precision = 3)
+	{
+		double factor = pow(10, precision);
+		double x1 = round(inVector.x *factor) / factor;
+		double y1 = round(inVector.y *factor) / factor;
+		double z1 = round(inVector.z *factor) / factor;
+
+		return zVector(x1, y1, z1);
+	}
+
 	/*! \brief This method returns the bounds of the input list points.
 	*
 	*	\param  	[in]	inGraph	- input graph.
@@ -128,6 +145,61 @@ namespace zSpace
 		else if (inPoint.z < minBB.z || inPoint.z > maxBB.z) return false;
 		
 		else return true;
+	}
+
+	/*! \brief This method checks if the input value is repeated in input container.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param		[in]	inVal			- input value.
+	*	\param		[in]	values			- input container of values to be checked against.
+	*	\param		[in]	precision		- precision or number of digits after the decimal point.
+	*	\return				bool			- true if there is a repeat element.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	bool checkRepeatElement(T &inVal, vector<T> values , int precision = 3)
+	{
+		bool out = false;
+
+		for (int i = 0; i < values.size(); i++)
+		{
+			T v1 = factorise(inVal, precision);
+			T v2 = factorise(values[i], precision);
+
+			if (v1 == v2)
+			{
+				out = true;
+				break;
+			}
+		}
+
+		return out;
+
+	}
+
+	/*! \brief This method computes the infuence weights of the input positions container on the input point .
+	*
+	*	\param		[in]	inPos			- input position.
+	*	\param		[in]	positions		- input container of positions.
+	*	\param		[out]	weights			- influence Weights between 0 and 1. 
+	*	\since version 0.0.1
+	*/
+	void getDistanceWeights(zVector& inPos, vector<zVector> positions, vector<double> &weights)
+	{
+		vector<double> dists;
+
+		for (int i = 0; i < positions.size(); i++)
+		{
+			dists.push_back(positions[i].distanceTo(inPos));
+		}
+
+		double minD = zMin(dists);
+		
+		for (int i = 0; i < positions.size(); i++)
+		{
+			weights.push_back( minD / dists[i]);
+		}
+
 	}
 
 	/*! \brief This method  returns the intersection of two planes which is  line.

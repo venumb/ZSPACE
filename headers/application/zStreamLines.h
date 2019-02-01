@@ -74,7 +74,7 @@ namespace zSpace
 		if (validStreamPoint)
 		{
 			vector<int> ringNeighbours;
-			inField.getNeighbourHoodRing(newFieldIndex, 1, ringNeighbours);
+			inField.getNeighbourhoodRing(newFieldIndex, 1, ringNeighbours);
 
 			for (int i = 0; i < ringNeighbours.size(); i++)
 			{
@@ -101,7 +101,7 @@ namespace zSpace
 		return validStreamPoint;
 	}
 	
-	/*! \brief This method checks if the input position is a valid stream position.
+	/*! \brief This method checks if the input position is a valid seed position.
 	*
 	*	\param	[in]	inPoint							- input point.
 	*	\param	[in]	inField							- input field.
@@ -136,7 +136,7 @@ namespace zSpace
 		if (validSeedPoint)
 		{
 			vector<int> ringNeighbours;
-			inField.getNeighbourHoodRing(newFieldIndex, 1, ringNeighbours);
+			inField.getNeighbourhoodRing(newFieldIndex, 1, ringNeighbours);
 
 			for (int i = 0; i < ringNeighbours.size(); i++)
 			{
@@ -165,21 +165,22 @@ namespace zSpace
 	//----  2D STREAM LINES METHODS
 	//--------------------------
 
-	/*! \brief This method updates the color values of the field mesh based on the scalar values.
+	/*! \brief This method creates a single stream line as a graph.
 	*
 	*	\details Based on evenly spaced streamlines (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf)
 	*	\param	[in]	streamGraph						- stream graph created from the field.
 	*	\param	[in]	seedPoint						- input seed point.
 	*	\param	[in]	inField							- input field.	
+	*	\param	[in]	fieldIndex_streamPositions		- 2 dimensional container of stream positions per field index.
 	*	\param	[in]	dSep							- minimal distance between seed points.
 	*	\param	[in]	dTest							- dtest is a percentage of dsep. It is the minimal distance under which the integration of the streamline will be stopped in the current direction.
-	*	\param	[in]	fieldIndex_streamPositions		- 2 dimensional container of stream positions per field index.
+	*	\param	[in]	streamType						- field stream type. ( zForward / zbackward / zForwardbackward)
 	*	\param	[in]	dT								- time step.
 	*	\param	[in]	type							- integration type.
 	*	\return			bool							- true if the graph is created.
 	*	\since version 0.0.1	
 	*/	
-	bool createStreamGraph( zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double dT, zIntergrationType type)
+	bool createStreamGraph( zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, zFieldStreamType streamType, double dT, zIntergrationType type)
 	{
 		
 
@@ -188,144 +189,170 @@ namespace zSpace
 		
 			   		 	
 		// move forward
-		bool exit = false;
-
-		zVector startForward = seedPoint;
-
-		zParticle seedForward(&startForward);
-
-		while (!exit)
+		if (streamType == zForward || streamType == zForwardBackward)
 		{
-			bool firstVertex = (startForward == seedPoint) ? true : false;			
+			bool exit = false;
 
-			zVector curPos = *seedForward.getPosition();
-			int curFieldIndex = inField.getIndex(curPos);
+			zVector startForward = seedPoint;
 
-			if (firstVertex)
+			zParticle seedForward(&startForward);
+
+			while (!exit)
 			{
-				
-				positions.push_back(curPos);
-			}
+				bool firstVertex = (startForward == seedPoint) ? true : false;
 
-			// get field focrce
-			zVector fieldForce = inField.getFieldValue(curFieldIndex);
+				zVector curPos = *seedForward.getPosition();
 
-			// local minima or maxima point
-			if (fieldForce.length() == 0)
-			{
-				exit = true;
-				continue;
-			}
-
-			// update particle force
-			fieldForce.normalize();
-			fieldForce *= (dSep * 1.0);						
-			
-			seedForward.addForce(fieldForce);
-
-			// update seed particle
-			seedForward.integrateForces(dT, type);
-			seedForward.updateParticle(true, true);
-			zVector newPos = *seedForward.getPosition();
-			bool checkBounds = checkFieldBounds(newPos, inField);
-
-			if (!checkBounds) 
-			{
-				exit = true;
-				continue;
-			}
-
-	
-
-			bool validStreamPoint = checkValidStreamPosition(newPos, inField, fieldIndex_streamPositions, dTest);
-			
-			if (!validStreamPoint) exit = true;
-			
-			// add new stream point
-			else
-			{
-				
-
-				if (positions.size() > 0)
+				if (firstVertex)
 				{
-					edgeConnects.push_back(positions.size());
-					edgeConnects.push_back(positions.size() - 1);
+
+					positions.push_back(curPos);
 				}
 
-				positions.push_back(newPos);
-			}
+				// get field focrce
+				zVector fieldForce = inField.getFieldValue(curPos, zFieldNeighbourWeighted);
 
-			
-					
-			
-		}
-
-		// move backwards
-		exit = false;
-
-		zVector startBackward = seedPoint;
-
-		zParticle seedBackward(&startBackward);
-
-		while (!exit)
-		{
-			bool firstVertex = (startBackward == seedPoint) ? true : false;
-	
-
-			zVector curPos = *seedBackward.getPosition();
-			int curFieldIndex = inField.getIndex(curPos);
-
-			// get field focrce
-			zVector fieldForce = inField.getFieldValue(curFieldIndex);
-
-			// local minima or maxima point
-			if (fieldForce.length() == 0)
-			{
-				exit = true;
-				continue;
-			}
-
-			// update particle force
-			fieldForce.normalize();
-			fieldForce *= (dSep * -1.0);
-
-			seedBackward.addForce(fieldForce);
-
-			// update seed particle
-			seedBackward.integrateForces(dT, type);
-			seedBackward.updateParticle(true, true);
-			zVector newPos = *seedBackward.getPosition();
-
-			bool checkBounds = checkFieldBounds(newPos, inField);
-
-			if (!checkBounds)
-			{
-				exit = true;
-				continue;
-			}
-
-			
-
-			bool validStreamPoint = checkValidStreamPosition(newPos, inField, fieldIndex_streamPositions, dTest);
-
-			if (!validStreamPoint) exit = true;
-
-			// add new stream point
-			else
-			{
-				
-
-				if (positions.size() > 0)
+				// local minima or maxima point
+				if (fieldForce.length() == 0)
 				{
-					(firstVertex) ? edgeConnects.push_back(0) : edgeConnects.push_back(positions.size() - 1);
-					edgeConnects.push_back(positions.size());
-					
+					exit = true;
+					continue;
 				}
 
-				positions.push_back(newPos);
-			}
+				// update particle force
+				fieldForce.normalize();
+				fieldForce *= (dSep * 1.0);
 
+				seedForward.addForce(fieldForce);
+
+				// update seed particle
+				seedForward.integrateForces(dT, type);
+				seedForward.updateParticle(true, true);
+				zVector newPos = *seedForward.getPosition();
+				bool checkBounds = checkFieldBounds(newPos, inField);
+
+				if (!checkBounds)
+				{
+					exit = true;
+					continue;
+				}
+
+				bool checkRepeat = checkRepeatElement(newPos, positions);
+				if (checkRepeat)
+				{
+					exit = true;
+					continue;
+				}
+
+				bool validStreamPoint = checkValidStreamPosition(newPos, inField, fieldIndex_streamPositions, dTest);
+
+				if (!validStreamPoint) exit = true;
+
+				// add new stream point
+				else
+				{
+
+
+					if (positions.size() > 0)
+					{
+						edgeConnects.push_back(positions.size());
+						edgeConnects.push_back(positions.size() - 1);
+					}
+
+					positions.push_back(newPos);
+				}
+
+
+
+
+			}
 		}
+		
+		
+		if (streamType == zBackward || streamType == zForwardBackward)
+		{
+			// move backwards
+			bool exit = false;
+
+			zVector startBackward = seedPoint;
+
+			zParticle seedBackward(&startBackward);
+
+			while (!exit)
+			{
+				bool firstVertex = (startBackward == seedPoint) ? true : false;
+
+
+				zVector curPos = *seedBackward.getPosition();
+
+			
+				// insert first point if the stream is inly for backward direction.
+				if (firstVertex && streamType == zBackward)
+				{
+					positions.push_back(curPos);
+				}
+
+				// get field focrce
+				zVector fieldForce = inField.getFieldValue(curPos, zFieldNeighbourWeighted);
+
+				// local minima or maxima point
+				if (fieldForce.length() == 0)
+				{
+					exit = true;
+					continue;
+				}
+
+				// update particle force
+				fieldForce.normalize();
+				fieldForce *= (dSep * -1.0);
+
+				seedBackward.addForce(fieldForce);
+
+				// update seed particle
+				seedBackward.integrateForces(dT, type);
+				seedBackward.updateParticle(true, true);
+				zVector newPos = *seedBackward.getPosition();
+
+				bool checkBounds = checkFieldBounds(newPos, inField);
+
+				if (!checkBounds)
+				{
+					exit = true;
+					continue;
+				}
+
+				bool checkRepeat = checkRepeatElement(newPos, positions);
+				if (checkRepeat)
+				{
+					exit = true;
+					continue;
+				}
+
+				bool validStreamPoint = checkValidStreamPosition(newPos, inField, fieldIndex_streamPositions, dTest);
+
+
+				if (!validStreamPoint) exit = true;
+
+				// add new stream point
+				else
+				{
+
+
+					if (positions.size() > 0)
+					{
+						(firstVertex) ? edgeConnects.push_back(0) : edgeConnects.push_back(positions.size() - 1);
+						edgeConnects.push_back(positions.size());
+
+					}
+
+					positions.push_back(newPos);
+				}
+
+			}
+		}
+
+		
+		
 
 		// create stream graph
 		bool out = false;
@@ -350,7 +377,7 @@ namespace zSpace
 
 	}
 
-	/*! \brief This method updates the color values of the field mesh based on the scalar values.
+	/*! \brief This method computes the seed points.
 	*
 	*	\details Based on evenly spaced streamlines (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf)
 	*	\param	[in]	inField							- input field.
@@ -414,15 +441,17 @@ namespace zSpace
 	*
 	*	\details Based on evenly spaced streamlines (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf)
 	*	\param	[in]	streamGraphs					- container of streamlines as graph.
+	*	\param	[in]	start_seedPoints				- container of start seed positions. If empty a random position in the field is considered.
 	*	\param	[in]	inField							- input field.
 	*	\param	[in]	fieldIndex_streamPositions		- 2 dimensional container of stream positions per field index.
 	*	\param	[in]	dSep							- minimal distance between seed points.
 	*	\param	[in]	dTest							- dtest is a percentage of dsep. It is the minimal distance under which the integration of the streamline will be stopped in the current direction.
+	*	\param	[in]	streamType						- field stream type. ( zForward / zbackward / zForwardbackward)
 	*	\param	[in]	dT								- time step.
 	*	\param	[in]	type							- integration type.
 	*	\since version 0.0.1
 	*/
-	void createStreamGraphs(vector<zGraph>& streamGraphs, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double dT =0.1, zIntergrationType type = zEuler)
+	void createStreamGraphs(vector<zGraph>& streamGraphs, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4 )
 	{
 		streamGraphs.clear();
 
@@ -440,16 +469,26 @@ namespace zSpace
 
 		// make first stream line
 		if (streamGraphs.size() == 0)
-		{		
-			zVector minBB, maxBB;
-			inField.getBoundingBox(minBB, maxBB);
+		{
 
-			zVector seedPoint = zVector(randomNumber_double(minBB.x, maxBB.x), randomNumber_double(minBB.y, maxBB.y), 0);			
+			if (start_seedPoints.size() == 0)
+			{			
+				zVector minBB, maxBB;
+				inField.getBoundingBox(minBB, maxBB);
 
-			zGraph temp;
-			bool chk =  createStreamGraph(temp, seedPoint, inField, fieldIndex_streamPositions, dSep, dTest, dT, type);
+				zVector seedPoint = zVector(randomNumber_double(minBB.x, maxBB.x), randomNumber_double(minBB.y, maxBB.y), 0);
 
-			if (chk) streamGraphs.push_back(temp);
+				start_seedPoints.push_back(seedPoint);
+			}
+
+			for (int i = 0; i < start_seedPoints.size(); i++)
+			{
+				zGraph temp;
+				bool chk = createStreamGraph(temp, start_seedPoints[i], inField, fieldIndex_streamPositions, dSep, dTest, streamType, dT, type);
+
+				if (chk) streamGraphs.push_back(temp);
+			}
+		
 
 		}
 
@@ -471,7 +510,7 @@ namespace zSpace
 			for (int i = 0; i < seedPoints.size(); i++)
 			{
 				zGraph temp;
-				bool chk = createStreamGraph(temp, seedPoints[i], inField, fieldIndex_streamPositions, dSep, dTest, dT, type);
+				bool chk = createStreamGraph(temp, seedPoints[i], inField, fieldIndex_streamPositions, dSep, dTest, streamType, dT, type);
 
 				if (chk) streamGraphs.push_back(temp);
 			}				
@@ -487,6 +526,7 @@ namespace zSpace
 		printf("\n %i streamLines created. ", streamGraphs.size());
 
 	}
+	
 
 	/** @}*/
 

@@ -143,7 +143,7 @@ namespace zSpace
 			for (int i = 0; i < positions.size(); i++)
 			{
 				vector<int> temp_ringNeighbour;
-				getNeighbourHoodRing(i, _NR, temp_ringNeighbour);
+				getNeighbourhoodRing(i, _NR, temp_ringNeighbour);
 				ringNeighbours.push_back(temp_ringNeighbour);
 
 				vector<int> temp_adjacentNeighbour;				
@@ -197,7 +197,7 @@ namespace zSpace
 			for (int i = 0; i < positions.size(); i++)
 			{
 				vector<int> temp_ringNeighbour;
-				getNeighbourHoodRing(i, _NR, temp_ringNeighbour);
+				getNeighbourhoodRing(i, _NR, temp_ringNeighbour);
 				ringNeighbours.push_back(temp_ringNeighbour);
 
 				vector<int> temp_adjacentNeighbour;
@@ -264,8 +264,7 @@ namespace zSpace
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_maxBB		- maximum bounds of the field.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void setBoundingBox(zVector &_minBB, zVector &_maxBB)
 		{
 			minBB = _minBB;
@@ -277,8 +276,7 @@ namespace zSpace
 		*	\param		[out]	_minBB		- minimum bounds of the field.
 		*	\param		[out]	_maxBB		- maximum bounds of the field.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getBoundingBox(zVector &_minBB, zVector &_maxBB)
 		{
 			_minBB = minBB;
@@ -291,7 +289,6 @@ namespace zSpace
 		*	\param		[in]	index		- index in the positions container.
 		*	\since version 0.0.1
 		*/
-
 		void setPosition(zVector &_pos, int index)
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
@@ -303,6 +300,7 @@ namespace zSpace
 		/*! \brief This method gets the position of the field at the input index.
 		*
 		*	\param		[in]	index		- index in the positions container.
+		*	\return				zVector		- field position.
 		*	\since version 0.0.1
 		*/
 
@@ -320,7 +318,6 @@ namespace zSpace
 		*	\param		[in]	index		- index in the fieldvalues container.
 		*	\since version 0.0.1
 		*/
-
 		void setFieldValue(T fValue, int index)
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
@@ -332,21 +329,23 @@ namespace zSpace
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	index		- index in the fieldvalues container.
+		*	\return				T			- field value.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		T getFieldValue(int index)
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return fieldValues[index];
-		}			
 
 		
+		}			
+			
 
 		/*! \brief This method gets the index of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
+		*	\return				int			- field index.
 		*	\since version 0.0.1
 		*/
 		int getIndex(zVector &pos)
@@ -359,8 +358,8 @@ namespace zSpace
 
 			return index_X * n_Y + index_Y;
 
-
 		}
+		
 
 		/*! \brief This method gets the indicies of the field at the input position.
 		*
@@ -368,8 +367,7 @@ namespace zSpace
 		*	\param		[out]	index_X		- output index in X.
 		*	\param		[out]	index_Y		- output index in Y.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getIndices(zVector &pos, int &index_X, int &index_Y)
 		{
 			index_X = floor((pos.x - minBB.x) / unit_X);
@@ -385,7 +383,7 @@ namespace zSpace
 		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.1
 		*/		
-		void getNeighbourHoodRing(int index, int numRings,  vector<int> &ringNeighbours)
+		void getNeighbourhoodRing(int index, int numRings,  vector<int> &ringNeighbours)
 		{
 			vector<int> out;
 
@@ -429,8 +427,7 @@ namespace zSpace
 		*	\param		[in]	index				- input index.		
 		*	\param		[out]	adjacentNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getNeighbourAdjacents(int index, vector<int> &adjacentNeighbours)
 		{
 			vector<int> out;
@@ -475,8 +472,77 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets the value of the field at the input sample position.
+		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+		*	\param		[in]	samplePos	- index in the fieldvalues container.
+		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
+		*	\return				T			- field value.
+		*	\since version 0.0.1
+		*/
+		T getFieldValue(zVector &samplePos, zFieldValueType type = zFieldIndex)
+		{
+			bool checkBounds = pointInBounds(samplePos, minBB, maxBB);
 
+			if (!checkBounds) throw std::invalid_argument(" error: samplePosition out of bounds.");
+			
+			T out;
+			
+			int index = getIndex(samplePos);
 
+			if (type == zFieldIndex)
+			{				
+				return fieldValues[index];
+			}
+
+			else if (type == zFieldNeighbourWeighted)
+			{
+				vector<int> ringNeighbours;
+				getNeighbourhoodRing(index, 1, ringNeighbours);
+
+				vector<zVector> positions;
+				for (int i = 0; i < ringNeighbours.size(); i++)
+				{
+					positions.push_back(getPosition(ringNeighbours[i]));
+				}
+
+				vector<double> weights;
+				getDistanceWeights(samplePos, positions, weights);
+
+				for (int i = 0; i < ringNeighbours.size(); i++)
+				{
+					out += getFieldValue(ringNeighbours[i]) * weights[i];
+				}
+
+				out /= ringNeighbours.size();
+			}
+
+			else if (type == zFieldAdjacentWeighted)
+			{
+				vector<int> adjNeighbours;
+				getNeighbourAdjacents(index, adjNeighbours);
+
+				vector<zVector> positions;
+				for (int i = 0; i < adjNeighbours.size(); i++)
+				{
+					positions.push_back(getPosition(adjNeighbours[i]));
+				}
+
+				vector<double> weights;
+				getDistanceWeights(samplePos, positions, weights);
+
+				for (int i = 0; i < adjNeighbours.size(); i++)
+				{
+					out += getFieldValue(adjNeighbours[i]) * weights[i];
+				}
+
+				out /= adjNeighbours.size();
+			}
+
+			else throw std::invalid_argument(" error: invalid zFieldValueType.");
+
+			return out;
+		}
 
 
 	};
@@ -633,7 +699,7 @@ namespace zSpace
 			for (int i = 0; i < fieldValues.size(); i++)
 			{
 				vector<int> temp_ringNeighbours;
-				getNeighbourHoodRing(i, _NR, temp_ringNeighbours);
+				getNeighbourhoodRing(i, _NR, temp_ringNeighbours);
 				ringNeighbours.push_back(temp_ringNeighbours);
 
 				vector<int> temp_adjacentNeighbours;
@@ -694,7 +760,7 @@ namespace zSpace
 			for (int i = 0; i < fieldValues.size(); i++)
 			{
 				vector<int> temp_ringNeighbours;
-				getNeighbourHoodRing(i, _NR, temp_ringNeighbours);
+				getNeighbourhoodRing(i, _NR, temp_ringNeighbours);
 				ringNeighbours.push_back(temp_ringNeighbours);
 
 				vector<int> temp_adjacentNeighbours;
@@ -799,6 +865,7 @@ namespace zSpace
 		/*! \brief This method gets the position of the field at the input index.
 		*
 		*	\param		[in]	index		- index in the positions container.
+		*	\return				zvector		- field position.
 		*	\since version 0.0.1
 		*/
 		zVector getPosition(int index)
@@ -826,6 +893,7 @@ namespace zSpace
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	index		- index in the scalar container.
+		*	\return				T			- field value.
 		*	\since version 0.0.1
 		*/
 		T getFieldValue(int index)
@@ -838,6 +906,7 @@ namespace zSpace
 		/*! \brief This method gets the index of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
+		*	\return				int			- field index.
 		*	\since version 0.0.1
 		*/
 		int getIndex(zVector &pos)
@@ -875,7 +944,7 @@ namespace zSpace
 		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.1
 		*/
-		void getNeighbourHoodRing(int index, int numRings, vector<int> &ringNeighbours)
+		void getNeighbourhoodRing(int index, int numRings, vector<int> &ringNeighbours)
 		{
 			vector<int> out;
 
@@ -988,6 +1057,77 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets the value of the field at the input sample position.
+		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+		*	\param		[in]	samplePos	- index in the fieldvalues container.
+		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
+		*	\return				T			- field value.
+		*	\since version 0.0.1
+		*/
+		T getFieldValue(zVector &samplePos, zFieldValueType type = zFieldIndex)
+		{
+			bool checkBounds = pointInBounds(samplePos, minBB, maxBB);
+
+			if (!checkBounds) throw std::invalid_argument(" error: samplePosition out of bounds.");
+
+			T out;
+
+			int index = getIndex(samplePos);
+
+			if (type == zFieldIndex)
+			{
+				return fieldValues[index];
+			}
+
+			else if (type == zFieldNeighbourWeighted)
+			{
+				vector<int> ringNeighbours;
+				getNeighbourhoodRing(index, 1, ringNeighbours);
+
+				vector<zVector> samplePositions;
+				for (int i = 0; i < ringNeighbours.size(); i++)
+				{
+					samplePositions.push_back(getsamplePosition(ringNeighbours[i]));
+				}
+
+				vector<double> weights;
+				getDistanceWeights(samplePos, samplePositions, weights);
+
+				for (int i = 0; i < ringNeighbours.size(); i++)
+				{
+					out += getFieldValue(ringNeighbours[i]) * weights[i];
+				}
+
+				out /= ringNeighbours.size();
+			}
+
+			else if (type == zFieldAdjacentWeighted)
+			{
+				vector<int> adjNeighbours;
+				getNeighbourAdjacents(index, adjNeighbours);
+
+				vector<zVector> samplePositions;
+				for (int i = 0; i < adjNeighbours.size(); i++)
+				{
+					samplePositions.push_back(getsamplePosition(adjNeighbours[i]));
+				}
+
+				vector<double> weights;
+				getDistanceWeights(samplePos, samplePositions, weights);
+
+				for (int i = 0; i < adjNeighbours.size(); i++)
+				{
+					out += getFieldValue(adjNeighbours[i]) * weights[i];
+				}
+
+				out /= adjNeighbours.size();
+			}
+
+			else throw std::invalid_argument(" error: invalid zFieldValueType.");
+
+			return out;
+		}
 
 
 	};

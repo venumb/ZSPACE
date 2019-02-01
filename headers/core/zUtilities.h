@@ -158,6 +158,20 @@ namespace zSpace
 		return (max - min) * ((double)rand() / (double)RAND_MAX) + min;
 	}
 
+	/*! \brief This method returns the factorised value to the input precision.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes except integer.
+	*	\param		[in]	precision		- input value.
+	*	\param		[in]	precision		- precision or number of digits after the decimal point.
+	*	\return				T				- factorised value.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	T factorise( T inputValue , int precision = 3)
+	{
+		double factor = pow(10, precision);
+		return  round(inputValue *factor) / factor;
+	}
 
 	//--------------------------
 	//---- MAP METHODS 

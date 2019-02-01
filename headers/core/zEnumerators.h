@@ -87,12 +87,23 @@ namespace zSpace
 	*/
 	enum zDatatypes { zInt = 110, zFloat, zDouble, zString };
 
-	/*! \enum	zDatatypes
-	*	\brief	Grid levels for data in London.
+	/*! \enum	zWalkTypes
+	*	\brief	walk types for Shortest Path Trees.
 	*	\since	version 0.0.1
 	*/
 	enum zWalkType { zEdgePath = 120, zEdgeVisited};
 
+	/*! \enum	zFieldValueType
+	*	\brief	field value sampling types.
+	*	\since	version 0.0.1
+	*/
+	enum zFieldValueType { zFieldIndex = 130, zFieldNeighbourWeighted, zFieldAdjacentWeighted};
+
+	/*! \enum	zFieldStreamType
+	*	\brief	field stream sampling types.
+	*	\since	version 0.0.1
+	*/
+	enum zFieldStreamType { zForward = 140, zBackward, zForwardBackward};
 
 	/** @}*/
 

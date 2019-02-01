@@ -336,8 +336,7 @@ namespace  zSpace
 		*	\param		[in]	v1			- input vector.
 		*	\return				double		- value of the distance between the vectors.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		double distanceTo(zVector v1)
 		{
 			return sqrt(pow((x - v1.x), 2.0) + pow((y - v1.y), 2.0) + pow((z - v1.z), 2.0));
@@ -382,8 +381,7 @@ namespace  zSpace
 		*	\param		[in]	v2			- input vector.
 		*	\return				double		- value of the dihedral angle between the vectors.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		double dihedralAngle(zVector v1, zVector v2)
 		{
 			zVector edgeRef(x, y, z);
@@ -409,8 +407,7 @@ namespace  zSpace
 		*	\param		[in]	i			- index. ( 0 - x component, 0 - y component, 2 - z component).
 		*	\return				double		- value of the dihedral angle between the vectors.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		double  getComponent(int i)
 		{
 			if (i == 0)return x;
@@ -424,7 +421,6 @@ namespace  zSpace
 		*	\return				zMatrixd		- row matrix of the vector.
 		*	\since version 0.0.1
 		*/
-
 		zMatrixd toRowMatrix(int cols = 4)
 		{
 			vector<double> vals;
@@ -441,7 +437,6 @@ namespace  zSpace
 		*	\return				zMatrixd		- column matrix of the vector.
 		*	\since version 0.0.1
 		*/
-
 		zMatrixd toColumnMatrix(int rows = 4)
 		{
 			vector<double> vals = { x,y,z,1 };
@@ -471,7 +466,6 @@ namespace  zSpace
 		*	\return					zVector		- zVector of the column matrix.
 		*	\since version 0.0.1
 		*/
-
 		zVector fromColumnMatrix(zMatrixd &inMatrix)
 		{
 			if (inMatrix.getNumCols() != 1) throw std::invalid_argument("input Matrix is not a column matrix.");
@@ -513,6 +507,9 @@ namespace  zSpace
 
 			return out;
 		}
+
+
+	
 	
 	};
 }
