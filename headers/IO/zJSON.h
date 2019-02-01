@@ -3,7 +3,10 @@
 #include <headers/geometry/zMesh.h>
 #include <headers/geometry/zMeshUtilities.h>
 
-#include <depends\modernJSON\json.hpp>
+#include <headers/geometry/zField.h>
+#include <headers/geometry/zFieldUtilities.h>
+
+#include <depends/modernJSON/json.hpp>
 using json = nlohmann::json;;
 
 #include <iostream>

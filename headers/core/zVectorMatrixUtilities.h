@@ -110,6 +110,26 @@ namespace zSpace
 		return out;
 	}
 
+	/*! \brief This method checks if the input position is inside the input bounds.
+	*
+	*	\param		[in]	inPoint			- input point.
+	*	\param		[in]	minBB			- lower bounds as zVector.
+	*	\param		[in]	maxBB			- upper bounds as zVector
+	*	\return				bool			- true if input position is inside the bounds.
+	*	\since version 0.0.1
+	*/
+	bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB)
+	{
+		
+		if (inPoint.x < minBB.x || inPoint.x > maxBB.x) return false;
+		
+		else if (inPoint.y < minBB.y || inPoint.y > maxBB.y) return false;
+		
+		else if (inPoint.z < minBB.z || inPoint.z > maxBB.z) return false;
+		
+		else return true;
+	}
+
 	/*! \brief This method  returns the intersection of two planes which is  line.
 	*
 	*	\details Based on http://paulbourke.net/geometry/pointlineplane/

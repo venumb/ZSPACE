@@ -229,7 +229,7 @@ namespace zSpace
 		*	\return			int	- number of scalars in the field.
 		*	\since version 0.0.1
 		*/		
-		int getNumFieldValues()
+		int numFieldValues()
 		{
 			return fieldValues.size();
 		}
@@ -294,7 +294,7 @@ namespace zSpace
 
 		void setPosition(zVector &_pos, int index)
 		{
-			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 			
 			positions[index] = _pos;
 		
@@ -308,7 +308,7 @@ namespace zSpace
 
 		zVector getPosition(int index)
 		{
-			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return positions[index];
 		}
@@ -323,7 +323,7 @@ namespace zSpace
 
 		void setFieldValue(T fValue, int index)
 		{
-			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			fieldValues[index] = fValue;
 		}
@@ -337,7 +337,7 @@ namespace zSpace
 		
 		T getFieldValue(int index)
 		{
-			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return fieldValues[index];
 		}			
@@ -384,8 +384,7 @@ namespace zSpace
 		*	\param		[in]	numRings		- number of rings.	
 		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getNeighbourHoodRing(int index, int numRings,  vector<int> &ringNeighbours)
 		{
 			vector<int> out;
@@ -417,7 +416,7 @@ namespace zSpace
 					int newId = (newId_X * n_Y) + (newId_Y);
 
 
-					if (newId < getNumFieldValues()) out.push_back(newId);
+					if (newId < numFieldValues()) out.push_back(newId);
 				}
 
 			}
@@ -464,7 +463,7 @@ namespace zSpace
 					int newId = (newId_X * n_Y) + (newId_Y);
 
 
-					if (newId < getNumFieldValues())
+					if (newId < numFieldValues())
 					{
 						if (i == 0 || j == 0) out.push_back(newId);
 					}
@@ -726,7 +725,7 @@ namespace zSpace
 		*	\return			int	- number of fieldvalues in the field.
 		*	\since version 0.0.1
 		*/
-		int getNumFieldValues()
+		int numFieldValues()
 		{
 			return fieldValues.size();
 		}
@@ -791,7 +790,7 @@ namespace zSpace
 		*/
 		void setPosition(zVector &_pos, int index)
 		{
-			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			positions[index] = _pos;
 
@@ -804,7 +803,7 @@ namespace zSpace
 		*/
 		zVector getPosition(int index)
 		{
-			if (index > getNumFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return positions[index];
 		}
@@ -918,7 +917,7 @@ namespace zSpace
 						int newId = (newId_X * (n_Y*n_Z)) + (newId_Y * n_Z) + newId_Z;
 
 
-						if (newId < getNumFieldValues()) out.push_back(newId);
+						if (newId < numFieldValues()) out.push_back(newId);
 					}
 					
 				}
@@ -976,7 +975,7 @@ namespace zSpace
 						int newId = (newId_X * (n_Y*n_Z)) + (newId_Y * n_Z) + newId_Z;
 
 
-						if (newId < getNumFieldValues())
+						if (newId < numFieldValues())
 						{
 							if (i == 0 || j == 0 || k == 0) out.push_back(newId);
 						}

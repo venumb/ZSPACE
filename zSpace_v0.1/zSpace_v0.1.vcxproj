@@ -39,6 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\application\zPolytopal.h" />
+    <ClInclude Include="..\headers\application\zStreamLines.h" />
+    <ClInclude Include="..\headers\core\zBinaryTree.h" />
     <ClInclude Include="..\headers\core\zColor.h" />
     <ClInclude Include="..\headers\core\zDefinitions.h" />
     <ClInclude Include="..\headers\core\zEnumerators.h" />

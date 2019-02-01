@@ -191,7 +191,7 @@ namespace zSpace
 					if (sorted_cEdges.size() > 0)
 					{
 						for (int j = 0; j < sorted_cEdges.size(); j++)
-						{
+						{						
 							edges[sorted_cEdges[j]].setPrev(edges[sorted_cEdges[(j + 1) % sorted_cEdges.size()]].getSym());
 						}
 					}
@@ -823,6 +823,11 @@ namespace zSpace
 			for (int i = 0; i < angles.size(); i++)
 			{
 				int id = angle_e_Map.find(angles[i])->second;
+				if (id > unSortedEdges.size())
+				{
+					id = 0;					
+				}
+
 				out.push_back((unSortedEdges[id]));
 
 			}

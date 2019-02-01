@@ -278,6 +278,76 @@ namespace zSpace
 			inMesh.addToVerticesEdge(v1, v2, i);
 		}
 	}
+
+	/*! \brief This method creates a mesh from the input scalar field.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param [in]		inMesh				- mesh created from the input field.
+	*	\param	[in]	inField				- input zField2D
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void from2DFIELD(zMesh &inMesh, zField2D<T> &inField)
+	{
+		
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		zVector minBB, maxBB;
+		double unit_X, unit_Y;
+		int n_X, n_Y;
+
+		inField.getUnitDistances(unit_X, unit_Y);
+		inField.getResolution(n_X, n_Y);
+
+		inField.getBoundingBox(minBB, maxBB);
+
+		zVector unitVec = zVector(unit_X, unit_Y, 0);
+		zVector startPt = minBB;
+
+		int resX = n_X + 1;
+		int resY = n_Y + 1;
+
+		for (int i = 0; i < resX; i++)
+		{
+			for (int j = 0; j < resY; j++)
+			{
+				zVector pos;
+				pos.x = startPt.x + i * unitVec.x;
+				pos.y = startPt.y + j * unitVec.y;
+
+				positions.push_back(pos);
+			}
+		}
+
+
+
+		for (int i = 0; i < resX - 1; i++)
+		{
+			for (int j = 0; j < resY - 1; j++)
+			{
+				int v0 = (i * resY) + j;
+				int v1 = ((i + 1) * resY) + j;
+
+				int v2 = v1 + 1;
+				int v3 = v0 + 1;
+
+				polyConnects.push_back(v0);
+				polyConnects.push_back(v1);
+				polyConnects.push_back(v2);
+				polyConnects.push_back(v3);
+
+				polyCounts.push_back(4);
+			}
+		}
+
+
+		inMesh = zMesh(positions, polyCounts, polyConnects);;
+
+		printf("\n scalarfieldMesh: %i %i %i", inMesh.numVertices(), inMesh.numEdges(), inMesh.numPolygons());
+				
+	}
 	
 	/** @}*/
 	

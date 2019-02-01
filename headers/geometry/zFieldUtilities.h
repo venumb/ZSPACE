@@ -34,8 +34,7 @@ namespace zSpace
 	*	\param	[in]	a	- value of a.
 	*	\param	[in]	b	- value of b.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	double F_of_r(double &r, double &a, double &b)
 	{
 		if (0 <= r && r <= b / 3.0)return (a * (1.0 - (3.0 * r * r) / (b*b)));
@@ -64,8 +63,7 @@ namespace zSpace
 	*
 	*	\param	[in]	buffer	- buffer of scalars.
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	void normaliseScalars(vector<double>& scalars)
 	{
 		double dMin, dMax;
@@ -88,6 +86,58 @@ namespace zSpace
 	//--------------------------
 	//----  2D FIELD METHODS
 	//--------------------------
+
+	/*! \brief This method creates a vector field from the input scalar field.
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double), .
+	*	\param		[in]	vectorField			- vector field created from input scalar field.
+	*	\param		[in]	scalarField			- input scalar field.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	void createVectorFieldFromScalarField(zField2D<zVector> &vectorField, zField2D<T> &scalarField)
+	{
+		double unit_X, unit_Y;
+		scalarField.getUnitDistances(unit_X, unit_Y);
+
+		int n_X, n_Y;
+		scalarField.getResolution(n_X, n_Y);
+
+		vectorField = zField2D<zVector>(unit_X, unit_Y, n_X, n_Y);
+
+		for (int i = 0; i < scalarField.numFieldValues(); i++)
+		{
+			vector<int> ringNeighbours;
+			scalarField.getNeighbourHoodRing(i, 1, ringNeighbours);
+
+			T val = scalarField.getFieldValue(i);
+			zVector fValue;
+
+			int maxId = -1;
+			T maxVal = val;
+
+			for (int j = 0; j < ringNeighbours.size(); j++)
+			{
+				T tempVal = scalarField.getFieldValue(ringNeighbours[j]);
+
+				if (tempVal > maxVal)
+				{
+					maxId = j;
+					maxVal = tempVal;
+				}
+			}
+
+
+			if (maxId != -1)
+			{
+				fValue = scalarField.getPosition(maxId) - scalarField.getPosition(i);
+				fValue.normalize();
+			}
+
+			vectorField.setFieldValue(fValue, i);
+
+		}
+	}
 	
 	/*! \brief This method computes the weight inverse distance to the the input position.
 	*
@@ -169,78 +219,7 @@ namespace zSpace
 			fieldIndexPositionIndicies[fieldIndex].push_back(i);
 		}
 	}
-
-	/*! \brief This method creates a mesh from the input scalar field.
-	*
-	*	\tparam				T				- Type to work with standard c++ numerical datatypes and zVector.
-	*	\param	[in]	inField				- input zField2D
-	*	\return			zMesh				- mesh of the scalar field.
-	*	\since version 0.0.1
-	*/	
-	template <typename T>
-	zMesh fromField2D(zField2D<T> &inField)
-	{
-		zMesh out;
-
-		vector<zVector>positions;
-		vector<int>polyConnects;
-		vector<int>polyCounts;
-
-		zVector minBB, maxBB;
-		double unit_X, unit_Y;
-		int n_X, n_Y;
-
-		inField.getUnitDistances(unit_X, unit_Y);
-		inField.getResolution(n_X, n_Y);
-
-		inField.getBoundingBox(minBB, maxBB);
-
-		zVector unitVec = zVector(unit_X, unit_Y, 0);
-		zVector startPt = minBB;
-
-		int resX = n_X + 1;
-		int resY = n_Y + 1;
-
-		for (int i = 0; i<resX; i++)
-		{
-			for (int j = 0; j <resY; j++)
-			{
-				zVector pos;
-				pos.x = startPt.x + i * unitVec.x;
-				pos.y = startPt.y + j * unitVec.y;
-
-				positions.push_back(pos);
-			}
-		}
-
-
-
-		for (int i = 0; i < resX - 1; i++)
-		{
-			for (int j = 0; j < resY - 1; j++)
-			{
-				int v0 = (i * resY) + j;
-				int v1 = ((i + 1) * resY) + j;
-
-				int v2 = v1 + 1;
-				int v3 = v0 + 1;
-
-				polyConnects.push_back(v0);
-				polyConnects.push_back(v1);
-				polyConnects.push_back(v2);
-				polyConnects.push_back(v3);
-
-				polyCounts.push_back(4);
-			}
-		}
-
-
-		out = zMesh(positions, polyCounts, polyConnects);;
 		
-		printf("\n scalarfieldMesh: %i %i %i", out.numVertices(), out.numEdges(), out.numPolygons());
-
-		return out;
-	}
 
 	/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 	*
@@ -286,7 +265,7 @@ namespace zSpace
 		for (int j = 0; j < fieldMesh.vertexColors.size(); j++)
 		{
 			T outMin = 0;
-			T outMax = 0;
+			T outMax = 1;
 			T val = ofMap(distVals[j], dMin, dMax, outMin, outMax);
 			fieldMesh.vertexColors[j] = (zColor(val, 0, 0, 1));
 		}
@@ -314,33 +293,29 @@ namespace zSpace
 	template <typename T>
 	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<T> &scalars)
 	{
-		vector<T> out;
+		vector<double> out;
 
-		// update values from edge distance
+		// update values from meta balls
+
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
 			double d = 0.0;
 			double tempDist = 10000;
 
-			for (int j = 0; j < inMesh.numEdges(); j++)
+			for (int j = 0; j < inMesh.numVertices(); j++)
 			{
-
-				int e0 = inMesh.edges[j].getVertex()->getVertexId();
-				int e1 = inMesh.edges[j].getSym()->getVertex()->getVertexId();
-
-				zVector closestPt;
-
-				double r = minDist_Edge_Point(fieldMesh.vertexPositions[i], inMesh.vertexPositions[e0], inMesh.vertexPositions[e1], closestPt);
+				double r = fieldMesh.vertexPositions[i].distanceTo(inMesh.vertexPositions[j]);
 
 				if (r < tempDist)
 				{
 					d = F_of_r(r, a, b);
+					//printf("\n F_of_r:  %1.4f ", F_of_r(r, a, b));
 					tempDist = r;
 				}
+
 			}
 
 			out.push_back(d);
-		
 		}
 
 		double dMin, dMax;
@@ -366,46 +341,30 @@ namespace zSpace
 	template <typename T>
 	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<T> &scalars)
 	{
-		vector<T> out;
+		vector<double> out;
 
-		// update values from edge distance
+
+		// update values from meta balls
+
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
 			double d = 0.0;
 			double tempDist = 10000;
 
-			for (int j = 0; j < inGraph.numEdges(); j++)
+			for (int j = 0; j < inGraph.numVertices(); j++)
 			{
-
-				int e0 = inGraph.edges[j].getVertex()->getVertexId();
-				int e1 = inGraph.edges[j].getSym()->getVertex()->getVertexId();
-
-				zVector closestPt;
-
-				double r = minDist_Edge_Point(fieldMesh.vertexPositions[i], inGraph.vertexPositions[e0], inGraph.vertexPositions[e1], closestPt);
-
-
-
-				//printf("\n v: %i e: %i r:  %1.2f ", i,j, r);
-
-				//printf("\n pt: %1.2f %1.2f %1.2f closestEdgePt: %1.2f %1.2f %1.2f r: %1.2f", mesh.vertexPositions.getValue(i).x, mesh.vertexPositions.getValue(i).y, mesh.vertexPositions.getValue(i).z, closestPt.x, closestPt.y, closestPt.z,r);
+				double r = fieldMesh.vertexPositions[i].distanceTo(inGraph.vertexPositions[j]);
 
 				if (r < tempDist)
 				{
-
 					d = F_of_r(r, a, b);
-
 					//printf("\n F_of_r:  %1.4f ", F_of_r(r, a, b));
-
 					tempDist = r;
 				}
-
-				//d += F_of_r(r, a, b);
-				//printf("\n F_of_r:  %1.4f ", F_of_r(r, a, b));
+			
 			}
 
 			out.push_back(d);
-			//printf("\n scalars[buffer][i]:  %1.4f ", scalars[buffer][i]);
 		}
 
 		double dMin, dMax;
@@ -624,7 +583,7 @@ namespace zSpace
 
 	/*! \brief This method uses an input plane to clip an existing scalar field.
 	*
-	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
+	*	\tparam			T					- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh			- input field mesh.
 	*	\param	[in]	scalars				- vector of scalar values. Need to be equivalent to number of mesh vertices.
 	*	\param	[in]	clipPlane			- input zPlane used for clipping.
@@ -775,7 +734,7 @@ namespace zSpace
 		else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
 	}
 
-
+	
 	//--------------------------
 	//---- MARCHING SQUARES METHODS
 	//--------------------------

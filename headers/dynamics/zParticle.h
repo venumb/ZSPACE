@@ -168,7 +168,7 @@ namespace zSpace
 		*	\param		[in]	_f			- force of the particle.		
 		*	\since version 0.0.1
 		*/
-		zParticle(zVector *_p, bool _fixed = true, double _m = 1.0 , zVector _v = zVector(), zVector _f = zVector())
+		zParticle(zVector *_p, bool _fixed = false, double _m = 1.0 , zVector _v = zVector(), zVector _f = zVector())
 		{
 			s.p = _p;
 			s.v = _v;

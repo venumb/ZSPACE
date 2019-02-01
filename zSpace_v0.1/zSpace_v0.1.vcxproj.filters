@@ -146,5 +146,11 @@
     <ClInclude Include="..\headers\dynamics\zDynamicsUtilities.h">
       <Filter>Header Files\Dynamics</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\core\zBinaryTree.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\application\zStreamLines.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

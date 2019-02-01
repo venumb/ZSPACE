@@ -7,6 +7,8 @@
 #include <headers/geometry/zField.h>
 #include <headers/geometry/zFieldUtilities.h>
 
+#include <headers/IO/zExchange.h>
+
 #include <headers/data/zDatabase.h>
 
 namespace zSpace
@@ -268,7 +270,7 @@ namespace zSpace
 
 			scalarfield = zField2D<double>(this->minBB - offset, this->maxBB + offset, _n_X, _n_Y);
 
-			fieldMesh = fromField2D(this->scalarfield);
+			from2DFIELD(fieldMesh,this->scalarfield);
 
 		}
 
@@ -1104,7 +1106,7 @@ namespace zSpace
 		*/
 		void updateScalars_GraphConnectivity(zGraph& inGraph)
 		{
-			for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
+			for (int i = 0; i < scalarfield.numFieldValues(); i++)
 			{
 				scalarfield.setFieldValue(0.0,i);
 			}
@@ -1334,7 +1336,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
+	for (int i = 0; i < scalarfield.numFieldValues(); i++)
 	{
 		scalarfield.setFieldValue(0.0, i);
 	}
@@ -1399,7 +1401,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
+	for (int i = 0; i < scalarfield.numFieldValues(); i++)
 	{
 		scalarfield.setFieldValue(0.0, i);
 	}
@@ -1464,7 +1466,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
+	for (int i = 0; i < scalarfield.numFieldValues(); i++)
 	{
 		scalarfield.setFieldValue(0.0, i);
 	}
@@ -1524,7 +1526,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 {
 	data.clear();
 
-	for (int i = 0; i < scalarfield.getNumFieldValues(); i++)
+	for (int i = 0; i < scalarfield.numFieldValues(); i++)
 	{
 		scalarfield.setFieldValue(0.0, i);
 	}
