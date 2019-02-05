@@ -1,6 +1,7 @@
 var searchData=
 [
   ['zaverage',['zAverage',['../group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fa3733d36d2ce021f46543606c8ef27185',1,'zSpace']]],
+  ['zbackward',['zBackward',['../group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714a18e09c5abd9294ce92eea965a8d3d492',1,'zSpace']]],
   ['zcommercialbuilding',['zCommercialBuilding',['../group__z_core_enumerators.html#gga18a5c022e44dc0c7b0aef70881b07602a82fdc8d7474e75d6af668d4ff2518384',1,'zSpace']]],
   ['zcreate',['zCreate',['../group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afaaa095ac865394fe09ea06241fa61cf2e',1,'zSpace']]],
   ['zcyclestreet',['zCycleStreet',['../group__z_core_enumerators.html#ggaabb5d42d791984316f4991557592c450a2ed568a3422894b520907b485e36155a',1,'zSpace']]],
@@ -13,7 +14,12 @@ var searchData=
   ['zeuler',['zEuler',['../group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482a1d838c8189d609faef94dd1e8ae26af6',1,'zSpace']]],
   ['zexportcsv',['zExportCSV',['../group__z_core_enumerators.html#gga98d3345b0fa49fd821ad7674f7ec91afac5620949f6bf5735a7d31e552427ed35',1,'zSpace']]],
   ['zfacedata',['zFaceData',['../group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefae2e243f1c863c625af021f7a61a01437',1,'zSpace']]],
+  ['zfieldadjacentweighted',['zFieldAdjacentWeighted',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984',1,'zSpace']]],
+  ['zfieldindex',['zFieldIndex',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba99a487776dae3955945fe362abc6ce3f',1,'zSpace']]],
+  ['zfieldneighbourweighted',['zFieldNeighbourWeighted',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60',1,'zSpace']]],
   ['zfloat',['zFloat',['../group__z_core_enumerators.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba16c4222b125f5f6a2d02cc4f6af7916c',1,'zSpace']]],
+  ['zforward',['zForward',['../group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714a4b731ebee02330945ad30d6d1ebc8766',1,'zSpace']]],
+  ['zforwardbackward',['zForwardBackward',['../group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac',1,'zSpace']]],
   ['zgradientascent',['zGradientAscent',['../group__z_core_enumerators.html#gga76e15373806980eba7c2ee288e63ba2aab1767bfe4675e60744294000515aab8c',1,'zSpace']]],
   ['zgradientdescent',['zGradientDescent',['../group__z_core_enumerators.html#gga76e15373806980eba7c2ee288e63ba2aa2fc58dd1d641a926651c4e6a7157cdca',1,'zSpace']]],
   ['zhsv',['zHSV',['../group__z_core_enumerators.html#gga09594bf00b27116aa4c4a7628ab25b68a9fbfb064c94d290bd310464596f2e271',1,'zSpace']]],

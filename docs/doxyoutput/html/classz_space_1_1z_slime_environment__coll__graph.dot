@@ -1,0 +1,19 @@
+digraph "zSpace::zSlimeEnvironment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="zSpace::zSlimeEnvironment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A slime environment class."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fieldMesh" ,fontname="Helvetica"];
+  Node2 [label="zSpace::zMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html",tooltip="A half edge mesh class."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="zSpace::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html",tooltip="A half edge graph class."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vertices" ,fontname="Helvetica"];
+  Node4 [label="zSpace::zVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html",tooltip="A vertex class to hold vertex information of a half-edge data structure."];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" edges" ,fontname="Helvetica"];
+  Node5 [label="zSpace::zEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html",tooltip="An edge class to hold edge information of a half-edge data structure."];
+  Node6 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" faces" ,fontname="Helvetica"];
+  Node6 [label="zSpace::zFace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html",tooltip="A face class to hold polygonal information of a half-edge data structure."];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" field" ,fontname="Helvetica"];
+  Node7 [label="zSpace::zField2D\< double \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html",tooltip=" "];
+}

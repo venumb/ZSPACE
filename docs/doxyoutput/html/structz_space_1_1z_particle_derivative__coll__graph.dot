@@ -1,0 +1,9 @@
+digraph "zSpace::zParticleDerivative"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="zSpace::zParticleDerivative",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A strcut to store the postion and velocity derivatives of the particle."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" dV\ndP" ,fontname="Helvetica"];
+  Node2 [label="zSpace::zVector",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html",tooltip="A 3 dimensional vector math class."];
+}

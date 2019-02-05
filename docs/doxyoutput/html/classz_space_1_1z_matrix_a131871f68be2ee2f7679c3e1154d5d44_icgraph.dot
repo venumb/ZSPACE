@@ -1,10 +1,11 @@
 digraph "zSpace::zMatrix::det"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node15 [label="zSpace::zMatrix::det",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  rankdir="RL";
+  Node15 [label="zSpace::zMatrix::det",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the determinant of the input matrix if it is a square matrix."];
   Node15 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node16 [label="zSpace::zMatrix\< double\l \>::cofactorMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a356ae1d5f9ba149ef3726a71cdd78fcb",tooltip="This method returns the cofactor matrix of the input square matrix. "];
+  Node16 [label="zSpace::zMatrix\< double\l \>::cofactorMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a356ae1d5f9ba149ef3726a71cdd78fcb",tooltip="This method returns the cofactor matrix of the input square matrix."];
   Node15 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

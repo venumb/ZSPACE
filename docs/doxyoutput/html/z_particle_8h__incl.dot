@@ -1,0 +1,25 @@
+digraph "C:/Users/vishu.b/source/repos/venumb/zSpace_v001/headers/dynamics/zParticle.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="C:/Users/vishu.b/source\l/repos/venumb/zSpace_v001\l/headers/dynamics/zParticle.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="headers/core/zVector.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_vector_8h.html",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="stdexcept",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="vector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="headers/core/zDefinitions.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_definitions_8h.html",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="headers/core/zMatrix.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_matrix_8h.html",tooltip=" "];
+  Node5 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="headers/core/zColor.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_color_8h.html",tooltip=" "];
+  Node6 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="headers/core/zEnumerators.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$z_enumerators_8h.html",tooltip=" "];
+}

@@ -1,0 +1,15 @@
+digraph "C:/Users/vishu.b/source/repos/venumb/zSpace_v001/headers/geometry" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_23bc3ef9c0c65852104e023cfd46f1cf {
+    graph [ bgcolor="#ddddee", pencolor="black", label="headers" fontname="Helvetica", fontsize="10", URL="dir_23bc3ef9c0c65852104e023cfd46f1cf.html"]
+  dir_2c78b881e4b4a268aea6361c0bb052d5 [shape=box, label="geometry", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_2c78b881e4b4a268aea6361c0bb052d5.html"];
+  }
+  dir_5862f1c21abbfbe36d500a314b7c02de [shape=box label="display" URL="dir_5862f1c21abbfbe36d500a314b7c02de.html"];
+  dir_7f29b4d89fa10ef71cafc38f1542a1ae [shape=box label="core" URL="dir_7f29b4d89fa10ef71cafc38f1542a1ae.html"];
+  dir_5862f1c21abbfbe36d500a314b7c02de->dir_2c78b881e4b4a268aea6361c0bb052d5 [headlabel="8", labeldistance=1.5 headhref="dir_000011_000013.html"];
+  dir_5862f1c21abbfbe36d500a314b7c02de->dir_7f29b4d89fa10ef71cafc38f1542a1ae [headlabel="7", labeldistance=1.5 headhref="dir_000011_000009.html"];
+  dir_2c78b881e4b4a268aea6361c0bb052d5->dir_5862f1c21abbfbe36d500a314b7c02de [headlabel="1", labeldistance=1.5 headhref="dir_000013_000011.html"];
+  dir_2c78b881e4b4a268aea6361c0bb052d5->dir_7f29b4d89fa10ef71cafc38f1542a1ae [headlabel="8", labeldistance=1.5 headhref="dir_000013_000009.html"];
+}

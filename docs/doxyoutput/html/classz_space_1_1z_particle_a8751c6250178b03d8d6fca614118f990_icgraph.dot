@@ -1,0 +1,18 @@
+digraph "zSpace::zParticle::integrateForces"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node56 [label="zSpace::zParticle::\lintegrateForces",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method intergrates the force and compute the derivatives."];
+  Node56 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::createStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d",tooltip="This method creates a single stream line as a graph."];
+  Node57 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node56 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::zParticle::\lgetUpdatePosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_particle.html#afee150e23079d7dccec6c6c4d08eaaa2",tooltip="This method intergrates the force, compute the derivatives and returns a zVector of the updated posit..."];
+  Node59 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="zSpace::zSlime::containBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#aa65abafd6eba5a36c6cd9ce73749cf82",tooltip="This method contains the agent with in the bounds of the environment."];
+  Node60 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="zSpace::zSlime::slime\l_Motor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a991c448fdd540fcba5bd904a199d7509",tooltip="This method defines the motor stage of the simulation."];
+}

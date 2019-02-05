@@ -38,6 +38,16 @@ var group__z_core_enumerators =
       [ "zAverage", "group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fa3733d36d2ce021f46543606c8ef27185", null ],
       [ "zLaplacianAdjacent", "group__z_core_enumerators.html#gga888f1737963f7efc6cd87ca3bfff378fad58916e6918e13a911d94e752dd85b4c", null ]
     ] ],
+    [ "zFieldStreamType", "group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714", [
+      [ "zForward", "group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714a4b731ebee02330945ad30d6d1ebc8766", null ],
+      [ "zBackward", "group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714a18e09c5abd9294ce92eea965a8d3d492", null ],
+      [ "zForwardBackward", "group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac", null ]
+    ] ],
+    [ "zFieldValueType", "group__z_core_enumerators.html#gae358de25ebb3a70dd012613c7da9fbdb", [
+      [ "zFieldIndex", "group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba99a487776dae3955945fe362abc6ce3f", null ],
+      [ "zFieldNeighbourWeighted", "group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60", null ],
+      [ "zFieldAdjacentWeighted", "group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984", null ]
+    ] ],
     [ "zHEData", "group__z_core_enumerators.html#gacc8e3e94f8d366585b2bbbe7baafeeef", [
       [ "zVertexData", "group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea", null ],
       [ "zEdgeData", "group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefa44c50ce3cdac17dcfab4c4f875780fc7", null ],

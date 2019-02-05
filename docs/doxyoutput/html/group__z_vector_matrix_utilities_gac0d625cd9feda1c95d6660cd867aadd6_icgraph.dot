@@ -1,0 +1,10 @@
+digraph "zSpace::getBaryCenter"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node40 [label="zSpace::getBaryCenter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method gets the bary-center of the input positions based on the input weights."];
+  Node40 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="zSpace::tangentialRelaxation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gae42402c3129540241452c44109dcd068",tooltip="This method applies an iterative smoothing to the mesh by moving the vertex but constrained to its ta..."];
+}

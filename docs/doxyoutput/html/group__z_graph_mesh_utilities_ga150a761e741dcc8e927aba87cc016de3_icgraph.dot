@@ -1,11 +1,20 @@
 digraph "zSpace::getCenters"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="zSpace::getCenters",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  rankdir="RL";
+  Node1 [label="zSpace::getCenters",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the centers of a all edges or faces of a zGraph/zMesh."];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="zSpace::subDivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760",tooltip="This method subdivides all the faces and edges of the mesh. "];
+  Node2 [label="zSpace::createFormGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#gaf287517e616400c266239e2aa3562b3e",tooltip="This method creates the center line graph based on the input volume meshes."];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="zSpace::smoothMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775",tooltip="This method applies Catmull-Clark subdivision to the mesh. "];
+  Node3 [label="zSpace::createPolytopalMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#gaf251bb68cd900abe02f923fa4f54686c",tooltip="This method creates the polytopal mesh based on the input volume mesh and its center line graph."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="zSpace::getForceVolumeMesh\l_FaceCenters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#gaeb40d88643b6b1e4cb5212a5d42902be",tooltip="This method computes the face centers of the input force volume mesh container and stores it in a 2 D..."];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="zSpace::subdivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga8c3af5dd0f40d6f82fd23ceead47dc64",tooltip="This method subdivides all the faces and edges of the mesh."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="zSpace::smoothMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775",tooltip="This method applies Catmull-Clark subdivision to the mesh."];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="zSpace::remeshSmoothPolytopalMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1",tooltip="This method remeshes the smoothed polytopal mesh to have rulings in ony one direction."];
 }

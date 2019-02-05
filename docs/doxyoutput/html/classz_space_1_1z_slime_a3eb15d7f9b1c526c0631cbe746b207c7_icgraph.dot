@@ -1,0 +1,16 @@
+digraph "zSpace::zSlime::depositChemicalA"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node42 [label="zSpace::zSlime::depositChemicalA",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method deposits chemical A at the input environment Id."];
+  Node42 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="zSpace::zSlime::slime\l_Motor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a991c448fdd540fcba5bd904a199d7509",tooltip="This method defines the motor stage of the simulation."];
+  Node42 -> Node44 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="zSpace::zSlime::addFoodSource",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a1a42d99f70c53f3c5a79d033c3c6b4de",tooltip="This method adds a food source at the input index of the environment."];
+  Node44 -> Node45 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="zSpace::zSlime::makeBoundary\lRepellant",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a96ac8317368024e7df385284f0034f2d",tooltip="This method adds a repellant food source at boundary cells of the environment."];
+  Node42 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="zSpace::zSlime::depositAt\lFoodSource",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a6644afcab902d9a62f4c5f42a730ccaf",tooltip="This method deposits chemical A at the input food source."];
+}

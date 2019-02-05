@@ -17,6 +17,12 @@ var namespacez_space =
     [ "zMeshJSON", "classz_space_1_1z_mesh_j_s_o_n.html", "classz_space_1_1z_mesh_j_s_o_n" ],
     [ "zObject", "structz_space_1_1z_object.html", "structz_space_1_1z_object" ],
     [ "zOpenStreet", "classz_space_1_1z_open_street.html", "classz_space_1_1z_open_street" ],
+    [ "zParticle", "classz_space_1_1z_particle.html", "classz_space_1_1z_particle" ],
+    [ "zParticleDerivative", "structz_space_1_1z_particle_derivative.html", "structz_space_1_1z_particle_derivative" ],
+    [ "zParticleState", "structz_space_1_1z_particle_state.html", "structz_space_1_1z_particle_state" ],
+    [ "zSlime", "classz_space_1_1z_slime.html", "classz_space_1_1z_slime" ],
+    [ "zSlimeAgent", "classz_space_1_1z_slime_agent.html", "classz_space_1_1z_slime_agent" ],
+    [ "zSlimeEnvironment", "classz_space_1_1z_slime_environment.html", "classz_space_1_1z_slime_environment" ],
     [ "zVector", "classz_space_1_1z_vector.html", "classz_space_1_1z_vector" ],
     [ "zVertex", "classz_space_1_1z_vertex.html", "classz_space_1_1z_vertex" ],
     [ "zWays", "structz_space_1_1z_ways.html", "structz_space_1_1z_ways" ]

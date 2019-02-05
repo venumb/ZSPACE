@@ -1,11 +1,10 @@
 digraph "zSpace::minDist_Edge_Point"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node53 [label="zSpace::minDist_Edge\l_Point",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node53 -> Node54 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node54 [label="zSpace::assignScalarsAsVertex\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921",tooltip="This method creates a vertex distance Field from the input mesh vertex positions. ..."];
-  Node53 -> Node55 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node55 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh. "];
+  rankdir="RL";
+  Node73 [label="zSpace::minDist_Edge\l_Point",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the minimum distance between a point and edge and the closest Point on the edge."];
+  Node73 -> Node74 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh."];
 }

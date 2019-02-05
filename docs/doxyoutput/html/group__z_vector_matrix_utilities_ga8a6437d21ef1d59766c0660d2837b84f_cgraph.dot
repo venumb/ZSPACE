@@ -1,11 +1,12 @@
 digraph "zSpace::fromMatrixRow"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node25 [label="zSpace::fromMatrixRow",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node25 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node26 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix. "];
-  Node25 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node27 [label="zSpace::zMatrix::getRow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a65c848d1249b713e9c1e5e4dbb096d15",tooltip="This method gets the row values at the input row index. "];
+  Node35 [label="zSpace::fromMatrixRow",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method a zVector from the input matrix row."];
+  Node35 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix."];
+  Node35 -> Node37 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="zSpace::zMatrix::getRow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a65c848d1249b713e9c1e5e4dbb096d15",tooltip="This method gets the row values at the input row index."];
 }

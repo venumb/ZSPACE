@@ -1,0 +1,9 @@
+digraph "ZDynamicsClasses"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node1 [label="ZDynamics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_dynamics.html",tooltip="The physics and dynamics classes and utility methods of the library."];
+  Node0 [label="ZDynamicsClasses",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="The physics and dynamics classes of the library."];
+  Node1->Node0 [shape=plaintext, dir="back", style="solid"];
+}

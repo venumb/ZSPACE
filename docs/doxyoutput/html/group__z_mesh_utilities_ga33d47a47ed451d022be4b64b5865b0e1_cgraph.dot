@@ -1,21 +1,22 @@
 digraph "zSpace::offsetMeshFace"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node78 [label="zSpace::offsetMeshFace",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node78 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node79 [label="zSpace::zMesh::getVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b",tooltip="This method gets the vertices attached to input zEdge or zFace. "];
-  Node79 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node80 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa705d823873a948a1b62723f24a921b2",tooltip="This method gets the edges of a zFace. "];
-  Node80 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node81 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace. "];
-  Node80 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node82 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge. "];
-  Node80 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node83 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge. "];
-  Node78 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node84 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length. "];
-  Node78 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node85 [label="zSpace::zVector::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400",tooltip="This method returns the magnitude/length of the zVector. "];
+  Node118 [label="zSpace::offsetMeshFace",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the offset positions of a polygon of the input mesh."];
+  Node118 -> Node119 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node119 [label="zSpace::zMesh::getVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b",tooltip="This method gets the vertices attached to input zEdge or zFace."];
+  Node119 -> Node120 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node120 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa705d823873a948a1b62723f24a921b2",tooltip="This method gets the edges of a zFace."];
+  Node120 -> Node121 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node121 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace."];
+  Node120 -> Node122 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node122 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge."];
+  Node120 -> Node123 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node123 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge."];
+  Node118 -> Node124 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node124 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length."];
+  Node118 -> Node125 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node125 [label="zSpace::zVector::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400",tooltip="This method returns the magnitude/length of the zVector."];
 }

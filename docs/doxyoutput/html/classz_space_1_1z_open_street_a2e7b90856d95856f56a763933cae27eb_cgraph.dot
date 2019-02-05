@@ -1,9 +1,10 @@
 digraph "zSpace::zOpenStreet::zOpenStreet"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node2 [label="zSpace::zOpenStreet\l::zOpenStreet",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 [label="zSpace::zOpenStreet\l::zOpenStreet",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Overloaded constructor."];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="zSpace::zDatabase::\lclose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_database.html#a9635bd71ecb4d2dd1e8c941f94fcf1c4",tooltip="This method closes the current database. "];
+  Node3 [label="zSpace::zDatabase::\lclose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_database.html#a9635bd71ecb4d2dd1e8c941f94fcf1c4",tooltip="This method closes the current database."];
 }

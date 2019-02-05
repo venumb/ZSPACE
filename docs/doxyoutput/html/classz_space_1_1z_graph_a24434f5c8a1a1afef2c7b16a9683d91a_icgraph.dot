@@ -1,17 +1,22 @@
 digraph "zSpace::zGraph::vertexExists"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node282 [label="zSpace::zGraph::vertexExists",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node282 -> Node283 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node283 [label="zSpace::splitEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24",tooltip="This method splits an edge and inserts a vertex along the edge at the input factor. "];
-  Node283 -> Node284 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node284 [label="zSpace::splitFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80",tooltip="This method splits a set of edges and faces of a mesh in a continuous manner. "];
-  Node283 -> Node285 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node285 [label="zSpace::subDivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760",tooltip="This method subdivides all the faces and edges of the mesh. "];
-  Node283 -> Node286 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node286 [label="zSpace::smoothMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775",tooltip="This method applies Catmull-Clark subdivision to the mesh. "];
-  Node282 -> Node285 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node282 -> Node286 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  rankdir="RL";
+  Node432 [label="zSpace::zGraph::vertexExists",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method detemines if a vertex already exists at the input position."];
+  Node432 -> Node433 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node433 [label="zSpace::splitEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6",tooltip="This method splits an edge and inserts a vertex along the edge at the input factor."];
+  Node433 -> Node434 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node434 [label="zSpace::splitFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80",tooltip="This method splits a set of edges and faces of a mesh in a continuous manner."];
+  Node433 -> Node435 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node435 [label="zSpace::subdivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga8c3af5dd0f40d6f82fd23ceead47dc64",tooltip="This method subdivides all the faces and edges of the mesh."];
+  Node433 -> Node436 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node436 [label="zSpace::smoothMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775",tooltip="This method applies Catmull-Clark subdivision to the mesh."];
+  Node436 -> Node437 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node437 [label="zSpace::remeshSmoothPolytopalMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1",tooltip="This method remeshes the smoothed polytopal mesh to have rulings in ony one direction."];
+  Node433 -> Node438 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node438 [label="zSpace::splitLongEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca",tooltip="This method splits an edge longer than the given input value at its midpoint and triangulates the mes..."];
+  Node432 -> Node435 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node432 -> Node436 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

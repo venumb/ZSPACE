@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['s',['s',['../classz_space_1_1z_color.html#acea773d7d78ebcfe8234d631b042a974',1,'zSpace::zColor']]],
-  ['scalarfield',['scalarfield',['../classz_space_1_1z_open_street.html#aa8c6be85f18593193e526dfc58fb91f3',1,'zSpace::zOpenStreet']]],
-  ['streetedges_5fway',['streetEdges_Way',['../classz_space_1_1z_open_street.html#a1738ccc2187ba74ba19ab95133ed7ed8',1,'zSpace::zOpenStreet']]],
-  ['streetgraph',['streetGraph',['../classz_space_1_1z_open_street.html#abab1273280f3e5f4be3e60845196efe4',1,'zSpace::zOpenStreet']]],
-  ['streetgraph_5fedgeid',['streetGraph_edgeId',['../structz_space_1_1z_ways.html#a45f24389bb0f3a53c9cb9cbe5115f9cc',1,'zSpace::zWays']]],
-  ['streettype',['streetType',['../structz_space_1_1z_ways.html#a5e620271952a345fbc57e0670d6e5e71',1,'zSpace::zWays']]]
+  ['r',['r',['../classz_space_1_1z_color.html#a0e75fe6d990792c7afb824be89c5826b',1,'zSpace::zColor']]],
+  ['ra',['RA',['../classz_space_1_1z_slime_agent.html#a1ec1c8590b227b0f77e88d62a44e44a8',1,'zSpace::zSlimeAgent']]],
+  ['repellants',['repellants',['../classz_space_1_1z_slime.html#a73cba5428e5253ef965c278c7f047c5c',1,'zSpace::zSlime']]],
+  ['resx',['resX',['../classz_space_1_1z_slime_environment.html#acaf92977a012e540155bf03cd0aa66ad',1,'zSpace::zSlimeEnvironment']]],
+  ['resy',['resY',['../classz_space_1_1z_slime_environment.html#a2cb2e783068cb6773d88666dab3b584a',1,'zSpace::zSlimeEnvironment']]],
+  ['ringneighbours',['ringNeighbours',['../classz_space_1_1z_field2_d.html#aba18c9daeaae15d0a8e805d326bfee43',1,'zSpace::zField2D']]],
+  ['rows',['rows',['../classz_space_1_1z_matrix.html#aef984b58d15fbaf5881d0e36fc08a1df',1,'zSpace::zMatrix']]]
 ];

@@ -6,8 +6,10 @@ var searchData=
   ['edgeindexstride',['edgeIndexStride',['../group__z_core_definitions.html#ga31ae319b33c7b400f2e7c338668df1c8',1,'zDefinitions.h']]],
   ['edges',['edges',['../classz_space_1_1z_graph.html#acd835a1073581d7fee5991c1c27bb599',1,'zSpace::zGraph']]],
   ['edgeweights',['edgeWeights',['../classz_space_1_1z_graph.html#a0b3655fb95f6249e599ffcfe3320bbdb',1,'zSpace::zGraph']]],
+  ['environment',['environment',['../classz_space_1_1z_slime.html#ab16d6daa3ee7806fff46d577ec414913',1,'zSpace::zSlime']]],
   ['equalizevalences',['equalizeValences',['../group__z_mesh_modifiers.html#ga50d27f458f57c4f90fa9242b05ded2d2',1,'zSpace']]],
   ['existsinmap',['existsInMap',['../group__z_core_utilities.html#gaa8375b752d259554eef39b2c7985fa14',1,'zSpace']]],
+  ['explodepolytopalmeshes',['explodePolytopalMeshes',['../group__z_polytopal.html#ga95e1d78109e8bfb9d144dc156dbb409a',1,'zSpace']]],
   ['exportosmrelationstocsv',['exportOSMRelationsToCSV',['../classz_space_1_1z_open_street.html#a781c071dbd990a4c2e54d2cb062a6907',1,'zSpace::zOpenStreet']]],
   ['extrudemesh',['extrudeMesh',['../group__z_mesh_utilities.html#ga6f2ce938aa8bb72d5b4649115d76d9c8',1,'zSpace']]]
 ];

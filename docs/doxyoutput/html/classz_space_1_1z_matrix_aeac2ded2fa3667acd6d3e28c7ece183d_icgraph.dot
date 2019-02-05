@@ -1,17 +1,18 @@
 digraph "zSpace::zMatrix::getCol"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node18 [label="zSpace::zMatrix::getCol",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  rankdir="RL";
+  Node18 [label="zSpace::zMatrix::getCol",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method gets the column values at the input column index."];
   Node18 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node19 [label="zSpace::zMatrix\< double\l \>::operator*",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#add605d3bcc6aab142a799671171821e8",tooltip="This operator is used for matrix multiplication. "];
+  Node19 [label="zSpace::zMatrix\< double\l \>::operator *",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a503d6fabe4d98eae11cd388f576071da",tooltip="This operator is used for matrix multiplication."];
   Node18 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node20 [label="zSpace::fromMatrixColumn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga57229ba8064031163267f155e9236d7e",tooltip="This method returns extracts a zVector from the input matrix column. "];
+  Node20 [label="zSpace::fromMatrixColumn",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga57229ba8064031163267f155e9236d7e",tooltip="This method returns extracts a zVector from the input matrix column."];
   Node20 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node21 [label="zSpace::clipwithPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6",tooltip="This method uses an input plane to clip an existing scalar field. "];
+  Node21 [label="zSpace::clipwithPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6",tooltip="This method uses an input plane to clip an existing scalar field."];
   Node20 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node22 [label="zSpace::zGraph::cyclic\l_sortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a",tooltip="This method sorts edges cyclically around a given vertex using a bestfit plane. "];
+  Node22 [label="zSpace::zGraph::cyclic\l_sortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a",tooltip="This method sorts edges cyclically around a given vertex using a bestfit plane."];
   Node22 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node23 [label="zSpace::zGraph::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",tooltip="Overloaded constructor. "];
+  Node23 [label="zSpace::zGraph::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",tooltip="Overloaded constructor."];
 }

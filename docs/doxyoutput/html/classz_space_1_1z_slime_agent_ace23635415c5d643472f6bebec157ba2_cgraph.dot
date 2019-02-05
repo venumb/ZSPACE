@@ -1,0 +1,17 @@
+digraph "zSpace::zSlimeAgent::getFR"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node17 [label="zSpace::zSlimeAgent\l::getFR",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the forward right direction for the agent."];
+  Node17 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="zSpace::zParticle::\lgetVelocity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_particle.html#a9ee147fedf5b3cf658fd8bf53d913a3c",tooltip="This method retruns the velocity of the particle."];
+  Node17 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length."];
+  Node17 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="zSpace::zVector::rotateAboutAxis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a7c7172b9c4f20a7ff7f24cbe092b63a6",tooltip="This method returns the rotated vector of the current vector about an input axis by the the input ang..."];
+  Node20 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="zSpace::zParticle::\lgetPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_particle.html#acea931c316bc1628e7029a22378fc948",tooltip="This method retruns the position of the particle."];
+}

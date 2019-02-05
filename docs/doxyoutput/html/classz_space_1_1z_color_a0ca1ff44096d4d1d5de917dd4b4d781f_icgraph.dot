@@ -1,13 +1,16 @@
 digraph "zSpace::zColor::toRGB"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node16 [label="zSpace::zColor::toRGB",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node17 [label="zSpace::averageColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474",tooltip="This method returns the average color of the two input colors. "];
-  Node16 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="zSpace::blendColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga8cb9d5c8a798d6bf28cd0350a7115c61",tooltip="This method returns the blend color based on the input value, domain and the color domains..."];
-  Node16 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node19 [label="zSpace::updateBlendColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a",tooltip="This method updates the color values of the field mesh based on the scalar values. "];
+  rankdir="RL";
+  Node17 [label="zSpace::zColor::toRGB",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This methods calculates the RGB_A components based on the HSV components of color."];
+  Node17 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="zSpace::averageColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gabb018fff433019cb4f943ad5c685a474",tooltip="This method returns the average color of the two input colors."];
+  Node17 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="zSpace::blendColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gaefde9e6872d8878bc05cd71c54f3ccfa",tooltip="This method returns the blend color based on the input value, domain and the color domains."];
+  Node19 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="zSpace::computeFormGraph\l_EdgeWeights",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga99afc82e0233ac5ab8729972e84b4d31",tooltip="This method computes the form graph edge weights based on the force volume mesh face areas."];
+  Node17 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="zSpace::updateBlendColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a",tooltip="This method updates the color values of the field mesh based on the scalar values."];
 }

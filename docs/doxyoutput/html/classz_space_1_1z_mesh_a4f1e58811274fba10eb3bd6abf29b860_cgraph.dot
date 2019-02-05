@@ -1,11 +1,12 @@
 digraph "zSpace::zMesh::addVertex"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node65 [label="zSpace::zMesh::addVertex",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node65 -> Node66 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node66 [label="zSpace::zGraph::addToPositionMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a68823d66afc73b8d1393bafc64e40226",tooltip="This method adds the position given by input vector to the positionVertex Map. "];
-  Node65 -> Node67 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node67 [label="zSpace::zVertex::setVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#acdc6ae4132453c803268949dcc104df1",tooltip="This method sets the vertexId of current zVertex to the the input value. "];
+  Node77 [label="zSpace::zMesh::addVertex",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method adds a vertex to the vertices array."];
+  Node77 -> Node78 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="zSpace::zGraph::addToPositionMap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a68823d66afc73b8d1393bafc64e40226",tooltip="This method adds the position given by input vector to the positionVertex Map."];
+  Node77 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="zSpace::zVertex::setVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#acdc6ae4132453c803268949dcc104df1",tooltip="This method sets the vertexId of current zVertex to the the input value."];
 }

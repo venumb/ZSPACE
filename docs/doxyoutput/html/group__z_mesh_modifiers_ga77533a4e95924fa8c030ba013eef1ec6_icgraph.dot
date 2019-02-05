@@ -1,0 +1,10 @@
+digraph "zSpace::collapseEdge"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node47 [label="zSpace::collapseEdge",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method collapses an edge into a vertex."];
+  Node47 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::collapseShortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga14350e97740cec4f835125fb286fc071",tooltip="This method collapses an edge shorter than the given minimum edge length value if the collapsing does..."];
+}

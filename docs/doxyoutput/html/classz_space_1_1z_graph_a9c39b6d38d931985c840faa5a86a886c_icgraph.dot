@@ -1,13 +1,27 @@
 digraph "zSpace::zGraph::edgeExists"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node142 [label="zSpace::zGraph::edgeExists",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node142 -> Node143 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node143 [label="zSpace::zMesh::addPolygon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#ada4fb88bb2402a06f75d730e23597407",tooltip="This method adds a face to the faces array and updates the pointers of vertices, edges and polygons o..."];
-  Node142 -> Node144 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node144 [label="zSpace::triangulate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de",tooltip="This method triangulates the input mesh. "];
-  Node142 -> Node145 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node145 [label="zSpace::splitFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80",tooltip="This method splits a set of edges and faces of a mesh in a continuous manner. "];
+  rankdir="RL";
+  Node168 [label="zSpace::zGraph::edgeExists",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method detemines if an edge already exists between input vertices."];
+  Node168 -> Node169 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node169 [label="zSpace::zMesh::addPolygon",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#ada4fb88bb2402a06f75d730e23597407",tooltip="This method adds a face to the faces array and updates the pointers of vertices, edges and polygons o..."];
+  Node168 -> Node170 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node170 [label="zSpace::faceTriangulate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga436ab6f006de6e8dcd08c030fed4feb1",tooltip="This method triangulates the input face of the mesh."];
+  Node170 -> Node171 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node171 [label="zSpace::triangulate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de",tooltip="This method triangulates the input mesh."];
+  Node170 -> Node172 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node172 [label="zSpace::splitEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6",tooltip="This method splits an edge and inserts a vertex along the edge at the input factor."];
+  Node172 -> Node173 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node173 [label="zSpace::splitFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80",tooltip="This method splits a set of edges and faces of a mesh in a continuous manner."];
+  Node172 -> Node174 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node174 [label="zSpace::subdivideMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga8c3af5dd0f40d6f82fd23ceead47dc64",tooltip="This method subdivides all the faces and edges of the mesh."];
+  Node172 -> Node175 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node175 [label="zSpace::smoothMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775",tooltip="This method applies Catmull-Clark subdivision to the mesh."];
+  Node175 -> Node176 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node176 [label="zSpace::remeshSmoothPolytopalMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1",tooltip="This method remeshes the smoothed polytopal mesh to have rulings in ony one direction."];
+  Node172 -> Node177 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node177 [label="zSpace::splitLongEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca",tooltip="This method splits an edge longer than the given input value at its midpoint and triangulates the mes..."];
+  Node168 -> Node173 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

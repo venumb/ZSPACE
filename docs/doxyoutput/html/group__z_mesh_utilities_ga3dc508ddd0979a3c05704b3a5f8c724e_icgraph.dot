@@ -1,11 +1,12 @@
 digraph "zSpace::setFaceColor"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node119 [label="zSpace::setFaceColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node119 -> Node120 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node120 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9",tooltip="This method sets vertex color of all the vertices to the input color. "];
-  Node119 -> Node121 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node121 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7",tooltip="This method sets vertex color of all the vertices with the input color contatiner. "];
+  rankdir="RL";
+  Node159 [label="zSpace::setFaceColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method sets face color of all the faces to the input color."];
+  Node159 -> Node160 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node160 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9",tooltip="This method sets vertex color of all the vertices to the input color."];
+  Node159 -> Node161 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node161 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7",tooltip="This method sets vertex color of all the vertices with the input color contatiner."];
 }

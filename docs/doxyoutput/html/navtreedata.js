@@ -23,12 +23,12 @@ for the JavaScript code in this file
 */
 var NAVTREE =
 [
-  [ "zSpace", "index.html", [
+  [ "ZSPACE", "index.html", [
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
+        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
         [ "Functions", "namespacemembers_func.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ],
@@ -59,9 +59,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classz_space_1_1z_open_street.html#a6258d9864f730d099285f54da6396614",
-"group__z_display_utilities.html#ga97fe00f10c314c725e8b314a87c12803",
-"z_enumerators_8h_source.html"
+"classz_space_1_1z_open_street.html#a0aa0b300e431dc6bb71fdc4c4a0c7284",
+"group__z_core_definitions.html#ga2493a662ae05fa164c75281d16b221fb",
+"group__z_polytopal.html#ga99afc82e0233ac5ab8729972e84b4d31",
+"z_field_utilities_8h.html#ga6fdfc4e3f7643ae9be3665d5742bfbc4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

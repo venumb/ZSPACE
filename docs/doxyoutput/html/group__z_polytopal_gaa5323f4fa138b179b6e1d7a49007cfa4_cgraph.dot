@@ -1,0 +1,34 @@
+digraph "zSpace::computeRulingIntersection"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node44 [label="zSpace::computeRulingIntersection",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the ruling intersetions."];
+  Node44 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="zSpace::zGraph::getConnected\lEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#ab623e9a3bfc70e1f140b911cb0645bd2",tooltip="This method gets the edges connected to input zVertex or zEdge."];
+  Node45 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="zSpace::zVertex::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a7d187864963f642666b8c3bcfecee6e9",tooltip="This method returns the associated edge of current zVertex."];
+  Node45 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge."];
+  Node45 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::zEdge::getPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30",tooltip="This method returns the previous edge of current zEdge."];
+  Node45 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge."];
+  Node44 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::zMesh::onBoundary",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6",tooltip="This method determines if input zVertex or zEdge or zFace is on the boundary."];
+  Node50 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::zMesh::getEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#aa705d823873a948a1b62723f24a921b2",tooltip="This method gets the edges of a zFace."];
+  Node51 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="zSpace::zFace::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_face.html#a69a14a515b179226aad1cbc3d7663163",tooltip="This method returns the associated edge of current zFace."];
+  Node51 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge."];
+  Node44 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="zSpace::line_lineClosest\lPoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga9d845a521da011abf5e4baacf0505c0e",tooltip="This method returns the closest points of two lines."];
+  Node44 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::zVector::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400",tooltip="This method returns the magnitude/length of the zVector."];
+  Node44 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length."];
+}

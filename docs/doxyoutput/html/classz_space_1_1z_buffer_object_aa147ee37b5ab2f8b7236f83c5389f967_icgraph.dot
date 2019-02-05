@@ -1,11 +1,12 @@
 digraph "zSpace::zBufferObject::appendVertexColors"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node49 [label="zSpace::zBufferObject\l::appendVertexColors",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node49 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node50 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer. "];
-  Node49 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node51 [label="zSpace::zBufferObject\l::appendGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#a435dffa7c25389e962ea22c0278707ec",tooltip="This method appends zGraph to the buffer. "];
+  rankdir="RL";
+  Node54 [label="zSpace::zBufferObject\l::appendVertexColors",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method appends the vertex color attribute to the buffer."];
+  Node54 -> Node55 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer."];
+  Node54 -> Node56 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="zSpace::zBufferObject\l::appendGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#a435dffa7c25389e962ea22c0278707ec",tooltip="This method appends zGraph to the buffer."];
 }

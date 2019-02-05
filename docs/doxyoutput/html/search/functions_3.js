@@ -1,9 +1,14 @@
 var searchData=
 [
-  ['deleteedge',['deleteEdge',['../group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897',1,'zSpace']]],
-  ['deletevertex',['deleteVertex',['../group__z_mesh_modifiers.html#gad7f05263e242d0a98e3dbd09199246b1',1,'zSpace']]],
+  ['deactivateelement',['deactivateElement',['../classz_space_1_1z_mesh.html#aea35829fdb54f511f93cef10c85da66c',1,'zSpace::zMesh']]],
+  ['deleteedge',['deleteEdge',['../group__z_mesh_modifiers.html#gaaaa85d23d165383d53e5498f4a60061f',1,'zSpace']]],
+  ['deleteface',['deleteFace',['../group__z_mesh_modifiers.html#ga24ab0fcd418ba91e387838fdc4711787',1,'zSpace']]],
+  ['deletevertex',['deleteVertex',['../group__z_mesh_modifiers.html#ga20644ac4933b8ae055b0eb47a9df8420',1,'zSpace']]],
+  ['depositatfoodsource',['depositAtFoodSource',['../classz_space_1_1z_slime.html#a6644afcab902d9a62f4c5f42a730ccaf',1,'zSpace::zSlime']]],
+  ['depositchemicala',['depositChemicalA',['../classz_space_1_1z_slime.html#a3eb15d7f9b1c526c0631cbe746b207c7',1,'zSpace::zSlime']]],
   ['det',['det',['../classz_space_1_1z_matrix.html#a131871f68be2ee2f7679c3e1154d5d44',1,'zSpace::zMatrix']]],
   ['difference_5ffields',['difference_fields',['../group__z_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278',1,'zSpace']]],
+  ['diffuseenvironment',['diffuseEnvironment',['../classz_space_1_1z_slime_environment.html#af3058fa470d4e131b51519698b888d9f',1,'zSpace::zSlimeEnvironment']]],
   ['dihedralangle',['dihedralAngle',['../classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c',1,'zSpace::zVector']]],
   ['distanceto',['distanceTo',['../classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca',1,'zSpace::zVector']]],
   ['drawcircle',['drawCircle',['../group__z_display_utilities.html#gaff155f616638d3e5e8de07c441d2ade5',1,'zSpace']]],

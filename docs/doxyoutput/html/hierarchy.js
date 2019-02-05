@@ -20,6 +20,12 @@ var hierarchy =
     [ "zSpace::zMeshJSON", "classz_space_1_1z_mesh_j_s_o_n.html", null ],
     [ "zSpace::zObject< T >", "structz_space_1_1z_object.html", null ],
     [ "zSpace::zOpenStreet", "classz_space_1_1z_open_street.html", null ],
+    [ "zSpace::zParticle", "classz_space_1_1z_particle.html", null ],
+    [ "zSpace::zParticleDerivative", "structz_space_1_1z_particle_derivative.html", null ],
+    [ "zSpace::zParticleState", "structz_space_1_1z_particle_state.html", null ],
+    [ "zSpace::zSlime", "classz_space_1_1z_slime.html", null ],
+    [ "zSpace::zSlimeAgent", "classz_space_1_1z_slime_agent.html", null ],
+    [ "zSpace::zSlimeEnvironment", "classz_space_1_1z_slime_environment.html", null ],
     [ "zSpace::zVector", "classz_space_1_1z_vector.html", null ],
     [ "zSpace::zVertex", "classz_space_1_1z_vertex.html", null ],
     [ "zSpace::zWays", "structz_space_1_1z_ways.html", null ]

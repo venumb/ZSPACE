@@ -1,0 +1,31 @@
+digraph "zSpace::zGraph::getVertexValence"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node269 [label="zSpace::zGraph::getVertex\lValence",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method calculate the valency of the input zVertex."];
+  Node269 -> Node270 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node270 [label="zSpace::zOpenStreet\l::updateScalars_GraphConnectivity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a832d06aa1ecf8fed5e82b6447a0cf278",tooltip="This method updates the scalars in the scalar field based on input graph connectivity."];
+  Node269 -> Node271 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node271 [label="zSpace::zGraph::checkVertex\lValency",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a9e23625758374dac9bf02ac15961dfa2",tooltip="This method determines if input zVertex valency is equal to the input valence number."];
+  Node271 -> Node272 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node272 [label="zSpace::updateFormGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga4e6850be5b5333e95b01d524d2a51d79",tooltip="This method updates the form diagram."];
+  Node271 -> Node273 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node273 [label="zSpace::getSeedPoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga0e134353ee94a16509a6a41f8aef3d69",tooltip="This method computes the seed points."];
+  Node273 -> Node274 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node274 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node271 -> Node275 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node275 [label="zSpace::zGraph::averageVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f",tooltip="This method averages the positions of vertex except for the ones on the boundary."];
+  Node271 -> Node276 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node276 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga20644ac4933b8ae055b0eb47a9df8420",tooltip="This method deletes the mesh vertex given by the input vertex index."];
+  Node271 -> Node277 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node277 [label="zSpace::fromGRAPH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___dynamics.html#ga96ee1fee284e64fb449cef68c4216aba",tooltip="This method creates a container of particles with the positions initiaised at the graph vertex positi..."];
+  Node277 -> Node272 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node269 -> Node278 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node278 [label="zSpace::collapseEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga77533a4e95924fa8c030ba013eef1ec6",tooltip="This method collapses an edge into a vertex."];
+  Node278 -> Node279 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node279 [label="zSpace::collapseShortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga14350e97740cec4f835125fb286fc071",tooltip="This method collapses an edge shorter than the given minimum edge length value if the collapsing does..."];
+  Node269 -> Node280 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node280 [label="zSpace::equalizeValences",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga50d27f458f57c4f90fa9242b05ded2d2",tooltip="This method equalizes the vertex valences by flipping edges of the input triangulated mesh...."];
+}

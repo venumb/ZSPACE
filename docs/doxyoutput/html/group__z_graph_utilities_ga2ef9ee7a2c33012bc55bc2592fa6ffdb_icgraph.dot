@@ -1,26 +1,27 @@
 digraph "zSpace::setEdgeColor"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node11 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  rankdir="RL";
+  Node11 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method sets edge color of all the edges to the input color."];
   Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node12 [label="zSpace::zOpenStreet\l::createStreetGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a904bd1ba411b9cc0b439f06c409386b9",tooltip="This method creates the street graph from the OSM data. "];
+  Node12 [label="zSpace::zOpenStreet\l::createStreetGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a904bd1ba411b9cc0b439f06c409386b9",tooltip="This method creates the street graph from the OSM data."];
   Node11 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node13 [label="zSpace::zOpenStreet\l::createBuildingGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a1c815f333ca41c75227a60c76db85884",tooltip="This method creates the building graph from the OSM data. "];
+  Node13 [label="zSpace::zOpenStreet\l::createBuildingGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a1c815f333ca41c75227a60c76db85884",tooltip="This method creates the building graph from the OSM data."];
   Node11 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node14 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga7cd47e65d56a0587e3ca4babd1c233e3",tooltip="This method sets vertex color of all the vertices to the input color. "];
+  Node14 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga7cd47e65d56a0587e3ca4babd1c233e3",tooltip="This method sets vertex color of all the vertices to the input color."];
   Node14 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node15 [label="zSpace::setEdgeColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga3aa9b12c327be41d5cd6400e8a64aa4d",tooltip="This method sets edge color of all the vertices with the input color contatiner. "];
+  Node15 [label="zSpace::setEdgeColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga3aa9b12c327be41d5cd6400e8a64aa4d",tooltip="This method sets edge color of all the vertices with the input color contatiner."];
   Node14 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node16 [label="zSpace::setFaceColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga3dc508ddd0979a3c05704b3a5f8c724e",tooltip="This method sets face color of all the faces to the input color. "];
+  Node16 [label="zSpace::setFaceColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga3dc508ddd0979a3c05704b3a5f8c724e",tooltip="This method sets face color of all the faces to the input color."];
   Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node17 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9",tooltip="This method sets vertex color of all the vertices to the input color. "];
+  Node17 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9",tooltip="This method sets vertex color of all the vertices to the input color."];
   Node16 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7",tooltip="This method sets vertex color of all the vertices with the input color contatiner. "];
+  Node18 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7",tooltip="This method sets vertex color of all the vertices with the input color contatiner."];
   Node14 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node19 [label="zSpace::setFaceColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga46a15e7c994f4fb6a25f8e7cd111e536",tooltip="This method sets face color of all the faces to the input color contatiner. "];
+  Node19 [label="zSpace::setFaceColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga46a15e7c994f4fb6a25f8e7cd111e536",tooltip="This method sets face color of all the faces to the input color contatiner."];
   Node11 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node20 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#gaa088392382ec3b36cc77066a4392349c",tooltip="This method sets vertex color of all the vertices with the input color contatiner. "];
+  Node20 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#gaa088392382ec3b36cc77066a4392349c",tooltip="This method sets vertex color of all the vertices with the input color contatiner."];
 }

@@ -1,11 +1,12 @@
 digraph "zSpace::averageColor"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="zSpace::averageColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 [label="zSpace::averageColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the average color of the two input colors."];
   Node0 -> Node1 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="zSpace::zColor::toHSV",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05",tooltip="This methods calculates the HSV components based on the RGB_A components of color. "];
+  Node1 [label="zSpace::zColor::toHSV",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05",tooltip="This methods calculates the HSV components based on the RGB_A components of color."];
   Node0 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="zSpace::zColor::toRGB",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f",tooltip="This methods calculates the RGB_A components based on the HSV components of color. "];
+  Node2 [label="zSpace::zColor::toRGB",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f",tooltip="This methods calculates the RGB_A components based on the HSV components of color."];
 }

@@ -5,11 +5,14 @@ var group__z_field2_d_utilities =
     [ "assignScalarsAsVertexDistance", "group__z_field2_d_utilities.html#ga4b304f57284b5f4a4907fcf3c8455570", null ],
     [ "assignScalarsAsVertexDistance", "group__z_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921", null ],
     [ "assignScalarsAsVertexDistance", "group__z_field2_d_utilities.html#ga6bd2bfb390e165891bde9b17d973fdd2", null ],
+    [ "assignScalarsAsVertexDistance_IDW", "group__z_field2_d_utilities.html#gac6ab9a8d6ef76617f7abcb73d33163fa", null ],
+    [ "assignScalarsAsVertexDistance_IDW", "group__z_field2_d_utilities.html#ga250b162aee9a766cf48e30a51308094c", null ],
+    [ "assignScalarsAsVertexDistance_IDW", "group__z_field2_d_utilities.html#ga3277f417adc567bc7cc9ea164c68636b", null ],
     [ "clipwithPlane", "group__z_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6", null ],
     [ "computePositionIndicesInFieldIndex", "group__z_field2_d_utilities.html#gac86a8f27ccd43c0ac3356e44cf17f904", null ],
     [ "computePositionsInFieldIndex", "group__z_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b", null ],
+    [ "createVectorFieldFromScalarField", "group__z_field2_d_utilities.html#ga281d304e16a55db52401d893673eb278", null ],
     [ "difference_fields", "group__z_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278", null ],
-    [ "fromField2D", "group__z_field2_d_utilities.html#ga963ebae1f0956162a52d4d78639a5802", null ],
     [ "getContourPosition", "group__z_field2_d_utilities.html#ga7b6e4a8f51dba83412e13209ab1f4193", null ],
     [ "getIsobandCase", "group__z_field2_d_utilities.html#gacd1779664b5c08f9695b51a6fe1eb086", null ],
     [ "getIsobandMesh", "group__z_field2_d_utilities.html#ga45610f4909d8d9800db09f245dc8ba8a", null ],
@@ -25,5 +28,6 @@ var group__z_field2_d_utilities =
     [ "union_fields", "group__z_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b", null ],
     [ "updateBlendColors", "group__z_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a", null ],
     [ "updateBlendColors", "group__z_field2_d_utilities.html#ga2f49512e60cd8d85090877fe3fce5467", null ],
-    [ "updateColors", "group__z_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16", null ]
+    [ "updateColors", "group__z_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16", null ],
+    [ "updateFieldValues", "group__z_field2_d_utilities.html#gaf2f5b97efe661e3d65caff0f473a0f09", null ]
 ];

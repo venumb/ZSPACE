@@ -1,9 +1,10 @@
 digraph "zSpace::zMatrix::inverseMatrix"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node67 [label="zSpace::zMatrix::inverse\lMatrix",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  rankdir="RL";
+  Node67 [label="zSpace::zMatrix::inverse\lMatrix",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the inverse matrix of the input square matrix, if it exists."];
   Node67 -> Node68 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node68 [label="zSpace::target_newBasis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7",tooltip="This method computes the input target as per the input new basis. "];
+  Node68 [label="zSpace::target_newBasis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga7a84c5fdca98465cce2b617ab927e3b7",tooltip="This method computes the input target as per the input new basis."];
 }

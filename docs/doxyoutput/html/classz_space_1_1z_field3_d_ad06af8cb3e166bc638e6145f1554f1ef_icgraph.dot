@@ -1,0 +1,22 @@
+digraph "zSpace::zField3D::numFieldValues"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node56 [label="zSpace::zField3D::numField\lValues",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method retruns the number of fieldvalues in the field."];
+  Node56 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::zField3D::setPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#a0133c250c54e24a1ee17d9796d9bb888",tooltip="This method sets the position of the field at the input index."];
+  Node56 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::zField3D::getPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#abc920ee9aae9941751ad7effc8027fd5",tooltip="This method gets the position of the field at the input index."];
+  Node56 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::zField3D::getNeighbourhoodRing",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#ab04b9034a4b5b2303a384421cbee4f5d",tooltip="This method gets the ring neighbours of the field at the input index."];
+  Node59 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="zSpace::zField3D::zField3D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#a0383fe9516c784733238a59fdbf3c3af",tooltip="Overloaded constructor."];
+  Node59 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="zSpace::zField3D::getField\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#adcf934de0d3f67df45b073c1a5b978b5",tooltip="This method gets the value of the field at the input sample position."];
+  Node56 -> Node62 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="zSpace::zField3D::getNeighbour\lAdjacents",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#a511e4a98321d862e3d3ba75be57a378f",tooltip="This method gets the immediate adjacent neighbours of the field at the input index."];
+  Node62 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

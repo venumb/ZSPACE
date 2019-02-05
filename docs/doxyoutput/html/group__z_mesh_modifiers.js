@@ -1,17 +1,19 @@
 var group__z_mesh_modifiers =
 [
-    [ "collapseEdge", "group__z_mesh_modifiers.html#ga0f643cfd962151320e13a7bad7fdcc40", null ],
-    [ "collapseShortEdges", "group__z_mesh_modifiers.html#ga1574b78c46a3b32fe48dcdbd2e46eef2", null ],
-    [ "deleteEdge", "group__z_mesh_modifiers.html#gaa57be50e7ce36c396e5bab0304773897", null ],
-    [ "deleteVertex", "group__z_mesh_modifiers.html#gad7f05263e242d0a98e3dbd09199246b1", null ],
+    [ "collapseEdge", "group__z_mesh_modifiers.html#ga77533a4e95924fa8c030ba013eef1ec6", null ],
+    [ "collapseShortEdges", "group__z_mesh_modifiers.html#ga14350e97740cec4f835125fb286fc071", null ],
+    [ "deleteEdge", "group__z_mesh_modifiers.html#gaaaa85d23d165383d53e5498f4a60061f", null ],
+    [ "deleteFace", "group__z_mesh_modifiers.html#ga24ab0fcd418ba91e387838fdc4711787", null ],
+    [ "deleteVertex", "group__z_mesh_modifiers.html#ga20644ac4933b8ae055b0eb47a9df8420", null ],
     [ "equalizeValences", "group__z_mesh_modifiers.html#ga50d27f458f57c4f90fa9242b05ded2d2", null ],
+    [ "faceTriangulate", "group__z_mesh_modifiers.html#ga436ab6f006de6e8dcd08c030fed4feb1", null ],
     [ "flipTriangleEdge", "group__z_mesh_modifiers.html#ga23b04bfa34f16159cbc2b1c5e1116f39", null ],
-    [ "polyTriangulate", "group__z_mesh_modifiers.html#gaee0ef1222f28a05e210cc139a92e7774", null ],
+    [ "getFaceTriangles", "group__z_mesh_modifiers.html#ga1d81b6e6cd06dd32b7795275da6a808c", null ],
     [ "smoothMesh", "group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775", null ],
-    [ "splitEdge", "group__z_mesh_modifiers.html#ga2259376b4c9c7cebc97c491574a47e24", null ],
+    [ "splitEdge", "group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6", null ],
     [ "splitFaces", "group__z_mesh_modifiers.html#gaeda022d590a10b38c94e75bc0e278d80", null ],
-    [ "splitLongEdges", "group__z_mesh_modifiers.html#ga5205dea46f5be4a546801c664d10fbb1", null ],
-    [ "subDivideMesh", "group__z_mesh_modifiers.html#gaaa9902fbf3ac2600afbf54335c286760", null ],
+    [ "splitLongEdges", "group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca", null ],
+    [ "subdivideMesh", "group__z_mesh_modifiers.html#ga8c3af5dd0f40d6f82fd23ceead47dc64", null ],
     [ "tangentialRelaxation", "group__z_mesh_modifiers.html#gae42402c3129540241452c44109dcd068", null ],
     [ "triangulate", "group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de", null ]
 ];

@@ -1,0 +1,10 @@
+digraph "zSpace::getEdgeLengths"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node9 [label="zSpace::getEdgeLengths",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the lengths of the edges of a zGraph/zMesh."];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="zSpace::updateFormGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga4e6850be5b5333e95b01d524d2a51d79",tooltip="This method updates the form diagram."];
+}

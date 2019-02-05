@@ -1,0 +1,24 @@
+digraph "zSpace::zSlimeEnvironment::zSlimeEnvironment"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node20 [label="zSpace::zSlimeEnvironment\l::zSlimeEnvironment",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Overloaded constructor."];
+  Node20 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="zSpace::from2DFIELD",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html#ga9501fa762906c00a7e243a21ceda4a1e",tooltip="This method creates a mesh from the input scalar field."];
+  Node21 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="zSpace::zField2D::getUnit\lDistances",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#ab590568f512f105d15af28c67cbcc3ed",tooltip="This method gets the unit distances of the field."];
+  Node21 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="zSpace::zField2D::getResolution",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#aed9865d37d4b2c47e44977b0d5e66ddc",tooltip="This method gets the unit distances of the field."];
+  Node21 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="zSpace::zField2D::getBoundingBox",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#aec18cdb580199ce1802e5529ab4da29a",tooltip="This method gets the bounds of the field."];
+  Node21 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="zSpace::zGraph::numVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a32a9a23b93c41033485543e0768e7f6a",tooltip="This method returns the number of vertices in the graph or mesh."];
+  Node21 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="zSpace::zGraph::numEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92",tooltip="This method returns the number of half edges in the graph or mesh."];
+  Node21 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="zSpace::zMesh::numPolygons",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#a495dcfd61cc83ad601179a0696f23225",tooltip="This method returns the number of polygons in the mesh."];
+  Node20 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="zSpace::zSlimeEnvironment\l::minMax_chemA",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_environment.html#a3584c1394c9a26cd3712557530c06d2d",tooltip="This method computes the minimum and maximum value of chemcial A in the environment."];
+}

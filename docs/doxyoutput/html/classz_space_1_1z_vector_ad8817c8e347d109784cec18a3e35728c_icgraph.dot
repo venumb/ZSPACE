@@ -1,11 +1,12 @@
 digraph "zSpace::zVector::dihedralAngle"
 {
+ // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node16 [label="zSpace::zVector::dihedral\lAngle",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node16 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node17 [label="zSpace::getEdgeDihedralAngles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#gaf531920d8d86c1c508bec8c71d5d9954",tooltip="This method computes the dihedral angle per edge of zMesh. "];
-  Node17 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer. "];
+  rankdir="RL";
+  Node23 [label="zSpace::zVector::dihedral\lAngle",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the dihedral angle between the two input zVectors using current zVector as edge r..."];
+  Node23 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="zSpace::getEdgeDihedralAngles",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#gaf531920d8d86c1c508bec8c71d5d9954",tooltip="This method computes the dihedral angle per edge of zMesh."];
+  Node24 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer."];
 }

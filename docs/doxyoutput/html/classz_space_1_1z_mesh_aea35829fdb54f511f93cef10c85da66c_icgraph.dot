@@ -1,0 +1,18 @@
+digraph "zSpace::zMesh::deactivateElement"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node213 [label="zSpace::zMesh::deactivate\lElement",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method deactivates the input elements from the array connected with the input type."];
+  Node213 -> Node214 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node214 [label="zSpace::zMesh::maintainManifold\lTopology",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh.html#ae66609043bee62d706443ac5dc47304f",tooltip="This method cleans up the mesh to maintain manifolod topology."];
+  Node213 -> Node215 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node215 [label="zSpace::deleteVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga20644ac4933b8ae055b0eb47a9df8420",tooltip="This method deletes the mesh vertex given by the input vertex index."];
+  Node213 -> Node216 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node216 [label="zSpace::deleteFace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga24ab0fcd418ba91e387838fdc4711787",tooltip="This method deletes the mesh face given by the input face index."];
+  Node213 -> Node217 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node217 [label="zSpace::collapseEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga77533a4e95924fa8c030ba013eef1ec6",tooltip="This method collapses an edge into a vertex."];
+  Node217 -> Node218 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node218 [label="zSpace::collapseShortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga14350e97740cec4f835125fb286fc071",tooltip="This method collapses an edge shorter than the given minimum edge length value if the collapsing does..."];
+}
