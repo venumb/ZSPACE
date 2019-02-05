@@ -58,14 +58,7 @@ namespace zSpace
 
 		/*!	\brief container of field positions.   */
 		vector<zVector> positions;
-
-		/*!	\brief container of the ring neighbourhood indicies.  */
-		vector<vector<int>> ringNeighbours;
-
-		/*!	\brief container of adjacent neighbourhood indicies.  */
-		vector<vector<int>> adjacentNeighbours;
-
-		
+			   		 
 
 	public:
 
@@ -75,6 +68,13 @@ namespace zSpace
 		
 		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
+
+		/*!	\brief container of the ring neighbourhood indicies.  */
+		vector<vector<int>> ringNeighbours;
+
+		/*!	\brief container of adjacent neighbourhood indicies.  */
+		vector<vector<int>> adjacentNeighbours;
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -336,27 +336,44 @@ namespace zSpace
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return fieldValues[index];
-
-		
+			return fieldValues[index];		
 		}			
 			
+		/*! \brief This method gets the index of the field for the input X and Y indicies.
+		*
+		*	\param		[in]	index_X		- input index in X.
+		*	\param		[in]	index_Y		- input index in Y.
+		*	\param		[out]	index		- output field index.
+		*	\return				bool		- true if index is in bounds.
+		*	\since version 0.0.1
+		*/
+		bool getIndex(int index_X, int index_Y, int &index)
+		{
+			bool out = true;
+
+			if (index_X > (n_X - 1) || index_X <  0 || index_Y >(n_Y - 1) || index_Y < 0) out = false;
+
+			index =  index_X * n_Y + index_Y;
+
+			return out;
+		}
 
 		/*! \brief This method gets the index of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
-		*	\return				int			- field index.
+		*	\param		[out]	index		- output field index.
+		*	\return				bool		- true if index is in bounds.
 		*	\since version 0.0.1
 		*/
-		int getIndex(zVector &pos)
+		bool getIndex(zVector &pos, int &index)
 		
 		{
 			int index_X = floor((pos.x - minBB.x) / unit_X);
 			int index_Y = floor((pos.y - minBB.y) / unit_Y);
 
-			if (index_X >  (n_X - 1) || index_X <  0 || index_Y >(n_Y - 1) || index_Y <  0) throw std::invalid_argument(" error: input position out of bounds.");
-
-			return index_X * n_Y + index_Y;
+			bool out = getIndex(index_X, index_Y, index);
+			
+			return out;
 
 		}
 		
@@ -366,15 +383,41 @@ namespace zSpace
 		*	\param		[in]	pos			- input position.
 		*	\param		[out]	index_X		- output index in X.
 		*	\param		[out]	index_Y		- output index in Y.
+		*	\return				bool		- true if position is in bounds.
 		*	\since version 0.0.1
 		*/		
-		void getIndices(zVector &pos, int &index_X, int &index_Y)
+		bool getIndices(zVector &pos, int &index_X, int &index_Y)
 		{
 			index_X = floor((pos.x - minBB.x) / unit_X);
 			index_Y = floor((pos.y - minBB.y) / unit_Y);
 
-			if (index_X >  (n_X - 1) || index_X <  0 || index_Y >(n_Y - 1) || index_Y <  0) throw std::invalid_argument(" error: input position out of bounds.");
+			bool out = true;
+			if (index_X >  (n_X - 1) || index_X <  0 || index_Y >(n_Y - 1) || index_Y <  0) out = false;
+
+			return out;
 		}
+
+		/*! \brief This method check if the input index is the bounds of the resolution in X.
+		*
+		*	\param		[in]	index_X		- input index in X.
+		*	\return				bool		- true if index is in bounds.
+		*	\since version 0.0.1
+		*/
+		bool checkBounds_X(int index_X)
+		{
+			return (index_X < n_X && index_X >= 0);
+		}
+
+		/*! \brief This method check if the input index is the bounds of the resolution in Y.
+		*
+		*	\param		[in]	index_Y		- input index in Y.
+		*	\return				bool		- true if index is in bounds.
+		*	\since version 0.0.1
+		*/
+		bool checkBounds_Y(int index_Y)
+		{
+			return (index_Y < n_Y && index_Y >= 0);
+		}		
 
 		/*! \brief This method gets the ring neighbours of the field at the input index.
 		*
@@ -472,27 +515,259 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets the gridPoints which contain the input position.
+		*
+		*	\param		[in]	pos					- input position.
+		*	\param		[out]	containedGridPoints	- contatiner of contained points indicies.
+		*	\since version 0.0.1
+		*/
+		void getContainedGridPoints(zVector &pos, vector<int> &containedGridPoints)
+		{
+
+			vector<int> out;
+			containedGridPoints.clear();
+			
+			int index;
+			bool checkBounds = getIndex(pos, index);
+
+			if (!checkBounds) return;
+
+			int numRings = 1;
+			//printf("\n working numRings : %i ", numRings);
+
+			int idX = floor(index / n_Y);
+			int idY = index % n_Y;
+
+			int startIdX = -numRings;
+			if (idX == 0) startIdX = 0;
+
+			int startIdY = -numRings;
+			if (idY == 0) startIdY = 0;
+
+			int endIdX = numRings;
+			if (idX == n_X) endIdX = 0;
+
+			int endIdY = numRings;
+			if (idY == n_Y) endIdY = 0;
+
+			for (int i = -1; i <= 1; i++)
+			{
+				for (int j = -1; j <= 1; j++)
+				{
+					int newId_X = idX + i;
+					int newId_Y = idY + j;
+
+					int newId = (newId_X * n_Y) + (newId_Y);										
+				}
+
+			}
+
+			// case 1
+			if (checkBounds_X(idX - 1) && checkBounds_Y(idY + 1))
+			{
+				int g1; 
+				getIndex(idX - 1, idY, g1);
+
+				int g2;
+				getIndex(idX , idY, g2);
+
+				int g3;
+				getIndex(idX, idY+1, g3);
+
+				int g4;
+				getIndex(idX-1, idY+1, g4);
+
+				zVector minBB_temp = getPosition(g1);
+				zVector maxBB_temp = getPosition(g3);
+
+				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
+
+				if (check)
+				{
+					containedGridPoints.push_back(g1);
+					containedGridPoints.push_back(g2);
+					containedGridPoints.push_back(g3);
+					containedGridPoints.push_back(g4);
+				}
+				
+			}
+
+			// case 2
+			if (containedGridPoints.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY + 1))
+			{
+
+				int g1;
+				getIndex(idX, idY, g1);
+
+				int g2;
+				getIndex(idX + 1, idY, g2);
+
+				int g3;
+				getIndex(idX +1, idY + 1, g3);
+
+				int g4;
+				getIndex(idX, idY + 1, g4);
+
+				zVector minBB_temp = getPosition(g1);
+				zVector maxBB_temp = getPosition(g3);
+
+				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
+
+				if (check)
+				{
+					containedGridPoints.push_back(g1);
+					containedGridPoints.push_back(g2);
+					containedGridPoints.push_back(g3);
+					containedGridPoints.push_back(g4);
+				}
+			}
+
+			// case 3
+			if (containedGridPoints.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY - 1))
+			{
+
+				int g1;
+				getIndex(idX, idY -1, g1);
+
+				int g2;
+				getIndex(idX + 1, idY -1, g2);
+
+				int g3;
+				getIndex(idX + 1, idY , g3);
+
+				int g4;
+				getIndex(idX, idY , g4);
+
+				zVector minBB_temp = getPosition(g1);
+				zVector maxBB_temp = getPosition(g3);
+
+				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
+
+				if (check)
+				{
+					containedGridPoints.push_back(g1);
+					containedGridPoints.push_back(g2);
+					containedGridPoints.push_back(g3);
+					containedGridPoints.push_back(g4);
+				}
+			}
+
+
+			// case 4
+			if (containedGridPoints.size() == 0 && checkBounds_X(idX - 1) && checkBounds_Y(idY - 1))
+			{
+
+				int g1;
+				getIndex(idX-1, idY - 1, g1);
+
+				int g2;
+				getIndex(idX , idY - 1, g2);
+
+				int g3;
+				getIndex(idX , idY, g3);
+
+				int g4;
+				getIndex(idX -1, idY, g4);
+
+				zVector minBB_temp = getPosition(g1);
+				zVector maxBB_temp = getPosition(g3);
+
+				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
+
+				if (check)
+				{
+					containedGridPoints.push_back(g1);
+					containedGridPoints.push_back(g2);
+					containedGridPoints.push_back(g3);
+					containedGridPoints.push_back(g4);
+				}
+			}
+				
+
+		}
+
+		/*! \brief This method avarages / smoothens the field values.
+		*
+		*	\param		[in]	numSmooth			- number of times to smooth.
+		*	\param		[in]	diffuseDamp			- damping value of the averaging.
+		*	\param		[in]	type				- smooth type - zlaplacian / zAverage.
+		*	\since version 0.0.1
+		*/
+		void smoothField(int numSmooth, double diffuseDamp = 1.0, zDiffusionType type = zAverage)
+		{
+			for (int k = 0; k < numSmooth; k++)
+			{
+				vector<T> tempValues;
+
+				for (int i = 0; i < numFieldValues(); i++)
+				{
+					T lapA = 0;
+
+					vector<int> ringNeigbours;
+					getNeighbourhoodRing(i, 1, ringNeigbours);
+
+					for (int j = 0; j < ringNeigbours.size(); j++)
+					{
+						int id = ringNeigbours[j];
+
+						if (type == zLaplacian)
+						{
+							if (id != i) lapA += (getFieldValue(id) * 1);
+							else lapA += (getFieldValue(id) * -8);
+						}
+						else if (type == zAverage)
+						{
+							lapA += (getFieldValue(id) * 1);
+						}
+					}
+
+
+					if (type == zLaplacian)
+					{
+						double newA = getFieldValue(i) + (lapA * diffuseDamp);
+						tempValues.push_back(newA);
+					}
+					else if (type == zAverage)
+					{
+						if (lapA != 0) lapA /= (ringNeigbours.size());
+						tempValues.push_back(lapA);
+					}
+
+				}
+
+				for (int i = 0; i < numFieldValues(); i++) setFieldValue(tempValues[i], i);
+				
+			}
+			
+			
+
+			
+
+
+		}
+
 		/*! \brief This method gets the value of the field at the input sample position.
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
 		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
-		*	\return				T			- field value.
+		*	\param		[out]	T			- field value.
+		*	\return				bool		- true if sample position is within bounds.
 		*	\since version 0.0.1
 		*/
-		T getFieldValue(zVector &samplePos, zFieldValueType type = zFieldIndex)
+		bool getFieldValue(zVector &samplePos, zFieldValueType type, T& fieldValue)
 		{
-			bool checkBounds = pointInBounds(samplePos, minBB, maxBB);
+			
+			bool out = false;
+			
+			int index;
+			bool checkBounds = getIndex(samplePos, index);
 
-			if (!checkBounds) throw std::invalid_argument(" error: samplePosition out of bounds.");
-			
-			T out;
-			
-			int index = getIndex(samplePos);
+			if (!checkBounds) return out;
 
 			if (type == zFieldIndex)
 			{				
-				return fieldValues[index];
+				fieldValue =  fieldValues[index];				
 			}
 
 			else if (type == zFieldNeighbourWeighted)
@@ -509,12 +784,16 @@ namespace zSpace
 				vector<double> weights;
 				getDistanceWeights(samplePos, positions, weights);
 
+				double w;
 				for (int i = 0; i < ringNeighbours.size(); i++)
 				{
-					out += getFieldValue(ringNeighbours[i]) * weights[i];
+					fieldValue += getFieldValue(ringNeighbours[i]) * weights[i];
+
+					w += weights[i];
+					
 				}
 
-				out /= ringNeighbours.size();
+				fieldValue /= w;
 			}
 
 			else if (type == zFieldAdjacentWeighted)
@@ -531,19 +810,88 @@ namespace zSpace
 				vector<double> weights;
 				getDistanceWeights(samplePos, positions, weights);
 
+				double w;
 				for (int i = 0; i < adjNeighbours.size(); i++)
 				{
-					out += getFieldValue(adjNeighbours[i]) * weights[i];
+					
+					fieldValue += getFieldValue(adjNeighbours[i]) * weights[i];
+
+					w += weights[i];
 				}
 
-				out /= adjNeighbours.size();
+				fieldValue /= w;
 			}
 
 			else throw std::invalid_argument(" error: invalid zFieldValueType.");
 
-			return out;
+			return true;
 		}
 
+		/*! \brief This method gets the gradient of the field at the input sample position.
+		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+		*	\param		[in]	samplePos	- index in the fieldvalues container.
+		*	\param		[in]	gradient	- gradient vector of the field.
+		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
+		*	\return		[in]	episilon	- small increment value, generally 0.001.
+		*	\return				bool		- false if index is out of bounds.
+		*	\since version 0.0.1
+		*/
+		bool getGradient(int index, zVector &gradient,  zFieldValueType type = zFieldNeighbourWeighted, double epsilon = 0.001)
+		{
+			bool out = true;
+
+			zVector samplePos = getPosition(index);
+
+			vector<int> ringNeigbours;
+			getNeighbourhoodRing(index, 1, ringNeigbours);
+
+			int maxId;
+			double maxValue = -1000000;;
+			for (int i = 0; i < ringNeigbours.size(); i++)
+			{
+				double val;
+				val = getFieldValue(ringNeigbours[i]);
+
+				if (val > maxValue)
+				{
+					maxValue = val;
+					maxId = i;
+				}
+			}
+
+			gradient = getPosition(ringNeigbours[maxId]) - samplePos;
+
+		
+
+			/*int index1;
+			bool chk = getIndex(samplePos, index1);
+
+			if (!chk) return chk;
+
+			printf("\n %i %i ", index, index1);
+
+			zVector samplepos1(samplePos.x + epsilon, samplePos.y, samplePos.z);
+
+			T val1;
+			getFieldValue(samplepos2, type)
+			
+			zVector samplepos2(samplePos.x , samplePos.y + epsilon, samplePos.z);
+			
+			
+			
+			printf("\n %1.8f %1.8f %1.8f ", getFieldValue(samplepos1, type), getFieldValue(samplepos2, type), getFieldValue(index));
+
+			T gX = getFieldValue(samplepos1, type) - getFieldValue(index);
+			T gY = getFieldValue(samplepos2, type) - getFieldValue(index);
+
+			gradient = zVector( gX,gY,0);
+			printf("\n %1.8f %1.8f %1.8f \n ", out.x, out.y, out.z);
+
+			gradient /= (2.0 * epsilon);*/
+
+			return out;
+		}
 
 	};
 

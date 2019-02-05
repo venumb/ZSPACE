@@ -183,6 +183,7 @@ namespace zSpace
 	*	\param		[in]	map			- input map.
 	*	\param		[out]	outVal		- index of the string in the map if it exists.
 	*	\return				bool		- true if the string exists in the map.
+	*	\since version 0.0.1
 	*/
 	bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal)
 	{
@@ -206,6 +207,7 @@ namespace zSpace
 	*	\param		[in]	pos			- input position.
 	*	\param		[out]	outVertexId	- index of the position in the map if it exists.
 	*	\return				bool		- true if the position exists in the map.
+	*	\since version 0.0.1
 	*/
 	bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int & outVertexId)
 	{
@@ -353,7 +355,6 @@ namespace zSpace
 
 	/*! \brief This method returns the blend color based on the input value, domain and the color domains.
 	*
-	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
 	*	\param		[in]	value			- input value to be mapped.
 	*	\param		[in]	inputMin		- input domain minimum.
 	*	\param		[in]	inputMax		- input domain maximum.
@@ -363,8 +364,7 @@ namespace zSpace
 	*	\return				zColor			- output color.
 	*	\since version 0.0.1
 	*/
-	template<typename T>
-	zColor blendColor(T inputValue, T inputMin, T inputMax,  zColor &cMin, zColor &cMax, zColorType type)
+	zColor blendColor(double inputValue, double inputMin, double inputMax,  zColor &cMin, zColor &cMax, zColorType type)
 	{
 		zColor out;
 

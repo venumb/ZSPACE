@@ -152,5 +152,8 @@
     <ClInclude Include="..\headers\application\zStreamLines.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\application\zSlimeMould.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

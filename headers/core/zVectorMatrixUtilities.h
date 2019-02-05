@@ -179,6 +179,7 @@ namespace zSpace
 
 	/*! \brief This method computes the infuence weights of the input positions container on the input point .
 	*
+	*	\details	bsaed on http://www.gitta.info/ContiSpatVar/en/html/Interpolatio_learningObject2.xhtml.
 	*	\param		[in]	inPos			- input position.
 	*	\param		[in]	positions		- input container of positions.
 	*	\param		[out]	weights			- influence Weights between 0 and 1. 
@@ -190,15 +191,12 @@ namespace zSpace
 
 		for (int i = 0; i < positions.size(); i++)
 		{
-			dists.push_back(positions[i].distanceTo(inPos));
-		}
+			double dist = (positions[i].distanceTo(inPos));
 
-		double minD = zMin(dists);
-		
-		for (int i = 0; i < positions.size(); i++)
-		{
-			weights.push_back( minD / dists[i]);
-		}
+			weights.push_back(1 / dist);
+
+			if (dist == 0) weights[i] = 1.0;
+		}			
 
 	}
 

@@ -306,6 +306,15 @@ namespace zSpace
 			f += force;
 		}
 
+		/*! \brief This method clears the force of the particle.
+		*
+		*	\since version 0.0.1
+		*/
+		void clearForce()
+		{
+			f = zVector();
+		}
+
 		/*! \brief This method adds the all input forces to the force of the particle.
 		*
 		*	\param		[in]	forces		- container of input forces.
@@ -319,6 +328,7 @@ namespace zSpace
 		//--------------------------
 		//---- INTEGRATE METHODS
 		//--------------------------
+		
 		
 		/*! \brief This method computes the derivatives.
 		*
@@ -340,7 +350,7 @@ namespace zSpace
 			return out;
 		}
 
-		/*! \brief This method intergrates the force and cmpute the derivatives.
+		/*! \brief This method intergrates the force and compute the derivatives.
 		*
 		*	\details Based on https://gafferongames.com/post/integration_basics/ and http://paulbourke.net/miscellaneous/particle/particlelib.c
 		*	\param		[in]	dT		- time step.
@@ -388,15 +398,27 @@ namespace zSpace
 			
 		}
 
+		/*! \brief This method intergrates the force, compute the derivatives and returns a zVector of the updated position. Generally used to check if the updated position is in bounds before updating the particle.
+		*
+		*	\param		[in]	dT		- time step.
+		*	\param		[in]	type	- integration type.
+		*	\since version 0.0.1
+		*/
+		zVector getUpdatePosition(double dT, zIntergrationType type = zEuler)
+		{
+			integrateForces(dT, type);
+			return (*s.p + derivative.dP);
+		}
 
 		/*! \brief This method updates the position and velocity of the particle.
 		*
 		*	\details Based on https://gafferongames.com/post/integration_basics/
-		*	\param		[in]	clearForce		- clears the force if true.
-		*	\param		[in]	clearVelocity	- clears the velocity if true.
+		*	\param		[in]	clearForce			- clears the force if true.
+		*	\param		[in]	clearVelocity		- clears the velocity if true.
+		*	\param		[in]	clearDerivatives	- clears the derivatives if true.
 		*	\since version 0.0.1
 		*/
-		void updateParticle( bool clearForce = false, bool clearVelocity = false)
+		void updateParticle( bool clearForce = false, bool clearVelocity = false, bool clearDerivatives = false)
 		{
 			if (fixed) return;
 
@@ -405,6 +427,7 @@ namespace zSpace
 
 			if (clearForce) f = zVector();
 			if (clearVelocity) s.v = zVector();
+			if (clearDerivatives) derivative = zParticleDerivative();
 		}
 
 	};

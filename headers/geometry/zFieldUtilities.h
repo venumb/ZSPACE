@@ -95,7 +95,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void createVectorFieldFromScalarField(zField2D<zVector> &vectorField, zField2D<T> &scalarField)
+	void createVectorFieldFromScalarField(zField2D<zVector> &vectorField, zField2D<T> &scalarField, zFieldValueType type = zFieldNeighbourWeighted, double epsilon = 0.001)
 	{
 		double unit_X, unit_Y;
 		scalarField.getUnitDistances(unit_X, unit_Y);
@@ -111,36 +111,10 @@ namespace zSpace
 		for (int i = 0; i < scalarField.numFieldValues(); i++)
 		{
 
-			vector<int> ringNeighbours;
-			scalarField.getNeighbourhoodRing(i, 1, ringNeighbours);
-
-			T val = scalarField.getFieldValue(i);
 			zVector fValue;
+			bool check = scalarField.getGradient(i, fValue, type, epsilon);
 
-			int maxId = -1;
-			T maxVal = -10000;
-
-			for (int j = 0; j < ringNeighbours.size(); j++)
-			{
-				//if (ringNeighbours[j] == i) continue;
-
-				T tempVal = scalarField.getFieldValue(ringNeighbours[j]);
-
-				if (tempVal > maxVal)
-				{
-					maxId = ringNeighbours[j];
-					maxVal = tempVal;
-				}
-			}
-
-
-			if (maxId != -1 && maxId != i)
-			{
-				fValue = scalarField.getPosition(maxId) - scalarField.getPosition(i);
-			}
-						
 			vectorField.setFieldValue(fValue, i);
-
 		}
 	}
 	
@@ -198,7 +172,7 @@ namespace zSpace
 
 
 	//--------------------------
-	//----  2D IDW FIELD METHODS
+	//----  2D IDW SCALAR FIELD METHODS
 	//--------------------------
 
 	/*! \brief This method computes the weight inverse distance to the the input position.
@@ -233,11 +207,12 @@ namespace zSpace
 	*	\param	[in]	inMesh			- input mesh for distance calculations.
 	*	\param	[in]	power			- input power value used for weight calculation.
 	*	\param	[in]	influence		- input influence of the inMesh.
+	*	\param	[in]	constantValue	- constant value multiplier.
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zMesh &inMesh, double power, double influence, vector<T> &scalars)
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zMesh &inMesh, double power, double influence, T constantValue, vector<T> &scalars )
 	{
 		vector<double> out;
 
@@ -252,14 +227,18 @@ namespace zSpace
 
 				if (r < tempDist)
 				{
-					double w = 1 / pow(r, power);
+					double w = pow(r, power);
 
-					d = r * w * influence;
+					double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
+
+					d = val;
 
 					tempDist = r;
 				}
 
 			}
+
+			d *= constantValue;
 
 			out.push_back(d);
 		}
@@ -281,17 +260,18 @@ namespace zSpace
 	*	\param	[in]	inGraph			- input graph for distance calculations.
 	*	\param	[in]	power			- input power value used for weight calculation.
 	*	\param	[in]	influence		- input influence of the inMesh.
+	*	\param	[in]	constantValue	- constant value multiplier.
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zGraph &inGraph, double power, double influence, vector<T> &scalars)
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zGraph &inGraph, double power, double influence, T constantValue, vector<T> &scalars )
 	{
 		vector<double> out;
 
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
-			double d ;
+			T d = 0.0;
 			double tempDist = 10000;
 
 			for (int j = 0; j < inGraph.numVertices(); j++)
@@ -300,16 +280,18 @@ namespace zSpace
 
 				if (r < tempDist)
 				{
-					double w = 1 / pow(r, power);
+					double w = pow(r, power);					
 
-					d =  r * w * influence;
+					double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
 
-					
+					d = val;				
 
 					tempDist = r;
 				}
 
 			}
+
+			d *= constantValue;		
 
 			out.push_back(d);
 
@@ -333,33 +315,37 @@ namespace zSpace
 	*	\param	[in]	inPositions		- container of input positions for distance calculations.
 	*	\param	[in]	power			- input power value used for weight calculation.
 	*	\param	[in]	influences		- input container of influence of each input position.
+	*	\param	[in]	constantValue	- constant value multiplier.
 	*	\param	[out]	scalars			- container for storing scalar values.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, vector<zVector> &inPositions, double power, vector<double>& influences, vector<T> &scalars)
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, vector<zVector> &inPositions, double power, vector<double>& influences, T constantValue, vector<T> &scalars)
 	{
 		vector<double> out;
 
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
-			double d ;
+			T d = 0.0 ;
+			double wSum = 0.0;
 			double tempDist = 10000;
 
-			double w;
+		
 
 			for (int j = 0; j < inPositions.size(); j++)
 			{
 				double r = fieldMesh.vertexPositions[i].distanceTo(inPositions[j]);
 
-				w = 1 / pow(r, power);
-
+				double w = pow(r, power);				
+				wSum += w;
 				double influence = (influences.size() == inPositions.size()) ? influences[j] : 1.0;
 
-				d += (r * w * influence);					
-				
-				printf("\n r %1.2f w %1.2f i %1.2f", r, w, influence);
+				double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
+
+				d += val;						
 			}
+			
+			d *= constantValue;
 
 			out.push_back(d);
 		}
@@ -370,6 +356,8 @@ namespace zSpace
 		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
 
 		normaliseScalars(out);
+
+		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++) printf("\n %1.2f ", out[i]);
 
 		scalars = out;
 	}

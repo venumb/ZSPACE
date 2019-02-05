@@ -18,6 +18,7 @@ namespace zSpace
 
 	/** \addtogroup zPolytopal
 	*	\brief Collection of methods for polytopal mesh and 3D Graphic Statics.
+	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf) and Freeform Developable Spatial Structures (https://www.ingentaconnect.com/content/iass/piass/2016/00002016/00000003/art00010 ) 
 	*  @{
 	*/
 

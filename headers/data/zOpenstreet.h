@@ -1115,7 +1115,10 @@ namespace zSpace
 			{
 				if (!inGraph.vertexActive[i]) continue;
 
-				int fieldIndex = scalarfield.getIndex(inGraph.vertexPositions[i]);
+				int fieldIndex;
+				bool boundsCheck = scalarfield.getIndex(inGraph.vertexPositions[i], fieldIndex);
+
+				if (boundsCheck) continue;
 
 				int valence = inGraph.getVertexValence(i);		
 								
@@ -1370,7 +1373,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 			zVector pos = fromCoordinates(lat, lon);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			string inData = (perlineData[2]);
@@ -1435,7 +1441,11 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 			zVector pos = fromCoordinates(lat, lon);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;;
+
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			double inData = atof(perlineData[2].c_str());
@@ -1500,7 +1510,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 			zVector pos = fromCoordinates(lat, lon);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			double inData = atof(perlineData[2].c_str());
@@ -1560,7 +1573,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 			zVector pos = fromCoordinates(lat, lon);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			double inData = atoi(perlineData[2].c_str());
@@ -1622,7 +1638,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 			dataPositions.push_back(pos);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex ;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			string inData = (perlineData[2]);
@@ -1687,7 +1706,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 			dataPositions.push_back(pos);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			double inData = atof(perlineData[2].c_str());
@@ -1750,7 +1772,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 			dataPositions.push_back(pos);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			double inData = atof(perlineData[2].c_str());
@@ -1811,7 +1836,10 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 			dataPositions.push_back(pos);
 
 			// get field index
-			int fieldIndex = scalarfield.getIndex(pos);
+			int fieldIndex;
+			bool boundsCheck = scalarfield.getIndex(pos, fieldIndex);
+
+			if (boundsCheck) continue;
 
 			// get data
 			double inData = atoi(perlineData[2].c_str());

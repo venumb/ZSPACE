@@ -52,7 +52,8 @@ namespace zSpace
 	bool checkValidStreamPosition(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dTest)
 	{
 			
-		int newFieldIndex = inField.getIndex(inPoint);
+		int newFieldIndex;
+		bool check = inField.getIndex(inPoint, newFieldIndex);
 
 		bool validStreamPoint = true;
 
@@ -111,11 +112,12 @@ namespace zSpace
 	*/
 	bool checkValidSeedPosition(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep)
 	{
-		bool checkBounds = checkFieldBounds(inPoint, inField);
+			
 
-			if (!checkBounds) return false;
+		int newFieldIndex;
+		bool checkBounds = 	inField.getIndex(inPoint, newFieldIndex);
 
-		int newFieldIndex = inField.getIndex(inPoint);
+		if (!checkBounds) return false;
 
 		bool validSeedPoint = true;
 
@@ -210,7 +212,14 @@ namespace zSpace
 				}
 
 				// get field focrce
-				zVector fieldForce = inField.getFieldValue(curPos, zFieldNeighbourWeighted);
+				zVector fieldForce;
+				bool checkBounds = inField.getFieldValue(curPos, zFieldNeighbourWeighted, fieldForce);
+
+				if (!checkBounds)
+				{
+					exit = true;
+					continue;
+				}
 
 				// local minima or maxima point
 				if (fieldForce.length() == 0)
@@ -229,7 +238,7 @@ namespace zSpace
 				seedForward.integrateForces(dT, type);
 				seedForward.updateParticle(true, true);
 				zVector newPos = *seedForward.getPosition();
-				bool checkBounds = checkFieldBounds(newPos, inField);
+				checkBounds = checkFieldBounds(newPos, inField);
 
 				if (!checkBounds)
 				{
@@ -293,8 +302,15 @@ namespace zSpace
 				}
 
 				// get field focrce
-				zVector fieldForce = inField.getFieldValue(curPos, zFieldNeighbourWeighted);
+				zVector fieldForce;
+				
+				bool checkBounds = inField.getFieldValue(curPos, zFieldNeighbourWeighted, fieldForce);
 
+				if(!checkBounds)
+				{
+					exit = true;
+					continue;
+				}
 				// local minima or maxima point
 				if (fieldForce.length() == 0)
 				{
@@ -313,7 +329,7 @@ namespace zSpace
 				seedBackward.updateParticle(true, true);
 				zVector newPos = *seedBackward.getPosition();
 
-				bool checkBounds = checkFieldBounds(newPos, inField);
+				checkBounds = checkFieldBounds(newPos, inField);
 
 				if (!checkBounds)
 				{
@@ -362,9 +378,10 @@ namespace zSpace
 			
 			for (int i = 0; i < positions.size(); i++)
 			{
-				int curFieldIndex = inField.getIndex(positions[i]);
+				int curFieldIndex;
+				bool checkBounds = inField.getIndex(positions[i], curFieldIndex);
 
-				fieldIndex_streamPositions[curFieldIndex].push_back(positions[i]);
+				if(checkBounds) fieldIndex_streamPositions[curFieldIndex].push_back(positions[i]);
 
 			}
 			
