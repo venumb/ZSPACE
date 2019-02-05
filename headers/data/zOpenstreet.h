@@ -1384,7 +1384,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 			data.push_back(inData);
 
 			double weight;
-			weight = scalarfield.getFieldValue(fieldIndex);
+			scalarfield.getFieldValue(fieldIndex, weight);
 			weight++;
 
 			scalarfield.setFieldValue(weight, fieldIndex);
@@ -1649,7 +1649,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 			data.push_back(inData);
 
 			double weight;
-			weight = scalarfield.getFieldValue(fieldIndex);
+			scalarfield.getFieldValue(fieldIndex, weight);
 			weight++;
 
 			scalarfield.setFieldValue(weight, fieldIndex);

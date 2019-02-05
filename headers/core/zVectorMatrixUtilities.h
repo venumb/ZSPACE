@@ -185,7 +185,7 @@ namespace zSpace
 	*	\param		[out]	weights			- influence Weights between 0 and 1. 
 	*	\since version 0.0.1
 	*/
-	void getDistanceWeights(zVector& inPos, vector<zVector> positions, vector<double> &weights)
+	void getDistanceWeights(zVector& inPos, vector<zVector> positions, double power,  vector<double> &weights)
 	{
 		vector<double> dists;
 
@@ -193,9 +193,13 @@ namespace zSpace
 		{
 			double dist = (positions[i].distanceTo(inPos));
 
-			weights.push_back(1 / dist);
+			double r = pow(dist, power);
 
-			if (dist == 0) weights[i] = 1.0;
+			printf("\n d %1.2f r %1.2f ", dist, r);
+
+			weights.push_back(1.0 / r);
+
+			//if (dist == 0) weights[i] = 1.0;
 		}			
 
 	}

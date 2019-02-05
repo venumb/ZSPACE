@@ -321,22 +321,25 @@ namespace zSpace
 		void setFieldValue(T fValue, int index)
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
-
 			fieldValues[index] = fValue;
+
 		}
 
 		/*! \brief This method gets the value of the field at the input index.
 		*
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	index		- index in the fieldvalues container.
-		*	\return				T			- field value.
+		*	\param		[out]	val			- field value.
+		*	\return				bool		- true if index is in bounds.
 		*	\since version 0.0.1
 		*/		
-		T getFieldValue(int index)
+		bool getFieldValue(int index, T &val)
 		{
-			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numFieldValues()) return false;
 
-			return fieldValues[index];		
+			val = fieldValues[index];			
+
+			return true;
 		}			
 			
 		/*! \brief This method gets the index of the field for the input X and Y indicies.
@@ -521,11 +524,11 @@ namespace zSpace
 		*	\param		[out]	containedGridPoints	- contatiner of contained points indicies.
 		*	\since version 0.0.1
 		*/
-		void getContainedGridPoints(zVector &pos, vector<int> &containedGridPoints)
+		void getNeighbourContained(zVector &pos, vector<int> &containedNeighbour)
 		{
 
 			vector<int> out;
-			containedGridPoints.clear();
+			containedNeighbour.clear();
 			
 			int index;
 			bool checkBounds = getIndex(pos, index);
@@ -577,23 +580,23 @@ namespace zSpace
 				int g4;
 				getIndex(idX-1, idY+1, g4);
 
-				zVector minBB_temp = getPosition(g1);
-				zVector maxBB_temp = getPosition(g3);
+				zVector minBB_temp = getPosition(g1) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);
+				zVector maxBB_temp = getPosition(g3) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);
 
 				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
 
 				if (check)
 				{
-					containedGridPoints.push_back(g1);
-					containedGridPoints.push_back(g2);
-					containedGridPoints.push_back(g3);
-					containedGridPoints.push_back(g4);
+					containedNeighbour.push_back(g1);
+					containedNeighbour.push_back(g2);
+					containedNeighbour.push_back(g3);
+					containedNeighbour.push_back(g4);
 				}
 				
 			}
 
 			// case 2
-			if (containedGridPoints.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY + 1))
+			if (containedNeighbour.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY + 1))
 			{
 
 				int g1;
@@ -608,22 +611,23 @@ namespace zSpace
 				int g4;
 				getIndex(idX, idY + 1, g4);
 
-				zVector minBB_temp = getPosition(g1);
-				zVector maxBB_temp = getPosition(g3);
+				zVector minBB_temp = getPosition(g1) - zVector(unit_X * 0.5, unit_Y * 0.5,0);
+				zVector maxBB_temp = getPosition(g3) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);	
 
 				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
 
 				if (check)
 				{
-					containedGridPoints.push_back(g1);
-					containedGridPoints.push_back(g2);
-					containedGridPoints.push_back(g3);
-					containedGridPoints.push_back(g4);
+					containedNeighbour.push_back(g1);
+					containedNeighbour.push_back(g2);
+					containedNeighbour.push_back(g3);
+					containedNeighbour.push_back(g4);
 				}
+
 			}
 
 			// case 3
-			if (containedGridPoints.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY - 1))
+			if (containedNeighbour.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY - 1))
 			{
 
 				int g1;
@@ -638,23 +642,23 @@ namespace zSpace
 				int g4;
 				getIndex(idX, idY , g4);
 
-				zVector minBB_temp = getPosition(g1);
-				zVector maxBB_temp = getPosition(g3);
+				zVector minBB_temp = getPosition(g1) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);
+				zVector maxBB_temp = getPosition(g3) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);
 
 				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
 
 				if (check)
 				{
-					containedGridPoints.push_back(g1);
-					containedGridPoints.push_back(g2);
-					containedGridPoints.push_back(g3);
-					containedGridPoints.push_back(g4);
-				}
+					containedNeighbour.push_back(g1);
+					containedNeighbour.push_back(g2);
+					containedNeighbour.push_back(g3);
+					containedNeighbour.push_back(g4);
+				}				
 			}
 
 
 			// case 4
-			if (containedGridPoints.size() == 0 && checkBounds_X(idX - 1) && checkBounds_Y(idY - 1))
+			if (containedNeighbour.size() == 0 && checkBounds_X(idX - 1) && checkBounds_Y(idY - 1))
 			{
 
 				int g1;
@@ -669,18 +673,18 @@ namespace zSpace
 				int g4;
 				getIndex(idX -1, idY, g4);
 
-				zVector minBB_temp = getPosition(g1);
-				zVector maxBB_temp = getPosition(g3);
+				zVector minBB_temp = getPosition(g1) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);
+				zVector maxBB_temp = getPosition(g3) - zVector(unit_X * 0.5, unit_Y * 0.5, 0);
 
 				bool check = pointInBounds(pos, minBB_temp, maxBB_temp);
 
 				if (check)
 				{
-					containedGridPoints.push_back(g1);
-					containedGridPoints.push_back(g2);
-					containedGridPoints.push_back(g3);
-					containedGridPoints.push_back(g4);
-				}
+					containedNeighbour.push_back(g1);
+					containedNeighbour.push_back(g2);
+					containedNeighbour.push_back(g3);
+					containedNeighbour.push_back(g4);
+				}				
 			}
 				
 
@@ -738,11 +742,6 @@ namespace zSpace
 				for (int i = 0; i < numFieldValues(); i++) setFieldValue(tempValues[i], i);
 				
 			}
-			
-			
-
-			
-
 
 		}
 
@@ -766,12 +765,18 @@ namespace zSpace
 			if (!checkBounds) return out;
 
 			if (type == zFieldIndex)
-			{				
-				fieldValue =  fieldValues[index];				
+			{
+				T fVal;
+
+				fVal =  fieldValues[index];
+
+				fieldValue = fVal;
 			}
 
 			else if (type == zFieldNeighbourWeighted)
 			{
+				T fVal;
+
 				vector<int> ringNeighbours;
 				getNeighbourhoodRing(index, 1, ringNeighbours);
 
@@ -782,22 +787,28 @@ namespace zSpace
 				}
 
 				vector<double> weights;
-				getDistanceWeights(samplePos, positions, weights);
+				getDistanceWeights(samplePos, positions, 2.0, weights);
 
 				double w;
 				for (int i = 0; i < ringNeighbours.size(); i++)
 				{
-					fieldValue += getFieldValue(ringNeighbours[i]) * weights[i];
+					T val; 
+					getFieldValue(ringNeighbours[i], val);
+					fVal += val * weights[i];
 
 					w += weights[i];
 					
 				}
 
-				fieldValue /= w;
+				fVal /= w;
+
+				fieldValue = fVal;
 			}
 
 			else if (type == zFieldAdjacentWeighted)
 			{
+				T fVal;
+
 				vector<int> adjNeighbours;
 				getNeighbourAdjacents(index, adjNeighbours);
 
@@ -808,18 +819,54 @@ namespace zSpace
 				}
 
 				vector<double> weights;
-				getDistanceWeights(samplePos, positions, weights);
+				getDistanceWeights(samplePos, positions, 2.0, weights);
 
 				double w;
 				for (int i = 0; i < adjNeighbours.size(); i++)
 				{
-					
-					fieldValue += getFieldValue(adjNeighbours[i]) * weights[i];
+					T val;
+					getFieldValue(adjNeighbours[i], val);
+					fVal += val * weights[i];
 
 					w += weights[i];
 				}
 
-				fieldValue /= w;
+				fVal /= w;
+
+				fieldValue = fVal;
+			}
+
+			else if (type == zFieldContainedWeighted)
+			{
+
+				T fVal;
+
+				vector<int> containedNeighbours;
+				getNeighbourContained(samplePos, containedNeighbours);
+
+				vector<zVector> positions;
+				for (int i = 0; i < containedNeighbours.size(); i++)
+				{
+					positions.push_back(getPosition(containedNeighbours[i]));
+				}
+
+				vector<double> weights;
+				getDistanceWeights(samplePos, positions,2.0, weights);
+
+				double w =0.0;
+				for (int i = 0; i < containedNeighbours.size(); i++)
+				{
+					T val;
+					getFieldValue(containedNeighbours[i], val);
+					fVal += (val * weights[i]);					
+
+					w += weights[i];
+				}
+							   		
+				fVal /= w;
+
+				fieldValue = fVal;
+				
 			}
 
 			else throw std::invalid_argument(" error: invalid zFieldValueType.");
@@ -837,13 +884,13 @@ namespace zSpace
 		*	\return				bool		- false if index is out of bounds.
 		*	\since version 0.0.1
 		*/
-		bool getGradient(int index, zVector &gradient,  zFieldValueType type = zFieldNeighbourWeighted, double epsilon = 0.001)
+		bool getGradient(int index, zVector &gradient,  zFieldValueType type = zFieldContainedWeighted, double epsilon = 0.001)
 		{
 			bool out = true;
 
 			zVector samplePos = getPosition(index);
 
-			vector<int> ringNeigbours;
+			/*vector<int> ringNeigbours;
 			getNeighbourhoodRing(index, 1, ringNeigbours);
 
 			int maxId;
@@ -860,35 +907,35 @@ namespace zSpace
 				}
 			}
 
-			gradient = getPosition(ringNeigbours[maxId]) - samplePos;
+			gradient = getPosition(ringNeigbours[maxId]) - samplePos;*/
 
-		
+			T fieldVal;
+			getFieldValue(index, fieldVal);
 
-			/*int index1;
-			bool chk = getIndex(samplePos, index1);
+			int id_X, id_Y;
+			getIndices(samplePos, id_X, id_Y);
 
-			if (!chk) return chk;
-
-			printf("\n %i %i ", index, index1);
+			if (id_X == n_X - 1 || id_Y == n_Y - 1) epsilon *= -1;
 
 			zVector samplepos1(samplePos.x + epsilon, samplePos.y, samplePos.z);
-
-			T val1;
-			getFieldValue(samplepos2, type)
-			
 			zVector samplepos2(samplePos.x , samplePos.y + epsilon, samplePos.z);
-			
-			
-			
-			printf("\n %1.8f %1.8f %1.8f ", getFieldValue(samplepos1, type), getFieldValue(samplepos2, type), getFieldValue(index));
 
-			T gX = getFieldValue(samplepos1, type) - getFieldValue(index);
-			T gY = getFieldValue(samplepos2, type) - getFieldValue(index);
+			T fieldVal1;
+			bool chk1 = getFieldValue(samplepos1, type, fieldVal1);
+
+			T fieldVal2;
+			bool chk2 = getFieldValue(samplepos2, type, fieldVal2);
+
+			printf("\n val %1.8f %1.8f %1.8f \n ", fieldVal1, fieldVal2, fieldVal);
+
+
+			T gX = (id_X == n_X - 1 || id_Y == n_Y - 1) ? fieldVal - fieldVal1 :fieldVal1 - fieldVal;
+			T gY = (id_X == n_X - 1 || id_Y == n_Y - 1) ? fieldVal - fieldVal2 :fieldVal2 - fieldVal;
 
 			gradient = zVector( gX,gY,0);
-			printf("\n %1.8f %1.8f %1.8f \n ", out.x, out.y, out.z);
+			printf("\n %1.8f %1.8f %1.8f \n ", gradient.x, gradient.y, gradient.z);
 
-			gradient /= (2.0 * epsilon);*/
+			gradient /= (2.0 * epsilon);
 
 			return out;
 		}
@@ -1440,7 +1487,7 @@ namespace zSpace
 				}
 
 				vector<double> weights;
-				getDistanceWeights(samplePos, samplePositions, weights);
+				getDistanceWeights(samplePos, samplePositions,2.0, weights);
 
 				for (int i = 0; i < ringNeighbours.size(); i++)
 				{
@@ -1462,7 +1509,7 @@ namespace zSpace
 				}
 
 				vector<double> weights;
-				getDistanceWeights(samplePos, samplePositions, weights);
+				getDistanceWeights(samplePos, samplePositions, 2.0, weights);
 
 				for (int i = 0; i < adjNeighbours.size(); i++)
 				{

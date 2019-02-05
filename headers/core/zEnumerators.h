@@ -97,7 +97,7 @@ namespace zSpace
 	*	\brief	field value sampling types.
 	*	\since	version 0.0.1
 	*/
-	enum zFieldValueType { zFieldIndex = 130, zFieldNeighbourWeighted, zFieldAdjacentWeighted};
+	enum zFieldValueType { zFieldIndex = 130, zFieldNeighbourWeighted, zFieldAdjacentWeighted, zFieldContainedWeighted};
 
 	/*! \enum	zFieldStreamType
 	*	\brief	field stream sampling types.

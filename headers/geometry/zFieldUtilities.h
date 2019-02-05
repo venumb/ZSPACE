@@ -119,13 +119,13 @@ namespace zSpace
 	}
 	
 	/*! \brief This method computes the field index of each input position and stores them in a container per field index.
-*
-*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
-*	\param		[in]	inField				- input zField2D
-*	\param		[in]	positions			- container of positions.
-*	\param		[out]	fieldIndexPositions	- container of position per field  index.
-*	\since version 0.0.1
-*/
+	*
+	*	\tparam				T					- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param		[in]	inField				- input zField2D
+	*	\param		[in]	positions			- container of positions.
+	*	\param		[out]	fieldIndexPositions	- container of position per field  index.
+	*	\since version 0.0.1
+	*/
 	template <typename T>
 	void computePositionsInFieldIndex(zField2D<T> &inField, vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
 	{
@@ -784,7 +784,7 @@ namespace zSpace
 
 				val /= fVerts.size();
 
-				inField.setFieldValue(val, i);
+				inField.setFieldValue(val, i);				
 			}			
 						
 		}
@@ -792,7 +792,9 @@ namespace zSpace
 		{			
 			for (int i = 0; i < fieldMesh.numPolygons(); i++)
 			{
-				inField.setFieldValue(scalars[i], i);
+				inField.setFieldValue(scalars[i], i);		
+
+				
 			}
 
 		}
