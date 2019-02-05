@@ -61,8 +61,8 @@ var NAVTREEINDEX =
 "annotated.html",
 "classz_space_1_1z_open_street.html#a0aa0b300e431dc6bb71fdc4c4a0c7284",
 "group__z_core_definitions.html#ga2493a662ae05fa164c75281d16b221fb",
-"group__z_polytopal.html#ga99afc82e0233ac5ab8729972e84b4d31",
-"z_field_utilities_8h.html#ga6fdfc4e3f7643ae9be3665d5742bfbc4"
+"group__z_polytopal.html#ga95e1d78109e8bfb9d144dc156dbb409a",
+"z_field_utilities_8h.html#ga6bd2bfb390e165891bde9b17d973fdd2"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

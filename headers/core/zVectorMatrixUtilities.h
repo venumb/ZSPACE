@@ -182,6 +182,7 @@ namespace zSpace
 	*	\details	bsaed on http://www.gitta.info/ContiSpatVar/en/html/Interpolatio_learningObject2.xhtml.
 	*	\param		[in]	inPos			- input position.
 	*	\param		[in]	positions		- input container of positions.
+	*	\param		[in]	power			- power of the distance.
 	*	\param		[out]	weights			- influence Weights between 0 and 1. 
 	*	\since version 0.0.1
 	*/

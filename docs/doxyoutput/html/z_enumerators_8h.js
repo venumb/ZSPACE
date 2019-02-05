@@ -46,7 +46,8 @@ var z_enumerators_8h =
     [ "zFieldValueType", "z_enumerators_8h.html#gae358de25ebb3a70dd012613c7da9fbdb", [
       [ "zFieldIndex", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdba99a487776dae3955945fe362abc6ce3f", null ],
       [ "zFieldNeighbourWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60", null ],
-      [ "zFieldAdjacentWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984", null ]
+      [ "zFieldAdjacentWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984", null ],
+      [ "zFieldContainedWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdba2514e35b8974e928ff11054d3e138b3e", null ]
     ] ],
     [ "zHEData", "z_enumerators_8h.html#gacc8e3e94f8d366585b2bbbe7baafeeef", [
       [ "zVertexData", "z_enumerators_8h.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea", null ],

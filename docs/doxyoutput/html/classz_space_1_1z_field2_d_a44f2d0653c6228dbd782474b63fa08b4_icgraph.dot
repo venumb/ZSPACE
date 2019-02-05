@@ -6,5 +6,5 @@ digraph "zSpace::zField2D::checkBounds_Y"
   rankdir="RL";
   Node12 [label="zSpace::zField2D::checkBounds_Y",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method check if the input index is the bounds of the resolution in Y."];
   Node12 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node13 [label="zSpace::zField2D\< double\l \>::getContainedGridPoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#a8633862d91f7cbb8c60340afcabe3148",tooltip="This method gets the gridPoints which contain the input position."];
+  Node13 [label="zSpace::zField2D\< double\l \>::getNeighbourContained",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#acd5ae0962beba49d8d76ae8e2dcb8811",tooltip="This method gets the gridPoints which contain the input position."];
 }

@@ -61,6 +61,7 @@ var searchData=
   ['zfield2dutilities',['ZField2DUtilities',['../group__z_field2_d_utilities.html',1,'']]],
   ['zfield3d',['zField3D',['../classz_space_1_1z_field3_d.html',1,'zSpace::zField3D&lt; T &gt;'],['../classz_space_1_1z_field3_d.html#ab6a54b577986e047a86f61d3f7ebe27d',1,'zSpace::zField3D::zField3D()'],['../classz_space_1_1z_field3_d.html#a0383fe9516c784733238a59fdbf3c3af',1,'zSpace::zField3D::zField3D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _n_Z, int _NR=1)'],['../classz_space_1_1z_field3_d.html#af8633f8bf496ddfa2d8f2db889db734c',1,'zSpace::zField3D::zField3D(double _unit_X, double _unit_Y, double _unit_Z, int _n_X, int _n_Y, int _n_Z, int _NR=1)']]],
   ['zfieldadjacentweighted',['zFieldAdjacentWeighted',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984',1,'zSpace']]],
+  ['zfieldcontainedweighted',['zFieldContainedWeighted',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba2514e35b8974e928ff11054d3e138b3e',1,'zSpace']]],
   ['zfieldindex',['zFieldIndex',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba99a487776dae3955945fe362abc6ce3f',1,'zSpace']]],
   ['zfieldneighbourweighted',['zFieldNeighbourWeighted',['../group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60',1,'zSpace']]],
   ['zfieldobject',['zFieldObject',['../classz_space_1_1z_field_object.html',1,'zSpace']]],

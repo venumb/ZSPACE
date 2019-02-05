@@ -90,6 +90,7 @@ var NAVTREEINDEX2 =
 "group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefa44c50ce3cdac17dcfab4c4f875780fc7":[0,1,2,8,1],
 "group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea":[0,1,2,8,0],
 "group__z_core_enumerators.html#ggacc8e3e94f8d366585b2bbbe7baafeeefae2e243f1c863c625af021f7a61a01437":[0,1,2,8,2],
+"group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba2514e35b8974e928ff11054d3e138b3e":[0,1,2,7,3],
 "group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60":[0,1,2,7,1],
 "group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba99a487776dae3955945fe362abc6ce3f":[0,1,2,7,0],
 "group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984":[0,1,2,7,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "group__z_mesh_utilities.html#gaf531920d8d86c1c508bec8c71d5d9954":[0,5,1,5,3],
 "group__z_polytopal.html":[0,0,0],
 "group__z_polytopal.html#ga4e6850be5b5333e95b01d524d2a51d79":[0,0,0,8],
-"group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1":[0,0,0,7],
-"group__z_polytopal.html#ga95e1d78109e8bfb9d144dc156dbb409a":[0,0,0,5]
+"group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1":[0,0,0,7]
 };
