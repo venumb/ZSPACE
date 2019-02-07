@@ -424,7 +424,7 @@ namespace zSpace
 
 
 		inGraph = zGraph(positions, edgeConnects);;
-		printf("\n inGraph: %i %i %i", inGraph.numVertices(), inGraph.numEdges());
+		printf("\n inGraph: %i %i ", inGraph.numVertices(), inGraph.numEdges());
 
 		
 	}
@@ -451,10 +451,14 @@ namespace zSpace
 			return;
 		}
 
+		
+
 		in_myfile >> j_in;
 		in_myfile.close();
 
 		inGraphJSON.from_json(j_in, inGraph);
+
+		printf("\n inGraph: %i %i ", inGraph.numVertices(), inGraph.numEdges());
 	}
 
 

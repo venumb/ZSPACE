@@ -33,10 +33,84 @@ namespace zSpace
 	*  @{
 	*/
 
+	//--------------------------
+	//---- VECTOR METHODS GEOMETRY
+	//--------------------------
+
+	/*! \brief This method computes the points on a circle for input radius, center and number of points.
+	*
+	*	\param		[in]		center		- center of circle.
+	*	\param		[in]		radius		- radius of circle.
+	*	\param		[in]		numPoints	- number of points in the the circle.
+	*	\param		[out]		circlePts	- points on circle.
+	*	\param		[out]		xFactor		- the factor of scaling in x direction. For a circle both xFactor and yFactor need to be equal.
+	*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
+	*	\since version 0.0.1
+	*/
+	void getCircle(zVector &center, double radius, int numPoints, vector<zVector> &circlePts, double xFactor = 1.0 , double yFactor = 1.0)
+	{
+		double theta = 0;
+
+		for (int i = 0; i < numPoints + 1; i++)
+		{
+			zVector pos;
+			pos.x = (radius * cos(theta)) / xFactor;
+			pos.y = (radius * sin(theta)) / yFactor ;
+
+			pos += center;
+
+			circlePts.push_back(pos);
+
+			theta += (TWO_PI / numPoints);
+		}
+	}
+
 
 	//--------------------------
 	//---- VECTOR METHODS 
 	//--------------------------
+
+	/*! \brief This method returns the minimum of the input container of zVectors.
+	*
+	*	\param		[in]	vals			- container of zVectors.
+	*	\return 			zVectors		- vector with minimum length
+	*/
+	zVector zMin(vector<zVector> &vals)
+	{
+		double minLen = 10000;
+		int minID = -1;
+		for (int i = 0; i < vals.size(); i++)
+		{
+			if (vals[i].length() < minLen)
+			{
+				minLen = vals[i].length();
+				minID = i;
+			}
+		}
+
+		return vals[minID];
+	}
+
+	/*! \brief This method returns the maximum of the input container of zVectors.
+	*
+	*	\param		[in]	vals			- container of zVectors.
+	*	\return 			zVectors		- vector with maximum length
+	*/
+	zVector zMax(vector<zVector> &vals)
+	{
+		double maxLen = 0;
+		int maxID = -1;
+		for (int i = 0; i < vals.size(); i++)
+		{
+			if (vals[i].length() > maxLen)
+			{
+				maxLen = vals[i].length();
+				maxID = i;
+			}
+		}
+
+		return vals[maxID];
+	}
 
 	/*! \brief This method a zVector from the input matrix row.
 	*
@@ -177,7 +251,7 @@ namespace zSpace
 
 	}
 
-	/*! \brief This method computes the infuence weights of the input positions container on the input point .
+	/*! \brief This method computes the inverse distance weights of the input positions container on the input point .
 	*
 	*	\details	bsaed on http://www.gitta.info/ContiSpatVar/en/html/Interpolatio_learningObject2.xhtml.
 	*	\param		[in]	inPos			- input position.
@@ -194,13 +268,11 @@ namespace zSpace
 		{
 			double dist = (positions[i].distanceTo(inPos));
 
-			double r = pow(dist, power);
-
-			printf("\n d %1.2f r %1.2f ", dist, r);
+			double r = pow(dist, power);		
 
 			weights.push_back(1.0 / r);
 
-			//if (dist == 0) weights[i] = 1.0;
+		
 		}			
 
 	}

@@ -468,7 +468,7 @@ namespace zSpace
 	*	\param	[in]	type							- integration type.
 	*	\since version 0.0.1
 	*/
-	void createStreamGraphs(vector<zGraph>& streamGraphs, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4 )
+	void createStreamGraphs(vector<zGraph>& streamGraphs, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false )
 	{
 		streamGraphs.clear();
 
@@ -509,6 +509,8 @@ namespace zSpace
 
 		}
 
+
+		if (seedStreamsOnly) return;
 
 		// compute other stream lines.
 		

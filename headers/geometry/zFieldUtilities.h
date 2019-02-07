@@ -44,34 +44,49 @@ namespace zSpace
 
 	/*! \brief This method computes the min and max scalar values at the given Scalars buffer.
 	*
-	*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	scalars	- input scalars
-	*	\param	[out]	dMin	- stores the minimum scalar value
-	*	\param	[out]	dMax	- stores the maximum scalar value
-	*	\param	[in]	buffer	- buffer of scalars.
+	*	\tparam			T			- Type to work with standard c++ numerical datatypes and zVector.
+	*	\param	[in]	fieldValues	- input field values
+	*	\param	[out]	dMin		- stores the minimum scalar value
+	*	\param	[out]	dMax		- stores the maximum scalar value
+	*	\param	[in]	buffer		- buffer of scalars.
 	*	\since version 0.0.1
 	*/	
 	template <typename T>
-	void getMinMaxOfScalars(vector<T>& scalars, T &dMin, T &dMax)
+	void getMinMaxOfScalars(vector<T>& fieldValues, T &dMin, T &dMax)
 	{
-		dMin = zMin(scalars);
-		dMax = zMax(scalars);		
+		dMin = zMin(fieldValues);
+		dMax = zMax(fieldValues);
 	}
 
 
-	/*! \brief This method normalises the scalar values at the given field buffer.
+	/*! \brief This method normalises the field values.
 	*
-	*	\param	[in]	buffer	- buffer of scalars.
+	*	\param	[in]	fieldValues	- input field values of zvectors
 	*	\since version 0.0.1
-	*/	
-	void normaliseScalars(vector<double>& scalars)
+	*/
+	void normliseFieldValues(vector<zVector>& fieldValues)
+	{
+		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i].normalize();
+	}
+
+
+	/*! \brief This method normalises the field values.
+	*
+	*	\param	[in]	fieldValues	- input field values of scalars
+	*	\since version 0.0.1
+	*/
+	void normliseFieldValues(vector<double>& fieldValues)
 	{
 		double dMin, dMax;
-		getMinMaxOfScalars(scalars, dMin, dMax);
+		getMinMaxOfScalars(fieldValues, dMin, dMax);
 
-		for (int i = 0; i < scalars.size(); i++)
-			scalars[i] = ofMap(scalars[i], dMin, dMax, -1.0, 1.0);		
+		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = dMax - fieldValues[i];
+
+		getMinMaxOfScalars(fieldValues, dMin, dMax);
+
+		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = ofMap(fieldValues[i], dMin, dMax, -1.0, 1.0);
 	}
+	
 	
 	/** @}*/
 	
@@ -89,13 +104,12 @@ namespace zSpace
 
 	/*! \brief This method creates a vector field from the input scalar field.
 	*
-	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double), .
-	*	\param		[in]	vectorField			- vector field created from input scalar field.
 	*	\param		[in]	scalarField			- input scalar field.
+	*	\param		[out]	vectorField			- vector field created from input scalar field.
+	*	\param		[in]	epsilon				- small increment value needed for gradient calculations.
 	*	\since version 0.0.1
-	*/
-	template<typename T>
-	void createVectorFieldFromScalarField(zField2D<zVector> &vectorField, zField2D<T> &scalarField, zFieldValueType type = zFieldNeighbourWeighted, double epsilon = 0.001)
+	*/	
+	void createVectorFieldFromScalarField(zField2D<double> &scalarField, zField2D<zVector> &vectorField, double epsilon = 0.001)
 	{
 		double unit_X, unit_Y;
 		scalarField.getUnitDistances(unit_X, unit_Y);
@@ -112,9 +126,38 @@ namespace zSpace
 		{
 
 			zVector fValue;
-			bool check = scalarField.getGradient(i, fValue, type, epsilon);
+			scalarField.getGradient(i, fValue, epsilon);
 
 			vectorField.setFieldValue(fValue, i);
+		}
+	}
+
+	/*! \brief This method creates a scalar field from the input vector field.
+	*
+	*	\param		[in]	vectorField			- input vector field. It needs to non normalised vectors to get a gradient. 
+	*	\param		[out]	scalarField			- scalar field created from input vector field.
+	*	\since version 0.0.1
+	*/
+	void createScalarFieldFromVectorField(zField2D<zVector> &vectorField, zField2D<double> &scalarField)
+	{
+		double unit_X, unit_Y;
+		vectorField.getUnitDistances(unit_X, unit_Y);
+
+		int n_X, n_Y;
+		vectorField.getResolution(n_X, n_Y);
+
+		zVector minBB, maxBB;
+		vectorField.getBoundingBox(minBB, maxBB);
+
+		scalarField = zField2D<double>(minBB, maxBB, n_X, n_Y);
+
+		for (int i = 0; i < vectorField.numFieldValues(); i++)
+		{
+
+			zVector fValue;
+			vectorField.getFieldValue(i, fValue);
+
+			scalarField.setFieldValue(fValue.length(), i);
 		}
 	}
 	
@@ -172,53 +215,30 @@ namespace zSpace
 
 
 	//--------------------------
-	//----  2D IDW SCALAR FIELD METHODS
+	//----  2D IDW FIELD METHODS
 	//--------------------------
-
-	/*! \brief This method computes the weight inverse distance to the the input position.
-	*
-	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double), zVector and zMesh.
-	*	\param		[in]	inPos				- input position
-	*	\param		[in]	inObject			- input object to which the distance is computed.
-	*	\return				double				- weighted inverse distance.
-	*	\since version 0.0.1
-	*/
-	template<typename T>
-	double idw_DistanceTo(zVector& inPos, T& inObject);
-
-	/*! \brief This method computes the weight inverse distance to the the input position.
-	*
-	*	\tparam				T					- Type to work with standard c++ numerical datatypes (int, float, double) and zVector.
-	*	\param		[in]	inPos				- input position
-	*	\param		[in]	fieldValue			- input fieldValue.
-	*	\param		[in]	influence			- input influence Value.
-	*	\param		[in]	epsilon				- input epsilon Value.
-	*	\param		[in]	power				- input influence Value.
-	*	\return				T					- weighted inverse distance value.
-	*	\since version 0.0.1
-	*/
-	template<typename T>
-	T idw_ValueAt(zVector inPos, T& fieldValue, double& influence, double& epsilon, double& power);
 
 	/*! \brief This method computes a inverse weighted distance field from the input mesh vertex positions.
 	*
-	*	\tparam			T				- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	fieldMesh		- input field mesh.
-	*	\param	[in]	inMesh			- input mesh for distance calculations.
-	*	\param	[in]	power			- input power value used for weight calculation.
-	*	\param	[in]	influence		- input influence of the inMesh.
-	*	\param	[in]	constantValue	- constant value multiplier.
-	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\tparam			T					- Type to work with double / zVector.
+	*	\param	[in]	fieldMesh			- input field mesh.
+	*	\param	[in]	inMesh				- input mesh for distance calculations.
+	*	\param	[in]	meshValue			- value to be propagated for the mesh.
+	*	\param	[in]	influences			- influence value of the graph.
+	*	\param	[out]	fieldValues			- container for storing field values.
+	*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
+	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zMesh &inMesh, double power, double influence, T constantValue, vector<T> &scalars )
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zMesh &inMesh, T meshValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
 	{
 		vector<double> out;
 
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
-			double d = 0.0;
+			T d;
+			double wSum = 0.0;
 			double tempDist = 10000;
 
 			for (int j = 0; j < inMesh.numVertices(); j++)
@@ -228,50 +248,51 @@ namespace zSpace
 				if (r < tempDist)
 				{
 					double w = pow(r, power);
-
+					wSum += w;
 					double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
 
-					d = val;
+					d = meshValue * val;
 
 					tempDist = r;
 				}
 
 			}
 
-			d *= constantValue;
+			(wSum > 0) ? d /= wSum : d = T();
 
 			out.push_back(d);
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);
+		if (normalise)
+		{
+			normliseFieldValues(out);
+		}
+			
 
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
-
-		scalars = out;
+		fieldValues = out;
 	}
 
 	/*! \brief This method computes a inverse weighted distance field from the input graph vertex positions.
 	*
-	*	\tparam			T				- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	fieldMesh		- input field mesh.
-	*	\param	[in]	inGraph			- input graph for distance calculations.
-	*	\param	[in]	power			- input power value used for weight calculation.
-	*	\param	[in]	influence		- input influence of the inMesh.
-	*	\param	[in]	constantValue	- constant value multiplier.
-	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\tparam			T					- Type to work with double / zVector.
+	*	\param	[in]	fieldMesh			- input field mesh.
+	*	\param	[in]	inGraph				- input graph for distance calculations.
+	*	\param	[in]	graphValue			- value to be propagated for the graph. 
+	*	\param	[in]	influences			- influence value of the graph. 
+	*	\param	[out]	fieldValues			- container for storing field values.
+	*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
+	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zGraph &inGraph, double power, double influence, T constantValue, vector<T> &scalars )
+	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, zGraph &inGraph, T graphValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
 	{
 		vector<double> out;
 
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
-			T d = 0.0;
+			T d;
+			double wSum = 0.0;
 			double tempDist = 10000;
 
 			for (int j = 0; j < inGraph.numVertices(); j++)
@@ -281,52 +302,54 @@ namespace zSpace
 				if (r < tempDist)
 				{
 					double w = pow(r, power);					
-
+					wSum += w;
 					double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
 
-					d = val;				
+					d = graphValue * val;
 
 					tempDist = r;
 				}
 
 			}
 
-			d *= constantValue;		
-
+			(wSum > 0) ? d /= wSum : d = T();
+		
 			out.push_back(d);
 
 			
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);		
+		if (normalise)
+		{
+				normliseFieldValues(out);
+		}
 
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
-
-		scalars = out;
+		fieldValues = out;
 	}
 
-	/*! \brief This method computes a inverse weighted distance field from the input positions.
+	/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
 	*
-	*	\tparam			T				- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	fieldMesh		- input field mesh.
-	*	\param	[in]	inPositions		- container of input positions for distance calculations.
-	*	\param	[in]	power			- input power value used for weight calculation.
-	*	\param	[in]	influences		- input container of influence of each input position.
-	*	\param	[in]	constantValue	- constant value multiplier.
-	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\tparam			T					- Type to work with double / zVector.
+	*	\param	[in]	fieldMesh			- input field mesh.
+	*	\param	[in]	inPositions			- container of input positions for distance calculations.
+	*	\param	[in]	values				- value to be propagated for each input position. Size of container should be equal to inPositions.
+	*	\param	[in]	influences			- influence value of each input position. Size of container should be equal to inPositions.
+	*	\param	[out]	fieldValues			- container for storing field values.
+	*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
+	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void assignScalarsAsVertexDistance_IDW(zMesh &fieldMesh, vector<zVector> &inPositions, double power, vector<double>& influences, T constantValue, vector<T> &scalars)
+	void assignFieldValuesAsVertexDistance_IDW(zMesh &fieldMesh, vector<zVector> &inPositions, vector<T> &values, vector<double>& influences, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
 	{
-		vector<double> out;
+		if(inPositions.size() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
+		if (inPositions.size() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
+
+		vector<T> out;
 
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
-			T d = 0.0 ;
+			T d;
 			double wSum = 0.0;
 			double tempDist = 10000;
 
@@ -338,28 +361,22 @@ namespace zSpace
 
 				double w = pow(r, power);				
 				wSum += w;
-				double influence = (influences.size() == inPositions.size()) ? influences[j] : 1.0;
+			
+				double val = (w > 0.0) ? ((r * influences[j]) / (w)) : 0.0;;
 
-				double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
-
-				d += val;						
+				d += (values[j] *val );
 			}
 			
-			d *= constantValue;
+		
+			(wSum > 0) ? d /= wSum : d = T();
 
 			out.push_back(d);
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);
+		if (normalise)	normliseFieldValues(out);
+		
 
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
-
-		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++) printf("\n %1.2f ", out[i]);
-
-		scalars = out;
+		fieldValues = out;
 	}
 
 	//--------------------------
@@ -368,16 +385,16 @@ namespace zSpace
 
 	/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 	*
-	*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh			- zMesh of the field.
 	*	\param	[in]	points				- container of positions.
 	*	\param	[out]	scalars				- container for storing scalar values.
+	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	template <typename T>
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<T> &scalars)
+	void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<double> &scalars,  bool normalise = true)
 	{
-		vector<T> out;
+		vector<double> out;
 
 		vector<double> distVals;
 		double dMin = 100000;
@@ -409,9 +426,7 @@ namespace zSpace
 
 		for (int j = 0; j < fieldMesh.vertexColors.size(); j++)
 		{
-			T outMin = 0;
-			T outMax = 1;
-			T val = ofMap(distVals[j], dMin, dMax, outMin, outMax);
+			double val = ofMap(distVals[j], dMin, dMax, 0.0, 1.0);
 			fieldMesh.vertexColors[j] = (zColor(val, 0, 0, 1));
 		}
 
@@ -420,6 +435,11 @@ namespace zSpace
 		for (int j = 0; j < fieldMesh.faceColors.size(); j++)
 		{
 			out.push_back(fieldMesh.faceColors[j].r);
+		}
+		
+		if (normalise)
+		{			
+			normliseFieldValues(out);
 		}
 
 		scalars = out;
@@ -434,14 +454,12 @@ namespace zSpace
 	*	\param	[in]	a					- input variable for distance function.
 	*	\param	[in]	b					- input variable for distance function.
 	*	\param	[out]	scalars				- container for storing scalar values.
+	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<T> &scalars)
+	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
 		vector<double> out;
-
-		// update values from meta balls
 
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
@@ -455,7 +473,6 @@ namespace zSpace
 				if (r < tempDist)
 				{
 					d = F_of_r(r, a, b);
-					//printf("\n F_of_r:  %1.4f ", F_of_r(r, a, b));
 					tempDist = r;
 				}
 
@@ -464,12 +481,10 @@ namespace zSpace
 			out.push_back(d);
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);
-
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
+		if (normalise)
+		{
+			normliseFieldValues(out);
+		}
 
 		scalars = out;
 	}
@@ -482,10 +497,10 @@ namespace zSpace
 	*	\param	[in]	a				- input variable for distance function.
 	*	\param	[in]	b				- input variable for distance function.
 	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<T> &scalars)
+	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -513,30 +528,27 @@ namespace zSpace
 			out.push_back(d);
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);
-
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
+		if (normalise)
+		{
+				normliseFieldValues(out);
+		}
 
 		scalars = out;
 	}
 
 	/*! \brief This method creates a edge distance Field from the input mesh.
 	*
-	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh		- input field mesh.
 	*	\param	[in]	inMesh			- input mesh for distance calculations.
 	*	\param	[in]	a				- input variable for distance function.
 	*	\param	[in]	b				- input variable for distance function.
 	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<T> &scalars)
+	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
-		vector<T> out;
+		vector<double> out;
 
 		// update values from edge distance
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -568,12 +580,10 @@ namespace zSpace
 		
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);
-
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
+		if (normalise)
+		{
+			normliseFieldValues(out);
+		}
 
 		scalars = out;
 	}
@@ -581,18 +591,17 @@ namespace zSpace
 
 	/*! \brief This method creates a edge distance Field from the input graph.
 	*
-	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh		- input field mesh.
 	*	\param	[in]	inGraph			- input graph for distance calculations.
 	*	\param	[in]	a				- input variable for distance function.
 	*	\param	[in]	b				- input variable for distance function.
 	*	\param	[out]	scalars			- container for storing scalar values.
+	*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<T> &scalars)
+	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
-		vector<T> out;
+		vector<double> out;
 
 		// update values from edge distance
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
@@ -624,119 +633,113 @@ namespace zSpace
 
 		}
 
-		double dMin, dMax;
-		getMinMaxOfScalars(out, dMin, dMax);
-
-		for (int i = 0; i < out.size(); i++)out[i] = dMax - out[i];
-
-		normaliseScalars(out);
+		if (normalise)
+		{
+			normliseFieldValues(out);
+		}
 
 		scalars = out;
 	}
 
 	/*! \brief This method creates a union of the fields at the input buffers and stores them in the result buffer.
 	*
-	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	scalars0				- value of buffer.
 	*	\param	[in]	scalars1				- value of buffer.
 	*	\param	[in]	scalarsResult			- value of buffer to store the results.
+	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	template <typename T>
-	void union_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
+	void union_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult, bool normalise = true)
 	{
-		vector<T> out;
+		vector<double> out;
 
 		for (int i = 0; i < scalars0.size(); i++)
 		{
 			out.push_back(zMin(scalars0[i], scalars1[i]));
 		}
 
-		normaliseScalars(out);
+		if(normalise) normliseFieldValues(out);
 
 		scalarsResult = out;
 	}
 
 	/*! \brief This method creates a subtraction of the fields at the input buffers and stores them in the result buffer.
 	*
-	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	scalars0				- value of buffer.
-	*	\param	[in]	scalars1				- value of buffer.
-	*	\param	[in]	scalarsResult			- value of buffer to store the results.
+	*	\param	[in]	fieldValues_A			- field Values A.
+	*	\param	[in]	fieldValues_B			- field Values B.
+	*	\param	[in]	fieldValues_Result		- resultant field value.
+	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	template <typename T>
-	void subtract_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
+	void subtract_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 	{
 		vector<double> out;
 		
-		for (int i = 0; i < scalars0.size(); i++)
+		for (int i = 0; i < fieldValues_A.size(); i++)
 		{
-			out.push_back(zMax(scalars0[i], -1 * scalars1[i]));
+			out.push_back(zMax(fieldValues_A[i], -1 * fieldValues_B[i]));
 		}
 
-		normaliseScalars(out);
+		if(normalise) normliseFieldValues(out);
 
-		scalarsResult = out;
+		fieldValues_Result = out;
 	}
 
 	/*! \brief This method creates a intersect of the fields at the input buffers and stores them in the result buffer.
 	*
-	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	buffer0				- value of buffer.
-	*	\param	[in]	buffer1				- value of buffer.
-	*	\param	[in]	res_buffer			- value of buffer to store the results.
+	*	\param	[in]	fieldValues_A			- field Values A.
+	*	\param	[in]	fieldValues_B			- field Values B.
+	*	\param	[in]	fieldValues_Result		- resultant field value.
+	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void intersect_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
-	{
-		vector<T> out;
 
-		for (int i = 0; i < scalars0.size(); i++)
+	void intersect_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
+	{
+		vector<double> out;
+
+		for (int i = 0; i < fieldValues_A.size(); i++)
 		{
-			out.push_back(zMax(scalars0[i], scalars1[i]));
+			out.push_back(zMax(fieldValues_A[i], fieldValues_B[i]));
 		}
 
-		normaliseScalars(out);
+		if(normalise) normliseFieldValues(out);
 
-		scalarsResult = out;
+		fieldValues_Result = out;
 	}
 	
 	/*! \brief This method creates a difference of the fields at the input buffers and stores them in the result buffer.
 	*
-	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
-	*	\param	[in]	scalars0				- value of buffer.
-	*	\param	[in]	scalars1				- value of buffer.
-	*	\param	[in]	scalarsResult			- value of buffer to store the results.
+	*	\param	[in]	fieldValues_A			- field Values A.
+	*	\param	[in]	fieldValues_B			- field Values B.
+	*	\param	[in]	fieldValues_Result		- resultant field value.
+	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	template <typename T>
-	void difference_fields(vector<T>& scalars0, vector<T>& scalars1, vector<T>& scalarsResult)
+	void difference_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = false)
 	{
-		vector<T> out;
+		vector<double> out;
 
-		intersect_fields(scalars0, scalars1, out);
+		intersect_fields(fieldValues_A, fieldValues_B, out);
 
 		for (int i = 0; i < out.size(); i++)
 		{
 			out[i] *= -1;
 		}
 
+		if (normalise) normliseFieldValues(out);
 
-		scalarsResult = out;
+		fieldValues_Result = out;
 	}
 
 	/*! \brief This method uses an input plane to clip an existing scalar field.
 	*
-	*	\tparam			T					- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh			- input field mesh.
 	*	\param	[in]	scalars				- vector of scalar values. Need to be equivalent to number of mesh vertices.
 	*	\param	[in]	clipPlane			- input zPlane used for clipping.
 	*	\since version 0.0.1
 	*/	
-	template <typename T>
-	void clipwithPlane(zMesh &fieldMesh, vector<T>& scalars, zMatrixd& clipPlane)
+	void clipwithPlane(zMesh &fieldMesh, vector<double>& scalars, zMatrixd& clipPlane)
 	{
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
@@ -761,15 +764,15 @@ namespace zSpace
 
 	/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
 	*
-	*	\tparam			T						- Type to work with standard c++ numerical datatypes.
+	*	\tparam			T			- Type to work with double / zVector.
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void updateFieldValues(zField2D<T> &inField, zMesh &fieldMesh, vector<T>& scalars)
+	void updateFieldValues(zField2D<T> &inField, zMesh &fieldMesh, vector<T>& fieldMeshValues)
 	{
-		if (fieldMesh.vertexActive.size() == scalars.size() )
+		if (fieldMesh.vertexActive.size() == fieldMeshValues.size() )
 		{
 			for (int i = 0; i < fieldMesh.numPolygons(); i++)
 			{
@@ -779,7 +782,7 @@ namespace zSpace
 
 				for (int j = 0; j < fVerts.size(); j++)
 				{
-					val += scalars[fVerts[j]];
+					val += fieldMeshValues[fVerts[j]];
 				}
 
 				val /= fVerts.size();
@@ -788,13 +791,11 @@ namespace zSpace
 			}			
 						
 		}
-		else if(fieldMesh.faceActive.size() == scalars.size())
+		else if(fieldMesh.faceActive.size() == fieldMeshValues.size())
 		{			
 			for (int i = 0; i < fieldMesh.numPolygons(); i++)
 			{
-				inField.setFieldValue(scalars[i], i);		
-
-				
+				inField.setFieldValue(fieldMeshValues[i], i);
 			}
 
 		}
@@ -810,8 +811,7 @@ namespace zSpace
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\since version 0.0.1
 	*/	
-	template <typename T>
-	void updateColors(zMesh &fieldMesh, vector<T>& scalars)
+	void updateColors(zMesh &fieldMesh, vector<double>& scalars)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -822,9 +822,7 @@ namespace zSpace
 			{
 				zColor col;
 
-				T outMin = 0;
-				T outMax = 1;
-				double val = ofMap(scalars[i], dMin, dMax, outMin, outMax);
+				double val = ofMap(scalars[i], dMin, dMax, 0.0, 1.0);
 
 				col.r = val;
 				if (fieldMesh.vertexActive.size() == scalars.size()) fieldMesh.vertexColors[i] = col;
@@ -840,15 +838,13 @@ namespace zSpace
 
 	/*! \brief This method updates the color values of the field mesh based on the scalar values.
 	*
-	*	\tparam			T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\param	[in]	col1		- blend color 1.
 	*	\param	[in]	col2		- blend color 2.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void updateBlendColors(zMesh &fieldMesh, vector<T>& scalars, zColor &col1, zColor &col2)
+	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -882,15 +878,13 @@ namespace zSpace
 
 	/*! \brief This method updates the color values of the field mesh based on the scalar values.
 	*
-	*	\tparam			T			- Type to work with standard c++ numerical datatypes.
 	*	\param	[in]	fieldMesh	- input field mesh.
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\param	[in]	col1		- blend color 1.
 	*	\param	[in]	col2		- blend color 2.
 	*	\since version 0.0.1
 	*/
-	template <typename T>
-	void updateBlendColors(zMesh &fieldMesh, vector<T>& scalars, zColor &col1, zColor &col2, T dMin, T dMax)
+	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -2761,132 +2755,7 @@ namespace zSpace
 //---- TEMPLATE SPECIALIZATION DEFINITIONS 
 //--------------------------
 
-
 //---------------//
 
-//---- idw_DistanceTo  mesh specialization
-
-template<>
-double zSpace::idw_DistanceTo(zVector& point, zMesh& inMesh)
-{
-	int idClosest;
-	double minDist = -10000000;
-
-	for (int i = 0; i < inMesh.numVertices(); i++)
-	{
-		zVector verts = inMesh.vertexPositions[i];
-
-		double dist = (point - verts).length();
-
-		if (dist > minDist)
-		{
-			minDist = dist;
-			idClosest = i;
-		}
-	}
-
-	zVector closestVert = inMesh.vertexPositions[idClosest];
-
-	double d = (point - closestVert).length();
-
-	return d;
-}
-
-//---- idw_DistanceTo zVector specialization
-
-template<>
-double zSpace::idw_DistanceTo(zVector& point, zVector& inPt)
-{
-	return point.distanceTo(inPt);
-}
-
-//---- idw_DistanceTo double specialization
-
-template<>
-double zSpace::idw_DistanceTo(zVector& point, double& constant)
-{
-	return constant;
-}
-
-//---- idw_DistanceTo float specialization
-
-template<>
-double zSpace::idw_DistanceTo(zVector& point, float& constant)
-{
-	return constant;
-}
-
-//---- idw_DistanceTo int specialization
-
-template<>
-double zSpace::idw_DistanceTo(zVector& point, int& constant)
-{
-	return constant;
-}
-
-//---------------//
-
-
-//---- idw_ValueAt double specialization
-
-template<>
-double zSpace::idw_ValueAt( zVector point, double& value, double& influence, double& epsilon, double& power)
-{
-	double sum = 0.0;
-	double wsum = 0.0;
-
-	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
-	sum += value * w;
-	wsum += w;
-
-	return (wsum > 0.0) ? sum / wsum : 0.0;
-}
-
-//---- idw_ValueAt int specialization
-
-template<>
-int zSpace::idw_ValueAt( zVector point, int& value, double& influence, double& epsilon, double& power)
-{
-	int sum = 0;
-	double wsum = 0.0;
-
-	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
-	sum += value * w;
-	wsum += w;
-
-	return (wsum > 0.0) ? sum / wsum : 0;
-}
-
-//---- idw_ValueAt float specialization
-
-template<>
-float zSpace::idw_ValueAt( zVector point, float& value, double& influence, double& epsilon, double& power)
-{
-	float sum = 0.0;
-	double wsum = 0.0;
-
-	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
-	sum += value * w;
-	wsum += w;
-
-	return (wsum > 0.0) ? sum / wsum : 0.0;
-}
-
-//---- idw_ValueAt zVector specialization
-
-template<>
-zSpace::zVector zSpace::idw_ValueAt( zVector point, zVector& value, double& influence, double& epsilon, double& power)
-{
-	zVector sum = zVector();
-	double wsum = 0.0;
-
-	double w = influence / pow(idw_DistanceTo(point, value) + epsilon, power);
-	sum += value * w;
-	wsum += w;
-
-	return (wsum > 0.0) ? sum / wsum : zVector();
-}
-
-//---------------//
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */

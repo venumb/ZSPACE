@@ -106,7 +106,7 @@ namespace zSpace
 		std::sort(sortVals.begin(), sortVals.end());
 
 		return sortVals[0];
-	}
+	}	
 
 	/*! \brief This method returns the maximum of the two input values.
 	*

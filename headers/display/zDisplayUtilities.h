@@ -75,37 +75,19 @@ namespace zSpace
 
 	/*! \brief This method draws a poly-circle on the XY Plane given input center, radius and number of points.
 	*	\param		[in]		c0			- center of circle.
-	*	\param		[in]		numPoints	- number of points in the the circle.
-	*	\param		[in]		radius		- radius of circle.
+	*	\param		[in]		circlePts	- points on the the circle. ( use getCircle method to compute the circle points).
 	*	\param		[in]		dispLines	- draws lines if true, else displays points.
 	*	\param		[in]		col			- color of the circle.
 	*	\param		[in]		wt			- weight of the circle.
 	*	\since version 0.0.1
 	*/
-	void drawCircle(zVector &c0, int numPoints = 16, double radius = 1, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+	void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 	{
-		vector<zVector> circlePts;
-		double theta = 0;
-
-		for (int i = 0; i < numPoints+1; i++)
-		{
-			zVector pos; 
-			pos.x =  radius * cos(theta);
-			pos.y =  radius * sin(theta);
-
-			pos += c0;
-
-			circlePts.push_back(pos);
-			
-			theta += (TWO_PI / numPoints);
-		}
-
 		for (int i = 0; i < circlePts.size(); i++)
 		{
 			if (dispLines) drawLine(circlePts[i], circlePts[(i + 1) % circlePts.size()], col, wt);
 			else drawPoint(circlePts[i], col, wt);
-		}
-	
+		}	
 
 	}
 

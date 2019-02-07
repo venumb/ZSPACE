@@ -21,7 +21,7 @@ namespace zSpace
 
 	/*! \class zField2D
 	*	\brief A template class for 2D fields - scalar and vector.
-	*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+	*	\tparam				T			- Type to work with double(scalar field) and zVector(vector field).
 	*	\since version 0.0.1
 	*/
 
@@ -303,9 +303,23 @@ namespace zSpace
 		*	\return				zVector		- field position.
 		*	\since version 0.0.1
 		*/
-
 		zVector getPosition(int index)
 		{
+			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
+
+			return positions[index];
+		}
+
+		/*! \brief This method gets the position of the field at the input index.
+		*
+		*	\param		[in]	index		- index in the positions container.
+		*	\return				zVector		- field position.
+		*	\since version 0.0.1
+		*/
+		zVector getPosition(int index_X, int index_Y)
+		{
+			int index = index_X * n_Y + index_Y;
+
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
 			return positions[index];
@@ -879,62 +893,47 @@ namespace zSpace
 		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
 		*	\param		[in]	gradient	- gradient vector of the field.
-		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
 		*	\return		[in]	episilon	- small increment value, generally 0.001.
 		*	\return				bool		- false if index is out of bounds.
 		*	\since version 0.0.1
 		*/
-		bool getGradient(int index, zVector &gradient,  zFieldValueType type = zFieldContainedWeighted, double epsilon = 0.001)
+		bool getGradient(int index, zVector &gradient, double epsilon = 0.001)
 		{
-			bool out = true;
+			bool out = true;			
 
 			zVector samplePos = getPosition(index);
-
-			/*vector<int> ringNeigbours;
-			getNeighbourhoodRing(index, 1, ringNeigbours);
-
-			int maxId;
-			double maxValue = -1000000;;
-			for (int i = 0; i < ringNeigbours.size(); i++)
-			{
-				double val;
-				val = getFieldValue(ringNeigbours[i]);
-
-				if (val > maxValue)
-				{
-					maxValue = val;
-					maxId = i;
-				}
-			}
-
-			gradient = getPosition(ringNeigbours[maxId]) - samplePos;*/
-
-			T fieldVal;
-			getFieldValue(index, fieldVal);
 
 			int id_X, id_Y;
 			getIndices(samplePos, id_X, id_Y);
 
-			if (id_X == n_X - 1 || id_Y == n_Y - 1) epsilon *= -1;
+			if (id_X ==0 || id_Y == 0 || id_X == n_X - 1 || id_Y == n_Y - 1)
+			{
+				gradient = zVector();
+				return true;
+			}
 
-			zVector samplepos1(samplePos.x + epsilon, samplePos.y, samplePos.z);
-			zVector samplepos2(samplePos.x , samplePos.y + epsilon, samplePos.z);
 
+			int index1; 
+			getIndex(id_X + 1, id_Y, index1);
+			zVector samplePos1 = getPosition(index1);
 			T fieldVal1;
-			bool chk1 = getFieldValue(samplepos1, type, fieldVal1);
+			bool chk1 = getFieldValue(index1, fieldVal1);
 
+			int index2;
+			getIndex(id_X , id_Y + 1, index2);
+			zVector samplePos2 = getPosition(index2);
 			T fieldVal2;
-			bool chk2 = getFieldValue(samplepos2, type, fieldVal2);
+			bool chk2 = getFieldValue(index2, fieldVal2);
+			
+			T fieldVal;
+			getFieldValue(index, fieldVal);	
+		
+		
 
-			printf("\n val %1.8f %1.8f %1.8f \n ", fieldVal1, fieldVal2, fieldVal);
-
-
-			T gX = (id_X == n_X - 1 || id_Y == n_Y - 1) ? fieldVal - fieldVal1 :fieldVal1 - fieldVal;
-			T gY = (id_X == n_X - 1 || id_Y == n_Y - 1) ? fieldVal - fieldVal2 :fieldVal2 - fieldVal;
+			T gX = ofMap(samplePos.x + epsilon, samplePos.x, samplePos1.x, fieldVal, fieldVal1) - fieldVal;
+			T gY = ofMap(samplePos.y + epsilon, samplePos.y, samplePos2.y, fieldVal, fieldVal2) - fieldVal;
 
 			gradient = zVector( gX,gY,0);
-			printf("\n %1.8f %1.8f %1.8f \n ", gradient.x, gradient.y, gradient.z);
-
 			gradient /= (2.0 * epsilon);
 
 			return out;
@@ -957,7 +956,7 @@ namespace zSpace
 
 	/*! \class zField3D
 	*	\brief A template class for 3D fields - scalar and vector.
-	*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
+	*	\tparam				T			- Type to work with double(scalar field) and zVector(vector field).
 	*	\since version 0.0.1
 	*/
 
