@@ -4,6 +4,7 @@ var searchData=
   ['randomnumber_5fdouble',['randomNumber_double',['../group__z_core_utilities.html#gafed69f9d90ee69ee176cef1b45227b9f',1,'zSpace']]],
   ['randomremoveagents',['randomRemoveAgents',['../classz_space_1_1z_slime.html#a6b56b41ca6377aa85306f4b316b95b8e',1,'zSpace::zSlime']]],
   ['randomunoccupiedcell',['randomUnoccupiedCell',['../classz_space_1_1z_slime.html#aaf6b56a4963549faa79715808af56c1c',1,'zSpace::zSlime']]],
+  ['read',['read',['../group__z_i_o.html#gade0d5b2ecdcbddf5351f656bc9f41f7e',1,'zSpace::BMP']]],
   ['remeshsmoothpolytopalmesh',['remeshSmoothPolytopalMesh',['../group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1',1,'zSpace']]],
   ['removeedge',['removeEdge',['../classz_space_1_1z_edge.html#a5395c85714f3d04fb4e673d335982655',1,'zSpace::zEdge']]],
   ['removeface',['removeFace',['../classz_space_1_1z_face.html#abd6ce6014319a64595a87b2f63f4235f',1,'zSpace::zFace']]],

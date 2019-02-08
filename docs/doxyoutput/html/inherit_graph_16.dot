@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="zSpace::zObject\< T \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structz_space_1_1z_object.html",tooltip="A basic object class holding informations of a transforma nd object type."];
+  Node0 [label="zSpace::zGraphJSON",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph_j_s_o_n.html",tooltip="A JSON data transfer class for zGraph."];
 }

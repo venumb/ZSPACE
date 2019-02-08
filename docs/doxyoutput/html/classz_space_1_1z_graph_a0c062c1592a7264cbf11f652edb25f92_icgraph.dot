@@ -18,7 +18,7 @@ digraph "zSpace::zGraph::numEdges"
   Node284 -> Node290 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node290 [label="zSpace::zBufferObject\l::appendGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#a435dffa7c25389e962ea22c0278707ec",tooltip="This method appends zGraph to the buffer."];
   Node284 -> Node291 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node291 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh."];
+  Node291 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb",tooltip="This method creates a edge distance Field from the input mesh."];
   Node284 -> Node292 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node292 [label="zSpace::zGraph::removeInactive\lElements",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#afdd947e992fda2487ef6a5a3487d9e6b",tooltip="This method removes inactive elements from the array connected with the input type."];
   Node292 -> Node293 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -62,15 +62,17 @@ digraph "zSpace::zGraph::numEdges"
   Node309 [label="zSpace::zSlimeEnvironment\l::zSlimeEnvironment",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_environment.html#a7696311d42321327c2fe1bef3f3856f9",tooltip="Default constructor."];
   Node308 -> Node310 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node310 [label="zSpace::zOpenStreet\l::fieldFromBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#afbc7adca0c9d2ee4635de29baba0b5b5",tooltip="This method computes the scalar field from the bounds and input resolution. It also computes the fiel..."];
-  Node284 -> Node311 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node311 [label="zSpace::fromTXT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#ga8a777733141d990b954475902e8a8cdc",tooltip="This method imports zGraph from an TXT file."];
+  Node308 -> Node311 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node311 [label="zSpace::fromBMP",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___field2_d.html#ga49184e30ceb6f1a83c2907029cbeb9a1",tooltip="This method imorts the input bitmap file and creates the corresponding field and field mesh...."];
   Node284 -> Node312 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node312 [label="zSpace::fromMESH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#gaf0c07f18c8822ecfe7fc06304527d209",tooltip="This method creates zGraph from a input zMesh."];
-  Node284 -> Node293 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node312 [label="zSpace::fromTXT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#ga8a777733141d990b954475902e8a8cdc",tooltip="This method imports zGraph from an TXT file."];
   Node284 -> Node313 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node313 [label="zSpace::zMeshJSON::\lto_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh_j_s_o_n.html#a2f9c901ed11d790ecec40f3ca6ea4a17",tooltip="This method creates the JSON file from the input zMesh using JSON Modern Library."];
-  Node313 -> Node303 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node313 [label="zSpace::fromMESH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#gaf0c07f18c8822ecfe7fc06304527d209",tooltip="This method creates zGraph from a input zMesh."];
+  Node284 -> Node293 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node284 -> Node314 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node314 [label="zSpace::zGraphJSON\l::to_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph_j_s_o_n.html#a0325de934ba660bfda600cd91beafc6c",tooltip="This method creates the JSON file from the input zGraph using JSON Modern Library."];
-  Node314 -> Node294 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node314 [label="zSpace::zMeshJSON::\lto_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_mesh_j_s_o_n.html#a2f9c901ed11d790ecec40f3ca6ea4a17",tooltip="This method creates the JSON file from the input zMesh using JSON Modern Library."];
+  Node314 -> Node303 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node284 -> Node315 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node315 [label="zSpace::zGraphJSON\l::to_json",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph_j_s_o_n.html#a0325de934ba660bfda600cd91beafc6c",tooltip="This method creates the JSON file from the input zGraph using JSON Modern Library."];
+  Node315 -> Node294 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

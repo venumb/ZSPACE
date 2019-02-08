@@ -4,12 +4,12 @@ digraph "zSpace::zGraph::resizeArray"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node403 [label="zSpace::zGraph::resizeArray",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method resizes the array connected with the input type to the specified newSize."];
-  Node403 -> Node404 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node404 [label="zSpace::zGraph::addVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#acf5cd0b78050f671984cfc4341de8b32",tooltip="This method adds a vertex to the vertices array."];
-  Node404 -> Node405 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node405 [label="zSpace::zGraph::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",tooltip="Overloaded constructor."];
-  Node403 -> Node406 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node406 [label="zSpace::zGraph::addEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3",tooltip="This method adds an edge and its symmetry edge to the edges array."];
-  Node406 -> Node405 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node406 [label="zSpace::zGraph::resizeArray",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method resizes the array connected with the input type to the specified newSize."];
+  Node406 -> Node407 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node407 [label="zSpace::zGraph::addVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#acf5cd0b78050f671984cfc4341de8b32",tooltip="This method adds a vertex to the vertices array."];
+  Node407 -> Node408 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node408 [label="zSpace::zGraph::zGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",tooltip="Overloaded constructor."];
+  Node406 -> Node409 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node409 [label="zSpace::zGraph::addEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3",tooltip="This method adds an edge and its symmetry edge to the edges array."];
+  Node409 -> Node408 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

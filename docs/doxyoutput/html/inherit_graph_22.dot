@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="zSpace::zSlimeAgent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html",tooltip="A slime agent class."];
+  Node0 [label="zSpace::zParticle",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_particle.html",tooltip="A particle class."];
 }

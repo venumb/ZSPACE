@@ -12,7 +12,7 @@ digraph "zSpace::zVector::distanceTo"
   Node29 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node30 [label="zSpace::createStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d",tooltip="This method creates a single stream line as a graph."];
   Node30 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node31 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node31 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0",tooltip="This method creates the stream lines and stores them as a graph."];
   Node27 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node32 [label="zSpace::checkValidSeedPosition",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga23a48e12f9cf4c97c6eaa24b7a863c3f",tooltip="This method checks if the input position is a valid seed position."];
   Node32 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -21,7 +21,7 @@ digraph "zSpace::zVector::distanceTo"
   Node27 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node34 [label="zSpace::minDist_Edge\l_Point",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e",tooltip="This method computes the minimum distance between a point and edge and the closest Point on the edge."];
   Node34 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node35 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh."];
+  Node35 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb",tooltip="This method creates a edge distance Field from the input mesh."];
   Node27 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node36 [label="zSpace::collapseShortEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_modifiers.html#ga14350e97740cec4f835125fb286fc071",tooltip="This method collapses an edge shorter than the given minimum edge length value if the collapsing does..."];
 }

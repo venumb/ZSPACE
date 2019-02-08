@@ -1,5 +1,9 @@
 var hierarchy =
 [
+    [ "zSpace::BMP", "structz_space_1_1_b_m_p.html", null ],
+    [ "zSpace::BMPColorHeader", "structz_space_1_1_b_m_p_color_header.html", null ],
+    [ "zSpace::BMPFileHeader", "structz_space_1_1_b_m_p_file_header.html", null ],
+    [ "zSpace::BMPInfoHeader", "structz_space_1_1_b_m_p_info_header.html", null ],
     [ "zSpace::zBufferObject", "classz_space_1_1z_buffer_object.html", null ],
     [ "zSpace::zBuildings", "structz_space_1_1z_buildings.html", null ],
     [ "zSpace::zColor", "classz_space_1_1z_color.html", null ],

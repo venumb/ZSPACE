@@ -12,7 +12,7 @@ digraph "zSpace::zEdge::getVertex"
   Node388 -> Node391 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node391 [label="zSpace::getSeedPoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga0e134353ee94a16509a6a41f8aef3d69",tooltip="This method computes the seed points."];
   Node391 -> Node392 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node392 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node392 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0",tooltip="This method creates the stream lines and stores them as a graph."];
   Node388 -> Node393 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node393 [label="zSpace::zBufferObject\l::appendMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58",tooltip="This method appends zMesh to the buffer."];
   Node388 -> Node394 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -28,7 +28,7 @@ digraph "zSpace::zEdge::getVertex"
   Node388 -> Node399 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node399 [label="zSpace::printMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_print_utilities.html#ga24820d178bfefb22bc7bf22a3945bb6f",tooltip="This method prints mesh data to the console."];
   Node388 -> Node400 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node400 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh."];
+  Node400 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb",tooltip="This method creates a edge distance Field from the input mesh."];
   Node388 -> Node401 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node401 [label="zSpace::getIsocontour",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga6e47ed2966a60fe23fd026823eabac51",tooltip="This method creates a isocontour graph from the input field mesh at the given field threshold."];
   Node388 -> Node402 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

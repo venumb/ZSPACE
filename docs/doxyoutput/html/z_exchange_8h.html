@@ -94,7 +94,8 @@ $(document).ready(function(){initNavTree('z_exchange_8h.html','');});
 <div class="title">zExchange.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="z_j_s_o_n_8h_source.html">headers\IO\zJSON.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="z_j_s_o_n_8h_source.html">headers/IO/zJSON.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="z_bitmap_8h_source.html">headers/IO/zBitmap.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="z_particle_8h_source.html">headers/dynamics/zParticle.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for zExchange.h:</div>
@@ -171,6 +172,14 @@ Functions</h2></td></tr>
 <tr class="memitem:ga4ac622b064a1d70d2c359304f0ba26a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o___point_cloud.html#ga4ac622b064a1d70d2c359304f0ba26a7">zSpace::toTXT</a> (vector&lt; zVector &gt; &amp;inPositions, string outfilename)</td></tr>
 <tr class="memdesc:ga4ac622b064a1d70d2c359304f0ba26a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method exports the input point cloud to a TXT file format.  <a href="group__z_i_o___point_cloud.html#ga4ac622b064a1d70d2c359304f0ba26a7">More...</a><br /></td></tr>
 <tr class="separator:ga4ac622b064a1d70d2c359304f0ba26a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga55c940493251bf5cb2f133311fd9ddc3"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga55c940493251bf5cb2f133311fd9ddc3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_i_o___field2_d.html#ga55c940493251bf5cb2f133311fd9ddc3">zSpace::toBMP</a> (zField2D&lt; T &gt; &amp;inField, zMesh &amp;inFieldMesh, string outfilename)</td></tr>
+<tr class="memdesc:ga55c940493251bf5cb2f133311fd9ddc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method exports the input field to a bitmap file format based on the face color of the correspoding field mesh.  <a href="group__z_i_o___field2_d.html#ga55c940493251bf5cb2f133311fd9ddc3">More...</a><br /></td></tr>
+<tr class="separator:ga55c940493251bf5cb2f133311fd9ddc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga49184e30ceb6f1a83c2907029cbeb9a1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga49184e30ceb6f1a83c2907029cbeb9a1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_i_o___field2_d.html#ga49184e30ceb6f1a83c2907029cbeb9a1">zSpace::fromBMP</a> (zField2D&lt; T &gt; &amp;inField, zMesh &amp;inFieldMesh, zVector &amp;minBB, zVector &amp;maxBB, string infilename)</td></tr>
+<tr class="memdesc:ga49184e30ceb6f1a83c2907029cbeb9a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method imorts the input bitmap file and creates the corresponding field and field mesh. The Bitmap needs to be in grey-scale colors only to update field values.  <a href="group__z_i_o___field2_d.html#ga49184e30ceb6f1a83c2907029cbeb9a1">More...</a><br /></td></tr>
+<tr class="separator:ga49184e30ceb6f1a83c2907029cbeb9a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

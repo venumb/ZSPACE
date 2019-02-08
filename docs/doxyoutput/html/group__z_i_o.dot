@@ -4,14 +4,19 @@ digraph "ZIO"
   node [fontname="Helvetica",fontsize="10",shape=box];
   rankdir=LR;
   Node0 [label="ZIO",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="The data transfer classes and utility methods of the library."];
-  Node3 [label="ZIO_Dynamics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___dynamics.html",tooltip="Collection of input - output methods for particles."];
-  Node2 [label="ZIO_Graph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html",tooltip="Collection of input - output methods for zGraph."];
-  Node4 [label="ZIO_PointCloud",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___point_cloud.html",tooltip="Collection of input - output methods for point clouds."];
-  Node5 [label="ZIO_JSONClasses",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___j_s_o_n_classes.html",tooltip="The JSON data transfer classes of the library."];
-  Node1 [label="ZIO_Mesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html",tooltip="Collection of input - output methods for zMesh."];
+  Node4 [label="ZIO_Dynamics",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___dynamics.html",tooltip="Collection of input - output methods for particles."];
+  Node3 [label="ZIO_Graph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html",tooltip="Collection of input - output methods for zGraph."];
+  Node5 [label="ZIO_PointCloud",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___point_cloud.html",tooltip="Collection of input - output methods for point clouds."];
+  Node1 [label="ZIO_Bitmaps",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___bitmaps.html",tooltip="Collection of bitmap related structs."];
+  Node7 [label="ZIO_JSONClasses",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___j_s_o_n_classes.html",tooltip="The JSON data transfer classes of the library."];
+  Node6 [label="ZIO_Field2D",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___field2_d.html",tooltip="Collection of input - output methods for zField2D."];
+  Node2 [label="ZIO_Mesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___mesh.html",tooltip="Collection of input - output methods for zMesh."];
   Node0->Node1 [shape=plaintext, dir="back", style="solid"];
   Node0->Node2 [shape=plaintext, dir="back", style="solid"];
   Node0->Node3 [shape=plaintext, dir="back", style="solid"];
   Node0->Node4 [shape=plaintext, dir="back", style="solid"];
   Node0->Node5 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node6 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node7 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node1 [shape=plaintext, label="zSpace::BMPFileHeader\nzSpace::BMPInfoHeader\nzSpace::BMPColorHeader\nzSpace::BMP", color="orange", dir="none", style="dashed"];
 }

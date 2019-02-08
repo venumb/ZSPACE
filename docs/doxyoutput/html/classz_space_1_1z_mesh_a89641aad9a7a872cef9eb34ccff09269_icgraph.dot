@@ -6,7 +6,7 @@ digraph "zSpace::zMesh::computeFaceColorfromVertexColor"
   rankdir="RL";
   Node94 [label="zSpace::zMesh::computeFace\lColorfromVertexColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the face colors based on the vertex colors."];
   Node94 -> Node95 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node95 [label="zSpace::assignScalarsAsVertex\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga4b304f57284b5f4a4907fcf3c8455570",tooltip="This method creates a vertex distance Field from the input vector of zVector positions."];
+  Node95 [label="zSpace::assignScalarsAsVertex\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga6fcca173932ddf0922fd415c2afb8feb",tooltip="This method creates a vertex distance Field from the input vector of zVector positions."];
   Node94 -> Node96 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node96 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9",tooltip="This method sets vertex color of all the vertices to the input color."];
   Node94 -> Node97 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

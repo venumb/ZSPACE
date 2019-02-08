@@ -108,13 +108,16 @@ Functions</h2></td></tr>
 <tr class="memitem:gae517a8c132412ab539812a48edf9e97c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field_utilities.html#gae517a8c132412ab539812a48edf9e97c">zSpace::F_of_r</a> (double &amp;r, double &amp;a, double &amp;b)</td></tr>
 <tr class="memdesc:gae517a8c132412ab539812a48edf9e97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the distance function.  <a href="group__z_field_utilities.html#gae517a8c132412ab539812a48edf9e97c">More...</a><br /></td></tr>
 <tr class="separator:gae517a8c132412ab539812a48edf9e97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9ff370b9c2198d7f4a19d3ebbe75529f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga9ff370b9c2198d7f4a19d3ebbe75529f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field_utilities.html#ga9ff370b9c2198d7f4a19d3ebbe75529f">zSpace::getMinMaxOfScalars</a> (vector&lt; T &gt; &amp;scalars, T &amp;dMin, T &amp;dMax)</td></tr>
-<tr class="memdesc:ga9ff370b9c2198d7f4a19d3ebbe75529f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the min and max scalar values at the given Scalars buffer.  <a href="group__z_field_utilities.html#ga9ff370b9c2198d7f4a19d3ebbe75529f">More...</a><br /></td></tr>
-<tr class="separator:ga9ff370b9c2198d7f4a19d3ebbe75529f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga524f0acafcab3796882c6cd327564965"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field_utilities.html#ga524f0acafcab3796882c6cd327564965">zSpace::normaliseScalars</a> (vector&lt; double &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga524f0acafcab3796882c6cd327564965"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method normalises the scalar values at the given field buffer.  <a href="group__z_field_utilities.html#ga524f0acafcab3796882c6cd327564965">More...</a><br /></td></tr>
-<tr class="separator:ga524f0acafcab3796882c6cd327564965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d75c34363b99eb5b570e2f7a5b1cfee"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga5d75c34363b99eb5b570e2f7a5b1cfee"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field_utilities.html#ga5d75c34363b99eb5b570e2f7a5b1cfee">zSpace::getMinMaxOfScalars</a> (vector&lt; T &gt; &amp;fieldValues, T &amp;dMin, T &amp;dMax)</td></tr>
+<tr class="memdesc:ga5d75c34363b99eb5b570e2f7a5b1cfee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the min and max scalar values at the given Scalars buffer.  <a href="group__z_field_utilities.html#ga5d75c34363b99eb5b570e2f7a5b1cfee">More...</a><br /></td></tr>
+<tr class="separator:ga5d75c34363b99eb5b570e2f7a5b1cfee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga84131697c81bb5c07afbe29dd7ca733a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field_utilities.html#ga84131697c81bb5c07afbe29dd7ca733a">zSpace::normliseFieldValues</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;fieldValues)</td></tr>
+<tr class="memdesc:ga84131697c81bb5c07afbe29dd7ca733a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method normalises the field values.  <a href="group__z_field_utilities.html#ga84131697c81bb5c07afbe29dd7ca733a">More...</a><br /></td></tr>
+<tr class="separator:ga84131697c81bb5c07afbe29dd7ca733a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3562174b938ab9f400600f63be4bed17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field_utilities.html#ga3562174b938ab9f400600f63be4bed17">zSpace::normliseFieldValues</a> (vector&lt; double &gt; &amp;fieldValues)</td></tr>
+<tr class="memdesc:ga3562174b938ab9f400600f63be4bed17"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method normalises the field values.  <a href="group__z_field_utilities.html#ga3562174b938ab9f400600f63be4bed17">More...</a><br /></td></tr>
+<tr class="separator:ga3562174b938ab9f400600f63be4bed17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of general utility methods for fields. </p>
@@ -171,8 +174,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ga9ff370b9c2198d7f4a19d3ebbe75529f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9ff370b9c2198d7f4a19d3ebbe75529f">&#9670;&nbsp;</a></span>getMinMaxOfScalars()</h2>
+<a id="ga5d75c34363b99eb5b570e2f7a5b1cfee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5d75c34363b99eb5b570e2f7a5b1cfee">&#9670;&nbsp;</a></span>getMinMaxOfScalars()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,7 +186,7 @@ template&lt;typename T &gt; </div>
           <td class="memname">void zSpace::getMinMaxOfScalars </td>
           <td>(</td>
           <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>, </td>
+          <td class="paramname"><em>fieldValues</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -208,13 +211,13 @@ template&lt;typename T &gt; </div>
 <p>This method computes the min and max scalar values at the given Scalars buffer. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+    <tr><td class="paramname">T</td><td>- Type to work with double and <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a>. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalars</td><td>- input scalars </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues</td><td>- input field values </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">dMin</td><td>- stores the minimum scalar value </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">dMax</td><td>- stores the maximum scalar value </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>- buffer of scalars. </td></tr>
@@ -227,36 +230,36 @@ template&lt;typename T &gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field_utilities_ga9ff370b9c2198d7f4a19d3ebbe75529f_cgraph.png" border="0" usemap="#group__z_field_utilities_ga9ff370b9c2198d7f4a19d3ebbe75529f_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field_utilities_ga5d75c34363b99eb5b570e2f7a5b1cfee_cgraph.png" border="0" usemap="#group__z_field_utilities_ga5d75c34363b99eb5b570e2f7a5b1cfee_cgraph" alt=""/></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field_utilities_ga9ff370b9c2198d7f4a19d3ebbe75529f_icgraph.png" border="0" usemap="#group__z_field_utilities_ga9ff370b9c2198d7f4a19d3ebbe75529f_icgraph" alt=""/></div>
+<div class="center"><img src="group__z_field_utilities_ga5d75c34363b99eb5b570e2f7a5b1cfee_icgraph.png" border="0" usemap="#group__z_field_utilities_ga5d75c34363b99eb5b570e2f7a5b1cfee_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga524f0acafcab3796882c6cd327564965"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga524f0acafcab3796882c6cd327564965">&#9670;&nbsp;</a></span>normaliseScalars()</h2>
+<a id="ga84131697c81bb5c07afbe29dd7ca733a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga84131697c81bb5c07afbe29dd7ca733a">&#9670;&nbsp;</a></span>normliseFieldValues() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void zSpace::normaliseScalars </td>
+          <td class="memname">void zSpace::normliseFieldValues </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em></td><td>)</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This method normalises the scalar values at the given field buffer. </p>
+<p>This method normalises the field values. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>- buffer of scalars. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues</td><td>- input field values of zvectors </td></tr>
   </table>
   </dd>
 </dl>
@@ -264,14 +267,43 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00067">67</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_field_utilities_ga524f0acafcab3796882c6cd327564965_cgraph.png" border="0" usemap="#group__z_field_utilities_ga524f0acafcab3796882c6cd327564965_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field_utilities_ga524f0acafcab3796882c6cd327564965_icgraph.png" border="0" usemap="#group__z_field_utilities_ga524f0acafcab3796882c6cd327564965_icgraph" alt=""/></div>
+<div class="center"><img src="group__z_field_utilities_ga84131697c81bb5c07afbe29dd7ca733a_icgraph.png" border="0" usemap="#group__z_field_utilities_ga84131697c81bb5c07afbe29dd7ca733a_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga3562174b938ab9f400600f63be4bed17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3562174b938ab9f400600f63be4bed17">&#9670;&nbsp;</a></span>normliseFieldValues() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::normliseFieldValues </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method normalises the field values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues</td><td>- input field values of scalars </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00078">78</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_field_utilities_ga3562174b938ab9f400600f63be4bed17_cgraph.png" border="0" usemap="#group__z_field_utilities_ga3562174b938ab9f400600f63be4bed17_cgraph" alt=""/></div>
 </div>
 
 </div>

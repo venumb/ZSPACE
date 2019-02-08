@@ -12,13 +12,13 @@ digraph "zSpace::zEdge::getSym"
   Node311 -> Node314 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node314 [label="zSpace::getSeedPoints",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga0e134353ee94a16509a6a41f8aef3d69",tooltip="This method computes the seed points."];
   Node314 -> Node315 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node315 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node315 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0",tooltip="This method creates the stream lines and stores them as a graph."];
   Node311 -> Node316 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node316 [label="zSpace::printGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_print_utilities.html#ga96cf7a290a07af957dbe1740993c721d",tooltip="This method prints graph data to the console."];
   Node311 -> Node317 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node317 [label="zSpace::printMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_print_utilities.html#ga24820d178bfefb22bc7bf22a3945bb6f",tooltip="This method prints mesh data to the console."];
   Node311 -> Node318 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node318 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed",tooltip="This method creates a edge distance Field from the input mesh."];
+  Node318 [label="zSpace::assignScalarsAsEdge\lDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb",tooltip="This method creates a edge distance Field from the input mesh."];
   Node311 -> Node319 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node319 [label="zSpace::zEdge::removeEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a5395c85714f3d04fb4e673d335982655",tooltip="This method makes the pointer of the current and symmetry zEdge to null."];
   Node319 -> Node320 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

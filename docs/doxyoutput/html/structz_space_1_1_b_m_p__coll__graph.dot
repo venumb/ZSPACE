@@ -1,0 +1,13 @@
+digraph "zSpace::BMP"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="zSpace::BMP",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A bitmap struct to define methods to read, write and create bitmaps."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" bmp_info_header" ,fontname="Helvetica"];
+  Node2 [label="zSpace::BMPInfoHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structz_space_1_1_b_m_p_info_header.html",tooltip="A bitmap information header."];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" bmp_color_header" ,fontname="Helvetica"];
+  Node3 [label="zSpace::BMPColorHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structz_space_1_1_b_m_p_color_header.html",tooltip="A bitmap color header."];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" file_header" ,fontname="Helvetica"];
+  Node4 [label="zSpace::BMPFileHeader",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structz_space_1_1_b_m_p_file_header.html",tooltip="A bitmap file header."];
+}

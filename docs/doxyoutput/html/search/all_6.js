@@ -8,6 +8,7 @@ var searchData=
   ['getbuildingtype',['getBuildingType',['../classz_space_1_1z_open_street.html#a1bb16c896389ff73b999cc25d059deb6',1,'zSpace::zOpenStreet']]],
   ['getcenters',['getCenters',['../group__z_graph_mesh_utilities.html#ga150a761e741dcc8e927aba87cc016de3',1,'zSpace']]],
   ['getchemaatposition',['getChemAatPosition',['../classz_space_1_1z_slime_environment.html#a15cb2d1d60c92ac8c7e9d00a36e085f0',1,'zSpace::zSlimeEnvironment']]],
+  ['getcircle',['getCircle',['../group__z_vector_matrix_utilities.html#gaa4b3870a8c52fa119a17e0d4121c9bf6',1,'zSpace']]],
   ['getcol',['getCol',['../classz_space_1_1z_matrix.html#aeac2ded2fa3667acd6d3e28c7ece183d',1,'zSpace::zMatrix']]],
   ['getcomponent',['getComponent',['../classz_space_1_1z_vector.html#a90d8f98859c540c5fd0bdea52a87d897',1,'zSpace::zVector']]],
   ['getconnectededges',['getConnectedEdges',['../classz_space_1_1z_graph.html#ab623e9a3bfc70e1f140b911cb0645bd2',1,'zSpace::zGraph']]],
@@ -34,7 +35,7 @@ var searchData=
   ['getforce',['getForce',['../classz_space_1_1z_particle.html#ad7a0e84f8d5c983b2cc61fa1206377e9',1,'zSpace::zParticle']]],
   ['getforcevolumemesh_5ffacecenters',['getForceVolumeMesh_FaceCenters',['../group__z_polytopal.html#gaeb40d88643b6b1e4cb5212a5d42902be',1,'zSpace']]],
   ['getfr',['getFR',['../classz_space_1_1z_slime_agent.html#ace23635415c5d643472f6bebec157ba2',1,'zSpace::zSlimeAgent']]],
-  ['getgradient',['getGradient',['../classz_space_1_1z_field2_d.html#a89e74eeb3deecff5420f49be070609b0',1,'zSpace::zField2D']]],
+  ['getgradient',['getGradient',['../classz_space_1_1z_field2_d.html#af8d886aa6a15ec332452d722713d36e4',1,'zSpace::zField2D']]],
   ['getindex',['getIndex',['../classz_space_1_1z_field2_d.html#a195cbd398fa8e657b7ea599f34fa7ede',1,'zSpace::zField2D::getIndex(int index_X, int index_Y, int &amp;index)'],['../classz_space_1_1z_field2_d.html#ab1fea3c034371dffd934b886e1fab9a0',1,'zSpace::zField2D::getIndex(zVector &amp;pos, int &amp;index)'],['../classz_space_1_1z_field3_d.html#a3855e49fe1f5c422285c5c3e4e6ac6d5',1,'zSpace::zField3D::getIndex()']]],
   ['getindices',['getIndices',['../classz_space_1_1z_field2_d.html#a2432aaa30424687a50eaed82db7a680f',1,'zSpace::zField2D::getIndices()'],['../classz_space_1_1z_field3_d.html#a560dd880cdc8c49a9bc40bf3557159d7',1,'zSpace::zField3D::getIndices()']]],
   ['getisobandcase',['getIsobandCase',['../group__z_field2_d_utilities.html#gacd1779664b5c08f9695b51a6fe1eb086',1,'zSpace']]],
@@ -45,7 +46,7 @@ var searchData=
   ['getisolinemesh',['getIsolineMesh',['../group__z_field2_d_utilities.html#ga63d805729d97ddd318cf0700a234b469',1,'zSpace']]],
   ['getisolinepoly',['getIsolinePoly',['../group__z_field2_d_utilities.html#gaf7fddb03661f768390489b84311fe0c4',1,'zSpace']]],
   ['getmass',['getMass',['../classz_space_1_1z_particle.html#a3dee4226426e95b2c9d750e5d0a85fee',1,'zSpace::zParticle']]],
-  ['getminmaxofscalars',['getMinMaxOfScalars',['../group__z_field_utilities.html#ga9ff370b9c2198d7f4a19d3ebbe75529f',1,'zSpace']]],
+  ['getminmaxofscalars',['getMinMaxOfScalars',['../group__z_field_utilities.html#ga5d75c34363b99eb5b570e2f7a5b1cfee',1,'zSpace']]],
   ['getneighbouradjacents',['getNeighbourAdjacents',['../classz_space_1_1z_field2_d.html#a9532c49af527831850642ff944d981c5',1,'zSpace::zField2D::getNeighbourAdjacents()'],['../classz_space_1_1z_field3_d.html#a511e4a98321d862e3d3ba75be57a378f',1,'zSpace::zField3D::getNeighbourAdjacents()']]],
   ['getneighbourcontained',['getNeighbourContained',['../classz_space_1_1z_field2_d.html#acd5ae0962beba49d8d76ae8e2dcb8811',1,'zSpace::zField2D']]],
   ['getneighbourhoodring',['getNeighbourhoodRing',['../classz_space_1_1z_field2_d.html#af3c3e9ea62527292411c7358143b04db',1,'zSpace::zField2D::getNeighbourhoodRing()'],['../classz_space_1_1z_field3_d.html#ab04b9034a4b5b2303a384421cbee4f5d',1,'zSpace::zField3D::getNeighbourhoodRing()'],['../group__z_graph_mesh_utilities.html#gab300cb380418798aa39cb10735c8b9b7',1,'zSpace::getNeighbourhoodRing()']]],
@@ -54,7 +55,7 @@ var searchData=
   ['getnumpolyverts',['getNumPolyVerts',['../group__z_mesh_utilities.html#ga93825ac6298071fc25f7d0829e1d7b97',1,'zSpace']]],
   ['getnumrows',['getNumRows',['../classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5',1,'zSpace::zMatrix']]],
   ['getplanarfaceareas',['getPlanarFaceAreas',['../group__z_mesh_utilities.html#gaa37b5055021194293cbbba94644cd2d8',1,'zSpace']]],
-  ['getposition',['getPosition',['../classz_space_1_1z_particle.html#acea931c316bc1628e7029a22378fc948',1,'zSpace::zParticle::getPosition()'],['../classz_space_1_1z_field2_d.html#a44fac96d21e722027601b0be96647eb9',1,'zSpace::zField2D::getPosition()'],['../classz_space_1_1z_field3_d.html#abc920ee9aae9941751ad7effc8027fd5',1,'zSpace::zField3D::getPosition()']]],
+  ['getposition',['getPosition',['../classz_space_1_1z_particle.html#acea931c316bc1628e7029a22378fc948',1,'zSpace::zParticle::getPosition()'],['../classz_space_1_1z_field2_d.html#a44fac96d21e722027601b0be96647eb9',1,'zSpace::zField2D::getPosition(int index)'],['../classz_space_1_1z_field2_d.html#a43b6330753af9305da1018423a075fb9',1,'zSpace::zField2D::getPosition(int index_X, int index_Y)'],['../classz_space_1_1z_field3_d.html#abc920ee9aae9941751ad7effc8027fd5',1,'zSpace::zField3D::getPosition()']]],
   ['getprev',['getPrev',['../classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30',1,'zSpace::zEdge']]],
   ['getprincipalcurvature',['getPrincipalCurvature',['../group__z_mesh_utilities.html#ga1e60d7d324e3a491f9e60060fa3258e2',1,'zSpace']]],
   ['getresolution',['getResolution',['../classz_space_1_1z_field2_d.html#aed9865d37d4b2c47e44977b0d5e66ddc',1,'zSpace::zField2D::getResolution()'],['../classz_space_1_1z_field3_d.html#a2a6b9fcdb41e48fe7c28381a74852c23',1,'zSpace::zField3D::getResolution()']]],
@@ -74,5 +75,6 @@ var searchData=
   ['getvertexvalence',['getVertexValence',['../classz_space_1_1z_graph.html#aa5b1403b1a2992d1c8a39f76dea393e3',1,'zSpace::zGraph']]],
   ['getvertices',['getVertices',['../classz_space_1_1z_graph.html#ad4f487b4a1cb8799b4509b95412d6433',1,'zSpace::zGraph::getVertices()'],['../classz_space_1_1z_mesh.html#aa3010b8075e42f14efd4c3605085093b',1,'zSpace::zMesh::getVertices()']]],
   ['glfloatsize',['GLFloatSize',['../group__z_core_definitions.html#ga587e492d3ce05db81d061b5bd3e34e5e',1,'zDefinitions.h']]],
-  ['glintsize',['GLIntSize',['../group__z_core_definitions.html#ga2493a662ae05fa164c75281d16b221fb',1,'zDefinitions.h']]]
+  ['glintsize',['GLIntSize',['../group__z_core_definitions.html#ga2493a662ae05fa164c75281d16b221fb',1,'zDefinitions.h']]],
+  ['green_5fmask',['green_mask',['../group__z_i_o.html#gabc6be47cd0b23a72e13c44d3ef0bd424',1,'zSpace::BMPColorHeader']]]
 ];

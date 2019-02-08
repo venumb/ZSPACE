@@ -9,6 +9,7 @@ var z_vector_matrix_utilities_8h =
     [ "getBaryCenter", "z_vector_matrix_utilities_8h.html#gac0d625cd9feda1c95d6660cd867aadd6", null ],
     [ "getBestFitPlane", "z_vector_matrix_utilities_8h.html#ga064d5638571054d5232b149a75fc9e30", null ],
     [ "getBounds", "z_vector_matrix_utilities_8h.html#gaa38548275368bdaf6c0a049a085adf38", null ],
+    [ "getCircle", "z_vector_matrix_utilities_8h.html#gaa4b3870a8c52fa119a17e0d4121c9bf6", null ],
     [ "getDimsFromBounds", "z_vector_matrix_utilities_8h.html#gaee9483a83e291d886bd7cdc38435fdb5", null ],
     [ "getDistanceWeights", "z_vector_matrix_utilities_8h.html#gad27f7cbbb9bf5cbc0e75ba44a644ccb6", null ],
     [ "line_lineClosestPoints", "z_vector_matrix_utilities_8h.html#ga9d845a521da011abf5e4baacf0505c0e", null ],
@@ -22,5 +23,7 @@ var z_vector_matrix_utilities_8h =
     [ "target_newBasis", "z_vector_matrix_utilities_8h.html#ga7a84c5fdca98465cce2b617ab927e3b7", null ],
     [ "toLocalMatrix", "z_vector_matrix_utilities_8h.html#ga512c22d67a286a9d266a30c4944ce5e9", null ],
     [ "toWorldMatrix", "z_vector_matrix_utilities_8h.html#gae38960f4001de62196fbdacc7c8be53e", null ],
-    [ "triangleArea", "z_vector_matrix_utilities_8h.html#gab132fca3bf7cc8e138d5f67f5b4563b1", null ]
+    [ "triangleArea", "z_vector_matrix_utilities_8h.html#gab132fca3bf7cc8e138d5f67f5b4563b1", null ],
+    [ "zMax", "z_vector_matrix_utilities_8h.html#ga8fc6a18d0848da3f50c86536a847cb05", null ],
+    [ "zMin", "z_vector_matrix_utilities_8h.html#gac33114172591076bd4ace09dcd28906a", null ]
 ];

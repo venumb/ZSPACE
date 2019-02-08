@@ -1,0 +1,14 @@
+digraph "zSpace::getMinMaxOfScalars"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node7 [label="zSpace::getMinMaxOfScalars",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the min and max scalar values at the given Scalars buffer."];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="zSpace::normliseFieldValues",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field_utilities.html#ga3562174b938ab9f400600f63be4bed17",tooltip="This method normalises the field values."];
+  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="zSpace::updateColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga2b8f595bd1fccaa3086c7d841f3137c7",tooltip="This method updates the color values of the field mesh based on the scalar values...."];
+  Node7 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="zSpace::updateBlendColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_field2_d_utilities.html#ga98c941196d269404150977048849513f",tooltip="This method updates the color values of the field mesh based on the scalar values."];
+}

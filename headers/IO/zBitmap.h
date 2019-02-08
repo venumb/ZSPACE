@@ -15,7 +15,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zBitmap
+	/** \addtogroup zIO_Bitmaps
 	*
 	*	\brief Collection of bitmap related structs.
 	*	\details  Using the method defined in https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/
@@ -58,7 +58,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zBitmap
+	/** \addtogroup zIO_Bitmaps
 	*
 	*	\brief Collection of bitmap related structs.
 	*	\details  Using the method defined in https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/
@@ -119,7 +119,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zBitmap
+	/** \addtogroup zIO_Bitmaps
 	*
 	*	\brief Collection of bitmap related structs.
 	*	\details  Using the method defined in https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/
@@ -167,7 +167,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zBitmap
+	/** \addtogroup zIO_Bitmaps
 	*
 	*	\brief Collection of bitmap related structs.
 	*	\details  Using the method defined in https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/

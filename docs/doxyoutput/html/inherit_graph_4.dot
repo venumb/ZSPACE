@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="zSpace::zDatabase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_database.html",tooltip="A database class for accessing a SQL database using SQLite library."];
+  Node0 [label="zSpace::zBufferObject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_buffer_object.html",tooltip="A vertex buffer object class used to append geometry to the buffer."];
 }

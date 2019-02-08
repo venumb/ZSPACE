@@ -6,5 +6,5 @@ digraph "zSpace::getSeedPoints"
   rankdir="RL";
   Node91 [label="zSpace::getSeedPoints",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the seed points."];
   Node91 -> Node92 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node92 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node92 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0",tooltip="This method creates the stream lines and stores them as a graph."];
 }

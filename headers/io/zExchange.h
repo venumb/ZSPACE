@@ -861,11 +861,11 @@ namespace zSpace
 
 
 	//--------------------------
-	//---- 2D FIELD BITMAP METHODS
+	//---- 2D FIELD METHODS
 	//--------------------------
 
-	/** \addtogroup zIO_Bitmaps
-	*	\brief Collection of input - output methods for bitmaps.
+	/** \addtogroup zIO_Field2D
+	*	\brief Collection of input - output methods for zField2D.
 	*  @{
 	*/
 

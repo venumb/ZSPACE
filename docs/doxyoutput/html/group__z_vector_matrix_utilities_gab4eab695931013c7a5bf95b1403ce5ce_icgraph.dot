@@ -4,15 +4,15 @@ digraph "zSpace::pointInBounds"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node89 [label="zSpace::pointInBounds",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method checks if the input position is inside the input bounds."];
-  Node89 -> Node90 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node90 [label="zSpace::checkFieldBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga749da5c460505861f416b903813ac0fc",tooltip="This method checks if the input position is in the bounds of the field."];
-  Node90 -> Node91 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node91 [label="zSpace::createStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d",tooltip="This method creates a single stream line as a graph."];
+  Node91 [label="zSpace::pointInBounds",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method checks if the input position is inside the input bounds."];
   Node91 -> Node92 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node92 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e",tooltip="This method creates the stream lines and stores them as a graph."];
-  Node89 -> Node93 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node93 [label="zSpace::zField2D\< double\l \>::getNeighbourContained",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#acd5ae0962beba49d8d76ae8e2dcb8811",tooltip="This method gets the gridPoints which contain the input position."];
-  Node89 -> Node94 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node94 [label="zSpace::zField3D::getField\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#adcf934de0d3f67df45b073c1a5b978b5",tooltip="This method gets the value of the field at the input sample position."];
+  Node92 [label="zSpace::checkFieldBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga749da5c460505861f416b903813ac0fc",tooltip="This method checks if the input position is in the bounds of the field."];
+  Node92 -> Node93 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node93 [label="zSpace::createStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d",tooltip="This method creates a single stream line as a graph."];
+  Node93 -> Node94 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node94 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node91 -> Node95 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node95 [label="zSpace::zField2D\< double\l \>::getNeighbourContained",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field2_d.html#acd5ae0962beba49d8d76ae8e2dcb8811",tooltip="This method gets the gridPoints which contain the input position."];
+  Node91 -> Node96 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node96 [label="zSpace::zField3D::getField\lValue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_field3_d.html#adcf934de0d3f67df45b073c1a5b978b5",tooltip="This method gets the value of the field at the input sample position."];
 }

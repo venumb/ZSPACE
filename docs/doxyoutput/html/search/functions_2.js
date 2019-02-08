@@ -11,7 +11,7 @@ var searchData=
   ['clearbufferforrewrite',['clearBufferForRewrite',['../classz_space_1_1z_buffer_object.html#a6ca9fc74c24584f6fb86584ea6f1d0c1',1,'zSpace::zBufferObject']]],
   ['clearfoodsources',['clearFoodSources',['../classz_space_1_1z_slime.html#a8a93ff6b7d7933efd31d8e96200b74f0',1,'zSpace::zSlime']]],
   ['clearforce',['clearForce',['../classz_space_1_1z_particle.html#a415ec17914b4c62ba8d41675766b9af6',1,'zSpace::zParticle']]],
-  ['clipwithplane',['clipwithPlane',['../group__z_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6',1,'zSpace']]],
+  ['clipwithplane',['clipwithPlane',['../group__z_field2_d_utilities.html#ga88c4618ac754f6fffab5d2ab00021ffc',1,'zSpace']]],
   ['close',['close',['../classz_space_1_1z_database.html#a9635bd71ecb4d2dd1e8c941f94fcf1c4',1,'zSpace::zDatabase']]],
   ['closepolytopalmesh',['closePolytopalMesh',['../group__z_polytopal.html#gae190027ab219b334781def349d7b08fb',1,'zSpace']]],
   ['cofactormatrix',['cofactorMatrix',['../classz_space_1_1z_matrix.html#a356ae1d5f9ba149ef3726a71cdd78fcb',1,'zSpace::zMatrix']]],
@@ -36,9 +36,10 @@ var searchData=
   ['createbuildinggraph',['createBuildingGraph',['../classz_space_1_1z_open_street.html#a1c815f333ca41c75227a60c76db85884',1,'zSpace::zOpenStreet']]],
   ['createformgraph',['createFormGraph',['../group__z_polytopal.html#gaf287517e616400c266239e2aa3562b3e',1,'zSpace']]],
   ['createpolytopalmesh',['createPolytopalMesh',['../group__z_polytopal.html#gaf251bb68cd900abe02f923fa4f54686c',1,'zSpace']]],
+  ['createscalarfieldfromvectorfield',['createScalarFieldFromVectorField',['../group__z_field2_d_utilities.html#ga7913ca4cedb8a049b845b8f7d417a545',1,'zSpace']]],
   ['createstreamgraph',['createStreamGraph',['../group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d',1,'zSpace']]],
-  ['createstreamgraphs',['createStreamGraphs',['../group__z_stream_lines2_d.html#ga6c8dd9b71ecf70aa4d73afa36164ed7e',1,'zSpace']]],
+  ['createstreamgraphs',['createStreamGraphs',['../group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0',1,'zSpace']]],
   ['createstreetgraph',['createStreetGraph',['../classz_space_1_1z_open_street.html#a904bd1ba411b9cc0b439f06c409386b9',1,'zSpace::zOpenStreet']]],
-  ['createvectorfieldfromscalarfield',['createVectorFieldFromScalarField',['../group__z_field2_d_utilities.html#ga281d304e16a55db52401d893673eb278',1,'zSpace']]],
+  ['createvectorfieldfromscalarfield',['createVectorFieldFromScalarField',['../group__z_field2_d_utilities.html#ga7b48b1ab7119cddf881eda1648a8be89',1,'zSpace']]],
   ['cyclic_5fsortedges',['cyclic_sortEdges',['../classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a',1,'zSpace::zGraph']]]
 ];

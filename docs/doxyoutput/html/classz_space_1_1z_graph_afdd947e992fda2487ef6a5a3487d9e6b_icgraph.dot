@@ -4,9 +4,9 @@ digraph "zSpace::zGraph::removeInactiveElements"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node389 [label="zSpace::zGraph::removeInactive\lElements",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method removes inactive elements from the array connected with the input type."];
-  Node389 -> Node390 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node390 [label="zSpace::toTXT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#ga6578d361dabd565a48e2093a80e6f8b6",tooltip="This method exports zGraph to a TXT file format."];
-  Node389 -> Node391 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node391 [label="zSpace::toJSON",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747",tooltip="This method exports zGraph to a JSON file format using JSON Modern Library."];
+  Node392 [label="zSpace::zGraph::removeInactive\lElements",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method removes inactive elements from the array connected with the input type."];
+  Node392 -> Node393 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node393 [label="zSpace::toTXT",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#ga6578d361dabd565a48e2093a80e6f8b6",tooltip="This method exports zGraph to a TXT file format."];
+  Node392 -> Node394 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node394 [label="zSpace::toJSON",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747",tooltip="This method exports zGraph to a JSON file format using JSON Modern Library."];
 }

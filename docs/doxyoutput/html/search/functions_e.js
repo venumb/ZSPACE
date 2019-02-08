@@ -51,5 +51,5 @@ var searchData=
   ['splitstring',['splitString',['../group__z_core_utilities.html#ga4632c0bf9aaa9b88d6e928244a77cda5',1,'zSpace']]],
   ['sqlcommand',['sqlCommand',['../classz_space_1_1z_database.html#a4d5d00809e93cd250637d53432d2513e',1,'zSpace::zDatabase']]],
   ['subdividemesh',['subdivideMesh',['../group__z_mesh_modifiers.html#ga8c3af5dd0f40d6f82fd23ceead47dc64',1,'zSpace']]],
-  ['subtract_5ffields',['subtract_fields',['../group__z_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611',1,'zSpace']]]
+  ['subtract_5ffields',['subtract_fields',['../group__z_field2_d_utilities.html#gaa0ce4c87e85bfe8bcba72bea4cb407fe',1,'zSpace']]]
 ];

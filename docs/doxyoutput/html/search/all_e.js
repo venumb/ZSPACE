@@ -2,6 +2,7 @@ var searchData=
 [
   ['objecttype',['objectType',['../structz_space_1_1z_object.html#a7c2218c46404b4c47f7915157f1d5899',1,'zSpace::zObject']]],
   ['occupied',['occupied',['../classz_space_1_1z_slime_environment.html#a17ed7b8e4d129e2076864e6864a60ba5',1,'zSpace::zSlimeEnvironment']]],
+  ['offset_5fdata',['offset_data',['../group__z_i_o.html#ga99dc1e9c09f8fb8c569bead33bb77a21',1,'zSpace::BMPFileHeader']]],
   ['offsetmeshface',['offsetMeshFace',['../group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1',1,'zSpace']]],
   ['offsetmeshface_5fvariable',['offsetMeshFace_Variable',['../group__z_mesh_utilities.html#ga2d1e96823d5ddafb0c578999217416f5',1,'zSpace']]],
   ['ofmap',['ofMap',['../group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace']]],

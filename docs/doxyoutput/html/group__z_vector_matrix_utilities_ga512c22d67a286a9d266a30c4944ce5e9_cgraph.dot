@@ -4,11 +4,11 @@ digraph "zSpace::toLocalMatrix"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node109 [label="zSpace::toLocalMatrix",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the tranformation to the local space of the input 4x4 matrix."];
-  Node109 -> Node110 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node110 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix."];
-  Node109 -> Node111 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node111 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5",tooltip="This method gets the number of rows in the matrix."];
-  Node109 -> Node112 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node112 [label="zSpace::zMatrix::setIdentity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1",tooltip="This method sets the matrix to identity if it is a square matrix."];
+  Node111 [label="zSpace::toLocalMatrix",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the tranformation to the local space of the input 4x4 matrix."];
+  Node111 -> Node112 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node112 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix."];
+  Node111 -> Node113 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node113 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5",tooltip="This method gets the number of rows in the matrix."];
+  Node111 -> Node114 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node114 [label="zSpace::zMatrix::setIdentity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1",tooltip="This method sets the matrix to identity if it is a square matrix."];
 }

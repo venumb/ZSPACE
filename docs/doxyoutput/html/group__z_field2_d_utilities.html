@@ -105,10 +105,12 @@ Collaboration diagram for ZField2DUtilities:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga281d304e16a55db52401d893673eb278"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga281d304e16a55db52401d893673eb278"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga281d304e16a55db52401d893673eb278">zSpace::createVectorFieldFromScalarField</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;vectorField, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;scalarField, <a class="el" href="group__z_core_enumerators.html#gae358de25ebb3a70dd012613c7da9fbdb">zFieldValueType</a> type=<a class="el" href="group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60">zFieldNeighbourWeighted</a>, double epsilon=0.001)</td></tr>
-<tr class="memdesc:ga281d304e16a55db52401d893673eb278"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vector field from the input scalar field.  <a href="group__z_field2_d_utilities.html#ga281d304e16a55db52401d893673eb278">More...</a><br /></td></tr>
-<tr class="separator:ga281d304e16a55db52401d893673eb278"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b48b1ab7119cddf881eda1648a8be89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga7b48b1ab7119cddf881eda1648a8be89">zSpace::createVectorFieldFromScalarField</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;scalarField, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;vectorField, double epsilon=0.001)</td></tr>
+<tr class="memdesc:ga7b48b1ab7119cddf881eda1648a8be89"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vector field from the input scalar field.  <a href="group__z_field2_d_utilities.html#ga7b48b1ab7119cddf881eda1648a8be89">More...</a><br /></td></tr>
+<tr class="separator:ga7b48b1ab7119cddf881eda1648a8be89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7913ca4cedb8a049b845b8f7d417a545"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga7913ca4cedb8a049b845b8f7d417a545">zSpace::createScalarFieldFromVectorField</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;vectorField, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;scalarField)</td></tr>
+<tr class="memdesc:ga7913ca4cedb8a049b845b8f7d417a545"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a scalar field from the input vector field.  <a href="group__z_field2_d_utilities.html#ga7913ca4cedb8a049b845b8f7d417a545">More...</a><br /></td></tr>
+<tr class="separator:ga7913ca4cedb8a049b845b8f7d417a545"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga77605acb8c8722a5914d6aa834df482b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga77605acb8c8722a5914d6aa834df482b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b">zSpace::computePositionsInFieldIndex</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndexPositions)</td></tr>
 <tr class="memdesc:ga77605acb8c8722a5914d6aa834df482b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the field index of each input position and stores them in a container per field index.  <a href="group__z_field2_d_utilities.html#ga77605acb8c8722a5914d6aa834df482b">More...</a><br /></td></tr>
@@ -117,82 +119,61 @@ Functions</h2></td></tr>
 <tr class="memitem:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gac86a8f27ccd43c0ac3356e44cf17f904">zSpace::computePositionIndicesInFieldIndex</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;positions, vector&lt; vector&lt; int &gt;&gt; &amp;fieldIndexPositionIndicies)</td></tr>
 <tr class="memdesc:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the field index of each input position and stores the indicies in a container per field index.  <a href="group__z_field2_d_utilities.html#gac86a8f27ccd43c0ac3356e44cf17f904">More...</a><br /></td></tr>
 <tr class="separator:gac86a8f27ccd43c0ac3356e44cf17f904"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga34dd3e1d50d2be7c60d60effa589630b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga34dd3e1d50d2be7c60d60effa589630b"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga34dd3e1d50d2be7c60d60effa589630b">zSpace::idw_DistanceTo</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;inPos, T &amp;inObject)</td></tr>
-<tr class="memdesc:ga34dd3e1d50d2be7c60d60effa589630b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the weight inverse distance to the the input position.  <a href="group__z_field2_d_utilities.html#ga34dd3e1d50d2be7c60d60effa589630b">More...</a><br /></td></tr>
-<tr class="separator:ga34dd3e1d50d2be7c60d60effa589630b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga278b111953d2ca76a69df7020260c60c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga278b111953d2ca76a69df7020260c60c"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga278b111953d2ca76a69df7020260c60c">zSpace::idw_ValueAt</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> inPos, T &amp;fieldValue, double &amp;influence, double &amp;epsilon, double &amp;power)</td></tr>
-<tr class="memdesc:ga278b111953d2ca76a69df7020260c60c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the weight inverse distance to the the input position.  <a href="group__z_field2_d_utilities.html#ga278b111953d2ca76a69df7020260c60c">More...</a><br /></td></tr>
-<tr class="separator:ga278b111953d2ca76a69df7020260c60c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac6ab9a8d6ef76617f7abcb73d33163fa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gac6ab9a8d6ef76617f7abcb73d33163fa"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gac6ab9a8d6ef76617f7abcb73d33163fa">zSpace::assignScalarsAsVertexDistance_IDW</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double power, double influence, T constantValue, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gac6ab9a8d6ef76617f7abcb73d33163fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes a inverse weighted distance field from the input mesh vertex positions.  <a href="group__z_field2_d_utilities.html#gac6ab9a8d6ef76617f7abcb73d33163fa">More...</a><br /></td></tr>
-<tr class="separator:gac6ab9a8d6ef76617f7abcb73d33163fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga250b162aee9a766cf48e30a51308094c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga250b162aee9a766cf48e30a51308094c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga250b162aee9a766cf48e30a51308094c">zSpace::assignScalarsAsVertexDistance_IDW</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double power, double influence, T constantValue, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga250b162aee9a766cf48e30a51308094c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes a inverse weighted distance field from the input graph vertex positions.  <a href="group__z_field2_d_utilities.html#ga250b162aee9a766cf48e30a51308094c">More...</a><br /></td></tr>
-<tr class="separator:ga250b162aee9a766cf48e30a51308094c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3277f417adc567bc7cc9ea164c68636b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga3277f417adc567bc7cc9ea164c68636b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga3277f417adc567bc7cc9ea164c68636b">zSpace::assignScalarsAsVertexDistance_IDW</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inPositions, double power, vector&lt; double &gt; &amp;influences, T constantValue, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga3277f417adc567bc7cc9ea164c68636b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes a inverse weighted distance field from the input positions.  <a href="group__z_field2_d_utilities.html#ga3277f417adc567bc7cc9ea164c68636b">More...</a><br /></td></tr>
-<tr class="separator:ga3277f417adc567bc7cc9ea164c68636b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4b304f57284b5f4a4907fcf3c8455570"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga4b304f57284b5f4a4907fcf3c8455570"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga4b304f57284b5f4a4907fcf3c8455570">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;points, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga4b304f57284b5f4a4907fcf3c8455570"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input vector of <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> positions.  <a href="group__z_field2_d_utilities.html#ga4b304f57284b5f4a4907fcf3c8455570">More...</a><br /></td></tr>
-<tr class="separator:ga4b304f57284b5f4a4907fcf3c8455570"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga28516c1df87b7ab952dfefb60e2d3921"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga28516c1df87b7ab952dfefb60e2d3921"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga28516c1df87b7ab952dfefb60e2d3921"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input mesh vertex positions.  <a href="group__z_field2_d_utilities.html#ga28516c1df87b7ab952dfefb60e2d3921">More...</a><br /></td></tr>
-<tr class="separator:ga28516c1df87b7ab952dfefb60e2d3921"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga6bd2bfb390e165891bde9b17d973fdd2">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input graph vertex positions.  <a href="group__z_field2_d_utilities.html#ga6bd2bfb390e165891bde9b17d973fdd2">More...</a><br /></td></tr>
-<tr class="separator:ga6bd2bfb390e165891bde9b17d973fdd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae0e4895a659cd46728f0f9d13adf58ed"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gae0e4895a659cd46728f0f9d13adf58ed"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gae0e4895a659cd46728f0f9d13adf58ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input mesh.  <a href="group__z_field2_d_utilities.html#gae0e4895a659cd46728f0f9d13adf58ed">More...</a><br /></td></tr>
-<tr class="separator:gae0e4895a659cd46728f0f9d13adf58ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga6fdfc4e3f7643ae9be3665d5742bfbc4">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input graph.  <a href="group__z_field2_d_utilities.html#ga6fdfc4e3f7643ae9be3665d5742bfbc4">More...</a><br /></td></tr>
-<tr class="separator:ga6fdfc4e3f7643ae9be3665d5742bfbc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae68c3cc003ddb91163a995e1235c938b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gae68c3cc003ddb91163a995e1235c938b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b">zSpace::union_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:gae68c3cc003ddb91163a995e1235c938b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a union of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#gae68c3cc003ddb91163a995e1235c938b">More...</a><br /></td></tr>
-<tr class="separator:gae68c3cc003ddb91163a995e1235c938b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611">zSpace::subtract_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a subtraction of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#ga92ff3f50a3ac8669fdd2417a5f8ac611">More...</a><br /></td></tr>
-<tr class="separator:ga92ff3f50a3ac8669fdd2417a5f8ac611"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga65f46131efc2cbe876ba5d4384d76dd9">zSpace::intersect_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a intersect of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#ga65f46131efc2cbe876ba5d4384d76dd9">More...</a><br /></td></tr>
-<tr class="separator:ga65f46131efc2cbe876ba5d4384d76dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga19783b321eeeebfef2f3d5a0388c2278"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga19783b321eeeebfef2f3d5a0388c2278"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278">zSpace::difference_fields</a> (vector&lt; T &gt; &amp;scalars0, vector&lt; T &gt; &amp;scalars1, vector&lt; T &gt; &amp;scalarsResult)</td></tr>
-<tr class="memdesc:ga19783b321eeeebfef2f3d5a0388c2278"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a difference of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#ga19783b321eeeebfef2f3d5a0388c2278">More...</a><br /></td></tr>
-<tr class="separator:ga19783b321eeeebfef2f3d5a0388c2278"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6">zSpace::clipwithPlane</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, <a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;clipPlane)</td></tr>
-<tr class="memdesc:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method uses an input plane to clip an existing scalar field.  <a href="group__z_field2_d_utilities.html#gaca32f244ab7a2dbd98378990ec1edfa6">More...</a><br /></td></tr>
-<tr class="separator:gaca32f244ab7a2dbd98378990ec1edfa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf2f5b97efe661e3d65caff0f473a0f09"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gaf2f5b97efe661e3d65caff0f473a0f09"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gaf2f5b97efe661e3d65caff0f473a0f09">zSpace::updateFieldValues</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gaf2f5b97efe661e3d65caff0f473a0f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red.  <a href="group__z_field2_d_utilities.html#gaf2f5b97efe661e3d65caff0f473a0f09">More...</a><br /></td></tr>
-<tr class="separator:gaf2f5b97efe661e3d65caff0f473a0f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa729c665b3b653a45b8d18366cb0db16"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gaa729c665b3b653a45b8d18366cb0db16"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16">zSpace::updateColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars)</td></tr>
-<tr class="memdesc:gaa729c665b3b653a45b8d18366cb0db16"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red.  <a href="group__z_field2_d_utilities.html#gaa729c665b3b653a45b8d18366cb0db16">More...</a><br /></td></tr>
-<tr class="separator:gaa729c665b3b653a45b8d18366cb0db16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2)</td></tr>
-<tr class="memdesc:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_field2_d_utilities.html#ga3bb0d7e6c79864a2448cfcdab850d53a">More...</a><br /></td></tr>
-<tr class="separator:ga3bb0d7e6c79864a2448cfcdab850d53a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2f49512e60cd8d85090877fe3fce5467"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga2f49512e60cd8d85090877fe3fce5467"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga2f49512e60cd8d85090877fe3fce5467">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2, T dMin, T dMax)</td></tr>
-<tr class="memdesc:ga2f49512e60cd8d85090877fe3fce5467"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_field2_d_utilities.html#ga2f49512e60cd8d85090877fe3fce5467">More...</a><br /></td></tr>
-<tr class="separator:ga2f49512e60cd8d85090877fe3fce5467"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gada3dd74c81ce688ba67f52641a7b2edf"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gada3dd74c81ce688ba67f52641a7b2edf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gada3dd74c81ce688ba67f52641a7b2edf">zSpace::assignScalarsAsVertexDistance_IDW</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, T meshValue, double influence, vector&lt; T &gt; &amp;fieldValues, double power=2.0, bool normalise=true)</td></tr>
+<tr class="memdesc:gada3dd74c81ce688ba67f52641a7b2edf"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes a inverse weighted distance field from the input mesh vertex positions.  <a href="group__z_field2_d_utilities.html#gada3dd74c81ce688ba67f52641a7b2edf">More...</a><br /></td></tr>
+<tr class="separator:gada3dd74c81ce688ba67f52641a7b2edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9812d7d4261b89e7e32736a08d6ce435"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga9812d7d4261b89e7e32736a08d6ce435"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga9812d7d4261b89e7e32736a08d6ce435">zSpace::assignScalarsAsVertexDistance_IDW</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, T graphValue, double influence, vector&lt; T &gt; &amp;fieldValues, double power=2.0, bool normalise=true)</td></tr>
+<tr class="memdesc:ga9812d7d4261b89e7e32736a08d6ce435"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes a inverse weighted distance field from the input graph vertex positions.  <a href="group__z_field2_d_utilities.html#ga9812d7d4261b89e7e32736a08d6ce435">More...</a><br /></td></tr>
+<tr class="separator:ga9812d7d4261b89e7e32736a08d6ce435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga56823d41001723150ce0e7d1c4c29e55"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga56823d41001723150ce0e7d1c4c29e55"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga56823d41001723150ce0e7d1c4c29e55">zSpace::assignFieldValuesAsVertexDistance_IDW</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inPositions, vector&lt; T &gt; &amp;values, vector&lt; double &gt; &amp;influences, vector&lt; T &gt; &amp;fieldValues, double power=2.0, bool normalise=true)</td></tr>
+<tr class="memdesc:ga56823d41001723150ce0e7d1c4c29e55"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the field values based on inverse weighted distance from the input positions.  <a href="group__z_field2_d_utilities.html#ga56823d41001723150ce0e7d1c4c29e55">More...</a><br /></td></tr>
+<tr class="separator:ga56823d41001723150ce0e7d1c4c29e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6fcca173932ddf0922fd415c2afb8feb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga6fcca173932ddf0922fd415c2afb8feb">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;points, vector&lt; double &gt; &amp;scalars, bool normalise=true)</td></tr>
+<tr class="memdesc:ga6fcca173932ddf0922fd415c2afb8feb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input vector of <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> positions.  <a href="group__z_field2_d_utilities.html#ga6fcca173932ddf0922fd415c2afb8feb">More...</a><br /></td></tr>
+<tr class="separator:ga6fcca173932ddf0922fd415c2afb8feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac890a4dab6d32ab165e37d346d2e7fbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gac890a4dab6d32ab165e37d346d2e7fbd">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; double &gt; &amp;scalars, bool normalise=true)</td></tr>
+<tr class="memdesc:gac890a4dab6d32ab165e37d346d2e7fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input mesh vertex positions.  <a href="group__z_field2_d_utilities.html#gac890a4dab6d32ab165e37d346d2e7fbd">More...</a><br /></td></tr>
+<tr class="separator:gac890a4dab6d32ab165e37d346d2e7fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29c99d69a9912a2580263d0f6f9c0985"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga29c99d69a9912a2580263d0f6f9c0985">zSpace::assignScalarsAsVertexDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; double &gt; &amp;scalars, bool normalise=true)</td></tr>
+<tr class="memdesc:ga29c99d69a9912a2580263d0f6f9c0985"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a vertex distance Field from the input graph vertex positions.  <a href="group__z_field2_d_utilities.html#ga29c99d69a9912a2580263d0f6f9c0985">More...</a><br /></td></tr>
+<tr class="separator:ga29c99d69a9912a2580263d0f6f9c0985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9b9b7c2e08f35363c4e937cd3f8fccfb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double a, double b, vector&lt; double &gt; &amp;scalars, bool normalise=true)</td></tr>
+<tr class="memdesc:ga9b9b7c2e08f35363c4e937cd3f8fccfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input mesh.  <a href="group__z_field2_d_utilities.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb">More...</a><br /></td></tr>
+<tr class="separator:ga9b9b7c2e08f35363c4e937cd3f8fccfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae3f017b3130038f4d3005e6f39d39ef1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gae3f017b3130038f4d3005e6f39d39ef1">zSpace::assignScalarsAsEdgeDistance</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;inGraph, double a, double b, vector&lt; double &gt; &amp;scalars, bool normalise=true)</td></tr>
+<tr class="memdesc:gae3f017b3130038f4d3005e6f39d39ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a edge distance Field from the input graph.  <a href="group__z_field2_d_utilities.html#gae3f017b3130038f4d3005e6f39d39ef1">More...</a><br /></td></tr>
+<tr class="separator:gae3f017b3130038f4d3005e6f39d39ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d4d52c331c2d6228ec3830586e24b44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga7d4d52c331c2d6228ec3830586e24b44">zSpace::union_fields</a> (vector&lt; double &gt; &amp;scalars0, vector&lt; double &gt; &amp;scalars1, vector&lt; double &gt; &amp;scalarsResult, bool normalise=true)</td></tr>
+<tr class="memdesc:ga7d4d52c331c2d6228ec3830586e24b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a union of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#ga7d4d52c331c2d6228ec3830586e24b44">More...</a><br /></td></tr>
+<tr class="separator:ga7d4d52c331c2d6228ec3830586e24b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa0ce4c87e85bfe8bcba72bea4cb407fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gaa0ce4c87e85bfe8bcba72bea4cb407fe">zSpace::subtract_fields</a> (vector&lt; double &gt; &amp;fieldValues_A, vector&lt; double &gt; &amp;fieldValues_B, vector&lt; double &gt; &amp;fieldValues_Result, bool normalise=true)</td></tr>
+<tr class="memdesc:gaa0ce4c87e85bfe8bcba72bea4cb407fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a subtraction of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#gaa0ce4c87e85bfe8bcba72bea4cb407fe">More...</a><br /></td></tr>
+<tr class="separator:gaa0ce4c87e85bfe8bcba72bea4cb407fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad849b2f23a1d03b1bf3ce3fad1647556"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gad849b2f23a1d03b1bf3ce3fad1647556">zSpace::intersect_fields</a> (vector&lt; double &gt; &amp;fieldValues_A, vector&lt; double &gt; &amp;fieldValues_B, vector&lt; double &gt; &amp;fieldValues_Result, bool normalise=true)</td></tr>
+<tr class="memdesc:gad849b2f23a1d03b1bf3ce3fad1647556"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a intersect of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#gad849b2f23a1d03b1bf3ce3fad1647556">More...</a><br /></td></tr>
+<tr class="separator:gad849b2f23a1d03b1bf3ce3fad1647556"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac59a9e100d70565e24b36d4b27e28d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#gaac59a9e100d70565e24b36d4b27e28d1">zSpace::difference_fields</a> (vector&lt; double &gt; &amp;fieldValues_A, vector&lt; double &gt; &amp;fieldValues_B, vector&lt; double &gt; &amp;fieldValues_Result, bool normalise=false)</td></tr>
+<tr class="memdesc:gaac59a9e100d70565e24b36d4b27e28d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a difference of the fields at the input buffers and stores them in the result buffer.  <a href="group__z_field2_d_utilities.html#gaac59a9e100d70565e24b36d4b27e28d1">More...</a><br /></td></tr>
+<tr class="separator:gaac59a9e100d70565e24b36d4b27e28d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga88c4618ac754f6fffab5d2ab00021ffc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga88c4618ac754f6fffab5d2ab00021ffc">zSpace::clipwithPlane</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars, <a class="el" href="group__z_core_classes.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;clipPlane)</td></tr>
+<tr class="memdesc:ga88c4618ac754f6fffab5d2ab00021ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method uses an input plane to clip an existing scalar field.  <a href="group__z_field2_d_utilities.html#ga88c4618ac754f6fffab5d2ab00021ffc">More...</a><br /></td></tr>
+<tr class="separator:ga88c4618ac754f6fffab5d2ab00021ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7317fef387a758a3c687d6b511252172"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga7317fef387a758a3c687d6b511252172"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga7317fef387a758a3c687d6b511252172">zSpace::updateFieldValues</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;inField, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; T &gt; &amp;fieldMeshValues)</td></tr>
+<tr class="memdesc:ga7317fef387a758a3c687d6b511252172"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red.  <a href="group__z_field2_d_utilities.html#ga7317fef387a758a3c687d6b511252172">More...</a><br /></td></tr>
+<tr class="separator:ga7317fef387a758a3c687d6b511252172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b8f595bd1fccaa3086c7d841f3137c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga2b8f595bd1fccaa3086c7d841f3137c7">zSpace::updateColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars)</td></tr>
+<tr class="memdesc:ga2b8f595bd1fccaa3086c7d841f3137c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red.  <a href="group__z_field2_d_utilities.html#ga2b8f595bd1fccaa3086c7d841f3137c7">More...</a><br /></td></tr>
+<tr class="separator:ga2b8f595bd1fccaa3086c7d841f3137c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98c941196d269404150977048849513f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga98c941196d269404150977048849513f">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2)</td></tr>
+<tr class="memdesc:ga98c941196d269404150977048849513f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_field2_d_utilities.html#ga98c941196d269404150977048849513f">More...</a><br /></td></tr>
+<tr class="separator:ga98c941196d269404150977048849513f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga362305de05d0ce3c7c8001b58ae75280"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga362305de05d0ce3c7c8001b58ae75280">zSpace::updateBlendColors</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;fieldMesh, vector&lt; double &gt; &amp;scalars, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col1, <a class="el" href="classz_space_1_1z_color.html">zColor</a> &amp;col2, double dMin, double dMax)</td></tr>
+<tr class="memdesc:ga362305de05d0ce3c7c8001b58ae75280"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the color values of the field mesh based on the scalar values.  <a href="group__z_field2_d_utilities.html#ga362305de05d0ce3c7c8001b58ae75280">More...</a><br /></td></tr>
+<tr class="separator:ga362305de05d0ce3c7c8001b58ae75280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga639523b2f15f9ee934cf381e2ee48856"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_field2_d_utilities.html#ga639523b2f15f9ee934cf381e2ee48856">zSpace::getIsolineCase</a> (bool vertexBinary[4])</td></tr>
 <tr class="memdesc:ga639523b2f15f9ee934cf381e2ee48856"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the isoline case based on the input vertex binary values.  <a href="group__z_field2_d_utilities.html#ga639523b2f15f9ee934cf381e2ee48856">More...</a><br /></td></tr>
 <tr class="separator:ga639523b2f15f9ee934cf381e2ee48856"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,13 +202,99 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of utility methods for fields 2D. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gae0e4895a659cd46728f0f9d13adf58ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae0e4895a659cd46728f0f9d13adf58ed">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[1/2]</span></h2>
+<a id="ga56823d41001723150ce0e7d1c4c29e55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga56823d41001723150ce0e7d1c4c29e55">&#9670;&nbsp;</a></span>assignFieldValuesAsVertexDistance_IDW()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::assignFieldValuesAsVertexDistance_IDW </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>fieldMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inPositions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>influences</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>power</em> = <code>2.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method computes the field values based on inverse weighted distance from the input positions. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with double / <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inPositions</td><td>- container of input positions for distance calculations. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">values</td><td>- value to be propagated for each input position. Size of container should be equal to inPositions. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">influences</td><td>- influence value of each input position. Size of container should be equal to inPositions. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fieldValues</td><td>- container for storing field values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input power value used for weight calculation. Default value is 2. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00343">343</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_field2_d_utilities_ga56823d41001723150ce0e7d1c4c29e55_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga56823d41001723150ce0e7d1c4c29e55_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga9b9b7c2e08f35363c4e937cd3f8fccfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9b9b7c2e08f35363c4e937cd3f8fccfb">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsEdgeDistance </td>
@@ -256,8 +323,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalars</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -268,12 +341,6 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a edge distance Field from the input mesh. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -281,27 +348,26 @@ template&lt;typename T &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00537">537</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00549">549</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_gae0e4895a659cd46728f0f9d13adf58ed_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gae0e4895a659cd46728f0f9d13adf58ed_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga9b9b7c2e08f35363c4e937cd3f8fccfb_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga9b9b7c2e08f35363c4e937cd3f8fccfb_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga6fdfc4e3f7643ae9be3665d5742bfbc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6fdfc4e3f7643ae9be3665d5742bfbc4">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[2/2]</span></h2>
+<a id="gae3f017b3130038f4d3005e6f39d39ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae3f017b3130038f4d3005e6f39d39ef1">&#9670;&nbsp;</a></span>assignScalarsAsEdgeDistance() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsEdgeDistance </td>
@@ -330,8 +396,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalars</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -342,12 +414,6 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a edge distance Field from the input graph. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -355,27 +421,26 @@ template&lt;typename T &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00593">593</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00602">602</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga6fdfc4e3f7643ae9be3665d5742bfbc4_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga6fdfc4e3f7643ae9be3665d5742bfbc4_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gae3f017b3130038f4d3005e6f39d39ef1_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gae3f017b3130038f4d3005e6f39d39ef1_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga4b304f57284b5f4a4907fcf3c8455570"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4b304f57284b5f4a4907fcf3c8455570">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[1/3]</span></h2>
+<a id="ga6fcca173932ddf0922fd415c2afb8feb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6fcca173932ddf0922fd415c2afb8feb">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsVertexDistance </td>
@@ -392,8 +457,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalars</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -415,27 +486,26 @@ template&lt;typename T &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> of the field. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>- container of positions. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00378">378</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00395">395</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga4b304f57284b5f4a4907fcf3c8455570_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga4b304f57284b5f4a4907fcf3c8455570_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga6fcca173932ddf0922fd415c2afb8feb_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga6fcca173932ddf0922fd415c2afb8feb_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga28516c1df87b7ab952dfefb60e2d3921"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga28516c1df87b7ab952dfefb60e2d3921">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[2/3]</span></h2>
+<a id="gac890a4dab6d32ab165e37d346d2e7fbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac890a4dab6d32ab165e37d346d2e7fbd">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsVertexDistance </td>
@@ -464,8 +534,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalars</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -490,27 +566,26 @@ template&lt;typename T &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00440">440</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00460">460</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga28516c1df87b7ab952dfefb60e2d3921_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga28516c1df87b7ab952dfefb60e2d3921_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gac890a4dab6d32ab165e37d346d2e7fbd_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gac890a4dab6d32ab165e37d346d2e7fbd_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga6bd2bfb390e165891bde9b17d973fdd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga6bd2bfb390e165891bde9b17d973fdd2">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[3/3]</span></h2>
+<a id="ga29c99d69a9912a2580263d0f6f9c0985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga29c99d69a9912a2580263d0f6f9c0985">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::assignScalarsAsVertexDistance </td>
@@ -539,8 +614,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalars</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -564,22 +645,23 @@ template&lt;typename T &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>- input variable for distance function. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00488">488</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00503">503</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga6bd2bfb390e165891bde9b17d973fdd2_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga6bd2bfb390e165891bde9b17d973fdd2_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga29c99d69a9912a2580263d0f6f9c0985_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga29c99d69a9912a2580263d0f6f9c0985_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="gac6ab9a8d6ef76617f7abcb73d33163fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gac6ab9a8d6ef76617f7abcb73d33163fa">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance_IDW() <span class="overload">[1/3]</span></h2>
+<a id="gada3dd74c81ce688ba67f52641a7b2edf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gada3dd74c81ce688ba67f52641a7b2edf">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance_IDW() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -601,8 +683,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>power</em>, </td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>meshValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -613,14 +695,20 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>constantValue</em>, </td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>power</em> = <code>2.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -633,7 +721,7 @@ template&lt;typename T &gt; </div>
 <p>This method computes a inverse weighted distance field from the input mesh vertex positions. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+    <tr><td class="paramname">T</td><td>- Type to work with double / <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -641,26 +729,27 @@ template&lt;typename T &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh for distance calculations. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input power value used for weight calculation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">influence</td><td>- input influence of the inMesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">constantValue</td><td>- constant value multiplier. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">meshValue</td><td>- value to be propagated for the mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">influences</td><td>- influence value of the graph. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fieldValues</td><td>- container for storing field values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input power value used for weight calculation. Default value is 2. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00215">215</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00234">234</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_gac6ab9a8d6ef76617f7abcb73d33163fa_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gac6ab9a8d6ef76617f7abcb73d33163fa_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gada3dd74c81ce688ba67f52641a7b2edf_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gada3dd74c81ce688ba67f52641a7b2edf_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga250b162aee9a766cf48e30a51308094c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga250b162aee9a766cf48e30a51308094c">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance_IDW() <span class="overload">[2/3]</span></h2>
+<a id="ga9812d7d4261b89e7e32736a08d6ce435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9812d7d4261b89e7e32736a08d6ce435">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance_IDW() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -682,8 +771,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>power</em>, </td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>graphValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -694,14 +783,20 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>constantValue</em>, </td>
+          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>power</em> = <code>2.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -714,7 +809,7 @@ template&lt;typename T &gt; </div>
 <p>This method computes a inverse weighted distance field from the input graph vertex positions. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+    <tr><td class="paramname">T</td><td>- Type to work with double / <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -722,112 +817,30 @@ template&lt;typename T &gt; </div>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">inGraph</td><td>- input graph for distance calculations. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input power value used for weight calculation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">influence</td><td>- input influence of the inMesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">constantValue</td><td>- constant value multiplier. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">graphValue</td><td>- value to be propagated for the graph. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">influences</td><td>- influence value of the graph. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fieldValues</td><td>- container for storing field values. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input power value used for weight calculation. Default value is 2. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00268">268</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00288">288</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga250b162aee9a766cf48e30a51308094c_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga250b162aee9a766cf48e30a51308094c_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga9812d7d4261b89e7e32736a08d6ce435_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga9812d7d4261b89e7e32736a08d6ce435_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga3277f417adc567bc7cc9ea164c68636b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3277f417adc567bc7cc9ea164c68636b">&#9670;&nbsp;</a></span>assignScalarsAsVertexDistance_IDW() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::assignScalarsAsVertexDistance_IDW </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
-          <td class="paramname"><em>fieldMesh</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>inPositions</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>power</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>influences</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>constantValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method computes a inverse weighted distance field from the input positions. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">inPositions</td><td>- container of input positions for distance calculations. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input power value used for weight calculation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">influences</td><td>- input container of influence of each input position. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">constantValue</td><td>- constant value multiplier. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">scalars</td><td>- container for storing scalar values. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00323">323</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga3277f417adc567bc7cc9ea164c68636b_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga3277f417adc567bc7cc9ea164c68636b_cgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
-<a id="gaca32f244ab7a2dbd98378990ec1edfa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaca32f244ab7a2dbd98378990ec1edfa6">&#9670;&nbsp;</a></span>clipwithPlane()</h2>
+<a id="ga88c4618ac754f6fffab5d2ab00021ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga88c4618ac754f6fffab5d2ab00021ffc">&#9670;&nbsp;</a></span>clipwithPlane()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::clipwithPlane </td>
@@ -838,7 +851,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>, </td>
         </tr>
         <tr>
@@ -856,12 +869,6 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method uses an input plane to clip an existing scalar field. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -872,11 +879,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00739">739</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00742">742</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_gaca32f244ab7a2dbd98378990ec1edfa6_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gaca32f244ab7a2dbd98378990ec1edfa6_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga88c4618ac754f6fffab5d2ab00021ffc_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga88c4618ac754f6fffab5d2ab00021ffc_cgraph" alt=""/></div>
 </div>
 
 </div>
@@ -932,7 +939,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00156">156</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00199">199</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -992,7 +999,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00130">130</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00173">173</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1001,16 +1008,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ga281d304e16a55db52401d893673eb278"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga281d304e16a55db52401d893673eb278">&#9670;&nbsp;</a></span>createVectorFieldFromScalarField()</h2>
+<a id="ga7913ca4cedb8a049b845b8f7d417a545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7913ca4cedb8a049b845b8f7d417a545">&#9670;&nbsp;</a></span>createScalarFieldFromVectorField()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void zSpace::createVectorFieldFromScalarField </td>
+          <td class="memname">void zSpace::createScalarFieldFromVectorField </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>vectorField</em>, </td>
@@ -1018,14 +1023,53 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalarField</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This method creates a scalar field from the input vector field. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">vectorField</td><td>- input vector field. It needs to non normalised vectors to get a gradient. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">scalarField</td><td>- scalar field created from input vector field. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00141">141</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_field2_d_utilities_ga7913ca4cedb8a049b845b8f7d417a545_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga7913ca4cedb8a049b845b8f7d417a545_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga7b48b1ab7119cddf881eda1648a8be89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7b48b1ab7119cddf881eda1648a8be89">&#9670;&nbsp;</a></span>createVectorFieldFromScalarField()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::createVectorFieldFromScalarField </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalarField</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gae358de25ebb3a70dd012613c7da9fbdb">zFieldValueType</a>&#160;</td>
-          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_core_enumerators.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60">zFieldNeighbourWeighted</a></code>, </td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vectorField</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1042,55 +1086,54 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a vector field from the input scalar field. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes (int, float, double), . </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">vectorField</td><td>- vector field created from input scalar field. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">scalarField</td><td>- input scalar field. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vectorField</td><td>- vector field created from input scalar field. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">epsilon</td><td>- small increment value needed for gradient calculations. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00098">98</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00112">112</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga281d304e16a55db52401d893673eb278_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga281d304e16a55db52401d893673eb278_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga7b48b1ab7119cddf881eda1648a8be89_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga7b48b1ab7119cddf881eda1648a8be89_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga19783b321eeeebfef2f3d5a0388c2278"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga19783b321eeeebfef2f3d5a0388c2278">&#9670;&nbsp;</a></span>difference_fields()</h2>
+<a id="gaac59a9e100d70565e24b36d4b27e28d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac59a9e100d70565e24b36d4b27e28d1">&#9670;&nbsp;</a></span>difference_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::difference_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars0</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars1</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_B</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalarsResult</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_Result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1101,27 +1144,22 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a difference of the fields at the input buffers and stores them in the result buffer. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalars0</td><td>- value of buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalars1</td><td>- value of buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalarsResult</td><td>- value of buffer to store the results. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_A</td><td>- field Values A. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_B</td><td>- field Values B. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_Result</td><td>- resultant field value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00715">715</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00719">719</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga19783b321eeeebfef2f3d5a0388c2278_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga19783b321eeeebfef2f3d5a0388c2278_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gaac59a9e100d70565e24b36d4b27e28d1_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gaac59a9e100d70565e24b36d4b27e28d1_cgraph" alt=""/></div>
 </div>
 
 </div>
@@ -1183,7 +1221,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01128">1128</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01122">1122</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1223,7 +1261,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>int - case type. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00985">985</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00979">979</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1283,7 +1321,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> - isoband mesh. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02701">2701</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02695">2695</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1370,7 +1408,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01733">1733</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01727">1727</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1421,7 +1459,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_graph.html" title="A half edge graph class.">zGraph</a> - contour graph. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02569">2569</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02563">2563</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1456,7 +1494,7 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>int - case type. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00939">939</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00933">933</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1509,7 +1547,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> - isoline mesh. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02667">2667</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l02661">2661</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1601,7 +1639,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01152">1152</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l01146">1146</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1615,146 +1653,35 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ga34dd3e1d50d2be7c60d60effa589630b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga34dd3e1d50d2be7c60d60effa589630b">&#9670;&nbsp;</a></span>idw_DistanceTo()</h2>
+<a id="gad849b2f23a1d03b1bf3ce3fad1647556"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad849b2f23a1d03b1bf3ce3fad1647556">&#9670;&nbsp;</a></span>intersect_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">double zSpace::idw_DistanceTo </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
-          <td class="paramname"><em>inPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T &amp;&#160;</td>
-          <td class="paramname"><em>inObject</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method computes the weight inverse distance to the the input position. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes (int, float, double), <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> and <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inPos</td><td>- input position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">inObject</td><td>- input object to which the distance is computed. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>double - weighted inverse distance. </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-</div>
-</div>
-<a id="ga278b111953d2ca76a69df7020260c60c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga278b111953d2ca76a69df7020260c60c">&#9670;&nbsp;</a></span>idw_ValueAt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">T zSpace::idw_ValueAt </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td>
-          <td class="paramname"><em>inPos</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T &amp;&#160;</td>
-          <td class="paramname"><em>fieldValue</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>influence</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>epsilon</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double &amp;&#160;</td>
-          <td class="paramname"><em>power</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method computes the weight inverse distance to the the input position. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes (int, float, double) and <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inPos</td><td>- input position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValue</td><td>- input fieldValue. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">influence</td><td>- input influence Value. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">epsilon</td><td>- input epsilon Value. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">power</td><td>- input influence Value. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>T - weighted inverse distance value. </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-</div>
-</div>
-<a id="ga65f46131efc2cbe876ba5d4384d76dd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga65f46131efc2cbe876ba5d4384d76dd9">&#9670;&nbsp;</a></span>intersect_fields()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::intersect_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars0</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars1</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_B</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalarsResult</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_Result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1765,61 +1692,60 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a intersect of the fields at the input buffers and stores them in the result buffer. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer0</td><td>- value of buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">buffer1</td><td>- value of buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">res_buffer</td><td>- value of buffer to store the results. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_A</td><td>- field Values A. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_B</td><td>- field Values B. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_Result</td><td>- resultant field value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00692">692</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00697">697</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gad849b2f23a1d03b1bf3ce3fad1647556_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gad849b2f23a1d03b1bf3ce3fad1647556_cgraph" alt=""/></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_icgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga65f46131efc2cbe876ba5d4384d76dd9_icgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gad849b2f23a1d03b1bf3ce3fad1647556_icgraph.png" border="0" usemap="#group__z_field2_d_utilities_gad849b2f23a1d03b1bf3ce3fad1647556_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga92ff3f50a3ac8669fdd2417a5f8ac611"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga92ff3f50a3ac8669fdd2417a5f8ac611">&#9670;&nbsp;</a></span>subtract_fields()</h2>
+<a id="gaa0ce4c87e85bfe8bcba72bea4cb407fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa0ce4c87e85bfe8bcba72bea4cb407fe">&#9670;&nbsp;</a></span>subtract_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::subtract_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars0</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_A</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars1</em>, </td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_B</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalarsResult</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldValues_Result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1830,56 +1756,55 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a subtraction of the fields at the input buffers and stores them in the result buffer. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalars0</td><td>- value of buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalars1</td><td>- value of buffer. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">scalarsResult</td><td>- value of buffer to store the results. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_A</td><td>- field Values A. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_B</td><td>- field Values B. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldValues_Result</td><td>- resultant field value. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00669">669</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00674">674</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga92ff3f50a3ac8669fdd2417a5f8ac611_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga92ff3f50a3ac8669fdd2417a5f8ac611_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_gaa0ce4c87e85bfe8bcba72bea4cb407fe_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gaa0ce4c87e85bfe8bcba72bea4cb407fe_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="gae68c3cc003ddb91163a995e1235c938b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae68c3cc003ddb91163a995e1235c938b">&#9670;&nbsp;</a></span>union_fields()</h2>
+<a id="ga7d4d52c331c2d6228ec3830586e24b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7d4d52c331c2d6228ec3830586e24b44">&#9670;&nbsp;</a></span>union_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::union_fields </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars0</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalarsResult</em>&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>scalarsResult</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalise</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1890,38 +1815,31 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method creates a union of the fields at the input buffers and stores them in the result buffer. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">scalars0</td><td>- value of buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">scalars1</td><td>- value of buffer. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">scalarsResult</td><td>- value of buffer to store the results. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">normalise</td><td>- true if the scalars need to mapped between -1 and 1. generally used for contouring. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00646">646</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00652">652</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_gae68c3cc003ddb91163a995e1235c938b_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gae68c3cc003ddb91163a995e1235c938b_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga7d4d52c331c2d6228ec3830586e24b44_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga7d4d52c331c2d6228ec3830586e24b44_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga3bb0d7e6c79864a2448cfcdab850d53a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3bb0d7e6c79864a2448cfcdab850d53a">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[1/2]</span></h2>
+<a id="ga98c941196d269404150977048849513f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98c941196d269404150977048849513f">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::updateBlendColors </td>
@@ -1932,7 +1850,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>, </td>
         </tr>
         <tr>
@@ -1956,12 +1874,6 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method updates the color values of the field mesh based on the scalar values. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -1973,22 +1885,20 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00851">851</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00847">847</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga3bb0d7e6c79864a2448cfcdab850d53a_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga3bb0d7e6c79864a2448cfcdab850d53a_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga98c941196d269404150977048849513f_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga98c941196d269404150977048849513f_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga2f49512e60cd8d85090877fe3fce5467"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2f49512e60cd8d85090877fe3fce5467">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[2/2]</span></h2>
+<a id="ga362305de05d0ce3c7c8001b58ae75280"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga362305de05d0ce3c7c8001b58ae75280">&#9670;&nbsp;</a></span>updateBlendColors() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::updateBlendColors </td>
@@ -1999,7 +1909,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>, </td>
         </tr>
         <tr>
@@ -2017,13 +1927,13 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>dMin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>dMax</em>&#160;</td>
         </tr>
         <tr>
@@ -2035,12 +1945,6 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>This method updates the color values of the field mesh based on the scalar values. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">fieldMesh</td><td>- input field mesh. </td></tr>
@@ -2052,22 +1956,20 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00893">893</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00887">887</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_ga2f49512e60cd8d85090877fe3fce5467_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga2f49512e60cd8d85090877fe3fce5467_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga362305de05d0ce3c7c8001b58ae75280_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga362305de05d0ce3c7c8001b58ae75280_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="gaa729c665b3b653a45b8d18366cb0db16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa729c665b3b653a45b8d18366cb0db16">&#9670;&nbsp;</a></span>updateColors()</h2>
+<a id="ga2b8f595bd1fccaa3086c7d841f3137c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2b8f595bd1fccaa3086c7d841f3137c7">&#9670;&nbsp;</a></span>updateColors()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::updateColors </td>
@@ -2078,7 +1980,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
           <td class="paramname"><em>scalars</em>&#160;</td>
         </tr>
         <tr>
@@ -2109,13 +2011,13 @@ template&lt;typename T &gt; </div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_gaa729c665b3b653a45b8d18366cb0db16_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gaa729c665b3b653a45b8d18366cb0db16_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga2b8f595bd1fccaa3086c7d841f3137c7_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga2b8f595bd1fccaa3086c7d841f3137c7_cgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="gaf2f5b97efe661e3d65caff0f473a0f09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf2f5b97efe661e3d65caff0f473a0f09">&#9670;&nbsp;</a></span>updateFieldValues()</h2>
+<a id="ga7317fef387a758a3c687d6b511252172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7317fef387a758a3c687d6b511252172">&#9670;&nbsp;</a></span>updateFieldValues()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2138,7 +2040,7 @@ template&lt;typename T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>scalars</em>&#160;</td>
+          <td class="paramname"><em>fieldMeshValues</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2151,7 +2053,7 @@ template&lt;typename T &gt; </div>
 <p>This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+    <tr><td class="paramname">T</td><td>- Type to work with double / <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -2164,11 +2066,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00770">770</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_field_utilities_8h_source.html#l00773">773</a> of file <a class="el" href="z_field_utilities_8h_source.html">zFieldUtilities.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_field2_d_utilities_gaf2f5b97efe661e3d65caff0f473a0f09_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_gaf2f5b97efe661e3d65caff0f473a0f09_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_field2_d_utilities_ga7317fef387a758a3c687d6b511252172_cgraph.png" border="0" usemap="#group__z_field2_d_utilities_ga7317fef387a758a3c687d6b511252172_cgraph" alt=""/></div>
 </div>
 
 </div>
