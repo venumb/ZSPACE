@@ -916,7 +916,7 @@ namespace zSpace
 					if (!usePercentile)
 					{
 						val = ofMap(environment.chemA[i], environment.minA, environment.maxA, 0.0, 1.0);
-						environment.fieldMesh.faceColors[i] = zColor(val, val, 0, 1);
+						environment.fieldMesh.faceColors[i] = zColor(val, val, val, 1);
 					}
 					
 
@@ -925,23 +925,23 @@ namespace zSpace
 						if (environment.chemA[i] >= 0 && environment.chemA[i] <= environment.maxA)
 						{
 							val = ofMap(environment.chemA[i], 0.0, environment.maxA, 0.5, 1.0);
-							environment.fieldMesh.faceColors[i] = zColor(val, val, 0, 1);
+							environment.fieldMesh.faceColors[i] = zColor(val, val, val, 1);
 						}
 						else if (environment.chemA[i] > environment.maxA)
 						{
 							val = 1;
-							environment.fieldMesh.faceColors[i] = zColor(val, val, 0, 1);
+							environment.fieldMesh.faceColors[i] = zColor(val, val, val, 1);
 						}
 						else if (environment.chemA[i] < 0 && environment.chemA[i] >= environment.minA)
 						{
 							val = ofMap(environment.chemA[i], environment.minA, 0.0, 1.0, 0.5);
 
-							environment.fieldMesh.faceColors[i] = zColor(1 - val, 1 - val, 0, 1);
+							environment.fieldMesh.faceColors[i] = zColor(1 - val, 1 - val, 1 - val, 1);
 						}
 						else
 						{
 							val = 0;
-							environment.fieldMesh.faceColors[i] = zColor(val, val, 0, 1);
+							environment.fieldMesh.faceColors[i] = zColor(val, val, val, 1);
 						}
 					}
 					

@@ -44,7 +44,7 @@ namespace zSpace
 
 	/*! \brief This method computes the min and max scalar values at the given Scalars buffer.
 	*
-	*	\tparam			T			- Type to work with standard c++ numerical datatypes and zVector.
+	*	\tparam			T			- Type to work with double and zVector.
 	*	\param	[in]	fieldValues	- input field values
 	*	\param	[out]	dMin		- stores the minimum scalar value
 	*	\param	[out]	dMax		- stores the maximum scalar value

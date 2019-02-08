@@ -71,6 +71,7 @@
     <ClInclude Include="..\headers\include\zDynamics.h" />
     <ClInclude Include="..\headers\include\zGeometry.h" />
     <ClInclude Include="..\headers\include\zIO.h" />
+    <ClInclude Include="..\headers\IO\zBitmap.h" />
     <ClInclude Include="..\headers\IO\zJSON.h" />
     <ClInclude Include="..\headers\IO\zExchange.h" />
     <ClInclude Include="..\headers\object\zObject.h" />

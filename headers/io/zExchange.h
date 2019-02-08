@@ -1,8 +1,10 @@
 #pragma once
 
-#include<headers\IO\zJSON.h>
+#include<headers/IO/zJSON.h>
+#include <headers/IO/zBitmap.h>
 
 #include <headers/dynamics/zParticle.h>
+
 
 namespace zSpace
 {
@@ -853,6 +855,129 @@ namespace zSpace
 		myfile.close();
 
 		cout << endl << " TXT exported. File:   " << outfilename.c_str() << endl;
+	}
+
+	/** @}*/
+
+
+	//--------------------------
+	//---- 2D FIELD BITMAP METHODS
+	//--------------------------
+
+	/** \addtogroup zIO_Bitmaps
+	*	\brief Collection of input - output methods for bitmaps.
+	*  @{
+	*/
+
+	/*! \brief This method exports the input field to a bitmap file format based on the face color of the correspoding field mesh.
+	*
+	*	\tparam			T				- Type to work with double and zVector.
+	*	\param [in]		inField			- input field .
+	*	\param [in]		inFeldMesh		- input field mesh.
+	*	\param [in]		outfilename		- output file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void toBMP(zField2D<T> &inField, zMesh &inFieldMesh, string outfilename)
+	{
+		int resX, resY;
+		inField.getResolution(resX, resY);
+
+		BMP bmp(resX, resY);
+
+		uint32_t channels = bmp.bmp_info_header.bit_count / 8;
+
+		for (uint32_t x = 0; x < resX; ++x)
+		{
+			for (uint32_t y = 0; y < resY; ++y)
+			{
+				int faceId; 
+				inField.getIndex(x, y, faceId);
+
+				// blue
+				bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 0] = inFieldMesh.faceColors[faceId].b * 255;
+
+				// green
+				bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 1] = inFieldMesh.faceColors[faceId].g * 255;
+
+				// red
+				bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 2] = inFieldMesh.faceColors[faceId].r * 255;
+
+				// alpha
+				if (channels == 4)
+				{
+					bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 3] = inFieldMesh.faceColors[faceId].a * 255;
+				}
+
+			}
+
+		}
+
+		bmp.write(outfilename.c_str());
+	}
+
+
+	/*! \brief This method imorts the input bitmap file and creates the corresponding field and  field mesh. The Bitmap needs to be in grey-scale colors only to update field values.
+	*
+	*	\tparam					T				- Type to work with double and zVector.
+	*	\param		[in]		inField			- input field .
+	*	\param		[in]		inFeldMesh		- input field mesh.
+	*	\param		[in]		minBB			- minimum bounds of the field.
+	*	\param		[in]		maxBB			- maximum bounds of the field.
+	*	\param		[in]		infilename		- input file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	template <typename T>
+	void fromBMP(zField2D<T> &inField, zMesh &inFieldMesh, zVector &minBB, zVector &maxBB,  string infilename )
+	{
+
+		BMP bmp(infilename.c_str());
+
+		uint32_t channels = bmp.bmp_info_header.bit_count / 8;
+
+		int resX = bmp.bmp_info_header.width;
+		int resY = bmp.bmp_info_header.height;
+		
+		if (resX == 0 || resY == 0) return;
+
+		inField = zField2D<T>(minBB, maxBB, resX, resY);
+		from2DFIELD(inFieldMesh, inField);
+
+		
+
+		for (uint32_t x = 0; x < resX; ++x)
+		{
+			for (uint32_t y = 0; y < resY; ++y)
+			{
+				int faceId;
+				inField.getIndex(x, y, faceId);
+
+				//printf("\n %i %i %i ", x, y, faceId);
+
+				// blue
+				double b  = (double) bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 0] / 255;
+		
+				// green
+				double g = (double) bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 1] /  255;
+
+				// red
+				double r = (double) bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 2] / 255;
+
+				inFieldMesh.faceColors[faceId] = zColor(r, g, b, 1);
+
+				// alpha
+				if (channels == 4)
+				{
+					double a  = (double) bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 3] / 255;
+
+					inFieldMesh.faceColors[faceId] =  zColor(r, g, b, a) ;
+				}
+
+				inField.setFieldValue(r, faceId);
+				
+			}
+		}
+				
 	}
 
 	/** @}*/

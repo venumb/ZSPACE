@@ -61,6 +61,7 @@ namespace zSpace
 		/*!	\brief stores number of edge vertex connectivity indicies in the buffer  */
 		GLint nFaces;
 
+		
 
 		//--------------------------
 		//----  CONSTRUCTOR
