@@ -74,7 +74,6 @@ namespace zSpace
 	*	\param		[in]	setEdgeColor	- edge color is computed based on the vertex color if true.
 	*	\since version 0.0.1
 	*/
-
 	void setVertexColors(zGraph &ingraph, vector<zColor>& col, bool setEdgeColor)
 	{
 		if (col.size() != ingraph.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph vertices.");
@@ -94,7 +93,6 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-
 	void setEdgeColor(zGraph & ingraph, zColor col, bool setVertexColor)
 	{
 		for (int i = 0; i < ingraph.edgeColors.size(); i++)
@@ -106,14 +104,13 @@ namespace zSpace
 
 	}
 
-	/*! \brief This method sets edge color of all the vertices with the input color contatiner.
+	/*! \brief This method sets edge color of all the edges with the input color contatiner.
 	*
 	*	\param		[in]	inGraph			- input graph.
 	*	\param		[in]	col				- input color  contatiner. The size of the contatiner should be equal to number of edges in the graph.
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-
 	void setEdgeColors(zGraph & ingraph, vector<zColor>& col, bool setVertexColor)
 	{
 		if (col.size() != ingraph.edgeColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph edges.");

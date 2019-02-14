@@ -141,6 +141,60 @@ namespace zSpace
 		 inMesh.computeVertexNormalfromFaceNormal();	
 	}
 
+	/*! \brief This method sets edge color of of the input edge and its symmetry edge to the input color.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	index			- input edge index.
+	*	\param		[in]	col				- input color.
+	*	\since version 0.0.1
+	*/
+	void setEdgeColor(zMesh & inMesh, int index, zColor col)
+	{
+		
+		inMesh.edgeColors[index] = col;
+		
+		int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
+
+		inMesh.edgeColors[symEdge] = col;		
+
+	}
+
+	/*! \brief This method sets edge color of all the edges to the input color.
+*
+*	\param		[in]	inMesh			- input mesh.
+*	\param		[in]	col				- input color.
+*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
+*	\since version 0.0.1
+*/
+	void setEdgeColor(zMesh & inMesh, zColor col, bool setVertexColor)
+	{
+		for (int i = 0; i < inMesh.edgeColors.size(); i+= 2)
+		{
+			setEdgeColor(inMesh, i, col);
+		}
+
+		if (setVertexColor) inMesh.computeVertexColorfromEdgeColor();
+
+	}
+
+	/*! \brief This method sets edge color of all the edges with the input color contatiner.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	col				- input color  contatiner. The size of the contatiner should be equal to number of half edges in the mesh.
+	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
+	*	\since version 0.0.1
+	*/
+	void setEdgeColors(zMesh & inMesh, vector<zColor>& col, bool setVertexColor)
+	{
+		if (col.size() != inMesh.edgeColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh half edges.");
+
+		for (int i = 0; i < inMesh.edgeColors.size(); i++)
+		{
+			inMesh.edgeColors[i] = col[i];
+		}
+
+		if (setVertexColor) inMesh.computeVertexColorfromEdgeColor();
+	}
 
 	//--------------------------
 	//--- GET METHODS 
@@ -337,6 +391,63 @@ namespace zSpace
 		return out;
 	}
 	
+
+
+	/*! \brief This method computes the edge length of the edge loop starting at the input edge of zMesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	index			- edge index.
+	*	\return				double			- edge length.
+	*	\since version 0.0.1
+	*/
+	double getEdgeLoopLength(zMesh &inMesh, int index)
+	{
+		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		bool exit = false;
+
+		zEdge *e = &inMesh.edges[index];
+		zEdge *start = &inMesh.edges[index];
+		double out = 0;
+		
+		while (!exit)
+		{
+			out += getEdgelength(inMesh, e->getEdgeId());
+
+			int v = e->getVertex()->getVertexId();
+
+			if (inMesh.onBoundary(v, zVertexData)) exit = true;			
+
+			if (!exit) e = e->getNext()->getSym()->getNext();
+
+			if (e == start) exit = true;
+		}
+		
+
+		return out;
+	}
+
+	/*! \brief This method computes the edge vector of the input edge of zMesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	index			- edge index.
+	*	\return				zVector			- edge vector.
+	*	\since version 0.0.1
+	*/
+	zVector getEdgeVector(zMesh &inMesh, int index)
+	{
+		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		int v1 = inMesh.edges[index].getVertex()->getVertexId();
+		int v2 = inMesh.edges[index].getSym()->getVertex()->getVertexId();
+
+		zVector out = inMesh.vertexPositions[v1] - (inMesh.vertexPositions[v2]);
+
+		return out;
+	}
+
 	/*! \brief This method computes the area around every vertex of a mesh based on face centers.
 	*
 	*	\param		[in]	inMesh			- input mesh.
@@ -470,6 +581,17 @@ namespace zSpace
 	//--------------------------
 	//--- UTILITY METHODS 
 	//--------------------------
+	
+	/*! \brief This method scales the input mesh by the input scale factor.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	scaleFac			- scale factor.
+	*	\since version 0.0.1
+	*/
+	void scaleMesh(zMesh &inMesh, double scaleFac)
+	{
+		scalePointCloud(inMesh.vertexPositions, scaleFac);
+	}
 
 	/*! \brief This method stores input mesh connectivity information in the input containers
 	*

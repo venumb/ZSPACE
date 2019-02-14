@@ -159,6 +159,20 @@ namespace zSpace
 
 		return zVector(x1, y1, z1);
 	}
+	
+	/*! \brief This method scales the input point cloud by the input scale factor.
+	*
+	*	\param		[in]	inPoints			- input point cloud.
+	*	\param		[out]	scaleFac			- scale factor.
+	*	\since version 0.0.1
+	*/
+	void scalePointCloud(vector<zVector> &inPoints, double scaleFac)
+	{
+		for (int i = 0; i < inPoints.size(); i++)
+		{
+			inPoints[i] *= scaleFac;
+		}
+	}
 
 	/*! \brief This method returns the bounds of the input list points.
 	*
