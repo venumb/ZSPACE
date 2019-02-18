@@ -379,6 +379,47 @@ namespace zSpace
 		fieldValues = out;
 	}
 
+
+	template <typename T>
+	void assignFieldValuesAsVertexDistanceElliptical_IDW(zMesh &fieldMesh, vector<zVector> &inPositions, vector<T> &values, vector<double>& influences, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+	{
+		if (inPositions.size() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
+		if (inPositions.size() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
+
+		vector<T> out;
+
+		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
+		{
+			T d;
+			double wSum = 0.0;
+			double tempDist = 10000;
+
+
+
+			for (int j = 0; j < inPositions.size(); j++)
+			{
+				double r = fieldMesh.vertexPositions[i].distanceTo(inPositions[j]);
+
+				double w = pow(r, power);
+				wSum += w;
+
+				double val = (w > 0.0) ? ((r * influences[j]) / (w)) : 0.0;;
+
+				d += (values[j] * val);
+			}
+
+
+			(wSum > 0) ? d /= wSum : d = T();
+
+			out.push_back(d);
+		}
+
+		if (normalise)	normliseFieldValues(out);
+
+
+		fieldValues = out;
+	}
+
 	//--------------------------
 	//----  2D SCALAR FIELD METHODS
 	//--------------------------

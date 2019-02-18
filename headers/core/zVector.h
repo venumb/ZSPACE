@@ -192,11 +192,11 @@ namespace  zSpace
 			if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
 			if (inMatrix.getNumCols() < 3 || inMatrix.getNumCols() > 4) 	throw std::invalid_argument("input Matrix is not a 3X3 or 4X4 matrix.");
 
-			zMatrixd vecMatrix = this->toRowMatrix(inMatrix.getNumCols());
+			zMatrixd vecMatrix = this->toColumnMatrix(inMatrix.getNumCols());
 
-			zMatrixd outVecMatrix = vecMatrix * inMatrix;
+			zMatrixd outVecMatrix =  inMatrix * vecMatrix;
 
-			return this->fromRowMatrix(outVecMatrix);
+			return this->fromColumnMatrix(outVecMatrix);
 		}
 
 		/*! \brief This operator is used for scalar division of a vector.
@@ -471,7 +471,7 @@ namespace  zSpace
 			if (inMatrix.getNumCols() != 1) throw std::invalid_argument("input Matrix is not a column matrix.");
 			if (inMatrix.getNumRows() < 3 || inMatrix.getNumRows() > 4) throw std::invalid_argument("cannot convert column matrix to vector.");
 
-			return zVector(inMatrix(0, 0), inMatrix(0, 1), inMatrix(0, 2));
+			return zVector(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
 		}
 		
 
@@ -491,15 +491,15 @@ namespace  zSpace
 			zMatrixd rotationMatrix = zMatrixd(3, 3);
 
 			rotationMatrix(0, 0) = cos(theta) + (axisVec.x * axisVec.x) * (1 - cos(theta));
-			rotationMatrix(0, 1) = (axisVec.x * axisVec.y) * (1 - cos(theta)) - (axisVec.z) * (sin(theta));
-			rotationMatrix(0, 2) = (axisVec.x * axisVec.z) * (1 - cos(theta)) + (axisVec.y) * (sin(theta));
+			rotationMatrix(1, 0) = (axisVec.x * axisVec.y) * (1 - cos(theta)) - (axisVec.z) * (sin(theta));
+			rotationMatrix(2, 0) = (axisVec.x * axisVec.z) * (1 - cos(theta)) + (axisVec.y) * (sin(theta));
 
-			rotationMatrix(1, 0) = (axisVec.x * axisVec.y) * (1 - cos(theta)) + (axisVec.z) * (sin(theta));
+			rotationMatrix(0, 1) = (axisVec.x * axisVec.y) * (1 - cos(theta)) + (axisVec.z) * (sin(theta));
 			rotationMatrix(1, 1) = cos(theta) + (axisVec.y * axisVec.y) * (1 - cos(theta));
-			rotationMatrix(1, 2) = (axisVec.y * axisVec.z) * (1 - cos(theta)) - (axisVec.x) * (sin(theta));
+			rotationMatrix(2, 1) = (axisVec.y * axisVec.z) * (1 - cos(theta)) - (axisVec.x) * (sin(theta));
 
-			rotationMatrix(2, 0) = (axisVec.x * axisVec.z) * (1 - cos(theta)) - (axisVec.y) * (sin(theta));
-			rotationMatrix(2, 1) = (axisVec.z * axisVec.y) * (1 - cos(theta)) + (axisVec.x) * (sin(theta));
+			rotationMatrix(0, 2) = (axisVec.x * axisVec.z) * (1 - cos(theta)) - (axisVec.y) * (sin(theta));
+			rotationMatrix(1, 2) = (axisVec.z * axisVec.y) * (1 - cos(theta)) + (axisVec.x) * (sin(theta));
 			rotationMatrix(2, 2) = cos(theta) + (axisVec.z * axisVec.z) * (1 - cos(theta));
 
 

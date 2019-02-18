@@ -36,15 +36,39 @@ namespace zSpace
 	template<typename T>
 	void getCenters(T &inHEDataStructure, zHEData type, vector<zVector> &centers);
 
+	/*! \brief This method computes the edge length of the input edge of zGraph/zMesh.
+	*
+	*	\tparam				T				- Type to work with zGraph and zMesh.
+	*	\param		[in]	inMesh			- input graph or mesh.
+	*	\param		[out]	index			- edge index.
+	*	\return				double			- edge length.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	double getEdgelength(T &inHEDataStructure, int index);
+
 	/*! \brief This method computes the lengths of the edges of a zGraph/zMesh.
 	*
 	*	\tparam				T						- Type to work with zGraph and zMesh.
 	*	\param		[in]	inHEDataStructure		- input graph or mesh.
 	*	\param		[out]	edgeLengths				- vector of edge lengths.
+	*	\return				double					- total edge lengths.
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void getEdgeLengths(T &inHEDataStructure, vector<double> &edgeLengths);
+	double getEdgeLengths(T &inHEDataStructure, vector<double> &edgeLengths);
+
+	/*! \brief This method computes the edge vector of the input edge of zGraph/zMesh.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[out]	index					- edge index.
+	*	\return				zVector					- edge vector.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	zVector getEdgeVector(T &inHEDataStructure, int index);
+	
 
 	/*! \brief This method gets the ring neighbours of the input vertex of a zGraph/zMesh.
 	*
@@ -277,8 +301,42 @@ void zSpace::getCenters(zMesh &inMesh, zHEData type, vector<zVector> &centers)
 
 //---- graph specilization for getEdgeLengths
 template<>
-void zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
+double zSpace::getEdgelength(zGraph &inGraph, int index)
 {
+	if (index > inGraph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+	if (!inGraph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+	int v1 = inGraph.edges[index].getVertex()->getVertexId();
+	int v2 = inGraph.edges[index].getSym()->getVertex()->getVertexId();
+
+	double out = inGraph.vertexPositions[v1].distanceTo(inGraph.vertexPositions[v2]);
+
+	return out;
+}
+
+//---- mesh specilization for getEdgeLength
+template<>
+double zSpace::getEdgelength(zMesh &inMesh, int index)
+{
+	if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+	if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+	int v1 = inMesh.edges[index].getVertex()->getVertexId();
+	int v2 = inMesh.edges[index].getSym()->getVertex()->getVertexId();
+
+	double out = inMesh.vertexPositions[v1].distanceTo(inMesh.vertexPositions[v2]);
+
+	return out;
+}
+
+//---------------//
+
+//---- graph specilization for getEdgeLengths
+template<>
+double zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
+{
+	double total = 0.0;
+
 	vector<double> out;
 
 	for (int i = 0; i < inGraph.edgeActive.size(); i += 2)
@@ -293,6 +351,8 @@ void zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
 
 			out.push_back(e_len);
 			out.push_back(e_len);
+
+			total += e_len;
 		}
 		else
 		{
@@ -305,12 +365,16 @@ void zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
 	}
 
 	edgeLengths = out;
+
+	return total;
 }
 
 //---- mesh specilization for getEdgeLengths
 template<>
-void zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
+double zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
 {
+	double total = 0.0;
+
 	vector<double> out;
 
 	for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
@@ -325,6 +389,8 @@ void zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
 
 			out.push_back(e_len);
 			out.push_back(e_len);
+
+			total += e_len;
 		}
 		else
 		{
@@ -337,6 +403,40 @@ void zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
 	}
 
 	edgeLengths = out;
+
+	return total;
+}
+
+//---------------//
+
+//---- graph specilization for getEdgeVector
+template<>
+zSpace::zVector zSpace::getEdgeVector(zGraph &inGraph, int index)
+{
+	if (index > inGraph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+	if (!inGraph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+	int v1 = inGraph.edges[index].getVertex()->getVertexId();
+	int v2 = inGraph.edges[index].getSym()->getVertex()->getVertexId();
+
+	zVector out = inGraph.vertexPositions[v1] - (inGraph.vertexPositions[v2]);
+
+	return out;
+}
+
+//---- mesh specilization for getEdgeVector
+template<>
+zSpace::zVector zSpace::getEdgeVector(zMesh &inMesh, int index)
+{
+	if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+	if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+	int v1 = inMesh.edges[index].getVertex()->getVertexId();
+	int v2 = inMesh.edges[index].getSym()->getVertex()->getVertexId();
+
+	zVector out = inMesh.vertexPositions[v1] - (inMesh.vertexPositions[v2]);
+
+	return out;
 }
 
 //---------------//

@@ -265,7 +265,6 @@ namespace zSpace
 		*	\param		[in]	val			- value of the row.
 		*	\since version 0.0.1
 		*/
-
 		void setRow(int index, T val)
 		{
 			if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
@@ -279,13 +278,13 @@ namespace zSpace
 
 		}
 
+
 		/*! \brief This method sets the row values at the input row index with the input vector of values.
 		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	index		- input row index.
 		*	\param		[in]	vals		- vector of values for the row.
 		*	\since version 0.0.1
 		*/
-
 		void setRow(int index, vector<T>& vals)
 		{
 			if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
@@ -297,7 +296,6 @@ namespace zSpace
 			}
 
 		}
-
 
 		/*! \brief This method sets the col values at the input col index with the input value.
 		*	\tparam				T   - Type to work with standard c++ numerical datatypes.

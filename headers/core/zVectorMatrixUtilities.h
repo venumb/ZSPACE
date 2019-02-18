@@ -33,39 +33,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	//--------------------------
-	//---- VECTOR METHODS GEOMETRY
-	//--------------------------
-
-	/*! \brief This method computes the points on a circle for input radius, center and number of points.
-	*
-	*	\param		[in]		center		- center of circle.
-	*	\param		[in]		radius		- radius of circle.
-	*	\param		[in]		numPoints	- number of points in the the circle.
-	*	\param		[out]		circlePts	- points on circle.
-	*	\param		[out]		xFactor		- the factor of scaling in x direction. For a circle both xFactor and yFactor need to be equal.
-	*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
-	*	\since version 0.0.1
-	*/
-	void getCircle(zVector &center, double radius, int numPoints, vector<zVector> &circlePts, double xFactor = 1.0 , double yFactor = 1.0)
-	{
-		double theta = 0;
-
-		for (int i = 0; i < numPoints + 1; i++)
-		{
-			zVector pos;
-			pos.x = (radius * cos(theta)) / xFactor;
-			pos.y = (radius * sin(theta)) / yFactor ;
-
-			pos += center;
-
-			circlePts.push_back(pos);
-
-			theta += (TWO_PI / numPoints);
-		}
-	}
-
-
+	
 	//--------------------------
 	//---- VECTOR METHODS 
 	//--------------------------
@@ -110,6 +78,27 @@ namespace zSpace
 		}
 
 		return vals[maxID];
+	}
+
+	/*! \brief This method maps the input value from the input domain to output domain.
+	*
+	*	\param		[in]	value			- input vector to be mapped.
+	*	\param		[in]	inputMin		- input domain minimum.
+	*	\param		[in]	inputMax		- input domain maximum.
+	*	\param		[in]	outputMin		- output vector domain minimum.
+	*	\param		[in]	outputMax		- output vector domain maximum.
+	*	\return				double			- mapped vector.
+	*	\since version 0.0.1
+	*/
+	zVector ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)
+	{
+		zVector out;
+
+		out.x = ofMap(value, inputMin, inputMax, outputMin.x, outputMax.x);
+		out.y = ofMap(value, inputMin, inputMax, outputMin.y, outputMax.y);
+		out.z = ofMap(value, inputMin, inputMax, outputMin.z, outputMax.z);
+
+		return out;
 	}
 
 	/*! \brief This method a zVector from the input matrix row.
@@ -566,8 +555,66 @@ namespace zSpace
 	}
 
 	//--------------------------
-	//---- zMATRIX METHODS
+	//---- 4x4 zMATRIX  TRANSFORMATION METHODS
 	//--------------------------
+
+	/*! \brief This method inputs the vector values at the input index of the 4X4 tranformation matrix.
+	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	inMatrix	- input zMatrix .
+	*	\param		[in]	inVec		- input vector.
+	*	\param		[in]	index		- column index.
+	*	\return 			zMatrix		- transformation matrix.
+	*/
+	template <typename T>
+	void setColfromVector(zMatrix<T> &inMatrix, zVector &inVec , int index)
+	{
+		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
+		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
+
+		inMatrix(0, index) = inVec.x; inMatrix(1, index) = inVec.y; inMatrix(2, index) = inVec.z;
+				
+	}
+
+	/*! \brief This method inputs the vector values at the input index of the 4X4 tranformation matrix.
+	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	inMatrix	- input zMatrix .
+	*	\param		[in]	inVec		- input vector.
+	*	\param		[in]	index		- column index.
+	*	\return 			zMatrix		- transformation matrix.
+	*/
+	template <typename T>
+	void setRowfromVector(zMatrix<T> &inMatrix, zVector &inVec, int index)
+	{
+		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
+		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
+
+		inMatrix(index,0) = inVec.x; inMatrix(index,1) = inVec.y; inMatrix( index,2 ) = inVec.z;		
+	}
+
+	/*! \brief This method returns the 4X4 tranformation matrix to change the origin to the input vector.
+	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+	*	\param		[out]	inMatrix	- input zMatrix .
+	*	\param		[in]	X			- input X Axis as a vector.
+	*	\param		[in]	Y			- input Y Axis as a vector.
+	*	\param		[in]	Z			- input Z Axis as a vector.
+	*	\param		[in]	O			- input origin as a vector.
+	*/
+	template <typename T>
+	void setTransformfromVectors(zMatrix<T> &inMatrix, zVector &X , zVector &Y, zVector &Z, zVector &O)
+	{
+		
+		inMatrix.setIdentity();
+
+		setColfromVector(inMatrix, X, 0);
+		setColfromVector(inMatrix, Y, 1);
+		setColfromVector(inMatrix, Z, 2);
+		setColfromVector(inMatrix, O, 3);
+
+		
+	}
 
 	
 	/*! \brief This method computes the tranformation to the world space of the input 4x4 matrix.
@@ -702,7 +749,6 @@ namespace zSpace
 	}
 
 
-
 	//--------------------------
 	//---- MATRIX METHODS USING EIGEN
 	//--------------------------
@@ -805,6 +851,68 @@ namespace zSpace
 
 		minBB = minBB_local * bPlane_Mat_world;
 		maxBB = maxBB_local * bPlane_Mat_world;	
+
+	}
+
+
+	//--------------------------
+	//---- VECTOR METHODS GEOMETRY
+	//--------------------------
+
+	/*! \brief This method computes the points on a circle centered around world origin for input radius, and number of points.
+	*
+	*	\param		[in]		radius		- radius of circle.
+	*	\param		[in]		numPoints	- number of points in the the circle.
+	*	\param		[out]		circlePts	- points on circle.
+	*	\param		[in]		localPlane	- orientation plane, by default a world plane.
+	*	\param		[out]		xFactor		- the factor of scaling in x direction. For a circle both xFactor and yFactor need to be equal.
+	*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
+	*	\since version 0.0.1
+	*/
+	void getCircle(double radius, int numPoints, vector<zVector> &circlePts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
+	{
+		double theta = 0;
+
+		zMatrixd worldPlane;
+		zMatrixd trans = PlanetoPlane(worldPlane, localPlane);
+
+		for (int i = 0; i < numPoints + 1; i++)
+		{
+			zVector pos;
+			pos.x = (radius * cos(theta)) / xFactor;
+			pos.y = (radius * sin(theta)) / yFactor;
+			pos.z = 0;
+
+			circlePts.push_back(pos * trans);
+
+			theta += (TWO_PI / numPoints);
+		}
+	}
+
+	/*! \brief This method computes the points on a rectangle for input dimensions centers around the world origin.
+	*
+	*	\param		[in]		dims			- dimensions of rectangle.
+	*	\param		[out]		rectanglePts	- points on rectangle.
+	*	\param		[in]		localPlane		- orientation plane, by default a world plane.
+	*	\since version 0.0.1
+	*/
+	void getRectangle(zVector dims, vector<zVector> &rectanglePts, zMatrixd localPlane = zMatrixd())
+	{
+		dims.x *= 0.5;
+		dims.y *= 0.5;
+
+		zVector v0 = zVector(-dims.x, -dims.y, 0);
+		zVector v1 = zVector(dims.x, -dims.y, 0);
+		zVector v2 = zVector(dims.x, dims.y, 0);
+		zVector v3 = zVector(-dims.x, dims.y, 0);
+
+		zMatrixd worldPlane;
+		zMatrixd trans = PlanetoPlane(worldPlane, localPlane);
+
+		rectanglePts.push_back(v0 * trans);
+		rectanglePts.push_back(v1* trans);
+		rectanglePts.push_back(v2* trans);
+		rectanglePts.push_back(v3* trans);
 
 	}
 

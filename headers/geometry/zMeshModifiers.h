@@ -1585,6 +1585,98 @@ namespace zSpace
 	}
 
 
+	/*! \brief This method returns an extruded mesh from the input mesh.
+	*
+	*	\param		[in]	inMesh				- input mesh.
+	*	\param		[in]	extrudeThickness	- extrusion thickness.
+	*	\param		[in]	thicknessTris		- true if the cap needs to be triangulated.
+	*	\retrun				zMesh				- extruded mesh.
+	*	\since version 0.0.1
+	*/
+	zMesh extrudeMesh(zMesh &inMesh, float extrudeThickness, bool thicknessTris = false)
+	{
+		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
+
+		zMesh out;
+
+		vector<zVector> positions;
+		vector<int> polyCounts;
+		vector<int> polyConnects;
+
+
+
+		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(inMesh.vertexPositions[i]);
+		}
+
+		for (int i = 0; i < inMesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(inMesh.vertexPositions[i] + (inMesh.vertexNormals[i] * extrudeThickness));
+		}
+
+		for (int i = 0; i < inMesh.numPolygons(); i++)
+		{
+			vector<int> fVerts;
+			inMesh.getVertices(i, zFaceData, fVerts);
+
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				polyConnects.push_back(fVerts[j]);
+			}
+
+			polyCounts.push_back(fVerts.size());
+
+			for (int j = fVerts.size() - 1; j >= 0; j--)
+			{
+				polyConnects.push_back(fVerts[j] + inMesh.vertexPositions.size());
+			}
+
+			polyCounts.push_back(fVerts.size());
+
+		}
+
+
+		for (int i = 0; i < inMesh.numEdges(); i++)
+		{
+			if (inMesh.onBoundary(i, zEdgeData))
+			{
+				vector<int> eVerts;
+				inMesh.getVertices(i, zEdgeData, eVerts);
+
+				if (thicknessTris)
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + inMesh.vertexPositions.size());
+
+					polyConnects.push_back(eVerts[0] + inMesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + inMesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1]);
+
+					polyCounts.push_back(3);
+					polyCounts.push_back(3);
+				}
+				else
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + inMesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + inMesh.vertexPositions.size());
+
+
+					polyCounts.push_back(4);
+				}
+
+
+			}
+		}
+
+		out = zMesh(positions, polyCounts, polyConnects);
+
+		return out;
+	}
+
 	//--------------------------
 	//---- REMESH METHODS
 	//--------------------------
