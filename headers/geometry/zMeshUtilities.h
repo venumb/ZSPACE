@@ -141,24 +141,7 @@ namespace zSpace
 		// compute normals per face based on vertex normals and store it in faceNormals
 		 inMesh.computeVertexNormalfromFaceNormal();	
 	}
-
-	/*! \brief This method sets edge color of of the input edge and its symmetry edge to the input color.
-	*
-	*	\param		[in]	inMesh			- input mesh.
-	*	\param		[in]	index			- input edge index.
-	*	\param		[in]	col				- input color.
-	*	\since version 0.0.1
-	*/
-	void setEdgeColor(zMesh & inMesh, int index, zColor col)
-	{
 		
-		inMesh.edgeColors[index] = col;
-		
-		int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
-
-		inMesh.edgeColors[symEdge] = col;		
-
-	}
 
 	/*! \brief This method sets edge color of all the edges to the input color.
 *
@@ -447,10 +430,10 @@ namespace zSpace
 					zVector currentEdge_cen = edgeCenters[currentEdge];
 					zVector nextEdge_cen = edgeCenters[nextEdge];
 
-					double Area1 = triangleArea(vPos, currentEdge_cen, fCen);
+					double Area1 = getTriangleArea(vPos, currentEdge_cen, fCen);
 					vArea += (Area1);
 
-					double Area2 = triangleArea(vPos, nextEdge_cen, fCen);
+					double Area2 = getTriangleArea(vPos, nextEdge_cen, fCen);
 					vArea += (Area2);
 
 				}

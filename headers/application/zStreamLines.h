@@ -24,6 +24,93 @@ namespace zSpace
 	*  @{
 	*/
 
+	/*! \struct zStreams
+	*	\brief A strcut to store data of a stream lines.
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	struct zStream
+	{
+		//--------------------------
+		//----  PUBLIC ATTRIBUTES
+		//--------------------------
+
+		/*!<stores the stream line as a graph.*/
+		zGraph streamGraph;
+
+		/*!<stores parent stream index of the stream. -1 if there is no parent.*/
+		int parent;
+
+		/*!<container stores the child stream indices of the stream.*/
+		vector<int> child;
+
+		/*!<container stores index of closest stream per vertex of thge stream graph. 2 indices per edge - left closest and right closest. -1 if there is no closest stream.*/
+		vector<int> closestStream;
+
+		/*!<container stores index of closest stream edge per vertex of thge stream graph. 2 indices per edge - left closest and right closest. -1 if there is no closest stream*/
+		vector<int> closestStream_Edge;
+
+		/*!<container stores index of closest stream point per vertex of thge stream graph.2 indices per edge - left closest and right closest. -1 if there is no closest stream*/
+		vector<zVector> closestStream_Point;
+
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
+
+		/*! \brief default constructor.
+		*
+		*	\since version 0.0.1
+		*/
+		zStream()
+		{		
+
+		}
+
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	_streamGraph		- input stream graph.
+		*	\since version 0.0.1
+		*/
+		zStream( zGraph &_streamGraph)
+		{
+			streamGraph = _streamGraph;
+
+			parent = -1; // no parent
+
+		}
+
+
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	_streamGraph		- input stream graph.
+		*	\param		[in]	_parentId			- input parent index.
+		*	\since version 0.0.1
+		*/
+		zStream(zGraph &_streamGraph , int _parentId)
+		{
+			streamGraph = _streamGraph;
+
+			parent = _parentId; 
+		}
+
+	};
+
+
+
+	/** \addtogroup zApplication
+	*	\brief Collection of general applications.
+	*  @{
+	*/
+
+	/** \addtogroup zStreamLines2D
+	*	\brief Collection of methods for stream lines of a 2D Field.
+	*  @{
+	*/
+
 	//--------------------------
 	//----  2D FIELD UTILITIES
 	//--------------------------	
@@ -161,6 +248,25 @@ namespace zSpace
 		}
 
 		return validSeedPoint;
+	}
+
+	void addToFieldStreamPositions(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions)
+	{
+		if (fieldIndex_streamPositions.size() == 0 || fieldIndex_streamPositions.size() != inField.numFieldValues())
+		{
+			fieldIndex_streamPositions.clear();
+
+			for (int i = 0; i < inField.numFieldValues(); i++)
+			{
+				vector<zVector> temp;
+				fieldIndex_streamPositions.push_back(temp);
+			}
+		}
+
+		int curFieldIndex;
+		bool checkBounds = inField.getIndex(inPoint, curFieldIndex);
+
+		if (checkBounds) fieldIndex_streamPositions[curFieldIndex].push_back(inPoint);
 	}
 
 	
@@ -411,11 +517,8 @@ namespace zSpace
 			{
 				for (int i = 0; i < positions.size(); i++)
 				{
-					int curFieldIndex;
-					bool checkBounds = inField.getIndex(positions[i], curFieldIndex);
-
-					if (checkBounds) fieldIndex_streamPositions[curFieldIndex].push_back(positions[i]);
-
+					addToFieldStreamPositions(positions[i], inField, fieldIndex_streamPositions);
+			
 				}
 
 				out = true;
@@ -492,7 +595,7 @@ namespace zSpace
 	/*! \brief This method creates the stream lines and stores them as a graph.
 	*
 	*	\details Based on evenly spaced streamlines (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf)
-	*	\param	[in]	streamGraphs					- container of streamlines as graph.
+	*	\param	[in]	streams							- container of streamlines.
 	*	\param	[in]	start_seedPoints				- container of start seed positions. If empty a random position in the field is considered.
 	*	\param	[in]	inField							- input field.
 	*	\param	[in]	fieldIndex_streamPositions		- 2 dimensional container of stream positions per field index.
@@ -505,9 +608,9 @@ namespace zSpace
 	*	\param	[in]	NormalDir						- integrates the stream lines normal to the field direction.
 	*	\since version 0.0.1
 	*/
-	void createStreamGraphs(vector<zGraph>& streamGraphs, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, bool NormalDir = false  )
+	void createStreams(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, bool NormalDir = false  )
 	{
-		streamGraphs.clear();
+		streams.clear();
 
 		// setup fieldIndex_streamPositions
 		if (fieldIndex_streamPositions.size() == 0 || fieldIndex_streamPositions.size() != inField.numFieldValues())
@@ -522,7 +625,7 @@ namespace zSpace
 		}	
 
 		// make first stream line
-		if (streamGraphs.size() == 0)
+		if (streams.size() == 0)
 		{
 			bool noStartSeedPoints = false;
 
@@ -546,7 +649,10 @@ namespace zSpace
 				bool chk = createStreamGraph(temp, start_seedPoints[i], inField, fieldIndex_streamPositions, temp_DSep, dTest, minLength, maxLength, streamType, dT, type, NormalDir);
 
 			
-				if (chk) streamGraphs.push_back(temp);
+				if (chk)
+				{
+					streams.push_back(zStream(temp));
+				}
 			}
 		
 
@@ -557,7 +663,7 @@ namespace zSpace
 
 		if (seedStreamsOnly)
 		{
-			printf("\n %i streamLines created. ", streamGraphs.size());
+			printf("\n %i streamLines created. ", streams.size());
 			return;
 		}
 
@@ -572,7 +678,7 @@ namespace zSpace
 		{
 			vector<zVector> seedPoints;
 			
-			getSeedPoints(inField, fieldIndex_streamPositions, streamGraphs[currentStreamGraphId], currentStreamGraphVertexId, dSep, seedPoints);
+			getSeedPoints(inField, fieldIndex_streamPositions, streams[currentStreamGraphId].streamGraph, currentStreamGraphVertexId, dSep, seedPoints);
 		
 
 			for (int i = 0; i < seedPoints.size(); i++)
@@ -580,18 +686,22 @@ namespace zSpace
 				zGraph temp;
 				bool chk = createStreamGraph(temp, seedPoints[i], inField, fieldIndex_streamPositions, dSep, dTest, minLength, maxLength, streamType, dT, type, NormalDir);
 
-				if (chk) streamGraphs.push_back(temp);
+				if (chk)
+				{
+					streams[currentStreamGraphId].child.push_back(streams.size());
+					streams.push_back(zStream(temp, currentStreamGraphId));
+				}
 			}				
 
 			currentStreamGraphVertexId++;
 
-			if (currentStreamGraphVertexId == streamGraphs[currentStreamGraphId].numVertices()) currentStreamGraphId++ , currentStreamGraphVertexId = 0;
+			if (currentStreamGraphVertexId == streams[currentStreamGraphId].streamGraph.numVertices()) currentStreamGraphId++ , currentStreamGraphVertexId = 0;
 
-			if (currentStreamGraphId >= streamGraphs.size()) finished = true;
+			if (currentStreamGraphId >= streams.size()) finished = true;
 				
 		}
 		
-		printf("\n %i streamLines created. ", streamGraphs.size());
+		printf("\n %i streamLines created. ", streams.size());
 
 	}
 
@@ -616,7 +726,7 @@ namespace zSpace
 	*	\return			bool							- true if the graph is created.
 	*	\since version 0.0.1
 	*/
-	bool createStreamGraph_Influence(zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength , double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, bool NormalDir = false)
+	bool createStreamGraph_Influence(zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, double angle = 0,  bool flipBackward = true)
 	{
 				
 		vector<zVector> positions;
@@ -654,6 +764,7 @@ namespace zSpace
 
 				if (!checkBounds)
 				{
+					
 					exit = true;
 					continue;
 				}
@@ -675,10 +786,17 @@ namespace zSpace
 
 				
 				// update particle force
+		
+				zVector axis(0, 0, 1);
+
+				double rotateAngle = angle;
+				//if (currentLength > maxLength * 0.25 && currentLength < maxLength * 0.5) rotateAngle += 90;;
+				//if (currentLength > maxLength * 0.75 )fieldForce *= -1;
+
+				fieldForce = fieldForce.rotateAboutAxis(axis, rotateAngle);
+			
 				fieldForce.normalize();
 				fieldForce *= (distSep * 1.0);
-
-				if (NormalDir) fieldForce = fieldForce ^ zVector(0, 0, 1);
 
 				seedForward.addForce(fieldForce);
 
@@ -711,7 +829,7 @@ namespace zSpace
 				if (!validStreamPoint) exit = true;
 
 				// check length
-				if (currentLength + curPos.distanceTo(newPos) > maxLength)  exit = true;
+				if (currentLength + curPos.distanceTo(newPos) > maxLength*0.5 )  exit = true;
 
 				// add new stream point
 				if(!exit )
@@ -722,6 +840,8 @@ namespace zSpace
 					{
 						edgeConnects.push_back(positions.size());
 						edgeConnects.push_back(positions.size() - 1);
+					
+						
 					}
 
 					positions.push_back(newPos);
@@ -735,7 +855,7 @@ namespace zSpace
 			}
 		}
 
-
+	
 		if (streamType == zBackward || streamType == zForwardBackward)
 		{
 			// move backwards
@@ -786,10 +906,21 @@ namespace zSpace
 				double distSep = dSep / pow(2, power);
 
 				// update particle force
-				fieldForce.normalize();
-				fieldForce *= (distSep * -1.0);
+								
+				zVector axis(0, 0, 1);
+				fieldForce *= -1;
+				
+				double rotateAngle = angle ;
 
-				if (NormalDir) fieldForce = fieldForce ^ zVector(0, 0, 1);
+				//if (currentLength > maxLength * 0.25 && currentLength < maxLength * 0.5) rotateAngle += 60;
+				//if (currentLength > maxLength * 0.75) rotateAngle += 60;
+
+				if (!flipBackward) rotateAngle = 180.0 - angle  ;
+
+				fieldForce = fieldForce.rotateAboutAxis(axis, rotateAngle);
+
+				fieldForce.normalize();
+				fieldForce *= (distSep * 1.0);
 
 				seedBackward.addForce(fieldForce);
 
@@ -820,7 +951,7 @@ namespace zSpace
 				if (!validStreamPoint) exit = true;
 
 				// check length
-				if (currentLength + curPos.distanceTo(newPos) > maxLength)  exit = true;
+				if (currentLength + curPos.distanceTo(newPos) > maxLength*0.5)  exit = true;
 
 				// add new stream point
 				if(!exit)
@@ -831,7 +962,7 @@ namespace zSpace
 					{
 						(firstVertex) ? edgeConnects.push_back(0) : edgeConnects.push_back(positions.size() - 1);
 						edgeConnects.push_back(positions.size());
-
+						
 					}
 
 					positions.push_back(newPos);
@@ -849,6 +980,7 @@ namespace zSpace
 		bool out = false;
 		if (edgeConnects.size() > 0)
 		{
+		
 			streamGraph = zGraph(positions, edgeConnects);
 
 			vector<double> lengths;
@@ -901,6 +1033,7 @@ namespace zSpace
 		influenceField.getFieldValue(v, zFieldNeighbourWeighted, influenceFieldValue);
 		
 		double power = ofMap(influenceFieldValue, -1.0, 1.0, min_Power, max_Power);
+		power = floor(power);
 		double distSep = dSep / pow(2, power);
 		
 		
@@ -960,9 +1093,13 @@ namespace zSpace
 	*	\param	[in]	NormalDir						- integrates the stream lines normal to the field direction.
 	*	\since version 0.0.1
 	*/
-	void createStreamGraphs_Influence(vector<zGraph>& streamGraphs, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT = 1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, bool NormalDir = false)
+	void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT = 1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, double angle = 0, bool flipBackward = true)
 	{
-		streamGraphs.clear();
+		streams.clear();
+
+		vector<vector<int>> childgraphs;
+		vector<int> parentGraph;
+		bool alternate = false;
 
 		// setup fieldIndex_streamPositions
 		if (fieldIndex_streamPositions.size() == 0 || fieldIndex_streamPositions.size() != inField.numFieldValues())
@@ -977,7 +1114,7 @@ namespace zSpace
 		}
 
 		// make first stream line
-		if (streamGraphs.size() == 0)
+		if (streams.size() == 0)
 		{
 			bool noStartSeedPoints = false;
 
@@ -997,10 +1134,15 @@ namespace zSpace
 			{
 				zGraph temp;
 				
-				bool chk = createStreamGraph_Influence(temp, start_seedPoints[i], inField, influenceField, fieldIndex_streamPositions, dSep, min_Power, max_Power, dTest_Factor, minLength, maxLength, streamType, dT, type, NormalDir);
+				bool chk = createStreamGraph_Influence(temp, start_seedPoints[i], inField, influenceField, fieldIndex_streamPositions, dSep, min_Power, max_Power, dTest_Factor, minLength, maxLength, streamType, dT, type, angle, flipBackward);
+			
+				if (chk)
+				{
+					streams.push_back(zStream(temp));
 
+					alternate = !alternate;
 
-				if (chk) streamGraphs.push_back(temp);
+				}
 			}
 
 
@@ -1009,16 +1151,16 @@ namespace zSpace
 		}
 		
 		vector<bool> alternateGraph;
-		for (int i = 0; i < streamGraphs.size(); i++) alternateGraph.push_back(false);
+		for (int i = 0; i < streams.size(); i++) alternateGraph.push_back(false);
 
 		if (seedStreamsOnly)
 		{
-			printf("\n %i streamLines created. ", streamGraphs.size());
+			printf("\n %i streamLines created. ", streams.size());
 
-			for (int i = 0; i < streamGraphs.size(); i++)
+			for (int i = 0; i < streams.size(); i++)
 			{
 				zColor col = (alternateGraph[i]) ? zColor(1, 0, 0, 1) : zColor(0, 0, 1, 1);
-				setEdgeColor(streamGraphs[i], col, false);
+				setEdgeColor(streams[i].streamGraph, col, true);
 
 			}
 
@@ -1033,7 +1175,7 @@ namespace zSpace
 		bool finished = false;
 
 	
-		int numGraphs = streamGraphs.size(); 
+		int numGraphs = streams.size();
 		int startGraph = 0;
 		
 		
@@ -1044,39 +1186,63 @@ namespace zSpace
 		{
 			vector<zVector> seedPoints;
 
-			getSeedPoints_Influence(inField, influenceField, fieldIndex_streamPositions, streamGraphs[currentStreamGraphId], currentStreamGraphVertexId, dSep, min_Power, max_Power, seedPoints);
+			getSeedPoints_Influence(inField, influenceField, fieldIndex_streamPositions, streams[currentStreamGraphId].streamGraph, currentStreamGraphVertexId, dSep, min_Power, max_Power, seedPoints);
 
 
 			for (int i = 0; i < seedPoints.size(); i++)
 			{
 				zGraph temp;
-				bool chk = createStreamGraph_Influence(temp, seedPoints[i], inField, influenceField, fieldIndex_streamPositions, dSep, min_Power, max_Power, dTest_Factor, minLength, maxLength, streamType, dT, type, NormalDir);
+
+				double ang = (alternate) ? angle + 60.0 : angle;
+
+				bool chk = createStreamGraph_Influence(temp, seedPoints[i], inField, influenceField, fieldIndex_streamPositions, dSep, min_Power, max_Power, dTest_Factor, minLength, maxLength, streamType, dT, type, ang, flipBackward);
 
 				if (chk)
 				{
-					streamGraphs.push_back(temp);
+					streams[currentStreamGraphId].child.push_back(streams.size());
+					streams.push_back(zStream(temp, currentStreamGraphId));
+					
 					alternateGraph.push_back(!alternateGraph[currentStreamGraphId]);
+
+					alternate = !alternate;
 				}
 			}
 
 			currentStreamGraphVertexId++;
 
-			if (currentStreamGraphVertexId == streamGraphs[currentStreamGraphId].numVertices()) currentStreamGraphId++, currentStreamGraphVertexId = 0;
+			if (currentStreamGraphVertexId == streams[currentStreamGraphId].streamGraph.numVertices()) currentStreamGraphId++, currentStreamGraphVertexId = 0;
 
-			if (currentStreamGraphId >= streamGraphs.size()) finished = true;
+			if (currentStreamGraphId >= streams.size()) finished = true;
 
 			
 		}
 
-		for (int i = 0; i < streamGraphs.size(); i++)
+		for (int i = 0; i < streams.size(); i++)
 		{
 			zColor col = (alternateGraph[i]) ? zColor(1, 0, 0, 1) : zColor(0, 0, 1, 1);
-			setEdgeColor(streamGraphs[i], col, false);
+			setEdgeColor(streams[i].streamGraph, col, true);
 		
 		}
 		
 
-		printf("\n %i streamLines created. ", streamGraphs.size());
+		printf("\n %i streamLines created. ", streams.size());
+
+
+		/*printf("\n Parents ");
+		for (int i = 0; i < streams.size(); i++)
+		{
+			printf("\n %i : p %i ", i, streams[i].parent);
+			printf("\n %i : child ", i);
+
+			for (int j = 0; j < streams[i].child.size(); j++)
+			{
+				printf(" %i ", streams[i].child[j]);
+			}
+
+			printf("\n");
+		}*/
+
+		
 
 	}
 

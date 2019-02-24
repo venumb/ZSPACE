@@ -418,7 +418,7 @@ namespace zSpace
 		return out;
 	}
 
-	/*! \brief This method returns the area of triagle defined by the two input zVectors.
+	/*! \brief This method returns the area of triagle defined by the three input zVectors.
 	*
 	*	\param		[in]		p1				- first input point of triangle.
 	*	\param		[in]		p2				- second input point of triangle.
@@ -426,7 +426,7 @@ namespace zSpace
 	*	\return					double			- area of triangle defirned by the vectors.
 	*	\since version 0.0.1
 	*/
-	double triangleArea(zVector &v1, zVector &v2, zVector &v3)
+	double getTriangleArea(zVector &v1, zVector &v2, zVector &v3)
 	{
 		double area = 0;
 
@@ -436,6 +436,54 @@ namespace zSpace
 		area = ((e12^e13).length() * 0.5);
 
 		return area;
+	}
+
+	/*! \brief This method returns the signed volume of triagle defined by the three input zVectors.
+	*
+	*	\details Based on http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf
+	*	\param		[in]		p1				- first input point of triangle.
+	*	\param		[in]		p2				- second input point of triangle.
+	*	\param		[in]		p3				- second input point of triangle.
+	*	\return					double			- signed volume of triangle defirned by the vectors.
+	*	\since version 0.0.1
+	*/
+	double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3)
+	{
+		double volume = 0;
+
+		double v321 = v3.x*v2.y*v1.z;
+		double v231 = v2.x*v3.y*v1.z;
+		double v312 = v3.x*v1.y*v2.z;
+		double v132 = v1.x*v3.y*v2.z;
+		double v213 = v2.x*v1.y*v3.z;
+		double v123 = v1.x*v2.y*v3.z;
+
+		volume = (1.0f / 6.0f)*(-v321 + v231 + v312 - v132 - v213 + v123);
+
+		return volume;
+	}
+
+	/*! \brief This method returns the volume of the polyhedra formed by the input points and the center.
+	*
+	*	\param		[in]		center			- center of polyhedra.
+	*	\param		[in]		points			- points of the polyhedra.
+	*	\return					double			- signed volume.
+	*	\since version 0.0.1
+	*/
+	double getSignedVolume(zVector &center, vector<zVector> &points)
+	{
+		double volume = 0;
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			int nextId = (i + 1) % points.size();
+
+			double vol = getSignedTriangleVolume(points[i], points[nextId], center);
+
+			volume += vol;
+		}
+
+		return volume;
 	}
 
 	/*! \brief This method checks if the given input points liess within the input triangle.

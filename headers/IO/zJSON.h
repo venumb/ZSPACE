@@ -6,10 +6,17 @@
 #include <headers/geometry/zField.h>
 #include <headers/geometry/zFieldUtilities.h>
 
+#include <headers/application/zStreamLines.h>
+
+
 #include <depends/modernJSON/json.hpp>
 using json = nlohmann::json;;
 
 #include <iostream>
+
+#include <filesystem>
+namespace fs = std::experimental::filesystem;
+
 using namespace std;
 
 namespace zSpace
@@ -71,7 +78,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 	
-		void to_json(json &j, zMesh &inMesh, bool vColors = false)
+		void to_json(json &j, zMesh &inMesh, bool vNormals = true, bool vColors = false)
 		{
 			// Vertices
 			for (int i = 0; i < inMesh.numVertices(); i++)
@@ -117,7 +124,15 @@ namespace zSpace
 				v_attrib.push_back(inMesh.vertexPositions[i].y);
 				v_attrib.push_back(inMesh.vertexPositions[i].z);
 
-							if (vColors)
+
+				if (vNormals)
+				{
+					v_attrib.push_back(inMesh.vertexNormals[i].x);
+					v_attrib.push_back(inMesh.vertexNormals[i].y);
+					v_attrib.push_back(inMesh.vertexNormals[i].z);
+				}
+
+				if (vColors)
 				{
 					v_attrib.push_back(inMesh.vertexColors[i].r);
 					v_attrib.push_back(inMesh.vertexColors[i].g);
@@ -311,7 +326,6 @@ namespace zSpace
 			{
 				if (inGraph.vertices[i].getEdge()) vertices.push_back(inGraph.vertices[i].getEdge()->getEdgeId());
 				else vertices.push_back(-1);
-
 			}
 
 			//Edges
@@ -457,5 +471,12 @@ namespace zSpace
 
 		}
 	};
+
+
+	void to_json(json &j, zStream &inStream, bool vColors = false)
+	{
+
+
+	}
 
 }

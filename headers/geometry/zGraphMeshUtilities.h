@@ -68,6 +68,17 @@ namespace zSpace
 	*/
 	template<typename T>
 	zVector getEdgeVector(T &inHEDataStructure, int index);
+
+	/*! \brief This method sets edge color of of the input zGraph/zMesh edge and its symmetry edge to the input color.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[in]	index					- input edge index.
+	*	\param		[in]	col						- input color.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	void setEdgeColor(T & inHEDataStructure, int index, zColor col);
 	
 
 	/*! \brief This method gets the ring neighbours of the input vertex of a zGraph/zMesh.
@@ -437,6 +448,34 @@ zSpace::zVector zSpace::getEdgeVector(zMesh &inMesh, int index)
 	zVector out = inMesh.vertexPositions[v1] - (inMesh.vertexPositions[v2]);
 
 	return out;
+}
+
+//---------------//
+
+//---- graph specilization for setEdgeColor
+template<>
+void zSpace::setEdgeColor(zGraph & inGraph, int index, zColor col)
+{
+
+	inGraph.edgeColors[index] = col;
+
+	int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
+
+	inGraph.edgeColors[symEdge] = col;
+
+}
+
+//---- mesh specilization for setEdgeColor
+template<>
+void zSpace::setEdgeColor(zMesh & inMesh, int index, zColor col)
+{
+
+	inMesh.edgeColors[index] = col;
+
+	int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
+
+	inMesh.edgeColors[symEdge] = col;
+
 }
 
 //---------------//

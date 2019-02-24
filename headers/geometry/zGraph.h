@@ -184,16 +184,22 @@ namespace zSpace
 			{
 				if (cEdgesperVert[i].temp_connectedEdges.size() > 0)
 				{
+					
+
 					zVector cen = vertexPositions[i];
 					vector<int> sorted_cEdges;
 					cyclic_sortEdges(cEdgesperVert[i].temp_connectedEdges, cen, cEdgesperVert[i].temp_connectedEdges[0], sorted_cEdges);
 
 					if (sorted_cEdges.size() > 0)
 					{
+						
+					
 						for (int j = 0; j < sorted_cEdges.size(); j++)
-						{						
+						{			
 							edges[sorted_cEdges[j]].setPrev(edges[sorted_cEdges[(j + 1) % sorted_cEdges.size()]].getSym());
 						}
+
+						
 					}
 				}
 
@@ -380,8 +386,7 @@ namespace zSpace
 		/*! \brief This method computes the Edge colors based on the vertex colors.
 		*
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void computeEdgeColorfromVertexColor()			
 		{
 
@@ -393,8 +398,12 @@ namespace zSpace
 				col.b = (vertexColors[edges[i].getVertex()->getVertexId()].b + vertexColors[edges[i + 1].getVertex()->getVertexId()].b) * 0.5;
 				col.a = (vertexColors[edges[i].getVertex()->getVertexId()].a + vertexColors[edges[i + 1].getVertex()->getVertexId()].a) * 0.5;
 
-				edgeColors[i] = col;
-				edgeColors[i + 1] = col;
+				if (edgeColors.size() <= i) edgeColors.push_back(col);
+				else edgeColors[i] = col;
+				
+				if (edgeColors.size() <= i + 1) edgeColors.push_back(col);
+				else edgeColors[i + 1] = col;
+			
 			}
 
 
@@ -404,8 +413,7 @@ namespace zSpace
 		/*! \brief This method computes the vertex colors based on the face colors.
 		*
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void computeVertexColorfromEdgeColor()
 		{
 			for (int i = 0; i < vertexActive.size(); i++)
