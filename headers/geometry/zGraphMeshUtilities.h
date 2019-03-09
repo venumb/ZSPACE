@@ -34,7 +34,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void getCenters(T &inHEDataStructure, zHEData type, vector<zVector> &centers);
+	inline void getCenters(T &inHEDataStructure, zHEData type, vector<zVector> &centers);
 
 	/*! \brief This method computes the edge length of the input edge of zGraph/zMesh.
 	*
@@ -45,7 +45,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	double getEdgelength(T &inHEDataStructure, int index);
+	inline double getEdgelength(T &inHEDataStructure, int index);
 
 	/*! \brief This method computes the lengths of the edges of a zGraph/zMesh.
 	*
@@ -56,7 +56,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	double getEdgeLengths(T &inHEDataStructure, vector<double> &edgeLengths);
+	inline double getEdgeLengths(T &inHEDataStructure, vector<double> &edgeLengths);
 
 	/*! \brief This method computes the edge vector of the input edge of zGraph/zMesh.
 	*
@@ -67,7 +67,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	zVector getEdgeVector(T &inHEDataStructure, int index);
+	inline zVector getEdgeVector(T &inHEDataStructure, int index);
 
 	/*! \brief This method sets edge color of of the input zGraph/zMesh edge and its symmetry edge to the input color.
 	*
@@ -78,7 +78,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void setEdgeColor(T & inHEDataStructure, int index, zColor col);
+	inline void setEdgeColor(T & inHEDataStructure, int index, zColor col);
 	
 
 	/*! \brief This method gets the ring neighbours of the input vertex of a zGraph/zMesh.
@@ -90,7 +90,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void getNeighbourhoodRing(T &inHEDataStructure, int numRings, vector<int> &ringNeighbours);
+	inline void getNeighbourhoodRing(T &inHEDataStructure, int numRings, vector<int> &ringNeighbours);
 
 	//--------------------------
 	//--- WALK METHODS 
@@ -107,7 +107,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestDistance(T &inHEDataStructure, int index, vector<float> &dist, vector<int> &parent);
+	inline void shortestDistance(T &inHEDataStructure, int index, vector<float> &dist, vector<int> &parent);
 
 	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh. The distance and parent containers need to be computed before using the shortest distance method.
 	*
@@ -122,7 +122,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPath_DistanceParent(T &inHEDataStructure, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgeContainer);
+	inline void shortestPath_DistanceParent(T &inHEDataStructure, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgeContainer);
 
 	/*! \brief This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh.
 	*
@@ -135,7 +135,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPath(T &inHEDataStructure, int indexA, int indexB, zWalkType type, vector<int> &edgeContainer);
+	inline void shortestPath(T &inHEDataStructure, int indexA, int indexB, zWalkType type, vector<int> &edgeContainer);
 
 	/*! \brief This method computes the shortest path from the all vertices to all vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 	*
@@ -145,7 +145,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPathWalks(T &inHEDataStructure, vector<int> &edgeVisited);
+	inline void shortestPathWalks(T &inHEDataStructure, vector<int> &edgeVisited);
 
 	/*! \brief This method computes the shortest path from the all input source vertices to all other vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 	*
@@ -156,7 +156,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPathWalks_SourceToAll(T &inHEDataStructure, vector<int> &sourceVertices, vector<int> &edgeVisited);
+	inline void shortestPathWalks_SourceToAll(T &inHEDataStructure, vector<int> &sourceVertices, vector<int> &edgeVisited);
 
 	/*! \brief This method computes the shortest path from the all input source vertices to all other input source vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 	*
@@ -167,7 +167,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void shortestPathWalks_SourceToOtherSource(T &inHEDataStructure,vector<int> &sourceVertices, vector<int> &edgeVisited);
+	inline void shortestPathWalks_SourceToOtherSource(T &inHEDataStructure,vector<int> &sourceVertices, vector<int> &edgeVisited);
 
 	/*! \brief This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.
 	*
@@ -178,7 +178,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void walk_DistanceFromSources(T &inHEDataStructure, vector<int>& sourceVertices, vector<double>& vertexDistances);
+	inline void walk_DistanceFromSources(T &inHEDataStructure, vector<int>& sourceVertices, vector<double>& vertexDistances);
 
 	/*! \brief This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.
 	*
@@ -191,7 +191,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void walk_Animate(T &inHEDataStructure, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges);
+	inline void walk_Animate(T &inHEDataStructure, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges);
 
 
 /** @}*/
@@ -212,7 +212,7 @@ namespace zSpace
 
 //---- graph specilization for getCenters
 template<>
-void zSpace::getCenters(zGraph &inGraph, zHEData type, vector<zVector> &centers)
+inline void zSpace::getCenters(zGraph &inGraph, zHEData type, vector<zVector> &centers)
 {
 	// Edge 
 	if (type == zEdgeData)
@@ -247,7 +247,7 @@ void zSpace::getCenters(zGraph &inGraph, zHEData type, vector<zVector> &centers)
 
 //---- mesh specilization for getCenters
 template<>
-void zSpace::getCenters(zMesh &inMesh, zHEData type, vector<zVector> &centers)
+inline void zSpace::getCenters(zMesh &inMesh, zHEData type, vector<zVector> &centers)
 {
 	// Mesh Edge 
 	if (type == zEdgeData)
@@ -312,7 +312,7 @@ void zSpace::getCenters(zMesh &inMesh, zHEData type, vector<zVector> &centers)
 
 //---- graph specilization for getEdgeLengths
 template<>
-double zSpace::getEdgelength(zGraph &inGraph, int index)
+inline double zSpace::getEdgelength(zGraph &inGraph, int index)
 {
 	if (index > inGraph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 	if (!inGraph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -327,7 +327,7 @@ double zSpace::getEdgelength(zGraph &inGraph, int index)
 
 //---- mesh specilization for getEdgeLength
 template<>
-double zSpace::getEdgelength(zMesh &inMesh, int index)
+inline double zSpace::getEdgelength(zMesh &inMesh, int index)
 {
 	if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 	if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -344,7 +344,7 @@ double zSpace::getEdgelength(zMesh &inMesh, int index)
 
 //---- graph specilization for getEdgeLengths
 template<>
-double zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
+inline double zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
 {
 	double total = 0.0;
 
@@ -382,7 +382,7 @@ double zSpace::getEdgeLengths(zGraph &inGraph, vector<double> &edgeLengths)
 
 //---- mesh specilization for getEdgeLengths
 template<>
-double zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
+inline double zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
 {
 	double total = 0.0;
 
@@ -422,7 +422,7 @@ double zSpace::getEdgeLengths(zMesh &inMesh, vector<double> &edgeLengths)
 
 //---- graph specilization for getEdgeVector
 template<>
-zSpace::zVector zSpace::getEdgeVector(zGraph &inGraph, int index)
+inline zSpace::zVector zSpace::getEdgeVector(zGraph &inGraph, int index)
 {
 	if (index > inGraph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 	if (!inGraph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -437,7 +437,7 @@ zSpace::zVector zSpace::getEdgeVector(zGraph &inGraph, int index)
 
 //---- mesh specilization for getEdgeVector
 template<>
-zSpace::zVector zSpace::getEdgeVector(zMesh &inMesh, int index)
+inline zSpace::zVector zSpace::getEdgeVector(zMesh &inMesh, int index)
 {
 	if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 	if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -454,7 +454,7 @@ zSpace::zVector zSpace::getEdgeVector(zMesh &inMesh, int index)
 
 //---- graph specilization for setEdgeColor
 template<>
-void zSpace::setEdgeColor(zGraph & inGraph, int index, zColor col)
+inline void zSpace::setEdgeColor(zGraph & inGraph, int index, zColor col)
 {
 
 	inGraph.edgeColors[index] = col;
@@ -467,7 +467,7 @@ void zSpace::setEdgeColor(zGraph & inGraph, int index, zColor col)
 
 //---- mesh specilization for setEdgeColor
 template<>
-void zSpace::setEdgeColor(zMesh & inMesh, int index, zColor col)
+inline void zSpace::setEdgeColor(zMesh & inMesh, int index, zColor col)
 {
 
 	inMesh.edgeColors[index] = col;
@@ -482,7 +482,7 @@ void zSpace::setEdgeColor(zMesh & inMesh, int index, zColor col)
 
 //---- graph specilization for shortestDistance
 template<>
-void zSpace::shortestDistance(zGraph &inGraph, int index, vector<float> &dist, vector<int> &parent)
+inline void zSpace::shortestDistance(zGraph &inGraph, int index, vector<float> &dist, vector<int> &parent)
 {
 	if (index >inGraph.vertexActive.size()) throw std::invalid_argument("index out of bounds.");
 
@@ -542,7 +542,7 @@ void zSpace::shortestDistance(zGraph &inGraph, int index, vector<float> &dist, v
 
 //---- mesh specilization for shortestDistance
 template<>
-void  zSpace::shortestDistance(zMesh &inMesh, int index, vector<float> &dist, vector<int> &parent)
+inline void  zSpace::shortestDistance(zMesh &inMesh, int index, vector<float> &dist, vector<int> &parent)
 {
 	float maxDIST = 100000;
 
@@ -602,7 +602,7 @@ void  zSpace::shortestDistance(zMesh &inMesh, int index, vector<float> &dist, ve
 
 //---- graph specilization for shortestPath
 template<>
-void zSpace::shortestPath_DistanceParent(zGraph &inGraph, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath)
+inline void zSpace::shortestPath_DistanceParent(zGraph &inGraph, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath)
 {
 	vector<int> tempEdgePath;
 
@@ -661,7 +661,7 @@ void zSpace::shortestPath_DistanceParent(zGraph &inGraph, int indexA, int indexB
 
 //---- mesh specilization for shortestPath
 template<>
-void zSpace::shortestPath_DistanceParent(zMesh &inMesh, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath)
+inline void zSpace::shortestPath_DistanceParent(zMesh &inMesh, int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgePath)
 {
 	vector<int> tempEdgePath;
 
@@ -722,7 +722,7 @@ void zSpace::shortestPath_DistanceParent(zMesh &inMesh, int indexA, int indexB, 
 
 //---- graph specilization for shortestPath
 template<>
-void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, zWalkType type, vector<int> &edgePath )
+inline void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, zWalkType type, vector<int> &edgePath )
 {
 	
 
@@ -789,7 +789,7 @@ void zSpace::shortestPath(zGraph &inGraph, int indexA, int indexB, zWalkType typ
 
 //---- mesh specilization for shortestPath
 template<>
-void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, zWalkType type, vector<int> &edgePath)
+inline void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, zWalkType type, vector<int> &edgePath)
 {
 	vector<int> tempEdgePath;
 
@@ -856,7 +856,7 @@ void  zSpace::shortestPath(zMesh &inMesh, int indexA, int indexB, zWalkType type
 
 //---- graph specilization for shortestPathWalks
 template<>
-void zSpace::shortestPathWalks(zGraph &inGraph, vector<int> &edgeVisited)
+inline void zSpace::shortestPathWalks(zGraph &inGraph, vector<int> &edgeVisited)
 {
 	edgeVisited.clear();		
 
@@ -887,7 +887,7 @@ void zSpace::shortestPathWalks(zGraph &inGraph, vector<int> &edgeVisited)
 
 //---- mesh specilization for shortestPathWalks
 template<>
-void zSpace::shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
+inline void zSpace::shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
 {
 	edgeVisited.clear();
 
@@ -920,7 +920,7 @@ void zSpace::shortestPathWalks(zMesh &inMesh, vector<int> &edgeVisited)
 
 //---- graph specilization for shortestPathWalks_SourceToAll 
 template<>
-void zSpace::shortestPathWalks_SourceToAll(zGraph &inGraph, vector<int> &sourceVertices, vector<int> &edgeVisited)
+inline void zSpace::shortestPathWalks_SourceToAll(zGraph &inGraph, vector<int> &sourceVertices, vector<int> &edgeVisited)
 {		
 
 	// initialise edge visits to 0
@@ -951,7 +951,7 @@ void zSpace::shortestPathWalks_SourceToAll(zGraph &inGraph, vector<int> &sourceV
 
 //---- mesh specilization for shortestPathWalks_SourceToAll 
 template<>
-void zSpace::shortestPathWalks_SourceToAll(zMesh &inMesh, vector<int> &sourceVertices, vector<int> &edgeVisited)
+inline void zSpace::shortestPathWalks_SourceToAll(zMesh &inMesh, vector<int> &sourceVertices, vector<int> &edgeVisited)
 {
 	// initialise edge visits to 0
 	if (edgeVisited.size() == 0 || edgeVisited.size() < inMesh.numEdges())
@@ -983,7 +983,7 @@ void zSpace::shortestPathWalks_SourceToAll(zMesh &inMesh, vector<int> &sourceVer
 
 //---- graph specilization for shortestPathWalks_SourceToOtherSource 
 template<>
-void zSpace::shortestPathWalks_SourceToOtherSource(zGraph &inGraph, vector<int> &sourceVertices, vector<int> &edgeVisited)
+inline void zSpace::shortestPathWalks_SourceToOtherSource(zGraph &inGraph, vector<int> &sourceVertices, vector<int> &edgeVisited)
 {
 	edgeVisited.clear();
 
@@ -1016,7 +1016,7 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zGraph &inGraph, vector<int> 
 
 //---- mesh specilization for shortestPathWalks_SourceToOtherSource 
 template<>
-void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &sourceVertices, vector<int> &edgeVisited)
+inline void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &sourceVertices, vector<int> &edgeVisited)
 {
 	edgeVisited.clear();
 
@@ -1105,7 +1105,7 @@ void zSpace::shortestPathWalks_SourceToOtherSource(zMesh &inMesh, vector<int> &s
 
 //---- graph specilization for walking distance sources
 template<>
-void zSpace::walk_DistanceFromSources(zGraph& inGraph, vector<int>& sourceVertices, vector<double>& vertexDistances)
+inline void zSpace::walk_DistanceFromSources(zGraph& inGraph, vector<int>& sourceVertices, vector<double>& vertexDistances)
 {
 	float maxDIST = 100000;
 
@@ -1132,7 +1132,7 @@ void zSpace::walk_DistanceFromSources(zGraph& inGraph, vector<int>& sourceVertic
 
 //---- mesh specilization for walking distance sources
 template<>
-void zSpace::walk_DistanceFromSources(zMesh& inMesh, vector<int>& sourceVertices, vector<double>& vertexDistances)
+inline void zSpace::walk_DistanceFromSources(zMesh& inMesh, vector<int>& sourceVertices, vector<double>& vertexDistances)
 {
 	float maxDIST = 100000;
 
@@ -1161,7 +1161,7 @@ void zSpace::walk_DistanceFromSources(zMesh& inMesh, vector<int>& sourceVertices
 
 //---- graph specilization for walking distance sources
 template<>
-void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
+inline void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
 {
 	currentWalkingEdges.clear();
 	walkedEdges.clear();
@@ -1237,7 +1237,7 @@ void zSpace::walk_Animate(zGraph &inGraph, double MaxDistance, vector<double>& v
 
 //---- mesh specilization for walking distance sources
 template<>
-void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
+inline void zSpace::walk_Animate(zMesh &inMesh, double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
 {
 	currentWalkingEdges.clear();
 	walkedEdges.clear();

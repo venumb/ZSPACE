@@ -112,8 +112,7 @@ namespace zSpace
 		/*! \brief Default constructor.
 		*
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		zGraph()
 		{
 			n_v = n_e = 0;
@@ -127,8 +126,7 @@ namespace zSpace
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
 		*	\param		[in]	edgeConnects	- container of edge connections with vertex ids for each edge
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		zGraph(vector<zVector>(&_positions), vector<int>(&edgeConnects))
 		{
 
@@ -220,6 +218,56 @@ namespace zSpace
 		~zGraph() {}
 
 		//--------------------------
+		//---- CLEAR MEMORY METHOD
+		//--------------------------
+
+		/*! \brief This method clears the memory used by the mesh.
+		*
+		*	\since version 0.0.1
+		*/
+		void clearMesh()
+		{
+			if (vertices != NULL)
+			{
+				delete[] vertices;
+				vertices = NULL;
+			}
+
+
+			if (edges != NULL)
+			{
+				delete[] edges;
+				edges = NULL;
+			}
+			
+		}
+		
+		
+		//--------------------------
+		//---- CLEAR MEMORY METHOD
+		//--------------------------
+
+		/*! \brief This method clears the memory used by the mesh.
+		*
+		*	\since version 0.0.1
+		*/
+		void clear()
+		{
+			if (vertices != NULL)
+			{
+				delete[] vertices;
+				vertices = NULL;
+			}
+
+
+			if (edges != NULL)
+			{
+				delete[] edges;
+				edges = NULL;
+			}
+		}
+
+		//--------------------------
 		//---- GET-SET METHODS
 		//--------------------------
 
@@ -229,8 +277,7 @@ namespace zSpace
 		*	\param		[in]	type			- zVertexData or zEdgeData.
 		*	\param		[out]	edgeIndicies	- vector of edge indicies.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getConnectedEdges(int index, zHEData type, vector<int>& edgeIndicies)
 		{
 			vector<int> out;
@@ -294,8 +341,7 @@ namespace zSpace
 		*	\param		[in]	type			- zVertexData.
 		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getConnectedVertices(int index, zHEData type, vector<int>& vertexIndicies)
 		{
 			vector<int> out;
@@ -325,8 +371,7 @@ namespace zSpace
 		*	\param		[in]	type			- zEdgeData.
 		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void getVertices(int index, zHEData type, vector<int>& vertexIndicies)
 		{
 			vector<int> out;
@@ -348,8 +393,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- valency of input vertex input valence.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		int getVertexValence(int index)
 		{
 			int out;
@@ -368,8 +412,7 @@ namespace zSpace
 		*	\param		[in]	valence	- input valence value.
 		*	\return				bool	- true if valency is equal to input valence.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		bool checkVertexValency(int index,  int valence = 1)
 		{
 			bool out = false;			
@@ -448,8 +491,7 @@ namespace zSpace
 		*
 		*	\param		[in]	numSteps	- number of times the averaging is carried out.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void averageVertices(int numSteps = 1)
 		{
 			for (int k = 0; k < numSteps; k++)
@@ -493,7 +535,6 @@ namespace zSpace
 		*	\return				bool		- true if the vertices container is resized.
 		*	\since version 0.0.1
 		*/
-
 		bool addVertex(zVector &pos)
 		{
 			bool out = false;
@@ -529,8 +570,7 @@ namespace zSpace
 		*	\param		[out]		outVertexId	- stores vertexId if the vertex exists else it is -1.
 		*	\return		[out]		bool		- true if vertex exists else false.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		bool vertexExists(zVector pos, int &outVertexId)
 		{
 			bool out = false;;
@@ -557,8 +597,7 @@ namespace zSpace
 		/*! \brief This method returns the number of vertices in the graph or mesh.
 		*	\return				number of vertices.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		int numVertices()
 		{
 			return n_v;
@@ -569,7 +608,6 @@ namespace zSpace
 		*	\param		[in]		setMax	- if true, sets max vertices as amultiple of _n_v.
 		*	\since version 0.0.1
 		*/
-
 		void setNumVertices(int _n_v, bool setMax = true)
 		{
 			n_v = _n_v;

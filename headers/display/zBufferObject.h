@@ -1,10 +1,12 @@
 #pragma once
 
-#include <windows.h>		// Header File For Windows
 #include <depends/openGL/glew.h>
+#include <depends/openGL/glext.h>
+
 #include <GL/GL.h>			// Header File For The OpenGL32 Library
 #include <gl/glu.h>			// Header File For The GLu32 Library
-#include <depends/openGL/glext.h>
+
+#include <windows.h>		// Header File For Windows
 
 #include <headers/core/zDefinitions.h>
 

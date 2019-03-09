@@ -41,6 +41,8 @@
     <ClInclude Include="..\headers\application\zPolytopal.h" />
     <ClInclude Include="..\headers\application\zSlimeMould.h" />
     <ClInclude Include="..\headers\application\zStreamLines.h" />
+    <ClInclude Include="..\headers\application\zSpatialStructure.h" />
+    <ClInclude Include="..\headers\application\zVariableExtrude.h" />
     <ClInclude Include="..\headers\core\zBinaryTree.h" />
     <ClInclude Include="..\headers\core\zColor.h" />
     <ClInclude Include="..\headers\core\zDefinitions.h" />

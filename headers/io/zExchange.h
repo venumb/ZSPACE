@@ -28,7 +28,7 @@ namespace zSpace
 	*	\param [in]		infilename			- output file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-	void toOBJ(zMesh &inMesh, string outfilename)
+	inline void toOBJ(zMesh &inMesh, string outfilename)
 	{
 
 		// remove inactive elements
@@ -98,7 +98,7 @@ namespace zSpace
 	*	\param [in]		vColors				- export vertex color information if true.
 	*	\since version 0.0.1
 	*/
-	void toJSON(zMesh &inMesh, string outfilename, bool vNormals = true, bool vColors = false)
+	inline void toJSON(zMesh &inMesh, string outfilename,  bool vColors = false)
 	{
 
 		// remove inactive elements
@@ -110,7 +110,7 @@ namespace zSpace
 		zMeshJSON inMeshJSON;
 		json j;
 
-		inMeshJSON.to_json(j, inMesh, vNormals, vColors);
+		inMeshJSON.to_json(j, inMesh,  vColors);
 
 		ofstream myfile;
 		myfile.open(outfilename.c_str());
@@ -124,6 +124,7 @@ namespace zSpace
 		//myfile.precision(16);
 		myfile << j.dump();
 		myfile.close();
+		
 	}
 
 
@@ -133,7 +134,7 @@ namespace zSpace
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-	void fromOBJ(zMesh &inMesh, string infilename)
+	inline void fromOBJ(zMesh &inMesh, string infilename)
 	{
 		vector<zVector>positions;
 		vector<int>polyConnects;
@@ -241,9 +242,11 @@ namespace zSpace
 	*
 	*	\param [in]		inMesh				- mesh created from the JSON file.
 	*	\param [in]		infilename			- input file name including the directory path and extension.
+	*	\param [in]		vColors				- import vertex color information if true.
+	*	\param [in]		fColors				- import face color information if true.
 	*	\since version 0.0.1
 	*/
-	void fromJSON(zMesh &inMesh, string infilename)
+	inline void fromJSON(zMesh &inMesh, string infilename)
 	{
 		json j_in;
 		zMeshJSON inMeshJSON;
@@ -368,7 +371,7 @@ namespace zSpace
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-	void fromTXT(zGraph &inGraph, string infilename)
+	inline void fromTXT(zGraph &inGraph, string infilename)
 	{
 		vector<zVector>positions;
 		vector<int>edgeConnects;
@@ -437,7 +440,7 @@ namespace zSpace
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/	
-	void fromJSON(zGraph &inGraph, string infilename)
+	inline void fromJSON(zGraph &inGraph, string infilename)
 	{
 		json j_in;
 		zGraphJSON inGraphJSON;
@@ -470,7 +473,7 @@ namespace zSpace
 	*	\param [in]		inMesh				- input mesh.
 	*	\since version 0.0.1
 	*/
-	void fromMESH(zGraph &inGraph, zMesh &inMesh)
+	inline void fromMESH(zGraph &inGraph, zMesh &inMesh)
 	{
 		
 		vector<int>edgeConnects;		
@@ -493,7 +496,7 @@ namespace zSpace
 	*	\param [in]		outfilename			- output file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-	void toTXT(zGraph &inGraph, string outfilename)
+	inline void toTXT(zGraph &inGraph, string outfilename)
 	{
 		// remove inactive elements
 		if (inGraph.numVertices() != inGraph.vertexActive.size()) inGraph.removeInactiveElements(zVertexData);
@@ -550,7 +553,7 @@ namespace zSpace
 	*	\param [in]		vColors				- export vertex color information if true.
 	*	\since version 0.0.1
 	*/
-	void toJSON(zGraph &inGraph, string outfilename, bool vColors = false)
+	inline void toJSON(zGraph &inGraph, string outfilename, bool vColors = false )
 	{
 		// remove inactive elements
 		if (inGraph.numVertices() != inGraph.vertexActive.size()) inGraph.removeInactiveElements(zVertexData);
@@ -593,7 +596,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void toCSV(string outfilename, zHEData type, zGraph& inGraph, vector<T> &data)
+	inline void toCSV(string outfilename, zHEData type, zGraph& inGraph, vector<T> &data)
 	{
 
 		ofstream myfile;
@@ -662,7 +665,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	void fromCSV(string infilename, zHEData type, zGraph& inGraph, vector<T> &data);
+	inline void fromCSV(string infilename, zHEData type, zGraph& inGraph, vector<T> &data);
 
 	/** @}*/
 
@@ -670,6 +673,7 @@ namespace zSpace
 	//--------------------------
 	//---- STREAM METHODS
 	//--------------------------
+
 	/** \addtogroup zIO_Streams
 	*	\brief Collection of input - output methods for particles.
 	*  @{
@@ -682,7 +686,7 @@ namespace zSpace
 	*	\param		[in]	vColors					- export vertex color information if true.
 	*	\since version 0.0.1
 	*/
-	void toJSON(zStream &inStream, string outfilename, bool vColors = false)
+	inline void toJSON(zStream &inStream, string outfilename, bool vColors = false)
 	{
 		// remove inactive elements
 		if (inStream.streamGraph.numVertices() != inStream.streamGraph.vertexActive.size()) inStream.streamGraph.removeInactiveElements(zVertexData);
@@ -754,7 +758,7 @@ namespace zSpace
 	*	\param [in]		infilename			- input file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-	void fromJSON(zStream &inStream, string infilename)
+	inline void fromJSON(zStream &inStream, string infilename)
 	{
 		json j_in;
 		zGraphJSON inGraphJSON;
@@ -845,7 +849,7 @@ namespace zSpace
 	*	\param		[in]	clear					- true if the input contatiner of particle is to be cleared.
 	*	\since version 0.0.1
 	*/
-	void fromPOSITIONS(vector<zParticle> &inParticles, vector<zVector> &inPoints, vector<bool> fixed, bool clear = true)
+	inline void fromPOSITIONS(vector<zParticle> &inParticles, vector<zVector> &inPoints, vector<bool> fixed, bool clear = true)
 	{
 		if(fixed.size() > 0 && fixed.size()!= inPoints.size() ) throw std::invalid_argument(" error: size of inPoints and active dont match.");
 
@@ -867,7 +871,7 @@ namespace zSpace
 	*	\param		[in]	clear					- true if the input contatiner of particle is to be cleared.
 	*	\since version 0.0.1
 	*/
-	void fromMESH(vector<zParticle> &inParticles, zMesh &inMesh, bool fixBoundary = false, bool clear = true)
+	inline void fromMESH(vector<zParticle> &inParticles, zMesh &inMesh, bool fixBoundary = false, bool clear = true)
 	{
 		
 		if (clear) inParticles.clear();
@@ -894,7 +898,7 @@ namespace zSpace
 	*	\param		[in]	clear					- true if the input contatiner of particle is to be cleared.
 	*	\since version 0.0.1
 	*/
-	void fromGRAPH(vector<zParticle> &inParticles, zGraph &inGraph, bool fixBoundary = false, bool clear = true)
+	inline void fromGRAPH(vector<zParticle> &inParticles, zGraph &inGraph, bool fixBoundary = false, bool clear = true)
 	{
 
 		if (clear) inParticles.clear();
@@ -928,12 +932,12 @@ namespace zSpace
 	*/
 
 	/*! \brief This method imports a point cloud from an TXT file.
-*
-*	\param [in]		inPositions			- container of positions created from the txt file.
-*	\param [in]		infilename			- input file name including the directory path and extension.
-*	\since version 0.0.1
-*/
-	void fromTXT(vector<zVector> &inPositions, string infilename)
+	*
+	*	\param [in]		inPositions			- container of positions created from the txt file.
+	*	\param [in]		infilename			- input file name including the directory path and extension.
+	*	\since version 0.0.1
+	*/
+	inline void fromTXT(vector<zVector> &inPositions, string infilename)
 	{
 		inPositions.clear();
 
@@ -990,7 +994,7 @@ namespace zSpace
 	*	\param [in]		outfilename			- output file name including the directory path and extension.
 	*	\since version 0.0.1
 	*/
-	void toTXT(vector<zVector> &inPositions, string outfilename)
+	inline void toTXT(vector<zVector> &inPositions, string outfilename)
 	{
 		
 
@@ -1155,7 +1159,7 @@ namespace zSpace
 
 //---- string specialization
 template <>
-void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<string> &data)
+inline void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<string> &data)
 {
 	data.clear();
 
@@ -1214,7 +1218,7 @@ void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& in
 
 //---- int specialization
 template <>
-void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<int> &data)
+inline void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<int> &data)
 {
 	data.clear();
 
@@ -1268,7 +1272,7 @@ void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& in
 
 //---- float specialization
 template <>
-void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<float> &data)
+inline void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<float> &data)
 {
 	data.clear();
 
@@ -1322,7 +1326,7 @@ void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& in
 
 //---- double specialization
 template <>
-void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<double> &data)
+inline void zSpace::fromCSV(string infilename, zSpace::zHEData type, zSpace::zGraph& inGraph, vector<double> &data)
 {
 	data.clear();
 

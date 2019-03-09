@@ -76,9 +76,8 @@ namespace zSpace
 		*	\param	[in]	inMesh		- input mesh.
 		*	\param	[in]	vColors		- export vertex color information if true.
 		*	\since version 0.0.1
-		*/
-	
-		void to_json(json &j, zMesh &inMesh, bool vNormals = true, bool vColors = false)
+		*/	
+		void to_json(json &j, zMesh &inMesh,  bool vColors = false)
 		{
 			// Vertices
 			for (int i = 0; i < inMesh.numVertices(); i++)
@@ -124,13 +123,12 @@ namespace zSpace
 				v_attrib.push_back(inMesh.vertexPositions[i].y);
 				v_attrib.push_back(inMesh.vertexPositions[i].z);
 
-
-				if (vNormals)
-				{
-					v_attrib.push_back(inMesh.vertexNormals[i].x);
-					v_attrib.push_back(inMesh.vertexNormals[i].y);
-					v_attrib.push_back(inMesh.vertexNormals[i].z);
-				}
+				v_attrib.push_back(inMesh.vertexNormals[i].x);
+				v_attrib.push_back(inMesh.vertexNormals[i].y);
+				v_attrib.push_back(inMesh.vertexNormals[i].z);
+				
+					
+			
 
 				if (vColors)
 				{
@@ -142,6 +140,23 @@ namespace zSpace
 
 				vertexAttributes.push_back(v_attrib);
 			}
+
+			// face Attributes
+			for (int i = 0; i < inMesh.numPolygons(); i++)
+			{
+				vector<double> f_attrib;
+
+				f_attrib.push_back(inMesh.faceNormals[i].x);
+				f_attrib.push_back(inMesh.faceNormals[i].y);
+				f_attrib.push_back(inMesh.faceNormals[i].z);
+
+				f_attrib.push_back(inMesh.faceColors[i].r);
+				f_attrib.push_back(inMesh.faceColors[i].g);
+				f_attrib.push_back(inMesh.faceColors[i].b);
+
+				faceAttributes.push_back(f_attrib);
+			}
+
 
 
 			// Json file 
@@ -157,9 +172,10 @@ namespace zSpace
 		*
 		*	\param	[in]	j			- input json file.
 		*	\param	[in]	inMesh		- output datastructure (zGraph or zMesh).
+		*	\param [in]		vColors		- import vertex color information if true.
+		*	\param [in]		fColors		- import face color information if true.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void from_json( json &j, zMesh &inMesh)
 		{
 			// Vertices
@@ -226,30 +242,36 @@ namespace zSpace
 			//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
 
 			inMesh.vertexPositions.clear();
-			for (int i = 0; i < vertexAttributes.size(); i++)
+					for (int i = 0; i < vertexAttributes.size(); i++)
 			{
 				for (int k = 0; k < vertexAttributes[i].size(); k++)
 				{
 					// position
-					if (vertexAttributes[i].size() == 3)
-					{
-						zVector pos(vertexAttributes[i][k], vertexAttributes[i][k + 1], vertexAttributes[i][k + 2]);
-
-						inMesh.vertexPositions.push_back(pos);
-						k += 2;
-					}
-
-					// position and color
-
 					if (vertexAttributes[i].size() == 6)
 					{
 						zVector pos(vertexAttributes[i][k], vertexAttributes[i][k + 1], vertexAttributes[i][k + 2]);
 						inMesh.vertexPositions.push_back(pos);
 
-						zColor col (vertexAttributes[i][k+3], vertexAttributes[i][k + 4], vertexAttributes[i][k + 5], 1) ;
-						inMesh.vertexColors.push_back(col);
+						zVector normal(vertexAttributes[i][k + 3], vertexAttributes[i][k + 4], vertexAttributes[i][k + 5]);
+						inMesh.vertexNormals.push_back(normal);
 
 						k += 5;
+					}
+
+					// position and color
+
+					if (vertexAttributes[i].size() == 9)
+					{
+						zVector pos(vertexAttributes[i][k], vertexAttributes[i][k + 1], vertexAttributes[i][k + 2]);
+						inMesh.vertexPositions.push_back(pos);
+
+						zVector normal(vertexAttributes[i][k + 3], vertexAttributes[i][k + 4], vertexAttributes[i][k + 5]);
+						inMesh.vertexNormals.push_back(pos);
+
+						zColor col (vertexAttributes[i][k+6], vertexAttributes[i][k + 7], vertexAttributes[i][k + 8], 1) ;
+						inMesh.vertexColors.push_back(col);
+
+						k += 8;
 					}
 				}
 			}
@@ -259,8 +281,29 @@ namespace zSpace
 			halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
 
 
-			// Edge Attributes
+			// face Attributes
 			faceAttributes = j["FaceAttributes"].get<vector<vector<double>>>();
+			
+			inMesh.faceColors.clear();
+			for (int i = 0; i < faceAttributes.size(); i++)
+			{
+				for (int k = 0; k < faceAttributes[i].size(); k++)
+				{
+					// position
+					if (faceAttributes[i].size() == 6)
+					{
+						zColor col(faceAttributes[i][k + 3], faceAttributes[i][k + 4], faceAttributes[i][k + 5], 1);
+						inMesh.faceColors.push_back(col);
+						
+
+						zVector normal(faceAttributes[i][k], faceAttributes[i][k + 1], faceAttributes[i][k + 2]);
+						inMesh.faceNormals.push_back(normal);
+
+						k += 5;
+					}
+				}
+
+			}
 
 
 
@@ -381,7 +424,6 @@ namespace zSpace
 		*	\param	[in]	inGraph		- graph.
 		*	\since version 0.0.1
 		*/
-
 		void from_json(json &j, zGraph &inGraph)
 		{
 			// Vertices
@@ -421,7 +463,14 @@ namespace zSpace
 
 				if (halfedges[i][k] != -1) 	inGraph.edges[i].setPrev(&inGraph.edges[halfedges[i][k]]);
 				if (halfedges[i][k + 1] != -1) inGraph.edges[i].setNext(&inGraph.edges[halfedges[i][k + 1]]);
-				if (halfedges[i][k + 2] != -1) inGraph.edges[i].setVertex(&inGraph.vertices[halfedges[i][k + 2]]);				
+				if (i % 2 == 0)
+				{
+					if (halfedges[i+1][k + 2] != -1) inGraph.edges[i].setVertex(&inGraph.vertices[halfedges[i + 1][k + 2]]);
+				}
+				else
+				{
+					if (halfedges[i - 1][k + 2] != -1) inGraph.edges[i].setVertex(&inGraph.vertices[halfedges[i - 1][k + 2]]);
+				}
 
 				if (i % 2 == 0) inGraph.edges[i].setSym(&inGraph.edges[i]);
 				else  inGraph.edges[i].setSym(&inGraph.edges[i - 1]);
@@ -473,10 +522,5 @@ namespace zSpace
 	};
 
 
-	void to_json(json &j, zStream &inStream, bool vColors = false)
-	{
-
-
-	}
 
 }

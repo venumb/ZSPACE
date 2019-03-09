@@ -37,7 +37,7 @@ namespace zSpace
 	*	\return				zGraph								- form graph.
 	*	\since version 0.0.1
 	*/
-	zGraph createFormGraph(vector<zMesh> &forceVolumeMeshes, vector<double> &offsets, unordered_map <string, int> &forceVolumeFace_formGraphVertex, vector<int> &formGraphVertex_forceVolumeMesh, vector<int> &formGraphVertex_forceVolumeFace, vector<double> &formGraphVertex_Offset)
+	inline zGraph createFormGraph(vector<zMesh> &forceVolumeMeshes, vector<double> &offsets, unordered_map <string, int> &forceVolumeFace_formGraphVertex, vector<int> &formGraphVertex_forceVolumeMesh, vector<int> &formGraphVertex_forceVolumeFace, vector<double> &formGraphVertex_Offset)
 	{
 		zGraph out;
 
@@ -212,7 +212,7 @@ namespace zSpace
 	*	\return				zMesh					- polytopal mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh createPolytopalMesh(zMesh &inputVolumeMesh, int &volMeshId, zGraph &formGraph, unordered_map <string, int> &forceVolumeFace_formGraphVertex, vector<double> &formGraphVertex_Offset)
+	inline zMesh createPolytopalMesh(zMesh &inputVolumeMesh, int &volMeshId, zGraph &formGraph, unordered_map <string, int> &forceVolumeFace_formGraphVertex, vector<double> &formGraphVertex_Offset)
 	{
 		zMesh out;
 
@@ -326,7 +326,7 @@ namespace zSpace
 	*	\return				zMesh					- remeshed smooothed polytopal mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh remeshSmoothPolytopalMesh(zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
+	inline zMesh remeshSmoothPolytopalMesh(zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
 	{
 		
 
@@ -416,7 +416,7 @@ namespace zSpace
 	*	\return				bool					- true if there is a intersection else false.
 	*	\since version 0.0.1
 	*/
-	bool computeRulingIntersection(zMesh &smoothPolytopalMesh, int v0, int v1, zVector &closestPt)
+	inline bool computeRulingIntersection(zMesh &smoothPolytopalMesh, int v0, int v1, zVector &closestPt)
 	{
 		bool out = false;
 
@@ -502,7 +502,7 @@ namespace zSpace
 	*	\param		[in]	SUBDIVS					- input number of subdivisions.
 	*	\since version 0.0.1
 	*/
-	void closePolytopalMesh(zMesh &forceVolumeMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
+	inline void closePolytopalMesh(zMesh &forceVolumeMesh, zMesh &smoothPolytopalMesh, int SUBDIVS = 1)
 	{
 		int n_v = forceVolumeMesh.numVertices();
 		int n_e = forceVolumeMesh.numEdges();
@@ -818,7 +818,7 @@ namespace zSpace
 	*	\param		[in]	scaleFactor					- input scale factor.
 	*	\since version 0.0.1
 	*/
-	void explodePolytopalMeshes(vector<zMesh> & forceVolumeMeshes, zGraph &formGraph, vector<int> &formGraphVertex_forceVolumeMesh, double scaleFactor = 1)
+	inline void explodePolytopalMeshes(vector<zMesh> & forceVolumeMeshes, zGraph &formGraph, vector<int> &formGraphVertex_forceVolumeMesh, double scaleFactor = 1)
 	{
 		zVector g_minBB, g_maxBB;
 		//formGraph.computeBoundingBox(g_minBB, g_maxBB);
@@ -863,7 +863,7 @@ namespace zSpace
 	*	\param		[out]	volmesh_fCenters			- 2 Dimensional Container of face centers of volumeMesh.
 	*	\since version 0.0.1
 	*/
-	void getForceVolumeMesh_FaceCenters(vector<zMesh> & forceVolumeMeshes, vector<vector<zVector>> &volmesh_fCenters)
+	inline void getForceVolumeMesh_FaceCenters(vector<zMesh> & forceVolumeMeshes, vector<vector<zVector>> &volmesh_fCenters)
 	{
 		for (int i = 0; i < forceVolumeMeshes.size(); i++)
 		{
@@ -885,7 +885,7 @@ namespace zSpace
 	*	\param		[in]	maxWeight					- maximum weight of the edge.
 	*	\since version 0.0.1
 	*/
-	void computeFormGraph_EdgeWeights( vector<zMesh> & forceVolumeMeshes, zGraph &formGraph, vector<int> &formGraphVertex_forceVolumeMesh, vector<int> &formGraphVertex_forceVolumeFace , double minWeight = 2.0 , double maxWeight = 10.0)
+	inline void computeFormGraph_EdgeWeights( vector<zMesh> & forceVolumeMeshes, zGraph &formGraph, vector<int> &formGraphVertex_forceVolumeMesh, vector<int> &formGraphVertex_forceVolumeFace , double minWeight = 2.0 , double maxWeight = 10.0)
 	{
 		//compute edgeWeights
 		vector<vector<double>> volMesh_fAreas;
@@ -958,7 +958,7 @@ namespace zSpace
 	*	\return				bool						- true if the compression graph is reached. 
 	*	\since version 0.0.1
 	*/
-	bool updateFormGraph(vector<zMesh> & forceVolumeMeshes, zGraph &formGraph, vector<vector<zVector>> &volmesh_fCenters ,  vector<int> &formGraphVertex_forceVolumeMesh,  vector<int> &formGraphVertex_forceVolumeFace , vector<zParticle> &formGraphParticles, double dT, zIntergrationType type = zEuler)
+	inline bool updateFormGraph(vector<zMesh> & forceVolumeMeshes, zGraph &formGraph, vector<vector<zVector>> &volmesh_fCenters ,  vector<int> &formGraphVertex_forceVolumeMesh,  vector<int> &formGraphVertex_forceVolumeFace , vector<zParticle> &formGraphParticles, double dT, zIntergrationType type = zEuler)
 	{
 		if (formGraphParticles.size() != formGraph.vertexActive.size()) fromGRAPH(formGraphParticles, formGraph);
 

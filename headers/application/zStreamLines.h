@@ -120,7 +120,7 @@ namespace zSpace
 	*	\param	[in]	inField		- input field.
 	*	\return			bool		- true if the input position is in bounds.
 	*/
-	bool checkFieldBounds(zVector &inPoint, zField2D<zVector>& inField)
+	inline bool checkFieldBounds(zVector &inPoint, zField2D<zVector>& inField)
 	{
 		zVector minBB, maxBB;
 		inField.getBoundingBox(minBB, maxBB);
@@ -136,7 +136,7 @@ namespace zSpace
 	*	\param	[in]	dTest							- dtest is a percentage of dsep. It is the minimal distance under which the integration of the streamline will be stopped in the current direction.
 	*	\return			bool							- true if the input position is valid stream point.
 	*/
-	bool checkValidStreamPosition(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dTest)
+	inline bool checkValidStreamPosition(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dTest)
 	{
 			
 		int newFieldIndex;
@@ -197,7 +197,7 @@ namespace zSpace
 	*	\param	[in]	dTest							- dtest is a percentage of dsep. It is the minimal distance under which the integration of the streamline will be stopped in the current direction.
 	*	\return			bool							- true if the input position is valid stream point.
 	*/
-	bool checkValidSeedPosition(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep)
+	inline bool checkValidSeedPosition(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep)
 	{
 			
 
@@ -250,7 +250,7 @@ namespace zSpace
 		return validSeedPoint;
 	}
 
-	void addToFieldStreamPositions(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions)
+	inline void addToFieldStreamPositions(zVector &inPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions)
 	{
 		if (fieldIndex_streamPositions.size() == 0 || fieldIndex_streamPositions.size() != inField.numFieldValues())
 		{
@@ -290,7 +290,7 @@ namespace zSpace
 	*	\return			bool							- true if the graph is created.
 	*	\since version 0.0.1	
 	*/	
-	bool createStreamGraph( zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, bool NormalDir = false)
+	inline bool createStreamGraph( zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, bool NormalDir = false)
 	{
 		
 
@@ -543,7 +543,7 @@ namespace zSpace
 	*	\param	[in]	seedPoints						- container of seed points.
 	*	\since version 0.0.1
 	*/
-	void getSeedPoints(zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, zGraph& currentStreamGraph, int vertexId, double &dSep, vector<zVector> &seedPoints)
+	inline void getSeedPoints(zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, zGraph& currentStreamGraph, int vertexId, double &dSep, vector<zVector> &seedPoints)
 	{
 		if (currentStreamGraph.checkVertexValency(vertexId, 1)) return;
 
@@ -608,7 +608,7 @@ namespace zSpace
 	*	\param	[in]	NormalDir						- integrates the stream lines normal to the field direction.
 	*	\since version 0.0.1
 	*/
-	void createStreams(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, bool NormalDir = false  )
+	inline void createStreams(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, bool NormalDir = false  )
 	{
 		streams.clear();
 
@@ -726,7 +726,7 @@ namespace zSpace
 	*	\return			bool							- true if the graph is created.
 	*	\since version 0.0.1
 	*/
-	bool createStreamGraph_Influence(zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, double angle = 0,  bool flipBackward = true)
+	inline bool createStreamGraph_Influence(zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, double angle = 0,  bool flipBackward = true)
 	{
 				
 		vector<zVector> positions;
@@ -1019,7 +1019,7 @@ namespace zSpace
 	*	\param	[in]	seedPoints						- container of seed points.
 	*	\since version 0.0.1
 	*/
-	void getSeedPoints_Influence(zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, zGraph& currentStreamGraph, int vertexId, double &dSep, double &min_Power, double &max_Power, vector<zVector> &seedPoints)
+	inline void getSeedPoints_Influence(zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, zGraph& currentStreamGraph, int vertexId, double &dSep, double &min_Power, double &max_Power, vector<zVector> &seedPoints)
 	{
 		if (currentStreamGraph.checkVertexValency(vertexId, 1)) return;
 
@@ -1093,7 +1093,7 @@ namespace zSpace
 	*	\param	[in]	NormalDir						- integrates the stream lines normal to the field direction.
 	*	\since version 0.0.1
 	*/
-	void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT = 1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, double angle = 0, bool flipBackward = true)
+	inline void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, zField2D<double>& influenceField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &min_Power, double &max_Power, double &dTest_Factor, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT = 1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, double angle = 0, double altAngle = 0, bool flipBackward = true)
 	{
 		streams.clear();
 
@@ -1193,7 +1193,7 @@ namespace zSpace
 			{
 				zGraph temp;
 
-				double ang = (alternate) ? angle + 60.0 : angle;
+				double ang = (alternate) ? angle + altAngle : angle;
 
 				bool chk = createStreamGraph_Influence(temp, seedPoints[i], inField, influenceField, fieldIndex_streamPositions, dSep, min_Power, max_Power, dTest_Factor, minLength, maxLength, streamType, dT, type, ang, flipBackward);
 

@@ -157,8 +157,38 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		~zMesh() {}
+		~zMesh() {	}
 
+
+		//--------------------------
+		//---- CLEAR MEMORY METHOD
+		//--------------------------
+
+		/*! \brief This method clears the memory used by the mesh.
+		*
+		*	\since version 0.0.1
+		*/
+		void clear()
+		{
+			if (vertices != NULL)
+			{
+				delete[] vertices;
+				vertices = NULL;
+			}
+
+			if (edges != NULL)
+			{
+				delete[] edges;
+				edges = NULL;
+			}
+
+			
+			if (faces != NULL)
+			{
+				delete[] faces;
+				faces = NULL;
+			}
+		}
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -240,7 +270,51 @@ namespace zSpace
 			vertexIndicies = out;
 		}
 
+		/*!	\brief This method gets the vertex positions attached to input zEdge or zFace.
+		*
+		*	\param		[in]	index			- index in the edge/face container.
+		*	\param		[in]	type			- zEdgeData or zFaceData.
+		*	\param		[out]	vertPositions	- vector of vertex positions.
+		*	\since version 0.0.1
+		*/
+		void getVertexPositions(int index, zHEData type, vector<zVector> &vertPositions)
+		{
+			vector<zVector> out;
 
+			// Mesh Edge
+			if (type == zEdgeData)
+			{
+
+				vector<int> eVerts;
+
+				getVertices(index, type, eVerts);
+
+				for (int i = 0; i < eVerts.size(); i++)
+				{
+					out.push_back(vertexPositions[eVerts[i]]);
+				}				
+				
+			}
+
+
+			// Mesh Face 
+			else if (type == zFaceData)
+			{
+
+				vector<int> fVerts;
+
+				getVertices(index, type,fVerts);
+
+				for (int i = 0; i < fVerts.size(); i++)
+				{
+					out.push_back(vertexPositions[fVerts[i]]);
+				}
+			}
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
+
+			vertPositions = out;
+		}
 
 		/*! \brief This method gets the faces connected to input zVertex or zFace
 		*

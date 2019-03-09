@@ -28,7 +28,7 @@ namespace zSpace
 	*	\param		[in]		grav		- Input gravity force.
 	*	\since version 0.0.1
 	*/
-	void addGravityForce(vector<zParticle> &inParticles, zVector grav = zVector(0, 0, -9.8))
+	inline void addGravityForce(vector<zParticle> &inParticles, zVector grav = zVector(0, 0, -9.8))
 	{
 		for (int i = 0; i < inParticles.size(); i++)
 		{
@@ -45,7 +45,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 	template<typename T>
-	void addEdgeForce(vector<zParticle> &inParticles, T &inHEDataStructure , vector<double> &weights);
+	inline void addEdgeForce(vector<zParticle> &inParticles, T &inHEDataStructure , vector<double> &weights);
 	
 
 		
@@ -67,7 +67,7 @@ namespace zSpace
 
 //---- graph specilization for addSpringForce
 template<>
-void zSpace::addEdgeForce(vector<zParticle> &inParticles, zGraph &inGraph, vector<double> &weights)
+inline void zSpace::addEdgeForce(vector<zParticle> &inParticles, zGraph &inGraph, vector<double> &weights)
 {
 	if (inParticles.size() != inGraph.vertexActive.size()) throw std::invalid_argument("cannot apply spring force.");
 
@@ -107,7 +107,7 @@ void zSpace::addEdgeForce(vector<zParticle> &inParticles, zGraph &inGraph, vecto
 
 //---- mesh specilization for addSpringForce
 template<>
-void zSpace::addEdgeForce(vector<zParticle> &inParticles, zMesh &inMesh, vector<double> &weights)
+inline void zSpace::addEdgeForce(vector<zParticle> &inParticles, zMesh &inMesh, vector<double> &weights)
 {
 	if (inParticles.size() != inMesh.vertexActive.size()) throw std::invalid_argument("cannot apply spring force.");
 
@@ -149,3 +149,4 @@ void zSpace::addEdgeForce(vector<zParticle> &inParticles, zMesh &inMesh, vector<
 //---------------//
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
+

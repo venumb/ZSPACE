@@ -32,7 +32,7 @@ namespace zSpace
 	*	\param		[in]	setFaceColor	- face color is computed based on the vertex color if true.
 	*	\since version 0.0.1
 	*/
-	void setVertexColor(zMesh &inMesh, zColor col, bool setFaceColor = false)
+	inline void setVertexColor(zMesh &inMesh, zColor col, bool setFaceColor = false)
 	{
 		for (int i = 0; i < inMesh.vertexColors.size(); i++)
 		{
@@ -50,7 +50,7 @@ namespace zSpace
 	*	\param		[in]	setFaceColor	- face color is computed based on the vertex color if true.
 	*	\since version 0.0.1
 	*/
-	void setVertexColors(zMesh &inMesh, vector<zColor>& col, bool setFaceColor = false)
+	inline void setVertexColors(zMesh &inMesh, vector<zColor>& col, bool setFaceColor = false)
 	{
 		if (col.size() != inMesh.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh vertices.");
 
@@ -69,7 +69,7 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the face color if true.
 	*	\since version 0.0.1
 	*/
-	void setFaceColor(zMesh &inMesh, zColor col, bool setVertexColor = false)
+	inline void setFaceColor(zMesh &inMesh, zColor col, bool setVertexColor = false)
 	{
 
 		for (int i = 0; i < inMesh.faceColors.size(); i++)
@@ -87,7 +87,7 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the face color if true.
 	*	\since version 0.0.1
 	*/
-	void setFaceColors(zMesh &inMesh, vector<zColor>& col, bool setVertexColor = false)
+	inline void setFaceColors(zMesh &inMesh, vector<zColor>& col, bool setVertexColor = false)
 	{
 		if (col.size() != inMesh.faceColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
 
@@ -106,7 +106,7 @@ namespace zSpace
 	*	\param		[in]	fNormal			- input normal.
 	*	\since version 0.0.1
 	*/
-	void setFaceNormals(zMesh &inMesh, zVector &fNormal)
+	inline void setFaceNormals(zMesh &inMesh, zVector &fNormal)
 	{	
 
 		inMesh.faceNormals.clear();
@@ -126,7 +126,7 @@ namespace zSpace
 	*	\param		[in]	fNormals		- input normals contatiner. The size of the contatiner should be equal to number of faces in the mesh.
 	*	\since version 0.0.1
 	*/
-	void setFaceNormals(zMesh &inMesh, vector<zVector> &fNormals)
+	inline void setFaceNormals(zMesh &inMesh, vector<zVector> &fNormals)
 	{
 
 		if (inMesh.faceActive.size() != fNormals.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
@@ -144,13 +144,13 @@ namespace zSpace
 		
 
 	/*! \brief This method sets edge color of all the edges to the input color.
-*
-*	\param		[in]	inMesh			- input mesh.
-*	\param		[in]	col				- input color.
-*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
-*	\since version 0.0.1
-*/
-	void setEdgeColor(zMesh & inMesh, zColor col, bool setVertexColor)
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	col				- input color.
+	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
+	*	\since version 0.0.1
+	*/
+	inline void setEdgeColor(zMesh & inMesh, zColor col, bool setVertexColor)
 	{
 		for (int i = 0; i < inMesh.edgeColors.size(); i+= 2)
 		{
@@ -168,7 +168,7 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-	void setEdgeColors(zMesh & inMesh, vector<zColor>& col, bool setVertexColor)
+	inline void setEdgeColors(zMesh & inMesh, vector<zColor>& col, bool setVertexColor)
 	{
 		if (col.size() != inMesh.edgeColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh half edges.");
 
@@ -190,7 +190,7 @@ namespace zSpace
 	*	\param		[out]	vertexCurvature		- container of vertex curvature.
 	*	\since version 0.0.1
 	*/	
-	void getPrincipalCurvature(zMesh &inMesh, vector<zCurvature> &vertexCurvatures)
+	inline void getPrincipalCurvature(zMesh &inMesh, vector<zCurvature> &vertexCurvatures)
 	{
 		for (int j = 0; j < inMesh.numVertices(); j++)
 		{
@@ -306,7 +306,7 @@ namespace zSpace
 	*	\param		[out]	dihedralAngles		- vector of edge dihedralAngles.
 	*	\since version 0.0.1
 	*/	
-	void getEdgeDihedralAngles(zMesh &inMesh, vector<double> &dihedralAngles)
+	inline void getEdgeDihedralAngles(zMesh &inMesh, vector<double> &dihedralAngles)
 	{
 		vector<double> out;
 
@@ -362,7 +362,7 @@ namespace zSpace
 	*	\return				double			- edge length.
 	*	\since version 0.0.1
 	*/
-	double getEdgeLoopLength(zMesh &inMesh, int index)
+	inline double getEdgeLoopLength(zMesh &inMesh, int index)
 	{
 		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -399,7 +399,7 @@ namespace zSpace
 	*	\return				double			- total area of the mesh.
 	*	\since version 0.0.1
 	*/	
-	double getVertexArea(zMesh &inMesh, vector<zVector> &faceCenters, vector<zVector> &edgeCenters, vector<double> &vertexAreas)
+	inline double getVertexArea(zMesh &inMesh, vector<zVector> &faceCenters, vector<zVector> &edgeCenters, vector<double> &vertexAreas)
 	{
 		vector<double> out;
 
@@ -462,7 +462,7 @@ namespace zSpace
 	*	\return				double			- total area of the mesh.
 	*	\since version 0.0.1
 	*/
-	double getPlanarFaceAreas(zMesh &inMesh, vector<double> &faceAreas)
+	inline double getPlanarFaceAreas(zMesh &inMesh, vector<double> &faceAreas)
 	{
 
 
@@ -512,7 +512,7 @@ namespace zSpace
 	*	\return				int				- number of vertices in the face.
 	*	\since version 0.0.1
 	*/
-	int getNumPolyVerts(zMesh &inMesh, int index)
+	inline int getNumPolyVerts(zMesh &inMesh, int index)
 	{
 		vector<int> fEdges; 
 		inMesh.getEdges(index, zFaceData, fEdges);
@@ -530,7 +530,7 @@ namespace zSpace
 	*	\param		[out]	scaleFac			- scale factor.
 	*	\since version 0.0.1
 	*/
-	void scaleMesh(zMesh &inMesh, double scaleFac)
+	inline void scaleMesh(zMesh &inMesh, double scaleFac)
 	{
 		scalePointCloud(inMesh.vertexPositions, scaleFac);
 	}
@@ -542,7 +542,7 @@ namespace zSpace
 	*	\param		[out]	polyCounts		- stores number of vertices per polygon.
 	*	\since version 0.0.1
 	*/
-	void computePolyConnects_PolyCount(zMesh &inMesh, vector<int>(&polyConnects), vector<int>(&polyCounts))
+	inline void computePolyConnects_PolyCount(zMesh &inMesh, vector<int>(&polyConnects), vector<int>(&polyCounts))
 	{
 		polyConnects.clear();
 		polyCounts.clear();
@@ -571,7 +571,7 @@ namespace zSpace
 	*	\retrun				zMesh			- combined mesh.
 	*	\since version 0.0.1
 	*/	
-	zMesh combineDisjointMesh(zMesh &m1, zMesh &m2)
+	inline zMesh combineDisjointMesh(zMesh &m1, zMesh &m2)
 	{
 		zMesh out;
 
@@ -620,7 +620,7 @@ namespace zSpace
 	*	\param		[out]	offsetPositions		- container with the offset positions.
 	*	\since version 0.0.1
 	*/	
-	void offsetMeshFace(zMesh &inMesh, int faceIndex, double offset, vector<zVector>& offsetPositions)
+	inline void offsetMeshFace(zMesh &inMesh, int faceIndex, double offset, vector<zVector>& offsetPositions)
 	{
 		vector<zVector> out;
 
@@ -676,7 +676,7 @@ namespace zSpace
 	*	\param		[out]	intersectionPositions	- container with the intersection positions.
 	*	\since version 0.0.1
 	*/
-	void offsetMeshFace_Variable(zMesh &m, int faceIndex, vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
+	inline void offsetMeshFace_Variable(zMesh &m, int faceIndex, vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
 	{
 		vector<zVector> offsetPoints;
 		vector<int> fEdges;
@@ -753,7 +753,7 @@ namespace zSpace
 	*	\param		[in]	transform				- transfrom matrix.
 	*	\since version 0.0.1
 	*/
-	void transformMesh(zMesh &inMesh, zMatrixd& transform)
+	inline void transformMesh(zMesh &inMesh, zMatrixd& transform)
 	{
 		for (int j = 0; j < inMesh.vertexPositions.size(); j++)
 		{			

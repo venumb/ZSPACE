@@ -33,9 +33,8 @@ namespace zSpace
 	*	\param		 [in]		col			- color of the point.
 	*	\param		 [in]		wt			- weight of the point.
 	*	\since version 0.0.1
-	*/
-	
-	void drawPoint(zVector &pos, zColor col = zColor(1,0,0,1), double wt = 1)
+	*/	
+	inline void drawPoint(zVector &pos, zColor col = zColor(1,0,0,1), double wt = 1)
 	{
 		
 			glColor3f(col.r, col.g, col.b);
@@ -58,7 +57,7 @@ namespace zSpace
 	*	\param		[in]		wt			- weight of the line.
 	*	\since version 0.0.1
 	*/	
-	void drawLine(zVector &p0, zVector &p1, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+	inline void drawLine(zVector &p0, zVector &p1, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 	 {
 		 glColor3f(col.r, col.g, col.b);
 		 glLineWidth(wt);
@@ -81,7 +80,7 @@ namespace zSpace
 	*	\param		[in]		wt			- weight of the circle.
 	*	\since version 0.0.1
 	*/
-	void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+	inline void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 	{
 		for (int i = 0; i < circlePts.size(); i++)
 		{
@@ -98,7 +97,7 @@ namespace zSpace
 	*	\param		[in]		wt			- weight of the rectangle.
 	*	\since version 0.0.1
 	*/
-	void drawRectangle(zVector &minBB, zVector &maxBB, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+	inline void drawRectangle(zVector &minBB, zVector &maxBB, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 	{
 		
 		zVector p0(minBB.x, minBB.y, minBB.z);
@@ -119,9 +118,8 @@ namespace zSpace
 	*	\param		[in]	pos				- vector of type zVector storing the polygon points.
 	*	\param		[in]	col				- color of the polygon.
 	*	\since version 0.0.1
-	*/
-	
-	void drawPolygon(vector<zVector> &pos, zColor col = zColor(0.5, 0.5, 0.5, 1))
+	*/	
+	inline void drawPolygon(vector<zVector> &pos, zColor col = zColor(0.5, 0.5, 0.5, 1))
 	{
 		glColor3f(col.r, col.g, col.b);
 
@@ -139,9 +137,8 @@ namespace zSpace
 	*	\param		[in]	showVerts	- boolean true if the vertices of zGraph are to be displayed.
 	*	\param		[in]	showEdges	- boolean true if the edges of zGraph are to be displayed.
 	*	\since version 0.0.1
-	*/
-	
-	void drawGraph(zGraph &graph, bool showVerts = false, bool showEdges = true)
+	*/	
+	inline void drawGraph(zGraph &graph, bool showVerts = false, bool showEdges = true)
 	{
 
 		//draw vertex
@@ -198,9 +195,8 @@ namespace zSpace
 	*	\param		[in]	showEdges		- boolean true if the edges of zMesh are to be displayed.
 	*	\param		[in]	showFaces		- boolean true if the faces of zMesh are to be displayed.
 	*	\since version 0.0.1
-	*/
-	
-	void drawMesh(zMesh &mesh, bool showVerts, bool showEdges, bool showFaces)
+	*/	
+	inline void drawMesh(zMesh &mesh, bool showVerts, bool showEdges, bool showFaces)
 	{
 
 		//draw vertex
@@ -288,8 +284,7 @@ namespace zSpace
 	*	\param		[in]	angleThreshold			- angle threshold.
 	*	\since version 0.0.1
 	*/
-
-	void drawMesh_DihedralEdges(zMesh &inMesh, vector<double> & edge_dihedralAngles, double angleThreshold = 45)
+	inline void drawMesh_DihedralEdges(zMesh &inMesh, vector<double> & edge_dihedralAngles, double angleThreshold = 45)
 	{
 		for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
 		{
@@ -321,8 +316,7 @@ namespace zSpace
 	*	\param		[in]	dispScale				- display scale of the normal.
 	*	\since version 0.0.1
 	*/
-
-	void drawMesh_VertexNormals(zMesh &inMesh, double dispScale = 1)
+	inline void drawMesh_VertexNormals(zMesh &inMesh, double dispScale = 1)
 	{
 		
 		if (inMesh.vertexNormals.size() == 0 || inMesh.vertexNormals.size() != inMesh.vertexActive.size()) throw std::invalid_argument(" error: mesh normals not computed.");
@@ -349,8 +343,7 @@ namespace zSpace
 	*	\param		[in]	dispScale				- display scale of the normal.
 	*	\since version 0.0.1
 	*/
-
-	void drawMesh_FaceNormals(zMesh &inMesh, vector<zVector> &fCenters,  double dispScale = 1)
+	inline void drawMesh_FaceNormals(zMesh &inMesh, vector<zVector> &fCenters,  double dispScale = 1)
 	{
 		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) throw std::invalid_argument(" error: mesh normals not computed.");
 
@@ -395,8 +388,7 @@ namespace zSpace
 	*	\param		[in]	colors					- true if color is to be displayed.
 	*	\since version 0.0.1
 	*/
-
-	void drawPointsFromBuffer(zBufferObject &inBufferObject, bool colors = true)
+	inline void drawPointsFromBuffer(zBufferObject &inBufferObject, bool colors = true)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -431,8 +423,7 @@ namespace zSpace
 	*	\param		[in]	colors					- true if color is to be displayed.
 	*	\since version 0.0.1
 	*/
-
-	void drawLinesFromBuffer(zBufferObject &inBufferObject, bool colors = true)
+	inline void drawLinesFromBuffer(zBufferObject &inBufferObject, bool colors = true)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -465,8 +456,7 @@ namespace zSpace
 	*	\param		[in]	colors					- true if color is to be displayed.
 	*	\since version 0.0.1
 	*/
-
-	void drawTrianglesFromBuffer(zBufferObject &inBufferObject, bool colors = true)
+	inline void drawTrianglesFromBuffer(zBufferObject &inBufferObject, bool colors = true)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -499,7 +489,7 @@ namespace zSpace
 	*	\param		[in]	colors					- true if color is to be displayed.
 	*	\since version 0.0.1
 	*/
-	void drawQuadsFromBuffer(zBufferObject &inBufferObject, bool colors = true)
+	inline void drawQuadsFromBuffer(zBufferObject &inBufferObject, bool colors = true)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 

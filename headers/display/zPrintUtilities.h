@@ -54,8 +54,7 @@ namespace zSpace
 	*	\param		[in]	inVec	- vector to be printed
 	*	\since version 0.0.1
 	*/
-
-	void printVector(zVector &inVec)
+	inline void printVector(zVector &inVec)
 	{
 		printf("\n  %1.2f %1.2f %1.2f \n", inVec.x, inVec.y, inVec.z);
 	}
@@ -70,22 +69,19 @@ namespace zSpace
 	*	\param		[in]	colType	- zColorType.
 	*	\since version 0.0.1
 	*/
-
-	void printColor(zColor &inCol, zColorType colType)
+	inline void printColor(zColor &inCol, zColorType colType)
 	{
 		if (colType = zRGB) printf("\n  %1.2f %1.2f %1.2f %1.2f \n", inCol.r, inCol.g, inCol.b, inCol.a);
 		if (colType = zHSV) printf("\n  %1.2f %1.2f %1.2f \n", inCol.h, inCol.s, inCol.v);
 	}
-
-
-
+	
 
 	/*! \brief This method prints graph data to the console.
 	*
 	*	\param		[in]	inGraph	- input graph.
 	*	\since version 0.0.1
 	*/
-	void printGraph(zGraph &inGraph)
+	inline void printGraph(zGraph &inGraph)
 	{
 		//EDGES
 		for (int i = 0; i < inGraph.edgeActive.size(); i += 1)
@@ -107,9 +103,8 @@ namespace zSpace
 	*
 	*	\param		[in]	inMesh	- input mesh.
 	*	\since version 0.0.1
-	*/
-	
-	void printMesh(zMesh &inMesh)
+	*/	
+	inline void printMesh(zMesh &inMesh)
 	{
 		// PRINT INFO
 

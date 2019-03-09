@@ -39,7 +39,7 @@ namespace zSpace
 	*	\return				vector<string>	- list of elements of split string.
 	*	\since version 0.0.1
 	*/
-	vector<string> splitString(const string& str, const string& delimiter)
+	inline vector<string> splitString(const string& str, const string& delimiter)
 	{
 		vector<string> elements;
 		// Skip delimiters at beginning.
@@ -142,7 +142,7 @@ namespace zSpace
 	*	\param		[in]	max		- domain maximum value.
 	*	\return				int		- random number between the 2 input values.
 	*/
-	int randomNumber(int min, int max)
+	inline int randomNumber(int min, int max)
 	{		
 		return rand() % (max - min + 1) + min;		
 	}
@@ -153,7 +153,7 @@ namespace zSpace
 	*	\param		[in]	max			- domain maximum value.
 	*	\return				double		- random number between the 2 input values.
 	*/
-	double randomNumber_double(double min, double max)
+	inline double randomNumber_double(double min, double max)
 	{
 		return (max - min) * ((double)rand() / (double)RAND_MAX) + min;
 	}
@@ -185,7 +185,7 @@ namespace zSpace
 	*	\return				bool		- true if the string exists in the map.
 	*	\since version 0.0.1
 	*/
-	bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal)
+	inline bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal)
 	{
 
 		bool out = false;;
@@ -209,7 +209,7 @@ namespace zSpace
 	*	\return				bool		- true if the position exists in the map.
 	*	\since version 0.0.1
 	*/
-	bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int & outVertexId)
+	inline bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int & outVertexId)
 	{
 		bool out = false;;
 
@@ -239,7 +239,7 @@ namespace zSpace
 	*	\param		[out]	sptSet					- container of shortest path tree for each vertex..
 	*	\since version 0.0.1
 	*/
-	int minDistance(vector<float> &dist, vector<bool> &sptSet)
+	inline int minDistance(vector<float> &dist, vector<bool> &sptSet)
 	{
 		if (dist.size() != sptSet.size()) throw std::invalid_argument("input container sizes are not equal.");
 
@@ -270,7 +270,7 @@ namespace zSpace
 	*	\param		[in]	type	- color type - zRGB / zHSV.
 	*	\since version 0.0.1
 	*/
-	zColor averageColor(zColor &c1, zColor &c2, zColorType type)
+	inline zColor averageColor(zColor &c1, zColor &c2, zColorType type)
 	{
 		zColor out;
 
@@ -307,7 +307,7 @@ namespace zSpace
 	*	\param		[in]	type	- color type - zRGB / zHSV.
 	*	\since version 0.0.1
 	*/
-	zColor averageColor(vector<zColor> &c1, zColorType type)
+	inline zColor averageColor(vector<zColor> &c1, zColorType type)
 	{
 		zColor out;
 
@@ -364,7 +364,7 @@ namespace zSpace
 	*	\return				zColor			- output color.
 	*	\since version 0.0.1
 	*/
-	zColor blendColor(double inputValue, double inputMin, double inputMax,  zColor &cMin, zColor &cMax, zColorType type)
+	inline zColor blendColor(double inputValue, double inputMin, double inputMax,  zColor &cMin, zColor &cMax, zColorType type)
 	{
 		zColor out;
 

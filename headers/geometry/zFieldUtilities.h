@@ -1,3 +1,6 @@
+#ifndef FIELD_UTILITIES_H
+#define FIELD_UTILITIES_H
+
 #pragma once
 
 #include<headers/geometry/zGraph.h>
@@ -35,7 +38,7 @@ namespace zSpace
 	*	\param	[in]	b	- value of b.
 	*	\since version 0.0.1
 	*/	
-	double F_of_r(double &r, double &a, double &b)
+	inline double F_of_r(double &r, double &a, double &b)
 	{
 		if (0 <= r && r <= b / 3.0)return (a * (1.0 - (3.0 * r * r) / (b*b)));
 		if (b / 3.0 <= r && r <= b) return (3 * a / 2 * pow(1.0 - (r / b), 2.0));
@@ -64,7 +67,7 @@ namespace zSpace
 	*	\param	[in]	fieldValues	- input field values of zvectors
 	*	\since version 0.0.1
 	*/
-	void normliseFieldValues(vector<zVector>& fieldValues)
+	inline void normliseFieldValues(vector<zVector>& fieldValues)
 	{
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i].normalize();
 	}
@@ -75,7 +78,7 @@ namespace zSpace
 	*	\param	[in]	fieldValues	- input field values of scalars
 	*	\since version 0.0.1
 	*/
-	void normliseFieldValues(vector<double>& fieldValues)
+	inline void normliseFieldValues(vector<double>& fieldValues)
 	{
 		double dMin, dMax;
 		getMinMaxOfScalars(fieldValues, dMin, dMax);
@@ -109,7 +112,7 @@ namespace zSpace
 	*	\param		[in]	epsilon				- small increment value needed for gradient calculations.
 	*	\since version 0.0.1
 	*/	
-	void createVectorFieldFromScalarField(zField2D<double> &scalarField, zField2D<zVector> &vectorField, double epsilon = 0.001)
+	inline void createVectorFieldFromScalarField(zField2D<double> &scalarField, zField2D<zVector> &vectorField, double epsilon = 0.001)
 	{
 		double unit_X, unit_Y;
 		scalarField.getUnitDistances(unit_X, unit_Y);
@@ -138,7 +141,7 @@ namespace zSpace
 	*	\param		[out]	scalarField			- scalar field created from input vector field.
 	*	\since version 0.0.1
 	*/
-	void createScalarFieldFromVectorField(zField2D<zVector> &vectorField, zField2D<double> &scalarField)
+	inline void createScalarFieldFromVectorField(zField2D<zVector> &vectorField, zField2D<double> &scalarField)
 	{
 		double unit_X, unit_Y;
 		vectorField.getUnitDistances(unit_X, unit_Y);
@@ -433,7 +436,7 @@ namespace zSpace
 	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<double> &scalars,  bool normalise = true)
+	inline void assignScalarsAsVertexDistance(zMesh &fieldMesh, vector<zVector> &points, vector<double> &scalars,  bool normalise = true)
 	{
 		vector<double> out;
 
@@ -498,7 +501,7 @@ namespace zSpace
 	*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars, bool normalise = true)
+	inline void assignScalarsAsVertexDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -541,7 +544,7 @@ namespace zSpace
 	*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars, bool normalise = true)
+	inline void assignScalarsAsVertexDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -587,7 +590,7 @@ namespace zSpace
 	*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars, bool normalise = true)
+	inline void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zMesh &inMesh, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -640,7 +643,7 @@ namespace zSpace
 	*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/
-	void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars, bool normalise = true)
+	inline void assignScalarsAsEdgeDistance(zMesh &fieldMesh, zGraph &inGraph, double a, double b, vector<double> &scalars, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -690,7 +693,7 @@ namespace zSpace
 	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	void union_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult, bool normalise = true)
+	inline void union_fields(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -712,7 +715,7 @@ namespace zSpace
 	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	void subtract_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
+	inline void subtract_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 	{
 		vector<double> out;
 		
@@ -735,7 +738,7 @@ namespace zSpace
 	*	\since version 0.0.1
 	*/
 
-	void intersect_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
+	inline void intersect_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 	{
 		vector<double> out;
 
@@ -757,7 +760,7 @@ namespace zSpace
 	*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 	*	\since version 0.0.1
 	*/	
-	void difference_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = false)
+	inline void difference_fields(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = false)
 	{
 		vector<double> out;
 
@@ -780,7 +783,7 @@ namespace zSpace
 	*	\param	[in]	clipPlane			- input zPlane used for clipping.
 	*	\since version 0.0.1
 	*/	
-	void clipwithPlane(zMesh &fieldMesh, vector<double>& scalars, zMatrixd& clipPlane)
+	inline void clipwithPlane(zMesh &fieldMesh, vector<double>& scalars, zMatrixd& clipPlane)
 	{
 		for (int i = 0; i < fieldMesh.vertexPositions.size(); i++)
 		{
@@ -852,7 +855,7 @@ namespace zSpace
 	*	\param	[in]	scalars		- container of  scalar values.
 	*	\since version 0.0.1
 	*/	
-	void updateColors(zMesh &fieldMesh, vector<double>& scalars)
+	inline void updateColors(zMesh &fieldMesh, vector<double>& scalars)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -885,7 +888,7 @@ namespace zSpace
 	*	\param	[in]	col2		- blend color 2.
 	*	\since version 0.0.1
 	*/
-	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2)
+	inline void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -925,7 +928,7 @@ namespace zSpace
 	*	\param	[in]	col2		- blend color 2.
 	*	\since version 0.0.1
 	*/
-	void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
+	inline void updateBlendColors(zMesh &fieldMesh, vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
 	{
 		if (fieldMesh.vertexActive.size() == scalars.size() || fieldMesh.faceActive.size() == scalars.size())
 		{
@@ -971,7 +974,7 @@ namespace zSpace
 	*	\return			int				- case type.
 	*	\since version 0.0.1
 	*/
-	int getIsolineCase(bool vertexBinary[4])
+	inline int getIsolineCase(bool vertexBinary[4])
 	{
 		int out = -1;
 
@@ -1017,7 +1020,7 @@ namespace zSpace
 	*	\return			int				- case type.
 	*	\since version 0.0.1
 	*/		
-	int getIsobandCase(int vertexTernary[4])
+	inline int getIsobandCase(int vertexTernary[4])
 	{
 		int out = -1;
 
@@ -1160,7 +1163,7 @@ namespace zSpace
 	*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 	*	\since version 0.0.1
 	*/
-	zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh)
+	inline zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh)
 	{
 
 		double scaleVal = ofMap(threshold, thresholdLow, thresholdHigh, 0.0, 1.0);
@@ -1184,7 +1187,7 @@ namespace zSpace
 	*	\param	[in]	invertMesh	- true if inverted mesh is required.
 	*	\since version 0.0.1
 	*/	
-	void getIsolinePoly(int& faceId, zMesh &fieldMesh, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &threshold, bool invertMesh)
+	inline void getIsolinePoly(int& faceId, zMesh &fieldMesh, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &threshold, bool invertMesh)
 	{
 		vector<int> fVerts;
 		fieldMesh.getVertices(faceId, zFaceData, fVerts);
@@ -1765,7 +1768,7 @@ namespace zSpace
 	*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 	*	\since version 0.0.1
 	*/	
-	void getIsobandPoly(int& faceId, zMesh &fieldMesh, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh)	
+	inline void getIsobandPoly(int& faceId, zMesh &fieldMesh, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh)
 	{
 		vector<int> fVerts;
 		fieldMesh.getVertices(faceId, zFaceData, fVerts);
@@ -2601,7 +2604,7 @@ namespace zSpace
 	*	\return			zGraph		- contour graph.
 	*	\since version 0.0.1
 	*/
-	zGraph getIsocontour(zMesh &fieldMesh, double threshold = 0.5)
+	inline zGraph getIsocontour(zMesh &fieldMesh, double threshold = 0.5)
 	{
 		vector<double> scalarsValues;
 
@@ -2699,7 +2702,7 @@ namespace zSpace
 	*	\return			zMesh		- isoline mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh getIsolineMesh(zMesh &fieldMesh, double threshold = 0.5, bool invertMesh = false)
+	inline zMesh getIsolineMesh(zMesh &fieldMesh, double threshold = 0.5, bool invertMesh = false)
 	{
 		zMesh out;
 
@@ -2733,7 +2736,7 @@ namespace zSpace
 	*	\return			zMesh			- isoband mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh getIsobandMesh(zMesh &fieldMesh, double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
+	inline zMesh getIsobandMesh(zMesh &fieldMesh, double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
 	{
 		zMesh out;
 
@@ -2800,3 +2803,5 @@ namespace zSpace
 
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
+
+#endif //FIELD_UTILITIES_H

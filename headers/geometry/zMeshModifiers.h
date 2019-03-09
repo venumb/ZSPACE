@@ -37,7 +37,7 @@ namespace zSpace
 	*	\param		[out]	tris			- index array of each triangle associated with the face.
 	*	\since version 0.0.1
 	*/
-	void getFaceTriangles(zMesh &inMesh, int faceIndex, int &numTris, vector<int> &tris)
+	inline void getFaceTriangles(zMesh &inMesh, int faceIndex, int &numTris, vector<int> &tris)
 	{
 		double angle_Max = 90;
 		bool noEars = true; // check for if there are no ears
@@ -253,7 +253,7 @@ namespace zSpace
 	*	\param		[in]	faceIndex		- face index  of the face to be triangulated in the faces container.
 	*	\since version 0.0.1
 	*/
-	void faceTriangulate(zMesh &inMesh, int faceIndex)
+	inline void faceTriangulate(zMesh &inMesh, int faceIndex)
 	{
 
 		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
@@ -421,7 +421,7 @@ namespace zSpace
 	*	\param		[in]	inMesh			- input mesh.
 	*	\since version 0.0.1
 	*/
-	void triangulate(zMesh &inMesh)
+	inline void triangulate(zMesh &inMesh)
 	{
 
 		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
@@ -454,7 +454,7 @@ namespace zSpace
 	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/	
-	void deleteVertex(zMesh &inMesh, int index, bool removeInactiveElements = true)
+	inline void deleteVertex(zMesh &inMesh, int index, bool removeInactiveElements = true)
 	{
 		if(index > inMesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -589,7 +589,7 @@ namespace zSpace
 	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/
-	void deleteFace(zMesh &inMesh, int index, bool removeInactiveElements = true)
+	inline void deleteFace(zMesh &inMesh, int index, bool removeInactiveElements = true)
 	{
 		if (index > inMesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -694,7 +694,7 @@ namespace zSpace
 	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/
-	void deleteEdge(zMesh &inMesh, int index, bool removeInactiveElements = true);
+	inline void deleteEdge(zMesh &inMesh, int index, bool removeInactiveElements = true);
 	
 
 	/*! \brief This method collapses an edge into a vertex.
@@ -705,7 +705,7 @@ namespace zSpace
 	*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 	*	\since version 0.0.1
 	*/	
-	void collapseEdge(zMesh &inMesh, int index, double edgeFactor = 0.5,  bool removeInactiveElements = true)
+	inline void collapseEdge(zMesh &inMesh, int index, double edgeFactor = 0.5,  bool removeInactiveElements = true)
 	{
 		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -1019,7 +1019,7 @@ namespace zSpace
 	*	\return				int				- index of the new vertex added after splitinng the edge.
 	*	\since version 0.0.1
 	*/
-	int splitEdge(zMesh &inMesh, int index, double edgeFactor = 0.5 , bool fTriangulate = false)
+	inline int splitEdge(zMesh &inMesh, int index, double edgeFactor = 0.5 , bool fTriangulate = false)
 	{
 		if( index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if ( !inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -1112,6 +1112,22 @@ namespace zSpace
 		return VertId;
 	}
 
+	/*! \brief This method detaches an edge.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	index			- index of the edge to be split.
+	*	\since version 0.0.1
+	*/
+	inline int detachEdge(zMesh &inMesh, int index)
+	{
+		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+
+
+		
+	}
+
 
 	/*! \brief This method flips the edge shared bettwen two rainglua faces.
 	*
@@ -1119,7 +1135,7 @@ namespace zSpace
 	*	\param		[in]	edgeList	- indicies of the edges to be collapsed.
 	*	\since version 0.0.1
 	*/
-	void flipTriangleEdge(zMesh &inMesh, int &index)
+	inline void flipTriangleEdge(zMesh &inMesh, int &index)
 	{
 		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
@@ -1204,7 +1220,7 @@ namespace zSpace
 	*	\param		[in]	edgeFactor		- array of factors in the range [0,1] that represent how far along each edge must the split be done. This array must have the same number of elements as the edgeList array.
 	*	\since version 0.0.1
 	*/	
-	void splitFaces(zMesh &inMesh, vector<int> &edgeList, vector<double> &edgeFactor)
+	inline void splitFaces(zMesh &inMesh, vector<int> &edgeList, vector<double> &edgeFactor)
 	{
 		if (edgeFactor.size() > 0)
 		{
@@ -1311,7 +1327,7 @@ namespace zSpace
 	*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
 	*	\since version 0.0.1
 	*/	
-	void subdivideMesh(zMesh &inMesh, int numDivisions)
+	inline void subdivideMesh(zMesh &inMesh, int numDivisions)
 	{
 		for (int j = 0; j < numDivisions; j++)
 		{
@@ -1401,7 +1417,7 @@ namespace zSpace
 	*	\param		[in]	smoothCorner	- corner vertex( only 2 Connected Edges) is also smothed if true.
 	*	\since version 0.0.1
 	*/
-	void smoothMesh(zMesh &inMesh, int numDivisions = 1, bool smoothCorner = false)
+	inline void smoothMesh(zMesh &inMesh, int numDivisions = 1, bool smoothCorner = false)
 	{
 		for (int j = 0; j < numDivisions; j++)
 		{
@@ -1593,7 +1609,7 @@ namespace zSpace
 	*	\retrun				zMesh				- extruded mesh.
 	*	\since version 0.0.1
 	*/
-	zMesh extrudeMesh(zMesh &inMesh, float extrudeThickness, bool thicknessTris = false)
+	inline zMesh extrudeMesh(zMesh &inMesh, float extrudeThickness, bool thicknessTris = false)
 	{
 		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
 
@@ -1689,7 +1705,7 @@ namespace zSpace
 	*	\param		[in]	maxEdgeLength	- maximum edge length.
 	*	\since version 0.0.1
 	*/
-	void splitLongEdges(zMesh &inMesh, double maxEdgeLength)
+	inline void splitLongEdges(zMesh &inMesh, double maxEdgeLength)
 	{
 		for (int i = 0; i < inMesh.edgeActive.size(); i+=2 )
 		{
@@ -1715,7 +1731,7 @@ namespace zSpace
 	*	\param		[in]	maxEdgeLength		- maximum edge length.
 	*	\since version 0.0.1
 	*/
-	void collapseShortEdges(zMesh &inMesh, double minEdgeLength, double maxEdgeLength)
+	inline void collapseShortEdges(zMesh &inMesh, double minEdgeLength, double maxEdgeLength)
 	{
 		int finished = false;
 
@@ -1775,7 +1791,7 @@ namespace zSpace
 	*	\param		[in]	inMesh				- input mesh.
 	*	\since version 0.0.1
 	*/
-	void equalizeValences(zMesh &inMesh)
+	inline void equalizeValences(zMesh &inMesh)
 	{
 		for (int i = 0; i < inMesh.edgeActive.size(); i += 2)
 		{
@@ -1834,7 +1850,7 @@ namespace zSpace
 	*	\param		[in]	inMesh				- input mesh.
 	*	\since version 0.0.1
 	*/
-	void tangentialRelaxation(zMesh &inMesh)
+	inline void tangentialRelaxation(zMesh &inMesh)
 	{
 		for (int i = 0; i < inMesh.vertexActive.size(); i++)
 		{

@@ -1136,7 +1136,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/		
 		template <typename T>
-		void updateScalars_fromCSV(string infilename, vector<T> &data);
+		inline void updateScalars_fromCSV(string infilename, vector<T> &data);
 		
 				
 		/*! \brief This method updates the scalars in the scalar field and gets data positions based on input CSV data file with format - lat,lon,data.
@@ -1148,7 +1148,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		template <typename T>
-		void updateScalars_fromCSV(string infilename, vector<zVector> &dataPositions, vector<T> &data);
+		inline void updateScalars_fromCSV(string infilename, vector<zVector> &dataPositions, vector<T> &data);
 
 
 		/*! \brief This method exports the relations from an OSM file to 3 CSV files.
@@ -1335,7 +1335,7 @@ namespace zSpace
 //---------------//
 //---- string specialization for updateScalars_fromCSV 
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string> &data)
 {
 	data.clear();
 
@@ -1403,7 +1403,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<string
 
 //---- double specialization for updateScalars_fromCSV 
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double> &data)
 {
 	data.clear();
 
@@ -1472,7 +1472,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<double
 
 //---- float specialization for updateScalars_fromCSV 
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float> &data)
 {
 	data.clear();
 
@@ -1535,7 +1535,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<float>
 
 //---- int specialization for updateScalars_fromCSV 
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &data)
 {
 	data.clear();
 
@@ -1600,7 +1600,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<int> &
 
 //---- string specialization for updateScalars_fromCSV  with datapositions
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpace::zVector> &dataPositions, vector<string> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpace::zVector> &dataPositions, vector<string> &data)
 {
 	dataPositions.clear();
 	data.clear();
@@ -1670,7 +1670,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename,  vector<zSpac
 
 //---- double specialization for updateScalars_fromCSV  with datapositions
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<double> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<double> &data)
 {
 	dataPositions.clear();
 	data.clear();
@@ -1734,7 +1734,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 
 //---- float specialization for updateScalars_fromCSV  with datapositions
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<float> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<float> &data)
 {
 	dataPositions.clear();
 	data.clear();
@@ -1799,7 +1799,7 @@ void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace
 
 //---- int specialization for updateScalars_fromCSV  with datapositions
 template <>
-void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<int> &data)
+inline void zSpace::zOpenStreet::updateScalars_fromCSV(string infilename, vector<zSpace::zVector> &dataPositions, vector<int> &data)
 {
 	dataPositions.clear();
 	data.clear();

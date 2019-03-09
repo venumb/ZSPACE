@@ -25,7 +25,7 @@ namespace zSpace
 	*	\param		[in]	inGraph	- input graph.
 	*	\since version 0.0.1
 	*/
-	double totalEdgeLength(zGraph &inGraph)
+	inline double totalEdgeLength(zGraph &inGraph)
 	{
 		double out = 0.0;
 
@@ -53,9 +53,8 @@ namespace zSpace
 	*	\param		[in]	col				- input color.
 	*	\param		[in]	setEdgeColor	- edge color is computed based on the vertex color if true.	
 	*	\since version 0.0.1
-	*/
-	
-	void setVertexColor(zGraph &ingraph, zColor col, bool setEdgeColor)
+	*/	
+	inline void setVertexColor(zGraph &ingraph, zColor col, bool setEdgeColor)
 	{
 
 		for (int i = 0; i < ingraph.vertexColors.size(); i++)
@@ -74,7 +73,7 @@ namespace zSpace
 	*	\param		[in]	setEdgeColor	- edge color is computed based on the vertex color if true.
 	*	\since version 0.0.1
 	*/
-	void setVertexColors(zGraph &ingraph, vector<zColor>& col, bool setEdgeColor)
+	inline void setVertexColors(zGraph &ingraph, vector<zColor>& col, bool setEdgeColor)
 	{
 		if (col.size() != ingraph.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph vertices.");
 
@@ -93,11 +92,12 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-	void setEdgeColor(zGraph & ingraph, zColor col, bool setVertexColor)
+	inline void setEdgeColor(zGraph & ingraph, zColor col, bool setVertexColor)
 	{
-		for (int i = 0; i < ingraph.edgeColors.size(); i++)
+		for (int i = 0; i < ingraph.edgeActive.size(); i++)
 		{
-			ingraph.edgeColors[i] = col;
+			if (i >= ingraph.edgeColors.size()) ingraph.edgeColors.push_back(col);
+			else ingraph.edgeColors[i] = col;
 		}
 
 		if (setVertexColor) ingraph.computeVertexColorfromEdgeColor();
@@ -111,7 +111,7 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-	void setEdgeColors(zGraph & ingraph, vector<zColor>& col, bool setVertexColor)
+	inline void setEdgeColors(zGraph & ingraph, vector<zColor>& col, bool setVertexColor)
 	{
 		if (col.size() != ingraph.edgeColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph edges.");
 

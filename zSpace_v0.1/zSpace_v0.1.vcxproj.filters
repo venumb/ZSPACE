@@ -158,5 +158,11 @@
     <ClInclude Include="..\headers\IO\zBitmap.h">
       <Filter>Header Files\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\application\zSpatialStructure.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\application\zVariableExtrude.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

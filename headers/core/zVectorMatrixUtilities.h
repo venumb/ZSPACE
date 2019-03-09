@@ -43,7 +43,7 @@ namespace zSpace
 	*	\param		[in]	vals			- container of zVectors.
 	*	\return 			zVectors		- vector with minimum length
 	*/
-	zVector zMin(vector<zVector> &vals)
+	inline zVector zMin(vector<zVector> &vals)
 	{
 		double minLen = 10000;
 		int minID = -1;
@@ -64,7 +64,7 @@ namespace zSpace
 	*	\param		[in]	vals			- container of zVectors.
 	*	\return 			zVectors		- vector with maximum length
 	*/
-	zVector zMax(vector<zVector> &vals)
+	inline zVector zMax(vector<zVector> &vals)
 	{
 		double maxLen = 0;
 		int maxID = -1;
@@ -90,7 +90,7 @@ namespace zSpace
 	*	\return				double			- mapped vector.
 	*	\since version 0.0.1
 	*/
-	zVector ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)
+	inline zVector ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)
 	{
 		zVector out;
 
@@ -108,7 +108,7 @@ namespace zSpace
 	*	\return					zVector		- zVector of the row matrix.
 	*	\since version 0.0.1
 	*/
-	zVector fromMatrixRow(zMatrixd &inMatrix, int rowIndex = 0)
+	inline zVector fromMatrixRow(zMatrixd &inMatrix, int rowIndex = 0)
 	{
 		if (inMatrix.getNumCols() < 3 || inMatrix.getNumCols() > 4) throw std::invalid_argument("cannot convert matrix row to vector.");
 
@@ -124,7 +124,7 @@ namespace zSpace
 	*	\return					zVector		- zVector of the column matrix.
 	*	\since version 0.0.1
 	*/
-	zVector fromMatrixColumn(zMatrixd &inMatrix, int colIndex)
+	inline zVector fromMatrixColumn(zMatrixd &inMatrix, int colIndex)
 	{
 		if (inMatrix.getNumRows() < 3 || inMatrix.getNumRows() > 4) throw std::invalid_argument("cannot convert matrix column to vector.");
 
@@ -139,7 +139,7 @@ namespace zSpace
 	*	\return					zVector			- factorised vector.
 	*	\since version 0.0.1
 	*/
-	zVector factorise(zVector &inVector, int precision = 3)
+	inline zVector factorise(zVector &inVector, int precision = 3)
 	{
 		double factor = pow(10, precision);
 		double x1 = round(inVector.x *factor) / factor;
@@ -155,12 +155,32 @@ namespace zSpace
 	*	\param		[out]	scaleFac			- scale factor.
 	*	\since version 0.0.1
 	*/
-	void scalePointCloud(vector<zVector> &inPoints, double scaleFac)
+	inline void scalePointCloud(vector<zVector> &inPoints, double scaleFac)
 	{
 		for (int i = 0; i < inPoints.size(); i++)
 		{
 			inPoints[i] *= scaleFac;
 		}
+	}
+
+	/*! \brief This method computes the center of the input point cloud.
+	*
+	*	\param		[in]	inPoints			- input point cloud.
+	*	\param		[out]	center				- center of point cloud.
+	*	\since version 0.0.1
+	*/
+	inline void getCenter_PointCloud(vector<zVector> &inPoints,zVector &center)
+	{
+		zVector out; 
+		
+		for (int i = 0; i < inPoints.size(); i++)
+		{
+			out += inPoints[i] ;
+		}
+
+		out /= inPoints.size();
+
+		center = out;
 	}
 
 	/*! \brief This method returns the bounds of the input list points.
@@ -169,7 +189,7 @@ namespace zSpace
 	*	\param  	[out]	minBB	- stores zVector of bounding box minimum.
 	*	\param		[out]	maxBB	- stores zVector of bounding box maximum.
 	*/
-	void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB)
+	inline void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB)
 	{
 		minBB = zVector(10000, 10000, 10000);
 		maxBB = zVector(-10000, -10000, -10000);
@@ -193,7 +213,7 @@ namespace zSpace
 	*	\param		[out]	Dims			- distances in X,Y,Z axis in local frame
 	*	\since version 0.0.1
 	*/
-	zVector getDimsFromBounds(zVector &minBB, zVector &maxBB)
+	inline zVector getDimsFromBounds(zVector &minBB, zVector &maxBB)
 	{
 		zVector out;
 
@@ -212,7 +232,7 @@ namespace zSpace
 	*	\return				bool			- true if input position is inside the bounds.
 	*	\since version 0.0.1
 	*/
-	bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB)
+	inline bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB)
 	{
 		
 		if (inPoint.x < minBB.x || inPoint.x > maxBB.x) return false;
@@ -263,7 +283,7 @@ namespace zSpace
 	*	\param		[out]	weights			- influence Weights between 0 and 1. 
 	*	\since version 0.0.1
 	*/
-	void getDistanceWeights(zVector& inPos, vector<zVector> positions, double power,  vector<double> &weights)
+	inline void getDistanceWeights(zVector& inPos, vector<zVector> positions, double power,  vector<double> &weights)
 	{
 		vector<double> dists;
 
@@ -292,7 +312,7 @@ namespace zSpace
 	*	\return					bool	- true if the planes intersect.
 	*	\since version 0.0.1
 	*/
-	bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2)
+	inline bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2)
 	{
 		{
 			bool out = false;
@@ -330,7 +350,7 @@ namespace zSpace
 	*	\return					bool	- true if the planes intersect.
 	*	\since version 0.0.1
 	*/
-	bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB)
+	inline bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB)
 	{
 		bool out = false;
 
@@ -381,7 +401,7 @@ namespace zSpace
 	*	\return					bool			- true if the line and plane intersect.
 	*	\since version 0.0.1
 	*/
-	bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt)
+	inline bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt)
 	{
 		bool out = false;
 
@@ -426,7 +446,7 @@ namespace zSpace
 	*	\return					double			- area of triangle defirned by the vectors.
 	*	\since version 0.0.1
 	*/
-	double getTriangleArea(zVector &v1, zVector &v2, zVector &v3)
+	inline double getTriangleArea(zVector &v1, zVector &v2, zVector &v3)
 	{
 		double area = 0;
 
@@ -447,7 +467,7 @@ namespace zSpace
 	*	\return					double			- signed volume of triangle defirned by the vectors.
 	*	\since version 0.0.1
 	*/
-	double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3)
+	inline double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3)
 	{
 		double volume = 0;
 
@@ -470,7 +490,7 @@ namespace zSpace
 	*	\return					double			- signed volume.
 	*	\since version 0.0.1
 	*/
-	double getSignedVolume(zVector &center, vector<zVector> &points)
+	inline double getSignedVolume(zVector &center, vector<zVector> &points)
 	{
 		double volume = 0;
 
@@ -493,7 +513,7 @@ namespace zSpace
 	*	\param		[in]	t0,t1,t2	- zVector holding the position information for the 3 points of the triangle.
 	*	\return				bool		- true if point is inside the input triangle.
 	*/
-	bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2)
+	inline bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2)
 	{
 		// Compute vectors        
 		zVector v0 = t2 - t0;
@@ -538,7 +558,7 @@ namespace zSpace
 	*	\return			minDist		- distance to closest point.
 	*	\since version 0.0.1
 	*/
-	double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
+	inline double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
 	{
 		double out = 0.0;
 
@@ -571,7 +591,7 @@ namespace zSpace
 	*	\return			minDist		- minimum distance to plane.
 	*	\since version 0.0.1
 	*/
-	double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm)
+	inline double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm)
 	{
 		norm.normalize();
 		
@@ -586,7 +606,7 @@ namespace zSpace
 	*	\return				zVector			- bary-center.
 	*	\since version 0.0.1
 	*/
-	zVector getBaryCenter(vector<zVector> &inPositions, vector<double>& weights)
+	inline zVector getBaryCenter(vector<zVector> &inPositions, vector<double>& weights)
 	{
 		if (inPositions.size() != weights.size()) throw std::invalid_argument("size of inPositions and weights not equal.");
 
@@ -807,7 +827,7 @@ namespace zSpace
 	*	\param		[in]	points		- input points.
 	*	\return 			zMatrixd	- Best fit plane as a 4X4 matrix.
 	*/
-	zMatrixd getBestFitPlane(vector<zVector>& points)
+	inline zMatrixd getBestFitPlane(vector<zVector>& points)
 	{
 
 		zMatrixd out;
@@ -869,7 +889,7 @@ namespace zSpace
 	*	\param		[out]	minBB			- lower bounds as zVector
 	*	\param		[out]	maxBB			- upper bounds as zVector
 	*/	
-	void boundingboxPCA(vector<zVector> points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
+	inline void boundingboxPCA(vector<zVector> points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
 	{
 		zMatrixd bPlane_Mat = getBestFitPlane(points);
 
@@ -917,7 +937,7 @@ namespace zSpace
 	*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
 	*	\since version 0.0.1
 	*/
-	void getCircle(double radius, int numPoints, vector<zVector> &circlePts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
+	inline void getCircle(double radius, int numPoints, vector<zVector> &circlePts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
 	{
 		double theta = 0;
 
@@ -944,7 +964,7 @@ namespace zSpace
 	*	\param		[in]		localPlane		- orientation plane, by default a world plane.
 	*	\since version 0.0.1
 	*/
-	void getRectangle(zVector dims, vector<zVector> &rectanglePts, zMatrixd localPlane = zMatrixd())
+	inline void getRectangle(zVector dims, vector<zVector> &rectanglePts, zMatrixd localPlane = zMatrixd())
 	{
 		dims.x *= 0.5;
 		dims.y *= 0.5;
