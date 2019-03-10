@@ -282,6 +282,12 @@ namespace zSpace
 
 			inMesh.addToVerticesEdge(v1, v2, i);
 		}
+		
+		// set colors
+
+		setVertexColor(inMesh, zColor(1, 0, 0, 1));
+		setEdgeColor(inMesh, zColor(0, 0, 0, 1));
+		setFaceColor(inMesh, zColor(0.5, 0.5, 0.5,1));
 	}
 
 	/*! \brief This method creates a mesh from the input scalar field.
@@ -464,6 +470,25 @@ namespace zSpace
 		inGraphJSON.from_json(j_in, inGraph);
 
 		printf("\n inGraph: %i %i ", inGraph.numVertices(), inGraph.numEdges());
+
+		// add to maps 
+		for (int i = 0; i < inGraph.vertexPositions.size(); i++)
+		{
+			inGraph.addToPositionMap(inGraph.vertexPositions[i], i);
+		}
+
+
+		for (int i = 0; i < inGraph.numEdges(); i += 2)
+		{
+			int v1 = inGraph.edges[i].getVertex()->getVertexId();
+			int v2 = inGraph.edges[i + 1].getVertex()->getVertexId();
+
+			inGraph.addToVerticesEdge(v1, v2, i);
+		}
+
+		// set colors
+		setVertexColor(inGraph, zColor(1, 0, 0, 1));
+		setEdgeColor(inGraph, zColor(0, 0, 0, 1));
 	}
 
 
@@ -884,7 +909,7 @@ namespace zSpace
 
 			inParticles.push_back(zParticle(&inMesh.vertexPositions[i], fixed));
 
-			if (!fixed) inMesh.vertexColors[i] = zColor(0, 0, 1, 1);
+			if (!fixed) setVertexColor( inMesh, zColor(0, 0, 1, 1));
 		}
 
 		
@@ -911,7 +936,7 @@ namespace zSpace
 
 			inParticles.push_back(zParticle(&inGraph.vertexPositions[i], fixed));
 
-			if (!fixed) inGraph.vertexColors[i] = zColor(0, 0, 1, 1);
+			if (!fixed) setVertexColor(inGraph, zColor(0, 0, 1, 1));
 		}
 
 

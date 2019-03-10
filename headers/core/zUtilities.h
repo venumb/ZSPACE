@@ -14,6 +14,12 @@
 #include <numeric>
 #include <map>
 #include <unordered_map>
+
+#include <iostream>
+
+#include <filesystem>
+namespace fs = std::experimental::filesystem;
+
 using namespace std;
 
 namespace zSpace
@@ -392,6 +398,56 @@ namespace zSpace
 
 		return out;
 
+	}
+
+
+
+	//--------------------------
+	//---- WINDOWS UTILITY  METHODS
+	//--------------------------
+
+	/*! \brief This method returns the number of files in the input folder path.
+	*
+	*	\param		[in]	path			- input folder path.
+	*	\return				int				- number of files in the input folder.
+	*	\since version 0.0.1
+	*/
+	int getNumfiles(string path)
+	{
+		int out = 0;
+
+		for (const auto & entry : fs::directory_iterator(path))
+			/*std::cout << entry.path() << std::endl;*/ out++;
+
+		return out;
+	}
+
+
+	/*! \brief This method returns the number of files in the input folder path of the input extension type.
+	*
+	*	\param		[in]	path			- input folder path.
+	*	\param		[in]	extension		- input extension type.
+	*	\return				int				- number of files in the input folder.
+	*	\since version 0.0.1
+	*/
+	int getNumfiles_Type(string path, string extension = "json")
+	{
+		int out = 0;
+
+		for (const auto & entry : fs::directory_iterator(path))
+		{
+	
+			std::string fileName = entry.path().string();
+
+			vector<string> perlineData = splitString(fileName, ".");
+
+			if(perlineData[perlineData.size() -1] == extension) out++;			
+			
+		}
+
+		
+
+		return out;
 	}
 
 	/** @}*/

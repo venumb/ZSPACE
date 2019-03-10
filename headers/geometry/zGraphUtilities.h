@@ -54,15 +54,20 @@ namespace zSpace
 	*	\param		[in]	setEdgeColor	- edge color is computed based on the vertex color if true.	
 	*	\since version 0.0.1
 	*/	
-	inline void setVertexColor(zGraph &ingraph, zColor col, bool setEdgeColor)
+	inline void setVertexColor(zGraph &inGraph, zColor col, bool setEdgeColor = false)
 	{
-
-		for (int i = 0; i < ingraph.vertexColors.size(); i++)
+		if (inGraph.vertexColors.size() != inGraph.vertexActive.size())
 		{
-			ingraph.vertexColors[i] = col;
+			inGraph.vertexColors.clear();
+			for (int i = 0; i < inGraph.vertexActive.size(); i++) inGraph.vertexColors.push_back(zColor(1, 0, 0, 1));
 		}
 
-		if (setEdgeColor) ingraph.computeEdgeColorfromVertexColor();
+		for (int i = 0; i < inGraph.vertexColors.size(); i++)
+		{
+			inGraph.vertexColors[i] = col;
+		}
+
+		if (setEdgeColor) inGraph.computeEdgeColorfromVertexColor();
 
 	}
 
@@ -73,16 +78,22 @@ namespace zSpace
 	*	\param		[in]	setEdgeColor	- edge color is computed based on the vertex color if true.
 	*	\since version 0.0.1
 	*/
-	inline void setVertexColors(zGraph &ingraph, vector<zColor>& col, bool setEdgeColor)
+	inline void setVertexColors(zGraph &inGraph, vector<zColor>& col, bool setEdgeColor = false)
 	{
-		if (col.size() != ingraph.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph vertices.");
-
-		for (int i = 0; i < ingraph.vertexColors.size(); i++)
+		if (inGraph.vertexColors.size() != inGraph.vertexActive.size())
 		{
-			ingraph.vertexColors[i] = col[i];
+			inGraph.vertexColors.clear();
+			for (int i = 0; i < inGraph.vertexActive.size(); i++) inGraph.vertexColors.push_back(zColor(1, 0, 0, 1));
 		}
 
-		if (setEdgeColor) ingraph.computeEdgeColorfromVertexColor();
+		if (col.size() != inGraph.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph vertices.");
+
+		for (int i = 0; i < inGraph.vertexColors.size(); i++)
+		{
+			inGraph.vertexColors[i] = col[i];
+		}
+
+		if (setEdgeColor) inGraph.computeEdgeColorfromVertexColor();
 	}
 
 	/*! \brief This method sets edge color of all the edges to the input color.
@@ -92,15 +103,20 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-	inline void setEdgeColor(zGraph & ingraph, zColor col, bool setVertexColor)
+	inline void setEdgeColor(zGraph & inGraph, zColor col, bool setVertexColor = false)
 	{
-		for (int i = 0; i < ingraph.edgeActive.size(); i++)
+		if (inGraph.edgeColors.size() != inGraph.edgeActive.size())
 		{
-			if (i >= ingraph.edgeColors.size()) ingraph.edgeColors.push_back(col);
-			else ingraph.edgeColors[i] = col;
+			inGraph.edgeColors.clear();
+			for (int i = 0; i < inGraph.edgeActive.size(); i++) inGraph.edgeColors.push_back(zColor());
 		}
 
-		if (setVertexColor) ingraph.computeVertexColorfromEdgeColor();
+		for (int i = 0; i < inGraph.edgeActive.size(); i++)
+		{
+			 inGraph.edgeColors[i] = col;
+		}
+
+		if (setVertexColor) inGraph.computeVertexColorfromEdgeColor();
 
 	}
 
@@ -111,16 +127,22 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-	inline void setEdgeColors(zGraph & ingraph, vector<zColor>& col, bool setVertexColor)
+	inline void setEdgeColors(zGraph & inGraph, vector<zColor>& col, bool setVertexColor = false)
 	{
-		if (col.size() != ingraph.edgeColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph edges.");
-
-		for (int i = 0; i < ingraph.edgeColors.size(); i++)
+		if (inGraph.edgeColors.size() != inGraph.edgeActive.size())
 		{
-			ingraph.edgeColors[i] = col[i];
+			inGraph.edgeColors.clear();
+			for (int i = 0; i < inGraph.edgeActive.size(); i++) inGraph.edgeColors.push_back(zColor());
 		}
 
-		if (setVertexColor) ingraph.computeVertexColorfromEdgeColor();
+		if (col.size() != inGraph.edgeColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph edges.");
+
+		for (int i = 0; i < inGraph.edgeColors.size(); i++)
+		{
+			inGraph.edgeColors[i] = col[i];
+		}
+
+		if (setVertexColor) inGraph.computeVertexColorfromEdgeColor();
 	}
 	
 

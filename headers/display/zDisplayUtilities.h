@@ -196,7 +196,7 @@ namespace zSpace
 	*	\param		[in]	showFaces		- boolean true if the faces of zMesh are to be displayed.
 	*	\since version 0.0.1
 	*/	
-	inline void drawMesh(zMesh &mesh, bool showVerts, bool showEdges, bool showFaces)
+	inline void drawMesh(zMesh &mesh, bool showVerts = false, bool showEdges = true, bool showFaces = true)
 	{
 
 		//draw vertex

@@ -34,6 +34,12 @@ namespace zSpace
 	*/
 	inline void setVertexColor(zMesh &inMesh, zColor col, bool setFaceColor = false)
 	{
+		if (inMesh.vertexColors.size() != inMesh.vertexActive.size())
+		{
+			inMesh.vertexColors.clear();
+			for (int i = 0; i < inMesh.vertexActive.size(); i++) inMesh.vertexColors.push_back(zColor(1,0,0,1));
+		}
+
 		for (int i = 0; i < inMesh.vertexColors.size(); i++)
 		{
 			inMesh.vertexColors[i] = col;
@@ -52,6 +58,12 @@ namespace zSpace
 	*/
 	inline void setVertexColors(zMesh &inMesh, vector<zColor>& col, bool setFaceColor = false)
 	{
+		if (inMesh.vertexColors.size() != inMesh.vertexActive.size())
+		{
+			inMesh.vertexColors.clear();
+			for (int i = 0; i < inMesh.vertexActive.size(); i++) inMesh.vertexColors.push_back(zColor(1, 0, 0, 1));
+		}
+
 		if (col.size() != inMesh.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh vertices.");
 
 		for (int i = 0; i < inMesh.vertexColors.size(); i++)
@@ -71,6 +83,11 @@ namespace zSpace
 	*/
 	inline void setFaceColor(zMesh &inMesh, zColor col, bool setVertexColor = false)
 	{
+		if (inMesh.faceColors.size() != inMesh.faceActive.size())
+		{
+			inMesh.faceColors.clear();
+			for (int i = 0; i < inMesh.faceActive.size(); i++) inMesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
+		}
 
 		for (int i = 0; i < inMesh.faceColors.size(); i++)
 		{
@@ -89,6 +106,12 @@ namespace zSpace
 	*/
 	inline void setFaceColors(zMesh &inMesh, vector<zColor>& col, bool setVertexColor = false)
 	{
+		if (inMesh.faceColors.size() != inMesh.faceActive.size())
+		{
+			inMesh.faceColors.clear();
+			for (int i = 0; i < inMesh.faceActive.size(); i++) inMesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
+		}
+
 		if (col.size() != inMesh.faceColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
 
 		for (int i = 0; i < inMesh.faceColors.size(); i++)
@@ -150,8 +173,13 @@ namespace zSpace
 	*	\param		[in]	setVertexColor	- vertex color is computed based on the edge color if true.
 	*	\since version 0.0.1
 	*/
-	inline void setEdgeColor(zMesh & inMesh, zColor col, bool setVertexColor)
+	inline void setEdgeColor(zMesh & inMesh, zColor col, bool setVertexColor = false)
 	{
+		if (inMesh.edgeColors.size() != inMesh.edgeActive.size())
+		{
+			for (int i = 0; i < inMesh.edgeActive.size(); i++) inMesh.edgeColors.push_back(zColor());
+		}
+		
 		for (int i = 0; i < inMesh.edgeColors.size(); i+= 2)
 		{
 			setEdgeColor(inMesh, i, col);
@@ -183,6 +211,364 @@ namespace zSpace
 	//--------------------------
 	//--- GET METHODS 
 	//--------------------------
+
+	/*! \brief This method triangulates the input polygon using ear clipping algorithm.
+	*
+	*	\details based on  https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf & http://abitwise.blogspot.co.uk/2013/09/triangulating-concave-and-convex.html
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	faceIndex		- face index  of the face to be triangulated in the faces container.
+	*	\param		[out]	numTris			- number of triangles in the input polygon.
+	*	\param		[out]	tris			- index array of each triangle associated with the face.
+	*	\since version 0.0.1
+	*/
+	inline void getFaceTriangles(zMesh &inMesh, int faceIndex, int &numTris, vector<int> &tris)
+	{
+		double angle_Max = 90;
+		bool noEars = true; // check for if there are no ears
+
+		vector<bool> ears;
+		vector<bool> reflexVerts;
+
+		// get face vertices
+
+		vector<int> fVerts;
+		inMesh.getVertices(faceIndex, zFaceData, fVerts);
+		vector<int> vertexIndices = fVerts;
+
+		vector<zVector> points;
+		for (int i = 0; i < fVerts.size(); i++)
+		{
+			points.push_back(inMesh.vertexPositions[fVerts[i]]);
+		}
+
+		if (fVerts.size() < 3) throw std::invalid_argument(" error: invalid face, triangulation is not succesful.");
+
+		// compute 
+		zVector norm = inMesh.faceNormals[faceIndex];
+
+		// compute ears
+
+		for (int i = 0; i < vertexIndices.size(); i++)
+		{
+			int nextId = (i + 1) % vertexIndices.size();
+			int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
+
+			// Triangle edges - e1 and e2 defined above
+			zVector v1 = inMesh.vertexPositions[vertexIndices[nextId]] - inMesh.vertexPositions[vertexIndices[i]];
+			zVector v2 = inMesh.vertexPositions[vertexIndices[prevId]] - inMesh.vertexPositions[vertexIndices[i]];
+
+			zVector cross = v1 ^ v2;
+			double ang = v1.angle(v2);
+
+			if (cross * norm < 0) ang *= -1;
+
+			if (ang <= 0 || ang == 180) reflexVerts.push_back(true);
+			else reflexVerts.push_back(false);
+
+			// calculate ears
+			if (!reflexVerts[i])
+			{
+				bool ear = true;
+
+				zVector p0 = inMesh.vertexPositions[fVerts[i]];
+				zVector p1 = inMesh.vertexPositions[fVerts[nextId]];
+				zVector p2 = inMesh.vertexPositions[fVerts[prevId]];
+
+				bool CheckPtTri = false;
+
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					if (!CheckPtTri)
+					{
+						if (j != i && j != nextId && j != prevId)
+						{
+							// vector to point to be checked
+							zVector pt = inMesh.vertexPositions[fVerts[j]];
+
+							bool Chk = pointInTriangle(pt, p0, p1, p2);
+							CheckPtTri = Chk;
+
+						}
+					}
+
+				}
+
+				if (CheckPtTri) ear = false;
+				ears.push_back(ear);
+
+				if (noEars && ear) noEars = !noEars;
+			}
+			else ears.push_back(false);
+
+			//printf("\n id: %i ang: %1.2f reflex: %s ear: %s", vertexIndices[i], ang, (reflexVerts[i] == true) ? "true" : "false",(ears[i] == true)?"true":"false");
+		}
+
+		if (noEars)
+		{
+			for (int i = 0; i < fVerts.size(); i++)
+			{
+				printf("\n %1.2f %1.2f %1.2f ", points[i].x, points[i].y, points[i].z);
+			}
+
+			throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+		}
+
+		int maxTris = fVerts.size() - 2;
+
+		// // triangulate 
+
+		while (numTris < maxTris - 1)
+		{
+			int earId = -1;
+			bool earFound = false;;
+
+			for (int i = 0; i < ears.size(); i++)
+			{
+				if (!earFound)
+				{
+					if (ears[i])
+					{
+						earId = i;
+						earFound = !earFound;
+					}
+				}
+
+			}
+
+			if (earFound)
+			{
+
+
+				for (int i = -1; i <= 1; i++)
+				{
+					int id = (earId + i + vertexIndices.size()) % vertexIndices.size();
+					tris.push_back(vertexIndices[id]);
+				}
+				numTris++;
+
+				// remove vertex earid 
+				vertexIndices.erase(vertexIndices.begin() + earId);
+
+				reflexVerts.clear();
+				ears.clear();
+
+				// check for ears
+				for (int i = 0; i < vertexIndices.size(); i++)
+				{
+
+					int nextId = (i + 1) % vertexIndices.size();
+					int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
+
+					// Triangle edges - e1 and e2 defined above
+					zVector v1 = inMesh.vertexPositions[vertexIndices[nextId]] - inMesh.vertexPositions[vertexIndices[i]];
+					zVector v2 = inMesh.vertexPositions[vertexIndices[prevId]] - inMesh.vertexPositions[vertexIndices[i]];
+
+					zVector cross = v1 ^ v2;
+					double ang = v1.angle(v2);
+
+					if (cross * norm < 0) ang *= -1;
+
+					if (ang <= 0 || ang == 180) reflexVerts.push_back(true);
+					else reflexVerts.push_back(false);
+
+					// calculate ears
+					if (!reflexVerts[i])
+					{
+						bool ear = true;
+
+						zVector p0 = inMesh.vertexPositions[vertexIndices[i]];
+						zVector p1 = inMesh.vertexPositions[vertexIndices[nextId]];
+						zVector p2 = inMesh.vertexPositions[vertexIndices[prevId]];
+
+						bool CheckPtTri = false;
+
+						for (int j = 0; j < vertexIndices.size(); j++)
+						{
+							if (!CheckPtTri)
+							{
+								if (j != i && j != nextId && j != prevId)
+								{
+									// vector to point to be checked
+									zVector pt = inMesh.vertexPositions[vertexIndices[j]];
+
+									bool Chk = pointInTriangle(pt, p0, p1, p2);
+									CheckPtTri = Chk;
+								}
+							}
+
+						}
+
+						if (CheckPtTri) ear = false;
+						ears.push_back(ear);
+
+					}
+					else ears.push_back(false);
+
+
+					//printf("\n earId %i id: %i ang: %1.2f reflex: %s ear: %s", earId, vertexIndices[i], ang, (reflexVerts[i] == true) ? "true" : "false", (ears[i] == true) ? "true" : "false");
+				}
+
+
+
+			}
+			else
+			{
+				for (int i = 0; i < vertexIndices.size(); i++)
+				{
+					printf("\n %1.2f %1.2f %1.2f ", inMesh.vertexPositions[vertexIndices[i]].x, inMesh.vertexPositions[vertexIndices[i]].y, inMesh.vertexPositions[vertexIndices[i]].z);
+				}
+
+				throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+			}
+
+		}
+
+		// add the last remaining triangle
+		tris.push_back(vertexIndices[0]);
+		tris.push_back(vertexIndices[1]);
+		tris.push_back(vertexIndices[2]);
+		numTris++;
+
+	}
+
+	/*! \brief This method computes the triangles of each face of the input mesh and stored in 2 dimensional container.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[out]	faceTris		- container of index array of each triangle associated per face.
+	*	\since version 0.0.1
+	*/
+	inline void getMeshTriangles(zMesh &inMesh, vector<vector<int>> &faceTris)
+	{
+		if (inMesh.faceNormals.size() == 0 || inMesh.faceNormals.size() != inMesh.faceActive.size()) inMesh.computeMeshNormals();
+
+		faceTris.clear();
+
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
+		{
+			vector<int> Tri_connects;
+
+			if (inMesh.faceActive[i])
+			{
+
+				vector<int> fVerts;
+				inMesh.getVertices(i, zFaceData, fVerts);
+
+				// compute polygon Triangles
+
+
+				int n_Tris = 0;
+				if (fVerts.size() > 0) getFaceTriangles(inMesh, i, n_Tris, Tri_connects);
+				else Tri_connects = fVerts;
+			}
+
+
+			faceTris.push_back(Tri_connects);
+		}
+
+	}
+
+	/*! \brief This method computes the volume of the input mesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\return				double			- volume of input mesh.
+	*	\since version 0.0.1
+	*/
+	inline double getMeshVolume(zMesh &inMesh)
+	{
+		double out; 
+
+		vector<vector<int>> faceTris;
+		getMeshTriangles(inMesh, faceTris);
+
+		for (int i = 0; i < faceTris.size(); i++)
+		{
+			for (int j = 0; j < faceTris[i].size(); j+= 3)
+			{
+				double vol = getSignedTriangleVolume(inMesh.vertexPositions[faceTris[i][j + 0]], inMesh.vertexPositions[faceTris[i][j + 1]], inMesh.vertexPositions[faceTris[i][j + 2]]);
+
+				out += vol;
+			}
+
+			
+		}
+
+		return out;
+	}
+
+	/*! \brief This method computes the volume of the polyhedras formed by the face vertices and the face center of the input indexed face of the mesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	index			- input face index.
+	*	\param		[in]	faceTris		- container of index array of each triangle associated per face. It will be computed if the container is empty.
+	*	\param		[in]	fCenters		- container of centers associated per face.  It will be computed if the container is empty.
+	*	\param		[in]	absoluteVolumes	- will make all the volume value positive if true.
+	*	\return				double			- volume of the polyhedras formed by the face vertices and the face center.
+	*	\since version 0.0.1
+	*/
+	inline double getMeshFaceVolume(zMesh &inMesh, int index, vector<vector<int>> &faceTris, vector<zVector> &fCenters, bool absoluteVolume = true)
+	{
+		if (index > inMesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		if (faceTris.size() == 0 || faceTris.size() != inMesh.faceActive.size()) getMeshTriangles(inMesh, faceTris);
+		if (fCenters.size() == 0 || fCenters.size() != inMesh.faceActive.size()) getCenters(inMesh, zFaceData, fCenters);
+
+		double out =0;
+	
+		zVector fCenter = fCenters[index];
+
+		// add volume of face tris
+		for (int j = 0; j < faceTris[index].size(); j += 3)
+		{
+			double vol = getSignedTriangleVolume(inMesh.vertexPositions[faceTris[index][j + 0]], inMesh.vertexPositions[faceTris[index][j + 1]], inMesh.vertexPositions[faceTris[index][j + 2]]);
+
+			out += vol;
+		}
+
+		// add volumes of tris formes by each pair of face edge vertices and face center
+
+		vector<int> fVerts;
+		inMesh.getVertices(index, zFaceData, fVerts);
+
+		for (int j = 0; j < fVerts.size(); j += 1)
+		{
+			int prevId = (j - 1 + fVerts.size()) % fVerts.size();
+
+			double vol = getSignedTriangleVolume(inMesh.vertexPositions[fVerts[j]], inMesh.vertexPositions[fVerts[prevId]], fCenter);
+
+			out += vol;
+		}
+
+		if (absoluteVolume) out = abs(out);
+
+		return out;
+
+	}
+
+	/*! \brief This method computes the volume of the polyhedras formed by the face vertices and the face center for each face of the mesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\param		[in]	faceTris		- container of index array of each triangle associated per face.  It will be computed if the container is empty.
+	*	\param		[in]	fCenters		- container of centers associated per face.  It will be computed if the container is empty.
+	*	\param		[out]	faceVolumes		- container of volumes of the polyhedras formed by the face vertices and the face center per face.
+	*	\param		[in]	absoluteVolumes	- will make all the volume values positive if true.
+	*	\since version 0.0.1
+	*/
+	inline void getMeshFaceVolumes(zMesh &inMesh, vector<vector<int>> &faceTris, vector<zVector> &fCenters, vector<double> &faceVolumes, bool absoluteVolumes = true)
+	{
+		if (faceTris.size() == 0 || faceTris.size() != inMesh.faceActive.size()) getMeshTriangles(inMesh, faceTris);
+		if (fCenters.size() == 0 || fCenters.size() != inMesh.faceActive.size()) getCenters(inMesh, zFaceData, fCenters);
+
+		faceVolumes.clear();
+
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
+		{
+			double vol = getMeshFaceVolume(inMesh, i, faceTris, fCenters, absoluteVolumes);		
+			
+			faceVolumes.push_back(vol);
+		}
+	}
+
 
 	/*! \brief This method computes the local curvature of the mesh vertices.
 	*

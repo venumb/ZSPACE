@@ -458,54 +458,27 @@ namespace zSpace
 		return area;
 	}
 
-	/*! \brief This method returns the signed volume of triagle defined by the three input zVectors.
+	/*! \brief This method returns the signed volume of the tetrahedron formed by the three input zVectors and the origin.
 	*
-	*	\details Based on http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf
+	*	\details Based on http://chenlab.ece.cornell.edu/Publication/Cha/icip01_Cha.pdf and http://www.dillonbhuff.com/?p=345
 	*	\param		[in]		p1				- first input point of triangle.
 	*	\param		[in]		p2				- second input point of triangle.
 	*	\param		[in]		p3				- second input point of triangle.
-	*	\return					double			- signed volume of triangle defirned by the vectors.
+	*	\return					double			- volume of tetrahedron formed by the three input vectors  and the origin.
 	*	\since version 0.0.1
 	*/
 	inline double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3)
 	{
 		double volume = 0;
+		
+		zVector norm = (v2 - v1) ^ (v3 - v1);	
+		volume = v1 * norm;
+		volume /= 6.0;
 
-		double v321 = v3.x*v2.y*v1.z;
-		double v231 = v2.x*v3.y*v1.z;
-		double v312 = v3.x*v1.y*v2.z;
-		double v132 = v1.x*v3.y*v2.z;
-		double v213 = v2.x*v1.y*v3.z;
-		double v123 = v1.x*v2.y*v3.z;
 
-		volume = (1.0f / 6.0f)*(-v321 + v231 + v312 - v132 - v213 + v123);
-
-		return volume;
+		return volume ;
 	}
-
-	/*! \brief This method returns the volume of the polyhedra formed by the input points and the center.
-	*
-	*	\param		[in]		center			- center of polyhedra.
-	*	\param		[in]		points			- points of the polyhedra.
-	*	\return					double			- signed volume.
-	*	\since version 0.0.1
-	*/
-	inline double getSignedVolume(zVector &center, vector<zVector> &points)
-	{
-		double volume = 0;
-
-		for (int i = 0; i < points.size(); i++)
-		{
-			int nextId = (i + 1) % points.size();
-
-			double vol = getSignedTriangleVolume(points[i], points[nextId], center);
-
-			volume += vol;
-		}
-
-		return volume;
-	}
-
+	
 	/*! \brief This method checks if the given input points liess within the input triangle.
 	*
 	*	\details based on http://blackpawn.com/texts/pointinpoly/default.html

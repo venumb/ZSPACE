@@ -47,6 +47,47 @@ namespace zSpace
 	template<typename T>
 	inline void addEdgeForce(vector<zParticle> &inParticles, T &inHEDataStructure , vector<double> &weights);
 	
+	/*! \brief This method adds the planarity force to all the particles in the input container based on the face volumes of the input mesh.
+	*
+	*	\param		[in]	inParticles			- Input particle container.
+	*	\param		[in]	inMesh				- Input mesh.
+	*	\param		[in]	fVolumes			- container of face volumes. Use getMeshFaceVolumes method to compute it.
+	*	\param		[in]	fCenters			- container of face centers. Use getCenters method to compute it.
+	*	\param		[in]	tolerance			- tolerance value. Default it is set to 0.001.
+	*	\since version 0.0.1
+	*/
+	inline void addPlanarityForce(vector<zParticle> &inParticles, zMesh &inMesh, vector<double> &fVolumes, vector<zVector> fCenters, double tolerance = 0.001)
+	{
+		if (inParticles.size() != inMesh.vertexActive.size()) throw std::invalid_argument("cannot apply planarity force.");
+
+		if (fVolumes.size() != inMesh.faceActive.size()) throw std::invalid_argument("sizes of face Volumes and mesh faces dont match.");
+		if (fCenters.size() != inMesh.faceActive.size()) throw std::invalid_argument("sizes of face Centers and mesh faces dont match.");
+		
+		for (int i = 0; i < inMesh.faceActive.size(); i++)
+		{
+			if (inMesh.faceActive[i] && fVolumes[i] > tolerance)
+			{
+				vector<int> fVerts;
+				inMesh.getVertices(i, zFaceData, fVerts);
+
+				vector<zVector> fVertPositions;
+				inMesh.getVertexPositions(i, zFaceData, fVertPositions);
+
+				zVector fNormal = inMesh.faceNormals[i];
+
+				for (int j = 0; j < fVertPositions.size(); j++)
+				{
+					if (inParticles[fVerts[j]].fixed) continue;
+					
+					double dist = minDist_Point_Plane(fVertPositions[j], fCenters[i], fNormal);				
+
+					zVector pForce = fNormal * dist * -1.0;
+					inParticles[fVerts[j]].addForce(pForce);
+				}
+			}
+
+		}
+	}
 
 		
 	/** @}*/
@@ -69,9 +110,9 @@ namespace zSpace
 template<>
 inline void zSpace::addEdgeForce(vector<zParticle> &inParticles, zGraph &inGraph, vector<double> &weights)
 {
-	if (inParticles.size() != inGraph.vertexActive.size()) throw std::invalid_argument("cannot apply spring force.");
+	if (inParticles.size() != inGraph.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
 
-	if (weights.size() >0 && weights.size() != inGraph.vertexActive.size()) throw std::invalid_argument("cannot apply spring force.");
+	if (weights.size() >0 && weights.size() != inGraph.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
 	
 	for (int i = 0; i < inGraph.vertexActive.size(); i++)
 	{
@@ -109,9 +150,9 @@ inline void zSpace::addEdgeForce(vector<zParticle> &inParticles, zGraph &inGraph
 template<>
 inline void zSpace::addEdgeForce(vector<zParticle> &inParticles, zMesh &inMesh, vector<double> &weights)
 {
-	if (inParticles.size() != inMesh.vertexActive.size()) throw std::invalid_argument("cannot apply spring force.");
+	if (inParticles.size() != inMesh.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
 
-	if (weights.size() > 0 && weights.size() != inMesh.vertexActive.size()) throw std::invalid_argument("cannot apply spring force.");
+	if (weights.size() > 0 && weights.size() != inMesh.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
 
 	for (int i = 0; i < inMesh.vertexActive.size(); i++)
 	{

@@ -25,6 +25,17 @@ namespace zSpace
 	//--- GET METHODS 
 	//--------------------------
 
+	/*! \brief This method computes the centers of a the input index edge or face of a zGraph/zMesh.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[in]	type					- zEdgeData or zFaceData.
+	*	\param		[out]	center					- center of type zVector.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	inline void getCenter(T &inHEDataStructure, int index,  zHEData type, zVector &center);
+
 	/*! \brief This method computes the centers of a all edges or faces of a zGraph/zMesh.
 	*
 	*	\tparam				T						- Type to work with zGraph and zMesh.
@@ -68,17 +79,6 @@ namespace zSpace
 	*/
 	template<typename T>
 	inline zVector getEdgeVector(T &inHEDataStructure, int index);
-
-	/*! \brief This method sets edge color of of the input zGraph/zMesh edge and its symmetry edge to the input color.
-	*
-	*	\tparam				T						- Type to work with zGraph and zMesh.
-	*	\param		[in]	inHEDataStructure		- input graph or mesh.
-	*	\param		[in]	index					- input edge index.
-	*	\param		[in]	col						- input color.
-	*	\since version 0.0.1
-	*/
-	template<typename T>
-	inline void setEdgeColor(T & inHEDataStructure, int index, zColor col);
 	
 
 	/*! \brief This method gets the ring neighbours of the input vertex of a zGraph/zMesh.
@@ -91,6 +91,21 @@ namespace zSpace
 	*/
 	template<typename T>
 	inline void getNeighbourhoodRing(T &inHEDataStructure, int numRings, vector<int> &ringNeighbours);
+
+	//--------------------------
+	//--- SET METHODS 
+	//--------------------------
+
+	/*! \brief This method sets edge color of of the input zGraph/zMesh edge and its symmetry edge to the input color.
+	*
+	*	\tparam				T						- Type to work with zGraph and zMesh.
+	*	\param		[in]	inHEDataStructure		- input graph or mesh.
+	*	\param		[in]	index					- input edge index.
+	*	\param		[in]	col						- input color.
+	*	\since version 0.0.1
+	*/
+	template<typename T>
+	inline void setEdgeColor(T & inHEDataStructure, int index, zColor col);
 
 	//--------------------------
 	//--- WALK METHODS 
@@ -207,6 +222,65 @@ namespace zSpace
 //--------------------------
 //---- TEMPLATE SPECIALIZATION DEFINITIONS 
 //--------------------------
+
+//---------------//
+
+//---- graph specilization for getCenter
+template<>
+inline void zSpace::getCenter(zGraph &inGraph, int index,  zHEData type, zVector &center)
+{
+	// Edge 
+	if (type == zEdgeData)
+	{
+
+		if (index > inGraph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inGraph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		vector<int> eVerts;
+		inGraph.getVertices(index, zEdgeData, eVerts);
+
+		center = (inGraph.vertexPositions[eVerts[0]] + inGraph.vertexPositions[eVerts[1]]) * 0.5;
+
+	}
+	else throw std::invalid_argument(" error: invalid zHEData type");
+}
+
+//---- mesh specilization for getCenter
+template<>
+inline void zSpace::getCenter(zMesh &inMesh,int index,  zHEData type, zVector &center)
+{
+	// Mesh Edge 
+	if (type == zEdgeData)
+	{
+		if (index > inMesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		vector<int> eVerts;
+		inMesh.getVertices(index, zEdgeData, eVerts);
+
+		center = (inMesh.vertexPositions[eVerts[0]] + inMesh.vertexPositions[eVerts[1]]) * 0.5;
+	}
+
+	// Mesh Face 
+	else if (type == zFaceData)
+	{
+
+		if (index > inMesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+		if (!inMesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+		vector<int> fVerts;
+		inMesh.getVertices(index, zFaceData, fVerts);
+		zVector cen;
+
+		for (int j = 0; j < fVerts.size(); j++) cen += inMesh.vertexPositions[fVerts[j]];
+		cen /= fVerts.size();
+		
+		center = cen;				
+		
+	}
+	else throw std::invalid_argument(" error: invalid zHEData type");
+}
+
 
 //---------------//
 
@@ -456,6 +530,11 @@ inline zSpace::zVector zSpace::getEdgeVector(zMesh &inMesh, int index)
 template<>
 inline void zSpace::setEdgeColor(zGraph & inGraph, int index, zColor col)
 {
+	if (inGraph.edgeColors.size() != inGraph.edgeActive.size())
+	{
+		inGraph.edgeColors.clear();
+		for (int i = 0; i < inGraph.edgeActive.size(); i++) inGraph.edgeColors.push_back(zColor());
+	}
 
 	inGraph.edgeColors[index] = col;
 
@@ -469,6 +548,12 @@ inline void zSpace::setEdgeColor(zGraph & inGraph, int index, zColor col)
 template<>
 inline void zSpace::setEdgeColor(zMesh & inMesh, int index, zColor col)
 {
+
+	if (inMesh.edgeColors.size() != inMesh.edgeActive.size())
+	{
+		inMesh.edgeColors.clear();
+		for (int i = 0; i < inMesh.edgeActive.size(); i++) inMesh.edgeColors.push_back(zColor());
+	}
 
 	inMesh.edgeColors[index] = col;
 
