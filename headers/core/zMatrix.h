@@ -428,7 +428,7 @@ namespace zSpace
 		{
 			if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
 			if (colMatrix.getNumRows() != this->getNumRows()) throw std::invalid_argument("input values size dont match with number of rows.");
-			if (rowMatrix.getNumCols() != 1) throw std::invalid_argument("input in not column matrix.");
+			if (colMatrix.getNumCols() != 1) throw std::invalid_argument("input in not column matrix.");
 
 			for (int i = 0; i < this->getNumRows(); i++)
 			{

@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -160,11 +161,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field based on input graph connectivity.  <a href="#a832d06aa1ecf8fed5e82b6447a0cf278">More...</a><br /></td></tr>
 <tr class="separator:a832d06aa1ecf8fed5e82b6447a0cf278"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7ecf6222f0b81a52c0878db794e23e7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab7ecf6222f0b81a52c0878db794e23e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ab7ecf6222f0b81a52c0878db794e23e7">updateScalars_fromCSV</a> (string infilename, vector&lt; T &gt; &amp;data)</td></tr>
+<tr class="memitem:ab7ecf6222f0b81a52c0878db794e23e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#ab7ecf6222f0b81a52c0878db794e23e7">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;data)</td></tr>
 <tr class="memdesc:ab7ecf6222f0b81a52c0878db794e23e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,data.  <a href="#ab7ecf6222f0b81a52c0878db794e23e7">More...</a><br /></td></tr>
 <tr class="separator:ab7ecf6222f0b81a52c0878db794e23e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66a2aaab656121ed4b8841f2281119d6"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a66a2aaab656121ed4b8841f2281119d6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a66a2aaab656121ed4b8841f2281119d6">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;dataPositions, vector&lt; T &gt; &amp;data)</td></tr>
+<tr class="memitem:a66a2aaab656121ed4b8841f2281119d6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a66a2aaab656121ed4b8841f2281119d6">updateScalars_fromCSV</a> (string infilename, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;dataPositions, vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;data)</td></tr>
 <tr class="memdesc:a66a2aaab656121ed4b8841f2281119d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the scalars in the scalar field and gets data positions based on input CSV data file with format - lat,lon,data.  <a href="#a66a2aaab656121ed4b8841f2281119d6">More...</a><br /></td></tr>
 <tr class="separator:a66a2aaab656121ed4b8841f2281119d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a781c071dbd990a4c2e54d2cb062a6907"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_open_street.html#a781c071dbd990a4c2e54d2cb062a6907">exportOSMRelationsToCSV</a> (string infilename, string outfilename_Relations, string outfilename_Relations_members, string outfilename_RelationTags)</td></tr>
@@ -1142,6 +1143,9 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1152,7 +1156,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -1161,6 +1165,11 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method updates the scalars in the scalar field based on input CSV data file with format - lat,lon,data. </p>
@@ -1188,6 +1197,9 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1204,7 +1216,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -1213,6 +1225,11 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method updates the scalars in the scalar field and gets data positions based on input CSV data file with format - lat,lon,data. </p>
@@ -1241,6 +1258,9 @@ template&lt;typename T &gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1260,6 +1280,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01338">1338</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1278,6 +1303,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1297,6 +1325,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01406">1406</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1315,6 +1348,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1334,6 +1370,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01475">1475</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1352,6 +1393,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1371,6 +1415,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01538">1538</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1389,6 +1438,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1414,6 +1466,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01603">1603</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1432,6 +1489,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1457,6 +1517,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01673">1673</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1475,6 +1540,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1500,6 +1568,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01737">1737</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>
@@ -1518,6 +1591,9 @@ Here is the call graph for this function:</div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::zOpenStreet::updateScalars_fromCSV </td>
@@ -1543,6 +1619,11 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="z_openstreet_8h_source.html#l01802">1802</a> of file <a class="el" href="z_openstreet_8h_source.html">zOpenstreet.h</a>.</p>

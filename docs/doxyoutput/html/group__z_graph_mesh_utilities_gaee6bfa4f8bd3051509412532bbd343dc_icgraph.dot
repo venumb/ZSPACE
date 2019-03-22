@@ -1,0 +1,49 @@
+digraph "zSpace::setEdgeColor"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node39 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method sets edge color of of the input zGraph/zMesh edge and its symmetry edge to the input colo..."];
+  Node39 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="zSpace::createStreams\l_Influence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6cbceb22b0a8b3764486c381db97fc22",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node39 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="zSpace::zOpenStreet\l::createStreetGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a904bd1ba411b9cc0b439f06c409386b9",tooltip="This method creates the street graph from the OSM data."];
+  Node39 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="zSpace::zOpenStreet\l::createBuildingGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_open_street.html#a1c815f333ca41c75227a60c76db85884",tooltip="This method creates the building graph from the OSM data."];
+  Node39 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga4f9c543da91c5080307477a7a400ee01",tooltip="This method sets vertex color of all the vertices to the input color."];
+  Node43 -> Node44 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga90a14e23a3d369e68b9886298616c541",tooltip="This method sets edge color of all the edges to the input color."];
+  Node43 -> Node45 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="zSpace::setEdgeColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#gad09235f3a26d70ef2f50e8f5405179f6",tooltip="This method sets edge color of all the edges with the input color contatiner."];
+  Node43 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="zSpace::setFaceColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga3dc508ddd0979a3c05704b3a5f8c724e",tooltip="This method sets face color of all the faces to the input color."];
+  Node46 -> Node47 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga350a2d9332ce16b822a5169320a789a9",tooltip="This method sets vertex color of all the vertices to the input color."];
+  Node46 -> Node48 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga7eea2e4cbed233677f01622bbb290ba7",tooltip="This method sets vertex color of all the vertices with the input color contatiner."];
+  Node43 -> Node49 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="zSpace::setFaceColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga46a15e7c994f4fb6a25f8e7cd111e536",tooltip="This method sets face color of all the faces to the input color contatiner."];
+  Node49 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::variableFaceOffset\lExtrude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_variable_extrude.html#ga4b7753289e2df876a4577208825064e2",tooltip="This method offset extrudes the faces of the input mesh based on vertex / face color...."];
+  Node43 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::fromJSON",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___graph.html#ga72f18c5d3de0d92bea72ed214d7ba159",tooltip="This method imports zGraph from a JSON file format using JSON Modern Library."];
+  Node43 -> Node52 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="zSpace::fromMESH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___dynamics.html#ga66f0a6b42802025ef65086160d5f85dd",tooltip="This method creates a container of particles with the positions initiaised at the mesh vertex positio..."];
+  Node43 -> Node53 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="zSpace::fromGRAPH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___dynamics.html#ga96ee1fee284e64fb449cef68c4216aba",tooltip="This method creates a container of particles with the positions initiaised at the graph vertex positi..."];
+  Node53 -> Node54 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="zSpace::updateFormGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga4e6850be5b5333e95b01d524d2a51d79",tooltip="This method updates the form diagram."];
+  Node53 -> Node55 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::updateSpatialGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_spatial_structure.html#ga1b949801964a52e7def70ec461cbd4d6",tooltip="This method updates the form diagram."];
+  Node39 -> Node56 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga38cf9f6374db02e2f273b07d31c73dfb",tooltip="This method sets vertex color of all the vertices with the input color contatiner."];
+  Node56 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::variableBoundary\lOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_variable_extrude.html#ga9c135fd7362c20a7c6eba655e7abc418",tooltip="This method offsets the boundary faces of the input mesh based on vertex color. It uses only the red ..."];
+  Node56 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::variableFaceThickness\lExtrude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_variable_extrude.html#ga8626c54d38eb699e9d79c88dadb9d417",tooltip="This method extrudes the input mesh based on vertex / face color. It uses only the red channel of the..."];
+  Node39 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga11bfa10c5136369629a3ff696003dced",tooltip="This method sets edge color of all the edges to the input color."];
+  Node39 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

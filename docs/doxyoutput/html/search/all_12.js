@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['t',['T',['../z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb',1,'zVault.h']]],
   ['tablecreate',['tableCreate',['../classz_space_1_1z_database.html#ae0eafed99fc6b74a953455a76fe01cd8',1,'zSpace::zDatabase']]],
   ['tableinsert',['tableInsert',['../classz_space_1_1z_database.html#aacb3de07d038e6733a52f155b9c4a01e',1,'zSpace::zDatabase']]],
   ['tangentialrelaxation',['tangentialRelaxation',['../group__z_mesh_modifiers.html#gae42402c3129540241452c44109dcd068',1,'zSpace']]],
@@ -13,9 +14,10 @@ var searchData=
   ['tocolumnmatrix',['toColumnMatrix',['../classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14',1,'zSpace::zVector']]],
   ['tocsv',['toCSV',['../group__z_i_o___graph.html#ga3e8492524d3eff240bdd307684d26609',1,'zSpace']]],
   ['tohsv',['toHSV',['../classz_space_1_1z_color.html#a5a564cfcdd4d89916c0d51b376923e05',1,'zSpace::zColor']]],
-  ['tojson',['toJSON',['../group__z_i_o___mesh.html#ga6fccda275363a86353d2750673122d6f',1,'zSpace::toJSON(zMesh &amp;inMesh, string outfilename, bool vColors=false)'],['../group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747',1,'zSpace::toJSON(zGraph &amp;inGraph, string outfilename, bool vColors=false)']]],
+  ['tojson',['toJSON',['../group__z_i_o___mesh.html#ga6fccda275363a86353d2750673122d6f',1,'zSpace::toJSON(zMesh &amp;inMesh, string outfilename, bool vColors=false)'],['../group__z_i_o___graph.html#gac49cfef1063731952f6decc21775c747',1,'zSpace::toJSON(zGraph &amp;inGraph, string outfilename, bool vColors=false)'],['../group__z_i_o___streams.html#ga19ba806cbff6ffd879bc53f4bfa6dc35',1,'zSpace::toJSON(zStream &amp;inStream, string outfilename, bool vColors=false)']]],
   ['tolocalmatrix',['toLocalMatrix',['../group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9',1,'zSpace']]],
   ['toobj',['toOBJ',['../group__z_i_o___mesh.html#ga56d1123fee7864f1a5da2f740b9e589d',1,'zSpace']]],
+  ['topoints',['toPOINTS',['../group__z_vector_matrix_utilities.html#ga99f597d90f69905a4410cd1ca48608ba',1,'zSpace']]],
   ['torgb',['toRGB',['../classz_space_1_1z_color.html#a0ca1ff44096d4d1d5de917dd4b4d781f',1,'zSpace::zColor']]],
   ['torowmatrix',['toRowMatrix',['../classz_space_1_1z_vector.html#ae565bb4a1cadd5ff51efb1a9da290158',1,'zSpace::zVector']]],
   ['totaledgelength',['totalEdgeLength',['../group__z_graph_utilities.html#ga35460aaad2c88df17da9be878dcc72f4',1,'zSpace']]],
@@ -25,7 +27,6 @@ var searchData=
   ['transform',['transform',['../structz_space_1_1z_object.html#a498f45e63ebb889858f9f09703a73e5f',1,'zSpace::zObject']]],
   ['transformmesh',['transformMesh',['../group__z_mesh_utilities.html#ga6fa4734567c66b681445d824d6b76ab8',1,'zSpace']]],
   ['transpose',['transpose',['../classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426',1,'zSpace::zMatrix']]],
-  ['trianglearea',['triangleArea',['../group__z_vector_matrix_utilities.html#gab132fca3bf7cc8e138d5f67f5b4563b1',1,'zSpace']]],
   ['triangulate',['triangulate',['../group__z_mesh_modifiers.html#ga75ee8f140a3311506a932b866523a1de',1,'zSpace']]],
   ['tweight',['tWeight',['../classz_space_1_1z_slime_agent.html#a9fa5b13022c33b4087b65f0c04693394',1,'zSpace::zSlimeAgent']]],
   ['two_5fpi',['TWO_PI',['../group__z_core_definitions.html#ga3b947f4b635461030ff2d87833e5049e',1,'zDefinitions.h']]]

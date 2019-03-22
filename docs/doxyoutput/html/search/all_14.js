@@ -1,6 +1,9 @@
 var searchData=
 [
   ['v',['v',['../classz_space_1_1z_color.html#abe6086a8f6bdfaa05cb13bac867d5488',1,'zSpace::zColor::v()'],['../structz_space_1_1z_particle_state.html#a5e2211d971ce7a561a3df2cdb89a177e',1,'zSpace::zParticleState::v()']]],
+  ['variableboundaryoffset',['variableBoundaryOffset',['../group__z_variable_extrude.html#ga9c135fd7362c20a7c6eba655e7abc418',1,'zSpace']]],
+  ['variablefaceoffsetextrude',['variableFaceOffsetExtrude',['../group__z_variable_extrude.html#ga4b7753289e2df876a4577208825064e2',1,'zSpace']]],
+  ['variablefacethicknessextrude',['variableFaceThicknessExtrude',['../group__z_variable_extrude.html#ga8626c54d38eb699e9d79c88dadb9d417',1,'zSpace']]],
   ['vbo_5fedgeid',['VBO_EdgeId',['../classz_space_1_1z_graph.html#a2cc0f046d89aead5386bdbfd26fc8739',1,'zSpace::zGraph']]],
   ['vbo_5fedgeindices',['VBO_edgeIndices',['../classz_space_1_1z_buffer_object.html#a25a41d6be65f951c8f2f314fbd70fe35',1,'zSpace::zBufferObject']]],
   ['vbo_5ffaceid',['VBO_FaceId',['../classz_space_1_1z_mesh.html#a79b06255dabad53e71c6f98b31629574',1,'zSpace::zMesh']]],

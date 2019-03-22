@@ -4,9 +4,11 @@ digraph "zSpace::getBounds"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node50 [label="zSpace::getBounds",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the bounds of the input list points."];
-  Node50 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node51 [label="zSpace::explodePolytopal\lMeshes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga95e1d78109e8bfb9d144dc156dbb409a",tooltip="This method explodes the input volume meshes."];
-  Node50 -> Node52 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node52 [label="zSpace::boundingboxPCA",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gae2aefe021083b57bd53dd24d34704dbf",tooltip="This method computes the bounding box for the given points using PCA."];
+  Node56 [label="zSpace::getBounds",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the bounds of the input list points."];
+  Node56 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::explodePolytopal\lMeshes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_polytopal.html#ga95e1d78109e8bfb9d144dc156dbb409a",tooltip="This method explodes the input volume meshes."];
+  Node56 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::createForceMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vault___t_n_a.html#ga25c838cdc81a084a1fffacb95da267a3",tooltip="This method computes the force mesh based on the thrust netwrok analysis."];
+  Node56 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::boundingboxPCA",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gae2aefe021083b57bd53dd24d34704dbf",tooltip="This method computes the bounding box for the given points using PCA."];
 }

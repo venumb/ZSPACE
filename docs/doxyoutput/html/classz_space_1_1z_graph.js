@@ -9,6 +9,8 @@ var classz_space_1_1z_graph =
     [ "addVertex", "classz_space_1_1z_graph.html#acf5cd0b78050f671984cfc4341de8b32", null ],
     [ "averageVertices", "classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f", null ],
     [ "checkVertexValency", "classz_space_1_1z_graph.html#a9e23625758374dac9bf02ac15961dfa2", null ],
+    [ "clear", "classz_space_1_1z_graph.html#a09aebba335e165ea1392ba7b79145407", null ],
+    [ "clearMesh", "classz_space_1_1z_graph.html#a9a80ad949cb9df34c02f27af93cfd51e", null ],
     [ "computeEdgeColorfromVertexColor", "classz_space_1_1z_graph.html#a9d24b6ca7f58c16f1284671797267f21", null ],
     [ "computeVertexColorfromEdgeColor", "classz_space_1_1z_graph.html#a654f5d383500ccf87c9c7f87bc8301c4", null ],
     [ "cyclic_sortEdges", "classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a", null ],

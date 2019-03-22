@@ -1,6 +1,7 @@
 var z_field_utilities_8h =
 [
     [ "assignFieldValuesAsVertexDistance_IDW", "z_field_utilities_8h.html#ga56823d41001723150ce0e7d1c4c29e55", null ],
+    [ "assignFieldValuesAsVertexDistanceElliptical_IDW", "z_field_utilities_8h.html#gad94a25aa0f00f747e8802cee2af8ce34", null ],
     [ "assignScalarsAsEdgeDistance", "z_field_utilities_8h.html#ga9b9b7c2e08f35363c4e937cd3f8fccfb", null ],
     [ "assignScalarsAsEdgeDistance", "z_field_utilities_8h.html#gae3f017b3130038f4d3005e6f39d39ef1", null ],
     [ "assignScalarsAsVertexDistance", "z_field_utilities_8h.html#ga6fcca173932ddf0922fd415c2afb8feb", null ],

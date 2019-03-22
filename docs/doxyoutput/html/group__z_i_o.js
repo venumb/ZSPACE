@@ -3,6 +3,7 @@ var group__z_i_o =
     [ "ZIO_Bitmaps", "group__z_i_o___bitmaps.html", "group__z_i_o___bitmaps" ],
     [ "ZIO_Mesh", "group__z_i_o___mesh.html", "group__z_i_o___mesh" ],
     [ "ZIO_Graph", "group__z_i_o___graph.html", "group__z_i_o___graph" ],
+    [ "ZIO_Streams", "group__z_i_o___streams.html", "group__z_i_o___streams" ],
     [ "ZIO_Dynamics", "group__z_i_o___dynamics.html", "group__z_i_o___dynamics" ],
     [ "ZIO_PointCloud", "group__z_i_o___point_cloud.html", "group__z_i_o___point_cloud" ],
     [ "ZIO_Field2D", "group__z_i_o___field2_d.html", "group__z_i_o___field2_d" ],

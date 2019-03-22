@@ -6,6 +6,7 @@ var z_exchange_8h =
     [ "fromGRAPH", "z_exchange_8h.html#ga96ee1fee284e64fb449cef68c4216aba", null ],
     [ "fromJSON", "z_exchange_8h.html#gad2f07c6da97272b61502c6fab57d83b0", null ],
     [ "fromJSON", "z_exchange_8h.html#ga72f18c5d3de0d92bea72ed214d7ba159", null ],
+    [ "fromJSON", "z_exchange_8h.html#ga32ac87221c9afc1b5b12e7b7d6803972", null ],
     [ "fromMESH", "z_exchange_8h.html#gaf0c07f18c8822ecfe7fc06304527d209", null ],
     [ "fromMESH", "z_exchange_8h.html#ga66f0a6b42802025ef65086160d5f85dd", null ],
     [ "fromOBJ", "z_exchange_8h.html#gad60778d5e70ebdcc0bd24babf3afa810", null ],
@@ -16,6 +17,7 @@ var z_exchange_8h =
     [ "toCSV", "z_exchange_8h.html#ga3e8492524d3eff240bdd307684d26609", null ],
     [ "toJSON", "z_exchange_8h.html#ga6fccda275363a86353d2750673122d6f", null ],
     [ "toJSON", "z_exchange_8h.html#gac49cfef1063731952f6decc21775c747", null ],
+    [ "toJSON", "z_exchange_8h.html#ga19ba806cbff6ffd879bc53f4bfa6dc35", null ],
     [ "toOBJ", "z_exchange_8h.html#ga56d1123fee7864f1a5da2f740b9e589d", null ],
     [ "toTXT", "z_exchange_8h.html#ga6578d361dabd565a48e2093a80e6f8b6", null ],
     [ "toTXT", "z_exchange_8h.html#ga4ac622b064a1d70d2c359304f0ba26a7", null ]

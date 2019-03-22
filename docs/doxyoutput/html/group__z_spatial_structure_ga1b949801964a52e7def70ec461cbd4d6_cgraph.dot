@@ -1,0 +1,56 @@
+digraph "zSpace::updateSpatialGraph"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node42 [label="zSpace::updateSpatialGraph",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method updates the form diagram."];
+  Node42 -> Node43 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="zSpace::fromGRAPH",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_i_o___dynamics.html#ga96ee1fee284e64fb449cef68c4216aba",tooltip="This method creates a container of particles with the positions initiaised at the graph vertex positi..."];
+  Node43 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node44 [label="zSpace::zGraph::checkVertex\lValency",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a9e23625758374dac9bf02ac15961dfa2",tooltip="This method determines if input zVertex valency is equal to the input valence number."];
+  Node44 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="zSpace::zGraph::getVertex\lValence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#aa5b1403b1a2992d1c8a39f76dea393e3",tooltip="This method calculate the valency of the input zVertex."];
+  Node45 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="zSpace::zGraph::getConnected\lEdges",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#ab623e9a3bfc70e1f140b911cb0645bd2",tooltip="This method gets the edges connected to input zVertex or zEdge."];
+  Node46 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="zSpace::zVertex::getEdge",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#a7d187864963f642666b8c3bcfecee6e9",tooltip="This method returns the associated edge of current zVertex."];
+  Node46 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node48 [label="zSpace::zEdge::getEdgeId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#acd6947ccba055fa6c31d6d386fe68e12",tooltip="This method returns the edgeId of current zEdge."];
+  Node46 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="zSpace::zEdge::getPrev",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30",tooltip="This method returns the previous edge of current zEdge."];
+  Node46 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::zEdge::getSym",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a461679ac74cc371ad32e94092848f536",tooltip="This method returns the symmetry edge of current zEdge."];
+  Node43 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::setVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_utilities.html#ga4f9c543da91c5080307477a7a400ee01",tooltip="This method sets vertex color of all the vertices to the input color."];
+  Node51 -> Node52 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node52 [label="zSpace::setEdgeColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_mesh_utilities.html#gaee6bfa4f8bd3051509412532bbd343dc",tooltip="This method sets edge color of of the input zGraph/zMesh edge and its symmetry edge to the input colo..."];
+  Node51 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="zSpace::zGraph::computeEdge\lColorfromVertexColor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a9d24b6ca7f58c16f1284671797267f21",tooltip="This method computes the Edge colors based on the vertex colors."];
+  Node53 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="zSpace::zEdge::getVertex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a07c082aa54f78145fdcd5e5e4bb889f1",tooltip="This method returns the vertex pointed to by the current zEdge."];
+  Node53 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="zSpace::zVertex::getVertexId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e",tooltip="This method returns the vertexId of current zVertex."];
+  Node42 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="zSpace::getEdgeLengths",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_graph_mesh_utilities.html#ga571a5210f8df39a7fc210adeab068777",tooltip="This method computes the lengths of the edges of a zGraph/zMesh."];
+  Node42 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="zSpace::zEdge::getNext",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3",tooltip="This method returns the next edge of current zEdge."];
+  Node42 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::zVector::length",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#aa3e1fd350f48b30428f95e716a4e3400",tooltip="This method returns the magnitude/length of the zVector."];
+  Node42 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::zVector::normalize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b",tooltip="This method normalizes the vector to unit length."];
+  Node42 -> Node60 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="zSpace::minDist_Point\l_Plane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga886bac496fea1d362bff79c577e6c593",tooltip="This method computes the minimum distance between a point and a plane."];
+  Node60 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="zSpace::zGraph::getConnected\lVertices",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_graph.html#a75a017ecad7ec54a9fdc207b163a0972",tooltip="This method gets the vertices connected to input zVertex."];
+  Node61 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="zSpace::line_PlaneIntersection",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga398dc6bba5cc5ca9eed7a45255548bf8",tooltip="This method returns the intersection of two lines which is point."];
+  Node62 -> Node58 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 -> Node59 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

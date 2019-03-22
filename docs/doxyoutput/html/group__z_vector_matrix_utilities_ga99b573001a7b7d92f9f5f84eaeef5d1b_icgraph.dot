@@ -4,11 +4,15 @@ digraph "zSpace::factorise"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node24 [label="zSpace::factorise",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the factorised vector to the input precision."];
-  Node24 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node25 [label="zSpace::checkRepeatElement",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga081f52636b1b9f57dccafe3570b6eeec",tooltip="This method checks if the input value is repeated in input container."];
-  Node25 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node26 [label="zSpace::createStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d",tooltip="This method creates a single stream line as a graph."];
+  Node26 [label="zSpace::factorise",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method returns the factorised vector to the input precision."];
   Node26 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node27 [label="zSpace::createStreamGraphs",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node27 [label="zSpace::checkRepeatElement",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gaaedc6be10abdabde532d14ee45e80a62",tooltip="This method checks if the input value is repeated in input container."];
+  Node27 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="zSpace::createStreamGraph",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#gad24d0e4376c42b67789e08cdf76085b6",tooltip="This method creates a single stream line as a graph."];
+  Node28 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="zSpace::createStreams",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga0021c3f38461af2249546285b2a40c03",tooltip="This method creates the stream lines and stores them as a graph."];
+  Node27 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="zSpace::createStreamGraph\l_Influence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga0e2b7e6ec73859eb8291d10b826a64fc",tooltip="This method creates a single stream line as a graph."];
+  Node30 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="zSpace::createStreams\l_Influence",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_stream_lines2_d.html#ga6cbceb22b0a8b3764486c381db97fc22",tooltip="This method creates the stream lines and stores them as a graph."];
 }

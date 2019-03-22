@@ -4,9 +4,9 @@ digraph "zSpace::zParticle::getForce"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node26 [label="zSpace::zParticle::\lgetForce",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method retruns the force of the particle."];
-  Node26 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node27 [label="zSpace::zSlime::containBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#aa65abafd6eba5a36c6cd9ce73749cf82",tooltip="This method contains the agent with in the bounds of the environment."];
-  Node27 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node28 [label="zSpace::zSlime::slime\l_Motor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a991c448fdd540fcba5bd904a199d7509",tooltip="This method defines the motor stage of the simulation."];
+  Node32 [label="zSpace::zParticle::\lgetForce",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method retruns the force of the particle."];
+  Node32 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="zSpace::zSlime::containBounds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#aa65abafd6eba5a36c6cd9ce73749cf82",tooltip="This method contains the agent with in the bounds of the environment."];
+  Node33 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="zSpace::zSlime::slime\l_Motor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime.html#a991c448fdd540fcba5bd904a199d7509",tooltip="This method defines the motor stage of the simulation."];
 }

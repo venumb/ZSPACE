@@ -1,0 +1,16 @@
+digraph "zSpace::zMesh::getVertexPositions"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node401 [label="zSpace::zMesh::getVertex\lPositions",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method gets the vertex positions attached to input zEdge or zFace."];
+  Node401 -> Node402 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node402 [label="zSpace::extrudeConnection\lFaces",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_spatial_structure.html#gab4c00e50a2b8f93f3b2d901d3c8a3055",tooltip=" "];
+  Node402 -> Node403 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node403 [label="zSpace::createSpatialMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_spatial_structure.html#ga33b7c2f2ce96ec2010fcf8980f4cbd50",tooltip="This method creates the polytopal mesh based on the input volume mesh and its center line graph."];
+  Node401 -> Node404 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node404 [label="zSpace::variableFaceOffset\lExtrude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_variable_extrude.html#ga4b7753289e2df876a4577208825064e2",tooltip="This method offset extrudes the faces of the input mesh based on vertex / face color...."];
+  Node401 -> Node405 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node405 [label="zSpace::addPlanarityForce",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_dynamics_utilities.html#ga73f915cb5cf41c4e515774d394fcd64f",tooltip="This method adds the planarity force to all the particles in the input container based on the face vo..."];
+}

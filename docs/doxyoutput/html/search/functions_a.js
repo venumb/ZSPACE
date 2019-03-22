@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['normalize',['normalize',['../classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b',1,'zSpace::zVector']]],
-  ['normlisefieldvalues',['normliseFieldValues',['../group__z_field_utilities.html#ga84131697c81bb5c07afbe29dd7ca733a',1,'zSpace::normliseFieldValues(vector&lt; zVector &gt; &amp;fieldValues)'],['../group__z_field_utilities.html#ga3562174b938ab9f400600f63be4bed17',1,'zSpace::normliseFieldValues(vector&lt; double &gt; &amp;fieldValues)']]],
-  ['numedges',['numEdges',['../classz_space_1_1z_graph.html#a0c062c1592a7264cbf11f652edb25f92',1,'zSpace::zGraph']]],
-  ['numfieldvalues',['numFieldValues',['../classz_space_1_1z_field2_d.html#a016f4370845267e4126827df88caf492',1,'zSpace::zField2D::numFieldValues()'],['../classz_space_1_1z_field3_d.html#ad06af8cb3e166bc638e6145f1554f1ef',1,'zSpace::zField3D::numFieldValues()']]],
-  ['numpolygons',['numPolygons',['../classz_space_1_1z_mesh.html#a495dcfd61cc83ad601179a0696f23225',1,'zSpace::zMesh']]],
-  ['numvertices',['numVertices',['../classz_space_1_1z_graph.html#a32a9a23b93c41033485543e0768e7f6a',1,'zSpace::zGraph']]]
+  ['maintainmanifoldtopology',['maintainManifoldTopology',['../classz_space_1_1z_mesh.html#ae66609043bee62d706443ac5dc47304f',1,'zSpace::zMesh']]],
+  ['makeboundaryrepellant',['makeBoundaryRepellant',['../classz_space_1_1z_slime.html#a96ac8317368024e7df385284f0034f2d',1,'zSpace::zSlime']]],
+  ['mindist_5fedge_5fpoint',['minDist_Edge_Point',['../group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e',1,'zSpace']]],
+  ['mindist_5fpoint_5fplane',['minDist_Point_Plane',['../group__z_vector_matrix_utilities.html#ga886bac496fea1d362bff79c577e6c593',1,'zSpace']]],
+  ['mindistance',['minDistance',['../group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b',1,'zSpace']]],
+  ['minmax_5fchema',['minMax_chemA',['../classz_space_1_1z_slime_environment.html#a3584c1394c9a26cd3712557530c06d2d',1,'zSpace::zSlimeEnvironment']]],
+  ['minormatrix',['minorMatrix',['../classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de',1,'zSpace::zMatrix']]]
 ];

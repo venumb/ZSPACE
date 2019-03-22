@@ -1,0 +1,10 @@
+digraph "zSpace::scalePointCloud"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node160 [label="zSpace::scalePointCloud",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method scales the input point cloud by the input scale factor."];
+  Node160 -> Node161 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node161 [label="zSpace::scaleMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#gaa240a864432f23f046194f7121156704",tooltip="This method scales the input mesh by the input scale factor."];
+}

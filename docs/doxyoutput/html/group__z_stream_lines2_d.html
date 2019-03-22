@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -88,6 +89,7 @@ $(document).ready(function(){initNavTree('group__z_stream_lines2_d.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ZStreamLines2D<div class="ingroups"><a class="el" href="group__z_application.html">ZApplication</a></div></div>  </div>
@@ -103,6 +105,12 @@ Collaboration diagram for ZStreamLines2D:</div>
 </td></tr></table></center>
 </div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_streams.html">zStreams</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A strcut to store data of a stream lines.  <a href="structz_streams.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga749da5c460505861f416b903813ac0fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga749da5c460505861f416b903813ac0fc">zSpace::checkFieldBounds</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;inPoint, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField)</td></tr>
@@ -114,24 +122,92 @@ Functions</h2></td></tr>
 <tr class="memitem:ga23a48e12f9cf4c97c6eaa24b7a863c3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga23a48e12f9cf4c97c6eaa24b7a863c3f">zSpace::checkValidSeedPosition</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;inPoint, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep)</td></tr>
 <tr class="memdesc:ga23a48e12f9cf4c97c6eaa24b7a863c3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method checks if the input position is a valid seed position.  <a href="group__z_stream_lines2_d.html#ga23a48e12f9cf4c97c6eaa24b7a863c3f">More...</a><br /></td></tr>
 <tr class="separator:ga23a48e12f9cf4c97c6eaa24b7a863c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1d6e3b833383a725503fa30fb9b8022d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d">zSpace::createStreamGraph</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;streamGraph, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;seedPoint, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep, double &amp;dTest, <a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a> streamType, double dT, <a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> type)</td></tr>
-<tr class="memdesc:ga1d6e3b833383a725503fa30fb9b8022d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a single stream line as a graph.  <a href="group__z_stream_lines2_d.html#ga1d6e3b833383a725503fa30fb9b8022d">More...</a><br /></td></tr>
-<tr class="separator:ga1d6e3b833383a725503fa30fb9b8022d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2f56464c852d7f18ef63f13110df8513"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga2f56464c852d7f18ef63f13110df8513">zSpace::addToFieldStreamPositions</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;inPoint, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions)</td></tr>
+<tr class="separator:ga2f56464c852d7f18ef63f13110df8513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad24d0e4376c42b67789e08cdf76085b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#gad24d0e4376c42b67789e08cdf76085b6">zSpace::createStreamGraph</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;streamGraph, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;seedPoint, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep, double &amp;dTest, double minLength, double maxLength, <a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a> streamType, double dT, <a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> type, double angle=0, bool flipBackward=true)</td></tr>
+<tr class="memdesc:gad24d0e4376c42b67789e08cdf76085b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a single stream line as a graph.  <a href="group__z_stream_lines2_d.html#gad24d0e4376c42b67789e08cdf76085b6">More...</a><br /></td></tr>
+<tr class="separator:gad24d0e4376c42b67789e08cdf76085b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0e134353ee94a16509a6a41f8aef3d69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga0e134353ee94a16509a6a41f8aef3d69">zSpace::getSeedPoints</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;currentStreamGraph, int vertexId, double &amp;dSep, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;seedPoints)</td></tr>
 <tr class="memdesc:ga0e134353ee94a16509a6a41f8aef3d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the seed points.  <a href="group__z_stream_lines2_d.html#ga0e134353ee94a16509a6a41f8aef3d69">More...</a><br /></td></tr>
 <tr class="separator:ga0e134353ee94a16509a6a41f8aef3d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga469e791f18d47c0373052472c45759e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0">zSpace::createStreamGraphs</a> (vector&lt; <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &gt; &amp;streamGraphs, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;start_seedPoints, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep, double &amp;dTest, <a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a> streamType=<a class="el" href="group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac">zForwardBackward</a>, double dT=1.0, <a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> type=<a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482af7780a13a08fdbffef80ddfb13a3d808">zRK4</a>, bool seedStreamsOnly=false)</td></tr>
-<tr class="memdesc:ga469e791f18d47c0373052472c45759e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates the stream lines and stores them as a graph.  <a href="group__z_stream_lines2_d.html#ga469e791f18d47c0373052472c45759e0">More...</a><br /></td></tr>
-<tr class="separator:ga469e791f18d47c0373052472c45759e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0021c3f38461af2249546285b2a40c03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga0021c3f38461af2249546285b2a40c03">zSpace::createStreams</a> (vector&lt; <a class="el" href="structz_space_1_1z_stream.html">zStream</a> &gt; &amp;streams, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;start_seedPoints, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep, double &amp;dTest, double minLength, double maxLength, <a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a> streamType=<a class="el" href="group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac">zForwardBackward</a>, double dT=1.0, <a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> type=<a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482af7780a13a08fdbffef80ddfb13a3d808">zRK4</a>, bool seedStreamsOnly=false, double angle=0, bool flipBackward=true)</td></tr>
+<tr class="memdesc:ga0021c3f38461af2249546285b2a40c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates the stream lines and stores them as a graph.  <a href="group__z_stream_lines2_d.html#ga0021c3f38461af2249546285b2a40c03">More...</a><br /></td></tr>
+<tr class="separator:ga0021c3f38461af2249546285b2a40c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e2b7e6ec73859eb8291d10b826a64fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga0e2b7e6ec73859eb8291d10b826a64fc">zSpace::createStreamGraph_Influence</a> (<a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;streamGraph, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;seedPoint, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;influenceField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep, double &amp;min_Power, double &amp;max_Power, double &amp;dTest_Factor, double minLength, double maxLength, <a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a> streamType, double dT, <a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> type, double angle=0, bool flipBackward=true)</td></tr>
+<tr class="memdesc:ga0e2b7e6ec73859eb8291d10b826a64fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates a single stream line as a graph.  <a href="group__z_stream_lines2_d.html#ga0e2b7e6ec73859eb8291d10b826a64fc">More...</a><br /></td></tr>
+<tr class="separator:ga0e2b7e6ec73859eb8291d10b826a64fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3560060cde4350899a0dc5dc6368df2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga3560060cde4350899a0dc5dc6368df2a">zSpace::getSeedPoints_Influence</a> (<a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;influenceField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;currentStreamGraph, int vertexId, double &amp;dSep, double &amp;min_Power, double &amp;max_Power, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;seedPoints)</td></tr>
+<tr class="memdesc:ga3560060cde4350899a0dc5dc6368df2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the seed points.  <a href="group__z_stream_lines2_d.html#ga3560060cde4350899a0dc5dc6368df2a">More...</a><br /></td></tr>
+<tr class="separator:ga3560060cde4350899a0dc5dc6368df2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6cbceb22b0a8b3764486c381db97fc22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_stream_lines2_d.html#ga6cbceb22b0a8b3764486c381db97fc22">zSpace::createStreams_Influence</a> (vector&lt; <a class="el" href="structz_space_1_1z_stream.html">zStream</a> &gt; &amp;streams, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;start_seedPoints, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inField, <a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;influenceField, vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;fieldIndex_streamPositions, double &amp;dSep, double &amp;min_Power, double &amp;max_Power, double &amp;dTest_Factor, double minLength, double maxLength, <a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a> streamType=<a class="el" href="group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac">zForwardBackward</a>, double dT=1.0, <a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a> type=<a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482af7780a13a08fdbffef80ddfb13a3d808">zRK4</a>, bool seedStreamsOnly=false, double angle=0, double altAngle=0, bool flipBackward=true)</td></tr>
+<tr class="memdesc:ga6cbceb22b0a8b3764486c381db97fc22"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method creates the stream lines and stores them as a graph.  <a href="group__z_stream_lines2_d.html#ga6cbceb22b0a8b3764486c381db97fc22">More...</a><br /></td></tr>
+<tr class="separator:ga6cbceb22b0a8b3764486c381db97fc22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Collection of methods for stream lines of a 2D Field. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ga2f56464c852d7f18ef63f13110df8513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2f56464c852d7f18ef63f13110df8513">&#9670;&nbsp;</a></span>addToFieldStreamPositions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::addToFieldStreamPositions </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>inPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldIndex_streamPositions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00253">253</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga2f56464c852d7f18ef63f13110df8513_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga2f56464c852d7f18ef63f13110df8513_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga2f56464c852d7f18ef63f13110df8513_icgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga2f56464c852d7f18ef63f13110df8513_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
 <a id="ga749da5c460505861f416b903813ac0fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga749da5c460505861f416b903813ac0fc">&#9670;&nbsp;</a></span>checkFieldBounds()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool zSpace::checkFieldBounds </td>
@@ -151,6 +227,11 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method checks if the input position is in the bounds of the field. </p>
@@ -163,7 +244,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the input position is in bounds. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00036">36</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00123">123</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -182,6 +263,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool zSpace::checkValidSeedPosition </td>
@@ -213,6 +297,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method checks if the input position is a valid seed position. </p>
@@ -227,7 +316,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the input position is valid stream point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00113">113</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00200">200</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -246,6 +335,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool zSpace::checkValidStreamPosition </td>
@@ -277,6 +369,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method checks if the input position is a valid stream position. </p>
@@ -291,7 +388,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the input position is valid stream point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00052">52</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00139">139</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -305,11 +402,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ga1d6e3b833383a725503fa30fb9b8022d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1d6e3b833383a725503fa30fb9b8022d">&#9670;&nbsp;</a></span>createStreamGraph()</h2>
+<a id="gad24d0e4376c42b67789e08cdf76085b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad24d0e4376c42b67789e08cdf76085b6">&#9670;&nbsp;</a></span>createStreamGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool zSpace::createStreamGraph </td>
@@ -350,6 +450,18 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a>&#160;</td>
           <td class="paramname"><em>streamType</em>, </td>
         </tr>
@@ -363,7 +475,19 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a>&#160;</td>
-          <td class="paramname"><em>type</em>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>flipBackward</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -371,6 +495,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method creates a single stream line as a graph. </p>
@@ -385,37 +514,192 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramdir">[in]</td><td class="paramname">streamType</td><td>- field stream type. ( zForward / zbackward / zForwardbackward) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dT</td><td>- time step. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- integration type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">NormalDir</td><td>- integrates the stream lines normal to the field direction. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the graph is created. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00185">185</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00293">293</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_stream_lines2_d_ga1d6e3b833383a725503fa30fb9b8022d_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga1d6e3b833383a725503fa30fb9b8022d_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_stream_lines2_d_gad24d0e4376c42b67789e08cdf76085b6_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_gad24d0e4376c42b67789e08cdf76085b6_cgraph" alt=""/></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_stream_lines2_d_ga1d6e3b833383a725503fa30fb9b8022d_icgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga1d6e3b833383a725503fa30fb9b8022d_icgraph" alt=""/></div>
+<div class="center"><img src="group__z_stream_lines2_d_gad24d0e4376c42b67789e08cdf76085b6_icgraph.png" border="0" usemap="#group__z_stream_lines2_d_gad24d0e4376c42b67789e08cdf76085b6_icgraph" alt=""/></div>
 </div>
 
 </div>
 </div>
-<a id="ga469e791f18d47c0373052472c45759e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga469e791f18d47c0373052472c45759e0">&#9670;&nbsp;</a></span>createStreamGraphs()</h2>
+<a id="ga0e2b7e6ec73859eb8291d10b826a64fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0e2b7e6ec73859eb8291d10b826a64fc">&#9670;&nbsp;</a></span>createStreamGraph_Influence()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void zSpace::createStreamGraphs </td>
+          <td class="memname">bool zSpace::createStreamGraph_Influence </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>streamGraphs</em>, </td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>streamGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>seedPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>influenceField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldIndex_streamPositions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>dSep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>min_Power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>max_Power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>dTest_Factor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a>&#160;</td>
+          <td class="paramname"><em>streamType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dT</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>flipBackward</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method creates a single stream line as a graph. </p>
+<p>Based on evenly spaced streamlines (<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&amp;rep=rep1&amp;type=pdf</a>) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">streamGraph</td><td>- stream graph created from the field. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">seedPoint</td><td>- input seed point. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input field. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldIndex_streamPositions</td><td>- 2 dimensional container of stream positions per field index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dSep</td><td>- minimal distance between seed points. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dTest</td><td>- dtest is a percentage of dsep. It is the minimal distance under which the integration of the streamline will be stopped in the current direction. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">streamType</td><td>- field stream type. ( zForward / zbackward / zForwardbackward) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dT</td><td>- time step. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- integration type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">NormalDir</td><td>- integrates the stream lines normal to the field direction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool - true if the graph is created. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00765">765</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga0e2b7e6ec73859eb8291d10b826a64fc_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga0e2b7e6ec73859eb8291d10b826a64fc_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga0e2b7e6ec73859eb8291d10b826a64fc_icgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga0e2b7e6ec73859eb8291d10b826a64fc_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga0021c3f38461af2249546285b2a40c03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0021c3f38461af2249546285b2a40c03">&#9670;&nbsp;</a></span>createStreams()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::createStreams </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structz_space_1_1z_stream.html">zStream</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>streams</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -450,6 +734,18 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a>&#160;</td>
           <td class="paramname"><em>streamType</em> = <code><a class="el" href="group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac">zForwardBackward</a></code>, </td>
         </tr>
@@ -469,7 +765,19 @@ Here is the caller graph for this function:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>seedStreamsOnly</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>seedStreamsOnly</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>flipBackward</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -477,6 +785,169 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method creates the stream lines and stores them as a graph. </p>
+<p>Based on evenly spaced streamlines (<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&amp;rep=rep1&amp;type=pdf</a>) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">streams</td><td>- container of streamlines. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">start_seedPoints</td><td>- container of start seed positions. If empty a random position in the field is considered. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input field. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldIndex_streamPositions</td><td>- 2 dimensional container of stream positions per field index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dSep</td><td>- minimal distance between seed points. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dTest</td><td>- dtest is a percentage of dsep. It is the minimal distance under which the integration of the streamline will be stopped in the current direction. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">streamType</td><td>- field stream type. ( zForward / zbackward / zForwardbackward) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dT</td><td>- time step. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- integration type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">seedStreamsOnly</td><td>- generates streams from the seed points only if true. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">NormalDir</td><td>- integrates the stream lines normal to the field direction. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00646">646</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga0021c3f38461af2249546285b2a40c03_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga0021c3f38461af2249546285b2a40c03_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga6cbceb22b0a8b3764486c381db97fc22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6cbceb22b0a8b3764486c381db97fc22">&#9670;&nbsp;</a></span>createStreams_Influence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::createStreams_Influence </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="structz_space_1_1z_stream.html">zStream</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>streams</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>start_seedPoints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>influenceField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldIndex_streamPositions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>dSep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>min_Power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>max_Power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>dTest_Factor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>minLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>maxLength</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#gaadc85b5dc47cf1db71c5e44f63d78714">zFieldStreamType</a>&#160;</td>
+          <td class="paramname"><em>streamType</em> = <code><a class="el" href="group__z_core_enumerators.html#ggaadc85b5dc47cf1db71c5e44f63d78714aadf4706b52a01c5bc0b91bbd1af4d5ac">zForwardBackward</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dT</em> = <code>1.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_core_enumerators.html#ga68aa0c774f88018583ac1f8698817482">zIntergrationType</a>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_core_enumerators.html#gga68aa0c774f88018583ac1f8698817482af7780a13a08fdbffef80ddfb13a3d808">zRK4</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>seedStreamsOnly</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>altAngle</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>flipBackward</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method creates the stream lines and stores them as a graph. </p>
@@ -491,16 +962,18 @@ Here is the caller graph for this function:</div>
     <tr><td class="paramdir">[in]</td><td class="paramname">streamType</td><td>- field stream type. ( zForward / zbackward / zForwardbackward) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">dT</td><td>- time step. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- integration type. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">seedStreamsOnly</td><td>- generates streams from the seed points only if true. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">NormalDir</td><td>- integrates the stream lines normal to the field direction. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00471">471</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l01134">1134</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="group__z_stream_lines2_d_ga469e791f18d47c0373052472c45759e0_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga469e791f18d47c0373052472c45759e0_cgraph" alt=""/></div>
+<div class="center"><img src="group__z_stream_lines2_d_ga6cbceb22b0a8b3764486c381db97fc22_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga6cbceb22b0a8b3764486c381db97fc22_cgraph" alt=""/></div>
 </div>
 
 </div>
@@ -510,6 +983,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::getSeedPoints </td>
@@ -553,6 +1029,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method computes the seed points. </p>
@@ -569,7 +1050,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00408">408</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l00581">581</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -579,6 +1060,110 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="group__z_stream_lines2_d_ga0e134353ee94a16509a6a41f8aef3d69_icgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga0e134353ee94a16509a6a41f8aef3d69_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga3560060cde4350899a0dc5dc6368df2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3560060cde4350899a0dc5dc6368df2a">&#9670;&nbsp;</a></span>getSeedPoints_Influence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::getSeedPoints_Influence </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_field2_d.html">zField2D</a>&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>influenceField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>fieldIndex_streamPositions</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>currentStreamGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>vertexId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>dSep</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>min_Power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>max_Power</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>seedPoints</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method computes the seed points. </p>
+<p>Based on evenly spaced streamlines (<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&amp;rep=rep1&amp;type=pdf</a>) </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inField</td><td>- input field. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fieldIndex_streamPositions</td><td>- 2 dimensional container of stream positions per field index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">currentStreamGraph</td><td>- input current stream graph. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertexId</td><td>- vertex index in the vertices contatiner of the stream graph. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dSep</td><td>- minimal distance between seed points. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">seedPoints</td><td>- container of seed points. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_stream_lines_8h_source.html#l01060">1060</a> of file <a class="el" href="z_stream_lines_8h_source.html">zStreamLines.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga3560060cde4350899a0dc5dc6368df2a_cgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga3560060cde4350899a0dc5dc6368df2a_cgraph" alt=""/></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_stream_lines2_d_ga3560060cde4350899a0dc5dc6368df2a_icgraph.png" border="0" usemap="#group__z_stream_lines2_d_ga3560060cde4350899a0dc5dc6368df2a_icgraph" alt=""/></div>
 </div>
 
 </div>

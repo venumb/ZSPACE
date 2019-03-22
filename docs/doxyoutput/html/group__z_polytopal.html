@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -142,6 +143,9 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::closePolytopalMesh </td>
@@ -167,6 +171,11 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method closes the smooth polytopal mesh. </p>
@@ -194,30 +203,33 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::computeFormGraph_EdgeWeights </td>
           <td>(</td>
           <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>forceVolumeMeshes</em>, </td>
+          <td class="paramname"><em>inputVolumeMeshes</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>formGraph</em>, </td>
+          <td class="paramname"><em>spatialGraph</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>formGraphVertex_forceVolumeMesh</em>, </td>
+          <td class="paramname"><em>spatialGraphVertex_volumeMesh</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>formGraphVertex_forceVolumeFace</em>, </td>
+          <td class="paramname"><em>spatialGraphVertex_volumeFace</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -237,6 +249,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method computes the form graph edge weights based on the force volume mesh face areas. </p>
@@ -246,6 +263,18 @@ Here is the call graph for this function:</div>
     <tr><td class="paramdir">[in]</td><td class="paramname">formGraph</td><td>- input form graph. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">formGraphVertex_forceVolumeMesh</td><td>- input form graph vertexID to volume meshID map. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">formGraphVertex_forceVolumeFace</td><td>- input form graph vertexID to local volume mesh faceID map. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">minWeight</td><td>- minimum weight of the edge. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">maxWeight</td><td>- maximum weight of the edge. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inputVolumeMeshes</td><td>- input volume meshes container. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">spatialGraph</td><td>- input spatial graph. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">spatialGraphVertex_volumeMesh</td><td>- input form graph vertexID to volume meshID map. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">spatialGraphVertex_volumeFace</td><td>- input form graph vertexID to local volume mesh faceID map. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">minWeight</td><td>- minimum weight of the edge. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maxWeight</td><td>- maximum weight of the edge. </td></tr>
   </table>
@@ -267,6 +296,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool zSpace::computeRulingIntersection </td>
@@ -298,6 +330,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method computes the ruling intersetions. </p>
@@ -332,6 +369,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classz_space_1_1z_graph.html">zGraph</a> zSpace::createFormGraph </td>
@@ -375,6 +415,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method creates the center line graph based on the input volume meshes. </p>
@@ -406,6 +451,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::createPolytopalMesh </td>
@@ -443,6 +491,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method creates the polytopal mesh based on the input volume mesh and its center line graph. </p>
@@ -473,6 +526,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::explodePolytopalMeshes </td>
@@ -504,6 +560,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method explodes the input volume meshes. </p>
@@ -532,6 +593,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::getForceVolumeMesh_FaceCenters </td>
@@ -551,6 +615,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method computes the face centers of the input force volume mesh container and stores it in a 2 Dimensional Container. </p>
@@ -577,6 +646,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::remeshSmoothPolytopalMesh </td>
@@ -596,6 +668,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method remeshes the smoothed polytopal mesh to have rulings in ony one direction. </p>
@@ -623,6 +700,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool zSpace::updateFormGraph </td>
@@ -678,6 +758,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method updates the form diagram. </p>

@@ -1,0 +1,9 @@
+digraph "ZVault_TNA"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node1 [label="ZVault",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vault.html",tooltip="Collection of methods for form-finding compressin or tension nets ."];
+  Node0 [label="ZVault_TNA",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Collection of methods for form finding using thrust network analysis ( 2D Graphic Statics)."];
+  Node1->Node0 [shape=plaintext, dir="back", style="solid"];
+}

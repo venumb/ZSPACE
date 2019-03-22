@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['walk_5fanimate',['walk_Animate',['../group__z_graph_mesh_utilities.html#ga9e796e648bc1a3281bbe159213817842',1,'zSpace']]],
-  ['walk_5fdistancefromsources',['walk_DistanceFromSources',['../group__z_graph_mesh_utilities.html#ga230b74f5240be9060425dbb1fae0c998',1,'zSpace']]],
-  ['write',['write',['../group__z_i_o.html#gabe84b79ae6eac110915480ea61e236f9',1,'zSpace::BMP']]]
+  ['variableboundaryoffset',['variableBoundaryOffset',['../group__z_variable_extrude.html#ga9c135fd7362c20a7c6eba655e7abc418',1,'zSpace']]],
+  ['variablefaceoffsetextrude',['variableFaceOffsetExtrude',['../group__z_variable_extrude.html#ga4b7753289e2df876a4577208825064e2',1,'zSpace']]],
+  ['variablefacethicknessextrude',['variableFaceThicknessExtrude',['../group__z_variable_extrude.html#ga8626c54d38eb699e9d79c88dadb9d417',1,'zSpace']]],
+  ['vertexexists',['vertexExists',['../classz_space_1_1z_graph.html#a24434f5c8a1a1afef2c7b16a9683d91a',1,'zSpace::zGraph::vertexExists()'],['../group__z_core_utilities.html#ga60b24175b18ed33fb7631aeb21a290dd',1,'zSpace::vertexExists()']]]
 ];

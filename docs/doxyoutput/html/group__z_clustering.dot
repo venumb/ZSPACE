@@ -1,0 +1,11 @@
+digraph "ZClustering"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=box];
+  rankdir=LR;
+  Node0 [label="ZClustering",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Collection of methods for creating clusters."];
+  Node1 [label="ZApplication",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_application.html",tooltip="Collection of general applications."];
+  Node2 [label="K-Means",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group___k-_means.html",tooltip="Collection of methods for creating clusters using the k-Means Algorithm."];
+  Node1->Node0 [shape=plaintext, dir="back", style="solid"];
+  Node0->Node2 [shape=plaintext, dir="back", style="solid"];
+}

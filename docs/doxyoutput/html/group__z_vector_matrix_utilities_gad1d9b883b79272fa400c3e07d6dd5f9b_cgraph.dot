@@ -1,0 +1,25 @@
+digraph "zSpace::getRectangle"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node83 [label="zSpace::getRectangle",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes the points on a rectangle for input dimensions centers around the world origin."];
+  Node83 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 [label="zSpace::PlanetoPlane",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga5ca0bb8666f0cb1b43fc6de191f3cfaa",tooltip="This method computes the tranformation from one 4X4 matrix to another."];
+  Node84 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix."];
+  Node84 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node86 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5",tooltip="This method gets the number of rows in the matrix."];
+  Node84 -> Node87 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 [label="zSpace::toWorldMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gae38960f4001de62196fbdacc7c8be53e",tooltip="This method computes the tranformation to the world space of the input 4x4 matrix."];
+  Node87 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node87 -> Node88 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node88 [label="zSpace::zMatrix::setIdentity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1",tooltip="This method sets the matrix to identity if it is a square matrix."];
+  Node84 -> Node89 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node89 [label="zSpace::toLocalMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#ga512c22d67a286a9d266a30c4944ce5e9",tooltip="This method computes the tranformation to the local space of the input 4x4 matrix."];
+  Node89 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node89 -> Node86 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node89 -> Node88 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

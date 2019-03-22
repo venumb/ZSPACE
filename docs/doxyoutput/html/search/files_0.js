@@ -3,6 +3,7 @@ var searchData=
   ['zbinarytree_2eh',['zBinaryTree.h',['../z_binary_tree_8h.html',1,'']]],
   ['zbitmap_2eh',['zBitmap.h',['../z_bitmap_8h.html',1,'']]],
   ['zbufferobject_2eh',['zBufferObject.h',['../z_buffer_object_8h.html',1,'']]],
+  ['zclustering_2eh',['zClustering.h',['../z_clustering_8h.html',1,'']]],
   ['zcolor_2eh',['zColor.h',['../z_color_8h.html',1,'']]],
   ['zcore_2eh',['zCore.h',['../z_core_8h.html',1,'']]],
   ['zdata_2eh',['zData.h',['../z_data_8h.html',1,'']]],
@@ -33,8 +34,11 @@ var searchData=
   ['zpolytopal_2eh',['zPolytopal.h',['../z_polytopal_8h.html',1,'']]],
   ['zprintutilities_2eh',['zPrintUtilities.h',['../z_print_utilities_8h.html',1,'']]],
   ['zslimemould_2eh',['zSlimeMould.h',['../z_slime_mould_8h.html',1,'']]],
+  ['zspatialstructure_2eh',['zSpatialStructure.h',['../z_spatial_structure_8h.html',1,'']]],
   ['zstreamlines_2eh',['zStreamLines.h',['../z_stream_lines_8h.html',1,'']]],
   ['zutilities_2eh',['zUtilities.h',['../z_utilities_8h.html',1,'']]],
+  ['zvariableextrude_2eh',['zVariableExtrude.h',['../z_variable_extrude_8h.html',1,'']]],
+  ['zvault_2eh',['zVault.h',['../z_vault_8h.html',1,'']]],
   ['zvector_2eh',['zVector.h',['../z_vector_8h.html',1,'']]],
   ['zvectormatrixutilities_2eh',['zVectorMatrixUtilities.h',['../z_vector_matrix_utilities_8h.html',1,'']]]
 ];

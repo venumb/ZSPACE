@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -106,7 +107,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a73e667fabb7c1ed6894cc917af7b7618"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a73e667fabb7c1ed6894cc917af7b7618">zMatrix</a> ()</td></tr>
 <tr class="memdesc:a73e667fabb7c1ed6894cc917af7b7618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default Constructor sets to a 4x4 matrix.  <a href="#a73e667fabb7c1ed6894cc917af7b7618">More...</a><br /></td></tr>
 <tr class="separator:a73e667fabb7c1ed6894cc917af7b7618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d2ec946b12b8f1a78a513b39503540f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3d2ec946b12b8f1a78a513b39503540f">zMatrix</a> (int _rows, int _cols, vector&lt; T &gt; &amp;_mat)</td></tr>
+<tr class="memitem:a3d2ec946b12b8f1a78a513b39503540f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3d2ec946b12b8f1a78a513b39503540f">zMatrix</a> (int _rows, int _cols, vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;_mat)</td></tr>
 <tr class="memdesc:a3d2ec946b12b8f1a78a513b39503540f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded Constructor.  <a href="#a3d2ec946b12b8f1a78a513b39503540f">More...</a><br /></td></tr>
 <tr class="separator:a3d2ec946b12b8f1a78a513b39503540f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad83a902a46b1f25c8738cf2b27c3e0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aad83a902a46b1f25c8738cf2b27c3e0c">zMatrix</a> (int _dims)</td></tr>
@@ -124,34 +125,52 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9f99bbcdb6224e24488e8e01d51937be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be">getNumCols</a> ()</td></tr>
 <tr class="memdesc:a9f99bbcdb6224e24488e8e01d51937be"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the number of columns in the matrix.  <a href="#a9f99bbcdb6224e24488e8e01d51937be">More...</a><br /></td></tr>
 <tr class="separator:a9f99bbcdb6224e24488e8e01d51937be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65c848d1249b713e9c1e5e4dbb096d15"><td class="memItemLeft" align="right" valign="top">vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a65c848d1249b713e9c1e5e4dbb096d15">getRow</a> (int index)</td></tr>
-<tr class="memdesc:a65c848d1249b713e9c1e5e4dbb096d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the row values at the input row index.  <a href="#a65c848d1249b713e9c1e5e4dbb096d15">More...</a><br /></td></tr>
+<tr class="memitem:afefb3b94c36e5c24e23ee3e157760304"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afefb3b94c36e5c24e23ee3e157760304">getIndex</a> (int rowIndex, int colIndex)</td></tr>
+<tr class="memdesc:afefb3b94c36e5c24e23ee3e157760304"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the index in the matrix value container given the row and column indicies.  <a href="#afefb3b94c36e5c24e23ee3e157760304">More...</a><br /></td></tr>
+<tr class="separator:afefb3b94c36e5c24e23ee3e157760304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e29d069ff2b88bce1a4c34de8b32f15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a0e29d069ff2b88bce1a4c34de8b32f15">getInices</a> (int index, int &amp;rowIndex, int &amp;colIndex)</td></tr>
+<tr class="memdesc:a0e29d069ff2b88bce1a4c34de8b32f15"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the row and column index in the matrix given the input container index.  <a href="#a0e29d069ff2b88bce1a4c34de8b32f15">More...</a><br /></td></tr>
+<tr class="separator:a0e29d069ff2b88bce1a4c34de8b32f15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65c848d1249b713e9c1e5e4dbb096d15"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a65c848d1249b713e9c1e5e4dbb096d15">getRow</a> (int index)</td></tr>
+<tr class="memdesc:a65c848d1249b713e9c1e5e4dbb096d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the row values as container of values at the input row index.  <a href="#a65c848d1249b713e9c1e5e4dbb096d15">More...</a><br /></td></tr>
 <tr class="separator:a65c848d1249b713e9c1e5e4dbb096d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeac2ded2fa3667acd6d3e28c7ece183d"><td class="memItemLeft" align="right" valign="top">vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aeac2ded2fa3667acd6d3e28c7ece183d">getCol</a> (int index)</td></tr>
+<tr class="memitem:afc19cd171ad3a864b558d42a9e9d768f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afc19cd171ad3a864b558d42a9e9d768f">getRowMatrix</a> (int index)</td></tr>
+<tr class="memdesc:afc19cd171ad3a864b558d42a9e9d768f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the row matrix at the input row index.  <a href="#afc19cd171ad3a864b558d42a9e9d768f">More...</a><br /></td></tr>
+<tr class="separator:afc19cd171ad3a864b558d42a9e9d768f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeac2ded2fa3667acd6d3e28c7ece183d"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aeac2ded2fa3667acd6d3e28c7ece183d">getCol</a> (int index)</td></tr>
 <tr class="memdesc:aeac2ded2fa3667acd6d3e28c7ece183d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the column values at the input column index.  <a href="#aeac2ded2fa3667acd6d3e28c7ece183d">More...</a><br /></td></tr>
 <tr class="separator:aeac2ded2fa3667acd6d3e28c7ece183d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d650d1d927fee3b0d3a1891829c511d"><td class="memItemLeft" align="right" valign="top">vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3d650d1d927fee3b0d3a1891829c511d">getDiagonal</a> ()</td></tr>
+<tr class="memitem:a0c36558b03d5d69edab54120eaa03025"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a0c36558b03d5d69edab54120eaa03025">getColumnMatrix</a> (int index)</td></tr>
+<tr class="memdesc:a0c36558b03d5d69edab54120eaa03025"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the column matrix at the input column index.  <a href="#a0c36558b03d5d69edab54120eaa03025">More...</a><br /></td></tr>
+<tr class="separator:a0c36558b03d5d69edab54120eaa03025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d650d1d927fee3b0d3a1891829c511d"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3d650d1d927fee3b0d3a1891829c511d">getDiagonal</a> ()</td></tr>
 <tr class="memdesc:a3d650d1d927fee3b0d3a1891829c511d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the diagonal values if it is a square matrix.  <a href="#a3d650d1d927fee3b0d3a1891829c511d">More...</a><br /></td></tr>
 <tr class="separator:a3d650d1d927fee3b0d3a1891829c511d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b3df110fc5151cbe9dde9d9ef4aa37c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3b3df110fc5151cbe9dde9d9ef4aa37c">setMat</a> (vector&lt; T &gt; &amp;_mat)</td></tr>
+<tr class="memitem:a3b3df110fc5151cbe9dde9d9ef4aa37c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3b3df110fc5151cbe9dde9d9ef4aa37c">setMat</a> (vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;_mat)</td></tr>
 <tr class="memdesc:a3b3df110fc5151cbe9dde9d9ef4aa37c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the mats values with the input list of values.  <a href="#a3b3df110fc5151cbe9dde9d9ef4aa37c">More...</a><br /></td></tr>
 <tr class="separator:a3b3df110fc5151cbe9dde9d9ef4aa37c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4d1edb48ef79097b18a02755cc859e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ae4d1edb48ef79097b18a02755cc859e1">setRow</a> (int index, T val)</td></tr>
+<tr class="memitem:ae4d1edb48ef79097b18a02755cc859e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ae4d1edb48ef79097b18a02755cc859e1">setRow</a> (int index, <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> val)</td></tr>
 <tr class="memdesc:ae4d1edb48ef79097b18a02755cc859e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the row values at the input row index with the input value.  <a href="#ae4d1edb48ef79097b18a02755cc859e1">More...</a><br /></td></tr>
 <tr class="separator:ae4d1edb48ef79097b18a02755cc859e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a8915e7dbe2804d0abef17b7a5b3124"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a6a8915e7dbe2804d0abef17b7a5b3124">setRow</a> (int index, vector&lt; T &gt; &amp;vals)</td></tr>
+<tr class="memitem:a6a8915e7dbe2804d0abef17b7a5b3124"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a6a8915e7dbe2804d0abef17b7a5b3124">setRow</a> (int index, vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;vals)</td></tr>
 <tr class="memdesc:a6a8915e7dbe2804d0abef17b7a5b3124"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the row values at the input row index with the input vector of values.  <a href="#a6a8915e7dbe2804d0abef17b7a5b3124">More...</a><br /></td></tr>
 <tr class="separator:a6a8915e7dbe2804d0abef17b7a5b3124"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed2d0cb2a763840e9182d79a16ec85ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aed2d0cb2a763840e9182d79a16ec85ef">setCol</a> (int index, T val)</td></tr>
+<tr class="memitem:a478d901d19ebccdb72f5fbdd6fa25af5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a478d901d19ebccdb72f5fbdd6fa25af5">setRow</a> (int index, <a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;rowMatrix)</td></tr>
+<tr class="memdesc:a478d901d19ebccdb72f5fbdd6fa25af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the row values at the input row index with the input row Matrix.  <a href="#a478d901d19ebccdb72f5fbdd6fa25af5">More...</a><br /></td></tr>
+<tr class="separator:a478d901d19ebccdb72f5fbdd6fa25af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed2d0cb2a763840e9182d79a16ec85ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aed2d0cb2a763840e9182d79a16ec85ef">setCol</a> (int index, <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> val)</td></tr>
 <tr class="memdesc:aed2d0cb2a763840e9182d79a16ec85ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the col values at the input col index with the input value.  <a href="#aed2d0cb2a763840e9182d79a16ec85ef">More...</a><br /></td></tr>
 <tr class="separator:aed2d0cb2a763840e9182d79a16ec85ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81e01aa4a2d9ee8f17f1ae201ee1e997"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a81e01aa4a2d9ee8f17f1ae201ee1e997">setCol</a> (int index, vector&lt; T &gt; &amp;vals)</td></tr>
+<tr class="memitem:a81e01aa4a2d9ee8f17f1ae201ee1e997"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a81e01aa4a2d9ee8f17f1ae201ee1e997">setCol</a> (int index, vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;vals)</td></tr>
 <tr class="memdesc:a81e01aa4a2d9ee8f17f1ae201ee1e997"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the col values at the input col index with the input vector of values.  <a href="#a81e01aa4a2d9ee8f17f1ae201ee1e997">More...</a><br /></td></tr>
 <tr class="separator:a81e01aa4a2d9ee8f17f1ae201ee1e997"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f5f8550531f785c493536140fe5e34b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a4f5f8550531f785c493536140fe5e34b">setDiagonal</a> (T val)</td></tr>
+<tr class="memitem:aba77812d840638a23d4e1ff9475fff49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aba77812d840638a23d4e1ff9475fff49">setCol</a> (int index, <a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;colMatrix)</td></tr>
+<tr class="memdesc:aba77812d840638a23d4e1ff9475fff49"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the row values at the input column index with the input column Matrix.  <a href="#aba77812d840638a23d4e1ff9475fff49">More...</a><br /></td></tr>
+<tr class="separator:aba77812d840638a23d4e1ff9475fff49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f5f8550531f785c493536140fe5e34b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a4f5f8550531f785c493536140fe5e34b">setDiagonal</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> val)</td></tr>
 <tr class="memdesc:a4f5f8550531f785c493536140fe5e34b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the diagonal values of a square matrix with the input value.  <a href="#a4f5f8550531f785c493536140fe5e34b">More...</a><br /></td></tr>
 <tr class="separator:a4f5f8550531f785c493536140fe5e34b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae850d71ff5a0136c910a6cb30d6af0dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ae850d71ff5a0136c910a6cb30d6af0dd">setDiagonal</a> (vector&lt; T &gt; vals)</td></tr>
+<tr class="memitem:ae850d71ff5a0136c910a6cb30d6af0dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ae850d71ff5a0136c910a6cb30d6af0dd">setDiagonal</a> (vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; vals)</td></tr>
 <tr class="memdesc:ae850d71ff5a0136c910a6cb30d6af0dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the diagonal values of a square matrix with the input vector of values.  <a href="#ae850d71ff5a0136c910a6cb30d6af0dd">More...</a><br /></td></tr>
 <tr class="separator:ae850d71ff5a0136c910a6cb30d6af0dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c99ec33a4f87ef9b7d0d8df37fb7299"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a0c99ec33a4f87ef9b7d0d8df37fb7299">setZero</a> ()</td></tr>
@@ -163,70 +182,70 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6dbef309a8f7a801bb28909c90ce0de1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a6dbef309a8f7a801bb28909c90ce0de1">setIdentity</a> ()</td></tr>
 <tr class="memdesc:a6dbef309a8f7a801bb28909c90ce0de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the matrix to identity if it is a square matrix.  <a href="#a6dbef309a8f7a801bb28909c90ce0de1">More...</a><br /></td></tr>
 <tr class="separator:a6dbef309a8f7a801bb28909c90ce0de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afec2daee718b12398653de1472922df3"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afec2daee718b12398653de1472922df3">operator()</a> (int row, int col)</td></tr>
+<tr class="memitem:afec2daee718b12398653de1472922df3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afec2daee718b12398653de1472922df3">operator()</a> (int row, int col)</td></tr>
 <tr class="memdesc:afec2daee718b12398653de1472922df3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator returns the reference to the coefficient at at the given row and column index.  <a href="#afec2daee718b12398653de1472922df3">More...</a><br /></td></tr>
 <tr class="separator:afec2daee718b12398653de1472922df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab747f9edecdc13479d4cc18b9a8e1961"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ab747f9edecdc13479d4cc18b9a8e1961">operator()</a> (int index)</td></tr>
+<tr class="memitem:ab747f9edecdc13479d4cc18b9a8e1961"><td class="memItemLeft" align="right" valign="top"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ab747f9edecdc13479d4cc18b9a8e1961">operator()</a> (int index)</td></tr>
 <tr class="memdesc:ab747f9edecdc13479d4cc18b9a8e1961"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator returns the reference to the coefficient at at the given index.  <a href="#ab747f9edecdc13479d4cc18b9a8e1961">More...</a><br /></td></tr>
 <tr class="separator:ab747f9edecdc13479d4cc18b9a8e1961"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26441ad72e77c2954829e24a78f8df82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a26441ad72e77c2954829e24a78f8df82">operator+</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;m1)</td></tr>
+<tr class="memitem:a26441ad72e77c2954829e24a78f8df82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a26441ad72e77c2954829e24a78f8df82">operator+</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;m1)</td></tr>
 <tr class="memdesc:a26441ad72e77c2954829e24a78f8df82"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for matrix addition.  <a href="#a26441ad72e77c2954829e24a78f8df82">More...</a><br /></td></tr>
 <tr class="separator:a26441ad72e77c2954829e24a78f8df82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89750b940abc295fc15fb06271edb533"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a89750b940abc295fc15fb06271edb533">operator+</a> (T s1)</td></tr>
+<tr class="memitem:a89750b940abc295fc15fb06271edb533"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a89750b940abc295fc15fb06271edb533">operator+</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:a89750b940abc295fc15fb06271edb533"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar addition to a matrix.  <a href="#a89750b940abc295fc15fb06271edb533">More...</a><br /></td></tr>
 <tr class="separator:a89750b940abc295fc15fb06271edb533"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afaa326b6909e926cb4848ba78654e973"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afaa326b6909e926cb4848ba78654e973">operator-</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;m1)</td></tr>
+<tr class="memitem:afaa326b6909e926cb4848ba78654e973"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afaa326b6909e926cb4848ba78654e973">operator-</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;m1)</td></tr>
 <tr class="memdesc:afaa326b6909e926cb4848ba78654e973"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for matrix subtraction.  <a href="#afaa326b6909e926cb4848ba78654e973">More...</a><br /></td></tr>
 <tr class="separator:afaa326b6909e926cb4848ba78654e973"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13d7c217fd2dd47790dd4ed6155d8ad7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a13d7c217fd2dd47790dd4ed6155d8ad7">operator-</a> (T s1)</td></tr>
+<tr class="memitem:a13d7c217fd2dd47790dd4ed6155d8ad7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a13d7c217fd2dd47790dd4ed6155d8ad7">operator-</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:a13d7c217fd2dd47790dd4ed6155d8ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar subtraction from a matrix.  <a href="#a13d7c217fd2dd47790dd4ed6155d8ad7">More...</a><br /></td></tr>
 <tr class="separator:a13d7c217fd2dd47790dd4ed6155d8ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a503d6fabe4d98eae11cd388f576071da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a503d6fabe4d98eae11cd388f576071da">operator *</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;m1)</td></tr>
+<tr class="memitem:a503d6fabe4d98eae11cd388f576071da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a503d6fabe4d98eae11cd388f576071da">operator *</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;m1)</td></tr>
 <tr class="memdesc:a503d6fabe4d98eae11cd388f576071da"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for matrix multiplication.  <a href="#a503d6fabe4d98eae11cd388f576071da">More...</a><br /></td></tr>
 <tr class="separator:a503d6fabe4d98eae11cd388f576071da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b5bb18711a66811d640f86cde953b8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a1b5bb18711a66811d640f86cde953b8e">operator *</a> (T s1)</td></tr>
+<tr class="memitem:a1b5bb18711a66811d640f86cde953b8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a1b5bb18711a66811d640f86cde953b8e">operator *</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:a1b5bb18711a66811d640f86cde953b8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar multiplication with a matrix.  <a href="#a1b5bb18711a66811d640f86cde953b8e">More...</a><br /></td></tr>
 <tr class="separator:a1b5bb18711a66811d640f86cde953b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1ce91b548b450da6a2573280694fc69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#af1ce91b548b450da6a2573280694fc69">operator+=</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;m1)</td></tr>
+<tr class="memitem:af1ce91b548b450da6a2573280694fc69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#af1ce91b548b450da6a2573280694fc69">operator+=</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;m1)</td></tr>
 <tr class="memdesc:af1ce91b548b450da6a2573280694fc69"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for matrix addition and assigment of the result to the current matrix.  <a href="#af1ce91b548b450da6a2573280694fc69">More...</a><br /></td></tr>
 <tr class="separator:af1ce91b548b450da6a2573280694fc69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e28c95d530fe2c8cdbf45039fc04c73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a2e28c95d530fe2c8cdbf45039fc04c73">operator+=</a> (T s1)</td></tr>
+<tr class="memitem:a2e28c95d530fe2c8cdbf45039fc04c73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a2e28c95d530fe2c8cdbf45039fc04c73">operator+=</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:a2e28c95d530fe2c8cdbf45039fc04c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar addition and assigment of the result to the current matrix.  <a href="#a2e28c95d530fe2c8cdbf45039fc04c73">More...</a><br /></td></tr>
 <tr class="separator:a2e28c95d530fe2c8cdbf45039fc04c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcbeb89e1fec61a8ae71c921fb5c1be7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afcbeb89e1fec61a8ae71c921fb5c1be7">operator-=</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;m1)</td></tr>
+<tr class="memitem:afcbeb89e1fec61a8ae71c921fb5c1be7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afcbeb89e1fec61a8ae71c921fb5c1be7">operator-=</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;m1)</td></tr>
 <tr class="memdesc:afcbeb89e1fec61a8ae71c921fb5c1be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for matrix subtraction and assigment of the result to the current matrix.  <a href="#afcbeb89e1fec61a8ae71c921fb5c1be7">More...</a><br /></td></tr>
 <tr class="separator:afcbeb89e1fec61a8ae71c921fb5c1be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f9216d702ad73222f5a6036b4d0a389"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3f9216d702ad73222f5a6036b4d0a389">operator-=</a> (T s1)</td></tr>
+<tr class="memitem:a3f9216d702ad73222f5a6036b4d0a389"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a3f9216d702ad73222f5a6036b4d0a389">operator-=</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:a3f9216d702ad73222f5a6036b4d0a389"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar subtraction and assigment of the result to the current matrix.  <a href="#a3f9216d702ad73222f5a6036b4d0a389">More...</a><br /></td></tr>
 <tr class="separator:a3f9216d702ad73222f5a6036b4d0a389"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eecc7a09f7dfe9972ad7e152a3f89a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a7eecc7a09f7dfe9972ad7e152a3f89a6">operator *=</a> (T s1)</td></tr>
+<tr class="memitem:a7eecc7a09f7dfe9972ad7e152a3f89a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a7eecc7a09f7dfe9972ad7e152a3f89a6">operator *=</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:a7eecc7a09f7dfe9972ad7e152a3f89a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar multiplication and assigment of the result to the current matrix.  <a href="#a7eecc7a09f7dfe9972ad7e152a3f89a6">More...</a><br /></td></tr>
 <tr class="separator:a7eecc7a09f7dfe9972ad7e152a3f89a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afef6e0917239fe5f6cfa9904b148048a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afef6e0917239fe5f6cfa9904b148048a">operator/=</a> (T s1)</td></tr>
+<tr class="memitem:afef6e0917239fe5f6cfa9904b148048a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#afef6e0917239fe5f6cfa9904b148048a">operator/=</a> (<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> s1)</td></tr>
 <tr class="memdesc:afef6e0917239fe5f6cfa9904b148048a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This operator is used for scalar division and assigment of the result to the current matrix.  <a href="#afef6e0917239fe5f6cfa9904b148048a">More...</a><br /></td></tr>
 <tr class="separator:afef6e0917239fe5f6cfa9904b148048a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a364dca7a222638c9fbec32c9c82a9426"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426">transpose</a> ()</td></tr>
+<tr class="memitem:a364dca7a222638c9fbec32c9c82a9426"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426">transpose</a> ()</td></tr>
 <tr class="memdesc:a364dca7a222638c9fbec32c9c82a9426"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the transpose of the input matrix.  <a href="#a364dca7a222638c9fbec32c9c82a9426">More...</a><br /></td></tr>
 <tr class="separator:a364dca7a222638c9fbec32c9c82a9426"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57be6963618f8a13b8ecd72610d402de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de">minorMatrix</a> (int colIndex, int rowIndex=0)</td></tr>
+<tr class="memitem:a57be6963618f8a13b8ecd72610d402de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de">minorMatrix</a> (int colIndex, int rowIndex=0)</td></tr>
 <tr class="memdesc:a57be6963618f8a13b8ecd72610d402de"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the minor/sub matrix of the input square matrix removing the row and column values given by the input colindex and rowIndex.  <a href="#a57be6963618f8a13b8ecd72610d402de">More...</a><br /></td></tr>
 <tr class="separator:a57be6963618f8a13b8ecd72610d402de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a356ae1d5f9ba149ef3726a71cdd78fcb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a356ae1d5f9ba149ef3726a71cdd78fcb">cofactorMatrix</a> ()</td></tr>
+<tr class="memitem:a356ae1d5f9ba149ef3726a71cdd78fcb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a356ae1d5f9ba149ef3726a71cdd78fcb">cofactorMatrix</a> ()</td></tr>
 <tr class="memdesc:a356ae1d5f9ba149ef3726a71cdd78fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the cofactor matrix of the input square matrix.  <a href="#a356ae1d5f9ba149ef3726a71cdd78fcb">More...</a><br /></td></tr>
 <tr class="separator:a356ae1d5f9ba149ef3726a71cdd78fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59e488437e8079ec819bbea68528ca7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a59e488437e8079ec819bbea68528ca7e">adjointMatrix</a> ()</td></tr>
+<tr class="memitem:a59e488437e8079ec819bbea68528ca7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a59e488437e8079ec819bbea68528ca7e">adjointMatrix</a> ()</td></tr>
 <tr class="memdesc:a59e488437e8079ec819bbea68528ca7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the adjoint matrix of the input square matrix.  <a href="#a59e488437e8079ec819bbea68528ca7e">More...</a><br /></td></tr>
 <tr class="separator:a59e488437e8079ec819bbea68528ca7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac16780181dc4b4684aac87c36fe57383"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ac16780181dc4b4684aac87c36fe57383">inverseMatrix</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;outMat)</td></tr>
+<tr class="memitem:ac16780181dc4b4684aac87c36fe57383"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#ac16780181dc4b4684aac87c36fe57383">inverseMatrix</a> (<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;outMat)</td></tr>
 <tr class="memdesc:ac16780181dc4b4684aac87c36fe57383"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the inverse matrix of the input square matrix, if it exists.  <a href="#ac16780181dc4b4684aac87c36fe57383">More...</a><br /></td></tr>
 <tr class="separator:ac16780181dc4b4684aac87c36fe57383"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a131871f68be2ee2f7679c3e1154d5d44"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a131871f68be2ee2f7679c3e1154d5d44">det</a> ()</td></tr>
+<tr class="memitem:a131871f68be2ee2f7679c3e1154d5d44"><td class="memItemLeft" align="right" valign="top"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a131871f68be2ee2f7679c3e1154d5d44">det</a> ()</td></tr>
 <tr class="memdesc:a131871f68be2ee2f7679c3e1154d5d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the determinant of the input matrix if it is a square matrix.  <a href="#a131871f68be2ee2f7679c3e1154d5d44">More...</a><br /></td></tr>
 <tr class="separator:a131871f68be2ee2f7679c3e1154d5d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a9ed947d13a14c0f90710da09b0493609"><td class="memItemLeft" align="right" valign="top">vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a9ed947d13a14c0f90710da09b0493609">mat</a></td></tr>
+<tr class="memitem:a9ed947d13a14c0f90710da09b0493609"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#a9ed947d13a14c0f90710da09b0493609">mat</a></td></tr>
 <tr class="memdesc:a9ed947d13a14c0f90710da09b0493609"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of values in the matrix  <a href="#a9ed947d13a14c0f90710da09b0493609">More...</a><br /></td></tr>
 <tr class="separator:a9ed947d13a14c0f90710da09b0493609"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef984b58d15fbaf5881d0e36fc08a1df"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_matrix.html#aef984b58d15fbaf5881d0e36fc08a1df">rows</a></td></tr>
@@ -263,7 +282,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -301,7 +320,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>_rows</em>, </td>
@@ -315,7 +334,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>_mat</em>&#160;</td>
         </tr>
         <tr>
@@ -364,7 +383,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>_dims</em></td><td>)</td>
@@ -409,7 +428,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>_rows</em>, </td>
@@ -465,7 +484,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::~<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::~<a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -498,7 +517,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::adjointMatrix </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::adjointMatrix </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -521,7 +540,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant adjoint <a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a>. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00853">853</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00951">951</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -537,7 +556,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::cofactorMatrix </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::cofactorMatrix </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -560,7 +579,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant cofactor <a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a>. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00809">809</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00907">907</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -576,7 +595,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::det </td>
+          <td class="memname"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::det </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -599,7 +618,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - determinant value. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00909">909</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l01007">1007</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -620,7 +639,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::getCol </td>
+          <td class="memname">vector&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getCol </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
@@ -650,12 +669,58 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;T&gt; - vector of column values. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00205">205</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00250">250</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classz_space_1_1z_matrix_aeac2ded2fa3667acd6d3e28c7ece183d_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_aeac2ded2fa3667acd6d3e28c7ece183d_icgraph" alt=""/></div>
 </div>
+
+</div>
+</div>
+<a id="a0c36558b03d5d69edab54120eaa03025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c36558b03d5d69edab54120eaa03025">&#9670;&nbsp;</a></span>getColumnMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getColumnMatrix </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets the column matrix at the input column index. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- input column index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zMatrix&lt;T&gt; - column matrix. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00270">270</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -671,7 +736,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::getDiagonal </td>
+          <td class="memname">vector&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getDiagonal </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -694,7 +759,120 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;T&gt; - vector of diagonal values. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00225">225</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00290">290</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+
+</div>
+</div>
+<a id="afefb3b94c36e5c24e23ee3e157760304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afefb3b94c36e5c24e23ee3e157760304">&#9670;&nbsp;</a></span>getIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getIndex </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rowIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>colIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets the index in the matrix value container given the row and column indicies. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>- row index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>- column index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int - index in value container. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00180">180</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_matrix_afefb3b94c36e5c24e23ee3e157760304_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_afefb3b94c36e5c24e23ee3e157760304_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a0e29d069ff2b88bce1a4c34de8b32f15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e29d069ff2b88bce1a4c34de8b32f15">&#9670;&nbsp;</a></span>getInices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getInices </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>rowIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;&#160;</td>
+          <td class="paramname"><em>colIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets the row and column index in the matrix given the input container index. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>- index. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">int</td><td>- row index. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">int</td><td>- column index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00194">194</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -710,7 +888,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::getNumCols </td>
+          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getNumCols </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -727,7 +905,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>int - number of columns. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00171">171</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00169">169</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -748,7 +926,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::getNumRows </td>
+          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getNumRows </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -765,7 +943,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>int - number of rows. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00160">160</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00159">159</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -786,7 +964,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::getRow </td>
+          <td class="memname">vector&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getRow </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
@@ -800,7 +978,7 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>This method gets the row values at the input row index. </p>
+<p>This method gets the row values as container of values at the input row index. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
@@ -816,11 +994,62 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;T&gt; - vector of row values. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00184">184</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00210">210</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classz_space_1_1z_matrix_a65c848d1249b713e9c1e5e4dbb096d15_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_a65c848d1249b713e9c1e5e4dbb096d15_icgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="afc19cd171ad3a864b558d42a9e9d768f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc19cd171ad3a864b558d42a9e9d768f">&#9670;&nbsp;</a></span>getRowMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::getRowMatrix </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method gets the row matrix at the input row index. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- input row index. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>zMatrix&lt;T&gt; - row matrix. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00230">230</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classz_space_1_1z_matrix_afc19cd171ad3a864b558d42a9e9d768f_icgraph.png" border="0" usemap="#classz_space_1_1z_matrix_afc19cd171ad3a864b558d42a9e9d768f_icgraph" alt=""/></div>
 </div>
 
 </div>
@@ -837,9 +1066,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::inverseMatrix </td>
+          <td class="memname">bool <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::inverseMatrix </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>outMat</em></td><td>)</td>
           <td></td>
         </tr>
@@ -867,7 +1096,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if inverse matrix exists. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00871">871</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00969">969</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -888,7 +1117,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::minorMatrix </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::minorMatrix </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>colIndex</em>, </td>
@@ -928,7 +1157,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant leftover matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00775">775</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00873">873</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -944,9 +1173,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator * </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator * </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>m1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -974,7 +1203,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant matrix after the multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00569">569</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00667">667</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -990,9 +1219,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator * </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator * </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1020,7 +1249,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant matrix after the multiplication. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00606">606</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00704">704</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1036,9 +1265,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator *= </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator *= </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1065,7 +1294,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00708">708</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00806">806</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1081,7 +1310,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator() </td>
+          <td class="memname"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&amp; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>row</em>, </td>
@@ -1122,7 +1351,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - reference to the coefficient. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00445">445</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00543">543</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1138,7 +1367,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator() </td>
+          <td class="memname"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&amp; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
@@ -1168,7 +1397,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - reference to the coefficient. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00461">461</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00559">559</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1184,9 +1413,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator+ </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator+ </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>m1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1214,7 +1443,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant matrix after the addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00476">476</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00574">574</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1230,9 +1459,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator+ </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator+ </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1260,7 +1489,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant matrix after the addition. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00501">501</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00599">599</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1276,9 +1505,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator+= </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator+= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>m1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1305,7 +1534,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00631">631</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00729">729</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1321,9 +1550,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator+= </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator+= </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1350,7 +1579,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00652">652</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00750">750</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1366,9 +1595,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator- </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator- </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>m1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1396,7 +1625,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant matrix after the subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00523">523</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00621">621</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1412,9 +1641,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator- </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator- </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1442,7 +1671,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant matrix after the subtraction. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00548">548</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00646">646</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1458,9 +1687,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator-= </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator-= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>m1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1487,7 +1716,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00668">668</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00766">766</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1503,9 +1732,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator-= </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator-= </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1532,7 +1761,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00689">689</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00787">787</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1548,9 +1777,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::operator/= </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::operator/= </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>s1</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1577,12 +1806,12 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00727">727</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00825">825</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
 <a id="aed2d0cb2a763840e9182d79a16ec85ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed2d0cb2a763840e9182d79a16ec85ef">&#9670;&nbsp;</a></span>setCol() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aed2d0cb2a763840e9182d79a16ec85ef">&#9670;&nbsp;</a></span>setCol() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1593,7 +1822,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setCol </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setCol </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em>, </td>
@@ -1601,7 +1830,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>val</em>&#160;</td>
         </tr>
         <tr>
@@ -1633,7 +1862,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00309">309</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00390">390</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1643,7 +1872,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="a81e01aa4a2d9ee8f17f1ae201ee1e997"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81e01aa4a2d9ee8f17f1ae201ee1e997">&#9670;&nbsp;</a></span>setCol() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a81e01aa4a2d9ee8f17f1ae201ee1e997">&#9670;&nbsp;</a></span>setCol() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1654,7 +1883,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setCol </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setCol </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em>, </td>
@@ -1662,7 +1891,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>vals</em>&#160;</td>
         </tr>
         <tr>
@@ -1694,7 +1923,63 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00328">328</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00408">408</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+
+</div>
+</div>
+<a id="aba77812d840638a23d4e1ff9475fff49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba77812d840638a23d4e1ff9475fff49">&#9670;&nbsp;</a></span>setCol() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setCol </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>colMatrix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method sets the row values at the input column index with the input column Matrix. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- input row index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">colMatrix</td><td>- column matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00427">427</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1710,9 +1995,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setDiagonal </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setDiagonal </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1739,7 +2024,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00347">347</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00445">445</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1755,9 +2040,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setDiagonal </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setDiagonal </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; T &gt;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;&#160;</td>
           <td class="paramname"><em>vals</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1784,7 +2069,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00368">368</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00466">466</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1800,7 +2085,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setIdentity </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setIdentity </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1816,7 +2101,7 @@ template&lt;typename T&gt; </div>
 <p>This method sets the matrix to identity if it is a square matrix. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00424">424</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00522">522</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1837,9 +2122,9 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setMat </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setMat </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>_mat</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1866,7 +2151,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00254">254</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00319">319</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -1882,7 +2167,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setOne </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setOne </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1898,12 +2183,12 @@ template&lt;typename T&gt; </div>
 <p>This method sets values of the matrix to one. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00407">407</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00505">505</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
 <a id="ae4d1edb48ef79097b18a02755cc859e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4d1edb48ef79097b18a02755cc859e1">&#9670;&nbsp;</a></span>setRow() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4d1edb48ef79097b18a02755cc859e1">&#9670;&nbsp;</a></span>setRow() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1914,7 +2199,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setRow </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setRow </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em>, </td>
@@ -1922,7 +2207,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&#160;</td>
           <td class="paramname"><em>val</em>&#160;</td>
         </tr>
         <tr>
@@ -1954,7 +2239,7 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00269">269</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00333">333</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1964,7 +2249,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <a id="a6a8915e7dbe2804d0abef17b7a5b3124"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a8915e7dbe2804d0abef17b7a5b3124">&#9670;&nbsp;</a></span>setRow() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a8915e7dbe2804d0abef17b7a5b3124">&#9670;&nbsp;</a></span>setRow() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1975,7 +2260,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setRow </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setRow </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>index</em>, </td>
@@ -1983,7 +2268,7 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>vals</em>&#160;</td>
         </tr>
         <tr>
@@ -2015,7 +2300,63 @@ template&lt;typename T&gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00289">289</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00353">353</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+
+</div>
+</div>
+<a id="a478d901d19ebccdb72f5fbdd6fa25af5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a478d901d19ebccdb72f5fbdd6fa25af5">&#9670;&nbsp;</a></span>setRow() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setRow </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rowMatrix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method sets the row values at the input row index with the input row Matrix. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- input row index. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rowMatrix</td><td>- row matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00371">371</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -2031,7 +2372,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::setZero </td>
+          <td class="memname">void <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::setZero </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2047,7 +2388,7 @@ template&lt;typename T&gt; </div>
 <p>This method sets values of the matrix to zero. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00389">389</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00487">487</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 
 </div>
 </div>
@@ -2063,7 +2404,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::transpose </td>
+          <td class="memname"><a class="el" href="classz_space_1_1z_matrix.html">zMatrix</a>&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::transpose </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -2086,7 +2427,7 @@ template&lt;typename T&gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - resultant transpose matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00750">750</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_matrix_8h_source.html#l00848">848</a> of file <a class="el" href="z_matrix_8h_source.html">zMatrix.h</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2108,7 +2449,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::cols</td>
+          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::cols</td>
         </tr>
       </table>
   </td>
@@ -2136,7 +2477,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">vector&lt;T&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::mat</td>
+          <td class="memname">vector&lt;<a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a>&gt; <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::mat</td>
         </tr>
       </table>
   </td>
@@ -2164,7 +2505,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; T &gt;::rows</td>
+          <td class="memname">int <a class="el" href="classz_space_1_1z_matrix.html">zSpace::zMatrix</a>&lt; <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &gt;::rows</td>
         </tr>
       </table>
   </td>

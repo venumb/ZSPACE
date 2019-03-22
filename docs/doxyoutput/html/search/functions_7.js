@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['integrateforces',['integrateForces',['../classz_space_1_1z_particle.html#a8751c6250178b03d8d6fca614118f990',1,'zSpace::zParticle']]],
-  ['intersect_5ffields',['intersect_fields',['../group__z_field2_d_utilities.html#gad849b2f23a1d03b1bf3ce3fad1647556',1,'zSpace']]],
-  ['inversematrix',['inverseMatrix',['../classz_space_1_1z_matrix.html#ac16780181dc4b4684aac87c36fe57383',1,'zSpace::zMatrix']]]
+  ['horizontalequilibrium',['HorizontalEquilibrium',['../group__z_vault___t_n_a.html#ga5a8d4aa06aab83a8f1da53e3ddbde0a3',1,'zSpace']]],
+  ['horizontalequilibrium_5ftargets',['HorizontalEquilibrium_targets',['../group__z_vault___t_n_a.html#ga996957da603ae17e1ba37e2a42840c3b',1,'zSpace']]]
 ];

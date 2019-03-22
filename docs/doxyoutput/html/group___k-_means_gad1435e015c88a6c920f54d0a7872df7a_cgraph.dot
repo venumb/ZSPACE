@@ -1,0 +1,37 @@
+digraph "zSpace::getKMeansClusters"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node7 [label="zSpace::getKMeansClusters",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method computes classify the input data into input number of clusters using the K-Means Algorith..."];
+  Node7 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="zSpace::zMatrix::getNumRows",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae85a1183dc320f27fca7608431d5c4f5",tooltip="This method gets the number of rows in the matrix."];
+  Node7 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="zSpace::zMatrix::getNumCols",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be",tooltip="This method gets the number of columns in the matrix."];
+  Node7 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="zSpace::zMin",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#ga2eb6fc5b163e7ebfbc3af744f9dfe8bd",tooltip="This method returns the minimum of the two input values."];
+  Node7 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="zSpace::zMax",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gacb877a2c4d1cc7223201689ba437d5dd",tooltip="This method returns the maximum of the two input values."];
+  Node7 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="zSpace::intialiseMeans",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group___k-_means.html#ga004791b5c0eba58d794da1cdf228c547",tooltip="This method initialises the means based on the minimum and maximum value in the data points."];
+  Node12 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="zSpace::randomNumber\l_double",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_core_utilities.html#gafed69f9d90ee69ee176cef1b45227b9f",tooltip="This method returns a random number in the input domain."];
+  Node7 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="zSpace::zMatrix::getRowMatrix",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#afc19cd171ad3a864b558d42a9e9d768f",tooltip="This method gets the row matrix at the input row index."];
+  Node7 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="zSpace::getClusterIndex",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group___k-_means.html#ga16a11ecb44aa3d39fa8e0b6a65caee17",tooltip="This method computes the cluster index based on the least euclidean distance between input data point..."];
+  Node15 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="zSpace::getEuclideanDistance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vector_matrix_utilities.html#gad0dc5e9ef764c2c6bc1eed4ed1b1c247",tooltip="This method computes the euclidean distance between two input row matricies. The number of columns of..."];
+  Node16 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="zSpace::updateMean",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group___k-_means.html#gae598f85db0e65078bbceaaa87c8d2dc9",tooltip="This method updates the mean value of the cluster based on the input data point and cluster size."];
+  Node17 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="zSpace::zMatrix::setRow",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#ae4d1edb48ef79097b18a02755cc859e1",tooltip="This method sets the row values at the input row index with the input value."];
+}

@@ -29,7 +29,7 @@ var NAVTREE =
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
-        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ],
         [ "Enumerator", "namespacemembers_eval.html", null ]
@@ -59,11 +59,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classz_space_1_1z_open_street.html#a08a737361b26bf7c33a6b9b9f81aa7dc",
-"group__z_core_definitions.html#ga212460e743fecb084d717bb2180c5a56",
-"group__z_i_o.html#gabc18c2f81ae8001fc38c948b4345969a",
-"z_enumerators_8h.html",
-"z_utilities_8h.html#gaa8375b752d259554eef39b2c7985fa14"
+"classz_space_1_1z_mesh.html#ae66609043bee62d706443ac5dc47304f",
+"group___k-_means.html#ga004791b5c0eba58d794da1cdf228c547",
+"group__z_i_o.html#ga88dea45aa0112488abc1c72d9a892458",
+"namespacemembers_func_r.html",
+"z_field_utilities_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

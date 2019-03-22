@@ -4,7 +4,9 @@ digraph "zSpace::zMatrix::setRow"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node123 [label="zSpace::zMatrix::setRow",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method sets the row values at the input row index with the input value."];
-  Node123 -> Node124 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node124 [label="zSpace::zMatrix\< double\l \>::transpose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426",tooltip="This method returns the transpose of the input matrix."];
+  Node169 [label="zSpace::zMatrix::setRow",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method sets the row values at the input row index with the input value."];
+  Node169 -> Node170 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node170 [label="zSpace::getKMeansClusters",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group___k-_means.html#gad1435e015c88a6c920f54d0a7872df7a",tooltip="This method computes classify the input data into input number of clusters using the K-Means Algorith..."];
+  Node169 -> Node171 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node171 [label="zSpace::zMatrix\< double\l \>::transpose",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_matrix.html#a364dca7a222638c9fbec32c9c82a9426",tooltip="This method returns the transpose of the input matrix."];
 }

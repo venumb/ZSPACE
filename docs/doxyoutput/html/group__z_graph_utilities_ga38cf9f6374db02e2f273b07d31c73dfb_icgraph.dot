@@ -1,0 +1,12 @@
+digraph "zSpace::setVertexColors"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node49 [label="zSpace::setVertexColors",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method sets vertex color of all the vertices with the input color contatiner."];
+  Node49 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="zSpace::variableBoundary\lOffset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_variable_extrude.html#ga9c135fd7362c20a7c6eba655e7abc418",tooltip="This method offsets the boundary faces of the input mesh based on vertex color. It uses only the red ..."];
+  Node49 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="zSpace::variableFaceThickness\lExtrude",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_variable_extrude.html#ga8626c54d38eb699e9d79c88dadb9d417",tooltip="This method extrudes the input mesh based on vertex / face color. It uses only the red channel of the..."];
+}

@@ -25,6 +25,8 @@ var searchData=
   ['zslime',['zSlime',['../classz_space_1_1z_slime.html',1,'zSpace']]],
   ['zslimeagent',['zSlimeAgent',['../classz_space_1_1z_slime_agent.html',1,'zSpace']]],
   ['zslimeenvironment',['zSlimeEnvironment',['../classz_space_1_1z_slime_environment.html',1,'zSpace']]],
+  ['zstream',['zStream',['../structz_space_1_1z_stream.html',1,'zSpace']]],
+  ['zstreams',['zStreams',['../structz_streams.html',1,'']]],
   ['zvector',['zVector',['../classz_space_1_1z_vector.html',1,'zSpace']]],
   ['zvertex',['zVertex',['../classz_space_1_1z_vertex.html',1,'zSpace']]],
   ['zways',['zWays',['../structz_space_1_1z_ways.html',1,'zSpace']]]

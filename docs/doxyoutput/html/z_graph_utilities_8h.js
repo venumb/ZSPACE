@@ -1,8 +1,8 @@
 var z_graph_utilities_8h =
 [
-    [ "setEdgeColor", "z_graph_utilities_8h.html#ga2ef9ee7a2c33012bc55bc2592fa6ffdb", null ],
-    [ "setEdgeColors", "z_graph_utilities_8h.html#ga3aa9b12c327be41d5cd6400e8a64aa4d", null ],
-    [ "setVertexColor", "z_graph_utilities_8h.html#ga7cd47e65d56a0587e3ca4babd1c233e3", null ],
-    [ "setVertexColors", "z_graph_utilities_8h.html#gaa088392382ec3b36cc77066a4392349c", null ],
+    [ "setEdgeColor", "z_graph_utilities_8h.html#ga90a14e23a3d369e68b9886298616c541", null ],
+    [ "setEdgeColors", "z_graph_utilities_8h.html#gad09235f3a26d70ef2f50e8f5405179f6", null ],
+    [ "setVertexColor", "z_graph_utilities_8h.html#ga4f9c543da91c5080307477a7a400ee01", null ],
+    [ "setVertexColors", "z_graph_utilities_8h.html#ga38cf9f6374db02e2f273b07d31c73dfb", null ],
     [ "totalEdgeLength", "z_graph_utilities_8h.html#ga35460aaad2c88df17da9be878dcc72f4", null ]
 ];

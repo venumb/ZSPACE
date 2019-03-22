@@ -25,7 +25,7 @@ namespace zSpace
 	//---- K-MEANS CLUSTERING
 	//--------------------------
 
-	/** \addtogroup kMeans Clustering
+	/** \addtogroup K-Means
 	*	\brief Collection of methods for creating clusters using the k-Means Algorithm.
 	*	\details Based on https://www.geeksforgeeks.org/k-means-clustering-introduction/
 	*  @{

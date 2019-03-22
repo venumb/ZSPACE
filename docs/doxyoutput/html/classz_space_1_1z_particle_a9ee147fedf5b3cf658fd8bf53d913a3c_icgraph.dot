@@ -4,13 +4,13 @@ digraph "zSpace::zParticle::getVelocity"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="RL";
-  Node49 [label="zSpace::zParticle::\lgetVelocity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method retruns the velocity of the particle."];
-  Node49 -> Node50 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node50 [label="zSpace::zSlimeAgent\l::getF",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#a05418e088b707fe189cf8544c2310b01",tooltip="This method returns the forward direction for the agent."];
-  Node49 -> Node51 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node51 [label="zSpace::zSlimeAgent\l::getFR",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#ace23635415c5d643472f6bebec157ba2",tooltip="This method returns the forward right direction for the agent."];
-  Node49 -> Node52 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node52 [label="zSpace::zSlimeAgent\l::getFL",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#a79ef55a80bfd78b14436e251f97ab5a4",tooltip="This method returns the forward left direction for the agent."];
-  Node49 -> Node53 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node53 [label="zSpace::zSlimeAgent\l::setVelocity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#a6a54fd438bcec1fadabdcfbf31335e81",tooltip="This method returns the direction for the agent based on input values of F, Fr and FL."];
+  Node57 [label="zSpace::zParticle::\lgetVelocity",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method retruns the velocity of the particle."];
+  Node57 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="zSpace::zSlimeAgent\l::getF",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#a05418e088b707fe189cf8544c2310b01",tooltip="This method returns the forward direction for the agent."];
+  Node57 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="zSpace::zSlimeAgent\l::getFR",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#ace23635415c5d643472f6bebec157ba2",tooltip="This method returns the forward right direction for the agent."];
+  Node57 -> Node60 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node60 [label="zSpace::zSlimeAgent\l::getFL",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#a79ef55a80bfd78b14436e251f97ab5a4",tooltip="This method returns the forward left direction for the agent."];
+  Node57 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="zSpace::zSlimeAgent\l::setVelocity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classz_space_1_1z_slime_agent.html#a6a54fd438bcec1fadabdcfbf31335e81",tooltip="This method returns the direction for the agent based on input values of F, Fr and FL."];
 }

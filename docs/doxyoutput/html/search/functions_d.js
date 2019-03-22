@@ -1,17 +1,12 @@
 var searchData=
 [
-  ['randomnumber',['randomNumber',['../group__z_core_utilities.html#ga48337d006eea339e5973eb9bc47f178f',1,'zSpace']]],
-  ['randomnumber_5fdouble',['randomNumber_double',['../group__z_core_utilities.html#gafed69f9d90ee69ee176cef1b45227b9f',1,'zSpace']]],
-  ['randomremoveagents',['randomRemoveAgents',['../classz_space_1_1z_slime.html#a6b56b41ca6377aa85306f4b316b95b8e',1,'zSpace::zSlime']]],
-  ['randomunoccupiedcell',['randomUnoccupiedCell',['../classz_space_1_1z_slime.html#aaf6b56a4963549faa79715808af56c1c',1,'zSpace::zSlime']]],
-  ['read',['read',['../group__z_i_o.html#gade0d5b2ecdcbddf5351f656bc9f41f7e',1,'zSpace::BMP']]],
-  ['remeshsmoothpolytopalmesh',['remeshSmoothPolytopalMesh',['../group__z_polytopal.html#ga5dd7e372cf8287c0434778b2e58d41f1',1,'zSpace']]],
-  ['removeedge',['removeEdge',['../classz_space_1_1z_edge.html#a5395c85714f3d04fb4e673d335982655',1,'zSpace::zEdge']]],
-  ['removeface',['removeFace',['../classz_space_1_1z_face.html#abd6ce6014319a64595a87b2f63f4235f',1,'zSpace::zFace']]],
-  ['removefrompositionmap',['removeFromPositionMap',['../classz_space_1_1z_graph.html#a8f750c9304b2e873669bf20b3a560d3c',1,'zSpace::zGraph']]],
-  ['removefromverticesedge',['removeFromVerticesEdge',['../classz_space_1_1z_graph.html#aee83e9852b220df1b5ec0c2fdec8040e',1,'zSpace::zGraph']]],
-  ['removeinactiveelements',['removeInactiveElements',['../classz_space_1_1z_graph.html#afdd947e992fda2487ef6a5a3487d9e6b',1,'zSpace::zGraph::removeInactiveElements()'],['../classz_space_1_1z_mesh.html#ab21d59eecb169921b427a7e766d47aa5',1,'zSpace::zMesh::removeInactiveElements()']]],
-  ['removevertex',['removeVertex',['../classz_space_1_1z_vertex.html#aedb082edebfbc00d9e56ca6a14645a09',1,'zSpace::zVertex']]],
-  ['resizearray',['resizeArray',['../classz_space_1_1z_graph.html#a8b28611b85ceff8555b9230e3af6f47a',1,'zSpace::zGraph']]],
-  ['rotateaboutaxis',['rotateAboutAxis',['../classz_space_1_1z_vector.html#a7c7172b9c4f20a7ff7f24cbe092b63a6',1,'zSpace::zVector']]]
+  ['plane_5fplaneintersection',['plane_planeIntersection',['../group__z_vector_matrix_utilities.html#gae7d696f4950769b14a966fed33490fa4',1,'zSpace']]],
+  ['planetoplane',['PlanetoPlane',['../group__z_vector_matrix_utilities.html#ga5ca0bb8666f0cb1b43fc6de191f3cfaa',1,'zSpace']]],
+  ['pointinbounds',['pointInBounds',['../group__z_vector_matrix_utilities.html#gab4eab695931013c7a5bf95b1403ce5ce',1,'zSpace']]],
+  ['pointintriangle',['pointInTriangle',['../group__z_vector_matrix_utilities.html#ga5d522fc391c13d491f20a1d3a87996ca',1,'zSpace']]],
+  ['printcolor',['printColor',['../group__z_print_utilities.html#ga4b1ab40cea634bb41052ae843103363d',1,'zSpace']]],
+  ['printgraph',['printGraph',['../group__z_print_utilities.html#ga96cf7a290a07af957dbe1740993c721d',1,'zSpace']]],
+  ['printmatrix',['printMatrix',['../group__z_print_utilities.html#ga39c1cea9e659a5977a50288ddc9e399b',1,'zSpace']]],
+  ['printmesh',['printMesh',['../group__z_print_utilities.html#ga24820d178bfefb22bc7bf22a3945bb6f',1,'zSpace']]],
+  ['printvector',['printVector',['../group__z_print_utilities.html#ga26f008d23a3bfd98b3ca9d5f6b6e40df',1,'zSpace']]]
 ];

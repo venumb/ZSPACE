@@ -1,8 +1,12 @@
 var z_graph_mesh_utilities_8h =
 [
+    [ "getCenter", "z_graph_mesh_utilities_8h.html#ga5850b7d4c1819f93a293df63a9b3bc48", null ],
     [ "getCenters", "z_graph_mesh_utilities_8h.html#ga150a761e741dcc8e927aba87cc016de3", null ],
-    [ "getEdgeLengths", "z_graph_mesh_utilities_8h.html#gae063c66f88a641487cda049e050043d7", null ],
+    [ "getEdgelength", "z_graph_mesh_utilities_8h.html#ga14263612e747be7725bc2485129031cc", null ],
+    [ "getEdgeLengths", "z_graph_mesh_utilities_8h.html#ga571a5210f8df39a7fc210adeab068777", null ],
+    [ "getEdgeVector", "z_graph_mesh_utilities_8h.html#ga1806d5b82b734033c89d527dd7f58fa4", null ],
     [ "getNeighbourhoodRing", "z_graph_mesh_utilities_8h.html#gab300cb380418798aa39cb10735c8b9b7", null ],
+    [ "setEdgeColor", "z_graph_mesh_utilities_8h.html#gaee6bfa4f8bd3051509412532bbd343dc", null ],
     [ "shortestDistance", "z_graph_mesh_utilities_8h.html#ga1ac292244338c6d16bf2951f8e2350a1", null ],
     [ "shortestPath", "z_graph_mesh_utilities_8h.html#ga475962cb0e33a4cc24da9cc8720562d4", null ],
     [ "shortestPath_DistanceParent", "z_graph_mesh_utilities_8h.html#gac140a7b6a61a3c40f68f0715cf633041", null ],

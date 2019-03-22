@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -105,9 +106,6 @@ Collaboration diagram for ZMeshModifiers:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga1d81b6e6cd06dd32b7795275da6a808c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga1d81b6e6cd06dd32b7795275da6a808c">zSpace::getFaceTriangles</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int faceIndex, int &amp;numTris, vector&lt; int &gt; &amp;tris)</td></tr>
-<tr class="memdesc:ga1d81b6e6cd06dd32b7795275da6a808c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input polygon using ear clipping algorithm.  <a href="group__z_mesh_modifiers.html#ga1d81b6e6cd06dd32b7795275da6a808c">More...</a><br /></td></tr>
-<tr class="separator:ga1d81b6e6cd06dd32b7795275da6a808c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga436ab6f006de6e8dcd08c030fed4feb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga436ab6f006de6e8dcd08c030fed4feb1">zSpace::faceTriangulate</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int faceIndex)</td></tr>
 <tr class="memdesc:ga436ab6f006de6e8dcd08c030fed4feb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input face of the mesh.  <a href="group__z_mesh_modifiers.html#ga436ab6f006de6e8dcd08c030fed4feb1">More...</a><br /></td></tr>
 <tr class="separator:ga436ab6f006de6e8dcd08c030fed4feb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,6 +127,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae7cb2380ed0e9717421bf19db5817cd6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6">zSpace::splitEdge</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int index, double edgeFactor=0.5, bool fTriangulate=false)</td></tr>
 <tr class="memdesc:gae7cb2380ed0e9717421bf19db5817cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge and inserts a vertex along the edge at the input factor.  <a href="group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6">More...</a><br /></td></tr>
 <tr class="separator:gae7cb2380ed0e9717421bf19db5817cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee9a584c6dc9210498bd4ac4aa1d981e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaee9a584c6dc9210498bd4ac4aa1d981e">zSpace::detachEdge</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int index)</td></tr>
+<tr class="memdesc:gaee9a584c6dc9210498bd4ac4aa1d981e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method detaches an edge.  <a href="group__z_mesh_modifiers.html#gaee9a584c6dc9210498bd4ac4aa1d981e">More...</a><br /></td></tr>
+<tr class="separator:gaee9a584c6dc9210498bd4ac4aa1d981e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga23b04bfa34f16159cbc2b1c5e1116f39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga23b04bfa34f16159cbc2b1c5e1116f39">zSpace::flipTriangleEdge</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int &amp;index)</td></tr>
 <tr class="memdesc:ga23b04bfa34f16159cbc2b1c5e1116f39"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method flips the edge shared bettwen two rainglua faces.  <a href="group__z_mesh_modifiers.html#ga23b04bfa34f16159cbc2b1c5e1116f39">More...</a><br /></td></tr>
 <tr class="separator:ga23b04bfa34f16159cbc2b1c5e1116f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,6 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga41f9be96453c21ac7b33b2991c284775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775">zSpace::smoothMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, int numDivisions=1, bool smoothCorner=false)</td></tr>
 <tr class="memdesc:ga41f9be96453c21ac7b33b2991c284775"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method applies Catmull-Clark subdivision to the mesh.  <a href="group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775">More...</a><br /></td></tr>
 <tr class="separator:ga41f9be96453c21ac7b33b2991c284775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga6f2ce938aa8bb72d5b4649115d76d9c8">zSpace::extrudeMesh</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, float extrudeThickness, bool thicknessTris=false)</td></tr>
+<tr class="memdesc:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns an extruded mesh from the input mesh.  <a href="group__z_mesh_modifiers.html#ga6f2ce938aa8bb72d5b4649115d76d9c8">More...</a><br /></td></tr>
+<tr class="separator:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad707c82ae843ee9aa108c078161881ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca">zSpace::splitLongEdges</a> (<a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, double maxEdgeLength)</td></tr>
 <tr class="memdesc:gad707c82ae843ee9aa108c078161881ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge longer than the given input value at its midpoint and triangulates the mesh. the adjacent triangles are split into 2-4 triangles.  <a href="group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca">More...</a><br /></td></tr>
 <tr class="separator:gad707c82ae843ee9aa108c078161881ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +166,9 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::collapseEdge </td>
@@ -193,6 +200,11 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method collapses an edge into a vertex. </p>
@@ -207,7 +219,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00708">708</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00487">487</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -226,6 +238,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::collapseShortEdges </td>
@@ -251,6 +266,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method collapses an edge shorter than the given minimum edge length value if the collapsing doesnt produce adjacent edges longer than the maximum edge length. </p>
@@ -264,7 +284,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01626">1626</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01513">1513</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -278,6 +298,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::deleteEdge </td>
@@ -303,6 +326,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method deletes the mesh edge given by the input face index. </p>
@@ -323,6 +351,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::deleteFace </td>
@@ -348,6 +379,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method deletes the mesh face given by the input face index. </p>
@@ -361,7 +397,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00592">592</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00371">371</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -375,6 +411,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::deleteVertex </td>
@@ -400,6 +439,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method deletes the mesh vertex given by the input vertex index. </p>
@@ -413,7 +457,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00457">457</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00237">237</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -422,11 +466,62 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="gaee9a584c6dc9210498bd4ac4aa1d981e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaee9a584c6dc9210498bd4ac4aa1d981e">&#9670;&nbsp;</a></span>detachEdge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::detachEdge </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method detaches an edge. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>- index of the edge to be split. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00900">900</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+
+</div>
+</div>
 <a id="ga50d27f458f57c4f90fa9242b05ded2d2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga50d27f458f57c4f90fa9242b05ded2d2">&#9670;&nbsp;</a></span>equalizeValences()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::equalizeValences </td>
@@ -436,6 +531,11 @@ Here is the call graph for this function:</div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method equalizes the vertex valences by flipping edges of the input triangulated mesh. Target valence for interior vertex is 4 and boundary vertex is 6. </p>
@@ -447,11 +547,71 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01686">1686</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01573">1573</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="group__z_mesh_modifiers_ga50d27f458f57c4f90fa9242b05ded2d2_cgraph.png" border="0" usemap="#group__z_mesh_modifiers_ga50d27f458f57c4f90fa9242b05ded2d2_cgraph" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="ga6f2ce938aa8bb72d5b4649115d76d9c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f2ce938aa8bb72d5b4649115d76d9c8">&#9670;&nbsp;</a></span>extrudeMesh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> zSpace::extrudeMesh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>extrudeThickness</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>thicknessTris</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns an extruded mesh from the input mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">extrudeThickness</td><td>- extrusion thickness. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">thicknessTris</td><td>- true if the cap needs to be triangulated. \retrun <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> - extruded mesh. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01391">1391</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_mesh_modifiers_ga6f2ce938aa8bb72d5b4649115d76d9c8_cgraph.png" border="0" usemap="#group__z_mesh_modifiers_ga6f2ce938aa8bb72d5b4649115d76d9c8_cgraph" alt=""/></div>
 </div>
 
 </div>
@@ -461,6 +621,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::faceTriangulate </td>
@@ -480,6 +643,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method triangulates the input face of the mesh. </p>
@@ -492,7 +660,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00256">256</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00036">36</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -511,6 +679,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::flipTriangleEdge </td>
@@ -530,6 +701,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method flips the edge shared bettwen two rainglua faces. </p>
@@ -542,7 +718,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01122">1122</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00917">917</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -556,75 +732,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ga1d81b6e6cd06dd32b7795275da6a808c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1d81b6e6cd06dd32b7795275da6a808c">&#9670;&nbsp;</a></span>getFaceTriangles()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void zSpace::getFaceTriangles </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
-          <td class="paramname"><em>inMesh</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>faceIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>numTris</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>tris</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>This method triangulates the input polygon using ear clipping algorithm. </p>
-<p>based on <a href="https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf">https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf</a> &amp; <a href="http://abitwise.blogspot.co.uk/2013/09/triangulating-concave-and-convex.html">http://abitwise.blogspot.co.uk/2013/09/triangulating-concave-and-convex.html</a> </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- input mesh. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">faceIndex</td><td>- face index of the face to be triangulated in the faces container. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">numTris</td><td>- number of triangles in the input polygon. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">tris</td><td>- index array of each triangle associated with the face. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00040">40</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_mesh_modifiers_ga1d81b6e6cd06dd32b7795275da6a808c_cgraph.png" border="0" usemap="#group__z_mesh_modifiers_ga1d81b6e6cd06dd32b7795275da6a808c_cgraph" alt=""/></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="group__z_mesh_modifiers_ga1d81b6e6cd06dd32b7795275da6a808c_icgraph.png" border="0" usemap="#group__z_mesh_modifiers_ga1d81b6e6cd06dd32b7795275da6a808c_icgraph" alt=""/></div>
-</div>
-
-</div>
-</div>
 <a id="ga41f9be96453c21ac7b33b2991c284775"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga41f9be96453c21ac7b33b2991c284775">&#9670;&nbsp;</a></span>smoothMesh()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::smoothMesh </td>
@@ -650,6 +765,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method applies Catmull-Clark subdivision to the mesh. </p>
@@ -663,7 +783,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01404">1404</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01199">1199</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -682,6 +802,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int zSpace::splitEdge </td>
@@ -713,6 +836,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method splits an edge and inserts a vertex along the edge at the input factor. </p>
@@ -728,7 +856,7 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>int - index of the new vertex added after splitinng the edge. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01022">1022</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00801">801</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -747,6 +875,9 @@ Here is the caller graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::splitFaces </td>
@@ -772,6 +903,11 @@ Here is the caller graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method splits a set of edges and faces of a mesh in a continuous manner. </p>
@@ -785,7 +921,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01207">1207</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01002">1002</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -799,6 +935,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::splitLongEdges </td>
@@ -818,6 +957,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method splits an edge longer than the given input value at its midpoint and triangulates the mesh. the adjacent triangles are split into 2-4 triangles. </p>
@@ -830,7 +974,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01600">1600</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01487">1487</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -844,6 +988,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::subdivideMesh </td>
@@ -863,6 +1010,11 @@ Here is the call graph for this function:</div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method subdivides all the faces and edges of the mesh. </p>
@@ -875,7 +1027,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01314">1314</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01109">1109</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -889,6 +1041,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::tangentialRelaxation </td>
@@ -898,6 +1053,11 @@ Here is the call graph for this function:</div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method applies an iterative smoothing to the mesh by moving the vertex but constrained to its tangent plane. </p>
@@ -909,7 +1069,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01745">1745</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l01632">1632</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -923,6 +1083,9 @@ Here is the call graph for this function:</div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::triangulate </td>
@@ -932,6 +1095,11 @@ Here is the call graph for this function:</div>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method triangulates the input mesh. </p>
@@ -943,7 +1111,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00424">424</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_modifiers_8h_source.html#l00204">204</a> of file <a class="el" href="z_mesh_modifiers_8h_source.html">zMeshModifiers.h</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

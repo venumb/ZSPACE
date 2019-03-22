@@ -6,5 +6,9 @@ digraph "zSpace::computePolyConnects_PolyCount"
   rankdir="RL";
   Node14 [label="zSpace::computePolyConnects\l_PolyCount",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This method stores input mesh connectivity information in the input containers."];
   Node14 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node15 [label="zSpace::combineDisjointMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga4db96d817f6d701261569fd42594ea8b",tooltip="This method combines the two disjoint meshes to one mesh."];
+  Node15 [label="zSpace::duplicateMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga12077c6309605a6ceb8b9bcc714b4b31",tooltip="This method creates a duplicate of the input mesh."];
+  Node15 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="zSpace::createFormMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_vault___t_n_a.html#gaab05651bd4b24598fd5c7b786a0e771e",tooltip="This method computes the form mesh based on the thrust netwrok analysis."];
+  Node14 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="zSpace::combineDisjointMesh",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__z_mesh_utilities.html#ga4db96d817f6d701261569fd42594ea8b",tooltip="This method combines the two disjoint meshes to one mesh."];
 }

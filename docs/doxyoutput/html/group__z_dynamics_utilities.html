@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -109,9 +110,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga573f15fc389ae5bfc3c41b6a3071b9ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds the input gravity force to all the particles in the input container.  <a href="group__z_dynamics_utilities.html#ga573f15fc389ae5bfc3c41b6a3071b9ab">More...</a><br /></td></tr>
 <tr class="separator:ga573f15fc389ae5bfc3c41b6a3071b9ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5cf623e68231f9db8a4f8b38f251d598"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ga5cf623e68231f9db8a4f8b38f251d598"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_dynamics_utilities.html#ga5cf623e68231f9db8a4f8b38f251d598">zSpace::addEdgeForce</a> (vector&lt; <a class="el" href="classz_space_1_1z_particle.html">zParticle</a> &gt; &amp;inParticles, T &amp;inHEDataStructure, vector&lt; double &gt; &amp;weights)</td></tr>
+<tr class="memitem:ga5cf623e68231f9db8a4f8b38f251d598"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__z_dynamics_utilities.html#ga5cf623e68231f9db8a4f8b38f251d598">zSpace::addEdgeForce</a> (vector&lt; <a class="el" href="classz_space_1_1z_particle.html">zParticle</a> &gt; &amp;inParticles, <a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &amp;inHEDataStructure, vector&lt; double &gt; &amp;weights)</td></tr>
 <tr class="memdesc:ga5cf623e68231f9db8a4f8b38f251d598"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds the edge forces to all the particles in the input container based on the input graph/ mesh.  <a href="group__z_dynamics_utilities.html#ga5cf623e68231f9db8a4f8b38f251d598">More...</a><br /></td></tr>
 <tr class="separator:ga5cf623e68231f9db8a4f8b38f251d598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga73f915cb5cf41c4e515774d394fcd64f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_dynamics_utilities.html#ga73f915cb5cf41c4e515774d394fcd64f">zSpace::addPlanarityForce</a> (vector&lt; <a class="el" href="classz_space_1_1z_particle.html">zParticle</a> &gt; &amp;inParticles, <a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;inMesh, vector&lt; double &gt; &amp;fVolumes, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; fCenters, double tolerance=0.001)</td></tr>
+<tr class="memdesc:ga73f915cb5cf41c4e515774d394fcd64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds the planarity force to all the particles in the input container based on the face volumes of the input mesh.  <a href="group__z_dynamics_utilities.html#ga73f915cb5cf41c4e515774d394fcd64f">More...</a><br /></td></tr>
+<tr class="separator:ga73f915cb5cf41c4e515774d394fcd64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>The physics and dynamics utility methods of the library. </p>
@@ -123,6 +127,9 @@ Functions</h2></td></tr>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::addEdgeForce </td>
@@ -133,7 +140,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="z_vault_8h.html#af639fb96631ba0018f0b2259fc95edfb">T</a> &amp;&#160;</td>
           <td class="paramname"><em>inHEDataStructure</em>, </td>
         </tr>
         <tr>
@@ -148,6 +155,11 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method adds the edge forces to all the particles in the input container based on the input graph/ mesh. </p>
@@ -174,6 +186,9 @@ template&lt;typename T &gt; </div>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void zSpace::addGravityForce </td>
@@ -193,6 +208,11 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>This method adds the input gravity force to all the particles in the input container. </p>
@@ -206,6 +226,80 @@ template&lt;typename T &gt; </div>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="z_dynamics_utilities_8h_source.html#l00031">31</a> of file <a class="el" href="z_dynamics_utilities_8h_source.html">zDynamicsUtilities.h</a>.</p>
+
+</div>
+</div>
+<a id="ga73f915cb5cf41c4e515774d394fcd64f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga73f915cb5cf41c4e515774d394fcd64f">&#9670;&nbsp;</a></span>addPlanarityForce()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::addPlanarityForce </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_particle.html">zParticle</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>inParticles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_mesh.html">zMesh</a> &amp;&#160;</td>
+          <td class="paramname"><em>inMesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fVolumes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&#160;</td>
+          <td class="paramname"><em>fCenters</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>tolerance</em> = <code>0.001</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method adds the planarity force to all the particles in the input container based on the face volumes of the input mesh. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">inParticles</td><td>- Input particle container. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inMesh</td><td>- Input mesh. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fVolumes</td><td>- container of face volumes. Use getMeshFaceVolumes method to compute it. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fCenters</td><td>- container of face centers. Use getCenters method to compute it. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tolerance</td><td>- tolerance value. Default it is set to 0.001. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_dynamics_utilities_8h_source.html#l00059">59</a> of file <a class="el" href="z_dynamics_utilities_8h_source.html">zDynamicsUtilities.h</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="group__z_dynamics_utilities_ga73f915cb5cf41c4e515774d394fcd64f_cgraph.png" border="0" usemap="#group__z_dynamics_utilities_ga73f915cb5cf41c4e515774d394fcd64f_cgraph" alt=""/></div>
+</div>
 
 </div>
 </div>

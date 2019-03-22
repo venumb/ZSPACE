@@ -28,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
    &#160;<span id="projectnumber">v 0.0.1</span>
@@ -119,9 +120,6 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga1d81b6e6cd06dd32b7795275da6a808c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga1d81b6e6cd06dd32b7795275da6a808c">zSpace::getFaceTriangles</a> (zMesh &amp;inMesh, int faceIndex, int &amp;numTris, vector&lt; int &gt; &amp;tris)</td></tr>
-<tr class="memdesc:ga1d81b6e6cd06dd32b7795275da6a808c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input polygon using ear clipping algorithm.  <a href="group__z_mesh_modifiers.html#ga1d81b6e6cd06dd32b7795275da6a808c">More...</a><br /></td></tr>
-<tr class="separator:ga1d81b6e6cd06dd32b7795275da6a808c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga436ab6f006de6e8dcd08c030fed4feb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga436ab6f006de6e8dcd08c030fed4feb1">zSpace::faceTriangulate</a> (zMesh &amp;inMesh, int faceIndex)</td></tr>
 <tr class="memdesc:ga436ab6f006de6e8dcd08c030fed4feb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method triangulates the input face of the mesh.  <a href="group__z_mesh_modifiers.html#ga436ab6f006de6e8dcd08c030fed4feb1">More...</a><br /></td></tr>
 <tr class="separator:ga436ab6f006de6e8dcd08c030fed4feb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +141,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae7cb2380ed0e9717421bf19db5817cd6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6">zSpace::splitEdge</a> (zMesh &amp;inMesh, int index, double edgeFactor=0.5, bool fTriangulate=false)</td></tr>
 <tr class="memdesc:gae7cb2380ed0e9717421bf19db5817cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge and inserts a vertex along the edge at the input factor.  <a href="group__z_mesh_modifiers.html#gae7cb2380ed0e9717421bf19db5817cd6">More...</a><br /></td></tr>
 <tr class="separator:gae7cb2380ed0e9717421bf19db5817cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee9a584c6dc9210498bd4ac4aa1d981e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gaee9a584c6dc9210498bd4ac4aa1d981e">zSpace::detachEdge</a> (zMesh &amp;inMesh, int index)</td></tr>
+<tr class="memdesc:gaee9a584c6dc9210498bd4ac4aa1d981e"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method detaches an edge.  <a href="group__z_mesh_modifiers.html#gaee9a584c6dc9210498bd4ac4aa1d981e">More...</a><br /></td></tr>
+<tr class="separator:gaee9a584c6dc9210498bd4ac4aa1d981e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga23b04bfa34f16159cbc2b1c5e1116f39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga23b04bfa34f16159cbc2b1c5e1116f39">zSpace::flipTriangleEdge</a> (zMesh &amp;inMesh, int &amp;index)</td></tr>
 <tr class="memdesc:ga23b04bfa34f16159cbc2b1c5e1116f39"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method flips the edge shared bettwen two rainglua faces.  <a href="group__z_mesh_modifiers.html#ga23b04bfa34f16159cbc2b1c5e1116f39">More...</a><br /></td></tr>
 <tr class="separator:ga23b04bfa34f16159cbc2b1c5e1116f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,6 +156,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga41f9be96453c21ac7b33b2991c284775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775">zSpace::smoothMesh</a> (zMesh &amp;inMesh, int numDivisions=1, bool smoothCorner=false)</td></tr>
 <tr class="memdesc:ga41f9be96453c21ac7b33b2991c284775"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method applies Catmull-Clark subdivision to the mesh.  <a href="group__z_mesh_modifiers.html#ga41f9be96453c21ac7b33b2991c284775">More...</a><br /></td></tr>
 <tr class="separator:ga41f9be96453c21ac7b33b2991c284775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="memItemLeft" align="right" valign="top">zMesh&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#ga6f2ce938aa8bb72d5b4649115d76d9c8">zSpace::extrudeMesh</a> (zMesh &amp;inMesh, float extrudeThickness, bool thicknessTris=false)</td></tr>
+<tr class="memdesc:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns an extruded mesh from the input mesh.  <a href="group__z_mesh_modifiers.html#ga6f2ce938aa8bb72d5b4649115d76d9c8">More...</a><br /></td></tr>
+<tr class="separator:ga6f2ce938aa8bb72d5b4649115d76d9c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad707c82ae843ee9aa108c078161881ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca">zSpace::splitLongEdges</a> (zMesh &amp;inMesh, double maxEdgeLength)</td></tr>
 <tr class="memdesc:gad707c82ae843ee9aa108c078161881ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits an edge longer than the given input value at its midpoint and triangulates the mesh. the adjacent triangles are split into 2-4 triangles.  <a href="group__z_mesh_modifiers.html#gad707c82ae843ee9aa108c078161881ca">More...</a><br /></td></tr>
 <tr class="separator:gad707c82ae843ee9aa108c078161881ca"><td class="memSeparator" colspan="2">&#160;</td></tr>

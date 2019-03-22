@@ -6,6 +6,8 @@ var group__z_core_utilities =
     [ "blendColor", "group__z_core_utilities.html#gaefde9e6872d8878bc05cd71c54f3ccfa", null ],
     [ "existsInMap", "group__z_core_utilities.html#gaa8375b752d259554eef39b2c7985fa14", null ],
     [ "factorise", "group__z_core_utilities.html#gac55e65cc0ec22a8b66e40878a7c4ae67", null ],
+    [ "getNumfiles", "group__z_core_utilities.html#gab7241067ef3a41d9370c2382f8e04352", null ],
+    [ "getNumfiles_Type", "group__z_core_utilities.html#gaafacded56a1ec25fc88279fb0d74c4e4", null ],
     [ "minDistance", "group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b", null ],
     [ "ofMap", "group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a", null ],
     [ "randomNumber", "group__z_core_utilities.html#ga48337d006eea339e5973eb9bc47f178f", null ],

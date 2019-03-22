@@ -30,6 +30,8 @@ var hierarchy =
     [ "zSpace::zSlime", "classz_space_1_1z_slime.html", null ],
     [ "zSpace::zSlimeAgent", "classz_space_1_1z_slime_agent.html", null ],
     [ "zSpace::zSlimeEnvironment", "classz_space_1_1z_slime_environment.html", null ],
+    [ "zSpace::zStream", "structz_space_1_1z_stream.html", null ],
+    [ "zStreams", "structz_streams.html", null ],
     [ "zSpace::zVector", "classz_space_1_1z_vector.html", null ],
     [ "zSpace::zVertex", "classz_space_1_1z_vertex.html", null ],
     [ "zSpace::zWays", "structz_space_1_1z_ways.html", null ]
