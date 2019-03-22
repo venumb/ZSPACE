@@ -164,5 +164,11 @@
     <ClInclude Include="..\headers\application\zVariableExtrude.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\application\zVault.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\application\zClustering.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

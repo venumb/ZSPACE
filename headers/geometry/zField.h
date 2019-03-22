@@ -459,10 +459,10 @@ namespace zSpace
 			if (idY == 0) startIdY = 0;
 
 			int endIdX = numRings;
-			if (idX == n_X) endIdX = 0;
+			if (idX == n_X -1) endIdX = 0;
 
 			int endIdY = numRings;
-			if (idY == n_Y) endIdY = 0;
+			if (idY == n_Y -1) endIdY = 0;
 
 			for (int i = startIdX; i <= endIdX; i++)
 			{
@@ -1341,12 +1341,13 @@ namespace zSpace
 		void getNeighbourhoodRing(int index, int numRings, vector<int> &ringNeighbours)
 		{
 			vector<int> out;
-
-			//printf("\n working numRings : %i ", numRings);
-
+			
+			
 			int idX = floor(index / (n_Y * n_Z));
-			int idY = floor(index / (n_Z));			
+			int idY = floor((index  - (idX *n_Z *n_Y) ) / (n_Z));
 			int idZ = index % n_Z;
+			
+			//printf("\n%i : %i %i %i ", index, idX, idY, idZ);
 
 			int startIdX = -numRings;
 			if (idX == 0) startIdX = 0;
@@ -1358,13 +1359,14 @@ namespace zSpace
 			if (idZ == 0) startIdZ = 0;
 
 			int endIdX = numRings;
-			if (idX == n_X) endIdX = 0;
+			if (idX == n_X - 1) endIdX = 0;
 
 			int endIdY = numRings;
-			if (idY == n_Y) endIdY = 0;
+			if (idY == n_Y - 1) endIdY = 0;
 
 			int endIdZ = numRings;
-			if (idZ == n_Z) endIdZ = 0;
+			if (idZ == n_Z - 1) endIdZ = 0;
+					
 
 			for (int i = startIdX; i <= endIdX; i++)
 			{
@@ -1377,10 +1379,12 @@ namespace zSpace
 						int newId_Y = idY + j;
 						int newId_Z = idZ + k;
 
+						
+
 						int newId = (newId_X * (n_Y*n_Z)) + (newId_Y * n_Z) + newId_Z;
 
 
-						if (newId < numFieldValues()) out.push_back(newId);
+						if (newId < numFieldValues() && newId >= 0) out.push_back(newId);
 					}
 					
 				}

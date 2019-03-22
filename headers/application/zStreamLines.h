@@ -290,7 +290,7 @@ namespace zSpace
 	*	\return			bool							- true if the graph is created.
 	*	\since version 0.0.1	
 	*/	
-	inline bool createStreamGraph( zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, bool NormalDir = false)
+	inline bool createStreamGraph( zGraph &streamGraph, zVector &seedPoint, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType, double dT, zIntergrationType type, double angle = 0, bool flipBackward = true)
 	{
 		
 
@@ -308,6 +308,8 @@ namespace zSpace
 			zParticle seedForward(&startForward);
 
 			double currentLength = 0.0;
+
+			//printf("\n working!");
 
 			while (!exit)
 			{
@@ -329,13 +331,17 @@ namespace zSpace
 
 				if (!checkBounds)
 				{
-						exit = true;
+					//printf("\n bounds working!");
+
+					exit = true;
 					continue;
 				}
 
 				// local minima or maxima point
 				if (fieldForce.length() == 0)
 				{
+					//printf("\n force working!");
+					
 					exit = true;
 					continue;
 				}
@@ -344,7 +350,10 @@ namespace zSpace
 				fieldForce.normalize();
 				fieldForce *= (dSep * 1.0);
 
-				if (NormalDir) fieldForce = fieldForce ^ zVector(0, 0, 1);
+				zVector axis(0, 0, 1);
+
+				double rotateAngle = angle;
+				fieldForce = fieldForce.rotateAboutAxis(axis, rotateAngle);
 
 				seedForward.addForce(fieldForce);
 
@@ -356,28 +365,47 @@ namespace zSpace
 
 				if (!checkBounds)
 				{
+					//printf("\n bounds 2 working!");
+
+					//printf("\n %1.2f %1.2f %1.2f ", newPos.x, newPos.y, newPos.z);
+
 					exit = true;
 					continue;
 
 					
+					
 				}
 
-				bool checkRepeat = checkRepeatElement(newPos, positions);
+				int index = -1;
+				bool checkRepeat = checkRepeatElement(newPos, positions, index);
 				if (checkRepeat)
 				{
+					//printf("\n repeat working!");
+
 					exit = true;
 					continue;
-
+					
+				
 					
 				}
 
 				
 				bool validStreamPoint = checkValidStreamPosition(newPos, inField, fieldIndex_streamPositions, dTest);
 
-				if (!validStreamPoint) exit = true;
+				if (!validStreamPoint)
+				{
+					exit = true;
+
+					//printf("\n validity working!");
+				}
 
 				// check length
-				if (currentLength + curPos.distanceTo(newPos) > maxLength) exit = true;
+				if (currentLength + curPos.distanceTo(newPos) > maxLength)
+				{
+					exit = true;
+
+					//printf("\n length working!");
+				}
 				
 				// add new stream point
 				if(!exit)
@@ -447,9 +475,15 @@ namespace zSpace
 
 				// update particle force
 				fieldForce.normalize();
-				fieldForce *= (dSep * -1.0);
+				fieldForce *= (dSep * 1.0);
 
-				if (NormalDir) fieldForce = fieldForce ^ zVector(0, 0, 1);
+				zVector axis(0, 0, 1);
+				fieldForce *= -1;
+
+				double rotateAngle = angle;
+				if (!flipBackward) rotateAngle = 180.0 - angle;
+
+				fieldForce = fieldForce.rotateAboutAxis(axis, rotateAngle);
 
 				seedBackward.addForce(fieldForce);
 
@@ -466,7 +500,8 @@ namespace zSpace
 					continue;
 				}
 
-				bool checkRepeat = checkRepeatElement(newPos, positions);
+				int index = -1;
+				bool checkRepeat = checkRepeatElement(newPos, positions, index);
 				if (checkRepeat)
 				{
 					exit = true;
@@ -608,7 +643,7 @@ namespace zSpace
 	*	\param	[in]	NormalDir						- integrates the stream lines normal to the field direction.
 	*	\since version 0.0.1
 	*/
-	inline void createStreams(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, bool NormalDir = false  )
+	inline void createStreams(vector<zStream>& streams, vector<zVector> &start_seedPoints, zField2D<zVector>& inField, vector<vector<zVector>> &fieldIndex_streamPositions, double &dSep, double &dTest, double minLength, double maxLength, zFieldStreamType streamType = zForwardBackward, double dT =1.0, zIntergrationType type = zRK4, bool seedStreamsOnly = false, double angle = 0, bool flipBackward = true)
 	{
 		streams.clear();
 
@@ -646,11 +681,12 @@ namespace zSpace
 				zGraph temp;
 
 				double temp_DSep = (!noStartSeedPoints) ? 0.2 : dSep;
-				bool chk = createStreamGraph(temp, start_seedPoints[i], inField, fieldIndex_streamPositions, temp_DSep, dTest, minLength, maxLength, streamType, dT, type, NormalDir);
+				bool chk = createStreamGraph(temp, start_seedPoints[i], inField, fieldIndex_streamPositions, temp_DSep, dTest, minLength, maxLength, streamType, dT, type, angle, flipBackward);
 
 			
 				if (chk)
 				{
+					
 					streams.push_back(zStream(temp));
 				}
 			}
@@ -684,7 +720,7 @@ namespace zSpace
 			for (int i = 0; i < seedPoints.size(); i++)
 			{
 				zGraph temp;
-				bool chk = createStreamGraph(temp, seedPoints[i], inField, fieldIndex_streamPositions, dSep, dTest, minLength, maxLength, streamType, dT, type, NormalDir);
+				bool chk = createStreamGraph(temp, seedPoints[i], inField, fieldIndex_streamPositions, dSep, dTest, minLength, maxLength, streamType, dT, type, angle, flipBackward);
 
 				if (chk)
 				{
@@ -814,7 +850,8 @@ namespace zSpace
 
 				}
 
-				bool checkRepeat = checkRepeatElement(newPos, positions);
+				int index = -1;
+				bool checkRepeat = checkRepeatElement(newPos, positions, index);
 				if (checkRepeat)
 				{
 					exit = true;
@@ -937,7 +974,8 @@ namespace zSpace
 					continue;
 				}
 
-				bool checkRepeat = checkRepeatElement(newPos, positions);
+				int index = -1;
+				bool checkRepeat = checkRepeatElement(newPos, positions, index);
 				if (checkRepeat)
 				{
 					exit = true;

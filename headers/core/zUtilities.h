@@ -412,7 +412,7 @@ namespace zSpace
 	*	\return				int				- number of files in the input folder.
 	*	\since version 0.0.1
 	*/
-	int getNumfiles(string path)
+	inline int getNumfiles(string path)
 	{
 		int out = 0;
 
@@ -430,7 +430,7 @@ namespace zSpace
 	*	\return				int				- number of files in the input folder.
 	*	\since version 0.0.1
 	*/
-	int getNumfiles_Type(string path, string extension = "json")
+	inline int getNumfiles_Type(string path, string extension = "json")
 	{
 		int out = 0;
 

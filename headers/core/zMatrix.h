@@ -156,7 +156,6 @@ namespace zSpace
 		*	\return				int		- number of rows.
 		*	\since version 0.0.1
 		*/
-
 		int getNumRows()
 		{
 			return this->rows;
@@ -167,20 +166,47 @@ namespace zSpace
 		*	\return				int		- number of columns.
 		*	\since version 0.0.1
 		*/
-
 		int getNumCols()
 		{
 			return this->cols;
 		}
 
+		/*! \brief This method gets the index in the matrix value container given the row and column indicies.
+		*	\param		[in]	int		- row index.
+		*	\param		[in]	int		- column index.
+		*	\return				int		- index in value container.
+		*	\since version 0.0.1
+		*/
+		int getIndex(int rowIndex, int colIndex)
+		{
+			if (rowIndex < 0 || rowIndex > this->getNumRows()) throw std::invalid_argument("input rowIndex out of bounds.");
+			if (colIndex < 0 || colIndex > this->getNumCols()) throw std::invalid_argument("input colIndex out of bounds.");
 
-		/*! \brief This method gets the row values at the input row index.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+			return rowIndex * this->getNumCols() + colIndex;
+		}
+
+		/*! \brief This method gets the row and column index in the matrix given the input container index.
+		*	\param		[in]	int		- index.
+		*	\param		[out]	int		- row index.
+		*	\param		[out]	int		- column index.
+		*	\since version 0.0.1
+		*/
+		void getInices(int index, int &rowIndex, int &colIndex)
+		{
+			if (index < 0 || index > this->getNumRows() * this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
+			
+			rowIndex = 
+
+			rowIndex = floor(index / this->getNumCols());
+			colIndex = index % this->getNumCols();		
+		}
+
+		/*! \brief This method gets the row values as container of values at the input row index.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	index		- input row index.
 		*	\return				vector<T>	- vector of row values.
 		*	\since version 0.0.1
 		*/
-
 		vector<T> getRow(int index)
 		{
 			if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
@@ -195,13 +221,32 @@ namespace zSpace
 			return out;
 		}
 
+		/*! \brief This method gets the row matrix at the input row index.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	index		- input row index.
+		*	\return				zMatrix<T>	- row matrix.
+		*	\since version 0.0.1
+		*/
+		zMatrix<T> getRowMatrix(int index)
+		{
+			if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
+
+			zMatrix<T> out (1 , this->getNumCols());
+
+			for (int i = 0; i < this->getNumCols(); i++)
+			{
+				out(0,i)  = (this->operator()(index, i));
+			}
+
+			return out;
+		}
+
 		/*! \brief This method gets the column values at the input column index.
 		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	index		- input column index.
 		*	\return				vector<T>	- vector of column values.
 		*	\since version 0.0.1
 		*/
-
 		vector<T> getCol(int index)
 		{
 			if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
@@ -211,6 +256,26 @@ namespace zSpace
 			for (int i = 0; i < this->getNumRows(); i++)
 			{
 				out.push_back(this->operator()(i, index));
+			}
+
+			return out;
+		}
+
+		/*! \brief This method gets the column matrix at the input column index.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	index		- input column index.
+		*	\return				zMatrix<T>	- column matrix.
+		*	\since version 0.0.1
+		*/
+		zMatrix<T> getColumnMatrix(int index)
+		{
+			if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
+
+			vector<T> out;
+
+			for (int i = 0; i < this->getNumRows(); i++)
+			{
+				out(i, 0) = (this->operator()(i, index));
 			}
 
 			return out;
@@ -297,13 +362,31 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method sets the row values at the input row index with the input row Matrix.
+		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	index		- input row index.
+		*	\param		[in]	rowMatrix	- row matrix.
+		*	\since version 0.0.1
+		*/
+		void setRow(int index, zMatrix<T> &rowMatrix)
+		{
+			if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
+			if (rowMatrix.getNumCols() != this->getNumCols()) throw std::invalid_argument("input values size dont match with number of columns.");
+			if (rowMatrix.getNumRows() != 1) throw std::invalid_argument("input in not row matrix.");
+
+			for (int i = 0; i < this->getNumCols(); i++)
+			{
+				this->operator()(index, i) = rowMatrix(0,i);
+			}
+
+		}
+
 		/*! \brief This method sets the col values at the input col index with the input value.
 		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	index		- input col index.
 		*	\param		[in]	val			- value of the col.
 		*	\since version 0.0.1
 		*/
-
 		void setCol(int index, T val)
 		{
 			if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
@@ -322,7 +405,6 @@ namespace zSpace
 		*	\param		[in]	vals		- vector of values for the col.
 		*	\since version 0.0.1
 		*/
-
 		void setCol(int index, vector<T>& vals)
 		{
 			if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
@@ -336,12 +418,30 @@ namespace zSpace
 		}
 
 
+		/*! \brief This method sets the row values at the input column index with the input column Matrix.
+		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	index		- input row index.
+		*	\param		[in]	colMatrix	- column matrix.
+		*	\since version 0.0.1
+		*/
+		void setCol(int index, zMatrix<T> &colMatrix)
+		{
+			if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
+			if (colMatrix.getNumRows() != this->getNumRows()) throw std::invalid_argument("input values size dont match with number of rows.");
+			if (rowMatrix.getNumCols() != 1) throw std::invalid_argument("input in not column matrix.");
+
+			for (int i = 0; i < this->getNumRows(); i++)
+			{
+				this->operator()(i, index) = rowMatrix(i, 0);
+			}
+
+		}
+
 		/*! \brief This method sets the diagonal values of a square matrix with the input value.
 		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	val			- value of the diagonal.
 		*	\since version 0.0.1
 		*/
-
 		void setDiagonal(T val)
 		{
 			if (this->getNumRows() != this->getNumCols()) throw std::invalid_argument("input not a square matrix.");

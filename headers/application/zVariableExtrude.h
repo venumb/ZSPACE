@@ -129,8 +129,9 @@ namespace zSpace
 		return out;
 	}
 
-	/*! \brief This method offset extrudes the faces of the input mesh based on vertex / face color. It uses only the red channel of the color.
+	/*! \brief This method offsets the boundary faces of the input mesh based on vertex color. It uses only the red channel of the color.
 	*
+	*	\details	face offset based on http://pyright.blogspot.com/2014/11/polygon-offset-using-vector-math-in.html
 	*	\param		[in]	inMesh						- input mesh.
 	*	\param		[in]	keepExistingFaces			- true if existing face needs to be retained.
 	*	\param		[in]	minVal						- minimum offset. Needs to be between 0 and 1.
@@ -138,7 +139,7 @@ namespace zSpace
 	*	\param		[in]	useVertexColor				- true if vertex color is to be used else face color is used.
 	*	\since version 0.0.1
 	*/
-	inline zMesh variableFaceOffset(zMesh & inMesh, bool keepExistingFaces = true, bool assignColor = true, double minVal = 0.01, double maxVal = 0.99)
+	inline zMesh variableBoundaryOffset(zMesh & inMesh, bool keepExistingFaces = true, bool assignColor = true, double minVal = 0.01, double maxVal = 0.99)
 	{
 
 		zMesh out;
@@ -174,39 +175,69 @@ namespace zSpace
 					double extrudeVal = ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
 
 					
-					zEdge *vEdge = inMesh.vertices[i].getEdge();
+					zEdge *vEdge;
+
+					vector<int> cEdges;
+					inMesh.getConnectedEdges(i, zVertexData, cEdges);
+
+					for (int j = 0; j < cEdges.size(); j++)
+					{
+						if (inMesh.onBoundary(cEdges[j], zEdgeData))
+						{
+							vEdge = &inMesh.edges[cEdges[j]];
+						}
+					}
+
+					//if (vEdge == NULL) continue;
 
 					int next = vEdge->getVertex()->getVertexId();;
 					int prev = vEdge->getPrev()->getSym()->getVertex()->getVertexId();
 
-
+					zVector vNorm = inMesh.vertexNormals[i];
+					
 					zVector Ori = inMesh.vertexPositions[i];;
-					zVector v1 = inMesh.vertexPositions[prev] - Ori;
+					
+					zVector v1 = Ori - inMesh.vertexPositions[prev];
 					v1.normalize();
+
+					zVector n1 = v1 ^ vNorm  ;
+					n1.normalize();	
 
 					zVector v2 = inMesh.vertexPositions[next] - Ori;
 					v2.normalize();
 
-					zVector v3 = v1;
-
+					zVector n2 = v2 ^ vNorm ;
+					n2.normalize();
+			
 					v1 = v1 ^ v2;
-					v3 = v3 + v2;
+					zVector v3 = (n1 + n2);
 
+					v3 *= 0.5;
+					v3.normalize();
+				
+
+				
 					double cs = v3 * v2;
-
+					double length = extrudeVal;
+					
+					
 					zVector a1 = v2 * cs;
 					zVector a2 = v3 - a1;
 
-					double alpha = sqrt(a2.length() * a2.length());
-					if (cs < 0) alpha *= -1;
+					double alpha = 0;
+					if (a2.length() > 0) alpha = sqrt(a2.length() * a2.length());
 
-					double length = extrudeVal / alpha;
-				
+					if (cs < 0 && a2.length() > 0) alpha *= -1;
+
+					if (alpha > 0) length /= alpha;					
+
 					zVector offPos = Ori + (v3 * length);
 
 					temp.push_back(positions.size());
 					positions.push_back(offPos);
 					if (assignColor) vertexColors.push_back(inMesh.vertexColors[i]);
+
+				
 
 				}	
 
@@ -255,34 +286,63 @@ namespace zSpace
 
 					zEdge *vEdge = inMesh.vertices[i].getEdge();
 
+					vector<int> cEdges;
+					inMesh.getConnectedEdges(i, zVertexData, cEdges);
+
+					for (int j = 0; j < cEdges.size(); j++)
+					{
+						if (inMesh.onBoundary(cEdges[j], zEdgeData))
+						{
+							vEdge = &inMesh.edges[cEdges[j]];
+						}
+					}
+
+					//if (vEdge == NULL) continue;
+
+
 					int next = vEdge->getVertex()->getVertexId();;
 					int prev = vEdge->getPrev()->getSym()->getVertex()->getVertexId();
 
+					zVector vNorm = inMesh.vertexNormals[i];
 
 					zVector Ori = inMesh.vertexPositions[i];;
-					zVector v1 = inMesh.vertexPositions[prev] - Ori;
+
+					zVector v1 = Ori - inMesh.vertexPositions[prev];
 					v1.normalize();
+
+					zVector n1 = v1 ^ vNorm;
+					n1.normalize();
 
 					zVector v2 = inMesh.vertexPositions[next] - Ori;
 					v2.normalize();
 
-					zVector v3 = v1;
+					zVector n2 = v2 ^ vNorm;
+					n2.normalize();
 
 					v1 = v1 ^ v2;
-					v3 = v3 + v2;
+					zVector v3 = (n1 + n2);
+
+					v3 *= 0.5;
+					v3.normalize();
+
+
 
 					double cs = v3 * v2;
+					double length = extrudeVal;
+
 
 					zVector a1 = v2 * cs;
 					zVector a2 = v3 - a1;
 
-					double alpha = sqrt(a2.length() * a2.length());
-					if (cs < 0) alpha *= -1;
+					double alpha = 0;
+					if (a2.length() > 0) alpha = sqrt(a2.length() * a2.length());
 
-					double length = extrudeVal / alpha;
+					if (cs < 0 && a2.length() > 0) alpha *= -1;
+
+					if (alpha > 0) length /= alpha;
 
 					zVector offPos = Ori + (v3 * length);
-
+					
 					
 					positions.push_back(offPos);
 					if (assignColor) vertexColors.push_back(inMesh.vertexColors[i]);

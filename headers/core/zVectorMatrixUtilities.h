@@ -250,13 +250,15 @@ namespace zSpace
 	*	\param		[in]	inVal			- input value.
 	*	\param		[in]	values			- input container of values to be checked against.
 	*	\param		[in]	precision		- precision or number of digits after the decimal point.
+	*	\param		[out]	index			- index of the first repeat element.
 	*	\return				bool			- true if there is a repeat element.
 	*	\since version 0.0.1
 	*/
 	template <typename T>
-	bool checkRepeatElement(T &inVal, vector<T> values , int precision = 3)
+	bool checkRepeatElement(T &inVal, vector<T> values , int &index,  int precision = 3)
 	{
 		bool out = false;
+		index = -1;
 
 		for (int i = 0; i < values.size(); i++)
 		{
@@ -266,6 +268,8 @@ namespace zSpace
 			if (v1 == v2)
 			{
 				out = true;
+
+				index = i;
 				break;
 			}
 		}
@@ -789,6 +793,142 @@ namespace zSpace
 
 	}
 
+	/*! \brief This method computes the euclidean distance between two input row matricies.  The number of columns of m1 and m2 need to be equal. 
+	*
+	*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	m1			- input zMatrix 1.
+	*	\param		[in]	m2			- input zMatrix 2.
+	*	\param		[in]	tolerance	- input tolerance for distance check.
+	*	\return 			double		- euclidean distance.
+	*/
+	template <typename T>
+	double getEuclideanDistance(zMatrix<T> &m1, zMatrix<T> &m2, double tolerance = 0.001)
+	{
+		if (m1.getNumCols() != m2.getNumCols()) throw std::invalid_argument("number of columns in m1 not equal to number of columns in m2.");
+		if (m2.getNumRows() != 1) throw std::invalid_argument("number of rows in m2 not equal to 1.");
+		if (m1.getNumRows() != 1) throw std::invalid_argument("number of rows in m1 not equal to 1.");
+
+		double out;
+
+		double dist = 0;;
+
+		for (int j = 0; j < m1.getNumCols(); j++)
+		{
+			dist += pow((m1(0, j) - m2(0, j)), 2);
+		}
+
+		if (dist > tolerance) out = sqrt(dist);
+		else out = 0.0;			
+		
+
+		return out;
+	}
+
+	/*! \brief This method returns the minimum value of the input matirix.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	inMatrix		- input matrix.
+	*	\param		[out]	index			- index of minimum value in the matrix container.
+	*	\return 			T				- minimum value
+	*/
+	template <typename T>
+	T zMin(zMatrix<T> &inMatrix, int &index)
+	{
+		T minVal= 1000000;
+		int minID = -1;
+		for (int i = 0; i < inMatrix.getNumRows(); i++)
+		{
+			for (int j = 0; j < inMatrix.getNumCols(); j++)
+			{
+				if (inMatrix(i,j) < minVal)
+				{
+					minVal = inMatrix(i, j);
+					minID = inMatrix.getIndex(i,j);
+				}
+
+			}
+
+
+			
+		}
+
+		index = minID;
+		
+		return minVal;
+	}
+
+	/*! \brief This method returns the maximum value of the input container of zVectors.
+	*
+	*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+	*	\param		[in]	inMatrix		- input matrix.
+	*	\param		[out]	index			- index of maximum value in the matrix container.
+	*	\return 			T				- minimum value
+	*/
+	template <typename T>
+	T zMax(zMatrix<T> &inMatrix, int &index)
+	{
+		T maxVal = -1000000;
+		int maxID = -1;
+		for (int i = 0; i < inMatrix.getNumRows(); i++)
+		{
+			for (int j = 0; j < inMatrix.getNumCols(); j++)
+			{
+				if (inMatrix(i, j) > maxVal)
+				{
+					maxVal = inMatrix(i, j);
+					maxID = inMatrix.getIndex(i, j);
+				}
+
+			}
+
+		}
+
+		index = maxID;
+
+		return maxVal;
+	}
+
+
+	/*! \brief This method create a matrix from input container of zVectors. 
+	*
+	*	\param		[out]	inMatrix		- input matrix.
+	*	\param		[in]	inPoints		- input container of zVectors.
+	*/
+	void fromPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
+	{
+		inMatrix = zMatrixd(inPoints.size(), 3);
+
+		for (int i = 0; i < inPoints.size(); i++)
+		{
+			inMatrix(i, 0) = inPoints[i].x;
+			inMatrix(i, 1) = inPoints[i].y;
+			inMatrix(i, 2) = inPoints[i].z;
+		}
+	}
+
+
+	/*! \brief This method create a container of zVectors from input matrix.
+	*
+	*	\param		[in]	inMatrix		- input matrix.
+	*	\param		[out]	inPoints		- input container of zVectors.
+	*/
+	void toPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
+	{
+		if ( inMatrix.getNumCols() != 3) throw std::invalid_argument("cannnot convert zMatrix to zVector");
+
+		inPoints.clear();
+
+		for (int i = 0; i < inMatrix.getNumRows(); i++)
+		{
+			inPoints.push_back(zVector());
+
+			
+			inPoints[i].x = inMatrix(i, 0);
+			inPoints[i].y = inMatrix(i, 1);
+			inPoints[i].z = inMatrix(i, 2);
+			
+		}
+	}
 
 	//--------------------------
 	//---- MATRIX METHODS USING EIGEN

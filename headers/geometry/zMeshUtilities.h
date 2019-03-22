@@ -21,6 +21,7 @@ namespace zSpace
 	*  @{
 	*/
 
+	
 	//--------------------------
 	//--- SET METHODS 
 	//--------------------------
@@ -949,6 +950,31 @@ namespace zSpace
 		}
 	}
 
+	/*! \brief This method creates a duplicate of the input mesh.
+	*
+	*	\param		[in]	inMesh			- input mesh.
+	*	\return				zMesh			- duplicate mesh.
+	*	\since version 0.0.1
+	*/
+	inline zMesh duplicateMesh(zMesh &inMesh)
+	{
+		zMesh out;
+
+		vector<zVector> positions;
+		vector<int> polyConnects;
+		vector<int> polyCounts;
+
+		positions = inMesh.vertexPositions;
+		computePolyConnects_PolyCount(inMesh, polyConnects, polyCounts);
+
+		out = zMesh(positions, polyCounts, polyConnects);
+
+		out.vertexColors = inMesh.vertexColors;
+		out.edgeColors = inMesh.edgeColors;
+		out.faceColors = inMesh.faceColors;
+
+		return out;
+	}
 
 	/*! \brief This method combines the two disjoint meshes to one mesh.
 	*

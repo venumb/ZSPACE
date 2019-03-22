@@ -285,9 +285,9 @@ namespace zSpace
 		
 		// set colors
 
-		setVertexColor(inMesh, zColor(1, 0, 0, 1));
-		setEdgeColor(inMesh, zColor(0, 0, 0, 1));
-		setFaceColor(inMesh, zColor(0.5, 0.5, 0.5,1));
+		//setVertexColor(inMesh, zColor(1, 0, 0, 1));
+		//setEdgeColor(inMesh, zColor(0, 0, 0, 1));
+		//setFaceColor(inMesh, zColor(0.5, 0.5, 0.5,1));
 	}
 
 	/*! \brief This method creates a mesh from the input scalar field.
