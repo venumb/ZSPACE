@@ -1,32 +1,25 @@
 
+//--------------------------
+//---- zOBJECTS
+//--------------------------
+#include <headers/app/include/zObjects.h>
 
 //--------------------------
-//---- zCORE
+//---- zFNSETS
 //--------------------------
-#include <headers/include/zCore.h>
+#include <headers/app/include/zFnSets.h>
 
 //--------------------------
-//---- zGEOMETRY
+//---- zVIEWER
 //--------------------------
-#include <headers/include/zGeometry.h>
+#include <headers/app/include/zViewer.h>
 
 //--------------------------
-//---- zDYNAMICS
+//---- zTOOLSETS
 //--------------------------
-#include <headers/include/zDynamics.h>
+#include <headers/app/include/zToolsets.h>
 
-//--------------------------
-//---- zData
-//--------------------------
-#include <headers/include/zData.h>
 
-//--------------------------
-//---- zDISPLAY
-//--------------------------
-#include <headers/include/zDisplay.h>
 
-//--------------------------
-//---- zIO
-//--------------------------
-#include <headers/include/zIO.h>
+
 

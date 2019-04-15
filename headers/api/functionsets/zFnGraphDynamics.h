@@ -1,0 +1,224 @@
+#pragma once
+
+#include <headers/framework/dynamics/zParticle.h>
+
+#include <headers/api/functionsets/zFnGraph.h>
+
+namespace zSpace
+{
+
+	/** \addtogroup zDynamics
+	*	\brief The physics and dynamics classes and utility methods of the library.
+	*  @{
+	*/
+
+	/*! \class zFnMeshDynamics
+	*	\brief A mesh function set for dynamics.
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/
+
+	class zFnGraphDynamics : public zFnGraph
+	{
+	private:
+		//--------------------------
+		//---- PROTECTED ATTRIBUTES
+		//--------------------------
+
+		/*!	\brief container of particle function set  */
+		vector<zFnParticle> fnParticles;
+
+		/*!	\brief container of  particle objects  */
+		vector<zObjParticle> particlesObj;
+
+	public:
+
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
+
+		/*! \brief Default constructor.
+		*
+		*	\since version 0.0.1
+		*/
+		zFnGraphDynamics() {}
+
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	_graphObj			- input graph object.
+		*	\since version 0.0.1
+		*/
+		zFnGraphDynamics(zObjGraph &_graphObj)
+		{
+			graphObj = &_graphObj;
+		}
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
+		*
+		*	\since version 0.0.1
+		*/
+		~zFnGraphDynamics() {}
+
+		//--------------------------
+		//---- OVERRIDE METHODS
+		//--------------------------
+				
+
+		void clear() override
+		{
+			zFnGraph::clear();		
+
+			fnParticles.clear();
+			particlesObj.clear();
+		}
+
+		//--------------------------
+		//---- CREATE METHODS
+		//--------------------------
+
+		/** \addtogroup mesh creation
+		*	\brief Collection of mesh creation methods.
+		*  @{
+		*/
+
+		/*! \brief This method creates the particles object from the graph object already attached to zFnGraphDynamics.
+		*
+		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
+		*	\since version 0.0.1
+		*/
+		void makeDynamic(bool fixBoundary = false)
+		{
+			fnParticles.clear();
+
+			for (int i = 0; i < graphObj->graph.vertexPositions.size(); i++)
+			{
+				bool fixed = false;
+
+				if (fixBoundary) fixed = (checkVertexValency(i, 1));
+
+				zObjParticle p;
+				p.particle = zParticle(graphObj->graph.vertexPositions[i], fixed);
+				particlesObj.push_back(p);
+
+				if (!fixed) setVertexColor(zColor(0, 0, 1, 1));
+			}
+
+			for (int i = 0; i < particlesObj.size(); i++)
+			{
+				fnParticles.push_back(zFnParticle(particlesObj[i]));
+			}
+		}
+
+		/*! \brief This method creates a particle system from the input mesh object.
+		*
+		*	\param		[in]	_graphObj			- input graph object.
+		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
+		*	\since version 0.0.1
+		*/
+		void create(zObjGraph &_graphObj, bool fixBoundary = false)
+		{
+			graphObj = &_graphObj;
+
+			makeDynamic(fixBoundary);
+			
+		}
+
+		/** @}*/
+
+		//--------------------------
+		//---- FORCE METHODS 
+		//--------------------------
+
+		/*! \brief This method adds the input gravity force to all the particles in the input container.
+		*
+		*	\param		[in]		grav		- Input gravity force.
+		*	\since version 0.0.1
+		*/
+		void addGravityForce(zVector grav = zVector(0, 0, -9.8))
+		{
+			for (int i = 0; i < fnParticles.size(); i++)
+			{
+				fnParticles[i].addForce(grav);
+			}
+		}
+
+		/*! \brief This method adds the edge forces to all the particles in the input container based on the input graph/ mesh.
+		*
+		*	\param		[in]	inHEDataStructure	- Input graph or mesh.
+		*	\param		[in]	weights				- Input container of weights per force.
+		*	\since version 0.0.1
+		*/
+		void addEdgeForce(const vector<double> &weights = vector<double>())
+		{
+
+			if (weights.size() > 0 && weights.size() != graphObj->graph.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
+
+			for (int i = 0; i < graphObj->graph.vertexActive.size(); i++)
+			{
+				if (graphObj->graph.vertexActive[i])
+				{
+					if (fnParticles[i].getFixed()) continue;
+
+					vector<int> cEdges;
+					getConnectedEdges(i, zVertexData, cEdges);
+
+					zVector eForce;
+
+					for (int j = 0; j < cEdges.size(); j++)
+					{
+						int v1 = graphObj->graph.edges[cEdges[j]].getVertex()->getVertexId();
+						zVector e = graphObj->graph.vertexPositions[v1] - graphObj->graph.vertexPositions[i];
+
+						double len = e.length();
+						e.normalize();
+
+						if (weights.size() > 0) e *= weights[i];
+
+						eForce += (e * len);
+					}
+
+					fnParticles[i].addForce(eForce);
+
+				}
+				else fnParticles[i].setFixed(true);;
+
+			}
+
+		}
+
+		
+
+		//--------------------------
+		//---- UPDATE METHODS 
+		//--------------------------
+
+		/*! \brief This method updates the position and velocity of all the  particle.
+		*
+		*	\param		[in]	dT					- timestep.
+		*	\param		[in]	type				- integration type - zEuler or zRK4.
+		*	\param		[in]	clearForce			- clears the force if true.
+		*	\param		[in]	clearVelocity		- clears the velocity if true.
+		*	\param		[in]	clearDerivatives	- clears the derivatives if true.
+		*	\since version 0.0.1
+		*/
+		void update(double dT, zIntergrationType type = zEuler, bool clearForce = true, bool clearVelocity = false, bool clearDerivatives = false)
+		{
+			for (int i = 0; i < fnParticles.size(); i++)
+			{
+				fnParticles[i].integrateForces(dT, type);
+				fnParticles[i].updateParticle(clearForce, clearVelocity, clearDerivatives);
+			}
+		}
+	};
+
+	
+
+}
+
+
+
