@@ -11,13 +11,13 @@
 
 namespace zSpace
 {
-	/** \addtogroup zGeometry
-	*	\brief  The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zFieldClasses
-	*	\brief The field classes of the library.
+	/** \addtogroup zFuntionSets
+	*	\brief The function set classes of the library.
 	*  @{
 	*/
 
@@ -27,7 +27,6 @@ namespace zSpace
 	*	\tparam				T			- Type to work with double(scalar field) and zVector(vector field).
 	*	\since version 0.0.2
 	*/
-	
 
 	/** @}*/
 
@@ -956,8 +955,8 @@ namespace zSpace
 
 			for (int i = 0; i < distVals.size(); i++)
 			{
-				dMin = zMin(dMin, distVals[i]);
-				dMax = zMax(dMax, distVals[i]);
+				dMin = coreUtils.zMin(dMin, distVals[i]);
+				dMax = coreUtils.zMax(dMax, distVals[i]);
 			}
 
 			for (int j = 0; j < fnPoints.numPoints(); j++)
@@ -1388,7 +1387,7 @@ namespace zSpace
 
 			for (int i = 0; i < scalars0.size(); i++)
 			{
-				out.push_back(zMin(scalars0[i], scalars1[i]));
+				out.push_back(coreUtils.zMin(scalars0[i], scalars1[i]));
 			}
 
 			if (normalise) normliseValues(out);

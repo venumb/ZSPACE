@@ -7,13 +7,13 @@
 	*/
 namespace zSpace
 {
-	/** \addtogroup zCore
-	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zCoreEnumerators
-	*	\brief Collection of all the enumerators in the library.
+	/** \addtogroup zCore
+	*	\brief  The core classes, enumerators ,defintions of the library.
 	*  @{
 	*/
 

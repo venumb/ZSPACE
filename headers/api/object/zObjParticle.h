@@ -7,8 +7,13 @@
 namespace zSpace
 {
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zObjects
-	*	\brief The object and function set classes of the library.
+	*	\brief The object classes of the library.
 	*  @{
 	*/
 
@@ -16,6 +21,8 @@ namespace zSpace
 	*	\brief The particle object class.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 

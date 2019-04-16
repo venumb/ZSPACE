@@ -5,6 +5,12 @@
 
 namespace zSpace
 {
+
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zFuntionSets
 	*	\brief The function set classes of the library.
 	*  @{
@@ -14,6 +20,8 @@ namespace zSpace
 	*	\brief A point cloud function set.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 

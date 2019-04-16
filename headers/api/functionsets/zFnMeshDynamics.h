@@ -7,15 +7,22 @@
 namespace zSpace
 {
 
-	/** \addtogroup zDynamics
-	*	\brief The physics and dynamics classes and utility methods of the library.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zFuntionSets
+	*	\brief The function set classes of the library.
 	*  @{
 	*/
 
 	/*! \class zFnMeshDynamics
 	*	\brief A mesh function set for dynamics.
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -40,14 +47,14 @@ namespace zSpace
 
 		/*! \brief Default constructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zFnMeshDynamics() {}
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_meshObj			- input mesh object.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zFnMeshDynamics(zObjMesh &_meshObj)
 		{
@@ -60,7 +67,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		~zFnMeshDynamics() {}
 
@@ -90,7 +97,7 @@ namespace zSpace
 		/*! \brief This method creates the particles object from the mesh object already attached to zFnMeshDynamics.
 		*
 		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void makeDynamic( bool fixBoundary = false)
 		{
@@ -122,7 +129,7 @@ namespace zSpace
 		*
 		*	\param		[in]	_meshObj			- input mesh object.
 		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void makeDynamic(zObjMesh &_meshObj, bool fixBoundary = false)
 		{
@@ -141,7 +148,7 @@ namespace zSpace
 		/*! \brief This method adds the input gravity force to all the particles in the input container.
 		*
 		*	\param		[in]		grav		- Input gravity force.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void addGravityForce(zVector grav = zVector(0, 0, -9.8))
 		{
@@ -154,7 +161,7 @@ namespace zSpace
 		/*! \brief This method adds the edge forces to all the particles in the input container based on the input graph/ mesh.
 		*
 		*	\param		[in]	weights				- Input container of weights per vertex.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void addEdgeForce(const vector<double> &weights = vector<double>())
 		{
@@ -199,7 +206,7 @@ namespace zSpace
 		*	\param		[in]	fVolumes			- container of face volumes. Use getMeshFaceVolumes method to compute it.
 		*	\param		[in]	fCenters			- container of face centers. Use getCenters method to compute it.
 		*	\param		[in]	tolerance			- tolerance value. Default it is set to 0.001.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void addPlanarityForce(vector<double> &fVolumes, vector<zVector> fCenters, double tolerance = 0.001)
 		{
@@ -244,7 +251,7 @@ namespace zSpace
 		*	\param		[in]	clearForce			- clears the force if true.
 		*	\param		[in]	clearVelocity		- clears the velocity if true.
 		*	\param		[in]	clearDerivatives	- clears the derivatives if true.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void update(double dT, zIntergrationType type = zEuler, bool clearForce = true, bool clearVelocity = false, bool clearDerivatives = false)
 		{

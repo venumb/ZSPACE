@@ -6,8 +6,18 @@
 namespace zSpace
 {
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications. 
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsPathNetworks
+	*	\brief tool sets for path network optimization.
 	*  @{
 	*/
 
@@ -16,8 +26,12 @@ namespace zSpace
 	*
 	*	\tparam				T			- Type to work with zObjMesh or zObjGraph.
 	*	\tparam				U			- Type to work with zFnMesh or zFnGraph.
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 	
@@ -39,14 +53,14 @@ namespace zSpace
 
 		/*! \brief Default constructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zTsShortestPath() {}
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_heObj			- input half edge obj.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zTsShortestPath(T &_heObj);
 		
@@ -57,7 +71,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		~zTsShortestPath() {}
 
@@ -71,7 +85,7 @@ namespace zSpace
 		*	\param		[in]	index					- source vertex index.
 		*	\param		[out]	dist					- container of distance to each vertex from source.
 		*	\param		[out]	parent					- container of parent vertex index of each to each vertex. Required to get the path information.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void shortestDistance(int index, vector<float> &dist, vector<int> &parent);
 
@@ -83,7 +97,7 @@ namespace zSpace
 		*	\param		[in]	parent					- container of parent to each vertex. To be computed using the shortest distance method.
 		*	\param		[in]	type					- zWalkType - zEdgePath or zEdgeVisited.
 		*	\param		[out]	edgeContainer			- container of edges of the shortest path(zEdgePath) or number of times an edge is visited(zEdgeVisited).
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void shortestPath_DistanceParent( int indexA, int indexB, vector<float> &dist, vector<int> &parent, zWalkType type, vector<int> &edgeContainer);
 
@@ -93,14 +107,14 @@ namespace zSpace
 		*	\param		[in]	indexB					- destination vertex index.
 		*	\param		[in]	type					- zWalkType - zEdgePath or zEdgeVisited.
 		*	\param		[out]	edgeContainer			- container of edges of the shortest path(zEdgePath) or number of times an edge is visited(zEdgeVisited).
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void shortestPath(int indexA, int indexB, zWalkType type, vector<int> &edgeContainer);
 
 		/*! \brief This method computes the shortest path from the all vertices to all vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 		*
 		*	\param		[out]	edgeVisited				- container of number of times edge is visited.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void shortestPathWalks(vector<int> &edgeVisited);
 
@@ -108,7 +122,7 @@ namespace zSpace
 		*
 		*	\param		[in]	sourceVertices			- input container of source vertex indicies.
 		*	\param		[out]	edgeVisited				- container of number of times edge is visited.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void shortestPathWalks_SourceToAll(vector<int> &sourceVertices, vector<int> &edgeVisited);
 
@@ -116,7 +130,7 @@ namespace zSpace
 		*
 		*	\param		[in]	sourceVertices			- input container of source vertex indicies.
 		*	\param		[out]	edgeVisited				- container of number of times edge is visited.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 
 		inline void shortestPathWalks_SourceToOtherSource(vector<int> &sourceVertices, vector<int> &edgeVisited);
@@ -125,7 +139,7 @@ namespace zSpace
 		*
 		*	\param		[in]	sourceVertices			- container of source vertex indicies.
 		*	\param		[out]	vertexDistances			- container of distance to each vertex from the source.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void walk_DistanceFromSources(vector<int>& sourceVertices, vector<double>& vertexDistances);
 
@@ -135,7 +149,7 @@ namespace zSpace
 		*	\param		[in]	vertexDistances			- container of distance to each vertex from the source. To be computed using the method walkingDistance_Sources.
 		*	\param		[out]	walkedEdges				- container of edges already walked - stores both the start and end positions of the edge.
 		*	\param		[out]	currentWalkingEdges		- container of edges not completely walked - stores both the start and end positions.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void walk_Animate( double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges);
 
@@ -148,7 +162,7 @@ namespace zSpace
 		*	\details based on Dijkstra’s shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
 		*	\param		[out]	dist					- container of distance to each vertex from source.
 		*	\param		[out]	sptSet					- container of shortest path tree for each vertex..
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		inline int minDistance(vector<float> &dist, vector<bool> &sptSet)
 		{
@@ -996,30 +1010,50 @@ namespace zSpace
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 
-	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/*! \typedef zSpMesh
+	/** \addtogroup zToolsets
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsPathNetworks
+	*	\brief tool sets for path network optimization.
+	*  @{
+	*/
+
+	/*! \typedef zTsShortestPathMesh
 	*	\brief A shortest path object for meshes.
 	*
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
 
 	/** @}*/
 
 	typedef zTsShortestPath<zObjMesh, zFnMesh> zTsShortestPathMesh;
 
-	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/*! \typedef zSpGraph
+	/** \addtogroup zToolsets
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsPathNetworks
+	*	\brief tool sets for path network optimization.
+	*  @{
+	*/
+
+	/*! \typedef zTsShortestPathGraph
 	*	\brief A shortest path object for graphs.
 	*
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
 
 	/** @}*/

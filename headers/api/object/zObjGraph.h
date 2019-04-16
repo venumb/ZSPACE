@@ -9,20 +9,25 @@ using namespace std;
 
 namespace zSpace
 {
-
-
-	/** \addtogroup zObjects
-	*	\brief The object and function set classes of the library.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/*! \class zGraphObject
+	/** \addtogroup zObjects
+	*	\brief The object classes of the library.
+	*  @{
+	*/
+
+	/*! \class zObjGraph
 	*	\brief The graph object class.
 	*	\since version 0.0.2
 	*/
 
 	/** @}*/
 	
+	/** @}*/
+
 	class zObjGraph : public zObject
 	{
 	private:

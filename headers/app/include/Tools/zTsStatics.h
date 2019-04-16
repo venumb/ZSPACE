@@ -1,9 +1,14 @@
 #pragma once
 
 //--------------------------
-//---- z3DGRAPHICSTATICS
+//---- z2DGRAPHICSTATICS
 //--------------------------
 
+#include <headers/api/toolsets/zTsVault.h>
+
+//--------------------------
+//---- z3DGRAPHICSTATICS
+//--------------------------
 
 #include <headers/api/toolsets/zTsPolytopal.h>
 

@@ -21,3 +21,5 @@
 #include <headers/api/toolsets/zTsSlimeMould.h>
 
 #include <headers/api/toolsets/zTsKMeans.h>
+
+#include <headers/api/toolsets/zTsOSM.h>

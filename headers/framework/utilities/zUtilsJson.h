@@ -7,15 +7,22 @@ using namespace std;
 
 namespace zSpace
 {
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zUtilities
-	*	\brief The utility classes of the library.
+	*	\brief The utility classes and structs of the library.
 	*  @{
 	*/
 
 	/*! \class zUtilsJsonHE
-	*	\brief A half edge datastructure json utility class.
+	*	\brief A json utility class for  a half edge datastructure.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 

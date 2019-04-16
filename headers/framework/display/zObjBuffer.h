@@ -15,8 +15,13 @@
 
 namespace zSpace
 {
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zDisplay
-	*	\brief Collection of general display and console print methods along with bufferobject class.
+	*	\brief  The display classes of the library.
 	*  @{
 	*/
 

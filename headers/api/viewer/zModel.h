@@ -4,8 +4,13 @@
 namespace zSpace
 {
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zViewer
-	*	\brief The viewer related class and function set classes of the library.
+	*	\brief The viewer related classes of the library.
 	*  @{
 	*/
 
@@ -13,6 +18,8 @@ namespace zSpace
 	*	\brief The model class.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 

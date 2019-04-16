@@ -6,18 +6,13 @@
 namespace zSpace
 {
 
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
-	*  @{
-	*/
-
-	/** \addtogroup zHalfEdgeDataStructures
-	*	\brief The half edge data structures classes of the library.
-	*  @{
-	*/
-
-	/** \addtogroup zMeshClasses
-	*	\brief The mesh related classes of the library.
+	*	\brief The geometry classes of the library.
 	*  @{
 	*/
 
@@ -25,8 +20,7 @@ namespace zSpace
 	*	\brief A half edge mesh class.
 	*	\since version 0.0.1
 	*/
-
-	/** @}*/
+	
 
 	/** @}*/
 
@@ -34,9 +28,6 @@ namespace zSpace
 
 	class zMesh : public zGraph
 	{
-	private:
-
-
 
 	public:
 
@@ -426,11 +417,6 @@ namespace zSpace
 			vertexIndicies = out;
 		}
 
-		//--------------------------
-		//---- ATTRIBUTE METHODS
-		//--------------------------
-
-
 		
 
 		//--------------------------
@@ -540,9 +526,7 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 			
-		
 	
-
 		//--------------------------
 		//---- UTILITY METHODS
 		//--------------------------

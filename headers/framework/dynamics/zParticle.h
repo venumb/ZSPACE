@@ -6,9 +6,13 @@
 
 namespace zSpace
 {
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
 
 	/** \addtogroup zDynamics
-	*	\brief The physics and dynamics classes and utility methods of the library.
+	*	\brief The physics and dynamics classes of the library.
 	*  @{
 	*/
 
@@ -17,6 +21,8 @@ namespace zSpace
 	*	\brief A struct to store the postion and velocity of the particle.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
 
 	/** @}*/
 	struct zParticleState
@@ -29,8 +35,13 @@ namespace zSpace
 	};
 
 
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zDynamics
-	*	\brief The physics and dynamics classes and utility methods of the library.
+	*	\brief The physics and dynamics classes of the library.
 	*  @{
 	*/
 
@@ -38,6 +49,8 @@ namespace zSpace
 	*	\brief A strcut to store the postion and velocity derivatives of the particle.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
 
 	/** @}*/
 	struct zParticleDerivative
@@ -82,15 +95,15 @@ namespace zSpace
 
 	};
 
-	/** \addtogroup zDynamics
-	*	\brief The physics and dynamics classes and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zDynamicsClasses
+	/** \addtogroup zDynamics
 	*	\brief The physics and dynamics classes of the library.
 	*  @{
-	*/
+	*/	
 
 	/*! \class zParticle
 	*	\brief A particle class.

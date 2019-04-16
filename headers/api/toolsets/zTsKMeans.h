@@ -5,8 +5,23 @@
 
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications. 
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsData
+	*	\brief toolsets for data related utilities.
+	*  @{
+	*/
+
+	/** \addtogroup zClustering
+	*	\brief tool sets of clustering algorithms.
 	*  @{
 	*/
 
@@ -16,6 +31,12 @@ namespace zSpace
 	*
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

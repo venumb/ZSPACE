@@ -8,8 +8,13 @@
 
 namespace zSpace
 {
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zUtilities
-	*	\brief The utility classes of the library.
+	*	\brief The utility classes and structs of the library.
 	*  @{
 	*/
 
@@ -17,6 +22,8 @@ namespace zSpace
 	*	\brief A display utility class for drawing points, lines , polygons using OPENGL.
 	*  @{
 	*/
+
+	/** @}*/
 
 	/** @}*/
 

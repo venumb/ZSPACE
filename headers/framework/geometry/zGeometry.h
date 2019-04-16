@@ -9,12 +9,12 @@ namespace zSpace
 	class  zVertex;
 	class  zFace;
 
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
+	/** \addtogroup zGeometry
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -235,12 +235,12 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
+	/** \addtogroup zGeometry
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -349,12 +349,12 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
+	/** \addtogroup zGeometry
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -453,18 +453,18 @@ namespace zSpace
 
 	};
 
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
+	/** \addtogroup zGeometry
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
 
 	/*! \struct zCurvature
-	*	\brief A curvature struct defined to  hold defined to hold curvature information of a half-edge Mesh. .
+	*	\brief A curvature struct defined to  hold defined to hold curvature information of a half-edge geometry. 
 	*	\since version 0.0.1
 	*/
 

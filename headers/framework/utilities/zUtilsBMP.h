@@ -10,8 +10,19 @@ namespace zSpace
 	
 
 #pragma pack(push, 1)
+	
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+	
 	/** \addtogroup zUtilities
-	*	\brief The utility classes of the library.
+	*	\brief The utility classes and structs of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zBMP
+	*	\brief The bitmap utility structs of the library.
 	*  @{
 	*/
 
@@ -20,6 +31,10 @@ namespace zSpace
 	*	\brief A bitmap file header.
 	*	\details  All BMP images starts with a five elements file header. This has information about the file type, file size and location of the pixel data. Explanation taken from https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 	
@@ -46,9 +61,18 @@ namespace zSpace
 		
 	};
 
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
 
 	/** \addtogroup zUtilities
-	*	\brief The utility classes of the library.
+	*	\brief The utility classes and structs of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zBMP
+	*	\brief The bitmap utility structs of the library.
 	*  @{
 	*/
 
@@ -57,6 +81,10 @@ namespace zSpace
 	*	\brief A bitmap information header.
 	*	\details  Also named the info header. This has information about the width/height of the image, bits depth and so on. Explanation taken from https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 	struct BMPInfoHeader 
@@ -100,8 +128,18 @@ namespace zSpace
 		
 	};
 
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zUtilities
-	*	\brief The utility classes of the library.
+	*	\brief The utility classes and structs of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zBMP
+	*	\brief The bitmap utility structs of the library.
 	*  @{
 	*/
 
@@ -110,6 +148,10 @@ namespace zSpace
 	*	\brief A bitmap color header.
 	*	\details Contains informations about the color space and bit masks. Explanation taken from https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 	struct BMPColorHeader 
@@ -140,8 +182,13 @@ namespace zSpace
 #pragma pack(pop)
 
 	   
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zUtilities
-	*	\brief The utility classes of the library.
+	*	\brief The utility classes and structs of the library.
 	*  @{
 	*/
 
@@ -153,6 +200,8 @@ namespace zSpace
 
 	/** @}*/
 
+	/** @}*/
+	   
 	struct zUtilsBMP 
 	{
 		//--------------------------

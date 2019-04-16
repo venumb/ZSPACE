@@ -11,13 +11,13 @@
 
 namespace zSpace
 {
-	/** \addtogroup zGeometry
-	*	\brief  The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zFieldClasses
-	*	\brief The field classes of the library.
+	/** \addtogroup zFuntionSets
+	*	\brief The function set classes of the library.
 	*  @{
 	*/
 
@@ -25,9 +25,8 @@ namespace zSpace
 	*	\brief A 2D field function set.
 	*
 	*	\tparam				T			- Type to work with double(scalar field) and zVector(vector field).
-	*	\since version 0.0.1
-	*/
-	
+	*	\since version 0.0.2
+	*/	
 
 	/** @}*/
 
@@ -57,7 +56,7 @@ namespace zSpace
 		/*! \brief This method exports the input field to a bitmap file format based on the face color of the correspoding field mesh.
 		*
 		*	\param [in]		outfilename		- output file name including the directory path and extension.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void toBMP(string outfilename)
 		{
@@ -101,14 +100,14 @@ namespace zSpace
 		/*! \brief This method imorts the input bitmap file and creates the corresponding field and  field mesh. The Bitmap needs to be in grey-scale colors only to update field values.
 		*
 		*	\param		[in]		infilename		- input file name including the directory path and extension.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void fromBMP(string infilename);
 
 		/*! \brief This method creates the field mesh from the input scalar field.
 		*
 		*	\param		[in]	inMesh			- output mesh.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void createFieldMesh()
 		{
@@ -220,7 +219,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		~zFnField2D() {}
 
@@ -288,7 +287,7 @@ namespace zSpace
 		*	\param		[in]	_n_X		- number of pixels in x direction.
 		*	\param		[in]	_n_Y		- number of pixels in y direction.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void create(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1)
 		{
@@ -319,7 +318,7 @@ namespace zSpace
 		*	\param		[in]	_n_Y		- number of pixels in y direction.
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void create(double _unit_X, double _unit_Y, int _n_X, int _n_Y, zVector _minBB = zVector(), int _NR = 1)
 		{
@@ -345,7 +344,7 @@ namespace zSpace
 
 		/*! \brief This method creates a vector field from the input scalarfield.
 		*	\param		[in]	inFnScalarField		- input scalar field function set.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void createVectorFromScalarField(zFnField2D<double> &inFnScalarField);
 		
@@ -366,7 +365,7 @@ namespace zSpace
 		*	\param		[in]	index			- input index.
 		*	\param		[in]	numRings		- number of rings.
 		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getNeighbourhoodRing(int index, int numRings, vector<int> &ringNeighbours)
 		{
@@ -411,7 +410,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index				- input index.
 		*	\param		[out]	adjacentNeighbours	- contatiner of neighbour indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getNeighbourAdjacents(int index, vector<int> &adjacentNeighbours)
 		{
@@ -461,7 +460,7 @@ namespace zSpace
 		*
 		*	\param		[in]	pos					- input position.
 		*	\param		[out]	containedGridPoints	- contatiner of contained points indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getNeighbourContained(zVector &pos, vector<int> &containedNeighbour)
 		{
@@ -644,7 +643,7 @@ namespace zSpace
 		/*! \brief This method retruns the number of scalars in the field.
 		*
 		*	\return			int	- number of scalars in the field.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int numFieldValues()
 		{
@@ -656,7 +655,7 @@ namespace zSpace
 		*
 		*	\param		[out]	_n_X		- pixel resolution in x direction.
 		*	\param		[out]	_n_Y		- pixel resolution in y direction.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getResolution(int &_n_X, int &_n_Y)
 		{
@@ -668,7 +667,7 @@ namespace zSpace
 		*
 		*	\param		[out]	_unit_X		- size of each pixel in x direction.
 		*	\param		[out]	_unit_Y		- size of each pixel in y direction.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getUnitDistances(double &_unit_X, double &_unit_Y)
 		{
@@ -681,7 +680,7 @@ namespace zSpace
 		*
 		*	\param		[out]	_minBB		- minimum bounds of the field.
 		*	\param		[out]	_maxBB		- maximum bounds of the field.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getBoundingBox(zVector &_minBB, zVector &_maxBB)
 		{
@@ -693,7 +692,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index		- index in the positions container.
 		*	\return				zVector		- field position.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVector getPosition(int index)
 		{
@@ -706,7 +705,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index		- index in the positions container.
 		*	\return				zVector		- field position.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVector getPosition(int index_X, int index_Y)
 		{
@@ -722,7 +721,7 @@ namespace zSpace
 		*	\param		[in]	index		- index in the fieldvalues container.
 		*	\param		[out]	val			- field value.
 		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool getFieldValue(int index, T &val)
 		{
@@ -739,7 +738,7 @@ namespace zSpace
 		*	\param		[in]	index_Y		- input index in Y.
 		*	\param		[out]	index		- output field index.
 		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool getIndex(int index_X, int index_Y, int &index)
 		{
@@ -757,7 +756,7 @@ namespace zSpace
 		*	\param		[in]	pos			- input position.
 		*	\param		[out]	index		- output field index.
 		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool getIndex(zVector &pos, int &index)
 
@@ -778,7 +777,7 @@ namespace zSpace
 		*	\param		[out]	index_X		- output index in X.
 		*	\param		[out]	index_Y		- output index in Y.
 		*	\return				bool		- true if position is in bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool getIndices(zVector &pos, int &index_X, int &index_Y)
 		{
@@ -797,7 +796,7 @@ namespace zSpace
 		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
 		*	\param		[out]	T			- field value.
 		*	\return				bool		- true if sample position is within bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool getFieldValue(zVector &samplePos, zFieldValueType type, T& fieldValue)
 		{
@@ -924,7 +923,7 @@ namespace zSpace
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
 		*	\param		[in]	epsilon		- small increment value, generally 0.001.
 		*	\return				zVector		- gradient vector of the field.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVector getGradient(int index, double epsilon = 0.001)
 		{
@@ -974,7 +973,7 @@ namespace zSpace
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
 		*	\param		[in]	epsilon		- small increment value, generally 0.001.
 		*	\return				zVector		- gradient vector of the field.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		vector<zVector> getGradients(double epsilon = 0.001)
 		{
@@ -1003,7 +1002,7 @@ namespace zSpace
 		*
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_maxBB		- maximum bounds of the field.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void setBoundingBox(zVector &_minBB, zVector &_maxBB)
 		{
@@ -1015,7 +1014,7 @@ namespace zSpace
 		*
 		*	\param		[in]	pos			- input position.
 		*	\param		[in]	index		- index in the positions container.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void setPosition(zVector &_pos, int index)
 		{
@@ -1029,7 +1028,7 @@ namespace zSpace
 		*
 		*	\param		[in]	fValue		- input value.
 		*	\param		[in]	index		- index in the fieldvalues container.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void setFieldValue(T fValue, int index)
 		{
@@ -1041,7 +1040,7 @@ namespace zSpace
 		/*! \brief This method sets the values of the field to the input container values.
 		*
 		*	\param		[in]	fValue		- input container of field value.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void setFieldValues(vector<T> fValues)
 		{
@@ -1071,7 +1070,7 @@ namespace zSpace
 		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getFieldValuesAsVertexDistance_IDW(zFnMesh &inFnMesh, T meshValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
 		{
@@ -1122,7 +1121,7 @@ namespace zSpace
 		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getFieldValuesAsVertexDistance_IDW(zFnGraph &inFngraph, T graphValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
 		{
@@ -1174,7 +1173,7 @@ namespace zSpace
 		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getFieldValuesAsVertexDistance_IDW(vector<zVector> &inPositions, vector<T> &values, vector<double>& influences, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
 		{
@@ -1231,7 +1230,7 @@ namespace zSpace
 		*	\param	[in]	points				- container of positions.
 		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getScalarsAsVertexDistance(vector<zVector> &points, vector<double> &scalars, bool normalise = true)
 		{
@@ -1261,8 +1260,8 @@ namespace zSpace
 
 			for (int i = 0; i < distVals.size(); i++)
 			{
-				dMin = zMin(dMin, distVals[i]);
-				dMax = zMax(dMax, distVals[i]);
+				dMin = coreUtils.zMin(dMin, distVals[i]);
+				dMax = coreUtils.zMax(dMax, distVals[i]);
 			}
 
 			for (int j = 0; j < fnMesh.numVertices(); j++)
@@ -1294,7 +1293,7 @@ namespace zSpace
 		*	\param	[in]	b					- input variable for distance function.
 		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getScalarsAsVertexDistance(zFnMesh &inFnMesh, double a, double b, vector<double> &scalars, bool normalise = true)
 		{
@@ -1335,7 +1334,7 @@ namespace zSpace
 		*	\param	[in]	b				- input variable for distance function.
 		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getScalarsAsVertexDistance(zFnGraph &inFnGraph, double a, double b, vector<double> &scalars, bool normalise = true)
 		{
@@ -1381,7 +1380,7 @@ namespace zSpace
 		*	\param	[in]	b				- input variable for distance function.
 		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getScalarsAsEdgeDistance(zFnMesh &inFnMesh, double a, double b, vector<double> &scalars, bool normalise = true)
 		{
@@ -1433,7 +1432,7 @@ namespace zSpace
 		*	\param	[in]	b				- input variable for distance function.
 		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getScalarsAsEdgeDistance(zFnGraph &inFnGraph, double a, double b, vector<double> &scalars, bool normalise = true)
 		{
@@ -1548,7 +1547,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index_X		- input index in X.
 		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool checkBounds_X(int index_X)
 		{
@@ -1559,7 +1558,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index_Y		- input index in Y.
 		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool checkBounds_Y(int index_Y)
 		{
@@ -1571,7 +1570,7 @@ namespace zSpace
 		*	\param	[out]	dMin		- stores the minimum scalar value
 		*	\param	[out]	dMax		- stores the maximum scalar value
 		*	\param	[in]	buffer		- buffer of scalars.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeMinMaxOfScalars(vector<T> &values, T &dMin, T &dMax)
 		{
@@ -1581,7 +1580,7 @@ namespace zSpace
 
 		/*! \brief This method normalises the field values.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void normliseValues(vector<T> &values);
 		
@@ -1590,7 +1589,7 @@ namespace zSpace
 		*	\param		[in]	numSmooth			- number of times to smooth.
 		*	\param		[in]	diffuseDamp			- damping value of the averaging.
 		*	\param		[in]	type				- smooth type - zlaplacian / zAverage.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void smoothField(int numSmooth, double diffuseDamp = 1.0, zDiffusionType type = zAverage)
 		{
@@ -1645,7 +1644,7 @@ namespace zSpace
 		*
 		*	\param		[in]	positions			- container of positions.
 		*	\param		[out]	fieldIndexPositions	- container of position per field  index.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computePositionsInFieldIndex( vector<zVector> &positions, vector<vector<zVector>> &fieldIndexPositions)
 		{
@@ -1668,7 +1667,7 @@ namespace zSpace
 		*
 		*	\param		[in]	positions			- container of positions.
 		*	\param		[out]	fieldIndexPositions	- container of position indicies per field  index.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computePositionIndicesInFieldIndex( vector<zVector> &positions, vector<vector<int>> &fieldIndexPositionIndicies)
 		{
@@ -1692,7 +1691,7 @@ namespace zSpace
 		*	\param	[in]	r	- distance value.
 		*	\param	[in]	a	- value of a.
 		*	\param	[in]	b	- value of b.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		double F_of_r(double &r, double &a, double &b)
 		{
@@ -1720,7 +1719,7 @@ namespace zSpace
 		*	\param	[in]	scalars1				- value of buffer.
 		*	\param	[in]	scalarsResult			- value of buffer to store the results.
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void union_values(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult, bool normalise = true)
 		{
@@ -1728,7 +1727,7 @@ namespace zSpace
 
 			for (int i = 0; i < scalars0.size(); i++)
 			{
-				out.push_back(zMin(scalars0[i], scalars1[i]));
+				out.push_back(coreUtils.zMin(scalars0[i], scalars1[i]));
 			}
 
 			if (normalise) normliseValues(out);
@@ -1742,7 +1741,7 @@ namespace zSpace
 		*	\param	[in]	fieldValues_B			- field Values B.
 		*	\param	[in]	fieldValues_Result		- resultant field value.
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void subtract_values(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 		{
@@ -1764,7 +1763,7 @@ namespace zSpace
 		*	\param	[in]	fieldValues_B			- field Values B.
 		*	\param	[in]	fieldValues_Result		- resultant field value.
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void intersect_values(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 		{
@@ -1786,7 +1785,7 @@ namespace zSpace
 		*	\param	[in]	fieldValues_B			- field Values B.
 		*	\param	[in]	fieldValues_Result		- resultant field value.
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void difference_values(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = false)
 		{
@@ -1809,7 +1808,7 @@ namespace zSpace
 		*	\param	[in]	fieldMesh			- input field mesh.
 		*	\param	[in]	scalars				- vector of scalar values. Need to be equivalent to number of mesh vertices.
 		*	\param	[in]	clipPlane			- input zPlane used for clipping.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void clipwithPlane(vector<double>& scalars, zMatrixd& clipPlane)
 		{
@@ -1847,7 +1846,7 @@ namespace zSpace
 		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
 		*
 		*	\param	[in]	scalars		- container of  scalar values.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void updateFieldValues(vector<T>& values)
 		{
@@ -1885,7 +1884,7 @@ namespace zSpace
 		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
 		*
 		*	\param	[in]	scalars		- container of  scalar values.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void updateMeshColors(vector<double>& scalars)
 		{
@@ -1917,7 +1916,7 @@ namespace zSpace
 		*	\param	[in]	scalars		- container of  scalar values.
 		*	\param	[in]	col1		- blend color 1.
 		*	\param	[in]	col2		- blend color 2.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void updateMeshColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2)
 		{
@@ -1958,7 +1957,7 @@ namespace zSpace
 		*	\param	[in]	col2		- blend color 2.
 		*	\param	[in]	dMin		- domain minimum value.
 		*	\param	[in]	dMin		- domain maximum value.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void updateMeshColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
 		{
@@ -2009,9 +2008,9 @@ namespace zSpace
 		*
 		*	\param	[in]	threshold	- field threshold.
 		*	\return			zGraph		- contour graph.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		zGraph getIsocontour(double threshold = 0.5)
+		zObjGraph getIsocontour(double threshold = 0.5)
 		{
 			vector<double> scalarsValues;
 
@@ -2094,7 +2093,10 @@ namespace zSpace
 				
 			}
 
-			return zGraph(pos, edgeConnects);
+			zObjGraph out; 
+			out.graph = zGraph(pos, edgeConnects);
+
+			return out;
 
 
 
@@ -2106,11 +2108,11 @@ namespace zSpace
 		*	\param	[in]	threshold	- field threshold.
 		*	\param	[in]	invertMesh	- true if inverted mesh is required.
 		*	\return			zMesh		- isoline mesh.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		zMesh getIsolineMesh(double threshold = 0.5, bool invertMesh = false)
+		zObjMesh getIsolineMesh(double threshold = 0.5, bool invertMesh = false)
 		{
-			zMesh out;
+			zObjMesh out;
 
 			vector<zVector>positions;
 			vector<int>polyConnects;
@@ -2126,7 +2128,7 @@ namespace zSpace
 			}
 
 
-			out = zMesh(positions, polyCounts, polyConnects);;
+			out.mesh = zMesh(positions, polyCounts, polyConnects);;
 
 			return out;
 		}
@@ -2139,11 +2141,11 @@ namespace zSpace
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 		*	\param	[in]	invertMesh		- true if inverted mesh is required.
 		*	\return			zMesh			- isoband mesh.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		zMesh getIsobandMesh(double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
+		zObjMesh getIsobandMesh(double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
 		{
-			zMesh out;
+			zObjMesh out;
 
 			vector<zVector>positions;
 			vector<int>polyConnects;
@@ -2154,19 +2156,19 @@ namespace zSpace
 
 			if (invertMesh)
 			{
-				zMesh m1 = getIsolineMesh((thresholdLow < thresholdHigh) ? thresholdLow : thresholdHigh, false);
-				zMesh m2 = getIsolineMesh( (thresholdLow < thresholdHigh) ? thresholdHigh : thresholdLow, true);
+				//zObjMesh m1 = getIsolineMesh((thresholdLow < thresholdHigh) ? thresholdLow : thresholdHigh, false);
+				//zObjMesh m2 = getIsolineMesh( (thresholdLow < thresholdHigh) ? thresholdHigh : thresholdLow, true);
 
-				/*if (m1.numVertices() > 0 && m2.numVertices() > 0)
-				{
-					out = combineDisjointMesh(m1, m2);
+				///*if (m1.numVertices() > 0 && m2.numVertices() > 0)
+				//{
+				//	out = combineDisjointMesh(m1, m2);
 
-					return out;
-				}
+				//	return out;
+				//}
 
-				else*/ if (m1.numVertices() > 0) return m1;
+				//else*/ if (m1.numVertices() > 0) return m1;
 
-				else if (m2.numVertices() > 0) return m2;
+				//else if (m2.numVertices() > 0) return m2;
 
 
 			}
@@ -2178,7 +2180,7 @@ namespace zSpace
 					getIsobandPoly(i,  positions, polyConnects, polyCounts, positionVertex, (thresholdLow < thresholdHigh) ? thresholdLow : thresholdHigh, (thresholdLow < thresholdHigh) ? thresholdHigh : thresholdLow);
 				}
 
-				out = zMesh(positions, polyCounts, polyConnects);;
+				out.mesh = zMesh(positions, polyCounts, polyConnects);;
 
 				return out;
 			}
@@ -2198,7 +2200,7 @@ namespace zSpace
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
 		*	\param	[in]	vertexBinary	- vertex binary values.
 		*	\return			int				- case type.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getIsolineCase(bool vertexBinary[4])
 		{
@@ -2244,7 +2246,7 @@ namespace zSpace
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
 		*	\param	[in]	vertexTernary	- vertex ternary values.
 		*	\return			int				- case type.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getIsobandCase(int vertexTernary[4])
 		{
@@ -2387,7 +2389,7 @@ namespace zSpace
 		*	\param	[in]	vertex_higher	- higher threshold position.
 		*	\param	[in]	thresholdLow	- field threshold domain minimum.
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh)
 		{
@@ -2411,7 +2413,7 @@ namespace zSpace
 		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
 		*	\param	[in]	threshold		- field threshold.
 		*	\param	[in]	invertMesh	- true if inverted mesh is required.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getIsolinePoly(int& faceId, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &threshold, bool invertMesh)
 		{
@@ -3025,7 +3027,7 @@ namespace zSpace
 		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
 		*	\param	[in]	thresholdLow	- field threshold domain minimum.
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getIsobandPoly(int& faceId, vector<zVector> &positions, vector<int> &polyConnects, vector<int> &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh)
 		{
@@ -3811,7 +3813,7 @@ namespace zSpace
 					zVector p0 = newPositions[i];
 					int v0;
 
-					bool vExists = vertexExists(positionVertex, p0, v0);
+					bool vExists = coreUtils.vertexExists(positionVertex, p0,3, v0);
 
 					if (!vExists)
 					{
@@ -3860,7 +3862,7 @@ namespace zSpace
 					zVector p0 = newPositions2[i];
 					int v0;
 
-					bool vExists = vertexExists(positionVertex, p0, v0);
+					bool vExists = coreUtils.vertexExists(positionVertex, p0,3, v0);
 
 					if (!vExists)
 					{

@@ -6,8 +6,18 @@
 namespace zSpace
 {
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zGeometryUtilities
+	*	\brief tool sets for geometry related utilities.
 	*  @{
 	*/
 
@@ -15,6 +25,10 @@ namespace zSpace
 	*	\brief A function set for extrusions based on color attributes.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

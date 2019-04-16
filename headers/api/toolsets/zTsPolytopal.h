@@ -7,8 +7,23 @@
 
 namespace zSpace
 {	
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications. 
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z3DGS
+	*	\brief tool sets for 3D graphic statics.
 	*  @{
 	*/
 
@@ -17,6 +32,12 @@ namespace zSpace
 	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf) and Freeform Developable Spatial Structures (https://www.ingentaconnect.com/content/iass/piass/2016/00002016/00000003/art00010 )
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

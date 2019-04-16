@@ -9,13 +9,13 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zCore
-	*	\brief The core classes, enumerators ,defintions and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zCoreClasses
-	*	\brief The core classes of the library.
+	/** \addtogroup zCore
+	*	\brief  The core classes, enumerators ,defintions of the library.
 	*  @{
 	*/
 	
@@ -62,7 +62,6 @@ namespace zSpace
 		/*! \brief	 Default constructor sets by default r,g,b,h,s,v to 0 and a to 1.
 		*	\since	 version 0.0.1
 		*/
-
 		zColor()
 		{
 			r = g = b = 0;

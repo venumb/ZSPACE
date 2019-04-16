@@ -7,20 +7,27 @@ using namespace std;
 
 #include<depends/SQLITE/sqlite3.h>
 
-#include <headers/core/zEnumerators.h>
+#include <headers/framework/core/zEnumerators.h>
 
 namespace  zSpace
 {
-	/** \addtogroup zData
-	*	\brief The data classes and utility methods of the library.
+
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
-		
+
+	/** \addtogroup zData
+	*	\brief The data classes and structs of the library.
+	*  @{
+	*/		
 
 	/*! \class zDatabase
 	*	\brief A database class for accessing a SQL database using SQLite library.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
 
 	/** @}*/
 	

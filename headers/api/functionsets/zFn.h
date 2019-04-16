@@ -5,6 +5,11 @@
 
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zFuntionSets
 	*	\brief The function set classes of the library.
 	*  @{
@@ -14,6 +19,8 @@ namespace zSpace
 	*	\brief The base function set class.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 	class  zFn
@@ -44,7 +51,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		~zFn() {}
 

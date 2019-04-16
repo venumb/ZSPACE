@@ -10,15 +10,30 @@
 
 namespace zSpace
 {
+
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
 	*	\brief Collection of tool sets for applications. 
 	*  @{
 	*/
 
+	/** \addtogroup zTsStreamlines
+	*	\brief tool sets for field stream lines.
+	*  @{
+	*/
+
 	/*! \class zStreams
-	*	\brief An object to store data of a stream lines.
+	*	\brief An class to store data of a stream lines.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 	   
@@ -97,9 +112,18 @@ namespace zSpace
 	};
 
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
 
 	/** \addtogroup zToolsets
 	*	\brief Collection of tool sets for applications. 
+	*  @{
+	*/
+
+	/** \addtogroup zTsStreamlines
+	*	\brief tool sets for field stream lines.
 	*  @{
 	*/
 
@@ -108,6 +132,10 @@ namespace zSpace
 	*	\details Based on evenly spaced streamlines (http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.9498&rep=rep1&integrationType=pdf)
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

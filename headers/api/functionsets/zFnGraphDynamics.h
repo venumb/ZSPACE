@@ -6,15 +6,19 @@
 
 namespace zSpace
 {
-
-	/** \addtogroup zDynamics
-	*	\brief The physics and dynamics classes and utility methods of the library.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/*! \class zFnMeshDynamics
-	*	\brief A mesh function set for dynamics.
-	*	\since version 0.0.1
+	/** \addtogroup zFuntionSets
+	*	\brief The function set classes of the library.
+	*  @{
+	*/
+
+	/*! \class zFnGraphDynamics
+	*	\brief A graph function set for dynamics.
+	*	\since version 0.0.2
 	*/
 
 	/** @}*/
@@ -40,14 +44,14 @@ namespace zSpace
 
 		/*! \brief Default constructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zFnGraphDynamics() {}
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_graphObj			- input graph object.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zFnGraphDynamics(zObjGraph &_graphObj)
 		{
@@ -60,7 +64,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		~zFnGraphDynamics() {}
 
@@ -89,7 +93,7 @@ namespace zSpace
 		/*! \brief This method creates the particles object from the graph object already attached to zFnGraphDynamics.
 		*
 		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void makeDynamic(bool fixBoundary = false)
 		{
@@ -118,7 +122,7 @@ namespace zSpace
 		*
 		*	\param		[in]	_graphObj			- input graph object.
 		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void create(zObjGraph &_graphObj, bool fixBoundary = false)
 		{
@@ -137,7 +141,7 @@ namespace zSpace
 		/*! \brief This method adds the input gravity force to all the particles in the input container.
 		*
 		*	\param		[in]		grav		- Input gravity force.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void addGravityForce(zVector grav = zVector(0, 0, -9.8))
 		{
@@ -151,7 +155,7 @@ namespace zSpace
 		*
 		*	\param		[in]	inHEDataStructure	- Input graph or mesh.
 		*	\param		[in]	weights				- Input container of weights per force.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void addEdgeForce(const vector<double> &weights = vector<double>())
 		{
@@ -204,7 +208,7 @@ namespace zSpace
 		*	\param		[in]	clearForce			- clears the force if true.
 		*	\param		[in]	clearVelocity		- clears the velocity if true.
 		*	\param		[in]	clearDerivatives	- clears the derivatives if true.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void update(double dT, zIntergrationType type = zEuler, bool clearForce = true, bool clearVelocity = false, bool clearDerivatives = false)
 		{

@@ -68,9 +68,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\headers\framework\core\zBinaryTree.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\framework\core\zColor.h">
       <Filter>Header Files\FRAMEWORK\Core</Filter>
     </ClInclude>
@@ -89,17 +86,11 @@
     <ClInclude Include="..\headers\framework\data\zDatabase.h">
       <Filter>Header Files\FRAMEWORK\Data</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\framework\data\zOpenstreet.h">
-      <Filter>Header Files\FRAMEWORK\Data</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\framework\display\zObjBuffer.h">
       <Filter>Header Files\FRAMEWORK\Display</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\framework\dynamics\zParticle.h">
       <Filter>Header Files\FRAMEWORK\Dynamics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\geometry\zGeometryDatatypes.h">
-      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\framework\geometry\zGraph.h">
       <Filter>Header Files\FRAMEWORK\Geometry</Filter>
@@ -218,22 +209,25 @@
     <ClInclude Include="..\headers\api\object\zObjField3D.h">
       <Filter>Header Files\API\Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\z2DGS.h">
+    <ClInclude Include="..\headers\framework\geometry\zGeometry.h">
+      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsOSM.h">
+      <Filter>Header Files\API\Toolsets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\app\include\Tools\zTsData.h">
       <Filter>Header Files\APP\Include\tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\z3DGS.h">
+    <ClInclude Include="..\headers\app\include\Tools\zTsGeometry.h">
       <Filter>Header Files\APP\Include\tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zClustering.h">
+    <ClInclude Include="..\headers\app\include\Tools\zTsStatics.h">
       <Filter>Header Files\APP\Include\tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zPathNetworks.h">
+    <ClInclude Include="..\headers\app\include\Tools\zTsPathNetworks.h">
       <Filter>Header Files\APP\Include\tools</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zStreamLines.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zGeometryUtilities.h">
+    <ClInclude Include="..\headers\app\include\Tools\zTsStreamLines.h">
       <Filter>Header Files\APP\Include\tools</Filter>
     </ClInclude>
   </ItemGroup>

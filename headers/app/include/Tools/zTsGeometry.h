@@ -1,7 +1,7 @@
 #pragma once
 
 //--------------------------
-//---- zGEOMETRYUTILITIES
+//---- zGEOMETRYTOOLS
 //--------------------------
 
 #include <headers/api/toolsets/zTsVariableExtrude.h>

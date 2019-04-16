@@ -13,8 +13,24 @@ namespace zSpace
 {
 
 
+
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z2DGS
+	*	\brief tool sets for 2D graphic statics.
 	*  @{
 	*/
 
@@ -24,6 +40,12 @@ namespace zSpace
 	*	\tparam				U			- Type to work with zFnMesh or zFnGraph.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -97,10 +119,7 @@ namespace zSpace
 		vector<double> forceDensities;
 
 		/*!	\brief container of indicies of fixed vertices  */
-		vector<int> fixedVertices;
-
-		/*!	\brief container of vertex loads  */
-		vector<double> vertexLoads;
+		vector<int> fixedVertices;		
 
 		/*!	\brief container of booleans of fixed vertices  */
 		vector<bool> fixedVerticesBoolean;
@@ -173,7 +192,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		~zTsVault() {}
 
@@ -190,7 +209,7 @@ namespace zSpace
 		*
 		*	\param [in]		path			- input file name including the directory path and extension.
 		*	\param [in]		type			- type of file to be imported.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void createResultfromFile(string path, zFileTpye type);
 
@@ -198,9 +217,17 @@ namespace zSpace
 		*
 		*	\param [in]		path			- input file name including the directory path and extension.
 		*	\param [in]		type			- type of file to be imported.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void createForcefromFile(string path, zFileTpye type);
+
+		/*! \brief This method creates the form geometry from the input file.
+		*
+		*	\param [in]		path			- input file name including the directory path and extension.
+		*	\param [in]		type			- type of file to be imported.
+		*	\since version 0.0.2
+		*/
+		void createFormfromFile(string path, zFileTpye type);
 
 		/*! \brief This method computes the form diagram from the result.
 		*
@@ -335,7 +362,7 @@ namespace zSpace
 		*	\param		[in]	forceDiagramScale					- scale of force diagram.
 		*	\since version 0.0.2
 		*/
-		bool verticalEquilibrium(double forceDiagramScale = 1.0);
+		bool verticalEquilibrium(double forceDiagramScale );
 
 		/** @}*/
 
@@ -389,45 +416,12 @@ namespace zSpace
 		*/
 		void setForceDensities(vector<double> &fDensities);
 
-		void setForceDensitiesFromDiagrams( double forceDiagramScale)
-		{
-			forceDensities.clear();
-
-			for (int i = 0; i < fnForm.numEdges(); i += 2)
-			{
-				// form edge
-				int eId_form = i;
-				zVector e_form = fnForm.getEdgeVector(eId_form);
-				double e_form_len = e_form.length();
-
-				if (formEdge_forceEdge[eId_form] != -1)
-				{
-					// force edge
-					int eId_force = formEdge_forceEdge[eId_form];
-					zVector e_force = fnForce.getEdgeVector(eId_force);
-					double e_force_len = e_force.length();
-
-					double forceDensity = ((e_force_len / e_form_len));
-
-					e_form.normalize();
-					e_force.normalize();
-					forceDensity *= (e_form * e_force);
-
-
-					forceDensities.push_back(forceDensity / forceDiagramScale);
-					forceDensities.push_back(forceDensity / forceDiagramScale);
-
-				}
-
-				else
-				{
-					forceDensities.push_back(0);
-					forceDensities.push_back(0);
-				}
-			}
-
-
-		}
+		/*! \brief This method sets the force densities edges based on form and force diagrams.
+		*
+		*	\param		[in]	forceDiagramScale					- scale of force diagram.
+		*	\since version 0.0.2
+		*/
+		void setForceDensitiesFromDiagrams(double forceDiagramScale);	
 
 
 		/*! \brief This method sets tension edges of the form diagram.
@@ -475,6 +469,10 @@ namespace zSpace
 			else throw std::invalid_argument(" invalid diagram type.");
 		}
 
+		/*! \brief This method sets the force tension edges based on form tension edges.
+		*
+		*	\since version 0.0.2
+		*/
 		void setForceTensionEdgesfromForm()
 		{
 			force_tensionEdges.clear();
@@ -499,6 +497,10 @@ namespace zSpace
 			setElementColor(zForceDiagram);
 		}
 
+		/*! \brief This method sets the result tension edges based on form tension edges.
+		*
+		*	\since version 0.0.2
+		*/
 		void setResultTensionEdgesfromForm()
 		{
 			result_tensionEdges.clear();
@@ -508,6 +510,10 @@ namespace zSpace
 			setElementColor(zResultDiagram);
 		}
 
+		/*! \brief This method sets the form tension edges based on result tension edges.
+		*
+		*	\since version 0.0.2
+		*/
 		void setFormTensionEdgesfromResult()
 		{
 			form_tensionEdges.clear();
@@ -517,6 +523,10 @@ namespace zSpace
 			
 		}
 
+		/*! \brief This method sets the form tension edges based on force tension edges.
+		*
+		*	\since version 0.0.2
+		*/
 		void setFormTensionEdgesfromForce()
 		{
 			form_tensionEdges.clear();
@@ -542,6 +552,11 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method sets the compression or tension colors to the edges of the input diagram.
+		*
+		*	\param		[in]	type					- diagram type . works with zFormDiagram/ zForceDiagram/ zResultDiagram.
+		*	\since version 0.0.2
+		*/
 		void setElementColor(zDiagramType type)
 		{
 			if (type == zFormDiagram)
@@ -572,20 +587,7 @@ namespace zSpace
 			}
 			else throw std::invalid_argument(" invalid diagram type.");
 		}
-
-		/*! \brief This method sets load of all the result vertices to the input value.
-		*
-		*	\param		[in]	load			- load value.
-		*	\since version 0.0.2
-		*/
-		void setVertexLoad(double load);
-
-		/*! \brief This method sets load of all the result vertices to the input container of values.
-		*
-		*	\param		[in]	load			- container of load values.
-		*	\since version 0.0.2
-		*/
-		void setVertexLoads(vector<double> &loads);
+				
 
 		/*! \brief This method sets the vertex update weights for each vertex of the input diagram type.
 		*
@@ -699,6 +701,12 @@ namespace zSpace
 			return forceEdge_formEdge[forceEdgeindex];
 		}
 
+		/*! \brief This method gets the horizontal equilibrium target vectors for the input diagram type.
+		*
+		*	\param		[in]	type					- diagram type . works with zFormDiagram and zForceDiagram.
+		*	\return				targets					- container of tearget vectors per half edge.
+		*	\since version 0.0.2
+		*/
 		void getHorizontalTargetEdges(zDiagramType type, vector<zVector> &targets)
 		{
 			if (type == zFormDiagram) targets = targetEdges_form;
@@ -775,7 +783,7 @@ namespace zSpace
 		*	\param		[in]	C									- input sparse matrix.
 		*	\param		[in]	nodes								- container of integers.
 		*	\return				MatrixXd							- sub matrix.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		MatrixXd subMatrix(MatrixXd &X, vector<int> &nodes)
 		{
@@ -927,7 +935,8 @@ namespace zSpace
 		/** @}*/
 
 	};
-
+	   
+	
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 	//--------------------------
@@ -1345,6 +1354,7 @@ namespace zSpace
 		forceDensities = fDensities;
 	}
 
+	
 	//---- mesh specilization for setForceDensities
 	template<>
 	inline void zTsVault<zObjMesh, zFnMesh>::setForceDensities(vector<double> &fDensities)
@@ -1356,6 +1366,91 @@ namespace zSpace
 
 	//---------------//
 
+	//---- graph specilization for setForceDensitiesFromDiagrams
+	template<>
+	inline void zTsVault<zObjGraph, zFnGraph>::setForceDensitiesFromDiagrams(double forceDiagramScale)
+	{
+		forceDensities.clear();
+
+		for (int i = 0; i < fnForm.numEdges(); i += 2)
+		{
+			// form edge
+			int eId_form = i;
+			zVector e_form = fnForm.getEdgeVector(eId_form);
+			double e_form_len = e_form.length();
+
+			if (formEdge_forceEdge[eId_form] != -1)
+			{
+				// force edge
+				int eId_force = formEdge_forceEdge[eId_form];
+				zVector e_force = fnForce.getEdgeVector(eId_force);
+				double e_force_len = e_force.length();
+
+				double forceDensity = ((e_force_len / e_form_len));
+
+				e_form.normalize();
+				e_force.normalize();
+				forceDensity *= (e_form * e_force);
+
+
+				forceDensities.push_back(forceDensity / forceDiagramScale);
+				forceDensities.push_back(forceDensity / forceDiagramScale);
+
+			}
+
+			else
+			{
+				forceDensities.push_back(0);
+				forceDensities.push_back(0);
+			}
+		}
+
+
+	}
+
+	//---- mesh specilization for setForceDensitiesFromDiagrams
+	template<>
+	inline void zTsVault<zObjMesh, zFnMesh>::setForceDensitiesFromDiagrams(double forceDiagramScale)
+	{
+		forceDensities.clear();
+
+		for (int i = 0; i < fnForm.numEdges(); i += 2)
+		{
+			// form edge
+			int eId_form = i;
+			zVector e_form = fnForm.getEdgeVector(eId_form);
+			double e_form_len = e_form.length();
+
+			if (formEdge_forceEdge[eId_form] != -1)
+			{
+				// force edge
+				int eId_force = formEdge_forceEdge[eId_form];
+				zVector e_force = fnForce.getEdgeVector(eId_force);
+				double e_force_len = e_force.length();
+
+				double forceDensity = ((e_force_len / e_form_len));
+
+				e_form.normalize();
+				e_force.normalize();
+				forceDensity *= (e_form * e_force);
+
+
+				forceDensities.push_back(forceDensity / forceDiagramScale);
+				forceDensities.push_back(forceDensity / forceDiagramScale);
+
+			}
+
+			else
+			{
+				forceDensities.push_back(0);
+				forceDensities.push_back(0);
+			}
+		}
+
+
+	}
+
+	//---------------//
 
 	//---- graph specilization for setForceDensities
 	template<>
@@ -1478,53 +1573,6 @@ namespace zSpace
 	}
 
 
-
-	//---------------//
-
-	//---- graph specilization for setVertexLoad
-	template<>
-	inline void zTsVault<zObjGraph, zFnGraph>::setVertexLoad(double load)
-	{
-		vertexLoads.clear();
-
-		for (int i = 0; i < fnResult.numVertices(); i++)
-		{
-			vertexLoads.push_back(load);
-		}
-	}
-
-	//---- mesh specilization for setVertexLoad
-	template<>
-	inline void zTsVault<zObjMesh, zFnMesh>::setVertexLoad(double load)
-	{
-		vertexLoads.clear();
-
-		for (int i = 0; i < fnResult.numVertices(); i++)
-		{
-			vertexLoads.push_back(load);
-		}
-	}
-
-	//---------------//
-
-	//---- graph specilization for setVertexLoads
-	template<>
-	inline void zTsVault<zObjGraph, zFnGraph>::setVertexLoads(vector<double> &loads)
-	{
-		if (loads.size() != fnResult.numVertices()) throw std::invalid_argument("size of loads contatiner is not equal to number of mesh vertices.");
-
-		vertexLoads = loads;
-
-	}
-
-	//---- mesh specilization for setVertexLoads
-	template<>
-	inline void zTsVault<zObjMesh, zFnMesh>::setVertexLoads(vector<double> &loads)
-	{
-		if (loads.size() != fnResult.numVertices()) throw std::invalid_argument("size of loads contatiner is not equal to number of mesh vertices.");
-
-		vertexLoads = loads;
-	}
 
 	//---------------//
 
@@ -1822,9 +1870,9 @@ namespace zSpace
 		// LOAD VECTOR
 		VectorXd p(fnResult.numVertices());
 
-		for (int i = 0; i < vertexLoads.size(); i++)
+		for (int i = 0; i < resultVMass.size(); i++)
 		{
-			p[i] = vertexLoads[i];
+			p[i] = resultVMass[i];
 		}
 
 
@@ -1889,7 +1937,7 @@ namespace zSpace
 
 			// convergence error check.
 			double relative_error = (denseDn*Xn - B).norm() / B.norm(); // norm() is L2 norm
-			cout << relative_error << " FDM - negative" << endl;
+			cout << endl << relative_error << " FDM - negative" << endl;
 			
 		}
 		
@@ -1976,9 +2024,9 @@ namespace zSpace
 		// LOAD VECTOR
 		VectorXd p(fnResult.numVertices());
 
-		for (int i = 0; i < vertexLoads.size(); i++)
+		for (int i = 0; i < resultVMass.size(); i++)
 		{
-			p[i] = vertexLoads[i];
+			p[i] = resultVMass[i];
 		}
 
 
@@ -2043,7 +2091,7 @@ namespace zSpace
 
 			// convergence error check.
 			double relative_error = (denseDn*Xn - B).norm() / B.norm(); // norm() is L2 norm
-			cout << relative_error << " FDM - negative" << endl;
+			cout <<endl << relative_error << " FDM - negative" << endl;
 
 		}
 
@@ -2111,6 +2159,21 @@ namespace zSpace
 		setElementColor(zForceDiagram);
 
 		setVertexWeights(zForceDiagram);
+	}
+
+	//---------------//
+
+	//---- mesh specilization for createForcefromFile
+	template<>
+	inline void zTsVault<zObjMesh, zFnMesh>::createFormfromFile(string path, zFileTpye type)
+	{
+		fnForm.from(path, type);
+
+		setTensionEdges(zFormDiagram);
+		setElementColor(zFormDiagram);
+
+
+		setVertexWeights(zFormDiagram);
 	}
 
 	//---------------//
@@ -2443,15 +2506,38 @@ namespace zSpace
 
 			int eId = -1;
 			fnForce.edgeExists(v1, v2, eId);
+
+			if (eId != -1)
+			{
+				zVector eForm = fnForm.getEdgeVector(i);
+				eForm.normalize(); 
+
+				zVector eForce = fnForce.getEdgeVector(eId);
+				eForce.normalize();
+
+				// for tension edge point to the edge in the opposite direction
+				if (form_tensionEdges[i])
+				{
+					if (eForm*eForce > 0) eId = fnForce.getSymIndex(eId);
+				}
+				// for compression edge point to the edge in the same direction
+				else
+				{
+					if(eForm*eForce < 0) eId = fnForce.getSymIndex(eId);
+				}
+
+			}
+
 			formEdge_forceEdge.push_back(eId);
 
 			if (formEdge_forceEdge[i] != -1)
 			{
-				forceEdge_formEdge[formEdge_forceEdge[i]] = i;	
+				forceEdge_formEdge[formEdge_forceEdge[i]] = i;				
 								
 			}
 		}
 
+		
 
 		
 		setVertexWeights(zForceDiagram);
@@ -3296,7 +3382,7 @@ namespace zSpace
 
 			// convergence error check.
 			double relative_error = (denseDn*Xn - B).norm() / B.norm(); // norm() is L2 norm
-			cout << relative_error << " FDM - negative" << endl;
+			cout << endl << relative_error << " FDM - negative" << endl;
 
 		}
 
@@ -3344,7 +3430,7 @@ namespace zSpace
 		MatrixXd Xz(fnResult.numVertices(), 1);
 		for (int i = 0; i < fnResult.numVertices(); i++)
 		{
-			zVector pos = fnResult.getVertexPosition(i);
+			zVector pos = fnResult.getVertexPosition(i);			
 
 			Xz(i, 0) = pos.z;
 
@@ -3459,7 +3545,7 @@ namespace zSpace
 
 			// convergence error check.
 			double relative_error = (denseDn*Xn - B).norm() / B.norm(); // norm() is L2 norm
-			cout << relative_error << " FDM - negative" << endl;
+			cout <<endl << relative_error << " FDM - negative" << endl;
 
 		}
 
@@ -3484,31 +3570,73 @@ namespace zSpace
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z2DGS
+	*	\brief tool sets for 2D graphic statics.
 	*  @{
 	*/
 
 	/*! \typedef zVaultMesh
 	*	\brief A vault object for meshes.
 	*
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 
 	typedef zTsVault<zObjMesh, zFnMesh> zTsVaultMesh;
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z2DGS
+	*	\brief tool sets for 2D graphic statics.
 	*  @{
 	*/
 
 	/*! \typedef zVaultGraph
 	*	\brief A vault object for graphs.
 	*
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

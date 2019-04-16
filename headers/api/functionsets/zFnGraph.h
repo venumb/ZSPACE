@@ -8,6 +8,11 @@
 
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zFuntionSets
 	*	\brief The function set classes of the library.
 	*  @{
@@ -17,6 +22,8 @@ namespace zSpace
 	*	\brief A graph function set.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -38,7 +45,7 @@ namespace zSpace
 		/*! \brief This method removes inactive elements from the array connected with the input type.
 		*
 		*	\param		[in]	type			- zVertexData or zEdgeData .
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void removeInactive(zHEData type = zVertexData)
 		{
@@ -959,7 +966,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zEdge	- pointer to next edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getNext(int index)
 		{
@@ -973,7 +980,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of next edge if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getNextIndex(int index)
 		{
@@ -988,7 +995,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zEdge	- pointer to previous edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getPrev(int index)
 		{
@@ -1002,7 +1009,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of previous edge if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getPrevIndex(int index)
 		{
@@ -1017,7 +1024,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zEdge	- pointer to symmetry edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getSym(int index)
 		{
@@ -1031,7 +1038,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of symmetry edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getSymIndex(int index)
 		{
@@ -1046,7 +1053,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVertex* getEndVertex(int index)
 		{
@@ -1060,7 +1067,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getEndVertexIndex(int index)
 		{
@@ -1075,7 +1082,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVertex* getStartVertex(int index)
 		{
@@ -1089,7 +1096,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getStartVertexIndex(int index)
 		{
@@ -1105,7 +1112,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex list.
 		*	\param		[in]	type	- zVertexData .
 		*	\return				zEdge	- pointer to edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getEdge(int index, zHEData type)
 		{
@@ -1127,7 +1134,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex list.
 		*	\param		[in]	type	- zVertexData.
 		*	\return				int		- index of edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getEdgeIndex(int index, zHEData type)
 		{
@@ -1261,7 +1268,7 @@ namespace zSpace
 		/*! \brief This method removes inactive elements from the array connected with the input type.
 		*
 		*	\param		[in]	type			- zVertexData or zEdgeData .
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void removeInactiveElements(zHEData type)
 		{

@@ -10,16 +10,22 @@ using namespace std;
 namespace zSpace
 {
 
-
-	/** \addtogroup zObjects
-	*	\brief The object and function set classes of the library.
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
 	*  @{
 	*/
 
-	/*! \class zGraphObject
-	*	\brief The graph object class.
+	/** \addtogroup zObjects
+	*	\brief The object classes of the library.
+	*  @{
+	*/
+
+	/*! \class zObjField2D
+	*	\brief The 2D field object class.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 	

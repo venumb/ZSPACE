@@ -8,8 +8,18 @@
 
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications. 
+	*	\brief Collection of toolsets for applications. 
+	*  @{
+	*/
+
+	/** \addtogroup zTsPathNetworks
+	*	\brief tool sets for path network optimization.
 	*  @{
 	*/
 
@@ -27,6 +37,11 @@ namespace zSpace
 	/** @}*/
 
 	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
+
 	class zTsSlimeAgent
 	{
 
@@ -359,8 +374,18 @@ namespace zSpace
 
 	};
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications. 
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsPathNetworks
+	*	\brief tool sets for path network optimization.
 	*  @{
 	*/
 
@@ -370,10 +395,14 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zSlimeEnvironment
+	/*! \class zTsSlimeEnvironment
 	*	\brief A slime environment class.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -558,8 +587,18 @@ namespace zSpace
 		
 	};
 
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications. 
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsPathNetworks
+	*	\brief tool sets for path network optimization.
 	*  @{
 	*/
 
@@ -569,10 +608,14 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zFnSlime
-	*	\brief A slime mould function set.
+	/*! \class zTsSlime
+	*	\brief A slime mould simulation tool set.
 	*	\since version 0.0.1
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -588,6 +631,7 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
+		/*!	\brief pointer to point cloud object  */
 		zObjPointCloud *pointsObj;
 
 	public:
@@ -601,7 +645,7 @@ namespace zSpace
 		/*!<slime agents.*/
 		vector<zTsSlimeAgent>  agents;	
 
-		/*!<stores slime agent positions.*/
+		/*!<stores point cloud function set for the slime agent positions.*/
 		zFnPointCloud fnPositions;
 		
 		/*!<indicates attractant food source indices in environment.*/
@@ -663,7 +707,8 @@ namespace zSpace
 		*
 		*	\param		[in]	_minBB		- bounding box minimum.
 		*	\param		[in]	_maxBB		- bounding box maximum.
-		*	\param		[in]	_res		- resolution of environment.
+		*	\param		[in]	_resX		- resolution X of environment.
+		*	\param		[in]	_resY		- resolution Y of environment.
 		*	\param		[in]	_NR			- neighbourhod ring to be calculated.
 		*	\since version 0.0.2
 		*/

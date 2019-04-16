@@ -5,16 +5,16 @@
 #include <headers/framework/core/zMatrix.h>
 #include <headers/framework/core/zColor.h>
 
-#include <headers/framework/geometry/zGeometryDatatypes.h>
+#include <headers/framework/geometry/zGeometry.h>
 
 namespace zSpace
 {
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryClasses
+	/** \addtogroup zGeometry
 	*	\brief The geometry classes of the library.
 	*  @{
 	*/
@@ -30,14 +30,7 @@ namespace zSpace
 
 	class zGraph
 	{
-
-	protected:
-
-		//--------------------------
-		//---- PROTCTED ATTRIBUTES
-		//--------------------------
-
-			
+		
 
 	public:
 

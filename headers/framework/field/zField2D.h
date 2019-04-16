@@ -8,13 +8,13 @@
 namespace zSpace
 {
 
-	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
 	*  @{
 	*/
 
 	
-	/** \addtogroup zFieldClasses
+	/** \addtogroup zField
 	*	\brief The field classes of the library.	
 	*  @{
 	*/

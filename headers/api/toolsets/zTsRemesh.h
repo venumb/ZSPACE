@@ -3,8 +3,18 @@
 
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsGeometry
+	*	\brief tool sets for geometry related utilities.
 	*  @{
 	*/
 
@@ -13,6 +23,10 @@ namespace zSpace
 	*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf page 64 -67
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

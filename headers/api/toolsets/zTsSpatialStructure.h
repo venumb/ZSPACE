@@ -5,8 +5,23 @@
 #include <headers/api/functionsets/zFnParticle.h>
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zToolsets
-	*	\brief Collection of tool sets for applications.
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z3DGS
+	*	\brief tool sets for 3D graphic statics.
 	*  @{
 	*/
 
@@ -14,6 +29,12 @@ namespace zSpace
 	*	\brief A toolset for creating spatial strctures from volume meshes.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

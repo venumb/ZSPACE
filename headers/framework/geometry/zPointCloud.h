@@ -4,8 +4,13 @@
 
 namespace zSpace
 {
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zGeometry
-	*	\brief The geometry classes, modifier and utility methods of the library.
+	*	\brief The geometry classes of the library.
 	*  @{
 	*/
 
@@ -13,6 +18,8 @@ namespace zSpace
 	*	\brief A point cloud class.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 

@@ -9,6 +9,11 @@
 
 namespace zSpace
 {
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
 	/** \addtogroup zFuntionSets
 	*	\brief The function set classes of the library.
 	*  @{
@@ -18,6 +23,8 @@ namespace zSpace
 	*	\brief A mesh function set.
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
 
 	/** @}*/
 
@@ -39,7 +46,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index			- index to be deactivated.
 		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void deactivate(int index, zHEData type)
 		{
@@ -181,7 +188,7 @@ namespace zSpace
 		/*! \brief This method removes inactive elements from the array connected with the input type.
 		*
 		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void removeInactive(zHEData type = zVertexData)
 		{
@@ -1026,7 +1033,7 @@ namespace zSpace
 		*	\param		[in]	polyCounts		- container of type integer with number of vertices per polygon.
 		*	\param		[in]	polyConnects	- polygon connection list with vertex ids for each face.
 		*	\param		[in]	computeNormals	- computes the face and vertex normals if true.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void create(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects), bool computeNormals = true)
 		{
@@ -1049,7 +1056,7 @@ namespace zSpace
 
 		/*! \brief This method returns the number of vertices in the mesh.
 		*	\return				number of vertices.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int numVertices()
 		{
@@ -1058,7 +1065,7 @@ namespace zSpace
 
 		/*! \brief This method returns the number of half edges in the mesh.
 		*	\return				number of edges.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int numEdges()
 		{
@@ -1068,7 +1075,7 @@ namespace zSpace
 		/*! \brief This method returns the number of polygons in the mesh
 		*
 		*	\return		int		-	number of polygons
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int numPolygons()
 		{
@@ -1136,7 +1143,7 @@ namespace zSpace
 		*	\param		[in]	index			- index in the face container.
 		*	\param		[in]	type			- zFaceData.
 		*	\param		[out]	edgeIndicies	- vector of edge indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getEdges(int index, zHEData type, vector<int> &edgeIndicies)
 		{
@@ -1173,7 +1180,7 @@ namespace zSpace
 		*	\param		[in]	index			- index in the edge/face container.
 		*	\param		[in]	type			- zEdgeData or zFaceData.
 		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getVertices(int index, zHEData type, vector<int> &vertexIndicies)
 		{
@@ -1211,7 +1218,7 @@ namespace zSpace
 		*	\param		[in]	index			- index in the edge/face container.
 		*	\param		[in]	type			- zEdgeData or zFaceData.
 		*	\param		[out]	vertPositions	- vector of vertex positions.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getVertexPositions(int index, zHEData type, vector<zVector> &vertPositions)
 		{
@@ -1257,7 +1264,7 @@ namespace zSpace
 		*	\param		[in]	index			- index in the vertex/edge list.
 		*	\param		[in]	type			- zVertexData or zEdgeData.
 		*	\param		[out]	edgeIndicies	- vector of edge indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getConnectedEdges(int index, zHEData type, vector<int>& edgeIndicies)
 		{
@@ -1321,7 +1328,7 @@ namespace zSpace
 		*	\param		[in]	index			- index in the vertex list.
 		*	\param		[in]	type			- zVertexData.
 		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getConnectedVertices(int index, zHEData type, vector<int>& vertexIndicies)
 		{
@@ -1351,7 +1358,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex/face container.
 		*	\param		[in]	type	- zVertexData or zFaceData.
 		*	\param		[out]	faceIndicies	- vector of face indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getConnectedFaces(int index, zHEData type, vector<int> &faceIndicies)
 		{
@@ -1406,7 +1413,7 @@ namespace zSpace
 		*	\param		[in]	index			- index in the edge list.
 		*	\param		[in]	type			- zEdgeData.
 		*	\param		[out]	faceIndicies	- vector of face indicies.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getFaces(int &index, zHEData type, vector<int> &faceIndicies)
 		{
@@ -1429,7 +1436,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex/edge/face list.
 		*	\param		[in]	type	- zVertexData or zEdgeData or zFaceData.
 		*	\return				bool	- true if on boundary else false.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool onBoundary(int index, zHEData type = zVertexData)
 		{
@@ -1484,7 +1491,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- valency of input vertex input valence.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getVertexValence(int index)
 		{
@@ -1503,7 +1510,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex list.
 		*	\param		[in]	valence	- input valence value.
 		*	\return				bool	- true if valency is equal to input valence.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool checkVertexValency(int index, int valence = 1)
 		{
@@ -1532,7 +1539,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zEdge	- pointer to next edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getNext(int index)
 		{
@@ -1546,7 +1553,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of next edge if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getNextIndex(int index)
 		{
@@ -1561,7 +1568,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zEdge	- pointer to previous edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getPrev(int index)
 		{
@@ -1575,7 +1582,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of previous edge if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getPrevIndex(int index)
 		{
@@ -1590,7 +1597,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zEdge	- pointer to symmetry edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getSym(int index)
 		{
@@ -1604,7 +1611,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of symmetry edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getSymIndex(int index)
 		{
@@ -1618,7 +1625,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zFace	- pointer to face.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zFace* getFace(int index)
 		{
@@ -1632,7 +1639,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of face if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getFaceIndex(int index)
 		{
@@ -1647,7 +1654,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVertex* getEndVertex(int index)
 		{
@@ -1661,7 +1668,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getEndVertexIndex(int index)
 		{
@@ -1676,7 +1683,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zVertex* getStartVertex(int index)
 		{
@@ -1690,7 +1697,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index	- index in the vertex list.
 		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getStartVertexIndex(int index)
 		{
@@ -1706,7 +1713,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex list.
 		*	\param		[in]	type	- zVertexData or zEdgeData or zFaceData.
 		*	\return				zEdge	- pointer to edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		zEdge* getEdge(int index, zHEData type)
 		{
@@ -1743,7 +1750,7 @@ namespace zSpace
 		*	\param		[in]	index	- index in the vertex list.
 		*	\param		[in]	type	- zVertexData or zFaceData.
 		*	\return				int		- index of edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		int getEdgeIndex(int index, zHEData type)
 		{
@@ -1842,7 +1849,7 @@ namespace zSpace
 
 		/*! \brief This method computes the face colors based on the vertex colors.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeFaceColorfromVertexColor()
 		{
@@ -1871,7 +1878,7 @@ namespace zSpace
 
 		/*! \brief This method computes the vertex colors based on the face colors.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeVertexColorfromFaceColor()
 		{
@@ -1902,7 +1909,7 @@ namespace zSpace
 		/*! \brief This method smoothens the color attributes.
 		*	\param		[in]	smoothVal		- number of iterations to run the smooth operation.
 		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void smoothColors(int smoothVal = 1, zHEData type = zVertexData)
 		{
@@ -1999,7 +2006,7 @@ namespace zSpace
 
 		/*! \brief This method computes the vertex normals based on the face normals.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeVertexNormalfromFaceNormal()
 		{
@@ -2031,7 +2038,7 @@ namespace zSpace
 
 		/*! \brief This method computes the normals assoicated with vertices and polygon faces .
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeMeshNormals()
 		{
@@ -2142,7 +2149,7 @@ namespace zSpace
 		*
 		*	\param		[in]	index			-  index in element container.
 		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData .
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void deactivateElement(int index, zHEData type)
 		{
@@ -2152,7 +2159,7 @@ namespace zSpace
 		/*! \brief This method removes inactive elements from the array connected with the input type.
 		*
 		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData .
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void removeInactiveElements(zHEData type)
 		{
@@ -5372,7 +5379,7 @@ namespace zSpace
 		*	\param		[in]	faceIndex			- face index.
 		*	\param		[in]	offset				- offset distance.
 		*	\param		[out]	offsetPositions		- container with the offset positions.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void offsetMeshFace(int faceIndex, double offset, vector<zVector>& offsetPositions)
 		{
@@ -5428,7 +5435,7 @@ namespace zSpace
 		*	\param		[in]	faceCenter				- center of polygon.
 		*	\param		[in]	faceNormal				- normal of polygon.
 		*	\param		[out]	intersectionPositions	- container with the intersection positions.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void offsetMeshFace_Variable( int faceIndex, vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
 		{
