@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.2</span>
    </div>
    <div id="projectbrief">A C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
@@ -92,43 +92,152 @@ $(document).ready(function(){initNavTree('structz_space_1_1_b_m_p_color_header.h
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structz_space_1_1_b_m_p_color_header-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">zSpace::BMPColorHeader Struct Reference<div class="ingroups"><a class="el" href="group__z_i_o.html">ZIO</a><a class="el" href="group__z_i_o.html">ZIO</a> &raquo;  &#124; <a class="el" href="group__z_i_o___bitmaps.html">ZIO_Bitmaps</a></div></div>  </div>
+<div class="title">zSpace::BMPColorHeader Struct Reference<div class="ingroups"><a class="el" href="group___framework.html">Framework</a> &raquo; <a class="el" href="group__z_utilities.html">ZUtilities</a> &raquo; <a class="el" href="group__z_b_m_p.html">ZBMP</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>A bitmap color header.  
  <a href="structz_space_1_1_b_m_p_color_header.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="z_bitmap_8h_source.html">zBitmap.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ga286bf984cd8f440ad4316518847b2663"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#ga286bf984cd8f440ad4316518847b2663">red_mask</a> { 0x00ff0000 }</td></tr>
-<tr class="memdesc:ga286bf984cd8f440ad4316518847b2663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the red channel.  <a href="group__z_i_o.html#ga286bf984cd8f440ad4316518847b2663">More...</a><br /></td></tr>
-<tr class="separator:ga286bf984cd8f440ad4316518847b2663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabc6be47cd0b23a72e13c44d3ef0bd424"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#gabc6be47cd0b23a72e13c44d3ef0bd424">green_mask</a> { 0x0000ff00 }</td></tr>
-<tr class="memdesc:gabc6be47cd0b23a72e13c44d3ef0bd424"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the green channel.  <a href="group__z_i_o.html#gabc6be47cd0b23a72e13c44d3ef0bd424">More...</a><br /></td></tr>
-<tr class="separator:gabc6be47cd0b23a72e13c44d3ef0bd424"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabc18c2f81ae8001fc38c948b4345969a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#gabc18c2f81ae8001fc38c948b4345969a">blue_mask</a> { 0x000000ff }</td></tr>
-<tr class="memdesc:gabc18c2f81ae8001fc38c948b4345969a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the blue channel.  <a href="group__z_i_o.html#gabc18c2f81ae8001fc38c948b4345969a">More...</a><br /></td></tr>
-<tr class="separator:gabc18c2f81ae8001fc38c948b4345969a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacc365b6a1e33e505983c57f15c74ad05"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#gacc365b6a1e33e505983c57f15c74ad05">alpha_mask</a> { 0xff000000 }</td></tr>
-<tr class="memdesc:gacc365b6a1e33e505983c57f15c74ad05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the alpha channel.  <a href="group__z_i_o.html#gacc365b6a1e33e505983c57f15c74ad05">More...</a><br /></td></tr>
-<tr class="separator:gacc365b6a1e33e505983c57f15c74ad05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga566bf5d9000c9cc7afba9f391ac523d3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#ga566bf5d9000c9cc7afba9f391ac523d3">color_space_type</a> { 0x73524742 }</td></tr>
-<tr class="memdesc:ga566bf5d9000c9cc7afba9f391ac523d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default "sRGB" (0x73524742)  <a href="group__z_i_o.html#ga566bf5d9000c9cc7afba9f391ac523d3">More...</a><br /></td></tr>
-<tr class="separator:ga566bf5d9000c9cc7afba9f391ac523d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga68db7861a611d11bedacac8a7b20598b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#ga68db7861a611d11bedacac8a7b20598b">unused</a> [16] { 0 }</td></tr>
-<tr class="memdesc:ga68db7861a611d11bedacac8a7b20598b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unused data for sRGB color space.  <a href="group__z_i_o.html#ga68db7861a611d11bedacac8a7b20598b">More...</a><br /></td></tr>
-<tr class="separator:ga68db7861a611d11bedacac8a7b20598b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a286bf984cd8f440ad4316518847b2663"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_color_header.html#a286bf984cd8f440ad4316518847b2663">red_mask</a> { 0x00ff0000 }</td></tr>
+<tr class="memdesc:a286bf984cd8f440ad4316518847b2663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the red channel.  <a href="#a286bf984cd8f440ad4316518847b2663">More...</a><br /></td></tr>
+<tr class="separator:a286bf984cd8f440ad4316518847b2663"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc6be47cd0b23a72e13c44d3ef0bd424"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_color_header.html#abc6be47cd0b23a72e13c44d3ef0bd424">green_mask</a> { 0x0000ff00 }</td></tr>
+<tr class="memdesc:abc6be47cd0b23a72e13c44d3ef0bd424"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the green channel.  <a href="#abc6be47cd0b23a72e13c44d3ef0bd424">More...</a><br /></td></tr>
+<tr class="separator:abc6be47cd0b23a72e13c44d3ef0bd424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc18c2f81ae8001fc38c948b4345969a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_color_header.html#abc18c2f81ae8001fc38c948b4345969a">blue_mask</a> { 0x000000ff }</td></tr>
+<tr class="memdesc:abc18c2f81ae8001fc38c948b4345969a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the blue channel.  <a href="#abc18c2f81ae8001fc38c948b4345969a">More...</a><br /></td></tr>
+<tr class="separator:abc18c2f81ae8001fc38c948b4345969a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc365b6a1e33e505983c57f15c74ad05"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_color_header.html#acc365b6a1e33e505983c57f15c74ad05">alpha_mask</a> { 0xff000000 }</td></tr>
+<tr class="memdesc:acc365b6a1e33e505983c57f15c74ad05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask for the alpha channel.  <a href="#acc365b6a1e33e505983c57f15c74ad05">More...</a><br /></td></tr>
+<tr class="separator:acc365b6a1e33e505983c57f15c74ad05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a566bf5d9000c9cc7afba9f391ac523d3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_color_header.html#a566bf5d9000c9cc7afba9f391ac523d3">color_space_type</a> { 0x73524742 }</td></tr>
+<tr class="memdesc:a566bf5d9000c9cc7afba9f391ac523d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default "sRGB" (0x73524742)  <a href="#a566bf5d9000c9cc7afba9f391ac523d3">More...</a><br /></td></tr>
+<tr class="separator:a566bf5d9000c9cc7afba9f391ac523d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68db7861a611d11bedacac8a7b20598b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_color_header.html#a68db7861a611d11bedacac8a7b20598b">unused</a> [16] { 0 }</td></tr>
+<tr class="memdesc:a68db7861a611d11bedacac8a7b20598b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unused data for sRGB color space.  <a href="#a68db7861a611d11bedacac8a7b20598b">More...</a><br /></td></tr>
+<tr class="separator:a68db7861a611d11bedacac8a7b20598b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A bitmap color header. </p>
 <p>Contains informations about the color space and bit masks. Explanation taken from <a href="https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/">https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="z_bitmap_8h_source.html#l00137">137</a> of file <a class="el" href="z_bitmap_8h_source.html">zBitmap.h</a>.</p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/Users/vishu.b/source/repos/venumb/zSpace_v001/headers/IO/<a class="el" href="z_bitmap_8h_source.html">zBitmap.h</a></li>
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00157">157</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="acc365b6a1e33e505983c57f15c74ad05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc365b6a1e33e505983c57f15c74ad05">&#9670;&nbsp;</a></span>alpha_mask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPColorHeader::alpha_mask { 0xff000000 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bit mask for the alpha channel. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00173">173</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="abc18c2f81ae8001fc38c948b4345969a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc18c2f81ae8001fc38c948b4345969a">&#9670;&nbsp;</a></span>blue_mask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPColorHeader::blue_mask { 0x000000ff }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bit mask for the blue channel. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00170">170</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="a566bf5d9000c9cc7afba9f391ac523d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a566bf5d9000c9cc7afba9f391ac523d3">&#9670;&nbsp;</a></span>color_space_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPColorHeader::color_space_type { 0x73524742 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default "sRGB" (0x73524742) </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00176">176</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="abc6be47cd0b23a72e13c44d3ef0bd424"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc6be47cd0b23a72e13c44d3ef0bd424">&#9670;&nbsp;</a></span>green_mask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPColorHeader::green_mask { 0x0000ff00 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bit mask for the green channel. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00167">167</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="a286bf984cd8f440ad4316518847b2663"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a286bf984cd8f440ad4316518847b2663">&#9670;&nbsp;</a></span>red_mask</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPColorHeader::red_mask { 0x00ff0000 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bit mask for the red channel. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00164">164</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="a68db7861a611d11bedacac8a7b20598b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68db7861a611d11bedacac8a7b20598b">&#9670;&nbsp;</a></span>unused</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPColorHeader::unused[16] { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unused data for sRGB color space. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00179">179</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>C:/Users/vishu.b/source/repos/venumb/zSpace_v001/headers/framework/utilities/<a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

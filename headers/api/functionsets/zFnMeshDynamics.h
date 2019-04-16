@@ -88,11 +88,7 @@ namespace zSpace
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
-
-		/** \addtogroup particle creation
-		*	\brief Collection of particle creation methods.
-		*  @{
-		*/
+				
 
 		/*! \brief This method creates the particles object from the mesh object already attached to zFnMeshDynamics.
 		*
@@ -138,9 +134,7 @@ namespace zSpace
 
 		}
 
-		/** @}*/
-
-
+		
 		//--------------------------
 		//---- FORCE METHODS 
 		//--------------------------

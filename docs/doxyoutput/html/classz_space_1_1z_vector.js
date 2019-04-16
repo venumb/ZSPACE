@@ -4,6 +4,7 @@ var classz_space_1_1z_vector =
     [ "zVector", "classz_space_1_1z_vector.html#af71b53ffafe52119fa1d92845ea54b8f", null ],
     [ "~zVector", "classz_space_1_1z_vector.html#a3bd8cc1995a059136070c7dc3c91b788", null ],
     [ "angle", "classz_space_1_1z_vector.html#acf4156a0599baccfab7d3ff64bf4c209", null ],
+    [ "angle360", "classz_space_1_1z_vector.html#a7c1bc7ebb46df4969ee17a726f172caa", null ],
     [ "dihedralAngle", "classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c", null ],
     [ "distanceTo", "classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca", null ],
     [ "fromColumnMatrix", "classz_space_1_1z_vector.html#a12b8d25bfa4d24a70e24faeb5114931e", null ],

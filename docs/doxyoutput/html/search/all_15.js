@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['walk_5fanimate',['walk_Animate',['../group__z_graph_mesh_utilities.html#ga9e796e648bc1a3281bbe159213817842',1,'zSpace']]],
-  ['walk_5fdistancefromsources',['walk_DistanceFromSources',['../group__z_graph_mesh_utilities.html#ga230b74f5240be9060425dbb1fae0c998',1,'zSpace']]],
-  ['way',['way',['../classz_space_1_1z_open_street.html#aed3fbaf8ff4d9ea7f06c4221ed93a301',1,'zSpace::zOpenStreet']]],
-  ['width',['width',['../group__z_i_o.html#gae3103b83025c0b19fea47384617ced2f',1,'zSpace::BMPInfoHeader']]],
-  ['write',['write',['../group__z_i_o.html#gabe84b79ae6eac110915480ea61e236f9',1,'zSpace::BMP']]]
+  ['walk_5fanimate',['walk_Animate',['../classz_space_1_1z_ts_shortest_path.html#a1941db64b0d863fc0ceb85e9e6e24b0c',1,'zSpace::zTsShortestPath::walk_Animate(double MaxDistance, vector&lt; double &gt; &amp;vertexDistances, vector&lt; zVector &gt; &amp;walkedEdges, vector&lt; zVector &gt; &amp;currentWalkingEdges)'],['../classz_space_1_1z_ts_shortest_path.html#afc92cefdaa576815629bad695b0163d9',1,'zSpace::zTsShortestPath::walk_Animate(double MaxDistance, vector&lt; double &gt; &amp;vertexDistances, vector&lt; zVector &gt; &amp;walkedEdges, vector&lt; zVector &gt; &amp;currentWalkingEdges)'],['../classz_space_1_1z_ts_shortest_path.html#acc50de666fae9aa8f1efe27ec61e0d06',1,'zSpace::zTsShortestPath::walk_Animate(double MaxDistance, vector&lt; double &gt; &amp;vertexDistances, vector&lt; zVector &gt; &amp;walkedEdges, vector&lt; zVector &gt; &amp;currentWalkingEdges)']]],
+  ['walk_5fdistancefromsources',['walk_DistanceFromSources',['../classz_space_1_1z_ts_shortest_path.html#a7eba9f5fa7fb6d67c0418f50f39b934e',1,'zSpace::zTsShortestPath::walk_DistanceFromSources(vector&lt; int &gt; &amp;sourceVertices, vector&lt; double &gt; &amp;vertexDistances)'],['../classz_space_1_1z_ts_shortest_path.html#a4722b3658a639dd0b5957ae00db8ec3e',1,'zSpace::zTsShortestPath::walk_DistanceFromSources(vector&lt; int &gt; &amp;sourceVertices, vector&lt; double &gt; &amp;vertexDistances)'],['../classz_space_1_1z_ts_shortest_path.html#a1be45adfecdb5bde32fc475262115cc1',1,'zSpace::zTsShortestPath::walk_DistanceFromSources(vector&lt; int &gt; &amp;sourceVertices, vector&lt; double &gt; &amp;vertexDistances)']]],
+  ['way',['way',['../classz_space_1_1z_ts_o_s_m.html#aab2123f6c1fa78cced4b9e0884ef7d65',1,'zSpace::zTsOSM']]],
+  ['width',['width',['../structz_space_1_1_b_m_p_info_header.html#ae3103b83025c0b19fea47384617ced2f',1,'zSpace::BMPInfoHeader']]],
+  ['write',['write',['../structz_space_1_1z_utils_b_m_p.html#aa0ecc7d5845f953af548d12f50ad385b',1,'zSpace::zUtilsBMP']]]
 ];

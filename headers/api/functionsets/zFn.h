@@ -27,8 +27,6 @@ namespace zSpace
 	{
 
 	protected:
-		enum zFnType { zInvalidFn = 160 , zPointCloudFn, zMeshFn, zGraphFn, zField2DFn, zTyField3DFn, zParticleFn } ;
-
 		zFnType fnType;
 
 	public:

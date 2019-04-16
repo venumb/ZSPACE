@@ -196,11 +196,7 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup pointCloud creation
-		*	\brief Collection of pointCloud creation methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method creates a mesh from the input containers.
 		*
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
@@ -221,7 +217,7 @@ namespace zSpace
 			pointsObj->pCloud.pointWeights.push_back(1.0);
 		}
 
-		/** @}*/
+		
 
 		/*! \brief This method returns the number of points in the pointcloud.
 		*	\return				number of points.
@@ -237,10 +233,7 @@ namespace zSpace
 		//--- SET METHODS 
 		//--------------------------
 
-		/** \addtogroup pointCloud set methods
-		*	\brief Collection of pointCloud set attribute methods.
-		*  @{
-		*/
+		
 
 		/*! \brief This method sets point color of the input point to the input color.
 		*
@@ -268,17 +261,13 @@ namespace zSpace
 			}
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- GET METHODS 
 		//--------------------------
 
-		/** \addtogroup pointCloud get methods
-		*	\brief Collection of pointCloud get attribute methods.
-		*  @{
-		*/		
-
+		
 		/*! \brief This method gets point position at the input index.
 		*
 		*	\param		[in]	index					- input point index.	
@@ -324,6 +313,6 @@ namespace zSpace
 		}
 
 
-		/** @}*/
+		
 	};
 }

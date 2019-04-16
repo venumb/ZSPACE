@@ -33,6 +33,11 @@ var z_enumerators_8h =
       [ "zDouble", "z_enumerators_8h.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba8948023c606a884296ee95e63e142ddb", null ],
       [ "zString", "z_enumerators_8h.html#gga0f45e3c691b4e6190cc9aceb0a5be83ba39faf88b0e00ae50b8366c9250bd9a6f", null ]
     ] ],
+    [ "zDiagramType", "z_enumerators_8h.html#ga8f5d4194f0f6a7e367daf22075dd14fb", [
+      [ "zFormDiagram", "z_enumerators_8h.html#gga8f5d4194f0f6a7e367daf22075dd14fba450dc9151969ac1471983f87ded67b1f", null ],
+      [ "zForceDiagram", "z_enumerators_8h.html#gga8f5d4194f0f6a7e367daf22075dd14fba6d7259e3e9921e8d3a1bd8fe5764a594", null ],
+      [ "zResultDiagram", "z_enumerators_8h.html#gga8f5d4194f0f6a7e367daf22075dd14fba644fc46cd9ae6bdbfc0a3976771ae0c0", null ]
+    ] ],
     [ "zDiffusionType", "z_enumerators_8h.html#ga888f1737963f7efc6cd87ca3bfff378f", [
       [ "zLaplacian", "z_enumerators_8h.html#gga888f1737963f7efc6cd87ca3bfff378fab1257cc5dce828706b545f4ec90df0ec", null ],
       [ "zAverage", "z_enumerators_8h.html#gga888f1737963f7efc6cd87ca3bfff378fa3733d36d2ce021f46543606c8ef27185", null ],
@@ -48,6 +53,24 @@ var z_enumerators_8h =
       [ "zFieldNeighbourWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdba4c8b7c23584cd1105456cf9be095ed60", null ],
       [ "zFieldAdjacentWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdbacfadebb427034a4ee07360534f98d984", null ],
       [ "zFieldContainedWeighted", "z_enumerators_8h.html#ggae358de25ebb3a70dd012613c7da9fbdba2514e35b8974e928ff11054d3e138b3e", null ]
+    ] ],
+    [ "zFileTpye", "z_enumerators_8h.html#ga45a5288146c8898de7326f10cc3c344b", [
+      [ "zJSON", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344ba7938cc5cf8907a99df7215117d140ed6", null ],
+      [ "zOBJ", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344ba6bd4452f611b05bf59d88caedbed53cb", null ],
+      [ "zTXT", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344baaaaf828f85391582a20d89c5688fd41b", null ],
+      [ "zCSV", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344ba7d846721acadac25f151e7cb45d38664", null ],
+      [ "zBMP", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344bab077e9c42dd60b4b8541aaa45df0e00c", null ],
+      [ "zMESH", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344ba8f7858247835a95ef22babddf5c9e5c6", null ],
+      [ "zGRAPH", "z_enumerators_8h.html#gga45a5288146c8898de7326f10cc3c344ba48493df7f1f5869f6a1da4883fb66bad", null ]
+    ] ],
+    [ "zFnType", "z_enumerators_8h.html#ga440247d045a3da5aae4c22c3fc0bbd4a", [
+      [ "zInvalidFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aa5c7b024f9128813decd798acb77d04ec", null ],
+      [ "zPointCloudFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aa4286ba40cb6ec1531e87cf6d14559dd4", null ],
+      [ "zMeshFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aac4869a912ef55e5add0b1dc9eff3bb48", null ],
+      [ "zGraphFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aac8e17d9579170944bb279ed75042cc85", null ],
+      [ "zField2DFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aa090af0b9f792f6898bd8aeb633911dfa", null ],
+      [ "zTyField3DFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aadaa20988c5aad19dac62fb72e7c5049c", null ],
+      [ "zParticleFn", "z_enumerators_8h.html#gga440247d045a3da5aae4c22c3fc0bbd4aabfbadc7aa8e5ea267c18130c57e7391b", null ]
     ] ],
     [ "zHEData", "z_enumerators_8h.html#gacc8e3e94f8d366585b2bbbe7baafeeef", [
       [ "zVertexData", "z_enumerators_8h.html#ggacc8e3e94f8d366585b2bbbe7baafeeefab8d54b6ec1a725f4d2f02ec58db747ea", null ],

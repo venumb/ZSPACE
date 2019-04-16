@@ -32,6 +32,8 @@ namespace zSpace
 
 	/** @}*/
 
+	/** @}*/
+
 	class  zObjBuffer
 	{
 	public:

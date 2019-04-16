@@ -13,6 +13,11 @@ namespace zSpace
 	*  @{
 	*/
 
+	/** \addtogroup zDefinitions
+	*	\brief  The defintions of the library.
+	*  @{
+	*/
+
 	//--------------------------
 	//---- NUMERICAL DEFINITIONS
 	//--------------------------
@@ -122,7 +127,7 @@ namespace zSpace
 
 	
 
-
+	/** @}*/
 
 	/** @}*/
 

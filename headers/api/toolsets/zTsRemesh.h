@@ -89,7 +89,7 @@ namespace zSpace
 		*	\param		[in]	maxEdgeLength	- maximum edge length.
 		*	\since version 0.0.2
 		*/
-		inline void splitLongEdges(double maxEdgeLength)
+		void splitLongEdges(double maxEdgeLength)
 		{
 			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
 			{
@@ -113,7 +113,7 @@ namespace zSpace
 		*	\param		[in]	maxEdgeLength		- maximum edge length.
 		*	\since version 0.0.2
 		*/
-		inline void collapseShortEdges(double minEdgeLength, double maxEdgeLength)
+		void collapseShortEdges(double minEdgeLength, double maxEdgeLength)
 		{
 			int finished = false;
 
@@ -172,7 +172,7 @@ namespace zSpace
 		*	\details Based on http://lgg.epfl.ch/publications/2006/botsch_2006_GMT_eg.pdf page 64 -67
 		*	\since version 0.0.2
 		*/
-		inline void equalizeValences()
+		void equalizeValences()
 		{
 			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
 			{

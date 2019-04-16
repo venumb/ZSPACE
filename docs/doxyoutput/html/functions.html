@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.2</span>
    </div>
    <div id="projectbrief">A C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
@@ -94,24 +94,57 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>a
 : <a class="el" href="classz_space_1_1z_color.html#a293d04be06f8584cd8125a4d34a6a072">zSpace::zColor</a>
 </li>
+<li>addAxialForces()
+: <a class="el" href="classz_space_1_1z_ts_vault.html#a5bf23ff4c3c8284d94cb39a9f48f455a">zSpace::zTsVault&lt; T, U &gt;</a>
+</li>
+<li>addDeadLoadForces()
+: <a class="el" href="classz_space_1_1z_ts_vault.html#aa39718541f951f8dff033ae98dd59279">zSpace::zTsVault&lt; T, U &gt;</a>
+</li>
+<li>addEdgeForce()
+: <a class="el" href="classz_space_1_1z_fn_graph_dynamics.html#a32e7a2e38da53b59065f08a76ecb3074">zSpace::zFnGraphDynamics</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh_dynamics.html#a54ad330ef3449799e9c4c1494cbf3f39">zSpace::zFnMeshDynamics</a>
+</li>
 <li>addEdges()
 : <a class="el" href="classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3">zSpace::zGraph</a>
 , <a class="el" href="classz_space_1_1z_mesh.html#ad1defab345c4b6e08269afd38c1b4db3">zSpace::zMesh</a>
 </li>
 <li>addFoodSource()
-: <a class="el" href="classz_space_1_1z_slime.html#a1a42d99f70c53f3c5a79d033c3c6b4de">zSpace::zSlime</a>
+: <a class="el" href="classz_space_1_1z_ts_slime.html#afba61914ac06bfa729677d8e34d8a547">zSpace::zTsSlime</a>
 </li>
 <li>addForce()
-: <a class="el" href="classz_space_1_1z_particle.html#a381a241d323d941de9babd9788fb27ba">zSpace::zParticle</a>
+: <a class="el" href="classz_space_1_1z_fn_particle.html#a85e5d44ad4702764092d4961dd04aeb6">zSpace::zFnParticle</a>
 </li>
 <li>addForces()
-: <a class="el" href="classz_space_1_1z_particle.html#afc75a8c1aec5df3e4c6d973bb249a558">zSpace::zParticle</a>
+: <a class="el" href="classz_space_1_1z_fn_particle.html#a6f097bed72331a4935f23e120e694db3">zSpace::zFnParticle</a>
+</li>
+<li>addGravityForce()
+: <a class="el" href="classz_space_1_1z_fn_graph_dynamics.html#ac254b6007400e097e3a4d5ec3f91213f">zSpace::zFnGraphDynamics</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh_dynamics.html#aafb51a86f98071e2492f233673052528">zSpace::zFnMeshDynamics</a>
+</li>
+<li>addObject()
+: <a class="el" href="classz_space_1_1z_model.html#ab9ed99d75219f3e9ab2804d0a09e5b38">zSpace::zModel</a>
+</li>
+<li>addObjects()
+: <a class="el" href="classz_space_1_1z_model.html#a5836ea452c82ade812d10f67e62049ab">zSpace::zModel</a>
+</li>
+<li>addPlanarityForce()
+: <a class="el" href="classz_space_1_1z_fn_mesh_dynamics.html#abfbdd9154c1893eff0d1603514368cfb">zSpace::zFnMeshDynamics</a>
+</li>
+<li>addPoint()
+: <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a13d01778d6e7b9bec823e3543842e208">zSpace::zFnPointCloud</a>
 </li>
 <li>addPolygon()
-: <a class="el" href="classz_space_1_1z_mesh.html#ada4fb88bb2402a06f75d730e23597407">zSpace::zMesh</a>
+: <a class="el" href="classz_space_1_1z_mesh.html#abb95d78c8893bcc3c37ef5d7241f15a4">zSpace::zMesh</a>
+</li>
+<li>addRow()
+: <a class="el" href="classz_space_1_1z_matrix.html#adf206460b237ecd165746d1b78ecaf46">zSpace::zMatrix&lt; T &gt;</a>
+</li>
+<li>addToFieldStreamPositions()
+: <a class="el" href="classz_space_1_1z_ts_streams2_d.html#a9118be14b1128d44760b43e41ac8cc3f">zSpace::zTsStreams2D</a>
 </li>
 <li>addToPositionMap()
 : <a class="el" href="classz_space_1_1z_graph.html#a68823d66afc73b8d1393bafc64e40226">zSpace::zGraph</a>
+, <a class="el" href="classz_space_1_1z_utils_core.html#a1a42312c16c21fa6046d79f40100cbd3">zSpace::zUtilsCore</a>
 </li>
 <li>addToVerticesEdge()
 : <a class="el" href="classz_space_1_1z_graph.html#a2fc8a067026f05b77331a484827d7db9">zSpace::zGraph</a>
@@ -121,46 +154,58 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="classz_space_1_1z_mesh.html#a4f1e58811274fba10eb3bd6abf29b860">zSpace::zMesh</a>
 </li>
 <li>adjacentNeighbours
-: <a class="el" href="classz_space_1_1z_field2_d.html#a3be9099f77e0cf1f0e93612e970c7546">zSpace::zField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_field2_d.html#aa298e698647ac8b59e173f0504db001c">zSpace::zFnField2D&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_field3_d.html#afa9c69a44455b529a6f49e217049c4f7">zSpace::zFnField3D&lt; T &gt;</a>
 </li>
 <li>adjointMatrix()
 : <a class="el" href="classz_space_1_1z_matrix.html#a59e488437e8079ec819bbea68528ca7e">zSpace::zMatrix&lt; T &gt;</a>
 </li>
-<li>agentPositions
-: <a class="el" href="classz_space_1_1z_slime.html#adc1d4b74fa829b13309bf07a929a0567">zSpace::zSlime</a>
-</li>
 <li>agents
-: <a class="el" href="classz_space_1_1z_slime.html#a5dfc2885a51b69dcc0d456eaa5358d1f">zSpace::zSlime</a>
+: <a class="el" href="classz_space_1_1z_ts_slime.html#a7457c37b1578e7b70aa76caa978dd052">zSpace::zTsSlime</a>
 </li>
 <li>alpha_mask
-: <a class="el" href="group__z_i_o.html#gacc365b6a1e33e505983c57f15c74ad05">zSpace::BMPColorHeader</a>
+: <a class="el" href="structz_space_1_1_b_m_p_color_header.html#acc365b6a1e33e505983c57f15c74ad05">zSpace::BMPColorHeader</a>
 </li>
-<li>angle()
-: <a class="el" href="classz_space_1_1z_vector.html#acf4156a0599baccfab7d3ff64bf4c209">zSpace::zVector</a>
+<li>angle
+: <a class="el" href="classz_space_1_1z_ts_streams2_d.html#a46ab10aab0f827e3034ec60b99d26771">zSpace::zTsStreams2D</a>
+, <a class="el" href="classz_space_1_1z_vector.html#acf4156a0599baccfab7d3ff64bf4c209">zSpace::zVector</a>
+</li>
+<li>angle360()
+: <a class="el" href="classz_space_1_1z_vector.html#a7c1bc7ebb46df4969ee17a726f172caa">zSpace::zVector</a>
+</li>
+<li>appendConstraints()
+: <a class="el" href="classz_space_1_1z_ts_vault.html#a78905bde0387ce57dcfd06c0275e4288">zSpace::zTsVault&lt; T, U &gt;</a>
 </li>
 <li>appendEdgeIndices()
-: <a class="el" href="classz_space_1_1z_buffer_object.html#a617cc671a0aec680bc2757bcbf4fdc73">zSpace::zBufferObject</a>
+: <a class="el" href="classz_space_1_1z_obj_buffer.html#a0c686a45d1b575fc0195b98e77486b63">zSpace::zObjBuffer</a>
 </li>
 <li>appendFaceIndices()
-: <a class="el" href="classz_space_1_1z_buffer_object.html#a3be09bd05b9a14801c8b58c6539ca393">zSpace::zBufferObject</a>
+: <a class="el" href="classz_space_1_1z_obj_buffer.html#aa64251d8d8cd42a3854825dad71986c3">zSpace::zObjBuffer</a>
 </li>
 <li>appendGraph()
-: <a class="el" href="classz_space_1_1z_buffer_object.html#a435dffa7c25389e962ea22c0278707ec">zSpace::zBufferObject</a>
+: <a class="el" href="classz_space_1_1z_obj_graph.html#a2375c09fa7b174a669aaab0a24b98d69">zSpace::zObjGraph</a>
 </li>
-<li>appendMesh()
-: <a class="el" href="classz_space_1_1z_buffer_object.html#ac5e8e4b2d6a21dbf4e59ed55a8b8bc58">zSpace::zBufferObject</a>
+<li>appendMeshToBuffer()
+: <a class="el" href="classz_space_1_1z_obj_mesh.html#a01f668283a9e4cadbbbb03173df078ee">zSpace::zObjMesh</a>
+</li>
+<li>appendTensionEdges()
+: <a class="el" href="classz_space_1_1z_ts_vault.html#adb12e21386ed0cb1bb3c772d907d5011">zSpace::zTsVault&lt; T, U &gt;</a>
 </li>
 <li>appendVertexAttributes()
-: <a class="el" href="classz_space_1_1z_buffer_object.html#a900556a225a1332e43eb95117691cb4c">zSpace::zBufferObject</a>
+: <a class="el" href="classz_space_1_1z_obj_buffer.html#adf61272daa0300fb359a6a5d38dd6b60">zSpace::zObjBuffer</a>
 </li>
 <li>appendVertexColors()
-: <a class="el" href="classz_space_1_1z_buffer_object.html#aa147ee37b5ab2f8b7236f83c5389f967">zSpace::zBufferObject</a>
+: <a class="el" href="classz_space_1_1z_obj_buffer.html#a45771cb3041a86e11431437d7fdcf38b">zSpace::zObjBuffer</a>
 </li>
 <li>attractants
-: <a class="el" href="classz_space_1_1z_slime.html#a7e210a1167234c2b0a374382efc7de9e">zSpace::zSlime</a>
+: <a class="el" href="classz_space_1_1z_ts_slime.html#a1e82387eaf451e0c1c8d7cf874a2a050">zSpace::zTsSlime</a>
+</li>
+<li>averageColor()
+: <a class="el" href="classz_space_1_1z_utils_core.html#aae779f70980dad4b02a78dabd5db35c4">zSpace::zUtilsCore</a>
 </li>
 <li>averageVertices()
-: <a class="el" href="classz_space_1_1z_graph.html#accb333667ce5e961ceea4148a6c1791f">zSpace::zGraph</a>
+: <a class="el" href="classz_space_1_1z_fn_graph.html#ad89efd5c1f785648fb190068f008c6d1">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#aa4a666fb896d5844bf0fe8c604693016">zSpace::zFnMesh</a>
 </li>
 </ul>
 </div><!-- contents -->

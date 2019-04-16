@@ -664,11 +664,6 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup graph creation
-		*	\brief Collection of graph creation methods.
-		*  @{
-		*/
-
 		/*! \brief This method creates a graph from the input containers.
 		*
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
@@ -715,16 +710,11 @@ namespace zSpace
 			create(vertexPositions, edgeConnects);
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- TOPOLOGY QUERY METHODS 
 		//--------------------------
-
-		/** \addtogroup graph topology queries
-		*	\brief Collection of graph topology query methods.
-		*  @{
-		*/
 
 		/*! \brief This method returns the number of vertices in the graph or mesh.
 		*	\return				number of vertices.
@@ -951,16 +941,11 @@ namespace zSpace
 			return out;
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- HALF EDGE QUERY METHODS 
 		//--------------------------
-
-		/** \addtogroup graph half edge queries
-		*	\brief Collection of graph half edge query methods.
-		*  @{
-		*/
 
 		/*!	\brief This method return the next edge of the input indexed edge.
 		*
@@ -1150,16 +1135,11 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- COMPUTE METHODS 
 		//--------------------------
-
-		/** \addtogroup graph compute 
-		*	\brief Collection of graph compute methods.
-		*  @{
-		*/
 
 		/*! \brief This method computes the Edge colors based on the vertex colors.
 		*
@@ -1275,19 +1255,13 @@ namespace zSpace
 			if (type == zVertexData || type == zEdgeData) removeInactive(type);
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
-
-		/** @}*/
-
+		
 
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
 
-		/** \addtogroup graph set methods
-		*	\brief Collection of graph set attribute methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method sets vertex position of the input vertex.
 		*
 		*	\param		[in]	index					- input vertex index.
@@ -1505,17 +1479,11 @@ namespace zSpace
 				graphObj->graph.edgeWeights[i] = wt[i];
 			}
 		}
-
-		/** @}*/
+				
 
 		//--------------------------
 		//--- GET METHODS 
 		//--------------------------
-
-		/** \addtogroup graph get methods
-		*	\brief Collection of graph get attribute methods.
-		*  @{
-		*/
 
 		/*! \brief This method gets vertex position of the input vertex.
 		*
@@ -1933,17 +1901,11 @@ namespace zSpace
 			return out;;
 		}
 
-		/** @}*/
-
-
+		
 		//--------------------------
 		//---- TOPOLOGY MODIFIER METHODS
 		//--------------------------
 		
-		/** \addtogroup graph modifier methods
-		*	\brief Collection of graph topology modifier methods.
-		*  @{
-		*/
 
 		/*! \brief This method splits an edge and inserts a vertex along the edge at the input factor.
 		*
@@ -2041,7 +2003,7 @@ namespace zSpace
 			return VertId;
 		}
 
-		/** @}*/
+		
 
 	};
 

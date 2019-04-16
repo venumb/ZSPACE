@@ -23,6 +23,8 @@ namespace zSpace
 
 	/** @}*/
 
+	/** @}*/
+
 	class zFnGraphDynamics : public zFnGraph
 	{
 	private:
@@ -85,11 +87,6 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup mesh creation
-		*	\brief Collection of mesh creation methods.
-		*  @{
-		*/
-
 		/*! \brief This method creates the particles object from the graph object already attached to zFnGraphDynamics.
 		*
 		*	\param		[in]	fixBoundary			- true if the boundary vertices are to be fixed.
@@ -132,7 +129,7 @@ namespace zSpace
 			
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//---- FORCE METHODS 

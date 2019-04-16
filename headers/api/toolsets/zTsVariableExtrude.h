@@ -16,7 +16,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zGeometryUtilities
+	/** \addtogroup zTsGeometry
 	*	\brief tool sets for geometry related utilities.
 	*  @{
 	*/

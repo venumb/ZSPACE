@@ -602,7 +602,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/** \addtogroup zSlimeMould
+	/** \addtogroup zTsSlimeMould
 	*	\brief  The slime mould related function sets to create the simulation.
 	*	\details Based on Physarum Transport Networks (http://eprints.uwe.ac.uk/15260/1/artl.2010.16.2.pdf , https://pdfs.semanticscholar.org/21fe/f305fae61a9dbf9b63c0450b881dbd3ca154.pdf).
 	*  @{

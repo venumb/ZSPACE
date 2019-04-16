@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['objecttype',['objectType',['../structz_space_1_1z_object.html#a7c2218c46404b4c47f7915157f1d5899',1,'zSpace::zObject']]],
-  ['occupied',['occupied',['../classz_space_1_1z_slime_environment.html#a17ed7b8e4d129e2076864e6864a60ba5',1,'zSpace::zSlimeEnvironment']]],
-  ['offset_5fdata',['offset_data',['../group__z_i_o.html#ga99dc1e9c09f8fb8c569bead33bb77a21',1,'zSpace::BMPFileHeader']]],
-  ['offsetmeshface',['offsetMeshFace',['../group__z_mesh_utilities.html#ga33d47a47ed451d022be4b64b5865b0e1',1,'zSpace']]],
-  ['offsetmeshface_5fvariable',['offsetMeshFace_Variable',['../group__z_mesh_utilities.html#ga2d1e96823d5ddafb0c578999217416f5',1,'zSpace']]],
-  ['ofmap',['ofMap',['../group__z_core_utilities.html#ga772c31654e2dcf5f5ac0a884f3f9612a',1,'zSpace::ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax)'],['../group__z_vector_matrix_utilities.html#ga6a309806a76821b4fafb10551152d9e6',1,'zSpace::ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)']]],
-  ['onboundary',['onBoundary',['../classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6',1,'zSpace::zMesh']]],
+  ['occupied',['occupied',['../classz_space_1_1z_ts_slime_environment.html#a6be6b5ba9245b64074d2b3b4af3ea30d',1,'zSpace::zTsSlimeEnvironment']]],
+  ['offset_5fdata',['offset_data',['../structz_space_1_1_b_m_p_file_header.html#a99dc1e9c09f8fb8c569bead33bb77a21',1,'zSpace::BMPFileHeader']]],
+  ['offsetmeshface',['offsetMeshFace',['../classz_space_1_1z_fn_mesh.html#a2023c79a4128011695e66920a22b997e',1,'zSpace::zFnMesh']]],
+  ['offsetmeshface_5fvariable',['offsetMeshFace_Variable',['../classz_space_1_1z_fn_mesh.html#afa4685f0ad66b218f267a4f0da15a0c8',1,'zSpace::zFnMesh']]],
+  ['ofmap',['ofMap',['../classz_space_1_1z_utils_core.html#ad771e92f8957b475c001328574086c77',1,'zSpace::zUtilsCore::ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax)'],['../classz_space_1_1z_utils_core.html#a66b7b9d6fc75d5a2d4f2f5d01de436a7',1,'zSpace::zUtilsCore::ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)']]],
+  ['onboundary',['onBoundary',['../classz_space_1_1z_fn_mesh.html#ac6f26591670a57006bb2f7a935ab2d78',1,'zSpace::zFnMesh']]],
   ['open',['open',['../classz_space_1_1z_database.html#a0924ae73aa91a7ee47d886698c2659b2',1,'zSpace::zDatabase']]],
   ['operator_20_2a',['operator *',['../classz_space_1_1z_matrix.html#a503d6fabe4d98eae11cd388f576071da',1,'zSpace::zMatrix::operator *(zMatrix&lt; T &gt; &amp;m1)'],['../classz_space_1_1z_matrix.html#a1b5bb18711a66811d640f86cde953b8e',1,'zSpace::zMatrix::operator *(T s1)'],['../classz_space_1_1z_vector.html#ad96682b6bb59dcc8e0e140baf9142a64',1,'zSpace::zVector::operator *(zVector v1)'],['../classz_space_1_1z_vector.html#a57b063f91b77324279f7fc43b8beab63',1,'zSpace::zVector::operator *(double val)'],['../classz_space_1_1z_vector.html#ab888e10ed41b5177db21f4242bd7743d',1,'zSpace::zVector::operator *(zMatrixd &amp;inMatrix)'],['../structz_space_1_1z_particle_derivative.html#aa343a8f2931b098580f9dbadddf668a5',1,'zSpace::zParticleDerivative::operator *()']]],
   ['operator_20_2a_3d',['operator *=',['../classz_space_1_1z_matrix.html#a7eecc7a09f7dfe9972ad7e152a3f89a6',1,'zSpace::zMatrix::operator *=()'],['../classz_space_1_1z_vector.html#aa654f0244d7012c4960ab3d30f8c3f22',1,'zSpace::zVector::operator *=()']]],
@@ -22,6 +21,6 @@ var searchData=
   ['operator_2f_3d',['operator/=',['../classz_space_1_1z_matrix.html#afef6e0917239fe5f6cfa9904b148048a',1,'zSpace::zMatrix::operator/=()'],['../classz_space_1_1z_vector.html#a3f18877fe16d6a6cf4c0774ec313ad7e',1,'zSpace::zVector::operator/=()']]],
   ['operator_3d_3d',['operator==',['../classz_space_1_1z_color.html#a376a78451bb730211ff8a5cca2fa44a3',1,'zSpace::zColor::operator==()'],['../classz_space_1_1z_vector.html#a6276ac67b4df65d78a42030b08259a12',1,'zSpace::zVector::operator==()']]],
   ['os_5fwayid',['OS_wayId',['../structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700',1,'zSpace::zWays::OS_wayId()'],['../structz_space_1_1z_buildings.html#a5b6c3d30f5fcc8efc186bac1c29c595b',1,'zSpace::zBuildings::OS_wayId()']]],
-  ['osmwaysid_5fzbuildingsid',['OSMwaysID_zBuildingsId',['../classz_space_1_1z_open_street.html#a0bb5898c54d3700b2801aa0a684eb115',1,'zSpace::zOpenStreet']]],
-  ['osmwaysid_5fzwayid',['OSMwaysID_zWayId',['../classz_space_1_1z_open_street.html#ae9b4c3e743a05a72501015887e249fab',1,'zSpace::zOpenStreet']]]
+  ['osmwaysid_5fzbuildingsid',['OSMwaysID_zBuildingsId',['../classz_space_1_1z_ts_o_s_m.html#adb578e0ebc23ae5f7e837faa409248d4',1,'zSpace::zTsOSM']]],
+  ['osmwaysid_5fzwayid',['OSMwaysID_zWayId',['../classz_space_1_1z_ts_o_s_m.html#a0b50b4b0c9ef74ba4bf67a4879abba12',1,'zSpace::zTsOSM']]]
 ];

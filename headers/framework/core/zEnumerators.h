@@ -17,6 +17,11 @@ namespace zSpace
 	*  @{
 	*/
 
+	/** \addtogroup zEnumerators
+	*	\brief  The enumerators of the library.
+	*  @{
+	*/
+
 	/*! \enum	zHEData
 	*	\brief	Data types of a halfedge data structure.
 	*	\since	version 0.0.1
@@ -111,6 +116,12 @@ namespace zSpace
 	*/
 	enum zFileTpye { zJSON = 150, zOBJ, zTXT, zCSV, zBMP, zMESH , zGRAPH};
 
+	/*! \enum	zFnType
+	*	\brief	functionset types.
+	*	\since	version 0.0.1
+	*/
+	enum zFnType { zInvalidFn = 160, zPointCloudFn, zMeshFn, zGraphFn, zField2DFn, zTyField3DFn, zParticleFn };
+
 	/*! \enum	zDiagramType
 	*	\brief	diagram types for vaults.
 	*	\since	version 0.0.1
@@ -119,5 +130,7 @@ namespace zSpace
 
 	/** @}*/
 
-	/** @}*/ 
+	/** @}*/
+
+	/** @}*/
 }

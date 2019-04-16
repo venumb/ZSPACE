@@ -26,7 +26,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zStreams
+	/*! \class zStream
 	*	\brief An class to store data of a stream lines.
 	*	\since version 0.0.1
 	*/
@@ -479,7 +479,7 @@ namespace zSpace
 		*	\param	[in]	seedStreamsOnly					- generates streams from the seed points only if true.
 		*	\since version 0.0.1
 		*/
-		inline void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints,  zFnField2D<double>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly = false)
+		void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints,  zFnField2D<double>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly = false)
 		{
 			streams.clear();
 
@@ -905,7 +905,7 @@ namespace zSpace
 		*	\param	[in]	seedPoints						- container of seed points.
 		*	\since version 0.0.1
 		*/
-		inline void getSeedPoints(zStream& currentStream, int vertexId, vector<zVector> &seedPoints)
+		void getSeedPoints(zStream& currentStream, int vertexId, vector<zVector> &seedPoints)
 		{
 			if (currentStream.fnGraph.checkVertexValency(vertexId, 1)) return;
 
@@ -1263,7 +1263,7 @@ namespace zSpace
 		*	\param	[in]	seedPoints						- container of seed points.
 		*	\since version 0.0.1
 		*/
-		inline void getSeedPoints_Influence(zFnField2D<double>& fnInfluenceField, zStream& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
+		void getSeedPoints_Influence(zFnField2D<double>& fnInfluenceField, zStream& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
 		{
 			if (currentStream.fnGraph.checkVertexValency(vertexId, 1)) return;
 
@@ -1331,7 +1331,7 @@ namespace zSpace
 		*	\return			bool		- true if the input position is in bounds.
 		*	\since version 0.0.1
 		*/
-		inline bool checkFieldBounds(zVector &inPoint)
+		bool checkFieldBounds(zVector &inPoint)
 		{
 			zVector minBB, maxBB;
 			fnField.getBoundingBox(minBB, maxBB);
@@ -1346,7 +1346,7 @@ namespace zSpace
 		*	\return			bool							- true if the input position is valid stream point.
 		*	\since version 0.0.1
 		*/
-		inline bool checkValidStreamPosition(zVector &inPoint, double &dTest)
+		bool checkValidStreamPosition(zVector &inPoint, double &dTest)
 		{
 
 			int newFieldIndex;
@@ -1406,7 +1406,7 @@ namespace zSpace
 		*	\return			bool							- true if the input position is valid stream point.
 		*	\since version 0.0.1
 		*/
-		inline bool checkValidSeedPosition(zVector &inPoint, double &dSep)
+		bool checkValidSeedPosition(zVector &inPoint, double &dSep)
 		{
 
 
@@ -1466,7 +1466,7 @@ namespace zSpace
 		*	\return			bool							- true if the input position is valid stream point.
 		*	\since version 0.0.1
 		*/
-		inline void addToFieldStreamPositions(zVector &inPoint)
+		void addToFieldStreamPositions(zVector &inPoint)
 		{
 
 			int curFieldIndex;

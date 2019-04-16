@@ -276,11 +276,6 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup mesh creation
-		*	\brief Collection of mesh creation methods.
-		*  @{
-		*/
-
 		/*! \brief This method creates a field from the input parameters.
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_maxBB		- maximum bounds of the field.
@@ -348,18 +343,12 @@ namespace zSpace
 		*/
 		void createVectorFromScalarField(zFnField2D<double> &inFnScalarField);
 		
-
-		/** @}*/
-
+		
 		//--------------------------
 		//--- FIELD TOPOLOGY QUERY METHODS 
 		//--------------------------
 
-		/** \addtogroup field topology queries
-		*	\brief Collection of field topology query methods.
-		*  @{
-		*/
-
+	
 		/*! \brief This method gets the ring neighbours of the field at the input index.
 		*
 		*	\param		[in]	index			- input index.
@@ -628,18 +617,12 @@ namespace zSpace
 
 		}
 
-		/** @}*/
-				
+					
 
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
 
-		/** \addtogroup field get methods
-		*	\brief Collection of field get attribute methods.
-		*  @{
-		*/
-		
 		/*! \brief This method retruns the number of scalars in the field.
 		*
 		*	\return			int	- number of scalars in the field.
@@ -987,16 +970,10 @@ namespace zSpace
 			return out;
 		}
 
-		/** @}*/
-
+		
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
-
-		/** \addtogroup field set methods
-		*	\brief Collection of field set attribute methods.
-		*  @{
-		*/
 
 		/*! \brief This method sets the bounds of the field.
 		*
@@ -1050,17 +1027,10 @@ namespace zSpace
 			fieldObj->field.fieldValues = fValues;
 			
 		}
-
-		/** @}*/
-
+				
 		//--------------------------
 		//----  2D IDW FIELD METHODS
 		//--------------------------
-
-		/** \addtogroup IDW distance field
-		*	\brief Collection of IDW field methods.
-		*  @{
-		*/
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input mesh vertex positions.
 		*
@@ -1213,17 +1183,11 @@ namespace zSpace
 
 			fieldValues = out;
 		}
-
-		/** @}*/
+				
 
 		//--------------------------
 		//----  2D SCALAR FIELD METHODS
 		//--------------------------
-
-		/** \addtogroup scalar distance field
-		*	\brief Collection of distance field methods.
-		*  @{
-		*/
 
 		/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 		*
@@ -1475,21 +1439,15 @@ namespace zSpace
 
 			scalars = out;
 		}
-
-		/** @}*/
+				
 
 		//--------------------------
 		//----  2D SD FIELD METHODS
 		//--------------------------
 
-		/** \addtogroup scalar signed distance field
-		*	\brief Collection of scalar signed distance field methods.
-		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
-		*  @{
-		*/
-
 		/*! \brief This method gets the signed distance scalar for the input line.
 		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
 		*	\param	[in]	p				- input field point.
 		*	\param	[in]	v0				- input positions 0 of line.
 		*	\param	[in]	v1				- input positions 1 of line.
@@ -1512,6 +1470,7 @@ namespace zSpace
 
 		/*! \brief This method gets the signed distance scalar for the input line.
 		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
 		*	\param	[in]	p				- input field point.
 		*	\param	[in]	v0				- input positions 0 of line.
 		*	\param	[in]	v1				- input positions 1 of line.
@@ -1531,17 +1490,11 @@ namespace zSpace
 			return (out.length());*/
 
 		}
-
-		/** @}*/
+				
 
 		//--------------------------
 		//--- COMPUTE METHODS 
 		//--------------------------
-
-		/** \addtogroup field compute
-		*	\brief Collection of mesh compute methods.
-		*  @{
-		*/
 
 		/*! \brief This method check if the input index is the bounds of the resolution in X.
 		*
@@ -1702,17 +1655,13 @@ namespace zSpace
 
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//----  BOOLEAN METHODS
 		//--------------------------
 		
-		/** \addtogroup field boolean operators
-		*	\brief Collection of field update methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method creates a union of the fields at the input buffers and stores them in the result buffer.
 		*
 		*	\param	[in]	scalars0				- value of buffer.
@@ -1721,7 +1670,7 @@ namespace zSpace
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void union_values(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult, bool normalise = true)
+		void boolean_union(vector<double>& scalars0, vector<double>& scalars1, vector<double>& scalarsResult, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1743,7 +1692,7 @@ namespace zSpace
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void subtract_values(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
+		void boolean_subtract(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1765,7 +1714,7 @@ namespace zSpace
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void intersect_values(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
+		void boolean_intersect(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1787,11 +1736,11 @@ namespace zSpace
 		*	\param	[in]	normalise				- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void difference_values(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = false)
+		void boolean_difference(vector<double>& fieldValues_A, vector<double>& fieldValues_B, vector<double>& fieldValues_Result, bool normalise = false)
 		{
 			vector<double> out;
 
-			intersect_values(fieldValues_A, fieldValues_B, out);
+			boolean_intersect(fieldValues_A, fieldValues_B, out);
 
 			for (int i = 0; i < out.size(); i++)
 			{
@@ -1810,7 +1759,7 @@ namespace zSpace
 		*	\param	[in]	clipPlane			- input zPlane used for clipping.
 		*	\since version 0.0.2
 		*/
-		void clipwithPlane(vector<double>& scalars, zMatrixd& clipPlane)
+		void boolean_clipwithPlane(vector<double>& scalars, zMatrixd& clipPlane)
 		{
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
@@ -1831,17 +1780,12 @@ namespace zSpace
 			}
 
 		}
-
-		/** @}*/
+				
 
 		//--------------------------
 		//----  UPDATE METHODS
 		//--------------------------
-
-		/** \addtogroup field update
-		*	\brief Collection of field update methods.
-		*  @{
-		*/
+				
 
 		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
 		*
@@ -1993,17 +1937,13 @@ namespace zSpace
 			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//---- CONTOUR METHODS
 		//--------------------------
 
-		/** \addtogroup field countour 
-		*	\brief Collection of field contouring methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method creates a isocontour graph from the input field mesh at the given field threshold.
 		*
 		*	\param	[in]	threshold	- field threshold.
@@ -2188,7 +2128,7 @@ namespace zSpace
 
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//---- PROTECTED METHODS

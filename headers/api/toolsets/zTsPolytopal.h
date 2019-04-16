@@ -159,11 +159,7 @@ namespace zSpace
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
-
-		/** \addtogroup Polytopal creation
-		*	\brief Collection of polytopal creation methods.
-		*  @{
-		*/
+				
 
 		/*! \brief This method creates the force geometry from the input files.
 		*
@@ -362,18 +358,13 @@ namespace zSpace
 			}
 		}
 		
-
-		/** @}*/
+				
 
 		//--------------------------
 		//----3D GS
 		//--------------------------
 
-		/** \addtogroup Polytopal 3DGS
-		*	\brief Collection of polytopal 3DGS methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method updates the form diagram to find equilibrium shape..
 		*
 		*	\param		[in]	minmax_Edge					- minimum value of the target edge as a percentage of maximum target edge.
@@ -415,10 +406,7 @@ namespace zSpace
 				getClosePolytopalMesh(i);
 			}
 		}
-
-		
-
-		/** @}*/
+			
 
 		
 
@@ -426,11 +414,7 @@ namespace zSpace
 		//--- SET METHODS 
 		//--------------------------
 
-		/** \addtogroup Polytopal set methods
-		*	\brief Collection of polytopal set attribute methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method sets form vertex offsets of all the vertices to the input value.
 		*
 		*	\param		[in]	offset			- offset value.
@@ -510,15 +494,11 @@ namespace zSpace
 			}
 		}
 
-		/** @}*/
+		
 		 	
 
 	protected:
-		/** \addtogroup Polytopal utilities
-		*	\brief Collection of polytopal utility methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method creates the polytopal mesh based on the input force volume mesh and form graph.
 		*
 		*	\param		[in]	forceIndex				- input force volume mesh index.
@@ -1421,9 +1401,8 @@ namespace zSpace
 			}
 
 		}
-
-
-		/** @}*/
+		
+		
 	};
 
 }

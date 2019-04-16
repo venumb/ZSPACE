@@ -26,6 +26,7 @@ namespace zSpace
 	*/
 
 	/** @}*/ 
+
 	/** @}*/
 
 	template <typename T>
@@ -1059,8 +1060,18 @@ namespace zSpace
 	};
 
 
-	/** \addtogroup zCoreClasses
-	*	\brief The core classes of the library.
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zCore
+	*	\brief  The core classes, enumerators ,defintions of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zMatrixTypedef
+	*	\brief  The matrix typedef of the library.
 	*  @{
 	*/
 
@@ -1096,7 +1107,10 @@ namespace zSpace
 	*/
 	typedef zMatrix<double> zTransform;
 	
-	/** @}*/ // end of group zCore
+	/** @}*/
+	/** @}*/ 
+	/** @}*/
+	// end of group zCore
 
 
 }

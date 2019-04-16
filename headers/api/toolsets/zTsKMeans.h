@@ -42,8 +42,7 @@ namespace zSpace
 
 	class zTsKMeans
 	{
-	private:
-	
+		
 
 	public:
 
@@ -163,7 +162,7 @@ namespace zSpace
 		*	\param	[out]	actualNumClusters		- actual number of clusters after removing clusters of size 0.
 		*	\return			int						- number of interations the algorithm ran.
 		*/
-		inline int getKMeansClusters(int &actualNumClusters)
+		int getKMeansClusters(int &actualNumClusters)
 		{
 			int numRows = dataPoints.getNumRows();
 			int numCols = dataPoints.getNumCols();
@@ -302,7 +301,7 @@ namespace zSpace
 		*	\param	[out]	maxVal			- input maximum value in the data.
 		*	\return			int				- index of cluster.
 		*/
-		inline zMatrix<double> intialiseMeans(double &minVal, double &maxVal)
+		zMatrix<double> intialiseMeans(double &minVal, double &maxVal)
 		{
 			zMatrix<double> out(numClusters, dataPoints.getNumCols());
 
@@ -338,7 +337,7 @@ namespace zSpace
 		*	\param	[in]	data			- input row matrix of data.
 		*	\return			int				- index of cluster.
 		*/
-		inline int getClusterIndex(zMatrixd &data, zMatrixd &means)
+		int getClusterIndex(zMatrixd &data, zMatrixd &means)
 		{
 			double minDist = 10000000;
 			int out = -1;
@@ -365,7 +364,7 @@ namespace zSpace
 		*	\param	[in]	mean			- input row matrix of means.
 		*	\param	[in]	clusterSize		- current cluster size.
 		*/
-		inline void updateMean(zMatrixd &data, zMatrixd &mean, int clusterSize)
+		void updateMean(zMatrixd &data, zMatrixd &mean, int clusterSize)
 		{
 			for (int i = 0; i < mean.getNumCols(); i++)
 			{

@@ -1,8 +1,5 @@
 #pragma once
 
-#include<headers/framework/core/zVector.h>
-#include<headers/framework/core/zMatrix.h>
-#include<headers/framework/core/zColor.h>
 
 #include<headers/framework/display/zObjBuffer.h>
 
@@ -20,7 +17,7 @@ namespace zSpace
 
 	/*! \class zUtilsDisplay
 	*	\brief A display utility class for drawing points, lines , polygons using OPENGL.
-	*  @{
+	*	\since version 0.0.2
 	*/
 
 	/** @}*/
@@ -77,7 +74,7 @@ namespace zSpace
 		*	\param		 [in]		wt			- weight of the point.
 		*	\since version 0.0.1
 		*/
-		inline void drawPoint(zVector &pos, zColor col = zColor(1, 0, 0, 1), double wt = 1)
+		void drawPoint(zVector &pos, zColor col = zColor(1, 0, 0, 1), double wt = 1)
 		{
 
 			glColor3f(col.r, col.g, col.b);
@@ -100,7 +97,7 @@ namespace zSpace
 		*	\param		[in]		wt			- weight of the line.
 		*	\since version 0.0.1
 		*/
-		inline void drawLine(zVector &p0, zVector &p1, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+		void drawLine(zVector &p0, zVector &p1, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 		{
 			glColor3f(col.r, col.g, col.b);
 			glLineWidth(wt);
@@ -123,7 +120,7 @@ namespace zSpace
 		*	\param		[in]		wt			- weight of the circle.
 		*	\since version 0.0.1
 		*/
-		inline void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+		void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 		{
 			for (int i = 0; i < circlePts.size(); i++)
 			{
@@ -140,7 +137,7 @@ namespace zSpace
 		*	\param		[in]		wt			- weight of the rectangle.
 		*	\since version 0.0.1
 		*/
-		inline void drawRectangle(zVector &minBB, zVector &maxBB, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+		void drawRectangle(zVector &minBB, zVector &maxBB, zColor col = zColor(0, 0, 0, 1), double wt = 1)
 		{
 
 			zVector p0(minBB.x, minBB.y, minBB.z);
@@ -162,7 +159,7 @@ namespace zSpace
 		*	\param		[in]	col				- color of the polygon.
 		*	\since version 0.0.1
 		*/
-		inline void drawPolygon(vector<zVector> &pos, zColor col = zColor(0.5, 0.5, 0.5, 1))
+		void drawPolygon(vector<zVector> &pos, zColor col = zColor(0.5, 0.5, 0.5, 1))
 		{
 			glColor3f(col.r, col.g, col.b);
 
@@ -183,7 +180,7 @@ namespace zSpace
  		*	\param		[in]	colors					- true if color is to be displayed.
 		*	\since version 0.0.1
 		*/
-		inline void drawPointsFromBuffer( bool colors = true)
+		void drawPointsFromBuffer( bool colors = true)
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -217,7 +214,7 @@ namespace zSpace
 		*	\param		[in]	colors					- true if color is to be displayed.
 		*	\since version 0.0.1
 		*/
-		inline void drawLinesFromBuffer(bool colors = true)
+		void drawLinesFromBuffer(bool colors = true)
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -249,7 +246,7 @@ namespace zSpace
 		*	\param		[in]	colors					- true if color is to be displayed.
 		*	\since version 0.0.1
 		*/
-		inline void drawTrianglesFromBuffer( bool colors = true)
+		void drawTrianglesFromBuffer( bool colors = true)
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -281,7 +278,7 @@ namespace zSpace
 		*	\param		[in]	colors					- true if color is to be displayed.
 		*	\since version 0.0.1
 		*/
-		inline void drawQuadsFromBuffer(bool colors = true)
+		void drawQuadsFromBuffer(bool colors = true)
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -310,7 +307,5 @@ namespace zSpace
 
 	};
 
-	/** @}*/
-
-	/** @}*/
+	
 }

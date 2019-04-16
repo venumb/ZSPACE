@@ -73,11 +73,7 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup mesh creation
-		*	\brief Collection of mesh creation methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method creates a particle from the input parameters.
 		*
 		*	\param		[in]	_p			- position of the particle.
@@ -101,18 +97,14 @@ namespace zSpace
 			else particleObj->particle = zParticle(_p, _fixed, _m, _v, _f);
 		}
 
-		/** @}*/
+		
 
 
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 		
-		/** \addtogroup particle set methods
-		*	\brief Collection of particle set attribute methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method sets the mass of the particle.
 		*
 		*	\param		[in]	mass		- input mass.
@@ -173,17 +165,13 @@ namespace zSpace
 			particleObj->particle.fixed = _fixed;
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
 
-		/** \addtogroup particle get methods
-		*	\brief Collection of particle get attribute methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method retruns the mass of the particle.
 		*
 		*	\return			double	- mass of the particle.
@@ -244,16 +232,13 @@ namespace zSpace
 			return particleObj->particle.fixed;
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//---- FORCE METHODS
 		//--------------------------
 
-		/** \addtogroup particle force methods
-		*	\brief Collection of particle force methods.
-		*  @{
-		*/
+		
 
 		/*! \brief This method adds the input force to the force of the particle.
 		*
@@ -284,17 +269,14 @@ namespace zSpace
 			for (int i = 0; i < forces.size(); i++) particleObj->particle.f += forces[i];
 		}
 
-		/** @}*/
+		
 
 
 		//--------------------------
 		//---- INTEGRATION METHODS
 		//--------------------------
 
-		/** \addtogroup particle integration 
-		*	\brief Collection of particle integration methods.
-		*  @{
-		*/
+		
 
 		/*! \brief This method computes the derivatives.
 		*
@@ -400,6 +382,6 @@ namespace zSpace
 			if (clearDerivatives) particleObj->particle.derivative = zParticleDerivative();
 		}
 
-		/** @}*/
+		
 	};
 }

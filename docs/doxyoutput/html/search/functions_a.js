@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['maintainmanifoldtopology',['maintainManifoldTopology',['../classz_space_1_1z_mesh.html#ae66609043bee62d706443ac5dc47304f',1,'zSpace::zMesh']]],
-  ['makeboundaryrepellant',['makeBoundaryRepellant',['../classz_space_1_1z_slime.html#a96ac8317368024e7df385284f0034f2d',1,'zSpace::zSlime']]],
-  ['mindist_5fedge_5fpoint',['minDist_Edge_Point',['../group__z_vector_matrix_utilities.html#gab0d76a80305185982ec89050ff322a3e',1,'zSpace']]],
-  ['mindist_5fpoint_5fplane',['minDist_Point_Plane',['../group__z_vector_matrix_utilities.html#ga886bac496fea1d362bff79c577e6c593',1,'zSpace']]],
-  ['mindistance',['minDistance',['../group__z_core_utilities.html#gad872a79a1b5f6d2ff4e46e086f7d282b',1,'zSpace']]],
-  ['minmax_5fchema',['minMax_chemA',['../classz_space_1_1z_slime_environment.html#a3584c1394c9a26cd3712557530c06d2d',1,'zSpace::zSlimeEnvironment']]],
-  ['minormatrix',['minorMatrix',['../classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de',1,'zSpace::zMatrix']]]
+  ['normalize',['normalize',['../classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b',1,'zSpace::zVector']]],
+  ['normlisevalues',['normliseValues',['../classz_space_1_1z_fn_field2_d.html#a45a9fcef8b26cea2841f839846f9db17',1,'zSpace::zFnField2D::normliseValues()'],['../classz_space_1_1z_fn_field3_d.html#a940a1680e49d47e1e64d2775e0134e5e',1,'zSpace::zFnField3D::normliseValues()'],['../classz_space_1_1z_fn_field2_d.html#a6a857b28297f1fe840a324d46309848a',1,'zSpace::zFnField2D::normliseValues(vector&lt; zVector &gt; &amp;fieldValues)'],['../classz_space_1_1z_fn_field2_d.html#afd4210743dcfef0d1016e80876afd674',1,'zSpace::zFnField2D::normliseValues(vector&lt; double &gt; &amp;fieldValues)'],['../classz_space_1_1z_fn_field3_d.html#a449916904fd495ab6b695b65176734f7',1,'zSpace::zFnField3D::normliseValues(vector&lt; zVector &gt; &amp;fieldValues)'],['../classz_space_1_1z_fn_field3_d.html#a68ca6478e7953e5a425396e7e590d068',1,'zSpace::zFnField3D::normliseValues(vector&lt; double &gt; &amp;fieldValues)']]],
+  ['numedges',['numEdges',['../classz_space_1_1z_fn_graph.html#a765d7147a5660669b9119addf2dcfa7a',1,'zSpace::zFnGraph::numEdges()'],['../classz_space_1_1z_fn_mesh.html#ac784114b9ffa62a08bb03423e2c4eac4',1,'zSpace::zFnMesh::numEdges()']]],
+  ['numfieldvalues',['numFieldValues',['../classz_space_1_1z_fn_field2_d.html#a88d7252c2e3c9564d95b631b1606fd2a',1,'zSpace::zFnField2D::numFieldValues()'],['../classz_space_1_1z_fn_field3_d.html#adc32eb28e11b45931fa9373fad57fe80',1,'zSpace::zFnField3D::numFieldValues()']]],
+  ['numpoints',['numPoints',['../classz_space_1_1z_fn_point_cloud.html#a9ad90136cf1d6bcfe67714d46c15cbec',1,'zSpace::zFnPointCloud']]],
+  ['numpolygons',['numPolygons',['../classz_space_1_1z_fn_mesh.html#a63975adb5b7977b7bf01b814fe098bdb',1,'zSpace::zFnMesh']]],
+  ['numvertices',['numVertices',['../classz_space_1_1z_fn_graph.html#a62fa67b7cf97d310fb010782ed44bf30',1,'zSpace::zFnGraph::numVertices()'],['../classz_space_1_1z_fn_mesh.html#a2d1f0065d7107d867676b35ff7b3823a',1,'zSpace::zFnMesh::numVertices()']]]
 ];

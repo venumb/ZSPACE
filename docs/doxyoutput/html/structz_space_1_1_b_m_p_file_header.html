@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.2</span>
    </div>
    <div id="projectbrief">A C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
@@ -92,40 +92,131 @@ $(document).ready(function(){initNavTree('structz_space_1_1_b_m_p_file_header.ht
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structz_space_1_1_b_m_p_file_header-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">zSpace::BMPFileHeader Struct Reference<div class="ingroups"><a class="el" href="group__z_i_o.html">ZIO</a><a class="el" href="group__z_i_o.html">ZIO</a> &raquo;  &#124; <a class="el" href="group__z_i_o___bitmaps.html">ZIO_Bitmaps</a></div></div>  </div>
+<div class="title">zSpace::BMPFileHeader Struct Reference<div class="ingroups"><a class="el" href="group___framework.html">Framework</a> &raquo; <a class="el" href="group__z_utilities.html">ZUtilities</a> &raquo; <a class="el" href="group__z_b_m_p.html">ZBMP</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>A bitmap file header.  
  <a href="structz_space_1_1_b_m_p_file_header.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="z_bitmap_8h_source.html">zBitmap.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ga88dea45aa0112488abc1c72d9a892458"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#ga88dea45aa0112488abc1c72d9a892458">file_type</a> { 0x4D42 }</td></tr>
-<tr class="memdesc:ga88dea45aa0112488abc1c72d9a892458"><td class="mdescLeft">&#160;</td><td class="mdescRight">File type always BM which is 0x4D42.  <a href="group__z_i_o.html#ga88dea45aa0112488abc1c72d9a892458">More...</a><br /></td></tr>
-<tr class="separator:ga88dea45aa0112488abc1c72d9a892458"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab83925684cb6bdd73bd1bb964bd81451"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#gab83925684cb6bdd73bd1bb964bd81451">file_size</a> { 0 }</td></tr>
-<tr class="memdesc:gab83925684cb6bdd73bd1bb964bd81451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the file (in bytes)  <a href="group__z_i_o.html#gab83925684cb6bdd73bd1bb964bd81451">More...</a><br /></td></tr>
-<tr class="separator:gab83925684cb6bdd73bd1bb964bd81451"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2f84b9cb2d912e0aa25350b740301f1a"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#ga2f84b9cb2d912e0aa25350b740301f1a">reserved1</a> { 0 }</td></tr>
-<tr class="memdesc:ga2f84b9cb2d912e0aa25350b740301f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved, always 0.  <a href="group__z_i_o.html#ga2f84b9cb2d912e0aa25350b740301f1a">More...</a><br /></td></tr>
-<tr class="separator:ga2f84b9cb2d912e0aa25350b740301f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa61a38e7d49996e4814117a1b325ff7d"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#gaa61a38e7d49996e4814117a1b325ff7d">reserved2</a> { 0 }</td></tr>
-<tr class="memdesc:gaa61a38e7d49996e4814117a1b325ff7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved, always 0.  <a href="group__z_i_o.html#gaa61a38e7d49996e4814117a1b325ff7d">More...</a><br /></td></tr>
-<tr class="separator:gaa61a38e7d49996e4814117a1b325ff7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga99dc1e9c09f8fb8c569bead33bb77a21"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__z_i_o.html#ga99dc1e9c09f8fb8c569bead33bb77a21">offset_data</a> { 0 }</td></tr>
-<tr class="memdesc:ga99dc1e9c09f8fb8c569bead33bb77a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start position of pixel data (bytes from the beginning of the file)  <a href="group__z_i_o.html#ga99dc1e9c09f8fb8c569bead33bb77a21">More...</a><br /></td></tr>
-<tr class="separator:ga99dc1e9c09f8fb8c569bead33bb77a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88dea45aa0112488abc1c72d9a892458"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_file_header.html#a88dea45aa0112488abc1c72d9a892458">file_type</a> { 0x4D42 }</td></tr>
+<tr class="memdesc:a88dea45aa0112488abc1c72d9a892458"><td class="mdescLeft">&#160;</td><td class="mdescRight">File type always BM which is 0x4D42.  <a href="#a88dea45aa0112488abc1c72d9a892458">More...</a><br /></td></tr>
+<tr class="separator:a88dea45aa0112488abc1c72d9a892458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab83925684cb6bdd73bd1bb964bd81451"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_file_header.html#ab83925684cb6bdd73bd1bb964bd81451">file_size</a> { 0 }</td></tr>
+<tr class="memdesc:ab83925684cb6bdd73bd1bb964bd81451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the file (in bytes)  <a href="#ab83925684cb6bdd73bd1bb964bd81451">More...</a><br /></td></tr>
+<tr class="separator:ab83925684cb6bdd73bd1bb964bd81451"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f84b9cb2d912e0aa25350b740301f1a"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_file_header.html#a2f84b9cb2d912e0aa25350b740301f1a">reserved1</a> { 0 }</td></tr>
+<tr class="memdesc:a2f84b9cb2d912e0aa25350b740301f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved, always 0.  <a href="#a2f84b9cb2d912e0aa25350b740301f1a">More...</a><br /></td></tr>
+<tr class="separator:a2f84b9cb2d912e0aa25350b740301f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa61a38e7d49996e4814117a1b325ff7d"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_file_header.html#aa61a38e7d49996e4814117a1b325ff7d">reserved2</a> { 0 }</td></tr>
+<tr class="memdesc:aa61a38e7d49996e4814117a1b325ff7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved, always 0.  <a href="#aa61a38e7d49996e4814117a1b325ff7d">More...</a><br /></td></tr>
+<tr class="separator:aa61a38e7d49996e4814117a1b325ff7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99dc1e9c09f8fb8c569bead33bb77a21"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structz_space_1_1_b_m_p_file_header.html#a99dc1e9c09f8fb8c569bead33bb77a21">offset_data</a> { 0 }</td></tr>
+<tr class="memdesc:a99dc1e9c09f8fb8c569bead33bb77a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start position of pixel data (bytes from the beginning of the file)  <a href="#a99dc1e9c09f8fb8c569bead33bb77a21">More...</a><br /></td></tr>
+<tr class="separator:a99dc1e9c09f8fb8c569bead33bb77a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A bitmap file header. </p>
-<p>All <a class="el" href="structz_space_1_1_b_m_p.html" title="A bitmap struct to define methods to read, write and create bitmaps.">BMP</a> images starts with a five elements file header. This has information about the file type, file size and location of the pixel data. Explanation taken from <a href="https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/">https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/</a> </p>
+<p>All BMP images starts with a five elements file header. This has information about the file type, file size and location of the pixel data. Explanation taken from <a href="https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/">https://solarianprogrammer.com/2018/11/19/cpp-reading-writing-bmp-images/</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="z_bitmap_8h_source.html#l00033">33</a> of file <a class="el" href="z_bitmap_8h_source.html">zBitmap.h</a>.</p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/Users/vishu.b/source/repos/venumb/zSpace_v001/headers/IO/<a class="el" href="z_bitmap_8h_source.html">zBitmap.h</a></li>
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00041">41</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab83925684cb6bdd73bd1bb964bd81451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab83925684cb6bdd73bd1bb964bd81451">&#9670;&nbsp;</a></span>file_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPFileHeader::file_size { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Size of the file (in bytes) </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00051">51</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="a88dea45aa0112488abc1c72d9a892458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88dea45aa0112488abc1c72d9a892458">&#9670;&nbsp;</a></span>file_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t zSpace::BMPFileHeader::file_type { 0x4D42 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>File type always BM which is 0x4D42. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00048">48</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="a99dc1e9c09f8fb8c569bead33bb77a21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99dc1e9c09f8fb8c569bead33bb77a21">&#9670;&nbsp;</a></span>offset_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t zSpace::BMPFileHeader::offset_data { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start position of pixel data (bytes from the beginning of the file) </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00060">60</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="a2f84b9cb2d912e0aa25350b740301f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f84b9cb2d912e0aa25350b740301f1a">&#9670;&nbsp;</a></span>reserved1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t zSpace::BMPFileHeader::reserved1 { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reserved, always 0. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00054">54</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<a id="aa61a38e7d49996e4814117a1b325ff7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa61a38e7d49996e4814117a1b325ff7d">&#9670;&nbsp;</a></span>reserved2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t zSpace::BMPFileHeader::reserved2 { 0 }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reserved, always 0. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_b_m_p_8h_source.html#l00057">57</a> of file <a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>C:/Users/vishu.b/source/repos/venumb/zSpace_v001/headers/framework/utilities/<a class="el" href="z_utils_b_m_p_8h_source.html">zUtilsBMP.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

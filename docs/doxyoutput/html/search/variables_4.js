@@ -4,5 +4,5 @@ var searchData=
   ['edgecolors',['edgeColors',['../classz_space_1_1z_graph.html#a284bf728d08d035c7c85bbdd1a167a67',1,'zSpace::zGraph']]],
   ['edges',['edges',['../classz_space_1_1z_graph.html#acd835a1073581d7fee5991c1c27bb599',1,'zSpace::zGraph']]],
   ['edgeweights',['edgeWeights',['../classz_space_1_1z_graph.html#a0b3655fb95f6249e599ffcfe3320bbdb',1,'zSpace::zGraph']]],
-  ['environment',['environment',['../classz_space_1_1z_slime.html#ab16d6daa3ee7806fff46d577ec414913',1,'zSpace::zSlime']]]
+  ['environment',['environment',['../classz_space_1_1z_ts_slime.html#aa363fa9fa9f6cf84191670bfa80dee99',1,'zSpace::zTsSlime']]]
 ];

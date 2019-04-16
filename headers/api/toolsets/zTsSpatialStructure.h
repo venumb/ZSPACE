@@ -25,7 +25,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zTsSpatialStrctures
+	/*! \class zTsSpatialStructures
 	*	\brief A toolset for creating spatial strctures from volume meshes.
 	*	\since version 0.0.2
 	*/
@@ -154,11 +154,7 @@ namespace zSpace
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
-
-		/** \addtogroup Polytopal creation
-		*	\brief Collection of polytopal creation methods.
-		*  @{
-		*/
+				
 
 		/*! \brief This method creates the volume geometry from the input files.
 		*
@@ -364,16 +360,12 @@ namespace zSpace
 			}
 		}
 		
-		/** @}*/
+	
 
 		//--------------------------
 		//----UPDATE METHOD
 		//--------------------------
-
-		/** \addtogroup SpatialStructures Update
-		*	\brief Collection of spatial strctures update methods.
-		*  @{
-		*/
+			
 
 		/*! \brief This method updates the form diagram.
 		*
@@ -568,17 +560,14 @@ namespace zSpace
 
 		}
 
-		/** @}*/
+	
 
 
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
 
-		/** \addtogroup Polytopal set methods
-		*	\brief Collection of polytopal set attribute methods.
-		*  @{
-		*/
+		
 
 		/*! \brief This method sets form vertex offsets of all the vertices to the input value.
 		*
@@ -658,13 +647,10 @@ namespace zSpace
 			}
 		}
 
-		/** @}*/
+		
 
 	protected:
-		/** \addtogroup Polytopal utilities
-		*	\brief Collection of polytopal utility methods.
-		*  @{
-		*/
+		
 
 		void extrudeConnectionFaces(int volumeIndex)
 		{
@@ -818,7 +804,7 @@ namespace zSpace
 			}
 		}
 
-		/** @}*/
+		
 
 	};
 	

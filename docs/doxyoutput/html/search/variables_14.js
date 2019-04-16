@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['way',['way',['../classz_space_1_1z_open_street.html#aed3fbaf8ff4d9ea7f06c4221ed93a301',1,'zSpace::zOpenStreet']]],
-  ['width',['width',['../group__z_i_o.html#gae3103b83025c0b19fea47384617ced2f',1,'zSpace::BMPInfoHeader']]]
+  ['way',['way',['../classz_space_1_1z_ts_o_s_m.html#aab2123f6c1fa78cced4b9e0884ef7d65',1,'zSpace::zTsOSM']]],
+  ['width',['width',['../structz_space_1_1_b_m_p_info_header.html#ae3103b83025c0b19fea47384617ced2f',1,'zSpace::BMPInfoHeader']]]
 ];

@@ -14,7 +14,7 @@ namespace zSpace
 	*/
 
 	
-	/** \addtogroup zField
+	/** \addtogroup zFields
 	*	\brief The field classes of the library.	
 	*  @{
 	*/

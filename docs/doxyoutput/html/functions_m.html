@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.2</span>
    </div>
    <div id="projectbrief">A C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
@@ -91,11 +91,15 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a id="index_m"></a>- m -</h3><ul>
-<li>maintainManifoldTopology()
-: <a class="el" href="classz_space_1_1z_mesh.html#ae66609043bee62d706443ac5dc47304f">zSpace::zMesh</a>
+<li>m
+: <a class="el" href="classz_space_1_1z_particle.html#a08dc8a9a4e192d8440a8ec5b7ea604f3">zSpace::zParticle</a>
 </li>
 <li>makeBoundaryRepellant()
-: <a class="el" href="classz_space_1_1z_slime.html#a96ac8317368024e7df385284f0034f2d">zSpace::zSlime</a>
+: <a class="el" href="classz_space_1_1z_ts_slime.html#aa4972a7f90258411fce61ce50d081d9f">zSpace::zTsSlime</a>
+</li>
+<li>makeDynamic()
+: <a class="el" href="classz_space_1_1z_fn_graph_dynamics.html#a7da40363e44fae16b45c6d2611e596d5">zSpace::zFnGraphDynamics</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh_dynamics.html#a2fb8da5d5291b0bb4a31749619a23283">zSpace::zFnMeshDynamics</a>
 </li>
 <li>mat
 : <a class="el" href="classz_space_1_1z_matrix.html#a9ed947d13a14c0f90710da09b0493609">zSpace::zMatrix&lt; T &gt;</a>
@@ -103,26 +107,61 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>max_n_e
 : <a class="el" href="classz_space_1_1z_graph.html#a8770334b0d78e0ef38f2529546212c26">zSpace::zGraph</a>
 </li>
+<li>max_n_f
+: <a class="el" href="classz_space_1_1z_mesh.html#a42e50186f336bc0e1d86dbe84b81353a">zSpace::zMesh</a>
+</li>
 <li>max_n_v
 : <a class="el" href="classz_space_1_1z_graph.html#ab185d273d46853570cdb859e8600a9ad">zSpace::zGraph</a>
 </li>
 <li>max_nVertices
-: <a class="el" href="classz_space_1_1z_buffer_object.html#a4f1840ab8f17492018ef572040197a36">zSpace::zBufferObject</a>
+: <a class="el" href="classz_space_1_1z_obj_buffer.html#abbca7de0b6ea909b6ecbace1452b044c">zSpace::zObjBuffer</a>
 </li>
 <li>maxA
-: <a class="el" href="classz_space_1_1z_slime_environment.html#ac2e0f9a94ca81b7361e6f24d364539d1">zSpace::zSlimeEnvironment</a>
+: <a class="el" href="classz_space_1_1z_ts_slime_environment.html#a59be7bbe57f938ebfa9bcd3c92927d9c">zSpace::zTsSlimeEnvironment</a>
 </li>
 <li>maxBB
-: <a class="el" href="classz_space_1_1z_open_street.html#a6799edb64504f0d013d346307c36de17">zSpace::zOpenStreet</a>
+: <a class="el" href="classz_space_1_1z_field2_d.html#a6de38a4f931ba00b6d69d9c8febe0b66">zSpace::zField2D&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_field3_d.html#aee95bb06ea8e28871954ac8dec4f7beb">zSpace::zField3D&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_ts_o_s_m.html#a4686e1b63e251e80c00f8d0cfcaf767f">zSpace::zTsOSM</a>
+</li>
+<li>maxLength
+: <a class="el" href="classz_space_1_1z_ts_k_means.html#a3466737efa0add58b425ecf81aeb583b">zSpace::zTsKMeans</a>
+, <a class="el" href="classz_space_1_1z_ts_streams2_d.html#ae24a8e79f0f2c42eb412733635b29bed">zSpace::zTsStreams2D</a>
+</li>
+<li>means
+: <a class="el" href="classz_space_1_1z_ts_k_means.html#ab39b2506fe47b8cee41eed22ffc01e2c">zSpace::zTsKMeans</a>
+</li>
+<li>mesh
+: <a class="el" href="classz_space_1_1z_obj_mesh.html#aea18b9ff32e664d0a29f7fe4c976308b">zSpace::zObjMesh</a>
+</li>
+<li>meshObj
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a738ef7f36456fba54f21913fa9b3ebf2">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_ts_remesh.html#a53ccdbb76287fcdb799d9312d54adc19">zSpace::zTsRemesh</a>
+, <a class="el" href="classz_space_1_1z_ts_variable_extrude.html#ad5d6f49fdc28436e95c8fc8731d15590">zSpace::zTsVariableExtrude</a>
 </li>
 <li>minA
-: <a class="el" href="classz_space_1_1z_slime_environment.html#a7e6c8e7f737c9c839ced2f87c1ca888f">zSpace::zSlimeEnvironment</a>
+: <a class="el" href="classz_space_1_1z_ts_slime_environment.html#ab0cf9f345fbcad1259381f618f600c6a">zSpace::zTsSlimeEnvironment</a>
 </li>
 <li>minBB
-: <a class="el" href="classz_space_1_1z_open_street.html#a0aa0b300e431dc6bb71fdc4c4a0c7284">zSpace::zOpenStreet</a>
+: <a class="el" href="classz_space_1_1z_field2_d.html#af1da5d21b938d8c159ee77fdf1a6c9ce">zSpace::zField2D&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_field3_d.html#a18f205541f74c30f03986654cbe6270f">zSpace::zField3D&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_ts_o_s_m.html#ac9b08038b8732cc773dc623290938c35">zSpace::zTsOSM</a>
+</li>
+<li>minDist_Edge_Point()
+: <a class="el" href="classz_space_1_1z_utils_core.html#a1071af624f932088c1fbc895d04a8228">zSpace::zUtilsCore</a>
+</li>
+<li>minDist_Point_Plane()
+: <a class="el" href="classz_space_1_1z_utils_core.html#a948ee3da23ccdb9bb2f47ae21594b4f4">zSpace::zUtilsCore</a>
+</li>
+<li>minDistance()
+: <a class="el" href="classz_space_1_1z_ts_shortest_path.html#a0a44404b722568805c05babbfe1ef585">zSpace::zTsShortestPath&lt; T, U &gt;</a>
+</li>
+<li>minLength
+: <a class="el" href="classz_space_1_1z_ts_k_means.html#a0ea831f8d1aec44308cfb45d92ab56d5">zSpace::zTsKMeans</a>
+, <a class="el" href="classz_space_1_1z_ts_streams2_d.html#ae87745b1feac680a840921708c11f744">zSpace::zTsStreams2D</a>
 </li>
 <li>minMax_chemA()
-: <a class="el" href="classz_space_1_1z_slime_environment.html#a3584c1394c9a26cd3712557530c06d2d">zSpace::zSlimeEnvironment</a>
+: <a class="el" href="classz_space_1_1z_ts_slime_environment.html#ac8f17ed08297d9f08f68b7282279e626">zSpace::zTsSlimeEnvironment</a>
 </li>
 <li>minorMatrix()
 : <a class="el" href="classz_space_1_1z_matrix.html#a57be6963618f8a13b8ecd72610d402de">zSpace::zMatrix&lt; T &gt;</a>

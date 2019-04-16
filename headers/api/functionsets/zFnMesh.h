@@ -1022,11 +1022,7 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup mesh creation 
-		*	\brief Collection of mesh creation methods.
-		*  @{
-		*/
-		
+				
 		/*! \brief This method creates a mesh from the input containers.
 		*
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
@@ -1042,18 +1038,13 @@ namespace zSpace
 			// compute mesh normals
 			if (computeNormals) computeMeshNormals();
 		}
-
-		/** @}*/
+				
 
 		//--------------------------
 		//--- TOPOLOGY QUERY METHODS 
 		//--------------------------
 
-		/** \addtogroup mesh topology queries
-		*	\brief Collection of mesh topology query methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method returns the number of vertices in the mesh.
 		*	\return				number of vertices.
 		*	\since version 0.0.2
@@ -1521,20 +1512,11 @@ namespace zSpace
 			return out;
 		}
 
-		/** @}*/
-
-
-		
-
 		//--------------------------
 		//--- HALF EDGE QUERY METHODS 
 		//--------------------------
 
-		/** \addtogroup mesh half edge queries
-		*	\brief Collection of mesh half edge query methods.
-		*  @{
-		*/
-
+		
 		/*!	\brief This method return the next edge of the input indexed edge.
 		*
 		*	\param		[in]	index	- index in the vertex list.
@@ -1773,16 +1755,12 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- COMPUTE METHODS 
 		//--------------------------
-
-		/** \addtogroup mesh compute
-		*	\brief Collection of mesh compute methods.
-		*  @{
-		*/
+				
 
 		/*! \brief This method computes the Edge colors based on the vertex colors.
 		*
@@ -2167,16 +2145,11 @@ namespace zSpace
 			
 		}
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
-
-		/** \addtogroup mesh set methods
-		*	\brief Collection of mesh set attribute methods.
-		*  @{
-		*/
 
 		/*! \brief This method sets vertex position of the input vertex.
 		*
@@ -2503,16 +2476,10 @@ namespace zSpace
 			}
 		}
 
-		/** @}*/
-
+		
 		//--------------------------
 		//--- GET METHODS 
 		//--------------------------
-
-		/** \addtogroup mesh get methods
-		*	\brief Collection of mesh get attribute methods.
-		*  @{
-		*/
 
 		/*! \brief This method gets vertex position of the input vertex.
 		*
@@ -3933,17 +3900,12 @@ namespace zSpace
 			return out;
 		}
 
-		/** @}*/
-
+		
 
 		//--------------------------
 		//---- TRI-MESH MODIFIER METHODS
 		//--------------------------
-	
-		/** \addtogroup mesh modifier methods
-		*	\brief Collection of mesh topology modifier methods.
-		*  @{
-		*/
+		
 
 		/*! \brief This method triangulates the input face of the mesh.
 		*
@@ -5508,7 +5470,7 @@ namespace zSpace
 			}
 		}
 
-		/** @}*/
+		
 
 	};
 

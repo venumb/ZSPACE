@@ -1,6 +1,5 @@
 var group__z_data =
 [
-    [ "ZCityData", "group__z_city_data.html", "group__z_city_data" ],
     [ "zDatabase", "classz_space_1_1z_database.html", [
       [ "zDatabase", "classz_space_1_1z_database.html#a7029edb247e4ca96332fb8a9b7ffa60c", null ],
       [ "zDatabase", "classz_space_1_1z_database.html#a1467dcadf6149db64facd033de37bb22", null ],

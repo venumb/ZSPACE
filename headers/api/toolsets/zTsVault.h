@@ -200,11 +200,6 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/** \addtogroup mesh creation
-		*	\brief Collection of mesh creation methods.
-		*  @{
-		*/
-
 		/*! \brief This method creates the result geometry from the input file.
 		*
 		*	\param [in]		path			- input file name including the directory path and extension.
@@ -255,42 +250,33 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void createResultFromForm();
-
-		/** @}*/
-
+				
 
 		//--------------------------
 		//---- FDM METHODS
 		//--------------------------
 
-		/** \addtogroup Vault FDM
-		*	\brief Collection of methods for force density method.
-		*	\details Based on Schek, H-J. "The force density method for form finding and computation of general networks." Computer methods in applied mechanics and engineering 3.1 (1974): 115-134. (https://www.sciencedirect.com/science/article/pii/0045782574900450)
-			and Linkwitz, K. (2014). Force density method. Shell Structures for Architecture: Form Finding and Optimization, Routledge, Oxon and New York, 59-71.
-		*  @{
-		*/
+		
 
 		/*! \brief This method computes the result based on the force density method.
 		*
+		*	\details Based on Schek, H-J. "The force density method for form finding and computation of general networks." Computer methods in applied mechanics and engineering 3.1 (1974): 115-134. (https://www.sciencedirect.com/science/article/pii/0045782574900450)
+			and Linkwitz, K. (2014). Force density method. Shell Structures for Architecture: Form Finding and Optimization, Routledge, Oxon and New York, 59-71.
 		*	\return				bool								- true if solution is found.
 		*	\since version 0.0.2
 		*/
 		bool forceDensityMethod();
 
-		/** @}*/
+	
 
 		//--------------------------
 		//---- TNA METHODS
 		//--------------------------
-
-		/** \addtogroup Vault TNA
-		*	\brief Collection of methods for thrust netwrok anaysis.
-		*	\details Based on Block, Philippe, and John Ochsendorf. "Thrust network analysis: A new methodology for three-dimensional equilibrium." Journal of the International Association for shell and spatial structures 48.3 (2007): 167-173.
-		*  @{
-		*/
+				
 
 		/*! \brief This method computes the horizontal equilibrium of the form and force diagram.
 		*
+		*	\details Based on Block, Philippe, and John Ochsendorf. "Thrust network analysis: A new methodology for three-dimensional equilibrium." Journal of the International Association for shell and spatial structures 48.3 (2007): 167-173.
 		*	\param		[in]	computeTargets						- true if the targets fro horizontal equiibrium have to be computed.
 		*	\param		[in]	formWeight							- weight of form mesh update. To be between 0 and 1.
 		*	\param		[in]	dT									- integration timestep.
@@ -303,7 +289,7 @@ namespace zSpace
 		*	\return				bool								- true if the all the correponding edges are parallel.
 		*	\since version 0.0.2
 		*/
-		bool horizontalEquilibrium(bool &computeTargets, double formWeight, double dT, zIntergrationType type, double angleTolerance = 0.001, double minMax_formEdge = 0.1, double minMax_forceEdge = 0.1, bool colorEdges = false, bool printInfo = false)
+		bool equilibriumHorizontal(bool &computeTargets, double formWeight, double dT, zIntergrationType type, double angleTolerance = 0.001, double minMax_formEdge = 0.1, double minMax_forceEdge = 0.1, bool colorEdges = false, bool printInfo = false)
 		{
 			// compute horizontal equilibrium targets
 			if (computeTargets)
@@ -343,6 +329,7 @@ namespace zSpace
 
 		/*! \brief This method computes the vertical equilibrium of the result diagram using iterative method.
 		*
+		*	\details Based on Block, Philippe, and John Ochsendorf. "Thrust network analysis: A new methodology for three-dimensional equilibrium." Journal of the International Association for shell and spatial structures 48.3 (2007): 167-173.
 		*	\param		[in]	dT									- integration timestep.
 		*	\param		[in]	type								- integration type - zEuler or zRK4.
 		*	\param		[in]	forceDiagramScale					- scale of force diagram.
@@ -350,7 +337,7 @@ namespace zSpace
 		*	\return				bool								- true if the all the forces  per vertex add up to zero or below tolerance.
 		*	\since version 0.0.2
 		*/
-		bool verticalEquilibrium(double dT, zIntergrationType type, double forceDiagramScale, double tolerance = 0.001)
+		bool equilibriumVertical(double dT, zIntergrationType type, double forceDiagramScale, double tolerance = 0.001)
 		{
 			bool out = updateResultDiagram(forceDiagramScale, dT, type);
 
@@ -359,10 +346,11 @@ namespace zSpace
 
 		/*! \brief This method computes the vertical equilibrium of the result diagram using linear algebra method.
 		*
+		*	\details Based on Block, Philippe, and John Ochsendorf. "Thrust network analysis: A new methodology for three-dimensional equilibrium." Journal of the International Association for shell and spatial structures 48.3 (2007): 167-173.
 		*	\param		[in]	forceDiagramScale					- scale of force diagram.
 		*	\since version 0.0.2
 		*/
-		bool verticalEquilibrium(double forceDiagramScale );
+		bool equilibriumVertical(double forceDiagramScale );
 
 		/** @}*/
 
@@ -370,11 +358,7 @@ namespace zSpace
 		//--- SET METHODS 
 		//--------------------------
 
-		/** \addtogroup Vault set methods
-		*	\brief Collection of vault set attribute methods.
-		*  @{
-		*/
-
+		
 		/*! \brief This method sets anchor points of the geometry.
 		*
 		*	\param		[in]	type						- diagram type - work with  zResultDiagram or zFormDiagram.
@@ -665,15 +649,12 @@ namespace zSpace
 		*/
 		void setVertexMassfromVertexArea();
 
-		/** @}*/
+		
 
 		//--------------------------
 		//--- GET METHODS 
 		//--------------------------
-		/** \addtogroup Vault get methods
-		*	\brief Collection of vault get attribute methods.
-		*  @{
-		*/
+		
 
 		/*! \brief This method gets the corresponding force diagram edge for the input form diagram indexed edge.
 		*
@@ -716,16 +697,12 @@ namespace zSpace
 			else throw std::invalid_argument(" invalid diagram type.");
 		}
 
-		/** @}*/
+		
 		//--------------------------
 		//---- UTILITY METHODS 
 		//--------------------------
 
-		/** \addtogroup Vault utilities
-		*	\brief Collection of vault utility methods.
-		*  @{
-		*/
-
+		
 		void translateForceDiagram( double value)
 		{
 			// bounding box
@@ -930,9 +907,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		bool updateResultDiagram(double forceDiagramScale, double dT, zIntergrationType type, double tolerance = 0.001);
-
-
-		/** @}*/
+			   		
 
 	};
 	   
@@ -3239,7 +3214,7 @@ namespace zSpace
 
 	//---- graph specilization for verticalEquilibrium using Linear Algebra
 	template<>
-	inline bool zTsVault<zObjGraph, zFnGraph>::verticalEquilibrium( double forceDiagramScale)
+	inline bool zTsVault<zObjGraph, zFnGraph>::equilibriumVertical( double forceDiagramScale)
 	{
 		zHEData type = zVertexData;
 		
@@ -3403,7 +3378,7 @@ namespace zSpace
 
 	//---- mesh specilization for verticalEquilibrium using Linear Algebra
 	template<>
-	inline bool zTsVault<zObjMesh, zFnMesh>::verticalEquilibrium( double forceDiagramScale)
+	inline bool zTsVault<zObjMesh, zFnMesh>::equilibriumVertical( double forceDiagramScale)
 	{
 		zHEData type = zVertexData;
 

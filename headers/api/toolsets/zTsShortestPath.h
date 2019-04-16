@@ -23,7 +23,6 @@ namespace zSpace
 
 	/*! \class zTsShortestPath
 	*	\brief A walk toolset for doing shortest paths on graphs and meshes.
-	*
 	*	\tparam				T			- Type to work with zObjMesh or zObjGraph.
 	*	\tparam				U			- Type to work with zFnMesh or zFnGraph.
 	*	\since version 0.0.2
@@ -81,7 +80,7 @@ namespace zSpace
 
 		/*! \brief This method computes the shortest path from the source vertex to all vertices of the zGraph/zMesh.
 		*
-		*	\details based on Dijkstra’s shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
+		*	\details based on Dijkstras shortest path algorithm (https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/)
 		*	\param		[in]	index					- source vertex index.
 		*	\param		[out]	dist					- container of distance to each vertex from source.
 		*	\param		[out]	parent					- container of parent vertex index of each to each vertex. Required to get the path information.
@@ -133,7 +132,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 
-		inline void shortestPathWalks_SourceToOtherSource(vector<int> &sourceVertices, vector<int> &edgeVisited);
+		void shortestPathWalks_SourceToOtherSource(vector<int> &sourceVertices, vector<int> &edgeVisited);
 
 		/*! \brief This method computes the vertex distance to all the zGraph/zMesh vertices from the input vertex source indicies.
 		*
@@ -164,7 +163,7 @@ namespace zSpace
 		*	\param		[out]	sptSet					- container of shortest path tree for each vertex..
 		*	\since version 0.0.2
 		*/
-		inline int minDistance(vector<float> &dist, vector<bool> &sptSet)
+		int minDistance(vector<float> &dist, vector<bool> &sptSet)
 		{
 			if (dist.size() != sptSet.size()) throw std::invalid_argument("input container sizes are not equal.");
 
@@ -1033,6 +1032,10 @@ namespace zSpace
 
 	/** @}*/
 
+	/** @}*/
+
+	/** @}*/
+
 	typedef zTsShortestPath<zObjMesh, zFnMesh> zTsShortestPathMesh;
 
 	/** \addtogroup API
@@ -1055,6 +1058,10 @@ namespace zSpace
 	*
 	*	\since version 0.0.2
 	*/
+
+	/** @}*/
+
+	/** @}*/
 
 	/** @}*/
 

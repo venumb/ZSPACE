@@ -28,8 +28,7 @@ var NAVTREE =
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
-        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
+        [ "All", "namespacemembers.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ],
         [ "Enumerator", "namespacemembers_eval.html", null ]
@@ -42,7 +41,7 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -59,11 +58,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classz_space_1_1z_mesh.html#ae66609043bee62d706443ac5dc47304f",
-"group___k-_means.html#ga004791b5c0eba58d794da1cdf228c547",
-"group__z_i_o.html#ga88dea45aa0112488abc1c72d9a892458",
-"namespacemembers_func_r.html",
-"z_field_utilities_8h_source.html"
+"classz_space_1_1z_fn_graph.html#a62fa67b7cf97d310fb010782ed44bf30",
+"classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",
+"classz_space_1_1z_ts_o_s_m.html#a3dffe04f057e9523c2c718e6d2580865",
+"classz_space_1_1z_ts_streams2_d.html#ae68c921e2c2dde4d5fe53e39da1403ac",
+"classz_space_1_1z_vector.html#aba8f22352b3e277987cdff71f4dcd96e",
+"group__z_funtion_sets.html",
+"z_particle_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

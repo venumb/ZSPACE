@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="ZSPACE_logo_Documentation.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ZSPACE
-   &#160;<span id="projectnumber">v 0.0.1</span>
+   &#160;<span id="projectnumber">v 0.0.2</span>
    </div>
    <div id="projectbrief">A C++ header-only collection of geometry data-structures, algorithms and city data visualization framework.</div>
   </td>
@@ -91,17 +91,23 @@ $(document).ready(function(){initNavTree('functions_o.html','');});
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a id="index_o"></a>- o -</h3><ul>
-<li>objectType
-: <a class="el" href="structz_space_1_1z_object.html#a7c2218c46404b4c47f7915157f1d5899">zSpace::zObject&lt; T &gt;</a>
-</li>
 <li>occupied
-: <a class="el" href="classz_space_1_1z_slime_environment.html#a17ed7b8e4d129e2076864e6864a60ba5">zSpace::zSlimeEnvironment</a>
+: <a class="el" href="classz_space_1_1z_ts_slime_environment.html#a6be6b5ba9245b64074d2b3b4af3ea30d">zSpace::zTsSlimeEnvironment</a>
 </li>
 <li>offset_data
-: <a class="el" href="group__z_i_o.html#ga99dc1e9c09f8fb8c569bead33bb77a21">zSpace::BMPFileHeader</a>
+: <a class="el" href="structz_space_1_1_b_m_p_file_header.html#a99dc1e9c09f8fb8c569bead33bb77a21">zSpace::BMPFileHeader</a>
+</li>
+<li>offsetMeshFace()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a2023c79a4128011695e66920a22b997e">zSpace::zFnMesh</a>
+</li>
+<li>offsetMeshFace_Variable()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#afa4685f0ad66b218f267a4f0da15a0c8">zSpace::zFnMesh</a>
+</li>
+<li>ofMap()
+: <a class="el" href="classz_space_1_1z_utils_core.html#ad771e92f8957b475c001328574086c77">zSpace::zUtilsCore</a>
 </li>
 <li>onBoundary()
-: <a class="el" href="classz_space_1_1z_mesh.html#aca5218f8a8b5c5f1cde25440d08c57d6">zSpace::zMesh</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#ac6f26591670a57006bb2f7a935ab2d78">zSpace::zFnMesh</a>
 </li>
 <li>open()
 : <a class="el" href="classz_space_1_1z_database.html#a0924ae73aa91a7ee47d886698c2659b2">zSpace::zDatabase</a>
@@ -130,17 +136,17 @@ $(document).ready(function(){initNavTree('functions_o.html','');});
 <li>operator+()
 : <a class="el" href="classz_space_1_1z_matrix.html#a26441ad72e77c2954829e24a78f8df82">zSpace::zMatrix&lt; T &gt;</a>
 , <a class="el" href="structz_space_1_1z_particle_derivative.html#a0a8630b0c474868fd9103f3090dcabe0">zSpace::zParticleDerivative</a>
-, <a class="el" href="classz_space_1_1z_vector.html#acbb514173ee4774153c4f9f8d1b79f1f">zSpace::zVector</a>
+, <a class="el" href="classz_space_1_1z_vector.html#aecf15e1bb50c971a05664f602c485b3b">zSpace::zVector</a>
 </li>
 <li>operator+=()
-: <a class="el" href="classz_space_1_1z_matrix.html#a2e28c95d530fe2c8cdbf45039fc04c73">zSpace::zMatrix&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_vector.html#ab68bb4b940277d024fbf09b88d302b1c">zSpace::zVector</a>
+: <a class="el" href="classz_space_1_1z_matrix.html#af1ce91b548b450da6a2573280694fc69">zSpace::zMatrix&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_vector.html#a0e9834baf61b170bfe123bdbec396872">zSpace::zVector</a>
 </li>
 <li>operator-()
 : <a class="el" href="classz_space_1_1z_matrix.html#afaa326b6909e926cb4848ba78654e973">zSpace::zMatrix&lt; T &gt;</a>
 </li>
 <li>operator-=()
-: <a class="el" href="classz_space_1_1z_matrix.html#a3f9216d702ad73222f5a6036b4d0a389">zSpace::zMatrix&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_matrix.html#afcbeb89e1fec61a8ae71c921fb5c1be7">zSpace::zMatrix&lt; T &gt;</a>
 </li>
 <li>operator/()
 : <a class="el" href="classz_space_1_1z_vector.html#a817143b982398bf61f8b21e92acee983">zSpace::zVector</a>
@@ -158,10 +164,10 @@ $(document).ready(function(){initNavTree('functions_o.html','');});
 , <a class="el" href="structz_space_1_1z_ways.html#a9e07097ac4597fc34cf1188a75f2c700">zSpace::zWays</a>
 </li>
 <li>OSMwaysID_zBuildingsId
-: <a class="el" href="classz_space_1_1z_open_street.html#a0bb5898c54d3700b2801aa0a684eb115">zSpace::zOpenStreet</a>
+: <a class="el" href="classz_space_1_1z_ts_o_s_m.html#adb578e0ebc23ae5f7e837faa409248d4">zSpace::zTsOSM</a>
 </li>
 <li>OSMwaysID_zWayId
-: <a class="el" href="classz_space_1_1z_open_street.html#ae9b4c3e743a05a72501015887e249fab">zSpace::zOpenStreet</a>
+: <a class="el" href="classz_space_1_1z_ts_o_s_m.html#a0b50b4b0c9ef74ba4bf67a4879abba12">zSpace::zTsOSM</a>
 </li>
 </ul>
 </div><!-- contents -->
