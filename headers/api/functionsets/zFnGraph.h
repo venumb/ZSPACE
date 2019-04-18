@@ -799,7 +799,7 @@ namespace zSpace
 		*/
 		void getConnectedEdges(int index, zHEData type, vector<int>& edgeIndicies)
 		{
-			vector<int> out;
+			edgeIndicies.clear();
 
 			//  Vertex 
 			if (type == zVertexData)
@@ -813,7 +813,7 @@ namespace zSpace
 
 					do
 					{
-						out.push_back(e->getEdgeId());
+						edgeIndicies.push_back(e->getEdgeId());
 
 						//printf("\n %i %i ", e->getEdgeId(), start->getEdgeId());
 
@@ -839,19 +839,18 @@ namespace zSpace
 
 				for (int i = 0; i < connectedEdgestoVert0.size(); i++)
 				{
-					if (connectedEdgestoVert0[i] != index) out.push_back(connectedEdgestoVert0[i]);
+					if (connectedEdgestoVert0[i] != index) edgeIndicies.push_back(connectedEdgestoVert0[i]);
 				}
 
 
 				for (int i = 0; i < connectedEdgestoVert1.size(); i++)
 				{
-					if (connectedEdgestoVert1[i] != index) out.push_back(connectedEdgestoVert1[i]);
+					if (connectedEdgestoVert1[i] != index) edgeIndicies.push_back(connectedEdgestoVert1[i]);
 				}
 			}
 
 			else  throw std::invalid_argument(" error: invalid zHEData type");
-
-			edgeIndicies = out;
+			
 		}
 
 		/*! \brief This method gets the vertices connected to input zVertex.
@@ -863,9 +862,9 @@ namespace zSpace
 		*/
 		void getConnectedVertices(int index, zHEData type, vector<int>& vertexIndicies)
 		{
-			vector<int> out;
+			vertexIndicies.clear();
 
-			// Graph Vertex
+			// Vertex
 			if (type == zVertexData)
 			{
 
@@ -874,14 +873,13 @@ namespace zSpace
 
 				for (int i = 0; i < connectedEdges.size(); i++)
 				{
-					out.push_back(graphObj->graph.edges[connectedEdges[i]].getVertex()->getVertexId());
+					vertexIndicies.push_back(graphObj->graph.edges[connectedEdges[i]].getVertex()->getVertexId());
 				}
 
 			}
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			vertexIndicies = out;
+		
 		}
 
 		/*!	\brief This method gets the vertices attached to input zEdge.
@@ -893,18 +891,18 @@ namespace zSpace
 		*/
 		void getVertices(int index, zHEData type, vector<int>& vertexIndicies)
 		{
-			vector<int> out;
+			vertexIndicies.clear();
 
-			// Graph Edge or  Mesh Edge
+			//  Edge
 			if (type == zEdgeData)
 			{
-				out.push_back(graphObj->graph.edges[index].getVertex()->getVertexId());
-				out.push_back(graphObj->graph.edges[index].getSym()->getVertex()->getVertexId());
+				vertexIndicies.push_back(graphObj->graph.edges[index].getVertex()->getVertexId());
+				vertexIndicies.push_back(graphObj->graph.edges[index].getSym()->getVertex()->getVertexId());
 			}
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
 
-			vertexIndicies = out;
+			
 		}
 
 		/*!	\brief This method calculate the valency of the input zVertex.

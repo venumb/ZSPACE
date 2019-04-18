@@ -16,7 +16,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zObject
+	/*! \class zObj
 	*	\brief The base object class.
 	*	\since version 0.0.2
 	*/
@@ -25,7 +25,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class  zObject
+	class  zObj
 	{
 	protected:
 		
@@ -57,7 +57,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zObject()
+		zObj()
 		{
 			showObject = true;
 		}
@@ -70,7 +70,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		~zObject() {}
+		~zObj() {}
 
 		//--------------------------
 		//---- VIRTUAL METHODS

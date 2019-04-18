@@ -2,7 +2,7 @@
 
 #include <headers/framework/data/zDatabase.h>
 
-#include <headers/api/functionsets/zFnField2D.h>
+#include <headers/api/functionsets/zFnMeshField.h>
 #include <headers/api/functionsets/zFnMesh.h>
 #include <headers/api/functionsets/zFnGraph.h>
 
@@ -32,7 +32,7 @@ namespace zSpace
 
 	/*! \struct zWays
 	*	\brief A struct for storing  information of OSM ways and street graph.
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
 
 	/** @}*/
@@ -82,7 +82,7 @@ namespace zSpace
 	/*! \struct zBuildings
 	*	\brief A class for accessing the openstreet data and other city level data stored in a SQL database , CSV files etc.
 	*	\details Uses open source data from https://www.openstreetmap.org
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
 
 	/** @}*/
@@ -153,7 +153,7 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief pointer to a 2D field  */
-		zObjField2D<double> *fieldObj;
+		zObjMeshField<double> *fieldObj;
 
 		//--------------------------
 		//---- STREET ATTRIBUTES
@@ -220,7 +220,7 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief field function set  */
-		zFnField2D<double> fnField;
+		zFnMeshField<double> fnField;
 
 		/*!	\brief graph function set for streets */
 		zFnGraph fnStreet;
@@ -255,13 +255,13 @@ namespace zSpace
 		*	\param		[in]	DatabaseFileName		- file path to the SQL database.
 		*	\since version 0.0.1
 		*/
-		zTsOSM(char* DatabaseFileName, zObjField2D<double> &_fieldObj, zObjMesh &_fieldMeshObj, zObjGraph &_streetObj, zObjGraph &_buildingObj)
+		zTsOSM(char* DatabaseFileName, zObjMeshField<double> &_fieldObj, zObjGraph &_streetObj, zObjGraph &_buildingObj)
 		{
 			zDB = new zDatabase(DatabaseFileName);
 			zDB->close();
 
 			fieldObj = &_fieldObj;
-			fnField = zFnField2D<double>(_fieldObj, _fieldMeshObj);
+			fnField = zFnMeshField<double>(_fieldObj);
 
 			streetObj = &_streetObj;
 			fnStreet = zFnGraph(_streetObj);

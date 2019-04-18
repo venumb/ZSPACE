@@ -33,6 +33,9 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 		
+		/*!	\brief pointer to a mesh object  */
+		zObjMesh *meshObj;
+
 		/*!	\brief container of particle function set  */
 		vector<zFnParticle> fnParticles;	
 
@@ -75,11 +78,63 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 			
+		void from(string path, zFileTpye type) 
+		{
+			if (type == zOBJ) fromOBJ(path);
+			else if (type == zJSON) fromJSON(path);
+
+			else throw std::invalid_argument(" error: invalid zFileTpye type");
+		}
+
+		void to(string path, zFileTpye type) 
+		{
+			if (type == zOBJ) toOBJ(path);
+			else if (type == zJSON) toJSON(path);
+
+			else throw std::invalid_argument(" error: invalid zFileTpye type");
+		}
 
 		void clear() override
 		{
 
-			zFnMesh::clear();			
+			if (meshObj->mesh.vertices != NULL)
+			{
+				delete[] meshObj->mesh.vertices;
+				meshObj->mesh.vertices = NULL;
+
+				meshObj->mesh.vertexActive.clear();
+				meshObj->mesh.vertexPositions.clear();
+				meshObj->mesh.vertexNormals.clear();
+				meshObj->mesh.vertexColors.clear();
+				meshObj->mesh.vertexWeights.clear();
+
+				meshObj->mesh.positionVertex.clear();
+				meshObj->mesh.verticesEdge.clear();
+
+
+			}
+
+			if (meshObj->mesh.edges != NULL)
+			{
+				delete[] meshObj->mesh.edges;
+				meshObj->mesh.edges = NULL;
+
+				meshObj->mesh.edgeActive.clear();
+				meshObj->mesh.edgeColors.clear();
+				meshObj->mesh.edgeWeights.clear();
+
+			}
+
+
+			if (meshObj->mesh.faces != NULL)
+			{
+				delete[]meshObj->mesh.faces;
+				meshObj->mesh.faces = NULL;
+
+				meshObj->mesh.faceActive.clear();
+				meshObj->mesh.faceColors.clear();
+				meshObj->mesh.faceNormals.clear();
+			}
 
 			fnParticles.clear();
 			particlesObj.clear();

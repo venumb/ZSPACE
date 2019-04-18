@@ -1,5 +1,5 @@
 #pragma once
-#include <headers/api/object/zObject.h>
+#include <headers/api/object/zObj.h>
 
 namespace zSpace
 {
@@ -68,7 +68,7 @@ namespace zSpace
 		zUtilsDisplay displayUtils;
 
 		/*! \brief container of scene objects	*/
-		vector<zObject *> sceneObjects;
+		vector<zObj *> sceneObjects;
 
 
 		//--------------------------
@@ -135,7 +135,7 @@ namespace zSpace
 		*	\param		[in]	obj				- input object.
 		*	\since version 0.0.2
 		*/
-		void addObject(zObject &obj)
+		void addObject(zObj &obj)
 		{
 			sceneObjects.push_back(&obj);
 
@@ -150,7 +150,7 @@ namespace zSpace
 		*	\param		[in]	objs				- input  contatiner of objects.
 		*	\since version 0.0.2
 		*/
-		void addObjects(vector<zObject> &objs)
+		void addObjects(vector<zObj> &objs)
 		{
 			for (int i = 0; i < objs.size(); i++)
 			{

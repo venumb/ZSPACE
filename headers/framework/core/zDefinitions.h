@@ -71,6 +71,13 @@ namespace zSpace
 	#define distanceTolerance 0.00001
 	#endif
 
+	/*!
+	*	\brief Defines the degrees of freedom.
+	*/
+	#ifndef DOF
+	#define  DOF 6
+	#endif
+
 	//--------------------------
 	//---- VBO DEFINITIONS
 	//--------------------------

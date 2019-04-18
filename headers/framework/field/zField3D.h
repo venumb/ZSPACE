@@ -63,8 +63,6 @@ namespace zSpace
 		/*!	\brief stores the minimum bounds of the field  */
 		zVector maxBB;
 
-		/*!	\brief container of field  positions  */
-		vector<zVector> positions;
 
 		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
@@ -120,13 +118,6 @@ namespace zSpace
 
 					for (int k = 0; k < n_Z; k++)
 					{
-						zVector pos;
-						pos.x = startPt.x + i * unitVec.x;
-						pos.y = startPt.y + j * unitVec.y;
-						pos.z = startPt.z + k * unitVec.z;
-
-						positions.push_back(pos);
-
 						T defaultValue;
 						fieldValues.push_back(defaultValue);						
 					}
@@ -159,7 +150,7 @@ namespace zSpace
 			maxBB = minBB + zVector(unit_X * n_X, unit_Y * n_Y, unit_Z * n_Z);
 
 			zVector unitVec = zVector(unit_X, unit_Y, unit_Z);
-			zVector startPt = minBB + (unitVec * 0.5);
+			zVector startPt = minBB ;
 
 
 			for (int i = 0; i< n_X; i++)
@@ -168,13 +159,7 @@ namespace zSpace
 				{
 
 					for (int k = 0; k < n_Z; k++)
-					{
-						zVector pos;
-						pos.x = startPt.x + i * unitVec.x;
-						pos.y = startPt.y + j * unitVec.y;
-						pos.z = startPt.z + k * unitVec.z;
-
-						positions.push_back(pos);
+					{					
 
 						T defaultValue;
 						fieldValues.push_back(defaultValue);

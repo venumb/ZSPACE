@@ -61,6 +61,24 @@
     <Filter Include="Header Files\APP\Include\tools">
       <UniqueIdentifier>{d0698b98-b7b4-4ff8-951b-b28f6450f9f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\API\Toolsets\statics">
+      <UniqueIdentifier>{c3172f2b-fe6f-457e-9827-0aa1f7ffc670}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\API\Toolsets\Data">
+      <UniqueIdentifier>{fb1cb5aa-bd21-4e6a-bb9a-2cb82d8272f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\API\Toolsets\PathNetworks">
+      <UniqueIdentifier>{4cc5e7fe-d200-4c63-8be1-b74402a40a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\API\Toolsets\Streams">
+      <UniqueIdentifier>{167d8c45-e7a1-4535-920a-256126af02b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\API\Toolsets\Geometry">
+      <UniqueIdentifier>{734460e2-4bec-4f38-8220-ce287d43d6c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\API\Toolsets\DigiFab">
+      <UniqueIdentifier>{2f462b92-fc84-4e0c-9559-d6fc0f48d7de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zSpace.cpp">
@@ -101,9 +119,6 @@
     <ClInclude Include="..\headers\framework\geometry\zPointCloud.h">
       <Filter>Header Files\FRAMEWORK\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\framework\field\zField2D.h">
-      <Filter>Header Files\FRAMEWORK\Field</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\framework\field\zField3D.h">
       <Filter>Header Files\FRAMEWORK\Field</Filter>
     </ClInclude>
@@ -120,9 +135,6 @@
       <Filter>Header Files\FRAMEWORK\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\api\functionsets\zFn.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnField2D.h">
       <Filter>Header Files\API\Functionsets</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\api\functionsets\zFnGraph.h">
@@ -143,12 +155,6 @@
     <ClInclude Include="..\headers\api\functionsets\zFnPointCloud.h">
       <Filter>Header Files\API\Functionsets</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObject.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjField2D.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\api\object\zObjGraph.h">
       <Filter>Header Files\API\Object</Filter>
     </ClInclude>
@@ -161,23 +167,8 @@
     <ClInclude Include="..\headers\api\object\zObjPointCloud.h">
       <Filter>Header Files\API\Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsKMeans.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsRemesh.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsShortestPath.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsVault.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\api\viewer\zModel.h">
       <Filter>Header Files\API\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsPolytopal.h">
-      <Filter>Header Files\API\Toolsets</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\app\include\zFnSets.h">
       <Filter>Header Files\APP\Include</Filter>
@@ -191,29 +182,8 @@
     <ClInclude Include="..\headers\app\include\zViewer.h">
       <Filter>Header Files\APP\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsVariableExtrude.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsStreams2D.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsSpatialStructure.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsSlimeMould.h">
-      <Filter>Header Files\API\Toolsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnField3D.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjField3D.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\framework\geometry\zGeometry.h">
       <Filter>Header Files\FRAMEWORK\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsOSM.h">
-      <Filter>Header Files\API\Toolsets</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\app\include\Tools\zTsData.h">
       <Filter>Header Files\APP\Include\tools</Filter>
@@ -229,6 +199,57 @@
     </ClInclude>
     <ClInclude Include="..\headers\app\include\Tools\zTsStreamLines.h">
       <Filter>Header Files\APP\Include\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\object\zObj.h">
+      <Filter>Header Files\API\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\object\zObjMeshField.h">
+      <Filter>Header Files\API\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\functionsets\zFnMeshField.h">
+      <Filter>Header Files\API\Functionsets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\framework\field\zField2D.h">
+      <Filter>Header Files\FRAMEWORK\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\object\zObjPointField.h">
+      <Filter>Header Files\API\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\functionsets\zFnPointField.h">
+      <Filter>Header Files\API\Functionsets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsVault.h">
+      <Filter>Header Files\API\Toolsets\statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsPolytopal.h">
+      <Filter>Header Files\API\Toolsets\statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsSpatialStructure.h">
+      <Filter>Header Files\API\Toolsets\statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsKMeans.h">
+      <Filter>Header Files\API\Toolsets\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsOSM.h">
+      <Filter>Header Files\API\Toolsets\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsShortestPath.h">
+      <Filter>Header Files\API\Toolsets\PathNetworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsSlimeMould.h">
+      <Filter>Header Files\API\Toolsets\PathNetworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsStreams2D.h">
+      <Filter>Header Files\API\Toolsets\Streams</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsRemesh.h">
+      <Filter>Header Files\API\Toolsets\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsVariableExtrude.h">
+      <Filter>Header Files\API\Toolsets\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsRobot.h">
+      <Filter>Header Files\API\Toolsets\DigiFab</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

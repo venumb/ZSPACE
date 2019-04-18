@@ -39,22 +39,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\headers\api\functionsets\zFn.h" />
-    <ClInclude Include="..\headers\api\functionsets\zFnField2D.h" />
-    <ClInclude Include="..\headers\api\functionsets\zFnField3D.h" />
+    <ClInclude Include="..\headers\api\functionsets\zFnMeshField.h" />
+    <ClInclude Include="..\headers\api\functionsets\zFnPointField.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnGraph.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnGraphDynamics.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnMesh.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnMeshDynamics.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnParticle.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnPointCloud.h" />
-    <ClInclude Include="..\headers\api\object\zObject.h" />
-    <ClInclude Include="..\headers\api\object\zObjField2D.h" />
-    <ClInclude Include="..\headers\api\object\zObjField3D.h" />
+    <ClInclude Include="..\headers\api\object\zObj.h" />
+    <ClInclude Include="..\headers\api\object\zObjMeshField.h" />
+    <ClInclude Include="..\headers\api\object\zObjPointField.h" />
     <ClInclude Include="..\headers\api\object\zObjGraph.h" />
     <ClInclude Include="..\headers\api\object\zObjMesh.h" />
     <ClInclude Include="..\headers\api\object\zObjParticle.h" />
     <ClInclude Include="..\headers\api\object\zObjPointCloud.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsOSM.h" />
+    <ClInclude Include="..\headers\api\toolsets\zTsRobot.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsStreams2D.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsPolytopal.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsSlimeMould.h" />

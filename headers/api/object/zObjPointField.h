@@ -1,14 +1,15 @@
 #pragma once
 #pragma once
 
-#include <headers/api/object/zObject.h>
-#include <headers/framework/field/zField2D.h>
+#include <headers/api/object/zObjPointCloud.h>
+#include <headers/framework/field/zField3D.h>
 
 #include <vector>
 using namespace std;
 
 namespace zSpace
 {
+
 
 	/** \addtogroup API
 	*	\brief The Application Program Interface of the library.
@@ -20,8 +21,8 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zObjField2D
-	*	\brief The 2D field object class.
+	/*! \class zObjPointField
+	*	\brief The 3D point field object class.
 	*	\since version 0.0.2
 	*/
 
@@ -30,7 +31,7 @@ namespace zSpace
 	/** @}*/
 	
 	template<typename T>
-	class zObjField2D : public zObject
+	class zObjPointField : public zObjPointCloud
 	{
 	private:
 		
@@ -40,7 +41,7 @@ namespace zSpace
 		//--------------------------
 
 		/*! \brief field 2D */
-		zField2D<T> field;
+		zField3D<T> field;
 
 
 		//--------------------------
@@ -51,9 +52,11 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zObjField2D()
+		zObjPointField()
 		{
-			displayUtils = nullptr;			
+			displayUtils = nullptr;	
+
+			showColors = false;
 		}
 
 
@@ -65,7 +68,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		~zObjField2D() {}
+		~zObjPointField() {}
 
 	
 		//--------------------------
@@ -74,7 +77,7 @@ namespace zSpace
 
 		void draw() override
 		{
-			
+			zObjPointCloud::draw();
 		}		
 
 	};

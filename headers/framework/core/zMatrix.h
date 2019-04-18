@@ -804,7 +804,6 @@ namespace zSpace
 		*	\param		[in]	s1		- scalar value which is added to the current matrix.
 		*	\since version 0.0.1
 		*/
-
 		void operator-= (T s1)
 		{
 
@@ -823,7 +822,6 @@ namespace zSpace
 		*	\param		[in]	s1		- scalar value which is multiplied to the current matrix.
 		*	\since version 0.0.1
 		*/
-
 		void operator*= (T s1)
 		{
 
@@ -842,7 +840,6 @@ namespace zSpace
 		*	\param		[in]	s1		- scalar value which divides the current matrix.
 		*	\since version 0.0.1
 		*/
-
 		void operator/= (T s1)
 		{
 

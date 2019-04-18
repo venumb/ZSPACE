@@ -3,7 +3,7 @@
 #include <headers/api/functionsets/zFnPointCloud.h>
 #include <headers/api/functionsets/zFnMesh.h>
 #include <headers/api/functionsets/zFnGraph.h>
-#include <headers/api/functionsets/zFnField2D.h>
+#include <headers/api/functionsets/zFnMeshField.h>
 #include <headers/api/functionsets/zFnParticle.h>
 
 namespace zSpace
@@ -408,7 +408,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class zTsSlimeEnvironment
+	class zTsSlimeEnvironment : public zFnMeshField<double>
 	{
 	protected:
 
@@ -419,9 +419,7 @@ namespace zSpace
 		//--------------------------
 		//----  PUBLIC ATTRIBUTES
 		//--------------------------
-		
-		/*!<scalar field.*/
-		zFnField2D<double> fnField;			
+						
 
 		/*!<field resolution in X.*/
 		int resX;	
@@ -467,12 +465,11 @@ namespace zSpace
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_fieldObj			- input field2D object.
-		*	\param		[in]	_fieldMeshObj		- input mesh object.
 		*	\since version 0.0.2
 		*/
-		zTsSlimeEnvironment(zObjField2D<double> &_fieldObj, zObjMesh &_fieldMeshObj)
+		zTsSlimeEnvironment(zObjMeshField<double> &_fieldObj)
 		{
-			fnField = zFnField2D<double>(_fieldObj, _fieldMeshObj);
+			fieldObj = &_fieldObj;			
 		}
 			
 
@@ -499,7 +496,7 @@ namespace zSpace
 		double getChemAatPosition(zVector &pos)
 		{
 			int id;
-			bool check = fnField.getIndex(pos,id);
+			bool check = getIndex(pos,id);
 	
 			if(check) 	return chemA[id];
 			else return -1.0;
@@ -517,13 +514,13 @@ namespace zSpace
 		{
 			vector<double> temp_chemA;
 
-			for (int i = 0; i < fnField.numFieldValues(); i++)
+			for (int i = 0; i < numFieldValues(); i++)
 			{
 				double lapA = 0;
 
-				for (int j = 0; j < fnField.ringNeighbours[i].size(); j++)
+				for (int j = 0; j < ringNeighbours[i].size(); j++)
 				{
-					int id = fnField.ringNeighbours[i][j];
+					int id = ringNeighbours[i][j];
 								
 
 					if (diffType == zLaplacian)
@@ -544,12 +541,12 @@ namespace zSpace
 				}
 				else if (diffType == zAverage)
 				{
-					if (lapA != 0) lapA /= (fnField.ringNeighbours[i].size());
+					if (lapA != 0) lapA /= (ringNeighbours[i].size());
 					temp_chemA.push_back(lapA);
 				}
 			}
 
-			for (int i = 0; i < fnField.numFieldValues(); i++)
+			for (int i = 0; i < numFieldValues(); i++)
 			{
 				chemA[i] = (1 - decayT) *temp_chemA[i];				
 			}
@@ -672,14 +669,13 @@ namespace zSpace
 
 		/*! \brief Overloaded constructor.
 		*
-		*	\param		[in]	_fieldObj			- input field2D object.
-		*	\param		[in]	_fieldMeshObj		- input mesh object.
+		*	\param		[in]	_fieldObj			- input mesh field object.
 		*	\param		[in]	_pointsObj			- input pointcloud object.
 		*	\since version 0.0.2
 		*/
-		zTsSlime(zObjField2D<double> &_fieldObj, zObjMesh &_fieldMeshObj, zObjPointCloud &_pointsObj)
+		zTsSlime(zObjMeshField<double> &_fieldObj, zObjPointCloud &_pointsObj)
 		{
-			environment = zTsSlimeEnvironment(_fieldObj, _fieldMeshObj);
+			environment = zTsSlimeEnvironment(_fieldObj);
 
 			pointsObj = &_pointsObj;
 			fnPositions = zFnPointCloud(_pointsObj);
@@ -718,7 +714,7 @@ namespace zSpace
 			environment.resY = _resY;
 
 		
-			environment.fnField.create(_minBB, _maxBB, _resX, _resY, _NR);
+			environment.create(_minBB, _maxBB, _resX, _resY, _NR);
 
 			environment.chemA.clear();
 			environment.occupied.clear();
@@ -750,7 +746,7 @@ namespace zSpace
 			environment.pix = _pix;
 
 		
-			environment.fnField.create(_pix, _pix, _res, _res, _minBB, _NR);
+			environment.create(_pix, _pix, _res, _res, _minBB, _NR);
 
 			environment.minMax_chemA();
 
@@ -791,7 +787,7 @@ namespace zSpace
 			{
 				int rnd = randomUnoccupiedCell();
 
-				zVector pos = environment.fnField.getPosition(rnd);
+				zVector pos = environment.getPosition(rnd);
 				fnPositions.addPoint(pos);
 				
 				environment.occupied[rnd] = true;
@@ -847,7 +843,7 @@ namespace zSpace
 					zVector nPos = agents[i].fnParticle.getUpdatePosition(dT, integrateType);
 					
 					int fieldID = -1;;
-					bool check = environment.fnField.getIndex(nPos, fieldID);
+					bool check = environment.getIndex(nPos, fieldID);
 
 					if (check)
 					{
@@ -942,7 +938,7 @@ namespace zSpace
 			int id_new;
 			zVector cPos = agents[index].fnParticle.getPosition();
 
-			bool check = environment.fnField.getIndex(cPos, id_new);
+			bool check = environment.getIndex(cPos, id_new);
 
 			if (check)
 			{
@@ -970,7 +966,7 @@ namespace zSpace
 			if (id < environment.bAttractants.size()) {
 
 				vector<int> neighbourRing;
-				environment.fnField.getNeighbourhoodRing(id, nR, neighbourRing);
+				environment.getNeighbourhoodRing(id, nR, neighbourRing);
 
 				for (int j = 0; j < neighbourRing.size(); j++)
 				{
@@ -1150,7 +1146,9 @@ namespace zSpace
 					if (!usePercentile)
 					{
 						val = coreUtils.ofMap(environment.chemA[i], environment.minA, environment.maxA, 0.0, 1.0);
-						environment.fnField.fnMesh.setFaceColor(i,  zColor(val, val, val, 1));
+						environment.fnMesh.setFaceColor(i,  zColor(val, val, val, 1));
+						
+
 					}
 					
 
@@ -1159,23 +1157,23 @@ namespace zSpace
 						if (environment.chemA[i] >= 0 && environment.chemA[i] <= environment.maxA)
 						{
 							val = coreUtils.ofMap(environment.chemA[i], 0.0, environment.maxA, 0.5, 1.0);
-							environment.fnField.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
+							environment.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
 						}
 						else if (environment.chemA[i] > environment.maxA)
 						{
 							val = 1;
-							environment.fnField.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
+							environment.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
 						}
 						else if (environment.chemA[i] < 0 && environment.chemA[i] >= environment.minA)
 						{
 							val = coreUtils.ofMap(environment.chemA[i], environment.minA, 0.0, 1.0, 0.5);
 
-							environment.fnField.fnMesh.setFaceColor(i,  zColor(1 - val, 1 - val, 1 - val, 1));
+							environment.fnMesh.setFaceColor(i,  zColor(1 - val, 1 - val, 1 - val, 1));
 						}
 						else
 						{
 							val = 0;
-							environment.fnField.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
+							environment.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
 						}
 					}
 					
@@ -1183,7 +1181,7 @@ namespace zSpace
 
 				}
 
-				environment.fnField.fnMesh.computeVertexColorfromFaceColor();
+				environment.fnMesh.computeVertexColorfromFaceColor();
 
 			}
 
@@ -1192,14 +1190,14 @@ namespace zSpace
 
 				for (int i = 0; i < environment.resX * environment.resY; i++)
 				{
-					environment.fnField.fnMesh.setFaceColor(i, zColor(0, 0, 0, 1));
+					environment.fnMesh.setFaceColor(i, zColor(0, 0, 0, 1));
 				}
 
 				for (int i = 0; i < agents.size(); i++)
 				{
 					int outId;
 					zVector cPos = agents[i].fnParticle.getPosition();
-					bool check = environment.fnField.getIndex(cPos,outId);
+					bool check = environment.getIndex(cPos,outId);
 
 					if (check)
 					{
@@ -1207,13 +1205,13 @@ namespace zSpace
 						{
 							if (environment.bRepellants[outId]) agents[i].fnParticle.setFixed(true);
 
-							environment.fnField.fnMesh.setFaceColor(outId,  zColor(1, 0, 0, 1));
+							environment.fnMesh.setFaceColor(outId,  zColor(1, 0, 0, 1));
 						}
 					}
 							
 				}
 
-				environment.fnField.fnMesh.computeVertexColorfromFaceColor();
+				environment.fnMesh.computeVertexColorfromFaceColor();
 			}
 		}
 
@@ -1234,7 +1232,7 @@ namespace zSpace
 			{
 				int fieldId;
 				zVector cPos = agents[agentId].fnParticle.getPosition();
-				bool check = environment.fnField.getIndex(cPos, fieldId);
+				bool check = environment.getIndex(cPos, fieldId);
 
 				if (check)
 				{

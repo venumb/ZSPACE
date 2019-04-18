@@ -119,7 +119,9 @@ namespace zSpace
 
 		/*! \brief Overloaded constructor.
 		*
-		*	\param		[in]	_mesh			- input mesh.
+		*	\param		[in]	_formObj			- input form object.
+		*	\param		[in]	_volumeObjs			- input container of volume objects.
+		*	\param		[in]	_polytopalObjs		- input container of polytopal objects.
 		*	\since version 0.0.2
 		*/
 		zTsSpatialStructures(zObjGraph &_formObj, vector<zObjMesh> &_volumeObjs, vector<zObjMesh>  &_polytopalObjs)
@@ -136,8 +138,6 @@ namespace zSpace
 				fnPolytopals.push_back(_polytopalObjs[i]);
 
 			}
-
-
 
 		}
 

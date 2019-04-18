@@ -122,11 +122,14 @@ namespace zSpace
 		*/
 		zTsPolytopal() {}
 
+		
 		/*! \brief Overloaded constructor.
 		*
-		*	\param		[in]	_mesh			- input mesh.
+		*	\param		[in]	_formObj			- input form object.
+		*	\param		[in]	_forceObjs			- input container of force objects.
+		*	\param		[in]	_polytopalObjs		- input container of polytopal objects.
 		*	\since version 0.0.2
-		*/
+		*/		
 		zTsPolytopal(zObjGraph &_formObj, vector<zObjMesh> &_forceObjs, vector<zObjMesh>  &_polytopalObjs)
 		{
 			formObj = &_formObj;

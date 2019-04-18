@@ -11,9 +11,9 @@
 
 #include <headers/api/functionsets/zFnGraph.h>
 
-#include <headers/api/functionsets/zFnField2D.h>
+#include <headers/api/functionsets/zFnMeshField.h>
 
-#include <headers/api/functionsets/zFnField3D.h>
+#include <headers/api/functionsets/zFnPointField.h>
 
 #include <headers/api/functionsets/zFnMeshDynamics.h>
 

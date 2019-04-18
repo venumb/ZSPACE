@@ -1,6 +1,6 @@
 #pragma once
 
-#include <headers/api/object/zObject.h>
+#include <headers/api/object/zObj.h>
 
 #include <headers/framework/geometry/zMesh.h>
 
@@ -25,9 +25,9 @@ namespace zSpace
 
 	/** @}*/
 	
-	class zObjMesh : public zObject
+	class zObjMesh : public zObj
 	{
-	private:
+	protected:
 		/*! \brief boolean for displaying the mesh vertices */
 		bool showVertices;
 
@@ -90,7 +90,27 @@ namespace zSpace
 			dihedralAngleThreshold = 45;
 
 			normalScale = 1.0;
-		}		
+		}	
+
+
+		zObjMesh(zMesh &_mesh)
+		{
+			mesh = _mesh;
+
+			displayUtils = nullptr;
+
+			showVertices = false;
+			showEdges = true;
+			showFaces = true;
+
+			showDihedralEdges = false;
+			showVertexNormals = false;
+			showFaceNormals = false;
+
+			dihedralAngleThreshold = 45;
+
+			normalScale = 1.0;
+		}
 
 
 		//--------------------------
@@ -384,7 +404,6 @@ namespace zSpace
 
 		/*! \brief This method displays the vertex normals of a mesh.
 		*
-		*	\param		[in]	mesh					- input mesh to be displayed.
 		*	\param		[in]	dispScale				- display scale of the normal.
 		*	\since version 0.0.2
 		*/
@@ -438,7 +457,6 @@ namespace zSpace
 
 		/*! \brief This method appends mesh to the buffer.
 		*
-		*	\param		[in]	inMesh				- input mesh  to be appended to the buffer.
 		*	\param		[in]	edge_dihedralAngles	- input container of edge dihedral angles.
 		*	\param		[in]	DihedralEdges		- true if only edges above the dihedral angle threshold are stored.
 		*	\param		[in]	angleThreshold		- angle threshold for the edge dihedral angles.

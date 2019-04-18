@@ -30,11 +30,15 @@ namespace zSpace
 
 	class zFnMesh : protected zFn
 	{
-	protected:
+
+	private:
 		//--------------------------
-		//---- PROTECTED ATTRIBUTES
+		//---- PRIVATE ATTRIBUTES
 		//--------------------------
 
+		
+
+	protected:
 		/*!	\brief pointer to a mesh object  */
 		zObjMesh *meshObj;
 
@@ -531,7 +535,6 @@ namespace zSpace
 		/*! \brief This method exports zMesh to a JSON file format using JSON Modern Library.
 		*
 		*	\param [in]		outfilename			- output file name including the directory path and extension.
-		*	\param [in]		vColors				- export vertex color information if true.
 		*	\since version 0.0.2
 		*/
 		void toJSON(string outfilename)
@@ -758,8 +761,6 @@ namespace zSpace
 		/*! \brief This method imports zMesh from a JSON file format using JSON Modern Library.
 		*
 		*	\param [in]		infilename			- input file name including the directory path and extension.
-		*	\param [in]		vColors				- import vertex color information if true.
-		*	\param [in]		fColors				- import face color information if true.
 		*	\since version 0.0.2
 		*/
 		void fromJSON(string infilename)
@@ -1138,10 +1139,10 @@ namespace zSpace
 		*/
 		void getEdges(int index, zHEData type, vector<int> &edgeIndicies)
 		{
-			vector<int> out;
-			out.clear();
+			
+			edgeIndicies.clear();
 
-			// Mesh Face 
+			// Face 
 			if (type == zFaceData)
 			{
 				if (meshObj->mesh.faces[index].getEdge())
@@ -1153,7 +1154,7 @@ namespace zSpace
 
 					do
 					{
-						out.push_back(e->getEdgeId());
+						edgeIndicies.push_back(e->getEdgeId());
 						if (e->getNext())e = e->getNext();
 						else exit = true;
 
@@ -1163,7 +1164,7 @@ namespace zSpace
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
 
-			edgeIndicies = out;
+			
 		}
 
 		/*!	\brief This method gets the vertices attached to input zEdge or zFace.
@@ -1175,17 +1176,18 @@ namespace zSpace
 		*/
 		void getVertices(int index, zHEData type, vector<int> &vertexIndicies)
 		{
-			vector<int> out;
+			
+			vertexIndicies.clear();
 
-			// Mesh Edge
+			// Edge
 			if (type == zEdgeData)
 			{
-				out.push_back(meshObj->mesh.edges[index].getVertex()->getVertexId());
-				out.push_back(meshObj->mesh.edges[index].getSym()->getVertex()->getVertexId());
+				vertexIndicies.push_back(meshObj->mesh.edges[index].getVertex()->getVertexId());
+				vertexIndicies.push_back(meshObj->mesh.edges[index].getSym()->getVertex()->getVertexId());
 			}
 
 
-			// Mesh Face 
+			// Face 
 			else if (type == zFaceData)
 			{
 
@@ -1195,13 +1197,13 @@ namespace zSpace
 				for (int i = 0; i < faceEdges.size(); i++)
 				{
 					//out.push_back(edges[faceEdges[i]].getVertex()->getVertexId());
-					out.push_back(meshObj->mesh.edges[faceEdges[i]].getSym()->getVertex()->getVertexId());
+					vertexIndicies.push_back(meshObj->mesh.edges[faceEdges[i]].getSym()->getVertex()->getVertexId());
 				}
 			}
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
 
-			vertexIndicies = out;
+			
 		}
 
 		/*!	\brief This method gets the vertex positions attached to input zEdge or zFace.
@@ -1213,7 +1215,7 @@ namespace zSpace
 		*/
 		void getVertexPositions(int index, zHEData type, vector<zVector> &vertPositions)
 		{
-			vector<zVector> out;
+			vertPositions.clear();
 
 			// Mesh Edge
 			if (type == zEdgeData)
@@ -1225,7 +1227,7 @@ namespace zSpace
 
 				for (int i = 0; i < eVerts.size(); i++)
 				{
-					out.push_back(meshObj->mesh.vertexPositions[eVerts[i]]);
+					vertPositions.push_back(meshObj->mesh.vertexPositions[eVerts[i]]);
 				}
 
 			}
@@ -1241,13 +1243,12 @@ namespace zSpace
 
 				for (int i = 0; i < fVerts.size(); i++)
 				{
-					out.push_back(meshObj->mesh.vertexPositions[fVerts[i]]);
+					vertPositions.push_back(meshObj->mesh.vertexPositions[fVerts[i]]);
 				}
 			}
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			vertPositions = out;
+						
 		}
 
 		/*! \brief This method gets the edges connected to input zVertex or zEdge.
@@ -1259,7 +1260,7 @@ namespace zSpace
 		*/
 		void getConnectedEdges(int index, zHEData type, vector<int>& edgeIndicies)
 		{
-			vector<int> out;
+			edgeIndicies.clear();
 
 			//  Vertex 
 			if (type == zVertexData)
@@ -1273,7 +1274,7 @@ namespace zSpace
 
 					do
 					{
-						out.push_back(e->getEdgeId());
+						edgeIndicies.push_back(e->getEdgeId());
 
 						//printf("\n %i %i ", e->getEdgeId(), start->getEdgeId());
 
@@ -1299,19 +1300,19 @@ namespace zSpace
 
 				for (int i = 0; i < connectedEdgestoVert0.size(); i++)
 				{
-					if (connectedEdgestoVert0[i] != index) out.push_back(connectedEdgestoVert0[i]);
+					if (connectedEdgestoVert0[i] != index) edgeIndicies.push_back(connectedEdgestoVert0[i]);
 				}
 
 
 				for (int i = 0; i < connectedEdgestoVert1.size(); i++)
 				{
-					if (connectedEdgestoVert1[i] != index) out.push_back(connectedEdgestoVert1[i]);
+					if (connectedEdgestoVert1[i] != index) edgeIndicies.push_back(connectedEdgestoVert1[i]);
 				}
 			}
 
 			else  throw std::invalid_argument(" error: invalid zHEData type");
 
-			edgeIndicies = out;
+			
 		}
 
 		/*! \brief This method gets the vertices connected to input zVertex.
@@ -1323,9 +1324,9 @@ namespace zSpace
 		*/
 		void getConnectedVertices(int index, zHEData type, vector<int>& vertexIndicies)
 		{
-			vector<int> out;
+			vertexIndicies.clear();
 
-			// Graph Vertex
+			// Vertex
 			if (type == zVertexData)
 			{
 
@@ -1334,14 +1335,13 @@ namespace zSpace
 
 				for (int i = 0; i < connectedEdges.size(); i++)
 				{
-					out.push_back(meshObj->mesh.edges[connectedEdges[i]].getVertex()->getVertexId());
+					vertexIndicies.push_back(meshObj->mesh.edges[connectedEdges[i]].getVertex()->getVertexId());
 				}
 
 			}
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			vertexIndicies = out;
+						
 		}
 
 		/*! \brief This method gets the faces connected to input zVertex or zFace
@@ -1353,9 +1353,9 @@ namespace zSpace
 		*/
 		void getConnectedFaces(int index, zHEData type, vector<int> &faceIndicies)
 		{
-			vector<int> out;
+			faceIndicies.clear();
 
-			// Mesh Vertex
+			// Vertex
 			if (type == zVertexData)
 			{
 				vector<int> connectedEdges;
@@ -1363,11 +1363,11 @@ namespace zSpace
 
 				for (int i = 0; i < connectedEdges.size(); i++)
 				{
-					if (meshObj->mesh.edges[connectedEdges[i]].getFace()) out.push_back(meshObj->mesh.edges[connectedEdges[i]].getFace()->getFaceId());
+					if (meshObj->mesh.edges[connectedEdges[i]].getFace()) faceIndicies.push_back(meshObj->mesh.edges[connectedEdges[i]].getFace()->getFaceId());
 				}
 			}
 
-			// Mesh Face
+			// Face
 			else if (type == zFaceData)
 			{
 				vector<int> fEdges;
@@ -1382,7 +1382,7 @@ namespace zSpace
 
 					for (int k = 0; k < eFaces.size(); k++)
 					{
-						if (eFaces[k] != index) out.push_back(eFaces[k]);
+						if (eFaces[k] != index) faceIndicies.push_back(eFaces[k]);
 					}
 
 					/*if (edges[fEdges[i]].f)
@@ -1395,8 +1395,7 @@ namespace zSpace
 
 			}
 			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			faceIndicies = out;
+						
 		}
 
 		/*! \brief This method gets the faces attached to input zEdge
@@ -1409,17 +1408,17 @@ namespace zSpace
 		void getFaces(int &index, zHEData type, vector<int> &faceIndicies)
 		{
 
-			vector<int> out;
+			faceIndicies.clear();
 
 			// Mesh Edge
 			if (type == zEdgeData)
 			{
-				if (meshObj->mesh.edges[index].getFace()) out.push_back(meshObj->mesh.edges[index].getFace()->getFaceId());
-				if (meshObj->mesh.edges[index].getSym()->getFace()) out.push_back(meshObj->mesh.edges[index].getSym()->getFace()->getFaceId());
+				if (meshObj->mesh.edges[index].getFace()) faceIndicies.push_back(meshObj->mesh.edges[index].getFace()->getFaceId());
+				if (meshObj->mesh.edges[index].getSym()->getFace()) faceIndicies.push_back(meshObj->mesh.edges[index].getSym()->getFace()->getFaceId());
 			}
 			else throw std::invalid_argument(" error: invalid zHEData type");
 
-			faceIndicies = out;
+			
 		}
 
 		/*!	\brief This method determines if  input zVertex or zEdge or zFace is on the boundary.

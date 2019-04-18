@@ -1,6 +1,6 @@
 #pragma once
 
-#include<headers/framework/core/zVector.h>
+#include<headers/framework/geometry/zMesh.h>
 #include<headers/framework/core/zColor.h>
 
 
@@ -31,8 +31,8 @@ namespace zSpace
 
 	template <typename T>
 	class zField2D
-	{
-			   		 
+	{	
+			   		
 
 	public:
 
@@ -58,13 +58,8 @@ namespace zSpace
 		/*!	\brief stores the minimum bounds of the scalar field  */
 		zVector maxBB;
 
-		/*!	\brief container of field positions.   */
-		vector<zVector> positions;
-
 		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
-
-		
 
 
 		//--------------------------
@@ -77,13 +72,12 @@ namespace zSpace
 		*/
 		zField2D()
 		{
-			fieldValues.clear();		
+			fieldValues.clear();			
 		}
 
 
 
 		/*! \brief Overloaded constructor.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_maxBB		- maximum bounds of the field.
 		*	\param		[in]	_n_X		- number of pixels in x direction.
@@ -92,6 +86,10 @@ namespace zSpace
 		*/
 		zField2D(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y)
 		{
+			vector<zVector>positions;
+			vector<int>polyConnects;
+			vector<int>polyCounts;
+
 			minBB = _minBB;
 			maxBB = _maxBB;
 			n_X = _n_X;
@@ -101,32 +99,25 @@ namespace zSpace
 			unit_Y = (maxBB.y - minBB.y) / n_Y;
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
-			zVector startPt = minBB + (unitVec * 0.5);
+			zVector startPt = minBB;
 
-			fieldValues.clear();
-
-			printf("unit_X : %1.2f unit_Y : %1.2f ", unit_X, unit_Y);
+			fieldValues.clear();			
 
 			for (int i = 0; i< n_X; i++)
 			{
 				for (int j = 0; j < n_Y; j++)
 				{
-					zVector pos;
-					pos.x = startPt.x + i * unitVec.x;
-					pos.y = startPt.y + j * unitVec.y;
-
-					positions.push_back(pos);
-
 					T defaultValue;
 					fieldValues.push_back(defaultValue);
 					
 				}
 			}
+
+			
 			
 		}
 
 		/*! \brief Overloaded constructor.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\param		[in]	_unit_X		- size of each pixel in x direction.
 		*	\param		[in]	_unit_Y		- size of each pixel in y direction.
 		*	\param		[in]	_n_X		- number of pixels in x direction.
@@ -136,6 +127,10 @@ namespace zSpace
 		*/		
 		zField2D(double _unit_X, double _unit_Y, int _n_X, int _n_Y, zVector _minBB = zVector())
 		{
+			vector<zVector>positions;
+			vector<int>polyConnects;
+			vector<int>polyCounts;
+
 			unit_X = _unit_X;
 			unit_Y = _unit_Y;
 			n_X = _n_X;
@@ -144,44 +139,33 @@ namespace zSpace
 			maxBB = minBB + zVector(unit_X * n_X, unit_Y * n_Y, 0);
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
-			zVector startPt = minBB + (unitVec * 0.5);
+			zVector startPt = minBB;
 			
 			fieldValues.clear();
 
 			for (int i = 0; i< n_X; i++)
 			{
 				for (int j = 0; j < n_Y; j++)
-				{
-					zVector pos;
-					pos.x = startPt.x + i * unitVec.x;
-					pos.y = startPt.y + j * unitVec.y;
-
-					positions.push_back(pos);
-
+				{					
 					T defaultValue;
 					fieldValues.push_back(defaultValue);
-
 				}
 			}
 
 			
-
-
+			
 		}
 		
-		
+			
 		//--------------------------
 		//---- DESTRUCTOR
 		//--------------------------
 
 		/*! \brief Default destructor.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes and zVector.
 		*	\since version 0.0.1
 		*/
 		~zField2D(){}
-
-
 
 	};
 

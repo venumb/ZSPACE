@@ -1,6 +1,6 @@
 #pragma once
 
-#include <headers/api/object/zObject.h>
+#include <headers/api/object/zObj.h>
 #include <headers/framework/geometry/zPointCloud.h>
 
 namespace zSpace
@@ -25,7 +25,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class zObjPointCloud :public zObject
+	class zObjPointCloud :public zObj
 	{
 	private:
 		/*! \brief boolean for displaying the points color */

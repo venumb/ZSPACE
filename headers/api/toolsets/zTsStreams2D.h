@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <headers/api/functionsets/zFnField2D.h>
+#include <headers/api/functionsets/zFnMeshField.h>
 
 #include <headers/api/functionsets/zFnMesh.h>
 #include <headers/api/functionsets/zFnGraph.h>
@@ -151,7 +151,7 @@ namespace zSpace
 
 		
 		/*!	\brief pointer to a 2D field  */
-		zObjField2D<zVector> *fieldObj;
+		zObjMeshField<zVector> *fieldObj;
 
 		/*!<\brief seperation distance between stream lines.*/
 		double *dSep;
@@ -188,7 +188,7 @@ namespace zSpace
 				
 
 		/*!	\brief field mesh function set  */
-		zFnField2D<zVector> fnField;
+		zFnMeshField<zVector> fnField;
 
 		/*!	\brief 2 dimensional container of stream positions per field index.  */
 		vector<vector<zVector>> fieldIndex_streamPositions;
@@ -226,10 +226,10 @@ namespace zSpace
 		*	\param		[in]	_fieldMesh		- input mesh.
 		*	\since version 0.0.1
 		*/
-		zTsStreams2D(zObjField2D<zVector> &_fieldObj, zObjMesh &_fieldMeshObj)
+		zTsStreams2D(zObjMeshField<zVector> &_fieldObj, zObjMesh &_fieldMeshObj)
 		{
 			fieldObj = &_fieldObj;
-			fnField = zFnField2D<zVector>(_fieldObj, _fieldMeshObj);
+			fnField = zFnMeshField<zVector>(_fieldObj);
 
 			fieldIndex_streamPositions.clear();
 
@@ -479,7 +479,7 @@ namespace zSpace
 		*	\param	[in]	seedStreamsOnly					- generates streams from the seed points only if true.
 		*	\since version 0.0.1
 		*/
-		void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints,  zFnField2D<double>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly = false)
+		void createStreams_Influence(vector<zStream>& streams, vector<zVector> &start_seedPoints,  zFnMeshField<double>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly = false)
 		{
 			streams.clear();
 
@@ -964,7 +964,7 @@ namespace zSpace
 		*	\return			bool							- true if the graph is created.
 		*	\since version 0.0.1
 		*/
-		bool createStreamGraph_Influence(zObjGraph &streamGraphObj, zVector &seedPoint, zFnField2D<double>& fnInfluenceField, double min_Power, double max_Power)
+		bool createStreamGraph_Influence(zObjGraph &streamGraphObj, zVector &seedPoint, zFnMeshField<double>& fnInfluenceField, double min_Power, double max_Power)
 		{
 
 			vector<zVector> positions;
@@ -1263,7 +1263,7 @@ namespace zSpace
 		*	\param	[in]	seedPoints						- container of seed points.
 		*	\since version 0.0.1
 		*/
-		void getSeedPoints_Influence(zFnField2D<double>& fnInfluenceField, zStream& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
+		void getSeedPoints_Influence(zFnMeshField<double>& fnInfluenceField, zStream& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
 		{
 			if (currentStream.fnGraph.checkVertexValency(vertexId, 1)) return;
 

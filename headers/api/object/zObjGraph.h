@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-#include <headers/api/object/zObject.h>
+#include <headers/api/object/zObj.h>
 #include <headers/framework/geometry/zGraph.h>
 
 #include <vector>
@@ -28,7 +28,7 @@ namespace zSpace
 	
 	/** @}*/
 
-	class zObjGraph : public zObject
+	class zObjGraph : public zObj
 	{
 	private:
 		/*! \brief boolean for displaying the mesh vertices */

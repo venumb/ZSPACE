@@ -2,7 +2,7 @@
 
 #include<headers/api/object/zObjGraph.h>
 #include<headers/api/object/zObjMesh.h>
-#include<headers/api/object/zObjField2D.h>
+#include<headers/api/object/zObjMeshField.h>
 
 #include<headers/api/functionsets/zFnMesh.h>
 #include<headers/api/functionsets/zFnGraph.h>
@@ -21,7 +21,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zFnField2D
+	/*! \class zFnMeshField
 	*	\brief A 2D field function set.
 	*
 	*	\tparam				T			- Type to work with double(scalar field) and zVector(vector field).
@@ -33,7 +33,7 @@ namespace zSpace
 	/** @}*/
 
 	template<typename T>
-	class zFnField2D 
+	class zFnMeshField 
 	{
 	protected:
 		//--------------------------
@@ -44,10 +44,10 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief pointer to a field 2D object  */
-		zObjField2D<T> *fieldObj;
+		zObjMeshField<T> *fieldObj;		
 
-		/*!	\brief pointer to mesh object  */
-		zObjMesh *fieldMeshObj;
+		/*!	\brief boolean indicating if the field values size is equal to mesh vertices(true) or equal to mesh faces(false)  */
+		bool setValuesperVertex = true;
 
 		//--------------------------
 		//---- FACTORY METHODS
@@ -71,23 +71,53 @@ namespace zSpace
 			{
 				for (uint32_t y = 0; y < resY; ++y)
 				{
-					int faceId;
-					getIndex(x, y, faceId);
 
-					// blue
-					bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 0] = fnMesh.getFaceColor(faceId).b * 255;
-
-					// green
-					bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 1] = fnMesh.getFaceColor(faceId).g * 255;
-
-					// red
-					bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 2] = fnMesh.getFaceColor(faceId).r * 255;
-
-					// alpha
-					if (channels == 4)
+					if (setValuesperVertex)
 					{
-						bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 3] = fnMesh.getFaceColor(faceId).a * 255;
+						int vertexId;
+						getIndex(x, y, vertexId);
+
+						//printf("\n %i %i %i ", x, y, faceId);
+
+						// blue
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0]  =  fnMesh.getVertexColor(vertexId).b * 255;;
+
+						// green
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = fnMesh.getVertexColor(vertexId).g * 255;;
+
+						// red
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2]  = fnMesh.getVertexColor(vertexId).r * 255;;
+
+					
+						// alpha
+						if (channels == 4)
+						{
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3]  = fnMesh.getVertexColor(vertexId).a * 255;;
+							
+						}
+			
 					}
+
+					else
+					{
+						int faceId;
+						getIndex(x, y, faceId);
+
+						// blue
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = fnMesh.getFaceColor(faceId).b * 255;
+
+						// green
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = fnMesh.getFaceColor(faceId).g * 255;
+
+						// red
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = fnMesh.getFaceColor(faceId).r * 255;
+
+						// alpha
+						if (channels == 4)
+						{
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = fnMesh.getFaceColor(faceId).a * 255;
+						}
+					}					
 
 				}
 
@@ -103,15 +133,13 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void fromBMP(string infilename);
-
-		/*! \brief This method creates the field mesh from the input scalar field.
+		
+		/*! \brief This method creates the mesh from the field parameters.
 		*
-		*	\param		[in]	inMesh			- output mesh.
 		*	\since version 0.0.2
 		*/
 		void createFieldMesh()
 		{
-
 			vector<zVector>positions;
 			vector<int>polyConnects;
 			vector<int>polyCounts;
@@ -123,13 +151,20 @@ namespace zSpace
 			getUnitDistances(unit_X, unit_Y);
 			getResolution(n_X, n_Y);
 
+			int resX = n_X;
+			int resY = n_Y;
+
+			if (!setValuesperVertex)
+			{
+				resX++;
+				resY++;
+			}
+
 			getBoundingBox(minBB, maxBB);
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
-			zVector startPt = minBB;
-
-			int resX = n_X + 1;
-			int resY = n_Y + 1;
+			zVector startPt = minBB + (unitVec * 0.5 * -1);;
+	
 
 			for (int i = 0; i < resX; i++)
 			{
@@ -139,11 +174,12 @@ namespace zSpace
 					pos.x = startPt.x + i * unitVec.x;
 					pos.y = startPt.y + j * unitVec.y;
 
-					positions.push_back(pos);
+					positions.push_back(pos);	
+
 				}
 			}
 
-
+			/// poly connects
 
 			for (int i = 0; i < resX - 1; i++)
 			{
@@ -164,14 +200,10 @@ namespace zSpace
 				}
 			}
 
+			fnMesh.create(positions, polyCounts, polyConnects);
 
-			fnMesh.create(positions, polyCounts, polyConnects);;
-			
-			printf("\n fieldMesh: %i %i %i", fnMesh.numVertices(), fnMesh.numEdges(), fnMesh.numPolygons());
-
-
+			printf("\n fieldmesh: v %i e %i f %i", fnMesh.numVertices(), fnMesh.numEdges(), fnMesh.numPolygons());
 		}
-		
 
 	public:
 
@@ -196,20 +228,21 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zFnField2D() {}
+		zFnMeshField() 
+		{
+			fieldObj = nullptr;			
+		}
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_fieldObj			- input field2D object.
-		*	\param		[in]	_fieldMeshObj		- input mesh object.
 		*	\since version 0.0.2
 		*/
-		zFnField2D(zObjField2D<T> &_fieldObj, zObjMesh &_fieldMeshObj)
+		zFnMeshField(zObjMeshField<T> &_fieldObj)
 		{
-			fieldObj = &_fieldObj;
+			fieldObj = &_fieldObj;		
 
-			fieldMeshObj = &_fieldMeshObj;			
-			fnMesh = zFnMesh(_fieldMeshObj);			
+			fnMesh = zFnMesh (_fieldObj);
 		}
 
 
@@ -221,7 +254,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		~zFnField2D() {}
+		~zFnMeshField() {}
 
 
 		//--------------------------
@@ -234,10 +267,15 @@ namespace zSpace
 		*	\param [in]		type			- type of file to be exported - zBMP
 		*	\since version 0.0.2
 		*/
-		void from(string path, zFileTpye type) 
+		void from(string path, zFileTpye type, bool _setValuesperVertex = true)
 		{
+			setValuesperVertex = _setValuesperVertex;
+
 			if (type == zBMP) fromBMP(path);
 			
+			else if (type == zOBJ) fnMesh.from(path, type);
+			else if (type == zJSON) fnMesh.from(path, type);
+
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 
 		}
@@ -250,8 +288,10 @@ namespace zSpace
 		*/
 		void to(string path, zFileTpye type) 
 		{
-			if (type == zBMP) toBMP(path);
-		
+			if (type == zBMP) toBMP(path);		
+			else if (type == zOBJ) fnMesh.to(path, type);
+			else if (type == zJSON) fnMesh.to(path, type);
+
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 		}
 
@@ -261,14 +301,9 @@ namespace zSpace
 		*/
 		void clear() 
 		{
-
-			
-			fieldObj->field.ringNeighbours.clear();
-			fieldObj->field.adjacentNeighbours.clear();
-
-			fieldObj->field.positions.clear();
-			fieldObj->field.fieldValues.clear();
-
+			ringNeighbours.clear();
+			adjacentNeighbours.clear();			
+			fieldObj->field.fieldValues.clear();			
 			fnMesh.clear();
 		}
 
@@ -277,15 +312,17 @@ namespace zSpace
 		//--------------------------
 
 		/*! \brief This method creates a field from the input parameters.
-		*	\param		[in]	_minBB		- minimum bounds of the field.
-		*	\param		[in]	_maxBB		- maximum bounds of the field.
-		*	\param		[in]	_n_X		- number of pixels in x direction.
-		*	\param		[in]	_n_Y		- number of pixels in y direction.
-		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
+		*	\param		[in]	_minBB					- minimum bounds of the field.
+		*	\param		[in]	_maxBB					- maximum bounds of the field.
+		*	\param		[in]	_n_X					- number of pixels in x direction.
+		*	\param		[in]	_n_Y					- number of pixels in y direction.
+		*	\param		[in]	_NR						- ring number of neighbours to be computed. By default it is 1.
+		*	\param		[in]	_setValuesperVertex		- boolean indicating if the field values size is equal to mesh vertex is true, else equal to mesh faces
 		*	\since version 0.0.2
 		*/
-		void create(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1)
+		void create(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1, bool _setValuesperVertex = true)
 		{
+			setValuesperVertex = _setValuesperVertex;
 			fieldObj->field = zField2D<T>(_minBB, _maxBB, _n_X, _n_Y);
 
 			// compute neighbours
@@ -301,9 +338,10 @@ namespace zSpace
 				vector<int> temp_adjacentNeighbour;
 				getNeighbourAdjacents(i, temp_adjacentNeighbour);
 				adjacentNeighbours.push_back(temp_adjacentNeighbour);
-			}
+			}		
 
 			createFieldMesh();
+			
 		}
 
 		/*! \brief Overloaded constructor.
@@ -313,10 +351,12 @@ namespace zSpace
 		*	\param		[in]	_n_Y		- number of pixels in y direction.
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
+		*	\param		[in]	_setValuesperVertex		- boolean indicating if the field values size is equal to mesh vertex is true, else equal to mesh faces
 		*	\since version 0.0.2
 		*/
-		void create(double _unit_X, double _unit_Y, int _n_X, int _n_Y, zVector _minBB = zVector(), int _NR = 1)
+		void create(double _unit_X, double _unit_Y, int _n_X, int _n_Y, zVector _minBB = zVector(), int _NR = 1, bool _setValuesperVertex = true)
 		{
+			setValuesperVertex = _setValuesperVertex;
 			fieldObj->field = zField2D<T>(_unit_X, _unit_Y, _n_X, _n_Y, _minBB);
 
 			// compute neighbours
@@ -333,7 +373,7 @@ namespace zSpace
 				getNeighbourAdjacents(i, temp_adjacentNeighbour);
 				adjacentNeighbours.push_back(temp_adjacentNeighbour);
 			}
-
+			
 			createFieldMesh();
 		}
 
@@ -341,7 +381,7 @@ namespace zSpace
 		*	\param		[in]	inFnScalarField		- input scalar field function set.
 		*	\since version 0.0.2
 		*/
-		void createVectorFromScalarField(zFnField2D<double> &inFnScalarField);
+		void createVectorFromScalarField(zFnMeshField<double> &fnScalarField);
 		
 		
 		//--------------------------
@@ -358,8 +398,8 @@ namespace zSpace
 		*/
 		void getNeighbourhoodRing(int index, int numRings, vector<int> &ringNeighbours)
 		{
-			vector<int> out;
-
+			
+			ringNeighbours.clear();
 			//printf("\n working numRings : %i ", numRings);
 
 			int idX = floor(index / fieldObj->field.n_Y);
@@ -387,12 +427,12 @@ namespace zSpace
 					int newId = (newId_X * fieldObj->field.n_Y) + (newId_Y);
 
 
-					if (newId < numFieldValues()) out.push_back(newId);
+					if (newId < numFieldValues()) ringNeighbours.push_back(newId);
 				}
 
 			}
 
-			ringNeighbours = out;
+			
 		}
 
 		/*! \brief This method gets the immediate adjacent neighbours of the field at the input index.
@@ -403,7 +443,7 @@ namespace zSpace
 		*/
 		void getNeighbourAdjacents(int index, vector<int> &adjacentNeighbours)
 		{
-			vector<int> out;
+			adjacentNeighbours.clear();
 
 			int numRings = 1;
 			//printf("\n working numRings : %i ", numRings);
@@ -435,13 +475,11 @@ namespace zSpace
 
 					if (newId < numFieldValues())
 					{
-						if (i == 0 || j == 0) out.push_back(newId);
+						if (i == 0 || j == 0) adjacentNeighbours.push_back(newId);
 					}
 				}
 
-			}
-
-			adjacentNeighbours = out;
+			}			
 
 		}
 
@@ -452,9 +490,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getNeighbourContained(zVector &pos, vector<int> &containedNeighbour)
-		{
-
-			vector<int> out;
+		{			
 			containedNeighbour.clear();
 
 			int index;
@@ -680,8 +716,9 @@ namespace zSpace
 		zVector getPosition(int index)
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
-
-			return fieldObj->field.positions[index];
+			
+			if(setValuesperVertex) 	return fnMesh.getVertexPosition(index);
+			else return fnMesh.getCenter(index, zFaceData);
 		}
 
 		/*! \brief This method gets the position of the field at the input index.
@@ -696,25 +733,9 @@ namespace zSpace
 
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return fieldObj->field.positions[index];
+			return getPosition(index);
 		}
-
-		/*! \brief This method gets the value of the field at the input index.
-		*
-		*	\param		[in]	index		- index in the fieldvalues container.
-		*	\param		[out]	val			- field value.
-		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.2
-		*/
-		bool getFieldValue(int index, T &val)
-		{
-			if (index > numFieldValues()) return false;
-
-			val = fieldObj->field.fieldValues[index];
-
-			return true;
-		}
-
+		
 		/*! \brief This method gets the index of the field for the input X and Y indicies.
 		*
 		*	\param		[in]	index_X		- input index in X.
@@ -742,9 +763,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		bool getIndex(zVector &pos, int &index)
-
 		{
-
 			int index_X = floor((pos.x - fieldObj->field.minBB.x) / fieldObj->field.unit_X);
 			int index_Y = floor((pos.y - fieldObj->field.minBB.y) / fieldObj->field.unit_Y);
 
@@ -772,12 +791,28 @@ namespace zSpace
 
 			return out;
 		}
-				
+		
+		/*! \brief This method gets the value of the field at the input index.
+		*
+		*	\param		[in]	index		- index in the fieldvalues container.
+		*	\param		[out]	val			- field value.
+		*	\return				bool		- true if index is in bounds.
+		*	\since version 0.0.2
+		*/
+		bool getFieldValue(int index, T &val)
+		{
+			if (index > numFieldValues()) return false;
+
+			val = fieldObj->field.fieldValues[index];
+
+			return true;
+		}
+
 		/*! \brief This method gets the value of the field at the input sample position.
 		*
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
 		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
-		*	\param		[out]	T			- field value.
+		*	\param		[out]	fieldValue	- output field value.
 		*	\return				bool		- true if sample position is within bounds.
 		*	\since version 0.0.2
 		*/
@@ -901,6 +936,16 @@ namespace zSpace
 			return true;
 		}
 
+		/*! \brief This method gets all the values of the field.
+		*
+		*	\param		[out]	fieldValues			- container of field values.		
+		*	\since version 0.0.2
+		*/
+		void getFieldValues(vector<T>& fieldValues)
+		{
+			fieldValues = fieldObj->field.fieldValues;
+		}
+
 		/*! \brief This method gets the gradient of the field at the input sample position.
 		*
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
@@ -985,21 +1030,7 @@ namespace zSpace
 		{
 			fieldObj->field.minBB = _minBB;
 			fieldObj->field.maxBB = _maxBB;
-		}
-
-		/*! \brief This method sets the position of the field at the input index.
-		*
-		*	\param		[in]	pos			- input position.
-		*	\param		[in]	index		- index in the positions container.
-		*	\since version 0.0.2
-		*/
-		void setPosition(zVector &_pos, int index)
-		{
-			if (index > fieldObj->field.numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
-
-			fieldObj->field.positions[index] = _pos;
-
-		}
+		}		
 
 		/*! \brief This method sets the value of the field at the input index.
 		*
@@ -1007,11 +1038,12 @@ namespace zSpace
 		*	\param		[in]	index		- index in the fieldvalues container.
 		*	\since version 0.0.2
 		*/
-		void setFieldValue(T fValue, int index)
+		void setFieldValue(T fValue, int index , bool append = false)
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
-			fieldObj->field.fieldValues[index] = fValue;
-
+			
+			if(!append) fieldObj->field.fieldValues[index] = fValue;
+			else fieldObj->field.fieldValues[index] += fValue;
 		}
 
 		/*! \brief This method sets the values of the field to the input container values.
@@ -1027,6 +1059,8 @@ namespace zSpace
 			fieldObj->field.fieldValues = fValues;
 			
 		}
+
+		
 				
 		//--------------------------
 		//----  2D IDW FIELD METHODS
@@ -1034,15 +1068,15 @@ namespace zSpace
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input mesh vertex positions.
 		*
+		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
 		*	\param	[in]	meshValue			- value to be propagated for the mesh.
-		*	\param	[in]	influences			- influence value of the graph.
-		*	\param	[out]	fieldValues			- container for storing field values.
+		*	\param	[in]	influences			- influence value of the graph.		
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(zFnMesh &inFnMesh, T meshValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnMesh &inFnMesh, T meshValue, double influence, double power = 2.0, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1085,15 +1119,15 @@ namespace zSpace
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input graph vertex positions.
 		*
+		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	inFngraph			- input grahh function set for distance calculations.
 		*	\param	[in]	graphValue			- value to be propagated for the graph.
 		*	\param	[in]	influences			- influence value of the graph.
-		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(zFnGraph &inFngraph, T graphValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnGraph &inFngraph, T graphValue, double influence,  double power = 2.0, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1137,15 +1171,15 @@ namespace zSpace
 
 		/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
 		*
+		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	inPositions			- container of input positions for distance calculations.
 		*	\param	[in]	values				- value to be propagated for each input position. Size of container should be equal to inPositions.
 		*	\param	[in]	influences			- influence value of each input position. Size of container should be equal to inPositions.
-		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<zVector> &inPositions, vector<T> &values, vector<double>& influences, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, vector<zVector> &inPositions, vector<T> &values, vector<double>& influences,  double power = 2.0, bool normalise = true)
 		{
 			if (inPositions.size() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
 			if (inPositions.size() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
@@ -1191,12 +1225,12 @@ namespace zSpace
 
 		/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 		*
-		*	\param	[in]	points				- container of positions.
 		*	\param	[out]	scalars				- container for storing scalar values.
+		*	\param	[in]	points				- container of positions.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<zVector> &points, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, vector<zVector> &points,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1231,15 +1265,9 @@ namespace zSpace
 			for (int j = 0; j < fnMesh.numVertices(); j++)
 			{
 				double val = coreUtils.ofMap(distVals[j], dMin, dMax, 0.0, 1.0);
-				fnMesh.setVertexColor(j, zColor(val, 0, 0, 1));
+				out.push_back(val);				
 			}
-
-			fnMesh.computeFaceColorfromVertexColor();
-
-			for (int j = 0; j < fnMesh.numPolygons(); j++)
-			{
-				out.push_back(fnMesh.getFaceColor(j).r);
-			}
+					
 
 			if (normalise)
 			{
@@ -1252,14 +1280,14 @@ namespace zSpace
 
 		/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
 		*
+		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
 		*	\param	[in]	a					- input variable for distance function.
-		*	\param	[in]	b					- input variable for distance function.
-		*	\param	[out]	scalars				- container for storing scalar values.
+		*	\param	[in]	b					- input variable for distance function.		
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zFnMesh &inFnMesh, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1293,14 +1321,14 @@ namespace zSpace
 
 		/*! \brief This method creates a vertex distance Field from the input graph vertex positions.
 		*
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.
-		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zFnGraph &inFnGraph, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1339,14 +1367,14 @@ namespace zSpace
 
 		/*! \brief This method creates a edge distance Field from the input mesh.
 		*
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inFnMesh		- input mesh function set for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.
-		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(zFnMesh &inFnMesh, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1391,14 +1419,14 @@ namespace zSpace
 
 		/*! \brief This method creates a edge distance Field from the input graph.
 		*
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.
-		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(zFnGraph &inFnGraph, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1560,33 +1588,43 @@ namespace zSpace
 					for (int j = 0; j < ringNeigbours.size(); j++)
 					{
 						int id = ringNeigbours[j];
+						T val;
+						getFieldValue(id, val);
 
 						if (type == zLaplacian)
 						{
-							if (id != i) lapA += (getFieldValue(id) * 1);
-							else lapA += (getFieldValue(id) * -8);
+							if (id != i) lapA += (val * 1);
+							else lapA += (val * -8);
 						}
 						else if (type == zAverage)
 						{
-							lapA += (getFieldValue(id) * 1);
+							lapA += (val * 1);
 						}
 					}
 
+				
 
 					if (type == zLaplacian)
 					{
-						double newA = getFieldValue(i) + (lapA * diffuseDamp);
+						T val1;
+						getFieldValue(i, val1);
+
+						double newA = val1 + (lapA * diffuseDamp);
 						tempValues.push_back(newA);
 					}
 					else if (type == zAverage)
 					{
 						if (lapA != 0) lapA /= (ringNeigbours.size());
+					
 						tempValues.push_back(lapA);
 					}
 
 				}
 
-				for (int i = 0; i < numFieldValues(); i++) setFieldValue(tempValues[i], i);
+				for (int i = 0; i < numFieldValues(); i++)
+				{	
+					setFieldValue(tempValues[i], i);
+				}
 
 			}
 
@@ -1754,7 +1792,7 @@ namespace zSpace
 
 		/*! \brief This method uses an input plane to clip an existing scalar field.
 		*
-		*	\param	[in]	fieldMesh			- input field mesh.
+		*	\param	[in]	field			- input field mesh.
 		*	\param	[in]	scalars				- vector of scalar values. Need to be equivalent to number of mesh vertices.
 		*	\param	[in]	clipPlane			- input zPlane used for clipping.
 		*	\since version 0.0.2
@@ -1794,47 +1832,93 @@ namespace zSpace
 		*/
 		void updateFieldValues(vector<T>& values)
 		{
-			if (fnMesh.numVertices() == values.size())
+			if (setValuesperVertex)
 			{
-				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				if (fnMesh.numPolygons() == values.size())
 				{
-					vector<int> fVerts;
-					fnMesh.getVertices(i, zFaceData, fVerts);
-					T val;
-
-					for (int j = 0; j < fVerts.size(); j++)
+					for (int i = 0; i < fnMesh.numVertices(); i++)
 					{
-						val += values[fVerts[j]];
+						vector<int> cFaces;
+						fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+						T val;
+
+						for (int j = 0; j < cFaces.size(); j++)
+						{
+							val += values[cFaces[j]];
+						}
+
+						val /= cFaces.size();
+
+						setFieldValue(val, i);
 					}
 
-					val /= fVerts.size();
-
-					setFieldValue(val, i);
 				}
-
-			}
-			else if (fnMesh.numPolygons() == values.size())
-			{
-				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				else if (fnMesh.numVertices() == values.size())
 				{
-					setFieldValue(values[i], i);
+					for (int i = 0; i < fnMesh.numVertices(); i++)
+					{
+						setFieldValue(values[i], i);
+					}
+
 				}
 
+				else throw std::invalid_argument("input values size not equal to number of vertices/ polygons of field mesh.");
 			}
-			else throw std::invalid_argument("input values size not equal to number of vertices/ polygons of field mesh.");
+
+			else
+			{
+				if (fnMesh.numVertices() == values.size())
+				{
+					for (int i = 0; i < fnMesh.numPolygons(); i++)
+					{
+						vector<int> fVerts;
+						fnMesh.getVertices(i, zFaceData, fVerts);
+						T val;
+
+						for (int j = 0; j < fVerts.size(); j++)
+						{
+							val += values[fVerts[j]];
+						}
+
+						val /= fVerts.size();
+
+						setFieldValue(val, i);
+					}
+
+				}
+				else if (fnMesh.numPolygons() == values.size())
+				{
+					for (int i = 0; i < fnMesh.numPolygons(); i++)
+					{
+						setFieldValue(values[i], i);
+					}
+
+				}
+
+				else throw std::invalid_argument("input values size not equal to number of vertices/ polygons of field mesh.");
+			}
+			
+			
 
 		}
 
-		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
+		/*! \brief This method updates the color values of the field mesh based on the field values. Gradient - Black to Red
 		*
-		*	\param	[in]	scalars		- container of  scalar values.
+		*	\warning works only for scalar fields.
 		*	\since version 0.0.2
 		*/
-		void updateMeshColors(vector<double>& scalars)
+		void updateColors();
+
+		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
+		*
+		*	\param	[in]	scalars		- container of  scalar values. If the container is empty the color is updated based on field values.
+		*	\since version 0.0.2
+		*/
+		void updateColors(vector<double>& scalars )
 		{
-			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
+			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size() )
 			{
-				double dMax, dMin;
+					double dMax, dMin;
 				computeMinMaxOfScalars(scalars, dMin, dMax);
 
 				for (int i = 0; i < scalars.size(); i++)
@@ -1843,29 +1927,38 @@ namespace zSpace
 
 					double val = coreUtils.ofMap(scalars[i], dMin, dMax, 0.0, 1.0);
 
-					col.r = val;
+					col.r = val; col.g = val; col.b = val;
 					if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(i, col);
 					else fnMesh.setFaceColor(i, col);
 				}
 
 				if (fnMesh.numPolygons() == scalars.size()) fnMesh.computeVertexColorfromFaceColor();
-			}
+
+				if (fnMesh.numVertices() == scalars.size()) fnMesh.computeFaceColorfromVertexColor();
+			}			
 			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
 
 		}
 
 
+		/*! \brief This method updates the color values of the field mesh based on the field values. 
+		*
+		*	\warning works only for scalar fields.
+		*	\since version 0.0.2
+		*/
+		void updateColors_Blend(zColor &col1, zColor &col2);
+
 		/*! \brief This method updates the color values of the field mesh based on the scalar values.
 		*
-		*	\param	[in]	scalars		- container of  scalar values.
+		*	\param	[in]	scalars		- container of  scalar values. If the container is empty the color is updated based on field values.
 		*	\param	[in]	col1		- blend color 1.
 		*	\param	[in]	col2		- blend color 2.
 		*	\since version 0.0.2
 		*/
-		void updateMeshColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2)
+		void updateColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2)
 		{
 			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
-			{
+			{				
 				double dMax, dMin;
 				computeMinMaxOfScalars(scalars, dMin, dMax);
 
@@ -1882,31 +1975,47 @@ namespace zSpace
 
 					col.toRGB();
 
-					if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(i, col);
+					if (fnMesh.numVertices() == scalars.size())
+					{
+						fnMesh.setVertexColor(i, col);	
+					}
+
 					else fnMesh.setFaceColor(i, col);
 				}
 
-				if (fnMesh.numPolygons() == scalars.size()) fnMesh.computeVertexColorfromFaceColor();
+				if (fnMesh.numPolygons() == scalars.size())
+				{
+					fnMesh.computeVertexColorfromFaceColor();
+				}
+
+				if(fnMesh.numVertices() == scalars.size()) fnMesh.computeFaceColorfromVertexColor();
 
 			}
 
 			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
 		}
 
+		/*! \brief This method updates the color values of the field mesh based on the field values.
+		*
+		*	\warning works only for scalar fields.
+		*	\since version 0.0.2
+		*/
+		void updateColors_Blend(zColor &col1, zColor &col2, double dMin, double dMax);
 
 		/*! \brief This method updates the color values of the field mesh based on the scalar values given an input domain
 		*
-		*	\param	[in]	scalars		- container of  scalar values.
+		*	\param	[in]	scalars		- container of  scalar values. If the container is empty the color is updated based on field values.
 		*	\param	[in]	col1		- blend color 1.
 		*	\param	[in]	col2		- blend color 2.
 		*	\param	[in]	dMin		- domain minimum value.
 		*	\param	[in]	dMin		- domain maximum value.
 		*	\since version 0.0.2
 		*/
-		void updateMeshColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
+		void updateColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
 		{
-			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
+			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size() )
 			{
+								
 				//convert to HSV
 				col1.toHSV(); col2.toHSV();
 
@@ -1932,6 +2041,8 @@ namespace zSpace
 
 				if (fnMesh.numPolygons() == scalars.size()) fnMesh.computeVertexColorfromFaceColor();
 
+				if (fnMesh.numVertices() == scalars.size()) fnMesh.computeFaceColorfromVertexColor();
+
 			}
 
 			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
@@ -1946,11 +2057,12 @@ namespace zSpace
 		
 		/*! \brief This method creates a isocontour graph from the input field mesh at the given field threshold.
 		*
-		*	\param	[in]	threshold	- field threshold.
-		*	\return			zGraph		- contour graph.
+		*	\param	[out]	coutourGraphObj	- isoline graph.
+		*	\param	[in]	threshold		- field threshold.
+		*	\return			zGraph			- contour graph.
 		*	\since version 0.0.2
 		*/
-		zObjGraph getIsocontour(double threshold = 0.5)
+		void getIsocontour(zObjGraph &coutourGraphObj, double threshold = 0.5)
 		{
 			vector<double> scalarsValues;
 
@@ -2033,26 +2145,26 @@ namespace zSpace
 				
 			}
 
-			zObjGraph out; 
-			out.graph = zGraph(pos, edgeConnects);
+			zFnGraph tempFn(coutourGraphObj);
+			tempFn.clear(); // clear memory if the mobject exists.
 
-			return out;
-
-
-
+		
+			tempFn.create(pos, edgeConnects);
 		}
 
 		/*! \brief This method creates a isoline mesh from the input field mesh at the given field threshold.
 		*
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
-		*	\param	[in]	threshold	- field threshold.
-		*	\param	[in]	invertMesh	- true if inverted mesh is required.
-		*	\return			zMesh		- isoline mesh.
+		*	\param	[out]	coutourMeshObj	- isoline mesh.
+		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.
+		*	\return			zMesh			- isoline mesh.
 		*	\since version 0.0.2
 		*/
-		zObjMesh getIsolineMesh(double threshold = 0.5, bool invertMesh = false)
+		void getIsolineMesh(zObjMesh &coutourMeshObj, double threshold = 0.5, bool invertMesh = false)
 		{
-			zObjMesh out;
+			zFnMesh tempFn(coutourMeshObj);
+			tempFn.clear(); // clear memory if the mobject exists.
 
 			vector<zVector>positions;
 			vector<int>polyConnects;
@@ -2068,24 +2180,23 @@ namespace zSpace
 			}
 
 
-			out.mesh = zMesh(positions, polyCounts, polyConnects);;
-
-			return out;
+			tempFn.create(positions, polyCounts, polyConnects);;			
 		}
 
 
 		/*! \brief This method creates a isoband mesh from the input field mesh at the given field threshold.
 		*
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
+		*	\param	[out]	coutourMeshObj	- isoband mesh.
 		*	\param	[in]	thresholdLow	- field threshold domain minimum.
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
-		*	\param	[in]	invertMesh		- true if inverted mesh is required.
-		*	\return			zMesh			- isoband mesh.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.		
 		*	\since version 0.0.2
 		*/
-		zObjMesh getIsobandMesh(double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
+		void getIsobandMesh(zObjMesh &coutourMeshObj,double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
 		{
-			zObjMesh out;
+			zFnMesh tempFn(coutourMeshObj);
+			tempFn.clear(); // clear memory if the mobject exists.
 
 			vector<zVector>positions;
 			vector<int>polyConnects;
@@ -2120,9 +2231,9 @@ namespace zSpace
 					getIsobandPoly(i,  positions, polyConnects, polyCounts, positionVertex, (thresholdLow < thresholdHigh) ? thresholdLow : thresholdHigh, (thresholdLow < thresholdHigh) ? thresholdHigh : thresholdLow);
 				}
 
-				out.mesh = zMesh(positions, polyCounts, polyConnects);;
+				tempFn.create(positions, polyCounts, polyConnects);;
 
-				return out;
+				
 			}
 
 
@@ -2346,7 +2457,6 @@ namespace zSpace
 		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
 		*
 		*	\param	[in]	faceId			- input face index.
-
 		*	\param	[in]	positions		- container of positions of the computed polygon.
 		*	\param	[in]	polyConnects	- container of polygon connectivity of the computed polygon.
 		*	\param	[in]	polyCounts		- container of number of vertices in the computed polygon.
@@ -2438,7 +2548,7 @@ namespace zSpace
 
 				v0 = fnMesh.getVertexPosition(fVerts[2]);
 				s0 = fnMesh.getVertexColor(fVerts[2]).r;
-			
+
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2455,16 +2565,16 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[3]).r;
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[0]);
-				double s1 = fnMesh.getVertexColor(fVerts[0]).r;				
+				double s1 = fnMesh.getVertexColor(fVerts[0]).r;
 
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
 				v0 = fnMesh.getVertexPosition(fVerts[2]);
 				s0 = fnMesh.getVertexColor(fVerts[2]).r;
-				
+
 				v1 = fnMesh.getVertexPosition(fVerts[1]);
-				s1 = fnMesh.getVertexColor(fVerts[1]).r;				
+				s1 = fnMesh.getVertexColor(fVerts[1]).r;
 
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
@@ -2481,24 +2591,24 @@ namespace zSpace
 			{
 				newPositions.push_back(fnMesh.getVertexPosition(fVerts[0]));
 
-				newPositions.push_back(fnMesh.getVertexPosition(fVerts[1]));				
+				newPositions.push_back(fnMesh.getVertexPosition(fVerts[1]));
 
 				zVector v0 = fnMesh.getVertexPosition(fVerts[1]);
 				double s0 = fnMesh.getVertexColor(fVerts[1]).r;
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[2]);
-				double s1 = fnMesh.getVertexColor(fVerts[2]).r;		
+				double s1 = fnMesh.getVertexColor(fVerts[2]).r;
 
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
 				v0 = fnMesh.getVertexPosition(fVerts[3]);
-				s0 = fnMesh.getVertexColor(fVerts[3]).r;			
+				s0 = fnMesh.getVertexColor(fVerts[3]).r;
 
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
-				newPositions.push_back(fnMesh.getVertexPosition(fVerts[3]));				
+				newPositions.push_back(fnMesh.getVertexPosition(fVerts[3]));
 
 			}
 
@@ -2518,13 +2628,13 @@ namespace zSpace
 					double s0 = fnMesh.getVertexColor(fVerts[1]).r;
 
 					zVector v1 = fnMesh.getVertexPosition(fVerts[0]);
-					double s1 = fnMesh.getVertexColor(fVerts[0]).r;					
+					double s1 = fnMesh.getVertexColor(fVerts[0]).r;
 
 					zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
 					newPositions.push_back(fnMesh.getVertexPosition(fVerts[1]));
-					
+
 					v1 = fnMesh.getVertexPosition(fVerts[2]);
 					s1 = fnMesh.getVertexColor(fVerts[2]).r;
 
@@ -2538,10 +2648,10 @@ namespace zSpace
 					newPositions.push_back(pos);
 
 					newPositions.push_back(fnMesh.getVertexPosition(fVerts[3]));
-					
+
 					v1 = fnMesh.getVertexPosition(fVerts[0]);
 					s1 = fnMesh.getVertexColor(fVerts[0]).r;
-					
+
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
@@ -2559,23 +2669,23 @@ namespace zSpace
 					newPositions.push_back(pos);
 
 					newPositions.push_back(fnMesh.getVertexPosition(fVerts[1]));
-					
+
 
 					v1 = fnMesh.getVertexPosition(fVerts[2]);
-					s1 = fnMesh.getVertexColor(fVerts[2]).r;					
+					s1 = fnMesh.getVertexColor(fVerts[2]).r;
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
 					// tri 2
 					v0 = fnMesh.getVertexPosition(fVerts[3]);
-					s0 = fnMesh.getVertexColor(fVerts[3]).r;				
+					s0 = fnMesh.getVertexColor(fVerts[3]).r;
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions2.push_back(pos);
 
 					newPositions2.push_back(fnMesh.getVertexPosition(fVerts[3]));
 
 					v1 = fnMesh.getVertexPosition(fVerts[0]);
-					s1 = fnMesh.getVertexColor(fVerts[0]).r;					
+					s1 = fnMesh.getVertexColor(fVerts[0]).r;
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions2.push_back(pos);
 				}
@@ -2592,15 +2702,15 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[0]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[1]);
 				double s1 = fnMesh.getVertexColor(fVerts[1]).r;
-				
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
 				v0 = fnMesh.getVertexPosition(fVerts[3]);
 				s0 = fnMesh.getVertexColor(fVerts[3]).r;
 				v1 = fnMesh.getVertexPosition(fVerts[2]);
-				s1= fnMesh.getVertexColor(fVerts[2]).r;
-				
+				s1 = fnMesh.getVertexColor(fVerts[2]).r;
+
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2616,7 +2726,7 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[3]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[2]);
 				double s1 = fnMesh.getVertexColor(fVerts[2]).r;
-				
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2624,7 +2734,7 @@ namespace zSpace
 
 				v1 = fnMesh.getVertexPosition(fVerts[0]);
 				s1 = fnMesh.getVertexColor(fVerts[0]).r;
-				
+
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2643,12 +2753,12 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[2]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[3]);
 				double s1 = fnMesh.getVertexColor(fVerts[3]).r;
-				
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
 				v0 = fnMesh.getVertexPosition(fVerts[0]);
-				s0 = fnMesh.getVertexColor(fVerts[0]).r;				
+				s0 = fnMesh.getVertexColor(fVerts[0]).r;
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2661,7 +2771,7 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[1]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[0]);
 				double s1 = fnMesh.getVertexColor(fVerts[0]).r;
-				
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2694,7 +2804,7 @@ namespace zSpace
 					double s0 = fnMesh.getVertexColor(fVerts[0]).r;
 					zVector v1 = fnMesh.getVertexPosition(fVerts[1]);
 					double s1 = fnMesh.getVertexColor(fVerts[1]).r;
-				
+
 					zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
@@ -2702,7 +2812,7 @@ namespace zSpace
 					s0 = fnMesh.getVertexColor(fVerts[2]).r;
 					v1 = fnMesh.getVertexPosition(fVerts[1]);
 					s1 = fnMesh.getVertexColor(fVerts[1]).r;
-				
+
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
@@ -2710,7 +2820,7 @@ namespace zSpace
 
 					v1 = fnMesh.getVertexPosition(fVerts[3]);
 					s1 = fnMesh.getVertexColor(fVerts[3]).r;
-					
+
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
@@ -2718,7 +2828,7 @@ namespace zSpace
 					s0 = fnMesh.getVertexColor(fVerts[0]).r;
 					v1 = fnMesh.getVertexPosition(fVerts[3]);
 					s1 = fnMesh.getVertexColor(fVerts[3]).r;
-					
+
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 				}
@@ -2733,7 +2843,7 @@ namespace zSpace
 					double s0 = fnMesh.getVertexColor(fVerts[0]).r;
 					zVector v1 = fnMesh.getVertexPosition(fVerts[1]);
 					double s1 = fnMesh.getVertexColor(fVerts[1]).r;
-					
+
 					zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions.push_back(pos);
 
@@ -2748,7 +2858,7 @@ namespace zSpace
 					s0 = fnMesh.getVertexColor(fVerts[2]).r;
 					v1 = fnMesh.getVertexPosition(fVerts[1]);
 					s1 = fnMesh.getVertexColor(fVerts[1]).r;
-					
+
 					pos = (getContourPosition(threshold, v0, v1, s0, s1));
 					newPositions2.push_back(pos);
 
@@ -2770,10 +2880,10 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[2]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[1]);
 				double s1 = fnMesh.getVertexColor(fVerts[1]).r;
-			
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
-	
+
 
 				newPositions.push_back(fnMesh.getVertexPosition(fVerts[2]));
 
@@ -2782,7 +2892,7 @@ namespace zSpace
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
-			
+
 
 			}
 
@@ -2797,7 +2907,7 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[1]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[2]);
 				double s1 = fnMesh.getVertexColor(fVerts[2]).r;
-			
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2805,7 +2915,7 @@ namespace zSpace
 				s0 = fnMesh.getVertexColor(fVerts[0]).r;
 				v1 = fnMesh.getVertexPosition(fVerts[3]);
 				s1 = fnMesh.getVertexColor(fVerts[3]).r;
-				
+
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2818,7 +2928,7 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[1]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[0]);
 				double s1 = fnMesh.getVertexColor(fVerts[0]).r;
-			
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2826,7 +2936,7 @@ namespace zSpace
 
 				v1 = fnMesh.getVertexPosition(fVerts[2]);
 				s1 = fnMesh.getVertexColor(fVerts[2]).r;
-				
+
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -2841,13 +2951,13 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[0]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[1]);
 				double s1 = fnMesh.getVertexColor(fVerts[1]).r;
-				
+
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
 				v1 = fnMesh.getVertexPosition(fVerts[3]);
 				s1 = fnMesh.getVertexColor(fVerts[3]).r;
-			
+
 				pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
 
@@ -3039,14 +3149,14 @@ namespace zSpace
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				double s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 
 				zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
 
 				zVector pos1 = fnMesh.getVertexPosition(fVerts[startID]);
 
 
-				v1 = fnMesh.getVertexPosition(fVerts[nextID]); 
+				v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
 
 				zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
@@ -3087,15 +3197,15 @@ namespace zSpace
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
-			
+
 
 				zVector pos0 = (getContourPosition(threshold0, v0, v1, s0, s1));
 
 				zVector pos1 = (getContourPosition(threshold1, v0, v1, s0, s1));
-				
+
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 
 				zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
 
@@ -3127,22 +3237,22 @@ namespace zSpace
 				int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
 
 				int next_nextID = (nextID + 1) % fVerts.size();
-				
+
 				zVector pos0 = fnMesh.getVertexPosition(fVerts[startID]);
-				zVector pos1 = fnMesh.getVertexPosition(fVerts[nextID]);			
+				zVector pos1 = fnMesh.getVertexPosition(fVerts[nextID]);
 
 				zVector v0 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s0 = fnMesh.getVertexColor(fVerts[nextID]).r;
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[next_nextID]);
-				double s1 = fnMesh.getVertexColor(fVerts[next_nextID]).r;				
+				double s1 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
 
 				zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
-				
+
 				v0 = fnMesh.getVertexPosition(fVerts[startID]);
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
-				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;			
+				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
 
 				zVector pos3 = (getContourPosition(threshold, v0, v1, s0, s1));
 
@@ -3173,7 +3283,7 @@ namespace zSpace
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				double s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 				zVector pos0 = (getContourPosition(thresholdLow, v0, v1, s0, s1));
 				zVector pos3 = (getContourPosition(thresholdHigh, v0, v1, s0, s1));
 
@@ -3181,7 +3291,7 @@ namespace zSpace
 				s0 = fnMesh.getVertexColor(fVerts[nextID]).r;
 				v1 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s1 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-				
+
 
 				zVector pos1 = (getContourPosition(thresholdLow, v0, v1, s0, s1));
 				zVector pos2 = (getContourPosition(thresholdHigh, v0, v1, s0, s1));
@@ -3218,19 +3328,19 @@ namespace zSpace
 				int next_nextID = (nextID + 1) % fVerts.size();
 
 				zVector pos0 = fnMesh.getVertexPosition(fVerts[startID]);
-				zVector pos1 = fnMesh.getVertexPosition(fVerts[nextID]);	
+				zVector pos1 = fnMesh.getVertexPosition(fVerts[nextID]);
 
 				zVector v0 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s0 = fnMesh.getVertexColor(fVerts[nextID]).r;
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-				
+
 				zVector pos2 = getContourPosition(threshold, v0, v1, s0, s1);
 
 				v0 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s0 = fnMesh.getVertexColor(fVerts[prevID]).r;
-			
+
 				zVector pos3 = (getContourPosition(threshold, v0, v1, s0, s1));
 
 				zVector pos4 = fnMesh.getVertexPosition(fVerts[prevID]);;
@@ -3274,7 +3384,7 @@ namespace zSpace
 
 				zVector v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
-				
+
 				zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
 
 				v0 = fnMesh.getVertexPosition(fVerts[next_nextID]);
@@ -3287,7 +3397,7 @@ namespace zSpace
 
 				v0 = fnMesh.getVertexPosition(fVerts[startID]);
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
-				
+
 				zVector pos4 = (getContourPosition(threshold1, v0, v1, s0, s1));
 
 				newPositions.push_back(pos0);
@@ -3328,14 +3438,14 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[startID]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
-				
+
 				zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
 
 				v0 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s0 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
 				v1 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s1 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-			
+
 				zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
 				zVector pos3 = (getContourPosition(threshold0, v0, v1, s0, s1));
 
@@ -3343,7 +3453,7 @@ namespace zSpace
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 				zVector pos4 = getContourPosition(threshold0, v0, v1, s0, s1);
 
 				newPositions.push_back(pos0);
@@ -3390,13 +3500,13 @@ namespace zSpace
 
 				v0 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s0 = fnMesh.getVertexColor(fVerts[prevID]).r;
-			
+
 				zVector pos3 = (getContourPosition(threshold1, v0, v1, s0, s1));
 				zVector pos4 = (getContourPosition(threshold0, v0, v1, s0, s1));
 
 				v1 = fnMesh.getVertexPosition(fVerts[startID]);
 				s1 = fnMesh.getVertexColor(fVerts[startID]).r;
-				
+
 				zVector pos5 = getContourPosition(threshold0, v0, v1, s0, s1);
 
 				newPositions.push_back(pos0);
@@ -3437,15 +3547,15 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[startID]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
-				
+
 				zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
 
 				v0 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s0 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-				
+
 				zVector pos2 = (getContourPosition(threshold0, v0, v1, s0, s1));
 
-				zVector pos3 = fnMesh.getVertexPosition(fVerts[next_nextID])	;
+				zVector pos3 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
@@ -3454,7 +3564,7 @@ namespace zSpace
 
 				v0 = fnMesh.getVertexPosition(fVerts[startID]);
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
-				
+
 				zVector pos5 = getContourPosition(threshold1, v0, v1, s0, s1);
 
 				newPositions.push_back(pos0);
@@ -3494,25 +3604,25 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[startID]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
-			
+
 				zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
 				zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
 
 				v0 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s0 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-			
+
 				zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
 				zVector pos3 = getContourPosition(threshold0, v0, v1, s0, s1);
 
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 				zVector pos4 = (getContourPosition(threshold0, v0, v1, s0, s1));
 				zVector pos5 = (getContourPosition(threshold1, v0, v1, s0, s1));
 
 				v0 = fnMesh.getVertexPosition(fVerts[startID]);
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
-				
+
 				zVector pos6 = getContourPosition(threshold1, v0, v1, s0, s1);
 				zVector pos7 = (getContourPosition(threshold0, v0, v1, s0, s1));
 
@@ -3598,19 +3708,19 @@ namespace zSpace
 
 				v0 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s0 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-				
+
 				zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
 
 				zVector pos3 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 				zVector pos4 = (getContourPosition(threshold, v0, v1, s0, s1));
 
 				v0 = fnMesh.getVertexPosition(fVerts[startID]);
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
-				
+
 				zVector pos5 = getContourPosition(threshold, v0, v1, s0, s1);
 
 
@@ -3676,25 +3786,25 @@ namespace zSpace
 				double s0 = fnMesh.getVertexColor(fVerts[startID]).r;
 				zVector v1 = fnMesh.getVertexPosition(fVerts[nextID]);
 				double s1 = fnMesh.getVertexColor(fVerts[nextID]).r;
-			
+
 				zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
 				zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
 
 				v0 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 				s0 = fnMesh.getVertexColor(fVerts[next_nextID]).r;
-								
+
 				zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
 
 				zVector pos3 = fnMesh.getVertexPosition(fVerts[next_nextID]);
 
 				v1 = fnMesh.getVertexPosition(fVerts[prevID]);
 				s1 = fnMesh.getVertexColor(fVerts[prevID]).r;
-				
+
 				zVector pos4 = (getContourPosition(threshold1, v0, v1, s0, s1));
-				
+
 				v0 = fnMesh.getVertexPosition(fVerts[startID]);
 				s0 = fnMesh.getVertexColor(fVerts[startID]).r;
-				
+
 				zVector pos5 = getContourPosition(threshold1, v0, v1, s0, s1);
 				zVector pos6 = getContourPosition(threshold0, v0, v1, s0, s1);
 
@@ -3753,7 +3863,7 @@ namespace zSpace
 					zVector p0 = newPositions[i];
 					int v0;
 
-					bool vExists = coreUtils.vertexExists(positionVertex, p0,3, v0);
+					bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
 
 					if (!vExists)
 					{
@@ -3802,7 +3912,7 @@ namespace zSpace
 					zVector p0 = newPositions2[i];
 					int v0;
 
-					bool vExists = coreUtils.vertexExists(positionVertex, p0,3, v0);
+					bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
 
 					if (!vExists)
 					{
@@ -3821,7 +3931,6 @@ namespace zSpace
 
 		}
 
-
 	};
 	
 
@@ -3831,20 +3940,54 @@ namespace zSpace
 	//---- TEMPLATE SPECIALIZATION DEFINITIONS 
 	//--------------------------
 
+	//---------------//
+	
+	//---- double specilization for updateColors
+	template<>
+	inline void zFnMeshField<double>::updateColors()
+	{
+		vector<double> scalars;
+		getFieldValues(scalars);
+
+		updateColors(scalars);
+	}
+
+	//---------------//
+
+	//---- double specilization for updateColors_Blend
+	template<>
+	inline void zFnMeshField<double>::updateColors_Blend(zColor &col1, zColor &col2)
+	{
+		vector<double> scalars;
+		getFieldValues(scalars);
+
+		updateColors_Blend(scalars, col1, col2);
+	}
+
+	//---- double specilization for updateColors_Blend
+	template<>
+	inline void zFnMeshField<double>::updateColors_Blend(zColor &col1, zColor &col2, double dMin, double dMax)
+	{
+		vector<double> scalars;
+		getFieldValues(scalars);
+
+		updateColors_Blend(scalars, col1, col2, dMin,dMax);
+	}
+	
 
 	//---------------//
 
 	//---- zVector specilization for normliseFieldValues
 	template<>
-	inline void zFnField2D<zVector>::normliseValues(vector<zVector> &fieldValues)
+	inline void zFnMeshField<zVector>::normliseValues(vector<zVector> &fieldValues)
 	{
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i].normalize();
 	}
-
+	   
 
 	//---- double specilization for normliseFieldValues
 	template<>
-	inline void zFnField2D<double>::normliseValues(vector<double> &fieldValues)
+	inline void zFnMeshField<double>::normliseValues(vector<double> &fieldValues)
 	{
 		double dMin, dMax;
 		computeMinMaxOfScalars(fieldValues, dMin, dMax);
@@ -3860,7 +4003,7 @@ namespace zSpace
 
 	//---- double specilization for fromBMP
 	template<>
-	inline void zFnField2D<double>::fromBMP(string infilename)
+	inline void zFnMeshField<double>::fromBMP(string infilename)
 	{
 		zUtilsBMP bmp(infilename.c_str());
 
@@ -3871,50 +4014,86 @@ namespace zSpace
 
 		if (resX == 0 || resY == 0) return;
 
-		create(resX, resY, 1, 1);
-		createFieldMesh();
-
-
+		
+		create(1, 1, resX, resY,zVector(),1,setValuesperVertex);
+		
 
 		for (uint32_t x = 0; x < resX; ++x)
 		{
 			for (uint32_t y = 0; y < resY; ++y)
 			{
-				int faceId;
-				getIndex(x, y, faceId);
 
-				//printf("\n %i %i %i ", x, y, faceId);
-
-				// blue
-				double b = (double)bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 0] / 255;
-
-				// green
-				double g = (double)bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 1] / 255;
-
-				// red
-				double r = (double)bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 2] / 255;
-
-				fnMesh.setFaceColor(faceId,  zColor(r, g, b, 1));
-
-				// alpha
-				if (channels == 4)
+				if (setValuesperVertex)
 				{
-					double a = (double)bmp.data[channels * (x * bmp.bmp_info_header.height + y) + 3] / 255;
+					int vertexId;
+					getIndex(x, y, vertexId);
 
-					fnMesh.setFaceColor(faceId, zColor(r, g, b, a));
+					//printf("\n %i %i %i ", x, y, faceId);
+
+					// blue
+					double b = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] / 255;
+
+					// green
+					double g = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] / 255;
+
+					// red
+					double r = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] / 255;
+
+					fnMesh.setVertexColor(vertexId, zColor(r, g, b, 1));
+
+					// alpha
+					if (channels == 4)
+					{
+						double a = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] / 255;
+
+						fnMesh.setVertexColor(vertexId, zColor(r, g, b, a));
+					}
+
+					setFieldValue(r, vertexId);
 				}
+				else
+				{
+					int faceId;
+					getIndex(x, y, faceId);
 
-				setFieldValue(r, faceId);
+					//printf("\n %i %i %i ", x, y, faceId);
+
+					// blue
+					double b = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] / 255;
+
+					// green
+					double g = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] / 255;
+
+					// red
+					double r = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] / 255;
+
+					fnMesh.setFaceColor(faceId, zColor(r, g, b, 1));
+
+					// alpha
+					if (channels == 4)
+					{
+						double a = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] / 255;
+
+						fnMesh.setFaceColor(faceId, zColor(r, g, b, a));
+					}
+
+					setFieldValue(r, faceId);
+				}
+				
 
 			}
 		}
+		
+		if (setValuesperVertex)fnMesh.computeFaceColorfromVertexColor();
+		else fnMesh.computeVertexColorfromFaceColor();
+
 	}
 
 	//---------------//
 
 	//---- zVector specilization for createVectorFieldFromScalarField
 	template<>
-	inline void zFnField2D<zVector>::createVectorFromScalarField(zFnField2D<double> &fnScalarField)
+	inline void zFnMeshField<zVector>::createVectorFromScalarField(zFnMeshField<double> &fnScalarField)
 	{
 		zVector minBB, maxBB; 
 		fnScalarField.getBoundingBox(minBB, maxBB);

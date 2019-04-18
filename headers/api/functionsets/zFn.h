@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <headers/api/object/zObject.h>
+#include <headers/api/object/zObj.h>
 
 namespace zSpace
 {

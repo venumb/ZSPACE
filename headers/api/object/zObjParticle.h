@@ -1,6 +1,6 @@
 #pragma once
 
-#include <headers/api/object/zObject.h>
+#include <headers/api/object/zObj.h>
 #include <headers/framework/dynamics/zParticle.h>
 
 
@@ -26,7 +26,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class zObjParticle :public zObject
+	class zObjParticle :public zObj
 	{
 	private:
 		/*! \brief boolean for displaying the particle forces */

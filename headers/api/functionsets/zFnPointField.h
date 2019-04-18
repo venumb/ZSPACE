@@ -3,7 +3,7 @@
 #include<headers/api/object/zObjPointCloud.h>
 #include<headers/api/object/zObjGraph.h>
 #include<headers/api/object/zObjMesh.h>
-#include<headers/api/object/zObjField3D.h>
+#include<headers/api/object/zObjPointField.h>
 
 #include<headers/api/functionsets/zFnMesh.h>
 #include<headers/api/functionsets/zFnGraph.h>
@@ -21,7 +21,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zFnField3D
+	/*! \class zFnPointField
 	*	\brief A 3D field function set.
 	*
 	*	\tparam				T			- Type to work with double(scalar field) and zVector(vector field).
@@ -33,7 +33,7 @@ namespace zSpace
 	/** @}*/
 
 	template<typename T>
-	class zFnField3D 
+	class zFnPointField 
 	{
 	protected:
 		//--------------------------
@@ -44,11 +44,50 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief pointer to a field 2D object  */
-		zObjField3D<T> *fieldObj;	
-		
-		/*!	\brief pointer to mesh object  */
-		zObjPointCloud *fieldPointsObj;
-		
+		zObjPointField<T> *fieldObj;	
+				
+		/*! \brief This method creates the point cloud from the field parameters.
+		*
+		*	\since version 0.0.2
+		*/
+		void createPointCloud()
+		{
+			vector<zVector>positions;
+
+			zVector minBB, maxBB;
+			double unit_X, unit_Y, unit_Z;
+			int n_X, n_Y,n_Z;
+
+			getUnitDistances(unit_X, unit_Y, unit_Z);
+			getResolution(n_X, n_Y, n_Z);
+
+			getBoundingBox(minBB, maxBB);
+
+			zVector unitVec = zVector(unit_X, unit_Y, unit_Z);
+			zVector startPt = minBB;
+
+			for (int i = 0; i < n_X; i++)
+			{
+				for (int j = 0; j < n_Y; j++)
+				{
+
+					for (int k = 0; k < n_Z; k++)
+					{
+
+						zVector pos;
+						pos.x = startPt.x + i * unitVec.x;
+						pos.y = startPt.y + j * unitVec.y;
+						pos.z = startPt.z + k * unitVec.z;
+
+						positions.push_back(pos);						
+
+					}
+				}
+			}
+
+			fnPoints.create(positions);
+			
+		}
 
 	public:
 
@@ -73,20 +112,18 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zFnField3D() {}
+		zFnPointField() {}
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_fieldObj			- input field3D object.	
-		*	\param		[in]	_pointsObj			- input point cloud object.
 		*	\since version 0.0.2
 		*/
-		zFnField3D(zObjField3D<T> &_fieldObj, zObjPointCloud &_pointsObj)
+		zFnPointField(zObjPointField<T> &_fieldObj)
 		{
-			fieldObj = &_fieldObj;		
+			fieldObj = &_fieldObj;	
 
-			fieldPointsObj = &_pointsObj;
-			fnPoints = zFnPointCloud(_pointsObj);
+			fnPoints = zFnPointCloud(_fieldObj);
 		}
 
 
@@ -98,7 +135,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		~zFnField3D() {}
+		~zFnPointField() {}
 
 
 		//--------------------------
@@ -155,7 +192,7 @@ namespace zSpace
 			}
 
 			// create field points
-			fnPoints.create(fieldObj->field.positions);
+			createPointCloud();
 		}
 
 		/*! \brief Overloaded constructor.
@@ -188,14 +225,14 @@ namespace zSpace
 			}
 
 			// create field points
-			fnPoints.create(fieldObj->field.positions);
+			createPointCloud();
 		}
 
 		/*! \brief This method creates a vector field from the input scalarfield.
 		*	\param		[in]	inFnScalarField		- input scalar field function set.
 		*	\since version 0.0.2
 		*/
-		void createVectorFromScalarField(zFnField3D<double> &inFnScalarField);
+		void createVectorFromScalarField(zFnPointField<double> &inFnScalarField);
 				
 
 		//--------------------------
@@ -392,7 +429,7 @@ namespace zSpace
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return fieldObj->field.positions[index];
+			return fnPoints.getPosition(index);
 		}
 
 		/*! \brief This method gets the position of the field at the input  X,Y and Z indicies.
@@ -409,25 +446,9 @@ namespace zSpace
 
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return fieldObj->field.positions[index];
+			return fnPoints.getPosition(index);
 		}
-
-		/*! \brief This method gets the value of the field at the input index.
-		*
-		*	\param		[in]	index		- index in the fieldvalues container.
-		*	\param		[out]	val			- field value.
-		*	\return				bool		- true if index is in bounds.
-		*	\since version 0.0.2
-		*/
-		bool getFieldValue(int index, T &val)
-		{
-			if (index > numFieldValues()) return false;
-
-			val = fieldObj->field.fieldValues[index];
-
-			return true;
-		}
-
+		
 		/*! \brief This method gets the index of the field for the input X,Y and Z indicies.
 		*
 		*	\param		[in]	index_X		- input index in X.
@@ -489,7 +510,23 @@ namespace zSpace
 
 			return out;
 		}
-				
+			
+		/*! \brief This method gets the value of the field at the input index.
+		*
+		*	\param		[in]	index		- index in the fieldvalues container.
+		*	\param		[out]	val			- field value.
+		*	\return				bool		- true if index is in bounds.
+		*	\since version 0.0.2
+		*/
+		bool getFieldValue(int index, T &val)
+		{
+			if (index > numFieldValues()) return false;
+
+			val = fieldObj->field.fieldValues[index];
+
+			return true;
+		}
+
 		/*! \brief This method gets the value of the field at the input sample position.
 		*
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
@@ -583,6 +620,16 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zFieldValueType.");
 
 			return true;
+		}
+
+		/*! \brief This method gets all the values of the field.
+		*
+		*	\param		[out]	fieldValues			- container of field values.
+		*	\since version 0.0.2
+		*/
+		void getFieldValues(vector<T>& fieldValues)
+		{
+			fieldValues = fieldObj->field.fieldValues;
 		}
 
 		/*! \brief This method gets the gradient of the field at the input sample position.
@@ -726,15 +773,15 @@ namespace zSpace
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input mesh vertex positions.
 		*
+		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
 		*	\param	[in]	meshValue			- value to be propagated for the mesh.
-		*	\param	[in]	influences			- influence value of the graph.
-		*	\param	[out]	fieldValues			- container for storing field values.
+		*	\param	[in]	influences			- influence value of the graph.		
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(zFnMesh &inFnMesh, T meshValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnMesh &inFnMesh, T meshValue, double influence, double power = 2.0, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -777,15 +824,15 @@ namespace zSpace
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input graph vertex positions.
 		*
+		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	inFngraph			- input grahh function set for distance calculations.
 		*	\param	[in]	graphValue			- value to be propagated for the graph.
-		*	\param	[in]	influences			- influence value of the graph.
-		*	\param	[out]	fieldValues			- container for storing field values.
+		*	\param	[in]	influences			- influence value of the graph.		
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(zFnGraph &inFngraph, T graphValue, double influence, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnGraph &inFngraph, T graphValue, double influence,  double power = 2.0, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -829,15 +876,15 @@ namespace zSpace
 
 		/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
 		*
+		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	inPositions			- container of input positions for distance calculations.
 		*	\param	[in]	values				- value to be propagated for each input position. Size of container should be equal to inPositions.
 		*	\param	[in]	influences			- influence value of each input position. Size of container should be equal to inPositions.
-		*	\param	[out]	fieldValues			- container for storing field values.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<zVector> &inPositions, vector<T> &values, vector<double>& influences, vector<T> &fieldValues, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, vector<zVector> &inPositions, vector<T> &values, vector<double>& influences,  double power = 2.0, bool normalise = true)
 		{
 			if (inPositions.size() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
 			if (inPositions.size() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
@@ -885,12 +932,12 @@ namespace zSpace
 
 		/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 		*
-		*	\param	[in]	points				- container of positions.
 		*	\param	[out]	scalars				- container for storing scalar values.
+		*	\param	[in]	points				- container of positions.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<zVector> &points, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, vector<zVector> &points,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -942,14 +989,14 @@ namespace zSpace
 
 		/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
 		*
+		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
 		*	\param	[in]	a					- input variable for distance function.
 		*	\param	[in]	b					- input variable for distance function.
-		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zFnMesh &inFnMesh, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -983,14 +1030,14 @@ namespace zSpace
 
 		/*! \brief This method creates a vertex distance Field from the input graph vertex positions.
 		*
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
-		*	\param	[in]	b				- input variable for distance function.
-		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	b				- input variable for distance function.		
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zFnGraph &inFnGraph, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1029,14 +1076,14 @@ namespace zSpace
 
 		/*! \brief This method creates a edge distance Field from the input mesh.
 		*
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inFnMesh		- input mesh function set for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
-		*	\param	[in]	b				- input variable for distance function.
-		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	b				- input variable for distance function.		
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(zFnMesh &inFnMesh, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b,  bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1081,14 +1128,14 @@ namespace zSpace
 
 		/*! \brief This method creates a edge distance Field from the input graph.
 		*
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
-		*	\param	[in]	b				- input variable for distance function.
-		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	b				- input variable for distance function.		
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(zFnGraph &inFnGraph, double a, double b, vector<double> &scalars, bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b, bool normalise = true)
 		{
 			vector<double> out;
 
@@ -1583,7 +1630,7 @@ namespace zSpace
 
 	//---- zVector specilization for normliseFieldValues
 	template<>
-	inline void zFnField3D<zVector>::normliseValues(vector<zVector> &fieldValues)
+	inline void zFnPointField<zVector>::normliseValues(vector<zVector> &fieldValues)
 	{
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i].normalize();
 	}
@@ -1591,7 +1638,7 @@ namespace zSpace
 
 	//---- double specilization for normliseFieldValues
 	template<>
-	inline void zFnField3D<double>::normliseValues(vector<double> &fieldValues)
+	inline void zFnPointField<double>::normliseValues(vector<double> &fieldValues)
 	{
 		double dMin, dMax;
 		computeMinMaxOfScalars(fieldValues, dMin, dMax);
@@ -1607,7 +1654,7 @@ namespace zSpace
 
 	//---- zVector specilization for createVectorFieldFromScalarField
 	template<typename T>
-	inline void zFnField3D<T>::createVectorFromScalarField(zFnField3D<double> &fnScalarField)
+	inline void zFnPointField<T>::createVectorFromScalarField(zFnPointField<double> &fnScalarField)
 	{
 		zVector minBB, maxBB;
 		fnScalarField.getBoundingBox(minBB, maxBB);

@@ -1,15 +1,14 @@
 #pragma once
 #pragma once
 
-#include <headers/api/object/zObject.h>
-#include <headers/framework/field/zField3D.h>
+#include <headers/api/object/zObj.h>
+#include <headers/framework/field/zField2D.h>
 
 #include <vector>
 using namespace std;
 
 namespace zSpace
 {
-
 
 	/** \addtogroup API
 	*	\brief The Application Program Interface of the library.
@@ -21,8 +20,8 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zObjField3D
-	*	\brief The 3D field object class.
+	/*! \class zObjMeshField
+	*	\brief The 2D field mesh object class.
 	*	\since version 0.0.2
 	*/
 
@@ -31,17 +30,17 @@ namespace zSpace
 	/** @}*/
 	
 	template<typename T>
-	class zObjField3D : public zObject
+	class zObjMeshField : public zObjMesh
 	{
-	private:
-		
+
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
 		/*! \brief field 2D */
-		zField3D<T> field;
+		zField2D<T> field;
 
 
 		//--------------------------
@@ -52,9 +51,21 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zObjField3D()
+		zObjMeshField()
 		{
-			displayUtils = nullptr;			
+			displayUtils = nullptr;	
+
+			showVertices = false;
+			showEdges = true;
+			showFaces = true;
+
+			showDihedralEdges = false;
+			showVertexNormals = false;
+			showFaceNormals = false;
+
+			dihedralAngleThreshold = 45;
+
+			normalScale = 1.0;
 		}
 
 
@@ -66,17 +77,19 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		~zObjField3D() {}
+		~zObjMeshField() {}
+		
 
-	
 		//--------------------------
 		//---- OVERRIDE METHODS
 		//--------------------------
 
 		void draw() override
 		{
+			zObjMesh::draw();
+		}	
 			
-		}		
+
 
 	};
 

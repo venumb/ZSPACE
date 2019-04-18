@@ -72,7 +72,9 @@ namespace zSpace
 		{
 			n_v = n_e = n_f = 0;
 
-			faces = NULL;
+			vertices = nullptr;
+			edges = nullptr;
+			faces = nullptr;
 		}
 
 		/*! \brief Overloaded constructor.
