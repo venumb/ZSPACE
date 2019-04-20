@@ -35,6 +35,18 @@ namespace zSpace
 	template<typename T>
 	class zFnMeshField 
 	{
+	private:
+
+		//--------------------------
+		//---- PRIVATE ATTRIBUTES
+		//--------------------------		
+			   		
+		/*!	\brief contour value domain.  */
+		zDomain<double> contourValueDomain;
+
+		/*!	\brief container of field values used for contouring. All values to be in teh 0 to 1 domain  */
+		vector<double> contourVertexValues;
+
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
@@ -48,6 +60,11 @@ namespace zSpace
 
 		/*!	\brief boolean indicating if the field values size is equal to mesh vertices(true) or equal to mesh faces(false)  */
 		bool setValuesperVertex = true;
+
+		/*!	\brief field color domain.  */
+		zDomainColor fieldColorDomain = zDomainColor(zColor(), zColor(1, 1, 1, 1));
+
+	
 
 		//--------------------------
 		//---- FACTORY METHODS
@@ -163,8 +180,9 @@ namespace zSpace
 			getBoundingBox(minBB, maxBB);
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
-			zVector startPt = minBB + (unitVec * 0.5 * -1);;
+			zVector startPt = minBB ;;
 	
+			if (!setValuesperVertex)startPt -= (unitVec * 0.5);
 
 			for (int i = 0; i < resX; i++)
 			{
@@ -200,10 +218,12 @@ namespace zSpace
 				}
 			}
 
-			fnMesh.create(positions, polyCounts, polyConnects);
+			fnMesh.create(positions, polyCounts, polyConnects, true);
 
 			printf("\n fieldmesh: v %i e %i f %i", fnMesh.numVertices(), fnMesh.numEdges(), fnMesh.numPolygons());
 		}
+
+		
 
 	public:
 
@@ -219,6 +239,8 @@ namespace zSpace
 
 		/*!	\brief container of adjacent neighbourhood indicies.  */
 		vector<vector<int>> adjacentNeighbours;
+
+		
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -263,8 +285,9 @@ namespace zSpace
 
 		/*! \brief This method exports the field to the given file type.
 		*
-		*	\param [in]		path			- output file name including the directory path and extension.
-		*	\param [in]		type			- type of file to be exported - zBMP
+		*	\param [in]		path						- output file name including the directory path and extension.
+		*	\param [in]		type						- type of file to be exported 
+		*	\param [in]		_setValuesperVertex			-  numver of field values aligns with mesh vertices if true else aligns with mesh faces.
 		*	\since version 0.0.2
 		*/
 		void from(string path, zFileTpye type, bool _setValuesperVertex = true)
@@ -273,8 +296,8 @@ namespace zSpace
 
 			if (type == zBMP) fromBMP(path);
 			
-			else if (type == zOBJ) fnMesh.from(path, type);
-			else if (type == zJSON) fnMesh.from(path, type);
+			else if (type == zOBJ) fnMesh.from(path, type, true);
+			else if (type == zJSON) fnMesh.from(path, type, true);
 
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 
@@ -329,15 +352,19 @@ namespace zSpace
 			ringNeighbours.clear();
 			adjacentNeighbours.clear();
 
+			
+			ringNeighbours.assign(numFieldValues(), vector<int>());
+			adjacentNeighbours.assign(numFieldValues(), vector<int>());
+
 			for (int i = 0; i < numFieldValues(); i++)
 			{
 				vector<int> temp_ringNeighbour;
-				getNeighbourhoodRing(i, _NR, temp_ringNeighbour);
-				ringNeighbours.push_back(temp_ringNeighbour);
+				getNeighbour_Ring(i, _NR, temp_ringNeighbour);
+				ringNeighbours[i] = (temp_ringNeighbour);
 
 				vector<int> temp_adjacentNeighbour;
-				getNeighbourAdjacents(i, temp_adjacentNeighbour);
-				adjacentNeighbours.push_back(temp_adjacentNeighbour);
+				getNeighbour_Adjacents(i, temp_adjacentNeighbour);
+				adjacentNeighbours[i] = (temp_adjacentNeighbour);
 			}		
 
 			createFieldMesh();
@@ -363,17 +390,20 @@ namespace zSpace
 			ringNeighbours.clear();
 			adjacentNeighbours.clear();
 
+			ringNeighbours.assign(numFieldValues(), vector<int>());
+			adjacentNeighbours.assign(numFieldValues(), vector<int>());
+
 			for (int i = 0; i < numFieldValues(); i++)
 			{
 				vector<int> temp_ringNeighbour;
-				getNeighbourhoodRing(i, _NR, temp_ringNeighbour);
-				ringNeighbours.push_back(temp_ringNeighbour);
+				getNeighbour_Ring(i, _NR, temp_ringNeighbour);
+				ringNeighbours[i] = (temp_ringNeighbour);
 
 				vector<int> temp_adjacentNeighbour;
-				getNeighbourAdjacents(i, temp_adjacentNeighbour);
-				adjacentNeighbours.push_back(temp_adjacentNeighbour);
+				getNeighbour_Adjacents(i, temp_adjacentNeighbour);
+				adjacentNeighbours[i] = (temp_adjacentNeighbour);
 			}
-			
+
 			createFieldMesh();
 		}
 
@@ -381,7 +411,7 @@ namespace zSpace
 		*	\param		[in]	inFnScalarField		- input scalar field function set.
 		*	\since version 0.0.2
 		*/
-		void createVectorFromScalarField(zFnMeshField<double> &fnScalarField);
+		void createVectorFromScalarField(zObjMeshField<double> &scalarFieldObj);
 		
 		
 		//--------------------------
@@ -396,7 +426,7 @@ namespace zSpace
 		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.2
 		*/
-		void getNeighbourhoodRing(int index, int numRings, vector<int> &ringNeighbours)
+		void getNeighbour_Ring(int index, int numRings, vector<int> &ringNeighbours)
 		{
 			
 			ringNeighbours.clear();
@@ -435,13 +465,34 @@ namespace zSpace
 			
 		}
 
+		/*! \brief This method gets the ring Points  of the field at the input index.
+		*
+		*	\param		[in]	index			- input index.
+		*	\param		[in]	numRings		- number of rings.
+		*	\param		[out]	ringNeighbours	- contatiner of neighbour indicies.
+		*	\since version 0.0.2
+		*/
+		void getNeighbourPosition_Ring(int index, int numRings, vector<zVector> &ringNeighbours)
+		{
+			ringNeighbours.clear();
+
+			vector<int> rNeighbourIndex;
+			getNeighbour_Ring(index, numRings, rNeighbourIndex);
+
+			for (int i = 0;i < rNeighbourIndex.size(); i++)
+			{
+				ringNeighbours.push_back(getPosition(rNeighbourIndex[i]));
+			}
+
+		}
+
 		/*! \brief This method gets the immediate adjacent neighbours of the field at the input index.
 		*
 		*	\param		[in]	index				- input index.
 		*	\param		[out]	adjacentNeighbours	- contatiner of neighbour indicies.
 		*	\since version 0.0.2
 		*/
-		void getNeighbourAdjacents(int index, vector<int> &adjacentNeighbours)
+		void getNeighbour_Adjacents(int index, vector<int> &adjacentNeighbours)
 		{
 			adjacentNeighbours.clear();
 
@@ -483,20 +534,45 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method gets the gridPoints which contain the input position.
+		/*! \brief This method gets the immediate adjacent Points  of the field at the input index.
+		*
+		*	\param		[in]	index				- input index.
+		*	\param		[out]	adjacentNeighbours	- contatiner of adjacent points indicies.
+		*	\since version 0.0.2
+		*/
+		void getNeighbourPosition_Adjacents(int index, vector<zVector> &adjacentNeighbours)
+		{
+			adjacentNeighbours.clear();
+
+			vector<int> aNeighbourIndex;
+			getNeighbour_Adjacents(index, aNeighbourIndex);
+
+			for (int i = 0;i< aNeighbourIndex.size(); i++)
+			{
+				adjacentNeighbours.push_back(getPosition(aNeighbourIndex[i]));
+			}
+
+		}
+
+		/*! \brief This method gets the field indices which contain the input position.
 		*
 		*	\param		[in]	pos					- input position.
 		*	\param		[out]	containedGridPoints	- contatiner of contained points indicies.
 		*	\since version 0.0.2
 		*/
-		void getNeighbourContained(zVector &pos, vector<int> &containedNeighbour)
+		void getNeighbour_Contained(zVector &pos, vector<int> &containedNeighbour)
 		{			
 			containedNeighbour.clear();
 
 			int index;
 			bool checkBounds = getIndex(pos, index);
 
-			if (!checkBounds) return;
+			if (!checkBounds)
+			{
+				return;
+
+				
+			}
 
 			int numRings = 1;
 			//printf("\n working numRings : %i ", numRings);
@@ -543,8 +619,11 @@ namespace zSpace
 				int g4;
 				getIndex(idX - 1, idY + 1, g4);
 
-				zVector minBB_temp = getPosition(g1) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
-				zVector maxBB_temp = getPosition(g3) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+				zVector minBB_temp = getPosition(g1);
+				if (!setValuesperVertex) minBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+
+				zVector maxBB_temp = getPosition(g3);
+				if (!setValuesperVertex) maxBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
 
 				bool check = coreUtils.pointInBounds(pos, minBB_temp, maxBB_temp);
 
@@ -556,12 +635,13 @@ namespace zSpace
 					containedNeighbour.push_back(g4);
 				}
 
+				
+
 			}
 
 			// case 2
 			if (containedNeighbour.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY + 1))
 			{
-
 				int g1;
 				getIndex(idX, idY, g1);
 
@@ -574,8 +654,11 @@ namespace zSpace
 				int g4;
 				getIndex(idX, idY + 1, g4);
 
-				zVector minBB_temp = getPosition(g1) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
-				zVector maxBB_temp = getPosition(g3) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+				zVector minBB_temp = getPosition(g1);
+				if(!setValuesperVertex) minBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+				
+				zVector maxBB_temp = getPosition(g3);
+				if (!setValuesperVertex) maxBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
 
 				bool check = coreUtils.pointInBounds(pos, minBB_temp, maxBB_temp);
 
@@ -592,7 +675,6 @@ namespace zSpace
 			// case 3
 			if (containedNeighbour.size() == 0 && checkBounds_X(idX + 1) && checkBounds_Y(idY - 1))
 			{
-
 				int g1;
 				getIndex(idX, idY - 1, g1);
 
@@ -605,8 +687,11 @@ namespace zSpace
 				int g4;
 				getIndex(idX, idY, g4);
 
-				zVector minBB_temp = getPosition(g1) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
-				zVector maxBB_temp = getPosition(g3) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+				zVector minBB_temp = getPosition(g1);
+				if (!setValuesperVertex) minBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+
+				zVector maxBB_temp = getPosition(g3);
+				if (!setValuesperVertex) maxBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
 
 				bool check = coreUtils.pointInBounds(pos, minBB_temp, maxBB_temp);
 
@@ -623,7 +708,6 @@ namespace zSpace
 			// case 4
 			if (containedNeighbour.size() == 0 && checkBounds_X(idX - 1) && checkBounds_Y(idY - 1))
 			{
-
 				int g1;
 				getIndex(idX - 1, idY - 1, g1);
 
@@ -636,8 +720,11 @@ namespace zSpace
 				int g4;
 				getIndex(idX - 1, idY, g4);
 
-				zVector minBB_temp = getPosition(g1) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
-				zVector maxBB_temp = getPosition(g3) - zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+				zVector minBB_temp = getPosition(g1);
+				if (!setValuesperVertex) minBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
+
+				zVector maxBB_temp = getPosition(g3);
+				if (!setValuesperVertex) maxBB_temp -= zVector(fieldObj->field.unit_X * 0.5, fieldObj->field.unit_Y * 0.5, 0);
 
 				bool check = coreUtils.pointInBounds(pos, minBB_temp, maxBB_temp);
 
@@ -653,6 +740,25 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets the field Points which contain the input position.
+		*
+		*	\param		[in]	pos					- input position.
+		*	\param		[out]	containedGridPoints	- contatiner of contained points indicies.
+		*	\since version 0.0.2
+		*/
+		void getNeighbourPosition_Contained(zVector &pos, vector<zVector> &containedNeighbour)
+		{
+			containedNeighbour.clear();
+
+			vector<int> cNeighbourIndex;
+			getNeighbour_Contained(pos, cNeighbourIndex);			
+
+			for(int i =0; i< cNeighbourIndex.size(); i++)
+			{
+				containedNeighbour.push_back(getPosition(cNeighbourIndex[i]));
+			}
+			
+		}
 					
 
 		//--------------------------
@@ -755,6 +861,7 @@ namespace zSpace
 			return out;
 		}
 
+		
 		/*! \brief This method gets the index of the field at the input position.
 		*
 		*	\param		[in]	pos			- input position.
@@ -768,6 +875,42 @@ namespace zSpace
 			int index_Y = floor((pos.y - fieldObj->field.minBB.y) / fieldObj->field.unit_Y);
 
 			bool out = getIndex(index_X, index_Y, index);
+
+			return out;
+
+		}
+
+		/*! \brief This method gets the closest index of the field at the input position.
+		*
+		*	\param		[in]	pos			- input position.
+		*	\param		[out]	index		- output field index.
+		*	\return				bool		- true if index is in bounds.
+		*	\since version 0.0.2
+		*/
+		bool getClosestIndex(zVector &pos, int &index)
+		{
+			int id;
+			bool out = getIndex(pos, id);
+
+			if (out)
+			{
+				vector<int> cNeighbourIndex;
+				getNeighbour_Contained(pos, cNeighbourIndex);
+
+				vector<zVector> cNeighbours;	
+
+				for (int i = 0; i< cNeighbourIndex.size(); i++)
+				{					
+					cNeighbours.push_back(getPosition(cNeighbourIndex[i]));
+				}
+
+				
+				int idOut = coreUtils.getClosest_PointCloud(pos, cNeighbours);
+
+				index = cNeighbourIndex[idOut];
+
+			}
+			
 
 			return out;
 
@@ -840,7 +983,7 @@ namespace zSpace
 				T fVal;
 
 				vector<int> ringNeighbours;
-				getNeighbourhoodRing(index, 1, ringNeighbours);
+				getNeighbour_Ring(index, 1, ringNeighbours);
 
 				vector<zVector> positions;
 				for (int i = 0; i < ringNeighbours.size(); i++)
@@ -872,7 +1015,7 @@ namespace zSpace
 				T fVal;
 
 				vector<int> adjNeighbours;
-				getNeighbourAdjacents(index, adjNeighbours);
+				getNeighbour_Adjacents(index, adjNeighbours);
 
 				vector<zVector> positions;
 				for (int i = 0; i < adjNeighbours.size(); i++)
@@ -904,7 +1047,7 @@ namespace zSpace
 				T fVal;
 
 				vector<int> containedNeighbours;
-				getNeighbourContained(samplePos, containedNeighbours);
+				getNeighbour_Contained(samplePos, containedNeighbours);
 
 				vector<zVector> positions;
 				for (int i = 0; i < containedNeighbours.size(); i++)
@@ -946,6 +1089,19 @@ namespace zSpace
 			fieldValues = fieldObj->field.fieldValues;
 		}
 
+		/*! \brief This method gets pointer to the internal field values container.
+		*
+		*	\return				T*					- pointer to internal field value container.
+		*	\since version 0.0.2
+		*/
+		T* getRawFieldValues()
+		{
+			if (numFieldValues() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &fieldObj->field.fieldValues[0];
+		}
+			
+		
 		/*! \brief This method gets the gradient of the field at the input sample position.
 		*
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
@@ -1020,6 +1176,16 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
+		/*! \brief This method sets the field color domain.
+		*
+		*	\param		[in]	colDomain		- input color domain.
+		*	\since version 0.0.2
+		*/
+		void setFieldColorDomain(zDomainColor &colDomain)
+		{
+			fieldColorDomain = colDomain;
+		}
+
 		/*! \brief This method sets the bounds of the field.
 		*
 		*	\param		[in]	_minBB		- minimum bounds of the field.
@@ -1048,17 +1214,11 @@ namespace zSpace
 
 		/*! \brief This method sets the values of the field to the input container values.
 		*
-		*	\param		[in]	fValue		- input container of field value.
+		*	\param		[in]	fValues		- input container of field value.
 		*	\since version 0.0.2
 		*/
-		void setFieldValues(vector<T> fValues)
-		{
-			if (fValues.size() != numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
-			
-			fieldObj->field.fieldValues.clear();
-			fieldObj->field.fieldValues = fValues;
-			
-		}
+		void setFieldValues(vector<T>& fValues);
+		
 
 		
 				
@@ -1069,16 +1229,21 @@ namespace zSpace
 		/*! \brief This method computes the field values as inverse weighted distance from the input mesh vertex positions.
 		*
 		*	\param	[out]	fieldValues			- container for storing field values.
-		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
+		*	\param	[in]	inMeshObj			- input mesh object for distance calculations.
 		*	\param	[in]	meshValue			- value to be propagated for the mesh.
 		*	\param	[in]	influences			- influence value of the graph.		
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnMesh &inFnMesh, T meshValue, double influence, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjMesh &inMeshObj, T meshValue, double influence, double power = 2.0, bool normalise = true)
 		{
-			vector<double> out;
+			fieldValues.clear();
+			zFnMesh inFnMesh(inMeshObj);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = inFnMesh.getRawVertexPositions();
+
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
@@ -1088,7 +1253,7 @@ namespace zSpace
 
 				for (int j = 0; j < inFnMesh.numVertices(); j++)
 				{
-					double r = fnMesh.getVertexPosition(i).distanceTo(inFnMesh.getVertexPosition(j));
+					double r = meshPositions[i].distanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -1105,31 +1270,34 @@ namespace zSpace
 
 				(wSum > 0) ? d /= wSum : d = T();
 
-				out.push_back(d);
+				fieldValues.push_back(d);
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(fieldValues);
 			}
-
-
-			fieldValues = out;
+					   			
 		}
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input graph vertex positions.
 		*
 		*	\param	[out]	fieldValues			- container for storing field values.
-		*	\param	[in]	inFngraph			- input grahh function set for distance calculations.
+		*	\param	[in]	inGraphObj			- input graph object set for distance calculations.
 		*	\param	[in]	graphValue			- value to be propagated for the graph.
 		*	\param	[in]	influences			- influence value of the graph.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnGraph &inFngraph, T graphValue, double influence,  double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjGraph &inGraphObj, T graphValue, double influence,  double power = 2.0, bool normalise = true)
 		{
-			vector<double> out;
+			fieldValues.clear();
+			
+			zFnGraph inFngraph(inGraphObj);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = inFngraph.getRawVertexPositions();
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
@@ -1139,7 +1307,7 @@ namespace zSpace
 
 				for (int j = 0; j < inFngraph.numVertices(); j++)
 				{
-					double r = fnMesh.getVertexPosition(i).distanceTo(inFngraph.getVertexPosition(j));
+					double r = meshPositions[i].distanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -1156,35 +1324,37 @@ namespace zSpace
 
 				(wSum > 0) ? d /= wSum : d = T();
 
-				out.push_back(d);
+				fieldValues.push_back(d);
 
 
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(fieldValues);
 			}
 
-			fieldValues = out;
+			
 		}
-
+	
 		/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
 		*
 		*	\param	[out]	fieldValues			- container for storing field values.
-		*	\param	[in]	inPositions			- container of input positions for distance calculations.
-		*	\param	[in]	values				- value to be propagated for each input position. Size of container should be equal to inPositions.
-		*	\param	[in]	influences			- influence value of each input position. Size of container should be equal to inPositions.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
+		*	\param	[in]	value				- value to be propagated for each input position.
+		*	\param	[in]	influence			- influence value of each input position.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, vector<zVector> &inPositions, vector<T> &values, vector<double>& influences,  double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjPointCloud &inPointsObj, T value, double influence, double power = 2.0, bool normalise = true)
 		{
-			if (inPositions.size() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
-			if (inPositions.size() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
 
-			vector<T> out;
+			fieldValues.clear();
+			zFnPointCloud fnPoints(inPointsObj);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = fnPoints.getRawVertexPositions();
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
@@ -1192,11 +1362,61 @@ namespace zSpace
 				double wSum = 0.0;
 				double tempDist = 10000;
 
-
-
-				for (int j = 0; j < inPositions.size(); j++)
+				for (int j = 0; j < fnPoints.numVertices(); j++)
 				{
-					double r = fnMesh.getVertexPosition(i).distanceTo(inPositions[j]);
+					double r = meshPositions[i].distanceTo(inPositions[j]);
+
+					double w = pow(r, power);
+					wSum += w;
+
+					double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
+
+					d += (value * val);
+				}
+
+
+				(wSum > 0) ? d /= wSum : d = T();
+
+				fieldValues.push_back(d);
+			}
+
+			if (normalise)	normliseValues(fieldValues);
+
+
+
+		}
+
+
+		/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
+		*
+		*	\param	[out]	fieldValues			- container for storing field values.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
+		*	\param	[in]	values				- value to be propagated for each input position. Size of container should be equal to inPositions.
+		*	\param	[in]	influences			- influence value of each input position. Size of container should be equal to inPositions.
+		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
+		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjPointCloud &inPointsObj, vector<T> &values, vector<double>& influences, double power = 2.0, bool normalise = true)
+		{
+			fieldValues.clear();
+			zFnPointCloud fnPoints(inPointsObj);
+
+			if (fnPoints.numPoints() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
+			if (fnPoints.numPoints() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = fnPoints.getRawVertexPositions();
+
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				T d;
+				double wSum = 0.0;
+				double tempDist = 10000;
+
+				for (int j = 0; j < fnPoints.numVertices(); j++)
+				{
+					double r = meshPositions[i].distanceTo(inPositions[j]);
 
 					double w = pow(r, power);
 					wSum += w;
@@ -1209,45 +1429,52 @@ namespace zSpace
 
 				(wSum > 0) ? d /= wSum : d = T();
 
-				out.push_back(d);
+				fieldValues.push_back(d);
 			}
 
-			if (normalise)	normliseValues(out);
+			if (normalise)	normliseValues(fieldValues);
 
 
-			fieldValues = out;
+
 		}
-				
+
 
 		//--------------------------
 		//----  2D SCALAR FIELD METHODS
 		//--------------------------
 
-		/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
+		/*! \brief This method creates a vertex distance Field from the input  point cloud.
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
-		*	\param	[in]	points				- container of positions.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<double> &scalars, vector<zVector> &points,  bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjPointCloud &inPointsObj,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();;
+
+			zFnPointCloud fnPoints(inPointsObj);
 
 			vector<double> distVals;
 			double dMin = 100000;
 			double dMax = 0;;
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = fnPoints.getRawVertexPositions();
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
 				distVals.push_back(10000);
 			}
 
-			for (int i = 0; i < points.size(); i++)
+			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
-				for (int j = 0; j < fnMesh.numVertices(); j++)
+				for (int j = 0; j < fnPoints.numVertices(); j++)
 				{
-					double dist = fnMesh.getVertexPosition(j).distanceTo(points[i]);
+				
+
+					double dist = meshPositions[i].squareDistanceTo(inPositions[j]);
 
 					if (dist < distVals[j])
 					{
@@ -1265,40 +1492,44 @@ namespace zSpace
 			for (int j = 0; j < fnMesh.numVertices(); j++)
 			{
 				double val = coreUtils.ofMap(distVals[j], dMin, dMax, 0.0, 1.0);
-				out.push_back(val);				
+				scalars.push_back(val);
 			}
 					
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
 		}
 
-
-		/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
+		/*! \brief This method creates a vertex distance Field from the input point cloud.
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
-		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
 		*	\param	[in]	a					- input variable for distance function.
-		*	\param	[in]	b					- input variable for distance function.		
+		*	\param	[in]	b					- input variable for distance function.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b,  bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjPointCloud &inPointsObj, double a, double b, bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();;
+
+			zFnPointCloud fnPoints(inPointsObj);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = fnPoints.getRawVertexPositions();
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
 				double d = 0.0;
 				double tempDist = 10000;
 
-				for (int j = 0; j < inFnMesh.numVertices(); j++)
+				for (int j = 0; j < fnPoints.numVertices(); j++)
 				{
-					double r = fnMesh.getVertexPosition(i).distanceTo(inFnMesh.getVertexPosition(j));
+					double r = meshPositions[i].squareDistanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -1308,30 +1539,81 @@ namespace zSpace
 
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
+		}
+
+
+		/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
+		*
+		*	\param	[out]	scalars				- container for storing scalar values.
+		*	\param	[in]	inMeshObj			- input mesh object for distance calculations.
+		*	\param	[in]	a					- input variable for distance function.
+		*	\param	[in]	b					- input variable for distance function.		
+		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjMesh &inMeshObj, double a, double b,  bool normalise = true)
+		{
+			scalars.clear();
+
+			zFnMesh inFnMesh(inMeshObj);
+			
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = inFnMesh.getRawVertexPositions();
+
+
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				double d = 0.0;
+				double tempDist = 10000;
+
+				for (int j = 0; j < inFnMesh.numVertices(); j++)
+				{
+					double r = meshPositions[i].squareDistanceTo(inPositions[j]);
+
+					if (r < tempDist)
+					{
+						d = F_of_r(r, a, b);
+						tempDist = r;
+					}
+
+				}
+
+				scalars.push_back(d);
+			}
+
+			if (normalise)
+			{
+				normliseValues(scalars);
+			}
+
+		
 		}
 
 		/*! \brief This method creates a vertex distance Field from the input graph vertex positions.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
-		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
+		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b,  bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjGraph &inGraphObj, double a, double b,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+			zFnGraph inFnGraph(inGraphObj);
 
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = inFnGraph.getRawVertexPositions();
 
 			// update values from meta balls
 
@@ -1342,7 +1624,7 @@ namespace zSpace
 
 				for (int j = 0; j < inFnGraph.numVertices(); j++)
 				{
-					double r = fnMesh.getVertexPosition(i).distanceTo(inFnGraph.getVertexPosition(j));
+					double r = meshPositions[i].squareDistanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -1353,30 +1635,33 @@ namespace zSpace
 
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
-
-			scalars = out;
+		
 		}
 
 
 		/*! \brief This method creates a edge distance Field from the input mesh.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
-		*	\param	[in]	inFnMesh		- input mesh function set for distance calculations.
+		*	\param	[in]	inMeshObj		- input mesh object for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b,  bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zObjMesh &inMeshObj, double a, double b,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+			zFnMesh inFnMesh(inMeshObj);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = inFnMesh.getRawVertexPositions();
 
 			// update values from edge distance
 			for (int i = 0; i < fnMesh.numVertices(); i++)
@@ -1392,7 +1677,7 @@ namespace zSpace
 
 					zVector closestPt;
 
-					double r = coreUtils.minDist_Edge_Point(fnMesh.getVertexPosition(i), inFnMesh.getVertexPosition(e0), inFnMesh.getVertexPosition(e1), closestPt);
+					double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], closestPt);
 
 
 					if (r < tempDist)
@@ -1404,31 +1689,35 @@ namespace zSpace
 					}
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
 		}
 
 
 		/*! \brief This method creates a edge distance Field from the input graph.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
-		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
+		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b,  bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zObjGraph &inGraphObj, double a, double b,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+			zFnGraph inFnGraph(inGraphObj);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+			zVector *inPositions = inFnGraph.getRawVertexPositions();
 
 			// update values from edge distance
 			for (int i = 0; i < fnMesh.numVertices(); i++)
@@ -1444,7 +1733,7 @@ namespace zSpace
 					
 					zVector closestPt;
 					
-					double r = coreUtils.minDist_Edge_Point(fnMesh.getVertexPosition(i), inFnGraph.getVertexPosition(e0), inFnGraph.getVertexPosition(e1), closestPt);
+					double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], inFnGraph.getVertexPosition(e1), closestPt);
 
 
 					if (r < tempDist)
@@ -1456,16 +1745,16 @@ namespace zSpace
 					}
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
 		}
 				
 
@@ -1548,15 +1837,14 @@ namespace zSpace
 
 		/*! \brief This method computes the min and max scalar values at the given Scalars buffer.
 		*
-		*	\param	[out]	dMin		- stores the minimum scalar value
-		*	\param	[out]	dMax		- stores the maximum scalar value
-		*	\param	[in]	buffer		- buffer of scalars.
+		*	\param	[in]	values		- container of values
+		*	\param	[out]	domain		- stores the domain of values
 		*	\since version 0.0.2
 		*/
-		void computeMinMaxOfScalars(vector<T> &values, T &dMin, T &dMax)
+		void computeDomain(vector<T> &values, zDomain <T> &domain)
 		{
-			dMin = coreUtils.zMin(values);
-			dMax = coreUtils.zMax(values);
+			domain.min = coreUtils.zMin(values);
+			domain.max = coreUtils.zMax(values);
 		}
 
 		/*! \brief This method normalises the field values.
@@ -1572,63 +1860,8 @@ namespace zSpace
 		*	\param		[in]	type				- smooth type - zlaplacian / zAverage.
 		*	\since version 0.0.2
 		*/
-		void smoothField(int numSmooth, double diffuseDamp = 1.0, zDiffusionType type = zAverage)
-		{
-			for (int k = 0; k < numSmooth; k++)
-			{
-				vector<T> tempValues;
-
-				for (int i = 0; i < numFieldValues(); i++)
-				{
-					T lapA = 0;
-
-					vector<int> ringNeigbours;
-					getNeighbourhoodRing(i, 1, ringNeigbours);
-
-					for (int j = 0; j < ringNeigbours.size(); j++)
-					{
-						int id = ringNeigbours[j];
-						T val;
-						getFieldValue(id, val);
-
-						if (type == zLaplacian)
-						{
-							if (id != i) lapA += (val * 1);
-							else lapA += (val * -8);
-						}
-						else if (type == zAverage)
-						{
-							lapA += (val * 1);
-						}
-					}
-
-				
-
-					if (type == zLaplacian)
-					{
-						T val1;
-						getFieldValue(i, val1);
-
-						double newA = val1 + (lapA * diffuseDamp);
-						tempValues.push_back(newA);
-					}
-					else if (type == zAverage)
-					{
-						if (lapA != 0) lapA /= (ringNeigbours.size());
-					
-						tempValues.push_back(lapA);
-					}
-
-				}
-
-				for (int i = 0; i < numFieldValues(); i++)
-				{	
-					setFieldValue(tempValues[i], i);
-				}
-
-			}
-
-		}
+		void smoothField(int numSmooth, double diffuseDamp = 1.0, zDiffusionType type = zAverage);
+		
 	
 
 		/*! \brief This method computes the field index of each input position and stores them in a container per field index.
@@ -1823,232 +2056,14 @@ namespace zSpace
 		//--------------------------
 		//----  UPDATE METHODS
 		//--------------------------
-				
-
-		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
-		*
-		*	\param	[in]	scalars		- container of  scalar values.
-		*	\since version 0.0.2
-		*/
-		void updateFieldValues(vector<T>& values)
-		{
-			if (setValuesperVertex)
-			{
-				if (fnMesh.numPolygons() == values.size())
-				{
-					for (int i = 0; i < fnMesh.numVertices(); i++)
-					{
-						vector<int> cFaces;
-						fnMesh.getConnectedFaces(i, zVertexData, cFaces);
-						T val;
-
-						for (int j = 0; j < cFaces.size(); j++)
-						{
-							val += values[cFaces[j]];
-						}
-
-						val /= cFaces.size();
-
-						setFieldValue(val, i);
-					}
-
-				}
-				else if (fnMesh.numVertices() == values.size())
-				{
-					for (int i = 0; i < fnMesh.numVertices(); i++)
-					{
-						setFieldValue(values[i], i);
-					}
-
-				}
-
-				else throw std::invalid_argument("input values size not equal to number of vertices/ polygons of field mesh.");
-			}
-
-			else
-			{
-				if (fnMesh.numVertices() == values.size())
-				{
-					for (int i = 0; i < fnMesh.numPolygons(); i++)
-					{
-						vector<int> fVerts;
-						fnMesh.getVertices(i, zFaceData, fVerts);
-						T val;
-
-						for (int j = 0; j < fVerts.size(); j++)
-						{
-							val += values[fVerts[j]];
-						}
-
-						val /= fVerts.size();
-
-						setFieldValue(val, i);
-					}
-
-				}
-				else if (fnMesh.numPolygons() == values.size())
-				{
-					for (int i = 0; i < fnMesh.numPolygons(); i++)
-					{
-						setFieldValue(values[i], i);
-					}
-
-				}
-
-				else throw std::invalid_argument("input values size not equal to number of vertices/ polygons of field mesh.");
-			}
-			
-			
-
-		}
 
 		/*! \brief This method updates the color values of the field mesh based on the field values. Gradient - Black to Red
 		*
 		*	\warning works only for scalar fields.
 		*	\since version 0.0.2
 		*/
-		void updateColors();
+		void updateColors();	
 
-		/*! \brief This method updates the color values of the field mesh based on the scalar values. Gradient - Black to Red
-		*
-		*	\param	[in]	scalars		- container of  scalar values. If the container is empty the color is updated based on field values.
-		*	\since version 0.0.2
-		*/
-		void updateColors(vector<double>& scalars )
-		{
-			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size() )
-			{
-					double dMax, dMin;
-				computeMinMaxOfScalars(scalars, dMin, dMax);
-
-				for (int i = 0; i < scalars.size(); i++)
-				{
-					zColor col;
-
-					double val = coreUtils.ofMap(scalars[i], dMin, dMax, 0.0, 1.0);
-
-					col.r = val; col.g = val; col.b = val;
-					if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(i, col);
-					else fnMesh.setFaceColor(i, col);
-				}
-
-				if (fnMesh.numPolygons() == scalars.size()) fnMesh.computeVertexColorfromFaceColor();
-
-				if (fnMesh.numVertices() == scalars.size()) fnMesh.computeFaceColorfromVertexColor();
-			}			
-			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
-
-		}
-
-
-		/*! \brief This method updates the color values of the field mesh based on the field values. 
-		*
-		*	\warning works only for scalar fields.
-		*	\since version 0.0.2
-		*/
-		void updateColors_Blend(zColor &col1, zColor &col2);
-
-		/*! \brief This method updates the color values of the field mesh based on the scalar values.
-		*
-		*	\param	[in]	scalars		- container of  scalar values. If the container is empty the color is updated based on field values.
-		*	\param	[in]	col1		- blend color 1.
-		*	\param	[in]	col2		- blend color 2.
-		*	\since version 0.0.2
-		*/
-		void updateColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2)
-		{
-			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
-			{				
-				double dMax, dMin;
-				computeMinMaxOfScalars(scalars, dMin, dMax);
-
-				for (int i = 0; i < scalars.size(); i++)
-				{
-					zColor col;
-
-					//convert to HSV
-					col1.toHSV(); col2.toHSV();
-
-					col.h = coreUtils.ofMap(scalars[i], dMin, dMax, col1.h, col2.h);
-					col.s = coreUtils.ofMap(scalars[i], dMin, dMax, col1.s, col2.s);
-					col.v = coreUtils.ofMap(scalars[i], dMin, dMax, col1.v, col2.v);
-
-					col.toRGB();
-
-					if (fnMesh.numVertices() == scalars.size())
-					{
-						fnMesh.setVertexColor(i, col);	
-					}
-
-					else fnMesh.setFaceColor(i, col);
-				}
-
-				if (fnMesh.numPolygons() == scalars.size())
-				{
-					fnMesh.computeVertexColorfromFaceColor();
-				}
-
-				if(fnMesh.numVertices() == scalars.size()) fnMesh.computeFaceColorfromVertexColor();
-
-			}
-
-			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
-		}
-
-		/*! \brief This method updates the color values of the field mesh based on the field values.
-		*
-		*	\warning works only for scalar fields.
-		*	\since version 0.0.2
-		*/
-		void updateColors_Blend(zColor &col1, zColor &col2, double dMin, double dMax);
-
-		/*! \brief This method updates the color values of the field mesh based on the scalar values given an input domain
-		*
-		*	\param	[in]	scalars		- container of  scalar values. If the container is empty the color is updated based on field values.
-		*	\param	[in]	col1		- blend color 1.
-		*	\param	[in]	col2		- blend color 2.
-		*	\param	[in]	dMin		- domain minimum value.
-		*	\param	[in]	dMin		- domain maximum value.
-		*	\since version 0.0.2
-		*/
-		void updateColors_Blend( vector<double>& scalars, zColor &col1, zColor &col2, double dMin, double dMax)
-		{
-			if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size() )
-			{
-								
-				//convert to HSV
-				col1.toHSV(); col2.toHSV();
-
-				for (int i = 0; i < scalars.size(); i++)
-				{
-					zColor col;
-
-
-					if (scalars[i] < dMin) col = col1;
-					else if (scalars[i] > dMax) col = col2;
-					else
-					{
-						col.h = coreUtils.ofMap(scalars[i], dMin, dMax, col1.h, col2.h);
-						col.s = coreUtils.ofMap(scalars[i], dMin, dMax, col1.s, col2.s);
-						col.v = coreUtils.ofMap(scalars[i], dMin, dMax, col1.v, col2.v);
-
-						col.toRGB();
-					}
-
-					if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(i, col);
-					else fnMesh.setFaceColor(i, col);
-				}
-
-				if (fnMesh.numPolygons() == scalars.size()) fnMesh.computeVertexColorfromFaceColor();
-
-				if (fnMesh.numVertices() == scalars.size()) fnMesh.computeFaceColorfromVertexColor();
-
-			}
-
-			else throw std::invalid_argument("input scalars size not equal to number of vertices/ polygons.");
-		}
-
-		
 
 		//--------------------------
 		//---- CONTOUR METHODS
@@ -2058,23 +2073,19 @@ namespace zSpace
 		/*! \brief This method creates a isocontour graph from the input field mesh at the given field threshold.
 		*
 		*	\param	[out]	coutourGraphObj	- isoline graph.
-		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	inThreshold		- field threshold.
 		*	\return			zGraph			- contour graph.
 		*	\since version 0.0.2
 		*/
-		void getIsocontour(zObjGraph &coutourGraphObj, double threshold = 0.5)
+		void getIsocontour(zObjGraph &coutourGraphObj, double inThreshold = 0.5)
 		{
-			vector<double> scalarsValues;
+			
+			double threshold = coreUtils.ofMap(inThreshold, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
 
 			vector<zVector> pos;
 			vector<int> edgeConnects;
 
 			vector<int> edgetoIsoGraphVertexId;
-
-			for (int i = 0; i < fnMesh.numVertices(); i++)
-			{
-				scalarsValues.push_back(fnMesh.getVertexColor(i).r);
-			}
 
 			// compute positions
 			for (int i = 0; i < fnMesh.numEdges(); i += 2)
@@ -2088,8 +2099,8 @@ namespace zSpace
 						
 					
 
-				double scalar_lower = (scalarsValues[eV0] <= scalarsValues[eV1]) ? scalarsValues[eV0] : scalarsValues[eV1];
-				double scalar_higher = (scalarsValues[eV0] <= scalarsValues[eV1]) ? scalarsValues[eV1] : scalarsValues[eV0];;
+				double scalar_lower = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV0] : contourVertexValues[eV1];
+				double scalar_higher = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV1] : contourVertexValues[eV0];;
 
 				bool chkSplitEdge = (scalar_lower <= threshold && scalar_higher > threshold) ? true : false;
 
@@ -2097,8 +2108,8 @@ namespace zSpace
 				{
 					// calculate split point
 
-					int scalar_lower_vertId = (scalarsValues[eV0] <= scalarsValues[eV1]) ? eV0 : eV1;
-					int scalar_higher_vertId = (scalarsValues[eV0] <= scalarsValues[eV1]) ? eV1 : eV0;
+					int scalar_lower_vertId = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? eV0 : eV1;
+					int scalar_higher_vertId = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? eV1 : eV0;
 
 					zVector scalar_lower_vertPos = fnMesh.getVertexPosition(scalar_lower_vertId);
 					zVector scalar_higher_vertPos = fnMesh.getVertexPosition(scalar_higher_vertId);
@@ -2156,12 +2167,12 @@ namespace zSpace
 		*
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
 		*	\param	[out]	coutourMeshObj	- isoline mesh.
-		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	inThreshold		- field threshold.
 		*	\param	[in]	invertMesh		- true if inverted mesh is required.
 		*	\return			zMesh			- isoline mesh.
 		*	\since version 0.0.2
 		*/
-		void getIsolineMesh(zObjMesh &coutourMeshObj, double threshold = 0.5, bool invertMesh = false)
+		void getIsolineMesh(zObjMesh &coutourMeshObj, double inThreshold = 0.5, bool invertMesh = false)
 		{
 			zFnMesh tempFn(coutourMeshObj);
 			tempFn.clear(); // clear memory if the mobject exists.
@@ -2172,6 +2183,7 @@ namespace zSpace
 
 			unordered_map <string, int> positionVertex;
 
+			double threshold = coreUtils.ofMap(inThreshold, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
 
 
 			for (int i = 0; i < fnMesh.numPolygons(); i++)
@@ -2188,12 +2200,12 @@ namespace zSpace
 		*
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
 		*	\param	[out]	coutourMeshObj	- isoband mesh.
-		*	\param	[in]	thresholdLow	- field threshold domain minimum.
-		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
+		*	\param	[in]	inThresholdLow	- field threshold domain minimum.
+		*	\param	[in]	inThresholdHigh	- field threshold domain maximum.
 		*	\param	[in]	invertMesh		- true if inverted mesh is required.		
 		*	\since version 0.0.2
 		*/
-		void getIsobandMesh(zObjMesh &coutourMeshObj,double thresholdLow = 0.2, double thresholdHigh = 0.5, bool invertMesh = false)
+		void getIsobandMesh(zObjMesh &coutourMeshObj,double inThresholdLow = 0.2, double inThresholdHigh = 0.5, bool invertMesh = false)
 		{
 			zFnMesh tempFn(coutourMeshObj);
 			tempFn.clear(); // clear memory if the mobject exists.
@@ -2204,6 +2216,8 @@ namespace zSpace
 
 			unordered_map <string, int> positionVertex;
 
+			double thresholdLow = coreUtils.ofMap(inThresholdLow, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
+			double thresholdHigh = coreUtils.ofMap(inThresholdHigh, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
 
 			if (invertMesh)
 			{
@@ -2477,14 +2491,14 @@ namespace zSpace
 			double averageScalar = 0;
 
 			for (int j = 0; j < fVerts.size(); j++)
-			{
-				if (fnMesh.getVertexColor(fVerts[j]).r < threshold)
+			{				
+				if (contourVertexValues[fVerts[j]] < threshold)
 				{
 					vertexBinary[j] = (invertMesh) ? false : true;
 				}
 				else vertexBinary[j] = (invertMesh) ? true : false;
 
-				averageScalar += fnMesh.getVertexColor(fVerts[j]).r;
+				averageScalar += contourVertexValues[fVerts[j]];
 			}
 
 			averageScalar /= fVerts.size();
@@ -3001,7 +3015,7 @@ namespace zSpace
 					zVector p0 = newPositions[i];
 					int v0;
 
-					bool vExists = vertexExists(positionVertex, p0, v0);
+					bool vExists = coreUtils.vertexExists(positionVertex, p0,3, v0);
 
 					if (!vExists)
 					{
@@ -3047,7 +3061,7 @@ namespace zSpace
 					zVector p0 = newPositions2[i];
 					int v0;
 
-					bool vExists = vertexExists(positionVertex, p0, v0);
+					bool vExists = coreUtils.vertexExists(positionVertex, p0,3, v0);
 
 					if (!vExists)
 					{
@@ -3094,18 +3108,18 @@ namespace zSpace
 
 			for (int j = 0; j < fVerts.size(); j++)
 			{
-				if (fnMesh.getVertexColor(fVerts[j]).r <= thresholdLow)
+				if (contourVertexValues[fVerts[j]] <= thresholdLow)
 				{
 					vertexTernary[j] = 0;
 				}
 
-				else if (fnMesh.getVertexColor(fVerts[j]).r >= thresholdHigh)
+				else if (contourVertexValues[fVerts[j]] >= thresholdHigh)
 				{
 					vertexTernary[j] = 2;
 				}
 				else vertexTernary[j] = 1;
 
-				averageScalar += fnMesh.getVertexColor(fVerts[j]).r;
+				averageScalar += contourVertexValues[fVerts[j]];
 			}
 
 			averageScalar /= fVerts.size();
@@ -3946,34 +3960,139 @@ namespace zSpace
 	template<>
 	inline void zFnMeshField<double>::updateColors()
 	{
+		
 		vector<double> scalars;
 		getFieldValues(scalars);
 
-		updateColors(scalars);
+		if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
+		{
+			
+			computeDomain(scalars, contourValueDomain);
+
+			
+
+			//convert to HSV
+			fieldColorDomain.min.toHSV(); fieldColorDomain.max.toHSV();
+
+			for (int i = 0; i < scalars.size(); i++)
+			{
+				zColor col;
+
+
+				if (scalars[i] < contourValueDomain.min) col = fieldColorDomain.min;
+				else if (scalars[i] > contourValueDomain.max) col = fieldColorDomain.max;
+				else
+				{
+					col = coreUtils.blendColor(scalars[i], contourValueDomain, fieldColorDomain,  zHSV);
+					
+				}
+
+				if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(i, col);
+				else fnMesh.setFaceColor(i, col);
+			}
+
+			if (fnMesh.numPolygons() == scalars.size())
+			{
+				contourVertexValues.clear();
+
+				fnMesh.computeVertexColorfromFaceColor();
+
+				for (int i = 0; i < fnMesh.numVertices(); i++)
+				{
+					vector<int> cFaces;
+					fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+
+					double val; 
+
+					for (int j = 0; j < cFaces.size(); j++)
+					{
+						val += scalars[cFaces[j]];					
+					}
+
+					val /= cFaces.size();
+
+					contourVertexValues.push_back(val);					
+				}
+
+				computeDomain(contourVertexValues, contourValueDomain);
+
+			}
+
+			if (fnMesh.numVertices() == scalars.size())
+			{
+				contourVertexValues = scalars;
+
+				fnMesh.computeFaceColorfromVertexColor();
+			}
+
+		}
+
 	}
 
-	//---------------//
+	//---------------//	
 
-	//---- double specilization for updateColors_Blend
+
+	//---- double specilization for smoothField
 	template<>
-	inline void zFnMeshField<double>::updateColors_Blend(zColor &col1, zColor &col2)
+	inline void zFnMeshField<double>::smoothField(int numSmooth, double diffuseDamp, zDiffusionType type)
 	{
-		vector<double> scalars;
-		getFieldValues(scalars);
+		for (int k = 0; k < numSmooth; k++)
+		{
+			vector<double> tempValues;
 
-		updateColors_Blend(scalars, col1, col2);
+			for (int i = 0; i < numFieldValues(); i++)
+			{
+				double lapA = 0;
+
+				vector<int> ringNeigbours;
+				getNeighbour_Ring(i, 1, ringNeigbours);
+
+				for (int j = 0; j < ringNeigbours.size(); j++)
+				{
+					int id = ringNeigbours[j];
+					double val;
+					getFieldValue(id, val);
+
+					if (type == zLaplacian)
+					{
+						if (id != i) lapA += (val * 1);
+						else lapA += (val * -8);
+					}
+					else if (type == zAverage)
+					{
+						lapA += (val * 1);
+					}
+				}
+
+
+
+				if (type == zLaplacian)
+				{
+					double val1;
+					getFieldValue(i, val1);
+
+					double newA = val1 + (lapA * diffuseDamp);
+					tempValues.push_back(newA);
+				}
+				else if (type == zAverage)
+				{
+					if (lapA != 0) lapA /= (ringNeigbours.size());
+
+					tempValues.push_back(lapA);
+				}
+
+			}
+
+			for (int i = 0; i < numFieldValues(); i++)
+			{
+				setFieldValue(tempValues[i], i);
+			}
+
+		}
+
+		updateColors();
+
 	}
-
-	//---- double specilization for updateColors_Blend
-	template<>
-	inline void zFnMeshField<double>::updateColors_Blend(zColor &col1, zColor &col2, double dMin, double dMax)
-	{
-		vector<double> scalars;
-		getFieldValues(scalars);
-
-		updateColors_Blend(scalars, col1, col2, dMin,dMax);
-	}
-	
 
 	//---------------//
 
@@ -3983,20 +4102,21 @@ namespace zSpace
 	{
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i].normalize();
 	}
-	   
+
 
 	//---- double specilization for normliseFieldValues
 	template<>
 	inline void zFnMeshField<double>::normliseValues(vector<double> &fieldValues)
 	{
-		double dMin, dMax;
-		computeMinMaxOfScalars(fieldValues, dMin, dMax);
+		zDomainDouble d;
+		computeDomain(fieldValues, d);
 
-		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = dMax - fieldValues[i];
+		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = d.max - fieldValues[i];
 
-		computeMinMaxOfScalars(fieldValues,dMin, dMax);
+		computeDomain(fieldValues, d);
 
-		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = coreUtils.ofMap(fieldValues[i], dMin, dMax, -1.0, 1.0);
+		zDomainDouble out(-1.0,1.0);
+		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = coreUtils.ofMap(fieldValues[i], d, out);
 	}
 
 	//---------------//
@@ -4015,7 +4135,7 @@ namespace zSpace
 		if (resX == 0 || resY == 0) return;
 
 		
-		create(1, 1, resX, resY,zVector(),1,setValuesperVertex);
+		if (numFieldValues() != resX * resY) create(1, 1, resX, resY,zVector(),1,setValuesperVertex);
 		
 
 		for (uint32_t x = 0; x < resX; ++x)
@@ -4023,69 +4143,18 @@ namespace zSpace
 			for (uint32_t y = 0; y < resY; ++y)
 			{
 
-				if (setValuesperVertex)
-				{
-					int vertexId;
-					getIndex(x, y, vertexId);
-
-					//printf("\n %i %i %i ", x, y, faceId);
-
-					// blue
-					double b = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] / 255;
-
-					// green
-					double g = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] / 255;
-
-					// red
-					double r = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] / 255;
-
-					fnMesh.setVertexColor(vertexId, zColor(r, g, b, 1));
-
-					// alpha
-					if (channels == 4)
-					{
-						double a = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] / 255;
-
-						fnMesh.setVertexColor(vertexId, zColor(r, g, b, a));
-					}
-
-					setFieldValue(r, vertexId);
-				}
-				else
-				{
-					int faceId;
-					getIndex(x, y, faceId);
-
-					//printf("\n %i %i %i ", x, y, faceId);
-
-					// blue
-					double b = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] / 255;
-
-					// green
-					double g = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] / 255;
-
-					// red
-					double r = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] / 255;
-
-					fnMesh.setFaceColor(faceId, zColor(r, g, b, 1));
-
-					// alpha
-					if (channels == 4)
-					{
-						double a = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] / 255;
-
-						fnMesh.setFaceColor(faceId, zColor(r, g, b, a));
-					}
-
-					setFieldValue(r, faceId);
-				}
+				double r = (double)bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] / 255;
 				
+				int id;
+				getIndex(x, y, id);
+				
+				setFieldValue(r, id);
 
 			}
 		}
 		
-		if (setValuesperVertex)fnMesh.computeFaceColorfromVertexColor();
-		else fnMesh.computeVertexColorfromFaceColor();
+		updateColors();
+	
 
 	}
 
@@ -4093,8 +4162,10 @@ namespace zSpace
 
 	//---- zVector specilization for createVectorFieldFromScalarField
 	template<>
-	inline void zFnMeshField<zVector>::createVectorFromScalarField(zFnMeshField<double> &fnScalarField)
+	inline void zFnMeshField<zVector>::createVectorFromScalarField(zObjMeshField<double> &scalarFieldObj)
 	{
+		zFnMeshField<double> fnScalarField(scalarFieldObj);
+		
 		zVector minBB, maxBB; 
 		fnScalarField.getBoundingBox(minBB, maxBB);
 
@@ -4105,6 +4176,157 @@ namespace zSpace
 		
 		create(minBB, maxBB, n_X, n_Y);
 		setFieldValues(gradients);
+	}
+
+	//---------------//
+	
+	//---- double specilization for setFieldValues
+	template<>
+	inline void zFnMeshField<double>::setFieldValues(vector<double> &fValues)
+	{
+		if (setValuesperVertex)
+		{
+			if (fnMesh.numPolygons() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numVertices(); i++)
+				{
+					vector<int> cFaces;
+					fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+					double val;
+
+					for (int j = 0; j < cFaces.size(); j++)
+					{
+						val += fValues[cFaces[j]];
+					}
+
+					val /= cFaces.size();
+
+					setFieldValue(val, i);
+				}
+
+			}
+			else if (fnMesh.numVertices() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numVertices(); i++)
+				{
+					setFieldValue(fValues[i], i);
+				}
+
+			}
+
+			else throw std::invalid_argument("input fValues size not equal to number of vertices/ polygons of field mesh.");
+		}
+
+		else
+		{
+			if (fnMesh.numVertices() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				{
+					vector<int> fVerts;
+					fnMesh.getVertices(i, zFaceData, fVerts);
+					double val;
+
+					for (int j = 0; j < fVerts.size(); j++)
+					{
+						val += fValues[fVerts[j]];
+					}
+
+					val /= fVerts.size();
+
+					setFieldValue(val, i);
+				}
+
+			}
+			else if (fnMesh.numPolygons() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				{
+					setFieldValue(fValues[i], i);
+				}
+
+			}
+
+			else throw std::invalid_argument("input fValues size not equal to number of vertices/ polygons of field mesh.");
+		}
+
+
+		updateColors();
+	}
+
+
+	//---- zVector specilization for setFieldValues
+	template<>
+	inline void zFnMeshField<zVector>::setFieldValues(vector<zVector> &fValues)
+	{
+		if (setValuesperVertex)
+		{
+			if (fnMesh.numPolygons() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numVertices(); i++)
+				{
+					vector<int> cFaces;
+					fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+					zVector val;
+
+					for (int j = 0; j < cFaces.size(); j++)
+					{
+						val += fValues[cFaces[j]];
+					}
+
+					val /= cFaces.size();
+
+					setFieldValue(val, i);
+				}
+
+			}
+			else if (fnMesh.numVertices() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numVertices(); i++)
+				{
+					setFieldValue(fValues[i], i);
+				}
+
+			}
+
+			else throw std::invalid_argument("input fValues size not equal to number of vertices/ polygons of field mesh.");
+		}
+
+		else
+		{
+			if (fnMesh.numVertices() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				{
+					vector<int> fVerts;
+					fnMesh.getVertices(i, zFaceData, fVerts);
+					zVector val;
+
+					for (int j = 0; j < fVerts.size(); j++)
+					{
+						val += fValues[fVerts[j]];
+					}
+
+					val /= fVerts.size();
+
+					setFieldValue(val, i);
+				}
+
+			}
+			else if (fnMesh.numPolygons() == fValues.size())
+			{
+				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				{
+					setFieldValue(fValues[i], i);
+				}
+
+			}
+
+			else throw std::invalid_argument("input fValues size not equal to number of vertices/ polygons of field mesh.");
+		}
+
+
+		
 	}
 
 	//---------------//

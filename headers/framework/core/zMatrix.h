@@ -1077,7 +1077,6 @@ namespace zSpace
 	*
 	*	\since version 0.0.1
 	*/
-
 	typedef zMatrix<int> zMatrixi;
 	
 	
@@ -1086,15 +1085,13 @@ namespace zSpace
 	*
 	*	\since version 0.0.1
 	*/	
-	
 	typedef zMatrix<double> zMatrixd;
 	
 	/*! \typedef zMatrixf
 	*	\brief A matrix  of floats.
 	*
 	*	\since version 0.0.1
-	*/
-	
+	*/	
 	typedef zMatrix<float> zMatrixf;
 
 	/*! \typedef zTransform

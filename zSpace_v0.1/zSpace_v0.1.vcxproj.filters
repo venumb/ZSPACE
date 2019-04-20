@@ -251,5 +251,11 @@
     <ClInclude Include="..\headers\api\toolsets\zTsRobot.h">
       <Filter>Header Files\API\Toolsets\DigiFab</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\framework\core\zDomain.h">
+      <Filter>Header Files\FRAMEWORK\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\framework\utilities\zUtilsPointerMethods.h">
+      <Filter>Header Files\FRAMEWORK\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -46,7 +46,7 @@ namespace zSpace
 		*/
 		inline void fromCSV( string infilename)
 		{
-			pointsObj->pCloud.points.clear();
+			pointsObj->pCloud.vertexPositions.clear();
 
 			ifstream myfile;
 			myfile.open(infilename.c_str());
@@ -77,7 +77,7 @@ namespace zSpace
 							pos.y = atof(perlineData[2].c_str());
 							pos.z = atof(perlineData[3].c_str());
 
-							pointsObj->pCloud.points.push_back(pos);
+							pointsObj->pCloud.vertexPositions.push_back(pos);
 						}
 						//printf("\n working vertex");
 					}
@@ -90,7 +90,7 @@ namespace zSpace
 
 
 
-			printf("\n inPositions: %i ", pointsObj->pCloud.points.size());
+			printf("\n inPositions: %i ", pointsObj->pCloud.vertexPositions.size());
 
 
 		}
@@ -118,10 +118,10 @@ namespace zSpace
 			}
 
 			// vertex positions
-			for (int i = 0; i < pointsObj->pCloud.points.size(); i++)
+			for (int i = 0; i < pointsObj->pCloud.vertexPositions.size(); i++)
 			{
 
-				myfile << "\n v " << pointsObj->pCloud.points[i].x << " " << pointsObj->pCloud.points[i].y << " " << pointsObj->pCloud.points[i].z;
+				myfile << "\n v " << pointsObj->pCloud.vertexPositions[i].x << " " << pointsObj->pCloud.vertexPositions[i].y << " " << pointsObj->pCloud.vertexPositions[i].z;
 
 			}
 
@@ -171,11 +171,9 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 
-		void from(string path, zFileTpye type) override
+		void from(string path, zFileTpye type, bool staticGeom = false) override
 		{
 			if (type == zCSV) fromCSV(path);
-		
-
 		}
 
 		void to(string path, zFileTpye type) override
@@ -185,9 +183,9 @@ namespace zSpace
 
 		void clear() override
 		{
-			pointsObj->pCloud.points.clear();
-			pointsObj->pCloud.pointColors.clear();
-			pointsObj->pCloud.pointWeights.clear();
+			pointsObj->pCloud.vertexPositions.clear();
+			pointsObj->pCloud.vertexColors.clear();
+			pointsObj->pCloud.vertexWeights.clear();
 			
 		}
 
@@ -208,33 +206,50 @@ namespace zSpace
 
 		}
 
+		//--------------------------
+		//---- APPEND METHODS
+		//--------------------------
 
-		void addPoint(zVector &_position)
+		/*! \brief This method adds the input point to the point cloud.
+		*	\param		[in]	_position		- input position to be added.
+		*	\since version 0.0.2
+		*/
+		void addPosition(zVector &_position)
 		{
-			pointsObj->pCloud.points.push_back(_position);
+			pointsObj->pCloud.vertexPositions.push_back(_position);
 
-			pointsObj->pCloud.pointColors.push_back(zColor(1, 0, 0, 1));
-			pointsObj->pCloud.pointWeights.push_back(1.0);
+			pointsObj->pCloud.vertexColors.push_back(zColor(1, 0, 0, 1));
+			pointsObj->pCloud.vertexWeights.push_back(1.0);
 		}
 
 		
+		/*! \brief This method adds the input point container to the point cloud.
+		*	\param		[in]	_positions		- input container positions to be added.
+		*	\since version 0.0.2
+		*/
+		void addPositions(vector<zVector> &_positions)
+		{
+			for (int i = 0; i < _positions.size(); i++) addPosition(_positions[i]);
+		}
+
+		//--------------------------
+		//---- QUERY METHODS
+		//--------------------------
 
 		/*! \brief This method returns the number of points in the pointcloud.
 		*	\return				number of points.
 		*	\since version 0.0.2
 		*/
-		int numPoints()
+		int numVertices()
 		{
-			return  pointsObj->pCloud.points.size();
+			return  pointsObj->pCloud.vertexPositions.size();
 		}
 
 
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
-
 		
-
 		/*! \brief This method sets point color of the input point to the input color.
 		*
 		*	\param		[in]	index					- input point index.
@@ -243,7 +258,9 @@ namespace zSpace
 		*/
 		void setColor(int index, zColor col)
 		{
-			pointsObj->pCloud.pointColors[index] = col;
+			if (index > numVertices()) throw std::invalid_argument(" error: index out of bounds.");
+
+			pointsObj->pCloud.vertexColors[index] = col;
 		}
 
 		/*! \brief This method sets point color of all the point with the input color contatiner.
@@ -253,63 +270,120 @@ namespace zSpace
 		*/
 		void setColors(vector<zColor>& col)
 		{			
-			if (col.size() != pointsObj->pCloud.pointColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh vertices.");
+			if (col.size() != pointsObj->pCloud.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh vertices.");
 
-			for (int i = 0; i < pointsObj->pCloud.pointColors.size(); i++)
+			for (int i = 0; i < pointsObj->pCloud.vertexColors.size(); i++)
 			{
-				pointsObj->pCloud.pointColors[i] = col[i];
+				pointsObj->pCloud.vertexColors[i] = col[i];
 			}
 		}
-
-		
+				
 
 		//--------------------------
 		//--- GET METHODS 
 		//--------------------------
 
 		
-		/*! \brief This method gets point position at the input index.
+		/*! \brief This method gets vertex position at the input index.
 		*
-		*	\param		[in]	index					- input point index.	
+		*	\param		[in]	index					- input vertex index.
+		*	\return				zVector					- vertex position.
 		*	\since version 0.0.2
 		*/
-		zVector getPosition(int index)
+		zVector getVertexPosition(int index)
 		{
-			if (index > pointsObj->pCloud.points.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (index > numVertices()) throw std::invalid_argument(" error: index out of bounds.");			
 
-			return pointsObj->pCloud.points[index];
+			return pointsObj->pCloud.vertexPositions[index];
+
 		}
 
-		/*! \brief This method gets point positions of all the points in the point cloud.
+		/*! \brief This method gets pointer to the vertex position at the input index.
+		*
+		*	\param		[in]	index					- input vertex index.
+		*	\return				zVector*				- pointer to internal vertex position.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexPosition(int index)
+		{
+			if (index > numVertices()) throw std::invalid_argument(" error: index out of bounds.");
+		
+			return &pointsObj->pCloud.vertexPositions[index];
+
+		}
+
+		/*! \brief This method gets vertex positions of all the vertices.
 		*
 		*	\param		[out]	pos				- positions  contatiner.
 		*	\since version 0.0.2
 		*/
-		void getPositions(vector<zVector>& pos)
+		void getVertexPositions(vector<zVector>& pos)
 		{
-			pos =  pointsObj->pCloud.points;
+			pos = pointsObj->pCloud.vertexPositions;
 		}
 
-		/*! \brief This method gets point color at the input index.
+		/*! \brief This method gets pointer to the internal vertex positions container.
 		*
-		*	\param		[in]	index					- input point index.
+		*	\return				zVector*					- pointer to internal vertex position container.
 		*	\since version 0.0.2
 		*/
-		zColor getColor(int index)
+		zVector* getRawVertexPositions()
 		{
-			if (index > pointsObj->pCloud.points.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
 
-			return pointsObj->pCloud.pointColors[index];
+			return &pointsObj->pCloud.vertexPositions[0];
 		}
 
-		/*! \brief This method gets point colors of all the points in the point cloud.
+		/*! \brief This method gets vertex color at the input index.
 		*
-		*	\param		[out]	col				- colors  contatiner.
+		*	\param		[in]	index					- input vertex index.
+		*	\return				zColor					- vertex color.
 		*	\since version 0.0.2
 		*/
-		void getColors(vector<zColor>& col)
+		zColor getVertexColor(int index)
 		{
-			col = pointsObj->pCloud.pointColors;
+			if (index > numVertices()) throw std::invalid_argument(" error: index out of bounds.");
+			
+
+			return pointsObj->pCloud.vertexColors[index];
+
+		}
+
+		/*! \brief This method gets pointer to the vertex color at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zColor*				- pointer to internal vertex color.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawVertexColor(int index)
+		{
+			if (index > numVertices()) throw std::invalid_argument(" error: index out of bounds.");
+		
+
+			return &pointsObj->pCloud.vertexColors[index];
+
+		}
+
+		/*! \brief This method gets vertex color of all the vertices.
+		*
+		*	\param		[out]	col				- color  contatiner.
+		*	\since version 0.0.2
+		*/
+		void getVertexColors(vector<zColor>& col)
+		{
+			col = pointsObj->pCloud.vertexColors;
+		}
+
+		/*! \brief This method gets pointer to the internal vertex color container.
+		*
+		*	\return				zColor*					- pointer to internal vertex color container.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawVertexColors()
+		{
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &pointsObj->pCloud.vertexColors[0];
 		}
 
 

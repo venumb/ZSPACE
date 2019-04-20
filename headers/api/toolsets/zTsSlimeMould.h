@@ -788,16 +788,16 @@ namespace zSpace
 				int rnd = randomUnoccupiedCell();
 
 				zVector pos = environment.getPosition(rnd);
-				fnPositions.addPoint(pos);
+				fnPositions.addPosition(pos);
 				
 				environment.occupied[rnd] = true;
 			}		
 					   
 			agents.clear();
 
-			for (int i = 0; i < fnPositions.numPoints(); i++)
+			for (int i = 0; i < fnPositions.numVertices(); i++)
 			{
-				agents.push_back(zTsSlimeAgent(pointsObj->pCloud.points[i], _SO, _SA, _RA, _depT, _pCD, _sMin));
+				agents.push_back(zTsSlimeAgent(pointsObj->pCloud.vertexPositions[i], _SO, _SA, _RA, _depT, _pCD, _sMin));
 
 				double randX = coreUtils.randomNumber_double(-1, 1);
 				double randY = coreUtils.randomNumber_double(-1, 1);
@@ -966,7 +966,7 @@ namespace zSpace
 			if (id < environment.bAttractants.size()) {
 
 				vector<int> neighbourRing;
-				environment.getNeighbourhoodRing(id, nR, neighbourRing);
+				environment.getNeighbour_Ring(id, nR, neighbourRing);
 
 				for (int j = 0; j < neighbourRing.size(); j++)
 				{

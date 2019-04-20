@@ -29,6 +29,29 @@ namespace zSpace
 
 	class zFnGraph : protected zFn
 	{
+	private:
+		
+		/*! \brief This method sets the edge vertex position conatiners for static meshes.
+		*
+		*	\since version 0.0.2
+		*/
+		void setStaticContainers()
+		{
+			graphObj->graph.staticGeometry = true;
+
+			vector<vector<zVector>> edgePositions;
+
+			for (int i = 0; i < numEdges(); i++)
+			{
+				vector<zVector> vPositions;
+				getVertexPositions(i, zEdgeData, vPositions);
+
+				edgePositions.push_back(vPositions);
+			}
+
+			graphObj->graph.setStaticEdgePositions(edgePositions);			
+		}
+
 	protected:
 		//--------------------------
 		//---- PRIVATE ATTRIBUTES
@@ -614,10 +637,18 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 
-		void from(string path, zFileTpye type) override
+		void from(string path, zFileTpye type,bool staticGeom = false) override
 		{
-			if (type == zTXT) fromTXT(path);
-			else if (type == zJSON) fromJSON(path);
+			if (type == zTXT)
+			{
+				fromTXT(path);
+				setStaticContainers();
+			}
+			else if (type == zJSON)
+			{
+				fromJSON(path);
+				setStaticContainers();
+			}
 
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 		}
@@ -645,7 +676,6 @@ namespace zSpace
 				graphObj->graph.positionVertex.clear();
 				graphObj->graph.verticesEdge.clear();
 
-
 			}
 
 			if (graphObj->graph.edges != NULL)
@@ -656,8 +686,9 @@ namespace zSpace
 				graphObj->graph.edgeActive.clear();
 				graphObj->graph.edgeColors.clear();
 				graphObj->graph.edgeWeights.clear();
-
 			}
+
+			graphObj->graph.n_v = graphObj->graph.n_e = 0;
 		}
 
 		//--------------------------
@@ -668,11 +699,14 @@ namespace zSpace
 		*
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
 		*	\param		[in]	edgeConnects	- container of edge connections with vertex ids for each edge
+		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
 		*	\since version 0.0.2
 		*/
-		void create(vector<zVector>(&_positions), vector<int>(&edgeConnects))
+		void create(vector<zVector>(&_positions), vector<int>(&edgeConnects), bool staticGraph = false)
 		{
 			graphObj->graph = zGraph(_positions, edgeConnects);
+
+			if (staticGraph) setStaticContainers();
 		}
 
 		/*! \brief his method creates a graphfrom the input containers.
@@ -680,24 +714,29 @@ namespace zSpace
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
 		*	\param		[in]	edgeConnects	- container of edge connections with vertex ids for each edge
 		*	\param		[in]	graphNormal		- normal of the plane of the graph.
+		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
 		*	\since version 0.0.2
 		*/
-		void create(vector<zVector>(&_positions), vector<int>(&edgeConnects), zVector &graphNormal)
+		void create(vector<zVector>(&_positions), vector<int>(&edgeConnects), zVector &graphNormal, bool staticGraph = false)
 		{
-					graphNormal.normalize();
+					
+			graphNormal.normalize();
 
 			zVector x(1, 0, 0);
 			zVector sortRef = graphNormal ^ x;
 
 			graphObj->graph = zGraph(_positions, edgeConnects, graphNormal, sortRef);
+
+			if (staticGraph) setStaticContainers();
 		}
 
 		/*! \brief This method creates a graph from a mesh.
 		*
-		*	\param [in]		meshObj				- input mesh object.	
+		*	\param		[in]	meshObj			- input mesh object.	
+		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
 		*	\since version 0.0.2
 		*/
-		void createFromMesh(zObjMesh &meshObj)
+		void createFromMesh(zObjMesh &meshObj, bool staticGraph = false)
 		{
 			zFnMesh fnMesh(meshObj);
 
@@ -708,6 +747,8 @@ namespace zSpace
 			fnMesh.getVertexPositions(vertexPositions);
 
 			create(vertexPositions, edgeConnects);
+
+			if (staticGraph) setStaticContainers();
 		}
 
 		
@@ -903,6 +944,36 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zHEData type");
 
 			
+		}
+
+		/*!	\brief This method gets the vertex positions attached to input zEdge or zFace.
+		*
+		*	\param		[in]	index			- index in the edge container.
+		*	\param		[in]	type			- zEdgeData.
+		*	\param		[out]	vertPositions	- vector of vertex positions.
+		*	\since version 0.0.2
+		*/
+		void getVertexPositions(int index, zHEData type, vector<zVector> &vertPositions)
+		{
+			vertPositions.clear();
+
+			// Edge
+			if (type == zEdgeData)
+			{
+
+				vector<int> eVerts;
+
+				getVertices(index, type, eVerts);
+
+				for (int i = 0; i < eVerts.size(); i++)
+				{
+					vertPositions.push_back(graphObj->graph.vertexPositions[eVerts[i]]);
+				}
+
+			}			
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
+
 		}
 
 		/*!	\brief This method calculate the valency of the input zVertex.
@@ -1254,6 +1325,14 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 		
+		/*! \brief This method makes the graph a fixed. Computes the static edge vertex positions if true.
+		*
+		*	\since version 0.0.2
+		*/
+		void makeStatic()
+		{
+			setStaticContainers();
+		}
 
 		//--------------------------
 		//--- SET METHODS 
@@ -1498,6 +1577,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the vertex position at the input index.
+		*
+		*	\param		[in]	index					- input vertex index.
+		*	\return				zVector*				- pointer to internal vertex position.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexPosition(int index)
+		{
+			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &graphObj->graph.vertexPositions[index];
+
+		}
+
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
 		*	\param		[out]	pos				- positions  contatiner.
@@ -1506,6 +1600,18 @@ namespace zSpace
 		void getVertexPositions(vector<zVector>& pos)
 		{
 			pos = graphObj->graph.vertexPositions;
+		}
+
+		/*! \brief This method gets pointer to the internal vertex positions container.
+		*
+		*	\return				zVector*					- pointer to internal vertex position container.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexPositions()
+		{
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &graphObj->graph.vertexPositions[0];
 		}
 
 		/*! \brief This method gets vertex color of the input vertex.
@@ -1523,6 +1629,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the vertex color at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zColor*				- pointer to internal vertex color.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawVertexColor(int index)
+		{
+			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &graphObj->graph.vertexColors[index];
+
+		}
+
 		/*! \brief This method gets vertex color of all the vertices.
 		*
 		*	\param		[out]	col				- color  contatiner.
@@ -1531,6 +1652,18 @@ namespace zSpace
 		void getVertexColors(vector<zColor>& col)
 		{
 			col = graphObj->graph.vertexColors;
+		}
+
+		/*! \brief This method gets pointer to the internal vertex color container.
+		*
+		*	\return				zColor*					- pointer to internal vertex color container.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawVertexColors()
+		{
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &graphObj->graph.vertexColors[0];
 		}
 
 		/*! \brief This method gets edge color of the input edge.
@@ -1548,6 +1681,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the edge color at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zColor*				- pointer to internal edge color.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawEdgeColor(int index)
+		{
+			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &graphObj->graph.edgeColors[index];
+
+		}
+
 		/*! \brief This method gets edge color of all the edges.
 		*
 		*	\param		[out]	col				- color  contatiner.
@@ -1556,6 +1704,18 @@ namespace zSpace
 		void getEdgeColors(vector<zColor>& col)
 		{
 			col = graphObj->graph.edgeColors;
+		}
+
+		/*! \brief This method gets pointer to the internal edge color container.
+		*
+		*	\return				zColor*					- pointer to internal edge color container.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawEdgeColors()
+		{
+			if (numEdges() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &graphObj->graph.edgeColors[0];
 		}
 
 		/*! \brief This method computes the centers of a the input index edge or face of the mesh.

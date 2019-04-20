@@ -248,7 +248,7 @@ namespace zSpace
 		*/
 		void getNeighbourhoodRing(int index, int numRings, vector<int> &ringNeighbours)
 		{
-			vector<int> out;
+			ringNeighbours.clear();
 
 
 			int idX = floor(index / (fieldObj->field.n_Y * fieldObj->field.n_Z));
@@ -292,14 +292,14 @@ namespace zSpace
 						int newId = (newId_X * (fieldObj->field.n_Y* fieldObj->field.n_Z)) + (newId_Y * fieldObj->field.n_Z) + newId_Z;
 
 
-						if (newId < numFieldValues() && newId >= 0) out.push_back(newId);
+						if (newId < numFieldValues() && newId >= 0) ringNeighbours.push_back(newId);
 					}
 
 				}
 
 			}
 
-			ringNeighbours = out;
+			
 		}
 
 		/*! \brief This method gets the immediate adjacent neighbours of the field at the input index.
@@ -310,7 +310,7 @@ namespace zSpace
 		*/
 		void getNeighbourAdjacents(int index, vector<int> &adjacentNeighbours)
 		{
-			vector<int> out;
+			adjacentNeighbours.clear();
 
 			int numRings = 1;
 			//printf("\n working numRings : %i ", numRings);
@@ -352,14 +352,14 @@ namespace zSpace
 
 						if (newId < numFieldValues())
 						{
-							if (i == 0 || j == 0 || k == 0) out.push_back(newId);
+							if (i == 0 || j == 0 || k == 0) adjacentNeighbours.push_back(newId);
 						}
 					}
 				}
 
 			}
 
-			adjacentNeighbours = out;
+		
 
 		}
 	
@@ -774,18 +774,22 @@ namespace zSpace
 		/*! \brief This method computes the field values as inverse weighted distance from the input mesh vertex positions.
 		*
 		*	\param	[out]	fieldValues			- container for storing field values.
-		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
+		*	\param	[in]	inMeshObj			- input mesh object for distance calculations.
 		*	\param	[in]	meshValue			- value to be propagated for the mesh.
 		*	\param	[in]	influences			- influence value of the graph.		
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnMesh &inFnMesh, T meshValue, double influence, double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjMesh &inMeshObj, T meshValue, double influence, double power = 2.0, bool normalise = true)
 		{
-			vector<double> out;
+			fieldValues.clear();
+			zFnMesh inFnMesh(inMeshObj);
 
-			for (int i = 0; i < fnPoints.numPoints(); i++)
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnMesh.getRawVertexPositions();
+
+			for (int i = 0; i < fnPoints.numVertices(); i++)
 			{
 				T d;
 				double wSum = 0.0;
@@ -793,7 +797,7 @@ namespace zSpace
 
 				for (int j = 0; j < inFnMesh.numVertices(); j++)
 				{
-					double r = fnPoints.getPosition(i).distanceTo(inFnMesh.getVertexPosition(j));
+					double r = positions[i].distanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -810,41 +814,43 @@ namespace zSpace
 
 				(wSum > 0) ? d /= wSum : d = T();
 
-				out.push_back(d);
+				fieldValues.push_back(d);
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(fieldValues);
 			}
 
-
-			fieldValues = out;
 		}
 
 		/*! \brief This method computes the field values as inverse weighted distance from the input graph vertex positions.
 		*
 		*	\param	[out]	fieldValues			- container for storing field values.
-		*	\param	[in]	inFngraph			- input grahh function set for distance calculations.
+		*	\param	[in]	inGraphObj			- input graph object set for distance calculations.
 		*	\param	[in]	graphValue			- value to be propagated for the graph.
 		*	\param	[in]	influences			- influence value of the graph.		
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zFnGraph &inFngraph, T graphValue, double influence,  double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjGraph &inGraphObj, T graphValue, double influence,  double power = 2.0, bool normalise = true)
 		{
-			vector<double> out;
+			fieldValues.clear();
+			zFnGraph inFnGraph(inGraphObj);
 
-			for (int i = 0; i < fnPoints.numPoints(); i++)
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnGraph.getRawVertexPositions();
+
+			for (int i = 0; i < fnPoints.numVertices(); i++)
 			{
 				T d;
 				double wSum = 0.0;
 				double tempDist = 10000;
 
-				for (int j = 0; j < inFngraph.numVertices(); j++)
+				for (int j = 0; j < inFnGraph.numVertices(); j++)
 				{
-					double r = fnPoints.getPosition(i).distanceTo(inFngraph.getVertexPosition(j));
+					double r = positions[i].distanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -861,47 +867,100 @@ namespace zSpace
 
 				(wSum > 0) ? d /= wSum : d = T();
 
-				out.push_back(d);
+				fieldValues.push_back(d);
 
 
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(fieldValues);
 			}
 
-			fieldValues = out;
+			
 		}
 
 		/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
 		*
 		*	\param	[out]	fieldValues			- container for storing field values.
-		*	\param	[in]	inPositions			- container of input positions for distance calculations.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
+		*	\param	[in]	value				- value to be propagated for each input position.
+		*	\param	[in]	influence			- influence value of each input position.
+		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
+		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjPointCloud &inPointsObj, T value, double influence, double power = 2.0, bool normalise = true)
+		{
+
+			fieldValues.clear();
+			zFnPointCloud inFnPoints(inPointsObj);
+
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnPoints.getRawVertexPositions();
+
+			for (int i = 0; i < fnPoints.numVertices(); i++)
+			{
+				T d;
+				double wSum = 0.0;
+				double tempDist = 10000;
+
+				for (int j = 0; j < inFnPoints.numVertices(); j++)
+				{
+					double r = positions[i].distanceTo(inPositions[j]);
+
+					double w = pow(r, power);
+					wSum += w;
+
+					double val = (w > 0.0) ? ((r * influence) / (w)) : 0.0;;
+
+					d += (value * val);
+				}
+
+
+				(wSum > 0) ? d /= wSum : d = T();
+
+				fieldValues.push_back(d);
+			}
+
+			if (normalise)	normliseValues(fieldValues);
+
+
+
+		}
+		
+		/*! \brief This method computes the field values based on inverse weighted distance from the input positions.
+		*
+		*	\param	[out]	fieldValues			- container for storing field values.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
 		*	\param	[in]	values				- value to be propagated for each input position. Size of container should be equal to inPositions.
 		*	\param	[in]	influences			- influence value of each input position. Size of container should be equal to inPositions.
 		*	\param	[in]	power				- input power value used for weight calculation. Default value is 2.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, vector<zVector> &inPositions, vector<T> &values, vector<double>& influences,  double power = 2.0, bool normalise = true)
+		void getFieldValuesAsVertexDistance_IDW(vector<T> &fieldValues, zObjPointCloud &inPointsObj, vector<T> &values, vector<double>& influences,  double power = 2.0, bool normalise = true)
 		{
-			if (inPositions.size() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
-			if (inPositions.size() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
+			fieldValues.clear();
+			zFnPointCloud inFnPoints(inPointsObj);
 
-			vector<T> out;
+			
+			
+			if (inFnPoints.numPoints() != values.size()) throw std::invalid_argument(" error: size of inPositions and values dont match.");
+			if (inFnPoints.numPoints() != influences.size()) throw std::invalid_argument(" error: size of inPositions and influences dont match.");
 
-			for (int i = 0; i < fnPoints.numPoints(); i++)
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnPoints.getRawVertexPositions();
+
+			for (int i = 0; i < fnPoints.numVertices(); i++)
 			{
 				T d;
 				double wSum = 0.0;
 				double tempDist = 10000;
 
-
-
-				for (int j = 0; j < inPositions.size(); j++)
+				for (int j = 0; j < inFnPoints.numVertices(); j++)
 				{
-					double r = fnPoints.getPosition(i).distanceTo(inPositions[j]);
+					double r = positions[i].distanceTo(inPositions[j]);
 
 					double w = pow(r, power);
 					wSum += w;
@@ -914,13 +973,10 @@ namespace zSpace
 
 				(wSum > 0) ? d /= wSum : d = T();
 
-				out.push_back(d);
+				fieldValues.push_back(d);
 			}
 
-			if (normalise)	normliseValues(out);
-
-
-			fieldValues = out;
+			if (normalise)	normliseValues(fieldValues);		
 		}
 
 		
@@ -933,28 +989,35 @@ namespace zSpace
 		/*! \brief This method creates a vertex distance Field from the input vector of zVector positions.
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
-		*	\param	[in]	points				- container of positions.
+		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<double> &scalars, vector<zVector> &points,  bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjPointCloud &inPointsObj,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+
+			zFnPointCloud inFnPoints(inPointsObj);
+
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnPoints.getRawVertexPositions();
 
 			vector<double> distVals;
 			double dMin = 100000;
 			double dMax = 0;;
 
-			for (int i = 0; i < fnPoints.numPoints(); i++)
+			for (int i = 0; i < fnPoints.numVertices(); i++)
 			{
 				distVals.push_back(10000);
 			}
 
-			for (int i = 0; i < points.size(); i++)
+			for (int j = 0; j < fnPoints.numVertices(); j++)
 			{
-				for (int j = 0; j < fnPoints.numPoints(); j++)
+
+				for (int i = 0; i < inFnPoints.numVertices(); i++)
 				{
-					double dist = fnPoints.getPosition(j).distanceTo(points[i]);
+				
+					double dist = positions[i].squareDistanceTo(inPositions[j]);
 
 					if (dist < distVals[j])
 					{
@@ -972,42 +1035,45 @@ namespace zSpace
 			for (int j = 0; j < fnPoints.numPoints(); j++)
 			{
 				double val = coreUtils.ofMap(distVals[j], dMin, dMax, 0.0, 1.0);
-				fnPoints.setColor(j, zColor(val, 0, 0, 1));
-
-				out.push_back(fnPoints.getColor(j).r);
+				scalars.push_back(fnPoints.getColor(j).r);
 			}
 			
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
 		}
 
 
 		/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
-		*	\param	[in]	inFnMesh			- input mesh function set for distance calculations.
+		*	\param	[in]	inMeshObj			- input mesh object for distance calculations.
 		*	\param	[in]	a					- input variable for distance function.
 		*	\param	[in]	b					- input variable for distance function.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b, bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjMesh &inMeshObj, double a, double b, bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
 
-			for (int i = 0; i < fnPoints.numPoints(); i++)
+			zFnMesh inFnMesh(inMeshObj);
+
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnMesh.getRawVertexPositions();
+
+			for (int i = 0; i < fnPoints.numVertices(); i++)
 			{
 				double d = 0.0;
 				double tempDist = 10000;
 
 				for (int j = 0; j < inFnMesh.numVertices(); j++)
 				{
-					double r = fnPoints.getPosition(i).distanceTo(inFnMesh.getVertexPosition(j));
+					double r = positions[i].squareDistanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -1017,30 +1083,34 @@ namespace zSpace
 
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+		
 		}
 
 		/*! \brief This method creates a vertex distance Field from the input graph vertex positions.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
-		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
+		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.		
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b,  bool normalise = true)
+		void getScalarsAsVertexDistance(vector<double> &scalars, zObjGraph &inGraphObj, double a, double b,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+			
+			zFnGraph inFnGraph(inGraphObj);
 
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnGraph.getRawVertexPositions();
 
 			// update values from meta balls
 
@@ -1051,7 +1121,7 @@ namespace zSpace
 
 				for (int j = 0; j < inFnGraph.numVertices(); j++)
 				{
-					double r = fnPoints.getPosition(i).distanceTo(inFnGraph.getVertexPosition(j));
+					double r = positions[i].squareDistanceTo(inPositions[j]);
 
 					if (r < tempDist)
 					{
@@ -1062,30 +1132,34 @@ namespace zSpace
 
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+		
 		}
 
 
 		/*! \brief This method creates a edge distance Field from the input mesh.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
-		*	\param	[in]	inFnMesh		- input mesh function set for distance calculations.
+		*	\param	[in]	inMeshObj		- input mesh object for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.		
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnMesh &inFnMesh, double a, double b,  bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zObjMesh &inMeshObj, double a, double b,  bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+			zFnMesh inFnMesh(inMeshObj);
+
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnMesh.getRawVertexPositions();
 
 			// update values from edge distance
 			for (int i = 0; i < fnPoints.numPoints(); i++)
@@ -1101,7 +1175,7 @@ namespace zSpace
 
 					zVector closestPt;
 
-					double r = coreUtils.minDist_Edge_Point(fnPoints.getPosition(i), inFnMesh.getVertexPosition(e0), inFnMesh.getVertexPosition(e1), closestPt);
+					double r = coreUtils.minDist_Edge_Point(positions[i], inPositions[e0], inPositions[e1], closestPt);
 
 
 					if (r < tempDist)
@@ -1113,31 +1187,35 @@ namespace zSpace
 					}
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
 		}
 
 
 		/*! \brief This method creates a edge distance Field from the input graph.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
-		*	\param	[in]	inFnGraph		- input graph function set for distance calculations.
+		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
 		*	\param	[in]	a				- input variable for distance function.
 		*	\param	[in]	b				- input variable for distance function.		
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(vector<double> &scalars, zFnGraph &inFnGraph, double a, double b, bool normalise = true)
+		void getScalarsAsEdgeDistance(vector<double> &scalars, zObjGraph &inGraphObj, double a, double b, bool normalise = true)
 		{
-			vector<double> out;
+			scalars.clear();
+			zFnGraph inFnGraph(inGraphObj);
+
+			zVector *positions = fnPoints.getRawVertexPositions();
+			zVector *inPositions = inFnGraph.getRawVertexPositions();
 
 			// update values from edge distance
 			for (int i = 0; i < fnPoints.numPoints(); i++)
@@ -1153,7 +1231,7 @@ namespace zSpace
 					
 					zVector closestPt;
 					
-					double r = coreUtils.minDist_Edge_Point(fnPoints.getPosition(i), inFnGraph.getVertexPosition(e0), inFnGraph.getVertexPosition(e1), closestPt);
+					double r = coreUtils.minDist_Edge_Point(positions[i], inPositions[e0], inPositions[e1], closestPt);
 
 
 					if (r < tempDist)
@@ -1165,16 +1243,16 @@ namespace zSpace
 					}
 				}
 
-				out.push_back(d);
+				scalars.push_back(d);
 
 			}
 
 			if (normalise)
 			{
-				normliseValues(out);
+				normliseValues(scalars);
 			}
 
-			scalars = out;
+			
 		}
 
 		//--------------------------

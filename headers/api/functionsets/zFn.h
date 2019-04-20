@@ -64,18 +64,19 @@ namespace zSpace
 		*/
 		virtual zFnType getType() { return fnType; }
 
-		/*! \brief This method exports the object linked to function type.
-		*
-		*	\param [in]		path			- output file name including the directory path and extension.
-		*	\param [in]		type			- type of file to be exported.
-		*	\since version 0.0.2
-		*/
-		virtual void from(string path, zFileTpye type) {}
-
 		/*! \brief This method imports the object linked to function type.
 		*
+		*	\param	[in]	path			- output file name including the directory path and extension.
+		*	\param	[in]	type			- type of file to be imported.
+		*	\param	[in]	staticGeom		- true if the object is static. Helps speed up display especially for meshes object. Default set to false.
+		*	\since version 0.0.2
+		*/
+		virtual void from(string path, zFileTpye type, bool staticGeom = false) {}
+
+		/*! \brief This method exports the object linked to function type.
+		*
 		*	\param [in]		path			- input file name including the directory path and extension.
-		*	\param [in]		type			- type of file to be imported.
+		*	\param [in]		type			- type of file to be exported.
 		*	\since version 0.0.2
 		*/
 		virtual void to(string path, zFileTpye type) {}

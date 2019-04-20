@@ -74,7 +74,7 @@ namespace zSpace
 		*	\param		 [in]		wt			- weight of the point.
 		*	\since version 0.0.1
 		*/
-		void drawPoint(zVector &pos, zColor col = zColor(1, 0, 0, 1), double wt = 1)
+		void drawPoint(zVector &pos, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
 		{
 
 			glColor3f(col.r, col.g, col.b);
@@ -90,6 +90,30 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method draws points from a container.
+		*	\param		 [in]		pos			- container of positions  to be drawn.
+		*	\param		 [in]		col			- container of colors.
+		*	\param		 [in]		wt			- container of weights.
+		*	\since version 0.0.1
+		*/
+		void drawPoints(vector<zVector> &pos, vector<zColor> &col , vector<double> &wt)
+		{
+
+			glBegin(GL_POINTS);
+			for (int i = 0; i < pos.size(); i++)
+			{
+				glPointSize(wt[i]);
+				glColor3f(col[i].r, col[i].g, col[i].b);
+				glVertex3f(pos[i].x, pos[i].y, pos[i].z);
+			}			
+			glEnd();
+
+			glPointSize(1.0);
+
+			glColor3f(0, 0, 1);
+
+		}
+
 		/*! \brief This method draws a line between the given two points.
 		*	\param		[in]		p0			- start Point of the line.
 		*	\param		[in]		p1			- end Point of the line.
@@ -97,7 +121,7 @@ namespace zSpace
 		*	\param		[in]		wt			- weight of the line.
 		*	\since version 0.0.1
 		*/
-		void drawLine(zVector &p0, zVector &p1, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+		void drawLine(zVector &p0, zVector &p1, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
 		{
 			glColor3f(col.r, col.g, col.b);
 			glLineWidth(wt);
@@ -105,6 +129,33 @@ namespace zSpace
 			glBegin(GL_LINES);
 			glVertex3f(p0.x, p0.y, p0.z);
 			glVertex3f(p1.x, p1.y, p1.z);
+			glEnd();
+
+			glLineWidth(1.0);
+			glColor3f(0, 0, 1);
+
+		}
+
+		/*! \brief This method draws edge lines from a two dimensional container.
+		*	\param		 [in]		pos			- container of positions  to be drawn.
+		*	\param		 [in]		col			- container of colors.
+		*	\param		 [in]		wt			- container of weights.
+		*	\since version 0.0.1
+		*/
+		void drawEdges(vector<vector<zVector>> &pos, vector<zColor> &col, vector<double> wt)
+		{
+			glBegin(GL_LINES);
+			for (int i = 0; i < pos.size(); i+= 2)
+			{
+				glColor3f(col[i].r, col[i].g, col[i].b);
+				glLineWidth(wt[i]);
+
+				for (int j = 0; j < pos[i].size(); j++)
+				{
+					glVertex3f(pos[i][j].x, pos[i][j].y,pos[i][j].z);
+				}
+			}
+
 			glEnd();
 
 			glLineWidth(1.0);
@@ -120,7 +171,7 @@ namespace zSpace
 		*	\param		[in]		wt			- weight of the circle.
 		*	\since version 0.0.1
 		*/
-		void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+		void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
 		{
 			for (int i = 0; i < circlePts.size(); i++)
 			{
@@ -137,7 +188,7 @@ namespace zSpace
 		*	\param		[in]		wt			- weight of the rectangle.
 		*	\since version 0.0.1
 		*/
-		void drawRectangle(zVector &minBB, zVector &maxBB, zColor col = zColor(0, 0, 0, 1), double wt = 1)
+		void drawRectangle(zVector &minBB, zVector &maxBB, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
 		{
 
 			zVector p0(minBB.x, minBB.y, minBB.z);
@@ -159,7 +210,7 @@ namespace zSpace
 		*	\param		[in]	col				- color of the polygon.
 		*	\since version 0.0.1
 		*/
-		void drawPolygon(vector<zVector> &pos, zColor col = zColor(0.5, 0.5, 0.5, 1))
+		void drawPolygon(vector<zVector> &pos, const zColor &col = zColor(1, 0, 0, 1))
 		{
 			glColor3f(col.r, col.g, col.b);
 
@@ -170,6 +221,32 @@ namespace zSpace
 
 			glColor3f(0, 0, 1);
 		}
+
+		/*! \brief This method draws polygons from a two dimensional container.
+		*	\param		 [in]		pos			- container of positions  to be drawn.
+		*	\param		 [in]		col			- container of colors.
+		*	\since version 0.0.1
+		*/
+		void drawPolygons(vector<vector<zVector>> &pos, vector<zColor> &col)
+		{
+			
+			for (int i = 0; i < pos.size(); i += 1)
+			{
+				glColor3f(col[i].r, col[i].g, col[i].b);
+				
+
+				glBegin(GL_POLYGON);
+				for (int j = 0; j < pos[i].size(); j++)
+				{
+					glVertex3f(pos[i][j].x, pos[i][j].y, pos[i][j].z);
+				}
+				glEnd();
+			}
+		
+			glColor3f(0, 0, 1);
+
+		}
+
 
 		//--------------------------
 		//---- VBO DISPLAY

@@ -34,14 +34,14 @@ namespace zSpace
 		/*! \brief core utilities object			*/
 		zUtilsCore coreUtils;
 
-		/*!	\brief container which stores point positions. 	*/
-		vector<zVector> points;
+		/*!	\brief container which stores vertex positions. 	*/
+		vector<zVector> vertexPositions;
 
-		/*!	\brief container which stores point colors. 	*/
-		vector<zColor> pointColors;
+		/*!	\brief container which stores vertex colors. 	*/
+		vector<zColor> vertexColors;
 
-		/*!	\brief container which stores point weights. 	*/
-		vector<double> pointWeights;
+		/*!	\brief container which stores vertex weights. 	*/
+		vector<double> vertexWeights;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -59,12 +59,12 @@ namespace zSpace
 		*/
 		zPointCloud(vector<zVector> &_pts) 
 		{
-			points = _pts;
+			vertexPositions = _pts;
 
 			for (int i = 0; i < _pts.size(); i++)
 			{
-				pointColors.push_back(zColor(1, 0, 0, 1));
-				pointWeights.push_back(1.0);
+				vertexColors.push_back(zColor(1, 0, 0, 1));
+				vertexWeights.push_back(1.0);
 			}
 		}
 		

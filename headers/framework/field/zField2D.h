@@ -101,19 +101,10 @@ namespace zSpace
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
 			zVector startPt = minBB;
 
-			fieldValues.clear();			
+			fieldValues.clear();	
 
-			for (int i = 0; i< n_X; i++)
-			{
-				for (int j = 0; j < n_Y; j++)
-				{
-					T defaultValue;
-					fieldValues.push_back(defaultValue);
-					
-				}
-			}
-
-			
+			T defaultValue;
+			fieldValues.assign(n_X*n_Y, defaultValue);	
 			
 		}
 
@@ -143,17 +134,9 @@ namespace zSpace
 			
 			fieldValues.clear();
 
-			for (int i = 0; i< n_X; i++)
-			{
-				for (int j = 0; j < n_Y; j++)
-				{					
-					T defaultValue;
-					fieldValues.push_back(defaultValue);
-				}
-			}
+			T defaultValue;
+			fieldValues.assign(n_X*n_Y,defaultValue);	
 
-			
-			
 		}
 		
 			

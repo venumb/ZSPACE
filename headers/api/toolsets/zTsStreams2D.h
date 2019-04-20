@@ -1372,7 +1372,7 @@ namespace zSpace
 			if (validStreamPoint)
 			{
 				vector<int> ringNeighbours;
-				fnField.getNeighbourhoodRing(newFieldIndex, 1, ringNeighbours);
+				fnField.getNeighbour_Ring(newFieldIndex, 1, ringNeighbours);
 
 				for (int i = 0; i < ringNeighbours.size(); i++)
 				{
@@ -1434,7 +1434,7 @@ namespace zSpace
 			if (validSeedPoint)
 			{
 				vector<int> ringNeighbours;
-				fnField.getNeighbourhoodRing(newFieldIndex, 1, ringNeighbours);
+				fnField.getNeighbour_Ring(newFieldIndex, 1, ringNeighbours);
 
 				for (int i = 0; i < ringNeighbours.size(); i++)
 				{

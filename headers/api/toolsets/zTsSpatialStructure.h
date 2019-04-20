@@ -595,29 +595,27 @@ namespace zSpace
 
 		/*! \brief This method computes the form graph edge weights based on the volume mesh face areas.
 		*
-		*	\param		[in]	minWeight					- minimum weight of the edge.
-		*	\param		[in]	maxWeight					- maximum weight of the edge.
+		*	\param		[in]	weightDomain				- weight domain of the edge.		
 		*	\since version 0.0.1
 		*/
-		void setFormEdgeWeightsfromVolume(double minWeight = 2.0, double maxWeight = 10.0)
+		void setFormEdgeWeightsfromVolume(zDomainDouble weightDomain = zDomainDouble(2.0, 10.0))
 		{
 			//compute edgeWeights
 			vector<vector<double>> volMesh_fAreas;
 
-			double minArea = 10000, maxArea = -100000;
-			zColor maxCol(0.784, 0, 0.157, 1);
-			zColor minCol(0.027, 0, 0.157, 1);
-
+			zDomainDouble areaDomain(10000, -100000);
+			zDomainColor colDomain(zColor(0.784, 0, 0.157, 1), zColor(0.027, 0, 0.157, 1));
+		
 			for (int i = 0; i < fnVolumes.size(); i++)
 			{
 				vector<double> fAreas;
 				fnVolumes[i].getPlanarFaceAreas(fAreas);
 
 				double temp_MinArea = coreUtils.zMin(fAreas);
-				minArea = (temp_MinArea < minArea) ? temp_MinArea : minArea;
+				areaDomain.min = (temp_MinArea < areaDomain.min) ? temp_MinArea : areaDomain.min;
 
 				double temp_maxArea = coreUtils.zMax(fAreas);
-				maxArea = (temp_maxArea > maxArea) ? temp_maxArea : maxArea;
+				areaDomain.max = (temp_maxArea > areaDomain.max) ? temp_maxArea : areaDomain.max;
 
 				volMesh_fAreas.push_back(fAreas);
 			}
@@ -636,9 +634,9 @@ namespace zSpace
 
 				for (int j = 0; j < cEdges.size(); j++)
 				{
-					double val = coreUtils.ofMap(fArea, minArea, maxArea, minWeight, maxWeight);
+					double val = coreUtils.ofMap(fArea, areaDomain, weightDomain);
 
-					zColor col = coreUtils.blendColor(fArea, minArea, maxArea, minCol, maxCol, zRGB);
+					zColor col = coreUtils.blendColor(fArea, areaDomain, colDomain, zRGB);
 
 					fnForm.setEdgeWeight(cEdges[j], val);
 					fnForm.setEdgeColor(cEdges[j], col);

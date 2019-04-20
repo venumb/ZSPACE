@@ -77,6 +77,7 @@
     <ClInclude Include="..\headers\app\include\zViewer.h" />
     <ClInclude Include="..\headers\framework\core\zColor.h" />
     <ClInclude Include="..\headers\framework\core\zDefinitions.h" />
+    <ClInclude Include="..\headers\framework\core\zDomain.h" />
     <ClInclude Include="..\headers\framework\core\zEnumerators.h" />
     <ClInclude Include="..\headers\framework\core\zMatrix.h" />
     <ClInclude Include="..\headers\framework\core\zVector.h" />
@@ -93,6 +94,7 @@
     <ClInclude Include="..\headers\framework\utilities\zUtilsCore.h" />
     <ClInclude Include="..\headers\framework\utilities\zUtilsDisplay.h" />
     <ClInclude Include="..\headers\framework\utilities\zUtilsJson.h" />
+    <ClInclude Include="..\headers\framework\utilities\zUtilsPointerMethods.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

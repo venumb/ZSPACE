@@ -147,43 +147,43 @@ namespace zSpace
 			//draw vertex
 			if (showVertices)
 			{
-				for (int i = 0; i < graph.vertexActive.size(); i++)
-				{
-					if (graph.vertexActive[i])
-					{
-						zColor col;
-						double wt = 1;
 
-						if (graph.vertexColors.size() > i)  col = graph.vertexColors[i];
-						if (graph.vertexWeights.size() > i) wt = graph.vertexWeights[i];
+				displayUtils->drawPoints(graph.vertexPositions, graph.vertexColors, graph.vertexWeights);
 
-						displayUtils->drawPoint(graph.vertexPositions[i], col, wt);
-					}
-				}
 			}
+
 
 			//draw edges
 			if (showEdges)
 			{
-
-				for (int i = 0; i < graph.edgeActive.size(); i += 2)
+				if (graph.staticGeometry)
 				{
-					if (graph.edgeActive[i])
+					displayUtils->drawEdges(graph.edgePositions, graph.edgeColors, graph.edgeWeights);
+				}
+
+				else
+				{
+					vector<vector<zVector>> edgePositions;
+
+					for (int i = 0; i < graph.n_e; i++)
 					{
+
 						if (graph.edges[i].getVertex() && graph.edges[i + 1].getVertex())
 						{
-							zColor col;
-							double wt = 1;
-
-							if (graph.edgeColors.size() > i)  col = graph.edgeColors[i];
-							if (graph.edgeWeights.size() > i) wt = graph.edgeWeights[i];
-
 							int v1 = graph.edges[i].getVertex()->getVertexId();
 							int v2 = graph.edges[i + 1].getVertex()->getVertexId();
 
-							displayUtils->drawLine(graph.vertexPositions[v1], graph.vertexPositions[v2], col, wt);
+							vector<zVector> vPositions;
+							vPositions.push_back(graph.vertexPositions[v1]);
+							vPositions.push_back(graph.vertexPositions[v2]);
+
+							edgePositions.push_back(vPositions);
+
 						}
+
 					}
+
+					displayUtils->drawEdges(edgePositions, graph.edgeColors, graph.edgeWeights);
 
 				}
 

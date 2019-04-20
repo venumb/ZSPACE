@@ -299,60 +299,61 @@ namespace zSpace
 			if (showVertices)
 			{
 
-				for (int i = 0; i < mesh.vertexActive.size(); i++)
-				{
-					if (mesh.vertexActive[i])
-					{
-						zColor col;
-						double wt = 1;
-
-						if (mesh.vertexColors.size() > i)  col = mesh.vertexColors[i];
-						if (mesh.vertexWeights.size() > i) wt = mesh.vertexWeights[i];
-
-						displayUtils->drawPoint(mesh.vertexPositions[i], col, wt);
-					}
-
-				}
+				displayUtils->drawPoints(mesh.vertexPositions, mesh.vertexColors, mesh.vertexWeights);
+							
 			}
 
 
 			//draw edges
 			if (showEdges)
 			{
-
-				for (int i = 0; i < mesh.edgeActive.size(); i += 2)
+				if (mesh.staticGeometry)
 				{
+					displayUtils->drawEdges(mesh.edgePositions, mesh.edgeColors, mesh.edgeWeights);
+				}
 
-					if (mesh.edgeActive[i])
+				else
+				{
+					vector<vector<zVector>> edgePositions;
+
+					for (int i = 0; i < mesh.n_e; i ++)
 					{
 
 						if (mesh.edges[i].getVertex() && mesh.edges[i + 1].getVertex())
 						{
-							zColor col;
-							double wt = 1;
-
-							if (mesh.edgeColors.size() > i)  col = mesh.edgeColors[i];
-							if (mesh.edgeWeights.size() > i) wt = mesh.edgeWeights[i];
-
 							int v1 = mesh.edges[i].getVertex()->getVertexId();
 							int v2 = mesh.edges[i + 1].getVertex()->getVertexId();
 
-							displayUtils->drawLine(mesh.vertexPositions[v1], mesh.vertexPositions[v2], col, wt);
-						}
+							vector<zVector> vPositions;
+							vPositions.push_back(mesh.vertexPositions[v1]);
+							vPositions.push_back(mesh.vertexPositions[v2]);
+
+							edgePositions.push_back(vPositions);
+								
+						}						
+
 					}
 
+					displayUtils->drawEdges(edgePositions, mesh.edgeColors, mesh.edgeWeights);
+
 				}
+				
 			}
 
 
 			//draw polygon
 			if (showFaces)
 			{
-				int polyConnectsIndex = 0;
-
-				for (int i = 0; i < mesh.faceActive.size(); i++)
+				
+				if (mesh.staticGeometry)
 				{
-					if (mesh.faceActive[i])
+					displayUtils->drawPolygons(mesh.facePositions, mesh.faceColors);
+				}
+				else
+				{
+					vector<vector<zVector>> facePositions;
+
+					for (int i = 0; i < mesh.n_f; i++)
 					{
 						vector<int> faceVertsIds;
 						mesh.getFaceVertices(i, faceVertsIds);
@@ -363,12 +364,11 @@ namespace zSpace
 							faceVerts.push_back(mesh.vertexPositions[faceVertsIds[j]]);
 						}
 
-						zColor col;
-						if (mesh.faceColors.size() > i)  col = mesh.faceColors[i];
-						displayUtils->drawPolygon(faceVerts, col);
+						facePositions.push_back(faceVerts);					
 
 					}
 
+					displayUtils->drawPolygons(facePositions, mesh.faceColors);
 				}
 			}
 		}

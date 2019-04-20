@@ -101,16 +101,16 @@ namespace zSpace
 		*/
 		void drawPointCloud()
 		{
-			for (int i = 0; i < pCloud.points.size(); i++)
+			for (int i = 0; i < pCloud.vertexPositions.size(); i++)
 			{
 				
 					zColor col;
 					double wt = 1;
 
-					if (pCloud.pointColors.size() > i)  col = pCloud.pointColors[i];
-					if (pCloud.pointWeights.size() > i) wt = pCloud.pointWeights[i];
+					if (pCloud.vertexColors.size() > i)  col = pCloud.vertexColors[i];
+					if (pCloud.vertexWeights.size() > i) wt = pCloud.vertexWeights[i];
 
-					displayUtils->drawPoint(pCloud.points[i], col, wt);			
+					displayUtils->drawPoint(pCloud.vertexPositions[i], col, wt);
 
 			}
 		}

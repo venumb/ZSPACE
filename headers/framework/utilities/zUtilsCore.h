@@ -4,6 +4,9 @@
 #include <headers/framework/core/zVector.h>
 #include <headers/framework/core/zColor.h>
 #include <headers/framework/core/zMatrix.h>
+#include <headers/framework/core/zDomain.h>
+
+#include<headers/framework/utilities/zUtilsPointerMethods.h>
 
 #include <vector>
 #include <algorithm> 
@@ -22,10 +25,10 @@
 
 #include <iostream>
 
-#include <filesystem>
-namespace fs = std::experimental::filesystem;
+
 
 using namespace std;
+
 
 #include<depends/Eigen/Core>
 #include<depends/Eigen/Dense>
@@ -54,7 +57,6 @@ namespace zSpace
 	/** @}*/
 
 	/** @}*/
-
 	class zUtilsCore
 	{
 	public:
@@ -78,6 +80,92 @@ namespace zSpace
 		*/
 		~zUtilsCore() {}
 
+
+		//--------------------------
+		//---- WINDOWS UTILITY  METHODS
+		//--------------------------
+
+		/*! \brief This method returns the number of files in the input folder path.
+		*
+		*	\param		[in]	dirPath			- input directory path.
+		*	\return				int				- number of files in the input folder.
+		*	\since version 0.0.2
+		*/
+		int getNumfiles(string dirPath)
+		{
+			int out = 0;
+
+			for (const auto & entry : fs::directory_iterator(dirPath)) out++;
+
+			return out;
+		}
+
+
+		/*! \brief This method returns the number of files in the input directory of the input file type.
+		*
+		*	\param		[in]	dirPath			- input directory path.
+		*	\param		[in]	type			- input zFileTpye.
+		*	\return				int				- number of files in the input folder.
+		*	\since version 0.0.2
+		*/
+		int getNumfiles_Type(string dirPath, zFileTpye type = zJSON)
+		{
+			int out = 0;
+
+			string extension;
+			if (type == zJSON) extension = ".json";
+			if (type == zOBJ) extension = ".obj";
+			if (type == zTXT) extension = ".txt";
+			if (type == zCSV) extension = ".csv";
+			if (type == zBMP) extension = ".bmp";
+
+
+			for (const auto & entry : fs::directory_iterator(dirPath))
+			{
+				if ((entry.path().extension()) == extension) out++;
+			}
+
+			return out;
+		}
+
+
+		
+			
+		/*! \brief This method gets all the files on the input file type in the input directory sorted by time of creation.
+		*
+		*	\param		[out]	fpaths			- container of file paths.
+		*	\param		[in]	dirPath			- iinput directory path.
+		*	\param		[in]	type			- input zFileTpye.
+		*	\since version 0.0.2
+		*/
+		void getFilesFromDirectory(vector<string> &fpaths, string dirPath, zFileTpye type = zJSON)
+		{
+			fpaths.clear();
+						
+			if (dirPath.back() != '/') dirPath += "/";
+
+			vector< fs::path> file_paths;
+
+			string extension;
+			if (type == zJSON) extension = ".json";
+			if (type == zOBJ) extension = ".obj";
+			if (type == zTXT) extension = ".txt";
+			if (type == zCSV) extension = ".csv";
+			if (type == zBMP) extension = ".bmp";
+
+			for (const auto & entry : fs::directory_iterator(dirPath))
+			{
+				if ((entry.path().extension()) == extension) file_paths.push_back(entry.path());
+			}
+
+			// sort by time
+			sort(file_paths.begin(), file_paths.end(),compare_time_creation);
+
+			// store as string
+			vector<fs::path>::iterator it;
+			for (it = file_paths.begin(); it != file_paths.end(); ++it)fpaths.push_back(it->string());			
+		}
+		
 
 		//--------------------------
 		//---- STRING METHODS
@@ -129,6 +217,21 @@ namespace zSpace
 		T ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax)
 		{
 			return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+		}
+
+		/*! \brief This method maps the input value from the input domain to output domain.
+		*
+		*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	value			- input value to be mapped.
+		*	\param		[in]	inDomain		- input domain.
+		*	\param		[in]	outDomain		- output domain.
+		*	\return				double			- mapped value.
+		*	\since version 0.0.2
+		*/
+		template <typename T>
+		T ofMap(T value, zDomain<T> inDomain, zDomain<T> outDomain)
+		{
+			return ofMap(value, inDomain.min, inDomain.max, outDomain.min, outDomain.max);
 		}
 
 		/*! \brief This method returns the minimum of the two input values.
@@ -338,53 +441,7 @@ namespace zSpace
 			positionVertex[hashKey] = index;
 		}
 
-		//--------------------------
-		//---- WINDOWS UTILITY  METHODS
-		//--------------------------
 
-		/*! \brief This method returns the number of files in the input folder path.
-		*
-		*	\param		[in]	path			- input folder path.
-		*	\return				int				- number of files in the input folder.
-		*	\since version 0.0.1
-		*/
-		inline int getNumfiles(string path)
-		{
-			int out = 0;
-
-			for (const auto & entry : fs::directory_iterator(path))
-				/*std::cout << entry.path() << std::endl;*/ out++;
-
-			return out;
-		}
-
-
-		/*! \brief This method returns the number of files in the input folder path of the input extension type.
-		*
-		*	\param		[in]	path			- input folder path.
-		*	\param		[in]	extension		- input extension type.
-		*	\return				int				- number of files in the input folder.
-		*	\since version 0.0.1
-		*/
-		inline int getNumfiles_Type(string path, string extension = "json")
-		{
-			int out = 0;
-
-			for (const auto & entry : fs::directory_iterator(path))
-			{
-
-				std::string fileName = entry.path().string();
-
-				vector<string> perlineData = splitString(fileName, ".");
-
-				if (perlineData[perlineData.size() - 1] == extension) out++;
-
-			}
-
-
-
-			return out;
-		}
 
 		//--------------------------
 		//---- VECTOR METHODS 
@@ -396,7 +453,7 @@ namespace zSpace
 		*	\return 			zVectors		- vector with minimum length
 		*	\since version 0.0.2
 		*/
-		inline zVector zMin(vector<zVector> &vals)
+		zVector zMin(vector<zVector> &vals)
 		{
 			double minLen = 10000;
 			int minID = -1;
@@ -418,7 +475,7 @@ namespace zSpace
 		*	\return 			zVectors		- vector with maximum length
 		*	\since version 0.0.2
 		*/
-		inline zVector zMax(vector<zVector> &vals)
+		zVector zMax(vector<zVector> &vals)
 		{
 			double maxLen = 0;
 			int maxID = -1;
@@ -444,7 +501,7 @@ namespace zSpace
 		*	\return				double			- mapped vector.
 		*	\since version 0.0.2
 		*/
-		inline zVector ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)
+		zVector ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)
 		{
 			zVector out;
 
@@ -455,6 +512,26 @@ namespace zSpace
 			return out;
 		}
 
+		/*! \brief This method maps the input value from the input domain to output domain.
+		*
+		*	\param		[in]	value			- input vector to be mapped.
+		*	\param		[in]	inputDomain		- input domain of double.
+		*	\param		[in]	outDomain		- output domain of vectors.
+		*	\return				double			- mapped vector.
+		*	\since version 0.0.2
+		*/
+		zVector ofMap(double value, zDomainDouble inputDomain, zDomainVector outDomain)
+		{
+			zVector out;
+
+			out.x = ofMap(value, inputDomain.min, inputDomain.max, outDomain.min.x, outDomain.max.x);
+			out.y = ofMap(value, inputDomain.min, inputDomain.max, outDomain.min.y, outDomain.max.y);
+			out.z = ofMap(value, inputDomain.min, inputDomain.max, outDomain.min.z, outDomain.max.z);
+
+			return out;
+		}
+				
+
 		/*! \brief This method a zVector from the input matrix row.
 		*
 		*	\param		[in]		zMatrixd	- input matrix. number of columns need to be 3 or 4.
@@ -462,7 +539,7 @@ namespace zSpace
 		*	\return					zVector		- zVector of the row matrix.
 		*	\since version 0.0.2
 		*/
-		inline zVector fromMatrixRow(zMatrixd &inMatrix, int rowIndex = 0)
+		zVector fromMatrixRow(zMatrixd &inMatrix, int rowIndex = 0)
 		{
 			if (inMatrix.getNumCols() < 3 || inMatrix.getNumCols() > 4) throw std::invalid_argument("cannot convert matrix row to vector.");
 
@@ -478,7 +555,7 @@ namespace zSpace
 		*	\return					zVector		- zVector of the column matrix.
 		*	\since version 0.0.2
 		*/
-		inline zVector fromMatrixColumn(zMatrixd &inMatrix, int colIndex)
+		zVector fromMatrixColumn(zMatrixd &inMatrix, int colIndex)
 		{
 			if (inMatrix.getNumRows() < 3 || inMatrix.getNumRows() > 4) throw std::invalid_argument("cannot convert matrix column to vector.");
 
@@ -493,7 +570,7 @@ namespace zSpace
 		*	\return					zVector			- factorised vector.
 		*	\since version 0.0.2
 		*/
-		inline zVector factorise(zVector &inVector, int precision = 3)
+		zVector factorise(zVector &inVector, int precision = 3)
 		{
 			double factor = pow(10, precision);
 			double x1 = round(inVector.x *factor) / factor;
@@ -509,7 +586,7 @@ namespace zSpace
 		*	\param		[out]	scaleFac			- scale factor.
 		*	\since version 0.0.2
 		*/
-		inline void scalePointCloud(vector<zVector> &inPoints, double scaleFac)
+		void scalePointCloud(vector<zVector> &inPoints, double scaleFac)
 		{
 			for (int i = 0; i < inPoints.size(); i++)
 			{
@@ -523,7 +600,7 @@ namespace zSpace
 		*	\param		[out]	center				- center of point cloud.
 		*	\since version 0.0.2
 		*/
-		inline void getCenter_PointCloud(vector<zVector> &inPoints, zVector &center)
+		void getCenter_PointCloud(vector<zVector> &inPoints, zVector &center)
 		{
 			zVector out;
 
@@ -537,13 +614,36 @@ namespace zSpace
 			center = out;
 		}
 
+		/*! \brief This method return index of the closest point in the input container to the input position.
+		*
+		*	\param		[in]	pos				- input position.
+		*	\param		[in]	inPositions		- input container of positions.
+		*	\since version 0.0.2
+		*/
+		int getClosest_PointCloud(zVector &pos, vector<zVector> inPositions)
+		{
+			int out = -1;
+			double dist = 1000000000;
+
+			for (int i = 0; i < inPositions.size(); i++)
+			{
+				if (inPositions[i].squareDistanceTo(pos) < dist)
+				{
+					dist = inPositions[i].squareDistanceTo(pos);
+					out = i;
+				}
+			}
+
+			return out;
+		}
+
 		/*! \brief This method returns the bounds of the input list points.
 		*
 		*	\param  	[in]	inGraph	- input graph.
 		*	\param  	[out]	minBB	- stores zVector of bounding box minimum.
 		*	\param		[out]	maxBB	- stores zVector of bounding box maximum.
 		*/
-		inline void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB)
+		void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB)
 		{
 			minBB = zVector(10000, 10000, 10000);
 			maxBB = zVector(-10000, -10000, -10000);
@@ -567,7 +667,7 @@ namespace zSpace
 		*	\param		[out]	Dims			- distances in X,Y,Z axis in local frame
 		*	\since version 0.0.2
 		*/
-		inline zVector getDimsFromBounds(zVector &minBB, zVector &maxBB)
+		zVector getDimsFromBounds(zVector &minBB, zVector &maxBB)
 		{
 			zVector out;
 
@@ -586,7 +686,7 @@ namespace zSpace
 		*	\return				bool			- true if input position is inside the bounds.
 		*	\since version 0.0.2
 		*/
-		inline bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB)
+		bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB)
 		{
 
 			if (inPoint.x < minBB.x || inPoint.x > maxBB.x) return false;
@@ -607,7 +707,7 @@ namespace zSpace
 		*	\param		[out]	weights			- influence Weights between 0 and 1.
 		*	\since version 0.0.2
 		*/
-		inline void getDistanceWeights(zVector& inPos, vector<zVector> positions, double power, vector<double> &weights)
+		void getDistanceWeights(zVector& inPos, vector<zVector> positions, double power, vector<double> &weights)
 		{
 			vector<double> dists;
 
@@ -624,6 +724,7 @@ namespace zSpace
 
 		}
 
+		
 		/*! \brief This method  returns the intersection of two planes which is  line.
 		*
 		*	\details Based on http://paulbourke.net/geometry/pointlineplane/
@@ -636,7 +737,7 @@ namespace zSpace
 		*	\return					bool	- true if the planes intersect.
 		*	\since version 0.0.2
 		*/
-		inline bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2)
+		bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2)
 		{
 			{
 				bool out = false;
@@ -674,7 +775,7 @@ namespace zSpace
 		*	\return					bool	- true if the planes intersect.
 		*	\since version 0.0.2
 		*/
-		inline bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB)
+		bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB)
 		{
 			bool out = false;
 
@@ -713,7 +814,7 @@ namespace zSpace
 		*	\return					bool			- true if the line and plane intersect.
 		*	\since version 0.0.2
 		*/
-		inline bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt)
+		bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt)
 		{
 			bool out = false;
 
@@ -758,7 +859,7 @@ namespace zSpace
 		*	\return					double			- area of triangle defirned by the vectors.
 		*	\since version 0.0.2
 		*/
-		inline double getTriangleArea(zVector &v1, zVector &v2, zVector &v3)
+		double getTriangleArea(zVector &v1, zVector &v2, zVector &v3)
 		{
 			double area = 0;
 
@@ -779,7 +880,7 @@ namespace zSpace
 		*	\return					double			- volume of tetrahedron formed by the three input vectors  and the origin.
 		*	\since version 0.0.2
 		*/
-		inline double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3)
+		double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3)
 		{
 			double volume = 0;
 
@@ -798,7 +899,7 @@ namespace zSpace
 		*	\param		[in]	t0,t1,t2	- zVector holding the position information for the 3 points of the triangle.
 		*	\return				bool		- true if point is inside the input triangle.
 		*/
-		inline bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2)
+		bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2)
 		{
 			// Compute vectors        
 			zVector v0 = t2 - t0;
@@ -843,7 +944,7 @@ namespace zSpace
 		*	\return			minDist		- distance to closest point.
 		*	\since version 0.0.2
 		*/
-		inline double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
+		double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
 		{
 			double out = 0.0;
 
@@ -876,7 +977,7 @@ namespace zSpace
 		*	\return			minDist		- minimum distance to plane.
 		*	\since version 0.0.2
 		*/
-		inline double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm)
+		double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm)
 		{
 			norm.normalize();
 
@@ -891,7 +992,7 @@ namespace zSpace
 		*	\return				zVector			- bary-center.
 		*	\since version 0.0.2
 		*/
-		inline zVector getBaryCenter(vector<zVector> &inPositions, vector<double>& weights)
+		zVector getBaryCenter(vector<zVector> &inPositions, vector<double>& weights)
 		{
 			if (inPositions.size() != weights.size()) throw std::invalid_argument("size of inPositions and weights not equal.");
 
@@ -1219,7 +1320,7 @@ namespace zSpace
 		*	\return 			zMatrixd	- Best fit plane as a 4X4 matrix.
 		*	\since version 0.0.2
 		*/
-		inline zMatrixd getBestFitPlane(vector<zVector>& points)
+		zMatrixd getBestFitPlane(vector<zVector>& points)
 		{
 
 			zMatrixd out;
@@ -1282,7 +1383,7 @@ namespace zSpace
 		*	\param		[out]	maxBB			- upper bounds as zVector
 		*	\since version 0.0.2
 		*/
-		inline void boundingboxPCA(vector<zVector> points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
+		void boundingboxPCA(vector<zVector> points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
 		{
 			zMatrixd bPlane_Mat = getBestFitPlane(points);
 
@@ -1325,7 +1426,7 @@ namespace zSpace
 		*	\param		[in]	inPoints		- input container of zVectors.
 		*	\since version 0.0.2
 		*/
-		inline void fromPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
+		void fromPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
 		{
 			inMatrix = zMatrixd(inPoints.size(), 3);
 
@@ -1344,7 +1445,7 @@ namespace zSpace
 		*	\param		[out]	inPoints		- input container of zVectors.
 		*	\since version 0.0.2
 		*/
-		inline void toPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
+		void toPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
 		{
 			if (inMatrix.getNumCols() != 3) throw std::invalid_argument("cannnot convert zMatrix to zVector");
 
@@ -1378,7 +1479,7 @@ namespace zSpace
 		*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
 		*	\since version 0.0.2
 		*/
-		inline void getCircle(double radius, int numPoints, vector<zVector> &circlePts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
+		void getCircle(double radius, int numPoints, vector<zVector> &circlePts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
 		{
 			double theta = 0;
 
@@ -1405,7 +1506,7 @@ namespace zSpace
 		*	\param		[in]		localPlane		- orientation plane, by default a world plane.
 		*	\since version 0.0.2
 		*/
-		inline void getRectangle(zVector dims, vector<zVector> &rectanglePts, zMatrixd localPlane = zMatrixd())
+		void getRectangle(zVector dims, vector<zVector> &rectanglePts, zMatrixd localPlane = zMatrixd())
 		{
 			dims.x *= 0.5;
 			dims.y *= 0.5;
@@ -1428,7 +1529,7 @@ namespace zSpace
 		//--------------------------
 		//---- COLOR  METHODS
 		//--------------------------
-
+			
 		/*! \brief This method returns the average color of the two input colors.
 		*
 		*	\param		[in]	c1		- input color 1.
@@ -1436,7 +1537,7 @@ namespace zSpace
 		*	\param		[in]	type	- color type - zRGB / zHSV.
 		*	\since version 0.0.1
 		*/
-		inline zColor averageColor(zColor c1, zColor c2, zColorType type)
+		zColor averageColor(zColor c1, zColor c2, zColorType type)
 		{
 			zColor out;
 
@@ -1473,7 +1574,7 @@ namespace zSpace
 		*	\param		[in]	type	- color type - zRGB / zHSV.
 		*	\since version 0.0.1
 		*/
-		inline zColor averageColor(vector<zColor> &c1, zColorType type)
+		zColor averageColor(vector<zColor> &c1, zColorType type)
 		{
 			zColor out;
 
@@ -1530,17 +1631,17 @@ namespace zSpace
 		*	\return				zColor			- output color.
 		*	\since version 0.0.1
 		*/
-		inline zColor blendColor(double inputValue, double inputMin, double inputMax, zColor cMin, zColor cMax, zColorType type)
+		zColor blendColor(double inputValue, zDomainDouble inDomain, zDomainColor outDomain, zColorType type)
 		{
 			zColor out;
 
 			if (type = zRGB)
 			{
-				out.r = ofMap(inputValue, inputMin, inputMax, cMin.r, cMax.r);
-				out.g = ofMap(inputValue, inputMin, inputMax, cMin.g, cMax.g);
-				out.b = ofMap(inputValue, inputMin, inputMax, cMin.b, cMax.b);
+				out.r = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.r, outDomain.max.r);
+				out.g = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.g, outDomain.max.g);
+				out.b = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.b, outDomain.max.b);
 
-				out.a = ofMap(inputValue, inputMin, inputMax, cMin.a, cMax.a);
+				out.a = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.a, outDomain.max.a);
 
 				out.toHSV();
 
@@ -1548,9 +1649,9 @@ namespace zSpace
 
 			if (type = zHSV)
 			{
-				out.h = ofMap(inputValue, inputMin, inputMax, cMin.h, cMax.h);
-				out.s = ofMap(inputValue, inputMin, inputMax, cMin.s, cMax.s);
-				out.v = ofMap(inputValue, inputMin, inputMax, cMin.v, cMax.v);
+				out.h = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.h, outDomain.max.h);
+				out.s = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.s, outDomain.max.s);
+				out.v = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.v, outDomain.max.v);
 
 				out.toRGB();
 			}
@@ -1562,5 +1663,8 @@ namespace zSpace
 
 	};	
 	
+
+
+
 }
 

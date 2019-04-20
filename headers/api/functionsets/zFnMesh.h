@@ -36,7 +36,41 @@ namespace zSpace
 		//---- PRIVATE ATTRIBUTES
 		//--------------------------
 
-		
+		/*! \brief This method sets the edge and face vertex position conatiners for static meshes.
+		*
+		*	\since version 0.0.2
+		*/
+		void setStaticContainers()
+		{
+			meshObj->mesh.staticGeometry = true;
+
+			vector<vector<zVector>> edgePositions;
+
+			for (int i = 0; i < numEdges(); i ++)
+			{
+				vector<zVector> vPositions;
+				getVertexPositions(i, zEdgeData, vPositions);
+
+				edgePositions.push_back(vPositions);			
+			}
+
+			meshObj->mesh.setStaticEdgePositions(edgePositions);
+
+				
+			vector<vector<zVector>> facePositions;
+
+			for (int i = 0; i < numPolygons(); i ++)
+			{
+				vector<zVector> vPositions;
+				getVertexPositions(i, zFaceData, vPositions);
+
+				facePositions.push_back(vPositions);
+			}
+
+			meshObj->mesh.setStaticFacePositions(facePositions);
+
+			
+		}
 
 	protected:
 		/*!	\brief pointer to a mesh object  */
@@ -961,10 +995,19 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 		
-		void from(string path, zFileTpye type) override
+		void from(string path, zFileTpye type, bool staticGeom = false) override
 		{
-			if (type == zOBJ) fromOBJ(path);
-			else if (type == zJSON) fromJSON(path);
+			if (type == zOBJ)
+			{
+				fromOBJ(path);
+				if(staticGeom) setStaticContainers();
+			}
+			
+			else if (type == zJSON)
+			{
+				fromJSON(path);
+				if (staticGeom) setStaticContainers();
+			}
 			
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 		}
@@ -1017,6 +1060,8 @@ namespace zSpace
 				meshObj->mesh.faceColors.clear();
 				meshObj->mesh.faceNormals.clear();
 			}
+
+			meshObj->mesh.n_v = meshObj->mesh.n_e = meshObj->mesh.n_f = 0;
 		}
 		
 		//--------------------------
@@ -1029,15 +1074,18 @@ namespace zSpace
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
 		*	\param		[in]	polyCounts		- container of type integer with number of vertices per polygon.
 		*	\param		[in]	polyConnects	- polygon connection list with vertex ids for each face.
-		*	\param		[in]	computeNormals	- computes the face and vertex normals if true.
+		*	\param		[in]	staticMesh		- makes the mesh fixed. Computes the static edge and face vertex positions if true.
 		*	\since version 0.0.2
 		*/
-		void create(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects), bool computeNormals = true)
+		void create(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects), bool staticMesh = false)
 		{
 			meshObj->mesh = zMesh(_positions, polyCounts, polyConnects);
 
 			// compute mesh normals
-			if (computeNormals) computeMeshNormals();
+			computeMeshNormals();
+
+			if (staticMesh) setStaticContainers();
+			
 		}
 				
 
@@ -2144,12 +2192,20 @@ namespace zSpace
 			
 		}
 
-		
+		/*! \brief This method makes the mesh a static mesh. Makes the mesh fixed and computes the static edge and face vertex positions if true.
+		*	
+		*	\since version 0.0.2
+		*/
+		void makeStatic()
+		{
+			setStaticContainers();
+		}
+
 
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
-
+		
 		/*! \brief This method sets vertex position of the input vertex.
 		*
 		*	\param		[in]	index					- input vertex index.
@@ -2480,10 +2536,10 @@ namespace zSpace
 		//--- GET METHODS 
 		//--------------------------
 
-		/*! \brief This method gets vertex position of the input vertex.
+		/*! \brief This method gets vertex position at the input index.
 		*
 		*	\param		[in]	index					- input vertex index.
-		*	\return				zvector					- vertex position.
+		*	\return				zVector					- vertex position.
 		*	\since version 0.0.2
 		*/
 		zVector getVertexPosition(int index)
@@ -2492,6 +2548,21 @@ namespace zSpace
 			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
 			return meshObj->mesh.vertexPositions[index];
+
+		}
+
+		/*! \brief This method gets pointer to the vertex position at the input index.
+		*
+		*	\param		[in]	index					- input vertex index.
+		*	\return				zVector*				- pointer to internal vertex position.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexPosition(int index)
+		{
+			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &meshObj->mesh.vertexPositions[index];
 
 		}
 
@@ -2505,9 +2576,21 @@ namespace zSpace
 			pos = meshObj->mesh.vertexPositions;
 		}
 
-		/*! \brief This method gets vertex position of the input vertex.
+		/*! \brief This method gets pointer to the internal vertex positions container.
 		*
-		*	\param		[in]	index					- input vertex index.
+		*	\return				zVector*					- pointer to internal vertex position container.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexPositions()
+		{
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &meshObj->mesh.vertexPositions[0];			
+		}
+
+		/*! \brief This method gets vertex normal at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
 		*	\return				zVector				- vertex normal.
 		*	\since version 0.0.2
 		*/
@@ -2517,6 +2600,21 @@ namespace zSpace
 			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
 			return meshObj->mesh.vertexNormals[index];
+
+		}
+
+		/*! \brief This method gets pointer to the vertex normal at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zVector*			- pointer to internal vertex normal.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexNormal(int index)
+		{
+			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &meshObj->mesh.vertexNormals[index];
 
 		}
 
@@ -2530,7 +2628,19 @@ namespace zSpace
 			norm = meshObj->mesh.vertexNormals;
 		}
 
-		/*! \brief This method gets vertex color of the input vertex.
+		/*! \brief This method gets pointer to the internal vertex normal container.
+		*
+		*	\return				zVector*					- pointer to internal vertex normal container.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawVertexNormals()
+		{
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &meshObj->mesh.vertexNormals[0];
+		}
+
+		/*! \brief This method gets vertex color at the input index.
 		*
 		*	\param		[in]	index					- input vertex index.
 		*	\return				zColor					- vertex color.
@@ -2545,6 +2655,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the vertex color at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zColor*				- pointer to internal vertex color.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawVertexColor(int index)
+		{
+			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &meshObj->mesh.vertexColors[index];
+
+		}
+
 		/*! \brief This method gets vertex color of all the vertices.
 		*
 		*	\param		[out]	col				- color  contatiner. 
@@ -2553,6 +2678,18 @@ namespace zSpace
 		void getVertexColors(vector<zColor>& col)
 		{
 			col = meshObj->mesh.vertexColors;
+		}
+
+		/*! \brief This method gets pointer to the internal vertex color container.
+		*
+		*	\return				zColor*					- pointer to internal vertex color container.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawVertexColors()
+		{
+			if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &meshObj->mesh.vertexColors[0];
 		}
 
 		/*! \brief This method gets edge color of the input edge.
@@ -2570,6 +2707,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the edge color at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zColor*				- pointer to internal edge color.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawEdgeColor(int index)
+		{
+			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &meshObj->mesh.edgeColors[index];
+
+		}
+
 		/*! \brief This method gets edge color of all the edges.
 		*
 		*	\param		[out]	col				- color  contatiner.
@@ -2578,6 +2730,18 @@ namespace zSpace
 		void getEdgeColors(vector<zColor>& col)
 		{
 			col = meshObj->mesh.edgeColors;
+		}
+
+		/*! \brief This method gets pointer to the internal edge color container.
+		*
+		*	\return				zColor*					- pointer to internal edge color container.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawEdgeColors()
+		{
+			if (numEdges() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &meshObj->mesh.edgeColors[0];
 		}
 
 		/*! \brief This method gets face normal of the input face.
@@ -2595,6 +2759,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the face normal at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zVector*			- pointer to internal face normal.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawFaceNormal(int index)
+		{
+			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &meshObj->mesh.faceNormals[index];
+
+		}
+
 		/*! \brief This method gets face normals of all the faces.
 		*
 		*	\param		[out]	norm			- normals  contatiner.
@@ -2603,6 +2782,18 @@ namespace zSpace
 		void getFaceNormals(vector<zVector>& norm)
 		{
 			norm = meshObj->mesh.faceNormals;
+		}
+
+		/*! \brief This method gets pointer to the internal face normal container.
+		*
+		*	\return				zVector*					- pointer to internal face normal container.
+		*	\since version 0.0.2
+		*/
+		zVector* getRawFaceNormals()
+		{
+			if (numPolygons() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &meshObj->mesh.faceNormals[0];
 		}
 
 		/*! \brief This method gets face color of the input face.
@@ -2620,6 +2811,21 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method gets pointer to the face color at the input index.
+		*
+		*	\param		[in]	index				- input vertex index.
+		*	\return				zColor*				- pointer to internal face color.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawFaceColor(int index)
+		{
+			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+
+			return &meshObj->mesh.faceColors[index];
+
+		}
+
 		/*! \brief This method gets face color of all the faces.
 		*
 		*	\param		[out]	col				- color  contatiner.
@@ -2628,6 +2834,18 @@ namespace zSpace
 		void getFaceColors(vector<zColor>& col)
 		{
 			col = meshObj->mesh.faceColors;
+		}
+
+		/*! \brief This method gets pointer to the internal face color container.
+		*
+		*	\return				zColor*					- pointer to internal face color container.
+		*	\since version 0.0.2
+		*/
+		zColor* getRawFaceColors()
+		{
+			if (numEdges() == 0) throw std::invalid_argument(" error: null pointer.");
+
+			return &meshObj->mesh.faceColors[0];
 		}
 
 		/*! \brief This method computes the centers of a the input index edge or face of the mesh.
@@ -2759,16 +2977,15 @@ namespace zSpace
 
 		/*! \brief This method returns the dual mesh of the input mesh.
 		*
+		*	\param		[out]	dualMeshObj				- output dual mesh object.
 		*	\param		[out]	inEdge_dualEdge			- container storing the corresponding dual mesh edge per input mesh edge.
 		*	\param		[out]	dualEdge_inEdge			- container storing the corresponding input mesh edge per dual mesh edge.
 		*	\param		[in]	excludeBoundary			- true if boundary faces are to be ignored.
 		*	\param		[in]	rotate90				- true if dual mesh is to be roatated by 90. Generally used for planar mesh for 2D graphic statics application.
 		*	\since version 0.0.2
 		*/
-		zObjMesh getDualMesh( vector<int> &inEdge_dualEdge, vector<int> &dualEdge_inEdge, bool excludeBoundary, bool keepExistingBoundary = false, bool rotate90 = false)
+		void getDualMesh(zObjMesh &dualMeshObj, vector<int> &inEdge_dualEdge, vector<int> &dualEdge_inEdge, bool excludeBoundary, bool keepExistingBoundary = false, bool rotate90 = false)
 		{
-			zObjMesh out;
-
 			vector<zVector> positions;
 			vector<int> polyConnects;
 			vector<int> polyCounts;
@@ -2889,7 +3106,7 @@ namespace zSpace
 			}
 
 
-			out.mesh = zMesh(positions, polyCounts, polyConnects);
+			dualMeshObj.mesh = zMesh(positions, polyCounts, polyConnects);
 
 			// rotate by 90
 
@@ -2900,14 +3117,14 @@ namespace zSpace
 
 				// bounding box
 				zVector minBB, maxBB;
-				meshObj->mesh.coreUtils.getBounds(out.mesh.vertexPositions, minBB, maxBB);
+				meshObj->mesh.coreUtils.getBounds(dualMeshObj.mesh.vertexPositions, minBB, maxBB);
 
 				zVector cen = (maxBB + minBB) * 0.5;
 
-				for (int i = 0; i < out.mesh.vertexPositions.size(); i++)
+				for (int i = 0; i < dualMeshObj.mesh.vertexPositions.size(); i++)
 				{
-					out.mesh.vertexPositions[i] -= cen;
-					out.mesh.vertexPositions[i] = out.mesh.vertexPositions[i].rotateAboutAxis(meshNorm, -90);
+					dualMeshObj.mesh.vertexPositions[i] -= cen;
+					dualMeshObj.mesh.vertexPositions[i] = dualMeshObj.mesh.vertexPositions[i].rotateAboutAxis(meshNorm, -90);
 				}
 
 
@@ -2915,7 +3132,7 @@ namespace zSpace
 
 			// compute dualEdge_inEdge
 			dualEdge_inEdge.clear();
-			for (int i = 0; i < out.mesh.edgeActive.size(); i++)
+			for (int i = 0; i < dualMeshObj.mesh.edgeActive.size(); i++)
 			{
 				dualEdge_inEdge.push_back(-1);
 			}
@@ -2929,7 +3146,7 @@ namespace zSpace
 				int v2 = (i % 2 == 0) ? inEdge_dualVertex[i + 1] : inEdge_dualVertex[i - 1];
 
 				int eId = -1;
-				out.mesh.edgeExists(v1, v2, eId);
+				dualMeshObj.mesh.edgeExists(v1, v2, eId);
 				inEdge_dualEdge.push_back(eId);
 
 				if (inEdge_dualEdge[i] != -1)
@@ -2938,13 +3155,14 @@ namespace zSpace
 				}
 			}
 
-			return out;
+		
 
 		}
 
 
 		/*! \brief This method returns the dual graph of the input mesh.
 		*
+		*	\param		[out]	dualGraphObj			- output dual graph object.
 		*	\param		[out]	inEdge_dualEdge			- container storing the corresponding dual graph edge per input mesh edge.
 		*	\param		[out]	dualEdge_inEdge			- container storing the corresponding input mesh edge per dual graph edge.
 		*	\param		[in]	excludeBoundary			- true if boundary faces are to be ignored.
@@ -2952,10 +3170,8 @@ namespace zSpace
 		*	\param		[in]	rotate90				- true if dual mesh is to be roatated by 90.
 		*	\since version 0.0.2
 		*/
-		zObjGraph getDualGraph(vector<int> &inEdge_dualEdge, vector<int> &dualEdge_inEdge, bool excludeBoundary = false, bool PlanarMesh = false, bool rotate90 = false)
+		void getDualGraph(zObjGraph &dualGraphObj,vector<int> &inEdge_dualEdge, vector<int> &dualEdge_inEdge, bool excludeBoundary = false, bool PlanarMesh = false, bool rotate90 = false)
 		{
-			zObjGraph out;
-
 			vector<zVector> positions;
 			vector<int> edgeConnects;
 
@@ -3012,10 +3228,10 @@ namespace zSpace
 				zVector x(1, 0, 0);
 				zVector sortRef = graphNorm ^ x;
 
-				out.graph = zGraph(positions, edgeConnects, graphNorm, sortRef);
+				dualGraphObj.graph = zGraph(positions, edgeConnects, graphNorm, sortRef);
 			}
 
-			else out.graph = zGraph(positions, edgeConnects);
+			else dualGraphObj.graph = zGraph(positions, edgeConnects);
 
 			// rotate by 90
 
@@ -3026,14 +3242,14 @@ namespace zSpace
 
 				// bounding box
 				zVector minBB, maxBB;
-				meshObj->mesh.coreUtils.getBounds(out.graph.vertexPositions, minBB, maxBB);
+				meshObj->mesh.coreUtils.getBounds(dualGraphObj.graph.vertexPositions, minBB, maxBB);
 
 				zVector cen = (maxBB + minBB) * 0.5;
 
-				for (int i = 0; i < out.graph.vertexPositions.size(); i++)
+				for (int i = 0; i < dualGraphObj.graph.vertexPositions.size(); i++)
 				{
-					out.graph.vertexPositions[i] -= cen;
-					out.graph.vertexPositions[i] = out.graph.vertexPositions[i].rotateAboutAxis(graphNorm, -90);
+					dualGraphObj.graph.vertexPositions[i] -= cen;
+					dualGraphObj.graph.vertexPositions[i] = dualGraphObj.graph.vertexPositions[i].rotateAboutAxis(graphNorm, -90);
 				}
 
 
@@ -3041,7 +3257,7 @@ namespace zSpace
 
 			// compute dualEdge_inEdge
 			dualEdge_inEdge.clear();
-			for (int i = 0; i < out.graph.edgeActive.size(); i++)
+			for (int i = 0; i < dualGraphObj.graph.edgeActive.size(); i++)
 			{
 				dualEdge_inEdge.push_back(-1);
 			}
@@ -3055,7 +3271,7 @@ namespace zSpace
 				int v2 = (i % 2 == 0) ? inEdge_dualVertex[i + 1] : inEdge_dualVertex[i - 1];
 
 				int eId = -1;
-				out.graph.edgeExists(v1, v2, eId);
+				dualGraphObj.graph.edgeExists(v1, v2, eId);
 				inEdge_dualEdge.push_back(eId);
 
 				if (inEdge_dualEdge[i] != -1)
@@ -3064,7 +3280,7 @@ namespace zSpace
 				}
 			}
 
-			return out;
+			
 		}
 		   	
 
@@ -3463,32 +3679,40 @@ namespace zSpace
 							zVector pt2 = meshObj->mesh.vertexPositions[connectedvertices[next]];
 							zVector pt3 = meshObj->mesh.vertexPositions[connectedvertices[prev]];
 
-							zVector cr = (pt1 - pt) ^ (pt2 - pt);
+							zVector p01 = pt - pt1;
+							zVector p02 = pt - pt2;
+							zVector p10 = pt1 - pt;
+							zVector p20 = pt2 - pt;
+							zVector p12 = pt1 - pt2;
+							zVector p21 = pt2 - pt1;
+							zVector p31 = pt3 - pt1;
+							
+							zVector cr = (p10) ^ (p20);
 
-							float ang = (pt1 - pt).angle(pt2 - pt);
+							float ang = (p10).angle(p20);
 							angleSum += ang;
-							cotangentSum += (((pt2 - pt)*(pt1 - pt)) / cr.length());
+							cotangentSum += (((p20)*(p10)) / cr.length());
 
 
 							float e_Length = (pt1 - pt2).length();
 
 							edgeLengthSquare += (e_Length * e_Length);
 
-							zVector cr_alpha = (pt - pt1) ^ (pt2 - pt1);
-							zVector cr_beta = (pt - pt1) ^ (pt3 - pt1);
+							zVector cr_alpha = (p01) ^ (p21);
+							zVector cr_beta = (p01) ^ (p31);
 
-							float coTan_alpha = (((pt - pt1)*(pt2 - pt1)) / cr_alpha.length());
-							float coTan_beta = (((pt - pt1)*(pt3 - pt1)) / cr_beta.length());
+							float coTan_alpha = (((p01)*(p21)) / cr_alpha.length());
+							float coTan_beta = (((p01)*(p31)) / cr_beta.length());
 
 							// check if triangle is obtuse
-							if ((pt1 - pt).angle(pt2 - pt) <= 90 && (pt - pt1).angle(pt2 - pt1) <= 90 && (pt1 - pt2).angle(pt - pt2) <= 90)
+							if ((p10).angle(p20) <= 90 && (p01).angle(p21) <= 90 && (p12).angle(p02) <= 90)
 							{
 								areaSumMixed += (coTan_alpha + coTan_beta) * edgeLengthSquare * 0.125;
 							}
 							else
 							{
 
-								double triArea = (((pt1 - pt) ^ (pt2 - pt)).length()) / 2;
+								double triArea = (((p10) ^ (p20)).length()) / 2;
 
 								if ((ang) <= 90) areaSumMixed += triArea * 0.25;
 								else areaSumMixed += triArea * 0.5;

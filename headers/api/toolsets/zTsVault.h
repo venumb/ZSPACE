@@ -314,8 +314,8 @@ namespace zSpace
 			}
 
 			// check deviations
-			double minDev, maxDev;
-			bool out = checkHorizontalParallelity(minDev, maxDev, angleTolerance, colorEdges, printInfo);
+			zDomainDouble dev;
+			bool out = checkHorizontalParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 			if (out) 
 			{
@@ -778,14 +778,13 @@ namespace zSpace
 
 		/*! \brief This method if the form mesh edges and corresponding force mesh edge are parallel.
 		*
-		*	\param		[out]	minDeviation						- stores minimum deviation.
-		*	\param		[out]	maxDeviation						- stores maximum deviation.
+		*	\param		[out]	deviation							- deviation domain.
 		*	\param		[in]	angleTolerance						- angle tolerance for parallelity.
 		*	\param		[in]	printInfo							- printf information of minimum and maximum deviation if true.
 		*	\return				bool								- true if the all the correponding edges are parallel or within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool checkHorizontalParallelity(double &minDeviation, double &maxDeviation, double angleTolerance = 0.001, bool colorEdges = false, bool printInfo = false);
+		bool checkHorizontalParallelity(zDomainDouble &deviation, double angleTolerance = 0.001, bool colorEdges = false, bool printInfo = false);
 
 		/*! \brief This method updates the form diagram.
 		*
@@ -2222,7 +2221,7 @@ namespace zSpace
 	template<>
 	inline void zTsVault<zObjGraph, zFnGraph>::createFormFromForce(bool excludeBoundary, bool PlanarForceMesh, bool rotate90)
 	{
-		*formObj = fnForce.getDualGraph(forceEdge_formEdge, formEdge_forceEdge, excludeBoundary, PlanarForceMesh, rotate90);
+		fnForce.getDualGraph(*formObj,forceEdge_formEdge, formEdge_forceEdge, excludeBoundary, PlanarForceMesh, rotate90);
 
 		fnForm.setEdgeColor(compressionEdgeColor);
 
@@ -2649,12 +2648,12 @@ namespace zSpace
 
 	//---- graph specilization for checkHorizontalParallelity
 	template<>
-	inline bool zTsVault<zObjGraph, zFnGraph>::checkHorizontalParallelity(double & minDeviation, double & maxDeviation, double angleTolerance, bool colorEdges, bool printInfo)
+	inline bool zTsVault<zObjGraph, zFnGraph>::checkHorizontalParallelity(zDomainDouble &deviation, double angleTolerance, bool colorEdges, bool printInfo)
 	{
 		bool out = true;
 		vector<double> deviations;
-		minDeviation = 10000;
-		maxDeviation = -10000;
+		deviation.min = 10000;
+		deviation.max = -10000;
 
 		for (int i = 0; i < fnForm.numEdges(); i++)
 		{
@@ -2687,8 +2686,8 @@ namespace zSpace
 				//printf("\n %i %i %i %i ", v1_form, v2_form, v1_force, v2_force);
 				//printf("\n e: %i angle :  %1.2f ", i, a_i);
 
-				if (a_i < minDeviation) minDeviation = a_i;
-				if (a_i > maxDeviation) maxDeviation = a_i;
+				if (a_i < deviation.min) deviation.min = a_i;
+				if (a_i > deviation.max) deviation.max = a_i;
 
 			}
 			else
@@ -2699,16 +2698,18 @@ namespace zSpace
 
 		if (printInfo)
 		{
-			printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, minDeviation, maxDeviation);
+			printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, deviation.min, deviation.max);
 		}
 
 		if (colorEdges)
 		{
+			zDomainColor colDomain(zColor(180, 1, 1), zColor(0, 1, 1));
+
 			for (int i = 0; i < fnForm.numEdges(); i++)
 			{
 				if (deviations[i] != -1)
 				{
-					zColor col = coreUtils.blendColor(deviations[i], minDeviation, maxDeviation, zColor(180, 1, 1), zColor(0, 1, 1), zHSV);
+					zColor col = coreUtils.blendColor(deviations[i], deviation, colDomain, zHSV);
 
 					if (deviations[i] < angleTolerance) col = zColor();
 
@@ -2729,12 +2730,12 @@ namespace zSpace
 
 	//---- mesh specilization for checkHorizontalParallelity
 	template<>
-	inline bool zTsVault<zObjMesh, zFnMesh>::checkHorizontalParallelity(double & minDeviation, double & maxDeviation, double angleTolerance, bool colorEdges, bool printInfo)
+	inline bool zTsVault<zObjMesh, zFnMesh>::checkHorizontalParallelity(zDomainDouble &deviation, double angleTolerance, bool colorEdges, bool printInfo)
 	{
 		bool out = true;
 		vector<double> deviations;
-		minDeviation = 10000;
-		maxDeviation = -10000;
+		deviation.min = 10000;
+		deviation.max = -10000;
 
 		for (int i = 0; i < fnForm.numEdges(); i++)
 		{
@@ -2761,16 +2762,14 @@ namespace zSpace
 				if (a_i > angleTolerance)
 				{
 					out = false;
-
 				}
 
 
 				//printf("\n %i %i %i %i ", v1_form, v2_form, v1_force, v2_force);
 				//printf("\n e: %i angle :  %1.2f ", i, a_i);
 
-				if (a_i < minDeviation) minDeviation = a_i;
-				if (a_i > maxDeviation) maxDeviation = a_i;
-
+				if (a_i < deviation.min) deviation.min = a_i;
+				if (a_i > deviation.max) deviation.max = a_i;
 
 			}
 			else
@@ -2781,16 +2780,18 @@ namespace zSpace
 
 		if (printInfo)
 		{
-			printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, minDeviation, maxDeviation);
+			printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, deviation.min, deviation.max);
 		}
 
 		if (colorEdges)
 		{
-			for (int i = 0; i < fnForm.numEdges(); i+=2)
+			zDomainColor colDomain(zColor(180, 1, 1), zColor(0, 1, 1));
+
+			for (int i = 0; i < fnForm.numEdges(); i++)
 			{
 				if (deviations[i] != -1)
 				{
-					zColor col = coreUtils.blendColor(deviations[i], minDeviation, maxDeviation, zColor(180, 1, 1), zColor(0, 1, 1), zHSV);
+					zColor col = coreUtils.blendColor(deviations[i], deviation, colDomain, zHSV);
 
 					if (deviations[i] < angleTolerance) col = zColor();
 

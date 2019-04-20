@@ -30,7 +30,7 @@ namespace zSpace
 
 	class zGraph
 	{
-		
+
 
 	public:
 
@@ -95,8 +95,14 @@ namespace zSpace
 		int VBO_EdgeId;		
 
 		/*!	\brief stores the start vertex color ID in the VBO, when attache to the zBufferObject.	*/
-		int VBO_VertexColorId;							
+		int VBO_VertexColorId;		
 
+		
+		/*!	\brief boolean indicating if the geometry is static or not. Default its false.	*/
+		bool staticGeometry = false;
+
+		/*! \brief container of edge positions . Used for display if it is a static geometry */
+		vector<vector<zVector>> edgePositions;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -118,9 +124,10 @@ namespace zSpace
 		*
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
 		*	\param		[in]	edgeConnects	- container of edge connections with vertex ids for each edge
+		*	\param		[in]	staticGraph		- boolean indicating if the geometry is static or not. Default its false.
 		*	\since version 0.0.1
 		*/		
-		zGraph(vector<zVector>(&_positions), vector<int>(&edgeConnects))
+		zGraph(vector<zVector>(&_positions), vector<int>(&edgeConnects), bool staticGraph = false)
 		{
 
 			int _num_vertices = _positions.size();
@@ -160,7 +167,7 @@ namespace zSpace
 			for (int i = 0; i < edgeConnects.size(); i += 2)
 			{
 
-				addEdges(edgeConnects[i], edgeConnects[i + 1]);
+				addEdges(edgeConnects[i], edgeConnects[i + 1]);								
 
 				cEdgesperVert[edgeConnects[i]].temp_connectedEdges.push_back(n_e - 2);
 				cEdgesperVert[edgeConnects[i + 1]].temp_connectedEdges.push_back(n_e - 1);
@@ -511,7 +518,7 @@ namespace zSpace
 		}
 		
 
-		/*! \brief This method sets the number of edges in zMesh  the input value.
+		/*! \brief This method sets the number of edges to  the input value.
 		*	\param		[in]		_n_e	- number of edges.
 		*	\param		[in]		setMax	- if true, sets max edges as amultiple of _n_e.
 		*	\since version 0.0.1
@@ -523,6 +530,16 @@ namespace zSpace
 			if(setMax) max_n_e = 80 * n_e;
 		}
 
+
+		/*! \brief This method sets the static edge positions if the graph is static.
+		*	\param		[in]		_edgePositions	- input container of edgePositions.
+		*	\since version 0.0.2
+		*/
+		void setStaticEdgePositions(vector<vector<zVector>> &_edgePositions)
+		{
+			if(!staticGeometry) 	throw std::invalid_argument(" error: graph not static");
+			edgePositions = _edgePositions;
+		}
 		
 
 		/*! \brief This method sorts edges cyclically around a given vertex using a bestfit plane.

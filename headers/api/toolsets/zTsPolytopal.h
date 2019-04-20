@@ -390,8 +390,8 @@ namespace zSpace
 			updateFormDiagram(minmax_Edge, dT, type);
 
 			// check deviations
-			double minDev, maxDev;
-			bool out = checkParallelity(minDev, maxDev, angleTolerance, colorEdges, printInfo);			
+			zDomainDouble dev;
+			bool out = checkParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 			return out;
 
@@ -445,18 +445,18 @@ namespace zSpace
 		/*! \brief This method computes the form graph edge weights based on the force volume mesh face areas.
 		*
 		*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf)
-		*	\param		[in]	minWeight					- minimum weight of the edge.
-		*	\param		[in]	maxWeight					- maximum weight of the edge.
+		*	\param		[in]	weightDomain				- weight domain of the edge.
 		*	\since version 0.0.1
 		*/
-		 void setFormEdgeWeightsfromForce( double minWeight = 2.0, double maxWeight = 10.0)
+		 void setFormEdgeWeightsfromForce( zDomainDouble weightDomain = zDomainDouble(2.0, 10.0))
 		{
 			//compute edgeWeights
 			vector<vector<double>> volMesh_fAreas;
 
-			double minArea = 10000, maxArea = -100000;
-			zColor maxCol(0.784, 0, 0.157, 1);
-			zColor minCol(0.027, 0, 0.157, 1);
+			zDomainDouble areaDomain(10000, -100000);
+			
+			zDomainColor colDomain(zColor(0.784, 0, 0.157, 1), zColor(0.027, 0, 0.157, 1));
+	
 
 			for (int i = 0; i < fnForces.size(); i++)
 			{
@@ -464,10 +464,10 @@ namespace zSpace
 				fnForces[i].getPlanarFaceAreas(fAreas);
 
 				double temp_MinArea = coreUtils.zMin(fAreas);
-				minArea = (temp_MinArea < minArea) ? temp_MinArea : minArea;
+				areaDomain.min = (temp_MinArea < areaDomain.min) ? temp_MinArea : areaDomain.min;
 
 				double temp_maxArea = coreUtils.zMax(fAreas);
-				maxArea = (temp_maxArea > maxArea) ? temp_maxArea : maxArea;
+				areaDomain.max = (temp_maxArea > areaDomain.max) ? temp_maxArea : areaDomain.max;
 
 				volMesh_fAreas.push_back(fAreas);
 			}
@@ -486,9 +486,9 @@ namespace zSpace
 
 				for (int j = 0; j < cEdges.size(); j++)
 				{
-					double val = coreUtils.ofMap(fArea, minArea, maxArea, minWeight, maxWeight);
+					double val = coreUtils.ofMap(fArea, areaDomain, weightDomain);
 
-					zColor col = coreUtils.blendColor(fArea, minArea, maxArea, minCol, maxCol, zRGB);
+					zColor col = coreUtils.blendColor(fArea, areaDomain, colDomain, zRGB);
 				
 					fnForm.setEdgeWeight(cEdges[j], val);  					
 					fnForm.setEdgeColor(cEdges[j], col);
@@ -1199,12 +1199,11 @@ namespace zSpace
 		*	\return				bool								- true if the all the correponding edges are parallel or within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool checkParallelity(double & minDeviation, double & maxDeviation, double angleTolerance, bool colorEdges, bool printInfo)
+		bool checkParallelity(zDomainDouble & deviation, double angleTolerance, bool colorEdges, bool printInfo)
 		{
 			bool out = true;
 			vector<double> deviations;
-			minDeviation = 10000;
-			maxDeviation = -10000;
+			deviation = zDomainDouble(10000, -10000);			
 
 			for (int i = 0; i < fnForm.numEdges(); i+= 1)
 			{
@@ -1226,22 +1225,24 @@ namespace zSpace
 				}
 
 
-				if (a_i < minDeviation) minDeviation = a_i;
-				if (a_i > maxDeviation) maxDeviation = a_i;
+				if (a_i < deviation.min) deviation.min = a_i;
+				if (a_i > deviation.max) deviation.max = a_i;
 			}
 
 
 			if (printInfo)
 			{
-				printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, minDeviation, maxDeviation);
+				printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, deviation.min, deviation.max);
 			}
 
 			if (colorEdges)
 			{
+				zDomainColor colDomain(zColor(180, 1, 1), zColor(0, 1, 1));
+
 				for (int i = 0; i < fnForm.numEdges(); i += 1)
 				{
 					
-					zColor col = coreUtils.blendColor(deviations[i], minDeviation, maxDeviation, zColor(180, 1, 1), zColor(0, 1, 1), zHSV);
+					zColor col = coreUtils.blendColor(deviations[i], deviation, colDomain, zHSV);
 
 					if (deviations[i] < angleTolerance) col = zColor();
 

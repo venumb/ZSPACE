@@ -28,6 +28,9 @@ namespace zSpace
 
 	class zMesh : public zGraph
 	{
+	protected:
+		
+		
 
 	public:
 
@@ -58,7 +61,10 @@ namespace zSpace
 		vector <bool> faceActive;		
 	
 		/*!	\brief stores the start face ID in the VBO, when attached to the zBufferObject.	*/
-		int VBO_FaceId;								
+		int VBO_FaceId;		
+
+		/*! \brief container of face positions . Used for display if it is a static geometry */
+		vector<vector<zVector>> facePositions;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -134,9 +140,7 @@ namespace zSpace
 			}
 
 			// update boundary pointers
-			update_BoundaryEdgePointers();
-
-			
+			update_BoundaryEdgePointers();			
 
 		}
 
@@ -253,6 +257,15 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method sets the static edge positions if the graph is static.
+		*	\param		[in]		_edgePositions	- input container of edgePositions.
+		*	\since version 0.0.2
+		*/
+		void setStaticEdgePositions(vector<vector<zVector>> &_edgePositions)
+		{
+			if (!staticGeometry) 	throw std::invalid_argument(" error: mesh not static");
+			edgePositions = _edgePositions;
+		}
 
 		//--------------------------
 		//---- FACE METHODS
@@ -419,7 +432,15 @@ namespace zSpace
 			vertexIndicies = out;
 		}
 
-		
+		/*! \brief This method sets the static edge positions if the mesh is static.
+		*	\param		[in]		_edgePositions	- input container of edgePositions.
+		*	\since version 0.0.2
+		*/
+		void setStaticFacePositions(vector<vector<zVector>> &_facePositions)
+		{
+			if (!staticGeometry) 	throw std::invalid_argument(" error: geometry not static");
+			facePositions = _facePositions;
+		}
 
 		//--------------------------
 		//---- PRIVATE METHODS

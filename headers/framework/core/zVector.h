@@ -47,8 +47,7 @@ namespace  zSpace
 
 		/*! \brief Default constructor.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		zVector()
 		{
 			x = 0;
@@ -62,8 +61,7 @@ namespace  zSpace
 		*	\param		[in]	_z		- y component of the zVector.
 		*	\param		[in]	_z		- z component of the zVector.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		zVector(double _x, double _y, double _z)
 		{
 			x = _x;
@@ -86,8 +84,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector against which the equality is checked.
 		*	\return				bool	- true if vectors are equal.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		bool operator==(zVector v1)
 		{
 			bool out = false;
@@ -101,8 +98,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector which is added to the current vector.
 		*	\return				zVector	- resultant vector after the addition.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		zVector operator+(zVector v1)
 		{
 			return zVector(x + v1.x, y + v1.y, z + v1.z);
@@ -113,8 +109,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector which is subtracted from the current vector.
 		*	\return				zVector	- resultant vector after the subtraction.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		zVector operator -(zVector v1)
 		{
 			return zVector(x - v1.x, y - v1.y, z - v1.z);
@@ -125,8 +120,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector which is used for the dot product with the current vector.
 		*	\return				double	- resultant value after the dot product.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		double operator *(zVector v1)
 		{
 			return (x * v1.x + y * v1.y + z * v1.z);
@@ -137,8 +131,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector which is used for the cross product with the current vector.
 		*	\return				zVector	- resultant vector after the cross product.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		zVector operator ^(zVector v1)
 		{
 			return zVector(y * v1.z - z * v1.y, z*v1.x - x * v1.z, x*v1.y - y * v1.x);
@@ -149,8 +142,7 @@ namespace  zSpace
 		*	\param		[in]	val		- scalar value to be added to the current vector.
 		*	\return				zVector	- resultant vector after the scalar addition.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		zVector operator +(double val)
 		{
 			return  zVector(x + val, y + val, z + val);
@@ -161,8 +153,7 @@ namespace  zSpace
 		*	\param		[in]	val		- scalar value to be subtracted from the current vector.
 		*	\return				zVector	- resultant vector after the scalar subtraction.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		zVector operator -(double val)
 		{
 			return  zVector(x - val, y - val, z - val);
@@ -186,8 +177,7 @@ namespace  zSpace
 		*	\return				zVector		- resultant vector after the matrix multiplication.
 		*	\since version 0.0.1
 		*/
-
-		zVector operator*(zMatrixd &inMatrix)
+		zVector operator*(zMatrixd inMatrix)
 		{
 			if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
 			if (inMatrix.getNumCols() < 3 || inMatrix.getNumCols() > 4) 	throw std::invalid_argument("input Matrix is not a 3X3 or 4X4 matrix.");
@@ -204,8 +194,7 @@ namespace  zSpace
 		*	\param		[in]	val		- scalar value used to divide from the current vector.
 		*	\return				zVector	- resultant vector after the scalar division.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		zVector operator /(double val)
 		{
 			if (val == 0)
@@ -222,8 +211,7 @@ namespace  zSpace
 		*
 		*	\param		[in]	v1		- zVector which is added to the current vector.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void operator +=(zVector v1)
 		{
 			x += v1.x;
@@ -236,8 +224,7 @@ namespace  zSpace
 		*
 		*	\param		[in]	v1		- zVector which is subtacted from the current vector.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		void operator -=(zVector v1)
 		{
 			x -= v1.x;
@@ -251,8 +238,7 @@ namespace  zSpace
 		*
 		*	\param		[in]	val		- scalar value to be added to the current vector.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void operator +=(double val)
 		{
 			x += val;
@@ -265,8 +251,7 @@ namespace  zSpace
 		*
 		*	\param		[in]	val		- scalar value to be sbtracted from the current vector.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		void operator -=(double val)
 		{
 			x -= val;
@@ -279,8 +264,7 @@ namespace  zSpace
 		*
 		*	\param		[in]	val		- scalar value to be multiplied to the current vector.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		void operator *=(double val)
 		{
 			x *= val;
@@ -293,8 +277,7 @@ namespace  zSpace
 		*
 		*	\param		[in]	val		- scalar value used to divide from the current vector.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		void operator /=(double val)
 		{
 			x /= val;
@@ -311,8 +294,7 @@ namespace  zSpace
 		*
 		*	\return				double		- value of the maginute of the vector.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		double length()
 		{
 			return sqrt(x*x + y * y + z * z);
@@ -320,8 +302,7 @@ namespace  zSpace
 
 		/*! \brief This method normalizes the vector to unit length.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		void normalize()
 		{
 			double length = this->length();
@@ -331,16 +312,29 @@ namespace  zSpace
 			z /= length;
 		}
 
+
+		/*! \brief This method returns the square distance between the current zVector and input zVector.
+		*
+		*	\param		[in]	v1			- input vector.
+		*	\return				double		- value of the distance between the vectors.
+		*	\since version 0.0.1
+		*/
+		double squareDistanceTo(zVector &v1)
+		{
+			return (this->operator- (v1)) * (this->operator- (v1));
+		}
+
 		/*! \brief This method returns the distance between the current zVector and input zVector.
 		*
 		*	\param		[in]	v1			- input vector.
 		*	\return				double		- value of the distance between the vectors.
 		*	\since version 0.0.1
 		*/	
-		double distanceTo(zVector v1)
+		double distanceTo(zVector &v1)
 		{
-			return sqrt(pow((x - v1.x), 2.0) + pow((y - v1.y), 2.0) + pow((z - v1.z), 2.0));
+			return sqrt(squareDistanceTo(v1));
 		}
+			
 
 		/*! \brief This method returns the angle between the current zVector and input zVector.
 		*
@@ -348,7 +342,7 @@ namespace  zSpace
 		*	\return				double		- value of the angle between the vectors.
 		*	\since version 0.0.1
 		*/	
-		double angle(zVector v1)
+		double angle(zVector &v1)
 		{
 			// check if they are parallel
 			zVector a(x,y,z);
@@ -379,7 +373,7 @@ namespace  zSpace
 		*	\return				double		- value of the angle between the vectors.
 		*	\since version 0.0.1
 		*/
-		double angle360(zVector v1, zVector &normal)
+		double angle360(zVector &v1, zVector &normal)
 		{
 			// check if they are parallel
 			zVector a(x, y, z);
@@ -418,7 +412,7 @@ namespace  zSpace
 		*	\return				double		- value of the dihedral angle between the vectors.
 		*	\since version 0.0.1
 		*/	
-		double dihedralAngle(zVector v1, zVector v2)
+		double dihedralAngle(zVector &v1, zVector &v2)
 		{
 			zVector edgeRef(x, y, z);
 			zVector tmp(v1.x, v1.y, v1.z);
