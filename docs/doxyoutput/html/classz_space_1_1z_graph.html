@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a36f1eda5558e76e980a646e450237a58"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a36f1eda5558e76e980a646e450237a58">zGraph</a> ()</td></tr>
 <tr class="memdesc:a36f1eda5558e76e980a646e450237a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a36f1eda5558e76e980a646e450237a58">More...</a><br /></td></tr>
 <tr class="separator:a36f1eda5558e76e980a646e450237a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a53b68f1efa596293b85259464cf3ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff">zGraph</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;(&amp;_positions), vector&lt; int &gt;(&amp;edgeConnects))</td></tr>
-<tr class="memdesc:a7a53b68f1efa596293b85259464cf3ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded constructor.  <a href="#a7a53b68f1efa596293b85259464cf3ff">More...</a><br /></td></tr>
-<tr class="separator:a7a53b68f1efa596293b85259464cf3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a095a60a49c95cdff02807e36227571cf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a095a60a49c95cdff02807e36227571cf">zGraph</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;(&amp;_positions), vector&lt; int &gt;(&amp;edgeConnects), bool staticGraph=false)</td></tr>
+<tr class="memdesc:a095a60a49c95cdff02807e36227571cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded constructor.  <a href="#a095a60a49c95cdff02807e36227571cf">More...</a><br /></td></tr>
+<tr class="separator:a095a60a49c95cdff02807e36227571cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f11bce53cf1f63a3235a385504e78f6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0f11bce53cf1f63a3235a385504e78f6">zGraph</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;(&amp;_positions), vector&lt; int &gt;(&amp;edgeConnects), <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;graphNormal, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;sortReference)</td></tr>
 <tr class="memdesc:a0f11bce53cf1f63a3235a385504e78f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded constructor for planar graphs.  <a href="#a0f11bce53cf1f63a3235a385504e78f6">More...</a><br /></td></tr>
 <tr class="separator:a0f11bce53cf1f63a3235a385504e78f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,8 +151,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a821941b26e312ab5015ae34fecbd43b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds an edge and its symmetry edge to the edges array.  <a href="#a821941b26e312ab5015ae34fecbd43b3">More...</a><br /></td></tr>
 <tr class="separator:a821941b26e312ab5015ae34fecbd43b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a3ca39f51ad1224d05c7472164c0ab8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8">setNumEdges</a> (int _n_e, bool setMax=true)</td></tr>
-<tr class="memdesc:a1a3ca39f51ad1224d05c7472164c0ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of edges in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> the input value.  <a href="#a1a3ca39f51ad1224d05c7472164c0ab8">More...</a><br /></td></tr>
+<tr class="memdesc:a1a3ca39f51ad1224d05c7472164c0ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of edges to the input value.  <a href="#a1a3ca39f51ad1224d05c7472164c0ab8">More...</a><br /></td></tr>
 <tr class="separator:a1a3ca39f51ad1224d05c7472164c0ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ed3aa8f85652f62ebb26b893b2aee1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a69ed3aa8f85652f62ebb26b893b2aee1">setStaticEdgePositions</a> (vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;_edgePositions)</td></tr>
+<tr class="memdesc:a69ed3aa8f85652f62ebb26b893b2aee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the static edge positions if the graph is static.  <a href="#a69ed3aa8f85652f62ebb26b893b2aee1">More...</a><br /></td></tr>
+<tr class="separator:a69ed3aa8f85652f62ebb26b893b2aee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe3788c9346ebecb3aaee6f1b538293a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a">cyclic_sortEdges</a> (vector&lt; int &gt; &amp;unSortedEdges, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;center, int sortReferenceIndex, vector&lt; int &gt; &amp;sortedEdges)</td></tr>
 <tr class="memdesc:abe3788c9346ebecb3aaee6f1b538293a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sorts edges cyclically around a given vertex using a bestfit plane.  <a href="#abe3788c9346ebecb3aaee6f1b538293a">More...</a><br /></td></tr>
 <tr class="separator:abe3788c9346ebecb3aaee6f1b538293a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,6 +222,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6db092479993e2e0ceeac64e1564aa44"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44">VBO_VertexColorId</a></td></tr>
 <tr class="memdesc:a6db092479993e2e0ceeac64e1564aa44"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start vertex color ID in the VBO, when attache to the zBufferObject.  <a href="#a6db092479993e2e0ceeac64e1564aa44">More...</a><br /></td></tr>
 <tr class="separator:a6db092479993e2e0ceeac64e1564aa44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ef8f64bf1bf629d0d9ffbdd0c122d36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a4ef8f64bf1bf629d0d9ffbdd0c122d36">staticGeometry</a> = false</td></tr>
+<tr class="memdesc:a4ef8f64bf1bf629d0d9ffbdd0c122d36"><td class="mdescLeft">&#160;</td><td class="mdescRight">boolean indicating if the geometry is static or not. Default its false.  <a href="#a4ef8f64bf1bf629d0d9ffbdd0c122d36">More...</a><br /></td></tr>
+<tr class="separator:a4ef8f64bf1bf629d0d9ffbdd0c122d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafb5581f047710a4b571eb61f40fb60a"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#aafb5581f047710a4b571eb61f40fb60a">edgePositions</a></td></tr>
+<tr class="memdesc:aafb5581f047710a4b571eb61f40fb60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">container of edge positions . Used for display if it is a static geometry  <a href="#aafb5581f047710a4b571eb61f40fb60a">More...</a><br /></td></tr>
+<tr class="separator:aafb5581f047710a4b571eb61f40fb60a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -258,12 +267,12 @@ Protected Member Functions</h2></td></tr>
 <p>Default constructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00109">109</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00115">115</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
-<a id="a7a53b68f1efa596293b85259464cf3ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a53b68f1efa596293b85259464cf3ff">&#9670;&nbsp;</a></span>zGraph() <span class="overload">[2/3]</span></h2>
+<a id="a095a60a49c95cdff02807e36227571cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a095a60a49c95cdff02807e36227571cf">&#9670;&nbsp;</a></span>zGraph() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -281,7 +290,13 @@ Protected Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>edgeConnects</em>&#160;</td>
+          <td class="paramname"><em>edgeConnects</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>staticGraph</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -301,12 +316,13 @@ Protected Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">_positions</td><td>- container of type <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> containing position information of vertices. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">edgeConnects</td><td>- container of edge connections with vertex ids for each edge </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">staticGraph</td><td>- boolean indicating if the geometry is static or not. Default its false. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00123">123</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00130">130</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -368,7 +384,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00213">213</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00220">220</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -398,7 +414,7 @@ Protected Member Functions</h2></td></tr>
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00304">304</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00311">311</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -448,7 +464,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the edges container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00464">464</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00471">471</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +512,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00370">370</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00377">377</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -551,7 +567,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00402">402</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00409">409</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -589,7 +605,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the vertices container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00317">317</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00324">324</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -651,7 +667,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00536">536</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00553">553</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -720,7 +736,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00631">631</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00648">648</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -776,7 +792,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>[out] bool - true if edge exists else false. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00434">434</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00441">441</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -813,7 +829,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00385">385</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00392">392</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -861,7 +877,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00417">417</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00424">424</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -909,7 +925,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00716">716</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00733">733</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -947,7 +963,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>This method sets the number of edges in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> the input value. </p>
+<p>This method sets the number of edges to the input value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">_n_e</td><td>- number of edges. </td></tr>
@@ -957,7 +973,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00519">519</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00526">526</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -1005,7 +1021,44 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00353">353</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00360">360</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a69ed3aa8f85652f62ebb26b893b2aee1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69ed3aa8f85652f62ebb26b893b2aee1">&#9670;&nbsp;</a></span>setStaticEdgePositions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zGraph::setStaticEdgePositions </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>_edgePositions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method sets the static edge positions if the graph is static. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">_edgePositions</td><td>- input container of edgePositions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00538">538</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -1061,6 +1114,24 @@ Protected Member Functions</h2></td></tr>
 <p>container which stores edge colors. </p>
 
 <p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00076">76</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="aafb5581f047710a4b571eb61f40fb60a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafb5581f047710a4b571eb61f40fb60a">&#9670;&nbsp;</a></span>edgePositions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;vector&lt;<a class="el" href="classz_space_1_1z_vector.html">zVector</a>&gt; &gt; zSpace::zGraph::edgePositions</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container of edge positions . Used for display if it is a static geometry </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00105">105</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>
@@ -1187,6 +1258,24 @@ Protected Member Functions</h2></td></tr>
 <p>position to vertexId map. Used to check if vertex exists with the haskey being the vertex position. </p>
 
 <p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00069">69</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
+
+</div>
+</div>
+<a id="a4ef8f64bf1bf629d0d9ffbdd0c122d36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ef8f64bf1bf629d0d9ffbdd0c122d36">&#9670;&nbsp;</a></span>staticGeometry</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool zSpace::zGraph::staticGeometry = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>boolean indicating if the geometry is static or not. Default its false. </p>
+
+<p class="definition">Definition at line <a class="el" href="z_graph_8h_source.html#l00102">102</a> of file <a class="el" href="z_graph_8h_source.html">zGraph.h</a>.</p>
 
 </div>
 </div>

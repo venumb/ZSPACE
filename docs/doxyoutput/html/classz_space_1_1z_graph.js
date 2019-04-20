@@ -1,7 +1,7 @@
 var classz_space_1_1z_graph =
 [
     [ "zGraph", "classz_space_1_1z_graph.html#a36f1eda5558e76e980a646e450237a58", null ],
-    [ "zGraph", "classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff", null ],
+    [ "zGraph", "classz_space_1_1z_graph.html#a095a60a49c95cdff02807e36227571cf", null ],
     [ "zGraph", "classz_space_1_1z_graph.html#a0f11bce53cf1f63a3235a385504e78f6", null ],
     [ "~zGraph", "classz_space_1_1z_graph.html#a1bb1fdf11b93ab2c700a35d5804ac1bd", null ],
     [ "addEdges", "classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3", null ],
@@ -16,9 +16,11 @@ var classz_space_1_1z_graph =
     [ "resizeArray", "classz_space_1_1z_graph.html#a8b28611b85ceff8555b9230e3af6f47a", null ],
     [ "setNumEdges", "classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8", null ],
     [ "setNumVertices", "classz_space_1_1z_graph.html#a6ecdde9a2885d33d3488f3eaea7b98c9", null ],
+    [ "setStaticEdgePositions", "classz_space_1_1z_graph.html#a69ed3aa8f85652f62ebb26b893b2aee1", null ],
     [ "coreUtils", "classz_space_1_1z_graph.html#a40c5d9abf921160924128fe36824dca0", null ],
     [ "edgeActive", "classz_space_1_1z_graph.html#a0e47cf0c661274b89f598d1c32585217", null ],
     [ "edgeColors", "classz_space_1_1z_graph.html#a284bf728d08d035c7c85bbdd1a167a67", null ],
+    [ "edgePositions", "classz_space_1_1z_graph.html#aafb5581f047710a4b571eb61f40fb60a", null ],
     [ "edges", "classz_space_1_1z_graph.html#acd835a1073581d7fee5991c1c27bb599", null ],
     [ "edgeWeights", "classz_space_1_1z_graph.html#a0b3655fb95f6249e599ffcfe3320bbdb", null ],
     [ "max_n_e", "classz_space_1_1z_graph.html#a8770334b0d78e0ef38f2529546212c26", null ],
@@ -26,6 +28,7 @@ var classz_space_1_1z_graph =
     [ "n_e", "classz_space_1_1z_graph.html#af8da81568c9f0c4ee4c25568911f198c", null ],
     [ "n_v", "classz_space_1_1z_graph.html#a8de1d08ac2f00a5b17305f339489a092", null ],
     [ "positionVertex", "classz_space_1_1z_graph.html#a438d7472530c96e84041c46e4d5cf654", null ],
+    [ "staticGeometry", "classz_space_1_1z_graph.html#a4ef8f64bf1bf629d0d9ffbdd0c122d36", null ],
     [ "VBO_EdgeId", "classz_space_1_1z_graph.html#a2cc0f046d89aead5386bdbfd26fc8739", null ],
     [ "VBO_VertexColorId", "classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44", null ],
     [ "VBO_VertexId", "classz_space_1_1z_graph.html#ae66e46dde46b645e9f487f602c54d943", null ],

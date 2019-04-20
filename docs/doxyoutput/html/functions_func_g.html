@@ -98,8 +98,8 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_utils_core.html#a451456cee5f62c7eee6ddec083fd66bd">zSpace::zUtilsCore</a>
 </li>
 <li>getBoundingBox()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a139315b87de7571e47688a94f334f166">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#aec51a3fbc41162ce097c66ad04642b15">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#aff73d300199a85b40c9cc0a75b75357a">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a1742c6d3139c0110b4a4ee40440e8ddf">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getBounds()
 : <a class="el" href="classz_space_1_1z_utils_core.html#af2afb78c68310d92397ef4afdf3f19af">zSpace::zUtilsCore</a>
@@ -127,17 +127,17 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 <li>getClosePolytopalMesh()
 : <a class="el" href="classz_space_1_1z_ts_polytopal.html#a1a029c0588709130b91386c8e00297c7">zSpace::zTsPolytopal</a>
 </li>
+<li>getClosest_PointCloud()
+: <a class="el" href="classz_space_1_1z_utils_core.html#a548deb3c665cc51facd301141ef83028">zSpace::zUtilsCore</a>
+</li>
+<li>getClosestIndex()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a5b1ef87fc72fccdee84df538be37c445">zSpace::zFnMeshField&lt; T &gt;</a>
+</li>
 <li>getClusterIndex()
 : <a class="el" href="classz_space_1_1z_ts_k_means.html#a7ca5d2abd4c1c20c7b1eb34472b0af43">zSpace::zTsKMeans</a>
 </li>
 <li>getCol()
 : <a class="el" href="classz_space_1_1z_matrix.html#aeac2ded2fa3667acd6d3e28c7ece183d">zSpace::zMatrix&lt; T &gt;</a>
-</li>
-<li>getColor()
-: <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a38eb5262c5a99fd1725d90fe268f467c">zSpace::zFnPointCloud</a>
-</li>
-<li>getColors()
-: <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a31a432001bb4da3f1a8c8c81da69ac28">zSpace::zFnPointCloud</a>
 </li>
 <li>getColumnMatrix()
 : <a class="el" href="classz_space_1_1z_matrix.html#a0c36558b03d5d69edab54120eaa03025">zSpace::zMatrix&lt; T &gt;</a>
@@ -157,7 +157,7 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 , <a class="el" href="classz_space_1_1z_fn_mesh.html#a88b3922c9d8faa1ae4cf0545a777558b">zSpace::zFnMesh</a>
 </li>
 <li>getContourPosition()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ac789f837529dad8880ab206a6536804a">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#afd88d6a724a9e47cf944b0cac57c822c">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getCorrespondingForceEdge()
 : <a class="el" href="classz_space_1_1z_ts_vault.html#a1921390835aeab4f88e313a6328f0d85">zSpace::zTsVault&lt; T, U &gt;</a>
@@ -181,10 +181,10 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_utils_core.html#adb17c583d7eac0ce91e7a05d86aff9c9">zSpace::zUtilsCore</a>
 </li>
 <li>getDualGraph()
-: <a class="el" href="classz_space_1_1z_fn_mesh.html#adb4247a836efaae562f27609236ceba4">zSpace::zFnMesh</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#ae3d435de15ffa1ca379d0c9bedc8059d">zSpace::zFnMesh</a>
 </li>
 <li>getDualMesh()
-: <a class="el" href="classz_space_1_1z_fn_mesh.html#a5776edb19194363416d2d9799c4a3f30">zSpace::zFnMesh</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a52b4800d2ec305800640e1d50316d784">zSpace::zFnMesh</a>
 </li>
 <li>getDuplicate()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#af0b0402ee25eff90a444398dc2f54cd9">zSpace::zFnGraph</a>
@@ -287,12 +287,19 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_mesh.html#ae00189188ee58d61d268fd27d13103ad">zSpace::zMesh</a>
 </li>
 <li>getFieldValue()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#aa1b801a6775cbe72ee2fcd8fb115d746">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a336ea328c186ec1f4639e164b1b012b6">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a9bb3e45451217fb4aec2154b9d8404bb">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a3ef58aa5270985bafcb2d3d6f5ed2582">zSpace::zFnPointField&lt; T &gt;</a>
+</li>
+<li>getFieldValues()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a4ea6561ba33632da7ecb069fd3512e6f">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a6848b47ea594ac5c0c08e18ac536cf49">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getFieldValuesAsVertexDistance_IDW()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a82f0b59368ccddccd96b89f0015aa354">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a7ce0ef099e5b87ebb18ff3504b9a33d5">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a267296304514ee6cd84b0e00aff0e0d0">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a8bd78d74e041c83bb55f5ff00674c1f8">zSpace::zFnPointField&lt; T &gt;</a>
+</li>
+<li>getFilesFromDirectory()
+: <a class="el" href="classz_space_1_1z_utils_core.html#a4d449e6ffbc921e5ebdc9a76cae5e0ac">zSpace::zUtilsCore</a>
 </li>
 <li>getFixed()
 : <a class="el" href="classz_space_1_1z_fn_particle.html#a110c50016dbdbf4e5304bd40f0172398">zSpace::zFnParticle</a>
@@ -307,12 +314,12 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_ts_slime_agent.html#afd9896e3607b5196894e9449791ab0be">zSpace::zTsSlimeAgent</a>
 </li>
 <li>getGradient()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a02841aa0608145384b0a7a4df828aa5d">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a19544df3b0055dc18871a58be29ef257">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ae434b32551ce97d04a8c35ff9ff0ae88">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a6012656d3aa75e046da8eeb66bb56832">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getGradients()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ae79fcd900f374c807e5339204de69bc5">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a2810fb737249574137671c70579e5227">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a005e549560858da614a439c30b0376a7">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a78430d55db6687f84758b9e7d4a9885a">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getGraphMesh()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#a4cf9d46f463ab732c85e611ad33e0ee8">zSpace::zFnGraph</a>
@@ -324,35 +331,35 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_ts_vault.html#a792d29d2e2ad4b47c11fe58a96b35603">zSpace::zTsVault&lt; T, U &gt;</a>
 </li>
 <li>getIndex()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a04735a38c11f278c849a34e749f9bcba">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#ad28352b26df5c3be3e8b04bc67f9e84c">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ac78aa71a46601919fe109a5e5cc24a12">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a7230efac5331e91b6ca2294499c24160">zSpace::zFnPointField&lt; T &gt;</a>
 , <a class="el" href="classz_space_1_1z_matrix.html#afefb3b94c36e5c24e23ee3e157760304">zSpace::zMatrix&lt; T &gt;</a>
 </li>
 <li>getIndices()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a56519e4f0877ba602fbc40bbd3f93ced">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#aa5af8ae57f07d673b5b03b69246d18a8">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ade7f9f0163b527dc6eaae225dec0f50c">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#ab9a720a6b5631a9b4ae11f20a91cef34">zSpace::zFnPointField&lt; T &gt;</a>
 , <a class="el" href="classz_space_1_1z_matrix.html#a62b500bc5d34d92a02a7eb7ea19ad406">zSpace::zMatrix&lt; T &gt;</a>
 </li>
 <li>getIsobandCase()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#acc6f5c577a59b4c9cc8c374d0fa5447a">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a38401a0d2891fd5c3e3a74847a98c772">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getIsobandMesh()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a0ee3d58ef0c9d003ae6b7fddcb1b9bef">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ac0a908d293661f26049a90d8b4fd8e9d">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getIsobandPoly()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a3778c4e4c8b4f90e606b2799c3a0a51b">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a6ce0aca9bfa5bb39854bda8755c2525f">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getIsocontour()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a94d499d4fa01a0a8db10470ea417c157">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a5f86b178034c6f64289e962f8c8b3159">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getIsolineCase()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a03b4daad3537a85a93dde66ebbd1b6ad">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#acbd27c089a2e5cdbab4b83690e52bd3a">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getIsolineMesh()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#af92ecf449f115c1dd23ca92591871c53">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a2bb4bf0a729736e3ca368a9db5c34d38">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getIsolinePoly()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a8b2b6f4aade3abee47ce3ae771cc77b7">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#aa3608c7ecb150a84cd554004704ef0ca">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getKMeansClusters()
 : <a class="el" href="classz_space_1_1z_ts_k_means.html#a0bd0b83565e5072744ea835989e7df40">zSpace::zTsKMeans</a>
@@ -372,16 +379,29 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 <li>getMeshVolume()
 : <a class="el" href="classz_space_1_1z_fn_mesh.html#a04b1ce5181e1074f1a241f4a7d681843">zSpace::zFnMesh</a>
 </li>
-<li>getNeighbourAdjacents()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a3f9a1300b6f0b8f349728ba68a41bcc6">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a0329f22fe5d404dac8b619de13f03e1c">zSpace::zFnField3D&lt; T &gt;</a>
+<li>getNeighbour_Adjacents()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ac5957f2780bcb0c3dc78b28af58ed691">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
-<li>getNeighbourContained()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ae4a0909b4b9cfbafd3c4eee67cbff28c">zSpace::zFnField2D&lt; T &gt;</a>
+<li>getNeighbour_Contained()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a14261f3ff1ce49af9b79f974575d8d47">zSpace::zFnMeshField&lt; T &gt;</a>
+</li>
+<li>getNeighbour_Ring()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a289aa0b58fe61ce4416f2ee98a52858d">zSpace::zFnMeshField&lt; T &gt;</a>
+</li>
+<li>getNeighbourAdjacents()
+: <a class="el" href="classz_space_1_1z_fn_point_field.html#a845b7750e463dfe218bafe5a319ec92b">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getNeighbourhoodRing()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ad34ecdc1967e6ad59a74276e469b08ff">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#ae98f8f707390f2892050b8123b7b5f54">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_point_field.html#aa20bba7d9167711619fa626769eb09e3">zSpace::zFnPointField&lt; T &gt;</a>
+</li>
+<li>getNeighbourPosition_Adjacents()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a3c31beab308e8c749f5e09a1c086568a">zSpace::zFnMeshField&lt; T &gt;</a>
+</li>
+<li>getNeighbourPosition_Contained()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ac805165f8fd6b38a679f051c3abb1efb">zSpace::zFnMeshField&lt; T &gt;</a>
+</li>
+<li>getNeighbourPosition_Ring()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#abeb863fb53371fa897a4c59c9f625313">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getNext()
 : <a class="el" href="classz_space_1_1z_edge.html#a3bce594c06fc4450ce8af3c0b98e2ae3">zSpace::zEdge</a>
@@ -396,10 +416,10 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_matrix.html#a9f99bbcdb6224e24488e8e01d51937be">zSpace::zMatrix&lt; T &gt;</a>
 </li>
 <li>getNumfiles()
-: <a class="el" href="classz_space_1_1z_utils_core.html#a82f13fb2e9deea948e7b75b993db74cc">zSpace::zUtilsCore</a>
+: <a class="el" href="classz_space_1_1z_utils_core.html#aa8fc63cf35e0f0c8baab1a430a2c6c0a">zSpace::zUtilsCore</a>
 </li>
 <li>getNumfiles_Type()
-: <a class="el" href="classz_space_1_1z_utils_core.html#abeb447aef6ff0835b2b78653e11fe03a">zSpace::zUtilsCore</a>
+: <a class="el" href="classz_space_1_1z_utils_core.html#a5e321ceecba9c80c8558ba543627f1f6">zSpace::zUtilsCore</a>
 </li>
 <li>getNumPolygonVertices()
 : <a class="el" href="classz_space_1_1z_fn_mesh.html#a55466c0ce11850becfd794a2cd3ebcfd">zSpace::zFnMesh</a>
@@ -421,13 +441,9 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_ts_polytopal.html#a00dcf9aee765c7dde99302c21dc1a7f6">zSpace::zTsPolytopal</a>
 </li>
 <li>getPosition()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a071766b122cf49bc4addcfb497d7f071">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a480bd6ebbed425e7fc85140558732ea9">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a6789daf510a1bf72a311f6ba20df1d77">zSpace::zFnMeshField&lt; T &gt;</a>
 , <a class="el" href="classz_space_1_1z_fn_particle.html#a0c22501a076f4e5f3e7e2165ee879f40">zSpace::zFnParticle</a>
-, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a6595121bac2722eb27307196776329bf">zSpace::zFnPointCloud</a>
-</li>
-<li>getPositions()
-: <a class="el" href="classz_space_1_1z_fn_point_cloud.html#af29506514e25cb1b59ad4876264b4477">zSpace::zFnPointCloud</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a5b90b1d7eb2d200a4fa11041e04db11f">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getPrev()
 : <a class="el" href="classz_space_1_1z_edge.html#a01d9d153f7c5ec381474e815384f7d30">zSpace::zEdge</a>
@@ -444,12 +460,61 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 <li>getRA()
 : <a class="el" href="classz_space_1_1z_ts_slime_agent.html#a87e700549032c79c8d140276a5c1f65f">zSpace::zTsSlimeAgent</a>
 </li>
+<li>getRawEdgeColor()
+: <a class="el" href="classz_space_1_1z_fn_graph.html#a8b2ec231342ed989206c10b4346b6a0d">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#a68fb2beafe7e28a7d4f93ad995db75d4">zSpace::zFnMesh</a>
+</li>
+<li>getRawEdgeColors()
+: <a class="el" href="classz_space_1_1z_fn_graph.html#a6adb7dd7b7a9374917332a0c4ddc14ac">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#ab6c26720cadcf50a47c099f7cf9df2d5">zSpace::zFnMesh</a>
+</li>
+<li>getRawFaceColor()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a29b03333d0149a36a67e2fd7dd0d11ec">zSpace::zFnMesh</a>
+</li>
+<li>getRawFaceColors()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#ab91dfe27b6bd5c2fcbd1cf9f7ca20555">zSpace::zFnMesh</a>
+</li>
+<li>getRawFaceNormal()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#acd736569f9bd718b8e5d7e001d6f836e">zSpace::zFnMesh</a>
+</li>
+<li>getRawFaceNormals()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a06e638cf848de702c612634512fe697a">zSpace::zFnMesh</a>
+</li>
+<li>getRawFieldValues()
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#aeea811a118fdd721aec4216c15e96280">zSpace::zFnMeshField&lt; T &gt;</a>
+</li>
+<li>getRawVertexColor()
+: <a class="el" href="classz_space_1_1z_fn_graph.html#a2393a914c53182085b72d1a608c81150">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#af50119788ebaf14db0d4249420112630">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a779db665a6e87932f31f20e5ced799fb">zSpace::zFnPointCloud</a>
+</li>
+<li>getRawVertexColors()
+: <a class="el" href="classz_space_1_1z_fn_graph.html#a2e4fb015754e98a4b9627db5da16c0b6">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#a6f7d950d23b99d5276590d833979b613">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#ae612fd7322d622794c48ec6f1321638a">zSpace::zFnPointCloud</a>
+</li>
+<li>getRawVertexNormal()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a726718a7582e2c4a7d2cdf01293fc0e5">zSpace::zFnMesh</a>
+</li>
+<li>getRawVertexNormals()
+: <a class="el" href="classz_space_1_1z_fn_mesh.html#a58ba95b6b5960729f09248a1130aab90">zSpace::zFnMesh</a>
+</li>
+<li>getRawVertexPosition()
+: <a class="el" href="classz_space_1_1z_fn_graph.html#a8b4b02b34a80a16871e89c775aedc5d4">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#a5ed2223c929ae2475714ff611b751944">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a800258286de741f50338f3e7c1671096">zSpace::zFnPointCloud</a>
+</li>
+<li>getRawVertexPositions()
+: <a class="el" href="classz_space_1_1z_fn_graph.html#af84eed38d81e6d15cced09ac9d284c1c">zSpace::zFnGraph</a>
+, <a class="el" href="classz_space_1_1z_fn_mesh.html#a55be22a61daae7cca920277b2283617c">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a3bc69c6aef0a50443ef0935b99336c7f">zSpace::zFnPointCloud</a>
+</li>
 <li>getRectangle()
 : <a class="el" href="classz_space_1_1z_utils_core.html#ac33c499c86f25fb809b52148e81cba83">zSpace::zUtilsCore</a>
 </li>
 <li>getResolution()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ab80dd88c6b0d8249f6d63d6321e31faa">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a091767aceaf199e6d641457fb24321eb">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#ac21c0de765a7fcc36809526b833a2b2b">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a282a7a415a0dd16f68b98de2baffba58">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getRow()
 : <a class="el" href="classz_space_1_1z_matrix.html#a65c848d1249b713e9c1e5e4dbb096d15">zSpace::zMatrix&lt; T &gt;</a>
@@ -461,24 +526,24 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_ts_slime_agent.html#aa4f61e13d4e9eb56acf46d0e1d152757">zSpace::zTsSlimeAgent</a>
 </li>
 <li>getScalar_sdLine()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a2c61086c0a4aa1fe31dd990690f35786">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a89d567bdd31ca04592601fb88ed24572">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getScalar_sdTrapezoid()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ae53cad74a03d2df89343455f14e77081">zSpace::zFnField2D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a51514d7de8f050b9f9e5acf16a9e8122">zSpace::zFnMeshField&lt; T &gt;</a>
 </li>
 <li>getScalarsAsEdgeDistance()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#a4d468d069764dbe54f7040bbb84b67dc">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a91b89ed44d3bfacfef0b1bb531009ef3">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a2aaae8eb9e764cb05e6e6555e72d80eb">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a229d4f1f24547dfca0e20859e0e12f4c">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getScalarsAsVertexDistance()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#af149aea12e8c19887091cdc5f71501b2">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a62b1f7b9804918aaa76187734569ffb2">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#abba20567708cd4d71ca125ba2808e70a">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#a1da3e9ab22d77b74ced129799e7e45ef">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getSeedPoints()
 : <a class="el" href="classz_space_1_1z_ts_streams2_d.html#a289c94af364d3e1d96ae6fd184ce56be">zSpace::zTsStreams2D</a>
 </li>
 <li>getSeedPoints_Influence()
-: <a class="el" href="classz_space_1_1z_ts_streams2_d.html#ab106215cc64b17de962f23954b09f350">zSpace::zTsStreams2D</a>
+: <a class="el" href="classz_space_1_1z_ts_streams2_d.html#ad9ff07a44d7686e07cb8c05a95e38118">zSpace::zTsStreams2D</a>
 </li>
 <li>getSignedTriangleVolume()
 : <a class="el" href="classz_space_1_1z_utils_core.html#a222fa17157eccf42f8b69791ff8e0057">zSpace::zUtilsCore</a>
@@ -525,8 +590,8 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 : <a class="el" href="classz_space_1_1z_fn.html#a767b8f1498da7c30454b8dc64470a379">zSpace::zFn</a>
 </li>
 <li>getUnitDistances()
-: <a class="el" href="classz_space_1_1z_fn_field2_d.html#ad62a5c7ded1f152e9a4d0a4bc6326916">zSpace::zFnField2D&lt; T &gt;</a>
-, <a class="el" href="classz_space_1_1z_fn_field3_d.html#a36a76c0d434425827eb7aef0bfd96c00">zSpace::zFnField3D&lt; T &gt;</a>
+: <a class="el" href="classz_space_1_1z_fn_mesh_field.html#a25f452faf696ae4e9e9b29276bb17b47">zSpace::zFnMeshField&lt; T &gt;</a>
+, <a class="el" href="classz_space_1_1z_fn_point_field.html#acc6d4dd52e3abd05d8a386fc90baf1e8">zSpace::zFnPointField&lt; T &gt;</a>
 </li>
 <li>getUpdatePosition()
 : <a class="el" href="classz_space_1_1z_fn_particle.html#a708d7e5adec95cbc5d231f1bfc9e1d86">zSpace::zFnParticle</a>
@@ -561,10 +626,12 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 <li>getVertexColor()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#aea88983613e7e012e7d4b3552ae7a053">zSpace::zFnGraph</a>
 , <a class="el" href="classz_space_1_1z_fn_mesh.html#ab15ce7caae99e2de7c3ce9ae3728fa09">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a61f3f80317eddfa126e0e536f437d084">zSpace::zFnPointCloud</a>
 </li>
 <li>getVertexColors()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#a4dae75ab6b465b5c8346814a96b7dd92">zSpace::zFnGraph</a>
 , <a class="el" href="classz_space_1_1z_fn_mesh.html#a5c766539be9848c110ffa1f2e49abe00">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a46922c51d2f786843772164b9f770015">zSpace::zFnPointCloud</a>
 </li>
 <li>getVertexId()
 : <a class="el" href="classz_space_1_1z_vertex.html#ae6637ab378719b6c68c8237777fd065e">zSpace::zVertex</a>
@@ -578,10 +645,12 @@ $(document).ready(function(){initNavTree('functions_func_g.html','');});
 <li>getVertexPosition()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#a5e53ab5624a2e5657bd9a1f59366338f">zSpace::zFnGraph</a>
 , <a class="el" href="classz_space_1_1z_fn_mesh.html#a0c0248f55e13c627ce7458dca087e08f">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a6947246f4d8d45cf6894e8dedbb74c96">zSpace::zFnPointCloud</a>
 </li>
 <li>getVertexPositions()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#a325c3a41063a6f0b82bb07834f7de2de">zSpace::zFnGraph</a>
 , <a class="el" href="classz_space_1_1z_fn_mesh.html#aa17e7fdb8ae540759115e9275782c343">zSpace::zFnMesh</a>
+, <a class="el" href="classz_space_1_1z_fn_point_cloud.html#a862f18bc4ba68dc69f1507486096db00">zSpace::zFnPointCloud</a>
 </li>
 <li>getVertexValence()
 : <a class="el" href="classz_space_1_1z_fn_graph.html#af452ac122aa60767b1ca4916eceba8b5">zSpace::zFnGraph</a>

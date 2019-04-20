@@ -1,7 +1,7 @@
 var classz_space_1_1z_ts_o_s_m =
 [
     [ "zTsOSM", "classz_space_1_1z_ts_o_s_m.html#a79f7b8f300184b32b1f7290e90fdd1dc", null ],
-    [ "zTsOSM", "classz_space_1_1z_ts_o_s_m.html#a435182d711cfcaf16625e0b92735945e", null ],
+    [ "zTsOSM", "classz_space_1_1z_ts_o_s_m.html#a8908a6a4742992bfcff6c03f89f8793e", null ],
     [ "~zTsOSM", "classz_space_1_1z_ts_o_s_m.html#a1c165919539b12cf2cc45ab205c2ad84", null ],
     [ "computeBoundingBox", "classz_space_1_1z_ts_o_s_m.html#a5d069b237f712dced3815d69e06adeca", null ],
     [ "computeDistance", "classz_space_1_1z_ts_o_s_m.html#a11c1dc1d9439d31383baf40d44548e2d", null ],
@@ -32,9 +32,9 @@ var classz_space_1_1z_ts_o_s_m =
     [ "buildings", "classz_space_1_1z_ts_o_s_m.html#ad9c287a128fa6413874856a30ec9d1bd", null ],
     [ "coreUtils", "classz_space_1_1z_ts_o_s_m.html#a1f543a9173dc71e6f0234dc226afb427", null ],
     [ "fieldIndex_streamPositions", "classz_space_1_1z_ts_o_s_m.html#aaf91372896da136af56a7bf5e743edfd", null ],
-    [ "fieldObj", "classz_space_1_1z_ts_o_s_m.html#a2c63d21318d44a6902c2175302596056", null ],
+    [ "fieldObj", "classz_space_1_1z_ts_o_s_m.html#a39b8b9de6dc67205c0470a8b810bac21", null ],
     [ "fnBuilding", "classz_space_1_1z_ts_o_s_m.html#a6aa259578e02043b368139f3b50ac6c4", null ],
-    [ "fnField", "classz_space_1_1z_ts_o_s_m.html#a5c61785b361cae010c5e3a847add358b", null ],
+    [ "fnField", "classz_space_1_1z_ts_o_s_m.html#aea83381aba3d4b9cb67b8f3afc68ff1a", null ],
     [ "fnStreet", "classz_space_1_1z_ts_o_s_m.html#a0f08d9fe41686a33f9ac16bde5eb338f", null ],
     [ "lat_lon", "classz_space_1_1z_ts_o_s_m.html#ab51232c805b99ed3d303e8848cd95fc1", null ],
     [ "maxBB", "classz_space_1_1z_ts_o_s_m.html#a4686e1b63e251e80c00f8d0cfcaf767f", null ],

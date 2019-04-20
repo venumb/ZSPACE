@@ -412,7 +412,7 @@ namespace zSpace
 		}
 
 		/*! \brief This method creates a vector field from the input scalarfield.
-		*	\param		[in]	inFnScalarField		- input scalar field function set.
+		*	\param		[in]	scalarFieldObj		- input scalar field object.
 		*	\since version 0.0.2
 		*/
 		void createVectorFromScalarField(zObjMeshField<double> &scalarFieldObj);

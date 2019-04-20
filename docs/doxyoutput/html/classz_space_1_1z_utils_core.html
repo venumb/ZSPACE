@@ -109,6 +109,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8e7304117466cf5be30b79c8cd3a215d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a8e7304117466cf5be30b79c8cd3a215d">~zUtilsCore</a> ()</td></tr>
 <tr class="memdesc:a8e7304117466cf5be30b79c8cd3a215d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="#a8e7304117466cf5be30b79c8cd3a215d">More...</a><br /></td></tr>
 <tr class="separator:a8e7304117466cf5be30b79c8cd3a215d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8fc63cf35e0f0c8baab1a430a2c6c0a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#aa8fc63cf35e0f0c8baab1a430a2c6c0a">getNumfiles</a> (string dirPath)</td></tr>
+<tr class="memdesc:aa8fc63cf35e0f0c8baab1a430a2c6c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of files in the input folder path.  <a href="#aa8fc63cf35e0f0c8baab1a430a2c6c0a">More...</a><br /></td></tr>
+<tr class="separator:aa8fc63cf35e0f0c8baab1a430a2c6c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e321ceecba9c80c8558ba543627f1f6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a5e321ceecba9c80c8558ba543627f1f6">getNumfiles_Type</a> (string dirPath, <a class="el" href="group__z_enumerators.html#ga45a5288146c8898de7326f10cc3c344b">zFileTpye</a> type=<a class="el" href="group__z_enumerators.html#gga45a5288146c8898de7326f10cc3c344ba7938cc5cf8907a99df7215117d140ed6">zJSON</a>)</td></tr>
+<tr class="memdesc:a5e321ceecba9c80c8558ba543627f1f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of files in the input directory of the input file type.  <a href="#a5e321ceecba9c80c8558ba543627f1f6">More...</a><br /></td></tr>
+<tr class="separator:a5e321ceecba9c80c8558ba543627f1f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d449e6ffbc921e5ebdc9a76cae5e0ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a4d449e6ffbc921e5ebdc9a76cae5e0ac">getFilesFromDirectory</a> (vector&lt; string &gt; &amp;fpaths, string dirPath, <a class="el" href="group__z_enumerators.html#ga45a5288146c8898de7326f10cc3c344b">zFileTpye</a> type=<a class="el" href="group__z_enumerators.html#gga45a5288146c8898de7326f10cc3c344ba7938cc5cf8907a99df7215117d140ed6">zJSON</a>)</td></tr>
+<tr class="memdesc:a4d449e6ffbc921e5ebdc9a76cae5e0ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets all the files on the input file type in the input directory sorted by time of creation.  <a href="#a4d449e6ffbc921e5ebdc9a76cae5e0ac">More...</a><br /></td></tr>
+<tr class="separator:a4d449e6ffbc921e5ebdc9a76cae5e0ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55956691c14e1d917dafbcbdd090bfaa"><td class="memItemLeft" align="right" valign="top">vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a55956691c14e1d917dafbcbdd090bfaa">splitString</a> (const string &amp;str, const string &amp;delimiter)</td></tr>
 <tr class="memdesc:a55956691c14e1d917dafbcbdd090bfaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method splits the input string based on the input delimiter.  <a href="#a55956691c14e1d917dafbcbdd090bfaa">More...</a><br /></td></tr>
 <tr class="separator:a55956691c14e1d917dafbcbdd090bfaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,6 +125,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad771e92f8957b475c001328574086c77"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#ad771e92f8957b475c001328574086c77">ofMap</a> (T value, T inputMin, T inputMax, T outputMin, T outputMax)</td></tr>
 <tr class="memdesc:ad771e92f8957b475c001328574086c77"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method maps the input value from the input domain to output domain.  <a href="#ad771e92f8957b475c001328574086c77">More...</a><br /></td></tr>
 <tr class="separator:ad771e92f8957b475c001328574086c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94538aaec6480a37aab1109fbeaa6a45"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a94538aaec6480a37aab1109fbeaa6a45"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a94538aaec6480a37aab1109fbeaa6a45">ofMap</a> (T value, <a class="el" href="structz_space_1_1z_domain.html">zDomain</a>&lt; T &gt; inDomain, <a class="el" href="structz_space_1_1z_domain.html">zDomain</a>&lt; T &gt; outDomain)</td></tr>
+<tr class="memdesc:a94538aaec6480a37aab1109fbeaa6a45"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method maps the input value from the input domain to output domain.  <a href="#a94538aaec6480a37aab1109fbeaa6a45">More...</a><br /></td></tr>
+<tr class="separator:a94538aaec6480a37aab1109fbeaa6a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a0b48a90d36ee67435a7148ae3d3446"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a2a0b48a90d36ee67435a7148ae3d3446"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a2a0b48a90d36ee67435a7148ae3d3446">zMin</a> (T val0, T val1)</td></tr>
 <tr class="memdesc:a2a0b48a90d36ee67435a7148ae3d3446"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the minimum of the two input values.  <a href="#a2a0b48a90d36ee67435a7148ae3d3446">More...</a><br /></td></tr>
@@ -155,12 +168,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1a42312c16c21fa6046d79f40100cbd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a1a42312c16c21fa6046d79f40100cbd3">addToPositionMap</a> (unordered_map&lt; string, int &gt; &amp;positionVertex, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos, int index, int precisionFac)</td></tr>
 <tr class="memdesc:a1a42312c16c21fa6046d79f40100cbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds the position given by input vector to the positionVertex Map.  <a href="#a1a42312c16c21fa6046d79f40100cbd3">More...</a><br /></td></tr>
 <tr class="separator:a1a42312c16c21fa6046d79f40100cbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82f13fb2e9deea948e7b75b993db74cc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a82f13fb2e9deea948e7b75b993db74cc">getNumfiles</a> (string path)</td></tr>
-<tr class="memdesc:a82f13fb2e9deea948e7b75b993db74cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of files in the input folder path.  <a href="#a82f13fb2e9deea948e7b75b993db74cc">More...</a><br /></td></tr>
-<tr class="separator:a82f13fb2e9deea948e7b75b993db74cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeb447aef6ff0835b2b78653e11fe03a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#abeb447aef6ff0835b2b78653e11fe03a">getNumfiles_Type</a> (string path, string extension=&quot;json&quot;)</td></tr>
-<tr class="memdesc:abeb447aef6ff0835b2b78653e11fe03a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the number of files in the input folder path of the input extension type.  <a href="#abeb447aef6ff0835b2b78653e11fe03a">More...</a><br /></td></tr>
-<tr class="separator:abeb447aef6ff0835b2b78653e11fe03a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa53362413f972c82b0dc8b1a384bf8fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#aa53362413f972c82b0dc8b1a384bf8fe">zMin</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;vals)</td></tr>
 <tr class="memdesc:aa53362413f972c82b0dc8b1a384bf8fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the minimum of the input container of zVectors.  <a href="#aa53362413f972c82b0dc8b1a384bf8fe">More...</a><br /></td></tr>
 <tr class="separator:aa53362413f972c82b0dc8b1a384bf8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,6 +177,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a66b7b9d6fc75d5a2d4f2f5d01de436a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a66b7b9d6fc75d5a2d4f2f5d01de436a7">ofMap</a> (double value, double inputMin, double inputMax, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> outputMin, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> outputMax)</td></tr>
 <tr class="memdesc:a66b7b9d6fc75d5a2d4f2f5d01de436a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method maps the input value from the input domain to output domain.  <a href="#a66b7b9d6fc75d5a2d4f2f5d01de436a7">More...</a><br /></td></tr>
 <tr class="separator:a66b7b9d6fc75d5a2d4f2f5d01de436a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc3a5b05c9e6dbbf3efdb31b144d7893"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#abc3a5b05c9e6dbbf3efdb31b144d7893">ofMap</a> (double value, <a class="el" href="group__z_domain_typedef.html#ga91a9ab33cec01596ffd7a1ed5cf6d3e9">zDomainDouble</a> inputDomain, <a class="el" href="group__z_domain_typedef.html#gae57384e5ed5731b60efa372d4538b997">zDomainVector</a> outDomain)</td></tr>
+<tr class="memdesc:abc3a5b05c9e6dbbf3efdb31b144d7893"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method maps the input value from the input domain to output domain.  <a href="#abc3a5b05c9e6dbbf3efdb31b144d7893">More...</a><br /></td></tr>
+<tr class="separator:abc3a5b05c9e6dbbf3efdb31b144d7893"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43bdd9e237a7e55bb233890378027200"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_vector.html">zVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a43bdd9e237a7e55bb233890378027200">fromMatrixRow</a> (<a class="el" href="group__z_matrix_typedef.html#ga94ffc6b7ee6c4653d8c1bd312289a510">zMatrixd</a> &amp;inMatrix, int rowIndex=0)</td></tr>
 <tr class="memdesc:a43bdd9e237a7e55bb233890378027200"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method a <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> from the input matrix row.  <a href="#a43bdd9e237a7e55bb233890378027200">More...</a><br /></td></tr>
 <tr class="separator:a43bdd9e237a7e55bb233890378027200"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,6 +195,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a81ae124ea4d0a29a98661a3cfa676384"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a81ae124ea4d0a29a98661a3cfa676384">getCenter_PointCloud</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inPoints, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;center)</td></tr>
 <tr class="memdesc:a81ae124ea4d0a29a98661a3cfa676384"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method computes the center of the input point cloud.  <a href="#a81ae124ea4d0a29a98661a3cfa676384">More...</a><br /></td></tr>
 <tr class="separator:a81ae124ea4d0a29a98661a3cfa676384"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a548deb3c665cc51facd301141ef83028"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a548deb3c665cc51facd301141ef83028">getClosest_PointCloud</a> (<a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;pos, vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; inPositions)</td></tr>
+<tr class="memdesc:a548deb3c665cc51facd301141ef83028"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method return index of the closest point in the input container to the input position.  <a href="#a548deb3c665cc51facd301141ef83028">More...</a><br /></td></tr>
+<tr class="separator:a548deb3c665cc51facd301141ef83028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2afb78c68310d92397ef4afdf3f19af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#af2afb78c68310d92397ef4afdf3f19af">getBounds</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &amp;inPoints, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;minBB, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;maxBB)</td></tr>
 <tr class="memdesc:af2afb78c68310d92397ef4afdf3f19af"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the bounds of the input list points.  <a href="#af2afb78c68310d92397ef4afdf3f19af">More...</a><br /></td></tr>
 <tr class="separator:af2afb78c68310d92397ef4afdf3f19af"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -292,15 +305,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acaeef7a2bdd13ef6577114b3e748c3ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#acaeef7a2bdd13ef6577114b3e748c3ce">averageColor</a> (vector&lt; <a class="el" href="classz_space_1_1z_color.html">zColor</a> &gt; &amp;c1, <a class="el" href="group__z_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
 <tr class="memdesc:acaeef7a2bdd13ef6577114b3e748c3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the average color of the input color container.  <a href="#acaeef7a2bdd13ef6577114b3e748c3ce">More...</a><br /></td></tr>
 <tr class="separator:acaeef7a2bdd13ef6577114b3e748c3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69eff80e9b6586298f2d6722a66f19ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a69eff80e9b6586298f2d6722a66f19ee">blendColor</a> (double inputValue, double inputMin, double inputMax, <a class="el" href="classz_space_1_1z_color.html">zColor</a> cMin, <a class="el" href="classz_space_1_1z_color.html">zColor</a> cMax, <a class="el" href="group__z_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
-<tr class="memdesc:a69eff80e9b6586298f2d6722a66f19ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the blend color based on the input value, domain and the color domains.  <a href="#a69eff80e9b6586298f2d6722a66f19ee">More...</a><br /></td></tr>
-<tr class="separator:a69eff80e9b6586298f2d6722a66f19ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d7c0d105e6a160e7fd3069ecb6d9bec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_utils_core.html#a8d7c0d105e6a160e7fd3069ecb6d9bec">blendColor</a> (double inputValue, <a class="el" href="group__z_domain_typedef.html#ga91a9ab33cec01596ffd7a1ed5cf6d3e9">zDomainDouble</a> inDomain, <a class="el" href="group__z_domain_typedef.html#ga3f884da6374ddad5854169785901af2c">zDomainColor</a> outDomain, <a class="el" href="group__z_enumerators.html#ga09594bf00b27116aa4c4a7628ab25b68">zColorType</a> type)</td></tr>
+<tr class="memdesc:a8d7c0d105e6a160e7fd3069ecb6d9bec"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method returns the blend color based on the input value, domain and the color domains.  <a href="#a8d7c0d105e6a160e7fd3069ecb6d9bec">More...</a><br /></td></tr>
+<tr class="separator:a8d7c0d105e6a160e7fd3069ecb6d9bec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A core utility class. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00058">58</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00060">60</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad68472cedef5d4f4df1edd3316c1007b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad68472cedef5d4f4df1edd3316c1007b">&#9670;&nbsp;</a></span>zUtilsCore()</h2>
@@ -328,7 +341,7 @@ Public Member Functions</h2></td></tr>
 <p>Default constructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00069">69</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00071">71</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -358,7 +371,7 @@ Public Member Functions</h2></td></tr>
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00079">79</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00081">81</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -421,7 +434,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00330">330</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00433">433</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -476,7 +489,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01439">1439</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01540">1540</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -525,12 +538,12 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01476">1476</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01577">1577</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
-<a id="a69eff80e9b6586298f2d6722a66f19ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69eff80e9b6586298f2d6722a66f19ee">&#9670;&nbsp;</a></span>blendColor()</h2>
+<a id="a8d7c0d105e6a160e7fd3069ecb6d9bec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d7c0d105e6a160e7fd3069ecb6d9bec">&#9670;&nbsp;</a></span>blendColor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -547,26 +560,14 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>inputMin</em>, </td>
+          <td class="paramtype"><a class="el" href="group__z_domain_typedef.html#ga91a9ab33cec01596ffd7a1ed5cf6d3e9">zDomainDouble</a>&#160;</td>
+          <td class="paramname"><em>inDomain</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>inputMax</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td>
-          <td class="paramname"><em>cMin</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classz_space_1_1z_color.html">zColor</a>&#160;</td>
-          <td class="paramname"><em>cMax</em>, </td>
+          <td class="paramtype"><a class="el" href="group__z_domain_typedef.html#ga3f884da6374ddad5854169785901af2c">zDomainColor</a>&#160;</td>
+          <td class="paramname"><em>outDomain</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -602,7 +603,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_color.html" title="A color math class.">zColor</a> - output color. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01533">1533</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01634">1634</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -669,7 +670,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01285">1285</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01386">1386</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -726,7 +727,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - transformation matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01075">1075</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01176">1176</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -797,7 +798,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if there is a repeat element. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00239">239</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00342">342</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -853,7 +854,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the string exists in the map. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00274">274</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00377">377</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -910,7 +911,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - factorised value. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00221">221</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00324">324</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -959,7 +960,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> - factorised vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00496">496</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00573">573</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1008,7 +1009,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> of the column matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00481">481</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00558">558</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1057,7 +1058,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> - <a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> of the row matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00465">465</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00542">542</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1105,7 +1106,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01328">1328</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01429">1429</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1154,7 +1155,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_vector.html" title="A 3 dimensional vector math class.">zVector</a> - bary-center. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00894">894</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00995">995</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1192,7 +1193,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>zMatrixd - Best fit plane as a 4X4 matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01222">1222</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01323">1323</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1246,7 +1247,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00546">546</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00646">646</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1294,7 +1295,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00526">526</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00603">603</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1370,7 +1371,55 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01381">1381</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01482">1482</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+
+</div>
+</div>
+<a id="a548deb3c665cc51facd301141ef83028"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a548deb3c665cc51facd301141ef83028">&#9670;&nbsp;</a></span>getClosest_PointCloud()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zUtilsCore::getClosest_PointCloud </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&#160;</td>
+          <td class="paramname"><em>inPositions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method return index of the closest point in the input container to the input position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pos</td><td>- input position. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inPositions</td><td>- input container of positions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00623">623</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1419,7 +1468,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00570">570</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00670">670</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1481,7 +1530,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00610">610</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00710">710</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1545,12 +1594,12 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - euclidean distance. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01123">1123</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01224">1224</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
-<a id="a82f13fb2e9deea948e7b75b993db74cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82f13fb2e9deea948e7b75b993db74cc">&#9670;&nbsp;</a></span>getNumfiles()</h2>
+<a id="a4d449e6ffbc921e5ebdc9a76cae5e0ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d449e6ffbc921e5ebdc9a76cae5e0ac">&#9670;&nbsp;</a></span>getFilesFromDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1559,54 +1608,22 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int zSpace::zUtilsCore::getNumfiles </td>
+          <td class="memname">void zSpace::zUtilsCore::getFilesFromDirectory </td>
           <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This method returns the number of files in the input folder path. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>- input folder path. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>int - number of files in the input folder. </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00351">351</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
-
-</div>
-</div>
-<a id="abeb447aef6ff0835b2b78653e11fe03a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abeb447aef6ff0835b2b78653e11fe03a">&#9670;&nbsp;</a></span>getNumfiles_Type()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int zSpace::zUtilsCore::getNumfiles_Type </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>path</em>, </td>
+          <td class="paramtype">vector&lt; string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fpaths</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>extension</em> = <code>&quot;json&quot;</code>&#160;</td>
+          <td class="paramname"><em>dirPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_enumerators.html#ga45a5288146c8898de7326f10cc3c344b">zFileTpye</a>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_enumerators.html#gga45a5288146c8898de7326f10cc3c344ba7938cc5cf8907a99df7215117d140ed6">zJSON</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1621,18 +1638,105 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>This method returns the number of files in the input folder path of the input extension type. </p>
+<p>This method gets all the files on the input file type in the input directory sorted by time of creation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>- input folder path. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">extension</td><td>- input extension type. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">fpaths</td><td>- container of file paths. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dirPath</td><td>- iinput directory path. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- input zFileTpye. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00141">141</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+
+</div>
+</div>
+<a id="aa8fc63cf35e0f0c8baab1a430a2c6c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8fc63cf35e0f0c8baab1a430a2c6c0a">&#9670;&nbsp;</a></span>getNumfiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zUtilsCore::getNumfiles </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>dirPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the number of files in the input folder path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dirPath</td><td>- input directory path. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int - number of files in the input folder. </dd></dl>
-<dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00369">369</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00094">94</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+
+</div>
+</div>
+<a id="a5e321ceecba9c80c8558ba543627f1f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e321ceecba9c80c8558ba543627f1f6">&#9670;&nbsp;</a></span>getNumfiles_Type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int zSpace::zUtilsCore::getNumfiles_Type </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>dirPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_enumerators.html#ga45a5288146c8898de7326f10cc3c344b">zFileTpye</a>&#160;</td>
+          <td class="paramname"><em>type</em> = <code><a class="el" href="group__z_enumerators.html#gga45a5288146c8898de7326f10cc3c344ba7938cc5cf8907a99df7215117d140ed6">zJSON</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method returns the number of files in the input directory of the input file type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dirPath</td><td>- input directory path. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>- input zFileTpye. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int - number of files in the input folder. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00111">111</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1687,7 +1791,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01408">1408</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01509">1509</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1743,7 +1847,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - volume of tetrahedron formed by the three input vectors and the origin. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00782">782</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00883">883</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1799,7 +1903,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - area of triangle defirned by the vectors. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00761">761</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00862">862</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1876,7 +1980,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the planes intersect. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00677">677</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00778">778</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -1946,7 +2050,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the line and plane intersect. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00716">716</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00817">817</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2009,7 +2113,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>minDist - distance to closest point. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00846">846</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00947">947</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2065,12 +2169,12 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>minDist - minimum distance to plane. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00879">879</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00980">980</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
 <a id="ad771e92f8957b475c001328574086c77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad771e92f8957b475c001328574086c77">&#9670;&nbsp;</a></span>ofMap() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad771e92f8957b475c001328574086c77">&#9670;&nbsp;</a></span>ofMap() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2143,12 +2247,76 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - mapped value. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00129">129</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00217">217</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+
+</div>
+</div>
+<a id="a94538aaec6480a37aab1109fbeaa6a45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94538aaec6480a37aab1109fbeaa6a45">&#9670;&nbsp;</a></span>ofMap() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T zSpace::zUtilsCore::ofMap </td>
+          <td>(</td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structz_space_1_1z_domain.html">zDomain</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>inDomain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structz_space_1_1z_domain.html">zDomain</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>outDomain</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method maps the input value from the input domain to output domain. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>- Type to work with standard c++ numerical datatypes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- input value to be mapped. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inDomain</td><td>- input domain. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">outDomain</td><td>- output domain. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>double - mapped value. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00232">232</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
 <a id="a66b7b9d6fc75d5a2d4f2f5d01de436a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66b7b9d6fc75d5a2d4f2f5d01de436a7">&#9670;&nbsp;</a></span>ofMap() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a66b7b9d6fc75d5a2d4f2f5d01de436a7">&#9670;&nbsp;</a></span>ofMap() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2213,7 +2381,63 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>double - mapped vector. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00447">447</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00504">504</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+
+</div>
+</div>
+<a id="abc3a5b05c9e6dbbf3efdb31b144d7893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc3a5b05c9e6dbbf3efdb31b144d7893">&#9670;&nbsp;</a></span>ofMap() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classz_space_1_1z_vector.html">zVector</a> zSpace::zUtilsCore::ofMap </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_domain_typedef.html#ga91a9ab33cec01596ffd7a1ed5cf6d3e9">zDomainDouble</a>&#160;</td>
+          <td class="paramname"><em>inputDomain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__z_domain_typedef.html#gae57384e5ed5731b60efa372d4538b997">zDomainVector</a>&#160;</td>
+          <td class="paramname"><em>outDomain</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method maps the input value from the input domain to output domain. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>- input vector to be mapped. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inputDomain</td><td>- input domain of double. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">outDomain</td><td>- output domain of vectors. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>double - mapped vector. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00523">523</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2290,7 +2514,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the planes intersect. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00639">639</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00740">740</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2347,7 +2571,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - transformation matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01051">1051</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01152">1152</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2403,7 +2627,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if input position is inside the bounds. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00589">589</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00689">689</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2463,7 +2687,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if point is inside the input triangle. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00801">801</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00902">902</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2511,7 +2735,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int - random number between the 2 input values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00196">196</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00299">299</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2559,7 +2783,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - random number between the 2 input values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00207">207</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00310">310</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2607,7 +2831,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00512">512</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00589">589</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2671,7 +2895,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - transformation matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00924">924</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01025">1025</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2735,7 +2959,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - transformation matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00943">943</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01044">1044</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2812,7 +3036,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00962">962</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01063">1063</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2861,7 +3085,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>vector&lt;string&gt; - list of elements of split string. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00093">93</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00181">181</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2926,7 +3150,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - new target matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01095">1095</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01196">1196</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -2972,7 +3196,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - world transformation matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01015">1015</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01116">1116</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3020,7 +3244,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01347">1347</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01448">1448</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3066,7 +3290,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classz_space_1_1z_matrix.html" title="A template matrix math class.">zMatrix</a> - world transformation matrix. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00984">984</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01085">1085</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3129,7 +3353,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the position exists in the map. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00299">299</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00402">402</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3185,7 +3409,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - maximum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00170">170</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00273">273</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3230,7 +3454,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - maximum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00182">182</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00285">285</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3268,7 +3492,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>zVectors - vector with maximum length </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00421">421</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00478">478</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3325,7 +3549,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - minimum value </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01188">1188</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01289">1289</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3381,7 +3605,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - minimum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00142">142</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00245">245</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3426,7 +3650,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double - minimum value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00154">154</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00257">257</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3464,7 +3688,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>zVectors - vector with minimum length </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00399">399</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l00456">456</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>
@@ -3521,7 +3745,7 @@ template&lt;typename T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>T - minimum value </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01154">1154</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_utils_core_8h_source.html#l01255">1255</a> of file <a class="el" href="z_utils_core_8h_source.html">zUtilsCore.h</a>.</p>
 
 </div>
 </div>

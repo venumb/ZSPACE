@@ -910,6 +910,78 @@ namespace zSpace
 
 	};
 	   
+
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zToolsets
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z2DGS
+	*	\brief tool sets for 2D graphic statics.
+	*  @{
+	*/
+
+	/*! \typedef zTsVaultMesh
+	*	\brief A vault object for meshes.
+	*
+	*	\since version 0.0.2
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
+
+	typedef zTsVault<zObjMesh, zFnMesh> zTsVaultMesh;
+
+	/** \addtogroup API
+	*	\brief The Application Program Interface of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zToolsets
+	*	\brief Collection of toolsets for applications.
+	*  @{
+	*/
+
+	/** \addtogroup zTsStatics
+	*	\brief tool sets for graphic statics.
+	*  @{
+	*/
+
+	/** \addtogroup z2DGS
+	*	\brief tool sets for 2D graphic statics.
+	*  @{
+	*/
+
+	/*! \typedef zTsVaultGraph
+	*	\brief A vault object for graphs.
+	*
+	*	\since version 0.0.2
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
+
+	/** @}*/
+
+	typedef zTsVault<zObjGraph, zFnGraph> zTsVaultGraph;
 	
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -3546,77 +3618,7 @@ namespace zSpace
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 
-	/** \addtogroup API
-	*	\brief The Application Program Interface of the library.
-	*  @{
-	*/
 
-	/** \addtogroup zToolsets
-	*	\brief Collection of toolsets for applications.
-	*  @{
-	*/
-
-	/** \addtogroup zTsStatics
-	*	\brief tool sets for graphic statics.
-	*  @{
-	*/
-
-	/** \addtogroup z2DGS
-	*	\brief tool sets for 2D graphic statics.
-	*  @{
-	*/
-
-	/*! \typedef zVaultMesh
-	*	\brief A vault object for meshes.
-	*
-	*	\since version 0.0.2
-	*/
-
-	/** @}*/
-
-	/** @}*/
-
-	/** @}*/
-
-	/** @}*/
-
-	typedef zTsVault<zObjMesh, zFnMesh> zTsVaultMesh;
-
-	/** \addtogroup API
-	*	\brief The Application Program Interface of the library.
-	*  @{
-	*/
-
-	/** \addtogroup zToolsets
-	*	\brief Collection of toolsets for applications.
-	*  @{
-	*/
-
-	/** \addtogroup zTsStatics
-	*	\brief tool sets for graphic statics.
-	*  @{
-	*/
-
-	/** \addtogroup z2DGS
-	*	\brief tool sets for 2D graphic statics.
-	*  @{
-	*/
-
-	/*! \typedef zVaultGraph
-	*	\brief A vault object for graphs.
-	*
-	*	\since version 0.0.2
-	*/
-
-	/** @}*/
-
-	/** @}*/
-
-	/** @}*/
-
-	/** @}*/
-
-	typedef zTsVault<zObjGraph, zFnGraph> zTsVaultGraph;
 
 
 

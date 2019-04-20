@@ -10,7 +10,6 @@ var classz_space_1_1z_field3_d =
     [ "n_X", "classz_space_1_1z_field3_d.html#a0f2d276d8ab1faa2c8c63565be05d3bd", null ],
     [ "n_Y", "classz_space_1_1z_field3_d.html#a0053d5c72f5be52c3f3bf50340bc258d", null ],
     [ "n_Z", "classz_space_1_1z_field3_d.html#a19f0d4bc4f286de7bf147075b363c0a3", null ],
-    [ "positions", "classz_space_1_1z_field3_d.html#a5103896fbd71150530e5d526f2ddffbc", null ],
     [ "unit_X", "classz_space_1_1z_field3_d.html#acf216286f2813d2efe010b19a38364b2", null ],
     [ "unit_Y", "classz_space_1_1z_field3_d.html#a4386922f6cd224fefb16b9a2dcae8b14", null ],
     [ "unit_Z", "classz_space_1_1z_field3_d.html#a7f5c22c3c4b91fbbdc9c58288f551104", null ]

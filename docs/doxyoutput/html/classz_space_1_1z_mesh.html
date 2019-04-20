@@ -128,6 +128,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad1defab345c4b6e08269afd38c1b4db3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#ad1defab345c4b6e08269afd38c1b4db3">addEdges</a> (int &amp;v1, int &amp;v2)</td></tr>
 <tr class="memdesc:ad1defab345c4b6e08269afd38c1b4db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds an edge and its symmetry edge to the edges array.  <a href="#ad1defab345c4b6e08269afd38c1b4db3">More...</a><br /></td></tr>
 <tr class="separator:ad1defab345c4b6e08269afd38c1b4db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93c3007d22c13665144c2da37c678431"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a93c3007d22c13665144c2da37c678431">setStaticEdgePositions</a> (vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;_edgePositions)</td></tr>
+<tr class="memdesc:a93c3007d22c13665144c2da37c678431"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the static edge positions if the graph is static.  <a href="#a93c3007d22c13665144c2da37c678431">More...</a><br /></td></tr>
+<tr class="separator:a93c3007d22c13665144c2da37c678431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb95d78c8893bcc3c37ef5d7241f15a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#abb95d78c8893bcc3c37ef5d7241f15a4">addPolygon</a> ()</td></tr>
 <tr class="memdesc:abb95d78c8893bcc3c37ef5d7241f15a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds a face with null edge pointer to the faces array.  <a href="#abb95d78c8893bcc3c37ef5d7241f15a4">More...</a><br /></td></tr>
 <tr class="separator:abb95d78c8893bcc3c37ef5d7241f15a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +146,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae00189188ee58d61d268fd27d13103ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#ae00189188ee58d61d268fd27d13103ad">getFaceVertices</a> (int index, vector&lt; int &gt; &amp;vertexIndicies)</td></tr>
 <tr class="memdesc:ae00189188ee58d61d268fd27d13103ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method gets the vertices attached to input <a class="el" href="classz_space_1_1z_edge.html" title="An edge class to hold edge information of a half-edge data structure.">zEdge</a> or <a class="el" href="classz_space_1_1z_face.html" title="A face class to hold polygonal information of a half-edge data structure.">zFace</a>.  <a href="#ae00189188ee58d61d268fd27d13103ad">More...</a><br /></td></tr>
 <tr class="separator:ae00189188ee58d61d268fd27d13103ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45e20625846335f4033e504fd93913e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a45e20625846335f4033e504fd93913e3">setStaticFacePositions</a> (vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;_facePositions)</td></tr>
+<tr class="memdesc:a45e20625846335f4033e504fd93913e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the static edge positions if the mesh is static.  <a href="#a45e20625846335f4033e504fd93913e3">More...</a><br /></td></tr>
+<tr class="separator:a45e20625846335f4033e504fd93913e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a736b8e4019610612f4cab40094c36e06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a736b8e4019610612f4cab40094c36e06">update_BoundaryEdgePointers</a> ()</td></tr>
 <tr class="memdesc:a736b8e4019610612f4cab40094c36e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method updates the pointers for boundary Edges.  <a href="#a736b8e4019610612f4cab40094c36e06">More...</a><br /></td></tr>
 <tr class="separator:a736b8e4019610612f4cab40094c36e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,9 +156,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a36f1eda5558e76e980a646e450237a58 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a36f1eda5558e76e980a646e450237a58">zGraph</a> ()</td></tr>
 <tr class="memdesc:a36f1eda5558e76e980a646e450237a58 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="classz_space_1_1z_graph.html#a36f1eda5558e76e980a646e450237a58">More...</a><br /></td></tr>
 <tr class="separator:a36f1eda5558e76e980a646e450237a58 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a53b68f1efa596293b85259464cf3ff inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff">zGraph</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;(&amp;_positions), vector&lt; int &gt;(&amp;edgeConnects))</td></tr>
-<tr class="memdesc:a7a53b68f1efa596293b85259464cf3ff inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded constructor.  <a href="classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff">More...</a><br /></td></tr>
-<tr class="separator:a7a53b68f1efa596293b85259464cf3ff inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a095a60a49c95cdff02807e36227571cf inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a095a60a49c95cdff02807e36227571cf">zGraph</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;(&amp;_positions), vector&lt; int &gt;(&amp;edgeConnects), bool staticGraph=false)</td></tr>
+<tr class="memdesc:a095a60a49c95cdff02807e36227571cf inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded constructor.  <a href="classz_space_1_1z_graph.html#a095a60a49c95cdff02807e36227571cf">More...</a><br /></td></tr>
+<tr class="separator:a095a60a49c95cdff02807e36227571cf inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f11bce53cf1f63a3235a385504e78f6 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a0f11bce53cf1f63a3235a385504e78f6">zGraph</a> (vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;(&amp;_positions), vector&lt; int &gt;(&amp;edgeConnects), <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;graphNormal, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;sortReference)</td></tr>
 <tr class="memdesc:a0f11bce53cf1f63a3235a385504e78f6 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded constructor for planar graphs.  <a href="classz_space_1_1z_graph.html#a0f11bce53cf1f63a3235a385504e78f6">More...</a><br /></td></tr>
 <tr class="separator:a0f11bce53cf1f63a3235a385504e78f6 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,8 +190,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a821941b26e312ab5015ae34fecbd43b3 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method adds an edge and its symmetry edge to the edges array.  <a href="classz_space_1_1z_graph.html#a821941b26e312ab5015ae34fecbd43b3">More...</a><br /></td></tr>
 <tr class="separator:a821941b26e312ab5015ae34fecbd43b3 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8">setNumEdges</a> (int _n_e, bool setMax=true)</td></tr>
-<tr class="memdesc:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of edges in <a class="el" href="classz_space_1_1z_mesh.html" title="A half edge mesh class.">zMesh</a> the input value.  <a href="classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8">More...</a><br /></td></tr>
+<tr class="memdesc:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the number of edges to the input value.  <a href="classz_space_1_1z_graph.html#a1a3ca39f51ad1224d05c7472164c0ab8">More...</a><br /></td></tr>
 <tr class="separator:a1a3ca39f51ad1224d05c7472164c0ab8 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ed3aa8f85652f62ebb26b893b2aee1 inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a69ed3aa8f85652f62ebb26b893b2aee1">setStaticEdgePositions</a> (vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;_edgePositions)</td></tr>
+<tr class="memdesc:a69ed3aa8f85652f62ebb26b893b2aee1 inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sets the static edge positions if the graph is static.  <a href="classz_space_1_1z_graph.html#a69ed3aa8f85652f62ebb26b893b2aee1">More...</a><br /></td></tr>
+<tr class="separator:a69ed3aa8f85652f62ebb26b893b2aee1 inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe3788c9346ebecb3aaee6f1b538293a inherit pub_methods_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a">cyclic_sortEdges</a> (vector&lt; int &gt; &amp;unSortedEdges, <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &amp;center, int sortReferenceIndex, vector&lt; int &gt; &amp;sortedEdges)</td></tr>
 <tr class="memdesc:abe3788c9346ebecb3aaee6f1b538293a inherit pub_methods_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method sorts edges cyclically around a given vertex using a bestfit plane.  <a href="classz_space_1_1z_graph.html#abe3788c9346ebecb3aaee6f1b538293a">More...</a><br /></td></tr>
 <tr class="separator:abe3788c9346ebecb3aaee6f1b538293a inherit pub_methods_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,6 +228,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a79b06255dabad53e71c6f98b31629574"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a79b06255dabad53e71c6f98b31629574">VBO_FaceId</a></td></tr>
 <tr class="memdesc:a79b06255dabad53e71c6f98b31629574"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start face ID in the VBO, when attached to the zBufferObject.  <a href="#a79b06255dabad53e71c6f98b31629574">More...</a><br /></td></tr>
 <tr class="separator:a79b06255dabad53e71c6f98b31629574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42b3de10334bd7e3145fda71d217369c"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_mesh.html#a42b3de10334bd7e3145fda71d217369c">facePositions</a></td></tr>
+<tr class="memdesc:a42b3de10334bd7e3145fda71d217369c"><td class="mdescLeft">&#160;</td><td class="mdescRight">container of face positions . Used for display if it is a static geometry  <a href="#a42b3de10334bd7e3145fda71d217369c">More...</a><br /></td></tr>
+<tr class="separator:a42b3de10334bd7e3145fda71d217369c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classz_space_1_1z_graph"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classz_space_1_1z_graph')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classz_space_1_1z_graph.html">zSpace::zGraph</a></td></tr>
 <tr class="memitem:a40c5d9abf921160924128fe36824dca0 inherit pub_attribs_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classz_space_1_1z_utils_core.html">zUtilsCore</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a40c5d9abf921160924128fe36824dca0">coreUtils</a></td></tr>
 <tr class="memdesc:a40c5d9abf921160924128fe36824dca0 inherit pub_attribs_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">core utilities object  <a href="classz_space_1_1z_graph.html#a40c5d9abf921160924128fe36824dca0">More...</a><br /></td></tr>
@@ -277,6 +289,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6db092479993e2e0ceeac64e1564aa44 inherit pub_attribs_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44">VBO_VertexColorId</a></td></tr>
 <tr class="memdesc:a6db092479993e2e0ceeac64e1564aa44 inherit pub_attribs_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">stores the start vertex color ID in the VBO, when attache to the zBufferObject.  <a href="classz_space_1_1z_graph.html#a6db092479993e2e0ceeac64e1564aa44">More...</a><br /></td></tr>
 <tr class="separator:a6db092479993e2e0ceeac64e1564aa44 inherit pub_attribs_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ef8f64bf1bf629d0d9ffbdd0c122d36 inherit pub_attribs_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#a4ef8f64bf1bf629d0d9ffbdd0c122d36">staticGeometry</a> = false</td></tr>
+<tr class="memdesc:a4ef8f64bf1bf629d0d9ffbdd0c122d36 inherit pub_attribs_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">boolean indicating if the geometry is static or not. Default its false.  <a href="classz_space_1_1z_graph.html#a4ef8f64bf1bf629d0d9ffbdd0c122d36">More...</a><br /></td></tr>
+<tr class="separator:a4ef8f64bf1bf629d0d9ffbdd0c122d36 inherit pub_attribs_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafb5581f047710a4b571eb61f40fb60a inherit pub_attribs_classz_space_1_1z_graph"><td class="memItemLeft" align="right" valign="top">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classz_space_1_1z_graph.html#aafb5581f047710a4b571eb61f40fb60a">edgePositions</a></td></tr>
+<tr class="memdesc:aafb5581f047710a4b571eb61f40fb60a inherit pub_attribs_classz_space_1_1z_graph"><td class="mdescLeft">&#160;</td><td class="mdescRight">container of edge positions . Used for display if it is a static geometry  <a href="classz_space_1_1z_graph.html#aafb5581f047710a4b571eb61f40fb60a">More...</a><br /></td></tr>
+<tr class="separator:aafb5581f047710a4b571eb61f40fb60a inherit pub_attribs_classz_space_1_1z_graph"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -317,7 +335,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Default constructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00071">71</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00077">77</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -372,7 +390,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00085">85</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00093">93</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -402,7 +420,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Default destructor. </p>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00149">149</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00155">155</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -452,7 +470,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the edges container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00205">205</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00211">211</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -483,7 +501,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the faces container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00265">265</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00280">280</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +539,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the faces container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00299">299</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00314">314</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -559,7 +577,7 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool - true if the vertices container is resized. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00165">165</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00171">171</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -608,7 +626,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00371">371</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00386">386</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -657,7 +675,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00405">405</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00420">420</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -705,7 +723,81 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00357">357</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00372">372</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+
+</div>
+</div>
+<a id="a93c3007d22c13665144c2da37c678431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93c3007d22c13665144c2da37c678431">&#9670;&nbsp;</a></span>setStaticEdgePositions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zMesh::setStaticEdgePositions </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>_edgePositions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method sets the static edge positions if the graph is static. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">_edgePositions</td><td>- input container of edgePositions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00264">264</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+
+</div>
+</div>
+<a id="a45e20625846335f4033e504fd93913e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45e20625846335f4033e504fd93913e3">&#9670;&nbsp;</a></span>setStaticFacePositions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void zSpace::zMesh::setStaticFacePositions </td>
+          <td>(</td>
+          <td class="paramtype">vector&lt; vector&lt; <a class="el" href="classz_space_1_1z_vector.html">zVector</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>_facePositions</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This method sets the static edge positions if the mesh is static. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">_edgePositions</td><td>- input container of edgePositions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>version 0.0.2 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00439">439</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -741,7 +833,7 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>version 0.0.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00541">541</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00564">564</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -760,7 +852,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>container which stores vertex weights. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00058">58</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00061">61</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -778,7 +870,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>container which stores face colors. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00055">55</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00058">58</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -796,7 +888,25 @@ Additional Inherited Members</h2></td></tr>
 
 <p>container which stores face normals. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00052">52</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00055">55</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+
+</div>
+</div>
+<a id="a42b3de10334bd7e3145fda71d217369c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42b3de10334bd7e3145fda71d217369c">&#9670;&nbsp;</a></span>facePositions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;vector&lt;<a class="el" href="classz_space_1_1z_vector.html">zVector</a>&gt; &gt; zSpace::zMesh::facePositions</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>container of face positions . Used for display if it is a static geometry </p>
+
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00067">67</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -814,7 +924,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>face container </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00046">46</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00049">49</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -832,7 +942,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>stores number of max vertices, which is the size of the dynamic vertices array. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00043">43</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00046">46</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -850,7 +960,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>stores number of active faces </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00040">40</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00043">43</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -868,7 +978,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>stores the start face ID in the VBO, when attached to the zBufferObject. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00061">61</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00064">64</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>
@@ -886,7 +996,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>container which stores vertex normals. </p>
 
-<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00049">49</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="z_mesh_8h_source.html#l00052">52</a> of file <a class="el" href="z_mesh_8h_source.html">zMesh.h</a>.</p>
 
 </div>
 </div>

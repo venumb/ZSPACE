@@ -9,7 +9,7 @@ var classz_space_1_1z_ts_spatial_structures =
     [ "createVolumeFromFile", "classz_space_1_1z_ts_spatial_structures.html#a36e43c41539fd61aec6c0a76bff7fc74", null ],
     [ "extrudeConnectionFaces", "classz_space_1_1z_ts_spatial_structures.html#a4c55fa0b129dd4e9e4aa9a4c04954e94", null ],
     [ "getPolytopal", "classz_space_1_1z_ts_spatial_structures.html#acae054064ab53488ef7bd973d929e2e3", null ],
-    [ "setFormEdgeWeightsfromVolume", "classz_space_1_1z_ts_spatial_structures.html#ab5cb262fec31a36808a763d7f0ddba92", null ],
+    [ "setFormEdgeWeightsfromVolume", "classz_space_1_1z_ts_spatial_structures.html#ab9609aec42c56cdf2e4e629068e0d646", null ],
     [ "setVertexOffset", "classz_space_1_1z_ts_spatial_structures.html#a60faf19ec6f6bc1892f5b613ff9424dd", null ],
     [ "setVertexOffsets", "classz_space_1_1z_ts_spatial_structures.html#a2742edbbe3ec11a33e1d36536c4f8da9", null ],
     [ "updateForm", "classz_space_1_1z_ts_spatial_structures.html#a0c03f88d8c8d2123e192f388febcd399", null ],

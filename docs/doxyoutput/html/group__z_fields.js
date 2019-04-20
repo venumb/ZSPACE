@@ -10,7 +10,6 @@ var group__z_fields =
       [ "minBB", "classz_space_1_1z_field2_d.html#af1da5d21b938d8c159ee77fdf1a6c9ce", null ],
       [ "n_X", "classz_space_1_1z_field2_d.html#a0c517b684ddab67d535d2b7775c4d1ac", null ],
       [ "n_Y", "classz_space_1_1z_field2_d.html#a15e0c3bc76e6b94dec48ef1866a8741e", null ],
-      [ "positions", "classz_space_1_1z_field2_d.html#a9098e854506c7c0ab6509000d34d116d", null ],
       [ "unit_X", "classz_space_1_1z_field2_d.html#a154ed495a0b114e865ac4143f63993e4", null ],
       [ "unit_Y", "classz_space_1_1z_field2_d.html#a888672a9f75ec6a608eca0275247da7a", null ]
     ] ],
@@ -25,7 +24,6 @@ var group__z_fields =
       [ "n_X", "classz_space_1_1z_field3_d.html#a0f2d276d8ab1faa2c8c63565be05d3bd", null ],
       [ "n_Y", "classz_space_1_1z_field3_d.html#a0053d5c72f5be52c3f3bf50340bc258d", null ],
       [ "n_Z", "classz_space_1_1z_field3_d.html#a19f0d4bc4f286de7bf147075b363c0a3", null ],
-      [ "positions", "classz_space_1_1z_field3_d.html#a5103896fbd71150530e5d526f2ddffbc", null ],
       [ "unit_X", "classz_space_1_1z_field3_d.html#acf216286f2813d2efe010b19a38364b2", null ],
       [ "unit_Y", "classz_space_1_1z_field3_d.html#a4386922f6cd224fefb16b9a2dcae8b14", null ],
       [ "unit_Z", "classz_space_1_1z_field3_d.html#a7f5c22c3c4b91fbbdc9c58288f551104", null ]

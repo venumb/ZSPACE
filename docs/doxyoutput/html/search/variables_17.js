@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['z',['z',['../classz_space_1_1z_vector.html#aba8f22352b3e277987cdff71f4dcd96e',1,'zSpace::zVector']]],
-  ['zdb',['zDB',['../classz_space_1_1z_ts_o_s_m.html#a07d8e4727e3a8fae87d8d8ff0a917df5',1,'zSpace::zTsOSM']]]
+  ['y',['y',['../classz_space_1_1z_vector.html#a7c43ae2d708b746205d9f6c8691cd753',1,'zSpace::zVector']]],
+  ['y_5fpixels_5fper_5fmeter',['y_pixels_per_meter',['../structz_space_1_1_b_m_p_info_header.html#a47051191af8021c4dcd3583f9e33e563',1,'zSpace::BMPInfoHeader']]]
 ];

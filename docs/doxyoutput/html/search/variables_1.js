@@ -1,6 +1,7 @@
 var searchData=
 [
   ['b',['b',['../classz_space_1_1z_color.html#a51ed2db08ecaeea40a54c2e4d16ba18a',1,'zSpace::zColor']]],
+  ['bars',['Bars',['../classz_space_1_1z_ts_robot.html#a153db81efcf1c2427d6f7a49bfa7d1a1',1,'zSpace::zTsRobot']]],
   ['battractants',['bAttractants',['../classz_space_1_1z_ts_slime_environment.html#a458241644e6166438241d47138a2e262',1,'zSpace::zTsSlimeEnvironment']]],
   ['bit_5fcount',['bit_count',['../structz_space_1_1_b_m_p_info_header.html#a78cb58cf36219cb094b0744f1d343cdf',1,'zSpace::BMPInfoHeader']]],
   ['blue_5fmask',['blue_mask',['../structz_space_1_1_b_m_p_color_header.html#abc18c2f81ae8001fc38c948b4345969a',1,'zSpace::BMPColorHeader']]],

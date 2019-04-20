@@ -1,6 +1,7 @@
 var classz_space_1_1z_obj_mesh =
 [
     [ "zObjMesh", "classz_space_1_1z_obj_mesh.html#aefc50dd47f0c835acd3735d1ae60af83", null ],
+    [ "zObjMesh", "classz_space_1_1z_obj_mesh.html#a2b19b12189145d297ab10496fb037097", null ],
     [ "~zObjMesh", "classz_space_1_1z_obj_mesh.html#a69269cd52f6206009312be8798885f32", null ],
     [ "appendMeshToBuffer", "classz_space_1_1z_obj_mesh.html#a01f668283a9e4cadbbbb03173df078ee", null ],
     [ "draw", "classz_space_1_1z_obj_mesh.html#acb273759f2f96cab5cf8bd28b20b27f2", null ],
@@ -19,5 +20,15 @@ var classz_space_1_1z_obj_mesh =
     [ "setShowFaces", "classz_space_1_1z_obj_mesh.html#a6c20751840dbf2e6d2320d306301c8da", null ],
     [ "setShowVertexNormals", "classz_space_1_1z_obj_mesh.html#aa20408dbbd124d1e3b93de8d343538c3", null ],
     [ "setShowVertices", "classz_space_1_1z_obj_mesh.html#a3e0b1be56d27f3a83f602af9b61d162a", null ],
-    [ "mesh", "classz_space_1_1z_obj_mesh.html#aea18b9ff32e664d0a29f7fe4c976308b", null ]
+    [ "dihedralAngleThreshold", "classz_space_1_1z_obj_mesh.html#ab110744ef836c9446cb5af9dff12a7ec", null ],
+    [ "edge_dihedralAngles", "classz_space_1_1z_obj_mesh.html#af074fea0479c26075d61a0fcd7c70fb3", null ],
+    [ "faceCenters", "classz_space_1_1z_obj_mesh.html#a65906c13029bc6cc328635fcaa42352e", null ],
+    [ "mesh", "classz_space_1_1z_obj_mesh.html#aea18b9ff32e664d0a29f7fe4c976308b", null ],
+    [ "normalScale", "classz_space_1_1z_obj_mesh.html#a6d44d6e8b509c2e0c63f798211c81c7d", null ],
+    [ "showDihedralEdges", "classz_space_1_1z_obj_mesh.html#a2a4a2c1afb052e00d0904f861a1192b7", null ],
+    [ "showEdges", "classz_space_1_1z_obj_mesh.html#ae21868ce51b8d76e44331eb9c639bd6e", null ],
+    [ "showFaceNormals", "classz_space_1_1z_obj_mesh.html#a529765201bad28303e2a2184023394c8", null ],
+    [ "showFaces", "classz_space_1_1z_obj_mesh.html#a7c4c46f48a117e62a30a042f8343ac11", null ],
+    [ "showVertexNormals", "classz_space_1_1z_obj_mesh.html#abdb31de1c2c9bb0001b87205122245c4", null ],
+    [ "showVertices", "classz_space_1_1z_obj_mesh.html#afc474105f2b30a4ce16d9e6a1f95caac", null ]
 ];

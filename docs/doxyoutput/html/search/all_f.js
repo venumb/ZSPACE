@@ -13,13 +13,10 @@ var searchData=
   ['plane_5fplaneintersection',['plane_planeIntersection',['../classz_space_1_1z_utils_core.html#aad74af840b3dc0c199a2626f2d19f119',1,'zSpace::zUtilsCore']]],
   ['planes',['planes',['../structz_space_1_1_b_m_p_info_header.html#ad8486e0914ac6713e89a3b2de8d5ae8d',1,'zSpace::BMPInfoHeader']]],
   ['planetoplane',['PlanetoPlane',['../classz_space_1_1z_utils_core.html#ad4d75cb2759d51e88f2837f4ebaccbf1',1,'zSpace::zUtilsCore']]],
-  ['pointcolors',['pointColors',['../classz_space_1_1z_point_cloud.html#ad86d1d0aca7b92a33961ed132ef72bd1',1,'zSpace::zPointCloud']]],
   ['pointinbounds',['pointInBounds',['../classz_space_1_1z_utils_core.html#ac780740f9e72007317e33d0b07b7cd17',1,'zSpace::zUtilsCore']]],
   ['pointintriangle',['pointInTriangle',['../classz_space_1_1z_utils_core.html#a1f5bfe87219322a18b0d5346ad6330d1',1,'zSpace::zUtilsCore']]],
-  ['points',['points',['../classz_space_1_1z_point_cloud.html#ac48013537f744a7e38899d5093a3fa03',1,'zSpace::zPointCloud']]],
   ['pointsobj',['pointsObj',['../classz_space_1_1z_fn_point_cloud.html#ab5a2eef676ad46f469890e23910ef3bb',1,'zSpace::zFnPointCloud::pointsObj()'],['../classz_space_1_1z_ts_slime.html#a8ba13e08f679018cccff012cb4970c27',1,'zSpace::zTsSlime::pointsObj()']]],
-  ['pointweights',['pointWeights',['../classz_space_1_1z_point_cloud.html#aebdce3dacaaeb9fc6ca9209ac913072a',1,'zSpace::zPointCloud']]],
   ['polytopalobjs',['polytopalObjs',['../classz_space_1_1z_ts_polytopal.html#aae7eadc76af3e01562e069193bcedeae',1,'zSpace::zTsPolytopal::polytopalObjs()'],['../classz_space_1_1z_ts_spatial_structures.html#a757a32441da726ae0708801cca9bd4d2',1,'zSpace::zTsSpatialStructures::polytopalObjs()']]],
-  ['positions',['positions',['../classz_space_1_1z_field2_d.html#a9098e854506c7c0ab6509000d34d116d',1,'zSpace::zField2D::positions()'],['../classz_space_1_1z_field3_d.html#a5103896fbd71150530e5d526f2ddffbc',1,'zSpace::zField3D::positions()']]],
-  ['positionvertex',['positionVertex',['../classz_space_1_1z_graph.html#a438d7472530c96e84041c46e4d5cf654',1,'zSpace::zGraph']]]
+  ['positionvertex',['positionVertex',['../classz_space_1_1z_graph.html#a438d7472530c96e84041c46e4d5cf654',1,'zSpace::zGraph']]],
+  ['pulse',['pulse',['../structz_space_1_1z_joint_rotation.html#a4d660d2a9feb0cb26e62b3a9359ad92a',1,'zSpace::zJointRotation']]]
 ];

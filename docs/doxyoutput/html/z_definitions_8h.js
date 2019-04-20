@@ -3,6 +3,7 @@ var z_definitions_8h =
     [ "bufferOffset", "group__z_definitions.html#ga27f6201d3e90248dd69d0cb7983f79e4", null ],
     [ "DEG_TO_RAD", "group__z_definitions.html#ga212460e743fecb084d717bb2180c5a56", null ],
     [ "distanceTolerance", "group__z_definitions.html#ga1005943df60918b9e5e3d5b48e277a87", null ],
+    [ "DOF", "group__z_definitions.html#ga86aa12a61f858ae23c033cd9454cc985", null ],
     [ "edgeIndexStride", "group__z_definitions.html#ga31ae319b33c7b400f2e7c338668df1c8", null ],
     [ "faceIndexStride", "group__z_definitions.html#ga2513131b8a5e268264933878a5533162", null ],
     [ "FOUR_PI", "group__z_definitions.html#gac6b39b7a27b735f3a62be33f38041985", null ],

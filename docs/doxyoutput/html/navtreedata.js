@@ -41,13 +41,16 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", "functions_vars" ]
+        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Enumerations", "functions_enum.html", null ],
+        [ "Enumerator", "functions_eval.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ],
         [ "Typedefs", "globals_type.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
@@ -58,13 +61,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classz_space_1_1z_fn_graph.html#a62fa67b7cf97d310fb010782ed44bf30",
-"classz_space_1_1z_graph.html#a7a53b68f1efa596293b85259464cf3ff",
-"classz_space_1_1z_ts_o_s_m.html#a3dffe04f057e9523c2c718e6d2580865",
-"classz_space_1_1z_ts_streams2_d.html#ae68c921e2c2dde4d5fe53e39da1403ac",
-"classz_space_1_1z_vector.html#aba8f22352b3e277987cdff71f4dcd96e",
-"group__z_funtion_sets.html",
-"z_particle_8h_source.html"
+"classz_space_1_1z_fn_mesh.html#a910204e794635891c1e00620d33e1a5c",
+"classz_space_1_1z_fn_point_field.html#a917116f34fd49c36c7ca2baf2abe8ef0",
+"classz_space_1_1z_obj_point_cloud.html#afb4f933fbca11a7907b81f6dfecb7bbe",
+"classz_space_1_1z_ts_slime_agent.html#a497ac1746f693aa59f1e26c017cf0945",
+"classz_space_1_1z_ts_vault.html#afda85c6808e147395b2adf67ae1088ac",
+"group__z_definitions.html#ga2493a662ae05fa164c75281d16b221fb",
+"structz_space_1_1z_utils_json_robot.html#ab5837edc23c0d5fade5194503850f154"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

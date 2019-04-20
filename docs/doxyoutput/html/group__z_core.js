@@ -1,6 +1,7 @@
 var group__z_core =
 [
     [ "ZDefinitions", "group__z_definitions.html", "group__z_definitions" ],
+    [ "ZDomainTypedef", "group__z_domain_typedef.html", "group__z_domain_typedef" ],
     [ "ZEnumerators", "group__z_enumerators.html", "group__z_enumerators" ],
     [ "ZMatrixTypedef", "group__z_matrix_typedef.html", "group__z_matrix_typedef" ],
     [ "zColor", "classz_space_1_1z_color.html", [
@@ -18,6 +19,12 @@ var group__z_core =
       [ "r", "classz_space_1_1z_color.html#a0e75fe6d990792c7afb824be89c5826b", null ],
       [ "s", "classz_space_1_1z_color.html#acea773d7d78ebcfe8234d631b042a974", null ],
       [ "v", "classz_space_1_1z_color.html#abe6086a8f6bdfaa05cb13bac867d5488", null ]
+    ] ],
+    [ "zDomain", "structz_space_1_1z_domain.html", [
+      [ "zDomain", "structz_space_1_1z_domain.html#a68b96dbde00a77504bc52aaab249461c", null ],
+      [ "zDomain", "structz_space_1_1z_domain.html#ad97f112e8f7999d1bf181ff6f2db8299", null ],
+      [ "max", "structz_space_1_1z_domain.html#a5f867d617806aca7c581ab47abb26a82", null ],
+      [ "min", "structz_space_1_1z_domain.html#aa645378e9ef50453bdd21fc0e3387a19", null ]
     ] ],
     [ "zMatrix", "classz_space_1_1z_matrix.html", [
       [ "zMatrix", "classz_space_1_1z_matrix.html#a73e667fabb7c1ed6894cc917af7b7618", null ],
@@ -75,10 +82,10 @@ var group__z_core =
       [ "zVector", "classz_space_1_1z_vector.html#a5a0b5f364ed921eee55e847039d7c542", null ],
       [ "zVector", "classz_space_1_1z_vector.html#af71b53ffafe52119fa1d92845ea54b8f", null ],
       [ "~zVector", "classz_space_1_1z_vector.html#a3bd8cc1995a059136070c7dc3c91b788", null ],
-      [ "angle", "classz_space_1_1z_vector.html#acf4156a0599baccfab7d3ff64bf4c209", null ],
-      [ "angle360", "classz_space_1_1z_vector.html#a7c1bc7ebb46df4969ee17a726f172caa", null ],
-      [ "dihedralAngle", "classz_space_1_1z_vector.html#ad8817c8e347d109784cec18a3e35728c", null ],
-      [ "distanceTo", "classz_space_1_1z_vector.html#a3b19c952aec086d743e8bfadaa45cdca", null ],
+      [ "angle", "classz_space_1_1z_vector.html#a18cd4c46bcd81e265bb415596e7688ad", null ],
+      [ "angle360", "classz_space_1_1z_vector.html#acecb8c089d9a20321ecf7f982d01b48c", null ],
+      [ "dihedralAngle", "classz_space_1_1z_vector.html#a3346bb077ba7ebc4e578f2dd1286317a", null ],
+      [ "distanceTo", "classz_space_1_1z_vector.html#a59210593dc589dda6ef9ebf27942edf8", null ],
       [ "fromColumnMatrix", "classz_space_1_1z_vector.html#a12b8d25bfa4d24a70e24faeb5114931e", null ],
       [ "fromRowMatrix", "classz_space_1_1z_vector.html#a10c955506bd52a5a845e58f680632b50", null ],
       [ "getComponent", "classz_space_1_1z_vector.html#a90d8f98859c540c5fd0bdea52a87d897", null ],
@@ -86,7 +93,7 @@ var group__z_core =
       [ "normalize", "classz_space_1_1z_vector.html#a27d075d5055bb92ddfe63fae4010339b", null ],
       [ "operator *", "classz_space_1_1z_vector.html#ad96682b6bb59dcc8e0e140baf9142a64", null ],
       [ "operator *", "classz_space_1_1z_vector.html#a57b063f91b77324279f7fc43b8beab63", null ],
-      [ "operator *", "classz_space_1_1z_vector.html#ab888e10ed41b5177db21f4242bd7743d", null ],
+      [ "operator *", "classz_space_1_1z_vector.html#a9d859cd847a6069c0568b9ebac03d7af", null ],
       [ "operator *=", "classz_space_1_1z_vector.html#aa654f0244d7012c4960ab3d30f8c3f22", null ],
       [ "operator -", "classz_space_1_1z_vector.html#ab4c2bf557b6d7a446fee1e21af4e8b34", null ],
       [ "operator -", "classz_space_1_1z_vector.html#aebfa935bb20307617b8636907e02b594", null ],
@@ -101,6 +108,7 @@ var group__z_core =
       [ "operator/=", "classz_space_1_1z_vector.html#a3f18877fe16d6a6cf4c0774ec313ad7e", null ],
       [ "operator==", "classz_space_1_1z_vector.html#a6276ac67b4df65d78a42030b08259a12", null ],
       [ "rotateAboutAxis", "classz_space_1_1z_vector.html#a7c7172b9c4f20a7ff7f24cbe092b63a6", null ],
+      [ "squareDistanceTo", "classz_space_1_1z_vector.html#a4950dc819158fd8dc6f2294efa0bf5d7", null ],
       [ "toColumnMatrix", "classz_space_1_1z_vector.html#a5b8c358245e800e05a737ae21fb5bd14", null ],
       [ "toRowMatrix", "classz_space_1_1z_vector.html#ae565bb4a1cadd5ff51efb1a9da290158", null ],
       [ "x", "classz_space_1_1z_vector.html#aa45dd954bd0fc27951899df92a152008", null ],
