@@ -1024,7 +1024,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \typedef zTsShortestPathMesh
+	/*! \typedef zTsMeshShortestPath
 	*	\brief A shortest path object for meshes.
 	*
 	*	\since version 0.0.2
@@ -1036,7 +1036,7 @@ namespace zSpace
 
 	/** @}*/
 
-	typedef zTsShortestPath<zObjMesh, zFnMesh> zTsShortestPathMesh;
+	typedef zTsShortestPath<zObjMesh, zFnMesh> zTsMeshShortestPath;
 
 	/** \addtogroup API
 	*	\brief The Application Program Interface of the library.
@@ -1053,7 +1053,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \typedef zTsShortestPathGraph
+	/*! \typedef zTsGraphShortestPath
 	*	\brief A shortest path object for graphs.
 	*
 	*	\since version 0.0.2
@@ -1065,7 +1065,7 @@ namespace zSpace
 
 	/** @}*/
 
-	typedef zTsShortestPath<zObjGraph, zFnGraph> zTsShortestPathGraph;
+	typedef zTsShortestPath<zObjGraph, zFnGraph> zTsGraphShortestPath;
 	
 
 }

@@ -2286,7 +2286,13 @@ namespace zSpace
 		*/
 		void getIsocontour(zObjGraph &coutourGraphObj, double inThreshold = 0.5)
 		{
-			
+			if (contourVertexValues.size() == 0) return;
+			if (contourVertexValues.size() != numFieldValues())
+			{
+				throw std::invalid_argument(" error: invalid contour condition. Call updateColors method. ");
+				return;
+			}
+
 			double threshold = coreUtils.ofMap(inThreshold, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
 
 			vector<zVector> pos;
@@ -2381,6 +2387,13 @@ namespace zSpace
 		*/
 		void getIsolineMesh(zObjMesh &coutourMeshObj, double inThreshold = 0.5, bool invertMesh = false)
 		{
+			if (contourVertexValues.size() == 0) return;
+			if (contourVertexValues.size() != numFieldValues())
+			{
+				throw std::invalid_argument(" error: invalid contour condition.  Call updateColors method.");
+				return;
+			}
+
 			zFnMesh tempFn(coutourMeshObj);
 			tempFn.clear(); // clear memory if the mobject exists.
 
@@ -2414,6 +2427,13 @@ namespace zSpace
 		*/
 		void getIsobandMesh(zObjMesh &coutourMeshObj,double inThresholdLow = 0.2, double inThresholdHigh = 0.5, bool invertMesh = false)
 		{
+			if (contourVertexValues.size() == 0) return;
+			if (contourVertexValues.size() != numFieldValues())
+			{
+				throw std::invalid_argument(" error: invalid contour condition.  Call updateColors method.");
+				return;
+			}
+
 			zFnMesh tempFn(coutourMeshObj);
 			tempFn.clear(); // clear memory if the mobject exists.
 

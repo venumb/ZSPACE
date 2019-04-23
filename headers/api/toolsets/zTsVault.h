@@ -147,8 +147,8 @@ namespace zSpace
 
 	public:
 		
-		zColor tensionEdgeColor = zColor(0.5, 0, 0.2, 1);
-		zColor compressionEdgeColor = zColor(0, 0.2, 0.5, 1);
+		/*!	\brief color domain - min for tension edges and max for compression edges.  */
+		zDomainColor elementColorDomain = zDomainColor(zColor(0.5, 0, 0.2, 1), zColor(0, 0.2, 0.5, 1));		
 
 		/*!	\brief result function set  */
 		U fnResult;
@@ -320,8 +320,8 @@ namespace zSpace
 			if (out) 
 			{
 				
-				setElementColor(zFormDiagram);
-				setElementColor(zForceDiagram);
+				setelementColorDomain(zFormDiagram);
+				setelementColorDomain(zForceDiagram);
 			}
 
 			return out;
@@ -358,6 +358,15 @@ namespace zSpace
 		//--- SET METHODS 
 		//--------------------------
 
+		/*! \brief This method sets the element color domain. (min - tensionColor , max - compressionColor)
+		*
+		*	\param		[in]	colDomain		- input color domain.
+		*	\since version 0.0.2
+		*/
+		void setElementColorDomain(zDomainColor &colDomain)
+		{
+			elementColorDomain = colDomain;
+		}
 		
 		/*! \brief This method sets anchor points of the geometry.
 		*
@@ -478,7 +487,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(zForceDiagram);
+			setelementColorDomain(zForceDiagram);
 		}
 
 		/*! \brief This method sets the result tension edges based on form tension edges.
@@ -491,7 +500,7 @@ namespace zSpace
 			result_tensionEdges = form_tensionEdges;
 
 			
-			setElementColor(zResultDiagram);
+			setelementColorDomain(zResultDiagram);
 		}
 
 		/*! \brief This method sets the form tension edges based on result tension edges.
@@ -503,7 +512,7 @@ namespace zSpace
 			form_tensionEdges.clear();
 			form_tensionEdges = result_tensionEdges ;
 
-			setElementColor(zFormDiagram);
+			setelementColorDomain(zFormDiagram);
 			
 		}
 
@@ -532,7 +541,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(zFormDiagram);
+			setelementColorDomain(zFormDiagram);
 
 		}
 
@@ -541,30 +550,30 @@ namespace zSpace
 		*	\param		[in]	type					- diagram type . works with zFormDiagram/ zForceDiagram/ zResultDiagram.
 		*	\since version 0.0.2
 		*/
-		void setElementColor(zDiagramType type)
+		void setelementColorDomain(zDiagramType type)
 		{
 			if (type == zFormDiagram)
 			{
 				for (int i = 0; i < form_tensionEdges.size(); i++)
 				{
-					if (form_tensionEdges[i]) fnForm.setEdgeColor(i, tensionEdgeColor);
-					else fnForm.setEdgeColor(i, compressionEdgeColor);
+					if (form_tensionEdges[i]) fnForm.setEdgeColor(i, elementColorDomain.min);
+					else fnForm.setEdgeColor(i, elementColorDomain.max);
 				}
 			}
 			else if (type == zResultDiagram)
 			{
 				for (int i = 0; i < result_tensionEdges.size(); i++)
 				{
-					if (result_tensionEdges[i]) fnResult.setEdgeColor(i, tensionEdgeColor);
-					else fnResult.setEdgeColor(i, compressionEdgeColor);
+					if (result_tensionEdges[i]) fnResult.setEdgeColor(i, elementColorDomain.min);
+					else fnResult.setEdgeColor(i, elementColorDomain.max);
 				}
 			}
 			else if (type == zForceDiagram)
 			{
 				for (int i = 0; i < force_tensionEdges.size(); i++)
 				{
-					if (force_tensionEdges[i]) fnForce.setEdgeColor(i, tensionEdgeColor);
-					else fnForce.setEdgeColor(i, compressionEdgeColor);
+					if (force_tensionEdges[i]) fnForce.setEdgeColor(i, elementColorDomain.min);
+					else fnForce.setEdgeColor(i, elementColorDomain.max);
 				}
 				
 
@@ -931,7 +940,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \typedef zTsVaultMesh
+	/*! \typedef zTsMeshVault
 	*	\brief A vault object for meshes.
 	*
 	*	\since version 0.0.2
@@ -945,7 +954,7 @@ namespace zSpace
 
 	/** @}*/
 
-	typedef zTsVault<zObjMesh, zFnMesh> zTsVaultMesh;
+	typedef zTsVault<zObjMesh, zFnMesh> zTsMeshVault;
 
 	/** \addtogroup API
 	*	\brief The Application Program Interface of the library.
@@ -967,7 +976,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \typedef zTsVaultGraph
+	/*! \typedef zTsGraphVault
 	*	\brief A vault object for graphs.
 	*
 	*	\since version 0.0.2
@@ -981,7 +990,7 @@ namespace zSpace
 
 	/** @}*/
 
-	typedef zTsVault<zObjGraph, zFnGraph> zTsVaultGraph;
+	typedef zTsVault<zObjGraph, zFnGraph> zTsGraphVault;
 	
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -1517,7 +1526,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(type);
+			setelementColorDomain(type);
 		}
 
 		else if (type == zFormDiagram)
@@ -1534,7 +1543,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(type);
+			setelementColorDomain(type);
 		}
 
 		else if (type == zForceDiagram)
@@ -1551,7 +1560,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(type);
+			setelementColorDomain(type);
 		}
 
 		else throw std::invalid_argument(" invalid diagram type.");
@@ -1577,7 +1586,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(type);
+			setelementColorDomain(type);
 		}
 
 		else if (type == zFormDiagram) 
@@ -1594,7 +1603,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(type);
+			setelementColorDomain(type);
 		}
 
 		else if (type == zForceDiagram)
@@ -1611,7 +1620,7 @@ namespace zSpace
 				}
 			}
 
-			setElementColor(type);
+			setelementColorDomain(type);
 		}
 
 		else throw std::invalid_argument(" invalid diagram type.");
@@ -2163,7 +2172,7 @@ namespace zSpace
 		fnResult.from(path, type);
 
 		setTensionEdges(zResultDiagram);
-		setElementColor(zResultDiagram);
+		setelementColorDomain(zResultDiagram);
 		
 
 		setVertexWeights(zResultDiagram);
@@ -2176,7 +2185,7 @@ namespace zSpace
 		fnResult.from(path, type);
 
 		setTensionEdges(zResultDiagram);
-		setElementColor(zResultDiagram);
+		setelementColorDomain(zResultDiagram);
 
 		setVertexWeights(zResultDiagram);
 	}
@@ -2190,7 +2199,7 @@ namespace zSpace
 		fnForce.from(path, type);
 
 		setTensionEdges(zForceDiagram);
-		setElementColor(zForceDiagram);
+		setelementColorDomain(zForceDiagram);
 
 		setVertexWeights(zForceDiagram);
 	}
@@ -2202,7 +2211,7 @@ namespace zSpace
 		fnForce.from(path, type);
 
 		setTensionEdges(zForceDiagram);
-		setElementColor(zForceDiagram);
+		setelementColorDomain(zForceDiagram);
 
 		setVertexWeights(zForceDiagram);
 	}
@@ -2216,7 +2225,7 @@ namespace zSpace
 		fnForm.from(path, type);
 
 		setTensionEdges(zFormDiagram);
-		setElementColor(zFormDiagram);
+		setelementColorDomain(zFormDiagram);
 
 
 		setVertexWeights(zFormDiagram);
@@ -2248,12 +2257,12 @@ namespace zSpace
 			fnForm.setVertexColor(col, fixedVertices[i]);
 		}
 
-		fnForm.setEdgeColor(compressionEdgeColor);
+		fnForm.setEdgeColor(elementColorDomain.max);
 		
 		setVertexWeights(zFormDiagram);
 		
 		setFormTensionEdgesfromResult();
-		setElementColor(zFormDiagram);
+		setelementColorDomain(zFormDiagram);
 	}
 
 	//---- mesh specilization for createFormFromResult
@@ -2280,11 +2289,11 @@ namespace zSpace
 			fnForm.setVertexColor(col, fixedVertices[i]);
 		}
 
-		fnForm.setEdgeColor(compressionEdgeColor);
+		fnForm.setEdgeColor(elementColorDomain.max);
 
 		setVertexWeights(zFormDiagram);
 		setFormTensionEdgesfromResult();
-		setElementColor(zFormDiagram);
+		setelementColorDomain(zFormDiagram);
 	}
 
 	//---------------//
@@ -2295,13 +2304,13 @@ namespace zSpace
 	{
 		fnForce.getDualGraph(*formObj,forceEdge_formEdge, formEdge_forceEdge, excludeBoundary, PlanarForceMesh, rotate90);
 
-		fnForm.setEdgeColor(compressionEdgeColor);
+		fnForm.setEdgeColor(elementColorDomain.max);
 
 		setVertexWeights(zFormDiagram);
 		
 
 		setFormTensionEdgesfromForce();
-		setElementColor(zFormDiagram);
+		setelementColorDomain(zFormDiagram);
 	}
 
 	//---------------//
@@ -2589,7 +2598,7 @@ namespace zSpace
 		setVertexWeights(zForceDiagram);
 
 		setForceTensionEdgesfromForm();
-		setElementColor(zForceDiagram);
+		setelementColorDomain(zForceDiagram);
 	}
 
 	//---------------//
@@ -2601,7 +2610,7 @@ namespace zSpace
 		*resultObj = fnForm.getDuplicate();
 
 		setResultTensionEdgesfromForm();
-		setElementColor(zResultDiagram);
+		setelementColorDomain(zResultDiagram);
 
 		setVertexWeights(zResultDiagram);
 	}
@@ -2613,7 +2622,7 @@ namespace zSpace
 		*resultObj = fnForm.getDuplicate();
 
 		setResultTensionEdgesfromForm();
-		setElementColor(zResultDiagram);
+		setelementColorDomain(zResultDiagram);
 
 		setVertexWeights(zResultDiagram);
 	}

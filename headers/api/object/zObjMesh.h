@@ -464,6 +464,8 @@ namespace zSpace
 		*/
 		void appendMeshToBuffer(vector<double> edge_dihedralAngles = vector<double>(), bool DihedralEdges = false, double angleThreshold = 45)
 		{
+			showEdges = showVertices = showFaces = false;
+
 			// Edge Indicies
 			if (!DihedralEdges)
 			{
