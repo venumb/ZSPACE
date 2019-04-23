@@ -61,6 +61,9 @@ namespace zSpace
 		/*!	\brief boolean indicating if the field values size is equal to mesh vertices(true) or equal to mesh faces(false)  */
 		bool setValuesperVertex = true;
 
+		/*!	\brief boolean indicating if the field mesh is triangulated(true or quadragulated (false)  */
+		bool triMesh = true;
+
 		/*!	\brief field color domain.  */
 		zDomainColor fieldColorDomain = zDomainColor(zColor(), zColor(1, 1, 1, 1));
 
@@ -152,7 +155,7 @@ namespace zSpace
 		void fromBMP(string infilename);
 		
 		/*! \brief This method creates the mesh from the field parameters.
-		*
+		*	
 		*	\since version 0.0.2
 		*/
 		void createFieldMesh()
@@ -209,16 +212,33 @@ namespace zSpace
 					int v2 = v1 + 1;
 					int v3 = v0 + 1;
 
-					polyConnects.push_back(v0);
-					polyConnects.push_back(v1);
-					polyConnects.push_back(v2);
-					polyConnects.push_back(v3);
+					if (triMesh)
+					{
+						polyConnects.push_back(v0);
+						polyConnects.push_back(v1);
+						polyConnects.push_back(v3);
+						polyCounts.push_back(3);
 
-					polyCounts.push_back(4);
+						polyConnects.push_back(v1);
+						polyConnects.push_back(v2);
+						polyConnects.push_back(v3);
+						polyCounts.push_back(3);
+
+					}
+					else
+					{ 
+						polyConnects.push_back(v0);
+						polyConnects.push_back(v1);
+						polyConnects.push_back(v2);
+						polyConnects.push_back(v3);
+
+						polyCounts.push_back(4);
+					}
+					
 				}
 			}
 
-			fnMesh.create(positions, polyCounts, polyConnects, true);
+			fnMesh.create(positions, polyCounts, polyConnects, true);		
 
 			printf("\n fieldmesh: v %i e %i f %i", fnMesh.numVertices(), fnMesh.numEdges(), fnMesh.numPolygons());
 		}
@@ -285,14 +305,18 @@ namespace zSpace
 
 		/*! \brief This method exports the field to the given file type.
 		*
-		*	\param [in]		path						- output file name including the directory path and extension.
-		*	\param [in]		type						- type of file to be exported 
-		*	\param [in]		_setValuesperVertex			-  numver of field values aligns with mesh vertices if true else aligns with mesh faces.
+		*	\param	[in]		path						- output file name including the directory path and extension.
+		*	\param	[in]		type						- type of file to be exported 
+		*	\param	[in]		_setValuesperVertex			-  numver of field values aligns with mesh vertices if true else aligns with mesh faces.
+		*	\param	[in]		_triMesh					- boolean true if triangulated mesh in needed. Works only when _setValuesperVertex is false.
 		*	\since version 0.0.2
 		*/
-		void from(string path, zFileTpye type, bool _setValuesperVertex = true)
+		void from(string path, zFileTpye type, bool _setValuesperVertex = true, bool _trimesh = true)
 		{
 			setValuesperVertex = _setValuesperVertex;
+
+			if (!setValuesperVertex) _trimesh = false;
+			triMesh = _trimesh;
 
 			if (type == zBMP) fromBMP(path);
 			
@@ -341,11 +365,16 @@ namespace zSpace
 		*	\param		[in]	_n_Y					- number of pixels in y direction.
 		*	\param		[in]	_NR						- ring number of neighbours to be computed. By default it is 1.
 		*	\param		[in]	_setValuesperVertex		- boolean indicating if the field values size is equal to mesh vertex is true, else equal to mesh faces
+		*	\param		[in]	_triMesh				- boolean true if triangulated mesh in needed. Works only when _setValuesperVertex is false.
 		*	\since version 0.0.2
 		*/
-		void create(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1, bool _setValuesperVertex = true)
+		void create(zVector _minBB, zVector _maxBB, int _n_X, int _n_Y, int _NR = 1, bool _setValuesperVertex = true, bool _triMesh = true)
 		{
 			setValuesperVertex = _setValuesperVertex;
+			if (!_setValuesperVertex) _triMesh = false;
+			triMesh = _triMesh;
+
+
 			fieldObj->field = zField2D<T>(_minBB, _maxBB, _n_X, _n_Y);
 
 			// compute neighbours
@@ -381,11 +410,15 @@ namespace zSpace
 		*	\param		[in]	_minBB		- minimum bounds of the field.
 		*	\param		[in]	_NR			- ring number of neighbours to be computed. By default it is 1.
 		*	\param		[in]	_setValuesperVertex		- boolean indicating if the field values size is equal to mesh vertex is true, else equal to mesh faces
+		*	\param		[in]	_triMesh				- boolean true if triangulated mesh in needed. Works only when _setValuesperVertex is false.
 		*	\since version 0.0.2
 		*/
-		void create(double _unit_X, double _unit_Y, int _n_X, int _n_Y, zVector _minBB = zVector(), int _NR = 1, bool _setValuesperVertex = true)
+		void create(double _unit_X, double _unit_Y, int _n_X, int _n_Y, zVector _minBB = zVector(), int _NR = 1, bool _setValuesperVertex = true, bool _triMesh = true)
 		{
 			setValuesperVertex = _setValuesperVertex;
+			if (!_setValuesperVertex) _triMesh = false;
+			triMesh = _triMesh;
+
 			fieldObj->field = zField2D<T>(_unit_X, _unit_Y, _n_X, _n_Y, _minBB);
 
 			// compute neighbours
@@ -1104,8 +1137,7 @@ namespace zSpace
 
 			return &fieldObj->field.fieldValues[0];
 		}
-			
-		
+					
 		/*! \brief This method gets the gradient of the field at the input sample position.
 		*
 		*	\param		[in]	samplePos	- index in the fieldvalues container.
@@ -1175,6 +1207,26 @@ namespace zSpace
 			return out;
 		}
 
+
+		/*! \brief This method gets the boolean indicating if the field values aligns with mesh vertices or faces.
+		*
+		*	\return				bool		- if true field values aligns with mesh vertices else aligns with mesh faces.
+		*	\since version 0.0.2
+		*/
+		bool getValuesPerVertexBoolean()
+		{
+			return setValuesperVertex;
+		}
+
+		/*! \brief This method gets the boolean indicating if the mesh field is triagulated.
+		*
+		*	\return				bool		- triagulated if true. 
+		*	\since version 0.0.2
+		*/
+		bool getTriMeshBoolean()
+		{
+			return triMesh;
+		}
 		
 		//--------------------------
 		//---- SET METHODS
@@ -2428,6 +2480,7 @@ namespace zSpace
 		void getIsobandMesh(zObjMesh &coutourMeshObj,double inThresholdLow = 0.2, double inThresholdHigh = 0.5, bool invertMesh = false)
 		{
 			if (contourVertexValues.size() == 0) return;
+			
 			if (contourVertexValues.size() != numFieldValues())
 			{
 				throw std::invalid_argument(" error: invalid contour condition.  Call updateColors method.");
@@ -4401,7 +4454,7 @@ namespace zSpace
 
 		vector<zVector> gradients = fnScalarField.getGradients();
 		
-		create(minBB, maxBB, n_X, n_Y);
+		create(minBB, maxBB, n_X, n_Y, fnScalarField.getValuesPerVertexBoolean(), fnScalarField.getTriMeshBoolean());
 		setFieldValues(gradients);
 	}
 

@@ -43,6 +43,12 @@ namespace zSpace
 		/*!	\brief container which stores vertex weights. 	*/
 		vector<double> vertexWeights;
 
+		/*!	\brief stores the start vertex ID in the VBO, when attached to the zBufferObject.	*/
+		int VBO_VertexId;
+
+		/*!	\brief stores the start vertex color ID in the VBO, when attache to the zBufferObject.	*/
+		int VBO_VertexColorId;
+
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------

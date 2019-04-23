@@ -462,9 +462,9 @@ namespace zSpace
 		*	\param		[in]	angleThreshold		- angle threshold for the edge dihedral angles.
 		*	\since version 0.0.1
 		*/
-		void appendMeshToBuffer(vector<double> edge_dihedralAngles = vector<double>(), bool DihedralEdges = false, double angleThreshold = 45)
+		void appendToBuffer(vector<double> edge_dihedralAngles = vector<double>(), bool DihedralEdges = false, double angleThreshold = 45)
 		{
-			showEdges = showVertices = showFaces = false;
+			showObject = showEdges = showVertices = showFaces = false;
 
 			// Edge Indicies
 			if (!DihedralEdges)

@@ -56,7 +56,7 @@ namespace zSpace
 		{
 			displayUtils = nullptr;	
 
-			showColors = false;
+			showVertices = false;
 		}
 
 

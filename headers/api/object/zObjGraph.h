@@ -31,10 +31,10 @@ namespace zSpace
 	class zObjGraph : public zObj
 	{
 	private:
-		/*! \brief boolean for displaying the mesh vertices */
+		/*! \brief boolean for displaying the vertices */
 		bool showVertices;
 
-		/*! \brief boolean for displaying the mesh edges */
+		/*! \brief boolean for displaying the edges */
 		bool showEdges;
 
 	public:
@@ -141,7 +141,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		inline void drawGraph()
+		void drawGraph()
 		{
 
 			//draw vertex
@@ -199,8 +199,10 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		void appendGraph()
+		void appendToBuffer()
 		{
+			showObject = showEdges = showVertices =  false;
+
 			// Edge Indicies
 			vector<int> _edgeIndicies;
 

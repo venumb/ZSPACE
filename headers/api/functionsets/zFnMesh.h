@@ -4155,7 +4155,7 @@ namespace zSpace
 				vector<int> Tri_connects;
 				getFaceTriangles( faceIndex, n_Tris, Tri_connects);
 
-				//printf("\n %i numtris: %i %i ",i, n_Tris, Tri_connects.size());
+				//printf("\n %i numtris: %i %i ", faceIndex, n_Tris, Tri_connects.size());
 
 				for (int j = 0; j < n_Tris; j++)
 				{

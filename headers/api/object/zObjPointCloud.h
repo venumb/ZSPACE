@@ -28,8 +28,9 @@ namespace zSpace
 	class zObjPointCloud :public zObj
 	{
 	private:
-		/*! \brief boolean for displaying the points color */
-		bool showColors;
+
+		/*! \brief boolean for displaying the vertices */
+		bool showVertices;
 
 	public:
 		//--------------------------
@@ -50,7 +51,8 @@ namespace zSpace
 		{
 			displayUtils = nullptr;
 
-			showColors = false;
+			showVertices = false;
+
 		}
 
 		//--------------------------
@@ -67,15 +69,17 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show points boolean.
+		/*! \brief This method sets show vertices booleans.
 		*
-		*	\param		[in]	_showCols				- input show colors booelan.
+		*	\param		[in]	_showVerts				- input show vertices boolean.
 		*	\since version 0.0.2
 		*/
-		void setShowColors(bool _showCols)
+		void setShowElements(bool _showVerts)
 		{
-			showColors = _showCols;
+			showVertices = _showVerts;		
 		}
+
+		
 
 		//--------------------------
 		//---- OVERRIDE METHODS
@@ -85,9 +89,7 @@ namespace zSpace
 		{
 			if (showObject)
 			{
-				drawPointCloud();
-
-				
+				drawPointCloud();				
 			}
 
 		}
@@ -101,18 +103,34 @@ namespace zSpace
 		*/
 		void drawPointCloud()
 		{
-			for (int i = 0; i < pCloud.vertexPositions.size(); i++)
+
+			if (showVertices)
 			{
-				
-					zColor col;
-					double wt = 1;
 
-					if (pCloud.vertexColors.size() > i)  col = pCloud.vertexColors[i];
-					if (pCloud.vertexWeights.size() > i) wt = pCloud.vertexWeights[i];
-
-					displayUtils->drawPoint(pCloud.vertexPositions[i], col, wt);
+				displayUtils->drawPoints(pCloud.vertexPositions, pCloud.vertexColors, pCloud.vertexWeights);
 
 			}
+
+		}
+
+
+		//--------------------------
+		//---- DISPLAY BUFFER METHODS
+		//--------------------------
+
+		/*! \brief This method appends pointcloud to the buffer.
+		*
+		*	\since version 0.0.1
+		*/
+		void appendToBuffer()
+		{
+			showObject =  showVertices =  false;			
+
+			// Vertex Attributes
+			vector<zVector>_dummynormals;
+
+			pCloud.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(pCloud.vertexPositions, _dummynormals);
+			pCloud.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(pCloud.vertexColors);
 		}
 
 	};
