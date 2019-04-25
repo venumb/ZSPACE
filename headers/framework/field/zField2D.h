@@ -127,10 +127,10 @@ namespace zSpace
 			n_X = _n_X;
 			n_Y = _n_Y;
 					   		
-			maxBB = minBB + zVector(unit_X * n_X, unit_Y * n_Y, 0);
+			maxBB = _minBB + zVector(unit_X * n_X, unit_Y * n_Y, 0);
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
-			zVector startPt = minBB;
+			zVector startPt = _minBB;
 			
 			fieldValues.clear();
 
