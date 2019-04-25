@@ -883,6 +883,9 @@ namespace zSpace
 			//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
 
 			meshObj->mesh.vertexPositions.clear();
+			meshObj->mesh.vertexNormals.clear();
+			meshObj->mesh.vertexColors.clear();
+			meshObj->mesh.vertexWeights.clear();
 			for (int i = 0; i < meshJSON.vertexAttributes.size(); i++)
 			{
 				for (int k = 0; k < meshJSON.vertexAttributes[i].size(); k++)
@@ -901,6 +904,8 @@ namespace zSpace
 						zColor col(meshJSON.vertexAttributes[i][k + 6], meshJSON.vertexAttributes[i][k + 7], meshJSON.vertexAttributes[i][k + 8], 1);
 						meshObj->mesh.vertexColors.push_back(col);
 
+						meshObj->mesh.vertexWeights.push_back(2.0);
+
 						k += 8;
 					}
 				}
@@ -910,6 +915,18 @@ namespace zSpace
 			// Edge Attributes
 			meshJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
 
+			if (meshJSON.halfedgeAttributes.size() == 0)
+			{
+				meshObj->mesh.edgeColors.clear(); 
+				meshObj->mesh.edgeWeights.clear();
+
+				for (int i = 0; i < meshObj->mesh.n_e; i++)
+				{
+					meshObj->mesh.edgeColors.push_back(zColor());
+					meshObj->mesh.edgeWeights.push_back(1.0);
+				}
+			}
+					
 
 			// face Attributes
 			meshJSON.faceAttributes = j["FaceAttributes"].get<vector<vector<double>>>();
@@ -2263,16 +2280,10 @@ namespace zSpace
 		*/
 		void setVertexColor(zColor col, bool setFaceColor = false)
 		{
-			if (meshObj->mesh.vertexColors.size() != meshObj->mesh.vertexActive.size())
-			{
-				meshObj->mesh.vertexColors.clear();
-				for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++) meshObj->mesh.vertexColors.push_back(zColor(1, 0, 0, 1));
-			}
 
-			for (int i = 0; i < meshObj->mesh.vertexColors.size(); i++)
-			{
-				meshObj->mesh.vertexColors[i] = col;
-			}
+			meshObj->mesh.vertexColors.clear();
+			meshObj->mesh.vertexColors.assign(meshObj->mesh.n_v, col);
+			
 
 			if (setFaceColor) computeFaceColorfromVertexColor();
 		}
@@ -2328,16 +2339,8 @@ namespace zSpace
 		*/
 		void setFaceColor(zColor col, bool setVertexColor = false)
 		{
-			if (meshObj->mesh.faceColors.size() != meshObj->mesh.faceActive.size())
-			{
-				meshObj->mesh.faceColors.clear();
-				for (int i = 0; i < meshObj->mesh.faceActive.size(); i++) meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
-			}
-
-			for (int i = 0; i < meshObj->mesh.faceColors.size(); i++)
-			{
-				meshObj->mesh.faceColors[i] = col;
-			}
+			meshObj->mesh.faceColors.clear();
+			meshObj->mesh.faceColors.assign(meshObj->mesh.n_f, col);				
 
 			if (setVertexColor) computeVertexColorfromFaceColor();
 		}
@@ -2374,13 +2377,11 @@ namespace zSpace
 		*/
 		void setFaceNormals(zVector &fNormal)
 		{
+				
 
 			meshObj->mesh.faceNormals.clear();
+			meshObj->mesh.faceNormals.assign(meshObj->mesh.n_f, fNormal);
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
-			{
-				meshObj->mesh.faceNormals.push_back(fNormal);
-			}
 
 			// compute normals per face based on vertex normals and store it in faceNormals
 			computeVertexNormalfromFaceNormal();
@@ -2439,15 +2440,10 @@ namespace zSpace
 		*/
 		void setEdgeColor(zColor col, bool setVertexColor = false)
 		{
-			if (meshObj->mesh.edgeColors.size() != meshObj->mesh.edgeActive.size())
-			{
-				for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++) meshObj->mesh.edgeColors.push_back(zColor());
-			}
-
-			for (int i = 0; i < meshObj->mesh.edgeColors.size(); i += 2)
-			{
-				setEdgeColor( i, col);
-			}
+			
+			meshObj->mesh.edgeColors.clear();
+			meshObj->mesh.edgeColors.assign(meshObj->mesh.n_e, col);
+			
 
 			if (setVertexColor) computeVertexColorfromEdgeColor();
 
@@ -2501,18 +2497,9 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void setEdgeWeight(double wt)
-		{
-			if (meshObj->mesh.edgeWeights.size() != meshObj->mesh.edgeActive.size())
-			{
-				meshObj->mesh.edgeWeights.clear();
-				for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++) meshObj->mesh.edgeWeights.push_back(1);
-
-			}
-
-			for (int i = 0; i < meshObj->mesh.edgeWeights.size(); i += 2)
-			{
-				setEdgeWeight(i, wt);
-			}			
+		{			
+			meshObj->mesh.edgeWeights.clear();
+			meshObj->mesh.edgeWeights.assign(meshObj->mesh.n_e, wt);					
 
 		}
 

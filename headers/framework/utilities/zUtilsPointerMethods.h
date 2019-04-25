@@ -10,7 +10,7 @@ namespace fs = std::experimental::filesystem;
 *	\return				bool			- true if first file is created before the second file .
 *	\since version 0.0.2
 */
-bool compare_time_creation(fs::path& first, const fs::path& second)
+inline bool compare_time_creation(fs::path& first, const fs::path& second)
 {
 	auto timeFirst = fs::last_write_time(first);
 

@@ -254,11 +254,7 @@ namespace zSpace
 				
 		bool operator==(zColor &c1)
 		{
-			bool out;
-
-			if (r == c1.r && g == c1.g && b == c1.b) out = true;
-
-			return false;
+			return (r == c1.r && g == c1.g && b == c1.b);
 		}
 
 	};

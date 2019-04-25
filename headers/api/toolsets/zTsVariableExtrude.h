@@ -90,7 +90,7 @@ namespace zSpace
 		*	\param		[in]	useVertexColor				- true if vertex color is to be used else face color is used.
 		*	\since version 0.0.1
 		*/
-		inline zObjMesh getVariableFaceOffset(bool keepExistingFaces = true, bool assignColor = true, double minVal = 0.01, double maxVal = 0.99, bool useVertexColor = false)
+		zObjMesh getVariableFaceOffset(bool keepExistingFaces = true, bool assignColor = true, double minVal = 0.01, double maxVal = 0.99, bool useVertexColor = false)
 		{
 
 			
@@ -476,7 +476,7 @@ namespace zSpace
 		*	\param		[in]	useVertexColor				- true if vertex color is to be used else face color is used.
 		*	\since version 0.0.1
 		*/
-		zObjMesh variableFaceThicknessExtrude(bool assignColor, double minVal, double maxVal)
+		zObjMesh getVariableFaceThicknessExtrude(bool assignColor, double minVal, double maxVal)
 		{
 
 

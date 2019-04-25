@@ -113,22 +113,18 @@ namespace zSpace
 			positionVertex.clear();
 
 			// create vertices
-
-			for (int i = 0; i < _num_vertices; i++)
-			{
-				addVertex(_positions[i]);
-			}
+			addVertices(_positions);			
 
 
 			// create faces and edges connection
 			int polyconnectsCurrentIndex = 0;
-
+			
+			vector<int> fVerts;
 			for (int i = 0; i < _num_polygons; i++)
 			{
 				int num_faceVerts = polyCounts[i];
-
-				vector<int> fVerts;
-
+	
+				fVerts.clear();
 				for (int j = 0; j < num_faceVerts; j++)
 				{
 					fVerts.push_back(polyConnects[polyconnectsCurrentIndex + j]);
@@ -195,6 +191,37 @@ namespace zSpace
 			n_v++;
 
 			return out;
+		}
+
+		/*! \brief This method adds vertices from the input position array.
+		*
+		*	\param		[in]	pos			- container of zVector holding the position information of the vertex.
+		*	\since version 0.0.1
+		*/
+		void addVertices(vector<zVector> &positions)
+		{		
+			zColor col(1, 0, 0, 1);
+			vertexActive.clear();
+			vertexActive.assign(positions.size(), true);
+
+			vertexColors.clear();
+			vertexColors.assign(positions.size(), col);
+
+			vertexWeights.clear();
+			vertexWeights.assign(positions.size(), 2.0);
+
+			vertexPositions.clear(); 
+			vertexPositions = positions;
+
+			for (int i = 0; i < positions.size(); i++)
+			{
+				addToPositionMap(positions[i], i);
+				vertices[i] = zVertex();
+				vertices[i].setVertexId(i);				
+			}
+
+			n_v = positions.size();
+
 		}
 
 		//--------------------------

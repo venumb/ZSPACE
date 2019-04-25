@@ -163,51 +163,40 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 				
-
 		/*! \brief This method creates the force geometry from the input files.
 		*
-		*	\param [in]		directory		- input directory path.
-		*	\param [in]		filename		- input filename.
-		*	\param [in]		numFiles		- input number of files in the directory.
+		*	\param [in]		filePaths		- input container of file paths.
 		*	\param [in]		type			- input file type.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		void createForceFromFile(string directory, string filename, int numFiles,  zFileTpye type)
+		void createForceFromFiles(vector<string> filePaths, zFileTpye type)
 		{
 
 			if (type == zJSON)
 			{
-
-				for (int i = 0; i < numFiles; i++)
+				for (int i = 0; i < filePaths.size(); i++)
 				{
-					string path = directory + "/" + filename + "_" + to_string(i) + ".json";
-
-					if (i < fnForces.size()) fnForces[i].from(path, type);
+					if (i < fnForces.size()) fnForces[i].from(filePaths[i], type);
 				}
-
-
-
 			}
 
 			else if (type == zOBJ)
 			{
-				for (int i = 0; i < numFiles; i++)
+				for (int i = 0; i < filePaths.size(); i++)
 				{
-					string path = directory + "/" + filename + "_" + to_string(i) + ".obj";
-
-					if (i < fnForces.size()) fnForces[i].from(path, type);
+					if (i < fnForces.size()) fnForces[i].from(filePaths[i], type);
 				}
 			}
 
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 
 		}
-
+		
 		/*! \brief This method creates the center line graph based on the input volume meshes.
 		*
 		*	\param		[in]	offsets						- input offsets value container.
 		*	\param		[in]	precisionFac				- precision factor of the points for checking.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void createFormFromForce( double offset , int precisionFac = 3, zColor edgeCol =zColor(0.75, 0.5, 0, 1))
 		{
@@ -446,7 +435,7 @@ namespace zSpace
 		*
 		*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf)
 		*	\param		[in]	weightDomain				- weight domain of the edge.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		 void setFormEdgeWeightsfromForce( zDomainDouble weightDomain = zDomainDouble(2.0, 10.0))
 		{
@@ -722,7 +711,7 @@ namespace zSpace
 		*	\param		[in]	v1						- input vertex index 1.
 		*	\param		[out]	closestPt				- stores closest point if there is intersection bettwen the two ruling edges.
 		*	\return				bool					- true if there is a intersection else false.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		bool computeRulingIntersection(int polytopalIndex, int v0, int v1, zVector &closestPt)
 		{
@@ -808,7 +797,7 @@ namespace zSpace
 		/*! \brief This method closes the input polytopal mesh.
 		*
 		*	\param		[in]	forceIndex				- input force volume mesh index.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void getClosePolytopalMesh(int forceIndex)
 		{
@@ -1118,7 +1107,7 @@ namespace zSpace
 
 		/*! \brief This method computes the face centers of the input force volume mesh container and stores it in a 2 Dimensional Container.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeForcesFaceCenters()
 		{
@@ -1135,7 +1124,7 @@ namespace zSpace
 
 		/*! \brief This method computes the targets per edge of the form.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
 		void computeFormTargets()
 		{

@@ -864,6 +864,17 @@ namespace zSpace
 			else return fnMesh.getCenter(index, zFaceData);
 		}
 
+		/*! \brief This method gets all the positions of the field.
+		*
+		*	\param		[out]	positions	- output positions container.
+		*	\since version 0.0.2
+		*/
+		void getPositions(vector<zVector> &positions)
+		{
+			if (setValuesperVertex) 	positions =  fnMesh.getVertexPositions();
+			else positions =  fnMesh.getCenters(zFaceData);
+		}
+
 		/*! \brief This method gets the position of the field at the input index.
 		*
 		*	\param		[in]	index		- index in the positions container.

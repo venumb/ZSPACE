@@ -239,7 +239,7 @@ namespace zSpace
 		*	\param [in]		infilename			- input file name including the directory path and extension.
 		*	\since version 0.0.2
 		*/
-		inline void fromTXT(string infilename)
+		void fromTXT(string infilename)
 		{
 			vector<zVector>positions;
 			vector<int>edgeConnects;
@@ -319,7 +319,7 @@ namespace zSpace
 		*	\param [in]		infilename			- input file name including the directory path and extension.
 		*	\since version 0.0.2
 		*/
-		inline void fromJSON(string infilename)
+		void fromJSON(string infilename)
 		{
 			json j;
 			zUtilsJsonHE graphJSON;
@@ -399,7 +399,9 @@ namespace zSpace
 			graphJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
 			//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
 
-			graphObj->graph.vertexPositions.clear();
+			graphObj->graph.vertexPositions.clear();			
+			graphObj->graph.vertexColors.clear();
+			graphObj->graph.vertexWeights.clear();
 			for (int i = 0; i < graphJSON.vertexAttributes.size(); i++)
 			{
 				for (int k = 0; k < graphJSON.vertexAttributes[i].size(); k++)
@@ -415,6 +417,8 @@ namespace zSpace
 						zColor col(graphJSON.vertexAttributes[i][k + 3], graphJSON.vertexAttributes[i][k + 4], graphJSON.vertexAttributes[i][k + 5], 1);
 						graphObj->graph.vertexColors.push_back(col);
 
+						graphObj->graph.vertexWeights.push_back(2.0);
+
 						k += 5;
 					}
 				}
@@ -423,6 +427,19 @@ namespace zSpace
 
 			// Edge Attributes
 			graphJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
+			
+			if (graphJSON.halfedgeAttributes.size() == 0)
+			{
+				graphObj->graph.edgeColors.clear();
+				graphObj->graph.edgeWeights.clear();
+
+				for (int i = 0; i < graphObj->graph.n_e; i++)
+				{
+					graphObj->graph.edgeColors.push_back(zColor());
+					graphObj->graph.edgeWeights.push_back(1.0);
+				}
+			}
+			
 			printf("\n graphObj->graph: %i %i ", numVertices(), numEdges());
 
 			// add to maps 
@@ -450,7 +467,7 @@ namespace zSpace
 		*	\param [in]		outfilename			- output file name including the directory path and extension.
 		*	\since version 0.0.2
 		*/
-		inline void toTXT(string outfilename)
+		void toTXT(string outfilename)
 		{
 			// remove inactive elements
 			if (numVertices() != graphObj->graph.vertexActive.size()) removeInactiveElements(zVertexData);
@@ -507,7 +524,7 @@ namespace zSpace
 		*	\param [in]		vColors				- export vertex color information if true.
 		*	\since version 0.0.2
 		*/
-		inline void toJSON(string outfilename)
+		void toJSON(string outfilename)
 		{
 			// remove inactive elements
 			if (numVertices() != graphObj->graph.vertexActive.size()) removeInactiveElements(zVertexData);
@@ -1396,16 +1413,8 @@ namespace zSpace
 		*/
 		void setVertexColor(zColor col, bool setEdgeColor = false)
 		{
-			if (graphObj->graph.vertexColors.size() != graphObj->graph.vertexActive.size())
-			{
-				graphObj->graph.vertexColors.clear();
-				for (int i = 0; i < graphObj->graph.vertexActive.size(); i++) graphObj->graph.vertexColors.push_back(zColor(1, 0, 0, 1));
-			}
-
-			for (int i = 0; i < graphObj->graph.vertexColors.size(); i++)
-			{
-				graphObj->graph.vertexColors[i] = col;
-			}
+			graphObj->graph.vertexColors.clear();
+			graphObj->graph.vertexColors.assign(graphObj->graph.n_v, col);
 
 			if (setEdgeColor) computeEdgeColorfromVertexColor();
 		}
@@ -1465,15 +1474,9 @@ namespace zSpace
 		*/
 		void setEdgeColor(zColor col, bool setVertexColor = false)
 		{
-			if (graphObj->graph.edgeColors.size() != graphObj->graph.edgeActive.size())
-			{
-				for (int i = 0; i < graphObj->graph.edgeActive.size(); i++) graphObj->graph.edgeColors.push_back(zColor());
-			}
-
-			for (int i = 0; i < graphObj->graph.edgeColors.size(); i += 2)
-			{
-				setEdgeColor(i, col);
-			}
+			
+			graphObj->graph.edgeColors.clear();
+			graphObj->graph.edgeColors.assign(graphObj->graph.n_e, col);			
 
 			if (setVertexColor) computeVertexColorfromEdgeColor();
 
@@ -1528,17 +1531,8 @@ namespace zSpace
 		*/
 		void setEdgeWeight(double wt)
 		{
-			if (graphObj->graph.edgeWeights.size() != graphObj->graph.edgeActive.size())
-			{
-				graphObj->graph.edgeWeights.clear();
-				for (int i = 0; i < graphObj->graph.edgeActive.size(); i++) graphObj->graph.edgeWeights.push_back(1);
-
-			}
-
-			for (int i = 0; i < graphObj->graph.edgeWeights.size(); i += 2)
-			{
-				setEdgeWeight(i, wt);
-			}
+			graphObj->graph.edgeWeights.clear();
+			graphObj->graph.edgeWeights.assign(graphObj->graph.n_e, wt);			
 
 		}
 
