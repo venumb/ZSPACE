@@ -4,6 +4,7 @@
 #include <headers/framework/core/zVector.h>
 #include <headers/framework/core/zColor.h>
 #include <headers/framework/core/zMatrix.h>
+#include <headers/framework/core/zTransform.h>
 #include <headers/framework/core/zDomain.h>
 
 #include<headers/framework/utilities/zUtilsPointerMethods.h>
@@ -399,19 +400,42 @@ namespace zSpace
 		*	\return				bool			- true if the position exists in the map.
 		*	\since version 0.0.1
 		*/
-		inline bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int precisionFac, int & outVertexId)
+		bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int precisionFac, int & outVertexId)
 		{
 			bool out = false;;
 
-			double factor = pow(10, precisionFac);
-			double x1 = round(pos.x *factor) / factor;
-			double y1 = round(pos.y *factor) / factor;
-			double z1 = round(pos.z *factor) / factor;
+			double x1, y1, z1;
+
+			if (precisionFac > 0)
+			{
+				double factor = pow(10, precisionFac);
+				 x1 = round(pos.x *factor) / factor;
+				 if (x1 == 0) x1 = abs(x1);
+
+				 y1 = round(pos.y *factor) / factor;
+				 if (y1 == 0) y1 = abs(y1);
+
+				 z1 = round(pos.z *factor) / factor;
+				 if (z1 == 0) z1 = abs(z1);
+			}
+			else if (precisionFac == 0)
+			{
+				 x1 = round(pos.x );
+				 if (x1 == 0) x1 = abs(x1);
+
+				 y1 = round(pos.y ) ;
+				 if (y1 == 0) y1 = abs(y1);
+
+				 z1 = round(pos.z ) ;
+				 if (z1 == 0) z1 = abs(z1);
+			}
+
 
 			string hashKey = (to_string(x1) + "," + to_string(y1) + "," + to_string(z1));
 			std::unordered_map<std::string, int>::const_iterator got = positionVertex.find(hashKey);
 
-
+			cout << endl << hashKey;
+			
 			if (got != positionVertex.end())
 			{
 				out = true;
@@ -432,12 +456,34 @@ namespace zSpace
 		*/
 		void addToPositionMap(unordered_map<string, int>& positionVertex, zVector &pos, int index, int precisionFac)
 		{
-			double factor = pow(10, precisionFac);
-			double x = round(pos.x *factor) / factor;
-			double y = round(pos.y *factor) / factor;
-			double z = round(pos.z *factor) / factor;
 
-			string hashKey = (to_string(x) + "," + to_string(y) + "," + to_string(z));
+			double x1, y1, z1;
+
+			if (precisionFac > 0)
+			{
+				double factor = pow(10, precisionFac);
+				x1 = round(pos.x *factor) / factor;
+				if (x1 == 0) x1 = abs(x1);
+
+				y1 = round(pos.y *factor) / factor;
+				if (y1 == 0) y1 = abs(y1);
+
+				z1 = round(pos.z *factor) / factor;
+				if (z1 == 0) z1 = abs(z1);
+			}
+			else if (precisionFac == 0)
+			{
+				x1 = round(pos.x);
+				if (x1 == 0) x1 = abs(x1);
+
+				y1 = round(pos.y);
+				if (y1 == 0) y1 = abs(y1);
+
+				z1 = round(pos.z);
+				if (z1 == 0) z1 = abs(z1);
+			}
+
+			string hashKey = (to_string(x1) + "," + to_string(y1) + "," + to_string(z1));
 			positionVertex[hashKey] = index;
 		}
 

@@ -39,7 +39,9 @@ namespace zSpace
 
 		//--------------------------
 		//---- PRIVATE ATTRIBUTES
-		//--------------------------		
+		//--------------------------	
+
+		zFnType fnType;
 			   		
 		/*!	\brief contour value domain.  */
 		zDomain<double> contourValueDomain;
@@ -272,7 +274,9 @@ namespace zSpace
 		*/
 		zFnMeshField() 
 		{
-			fieldObj = nullptr;			
+			fnType = zFnType::zMeshFieldFn;
+			fieldObj = nullptr;		
+						
 		}
 
 		/*! \brief Overloaded constructor.
@@ -284,7 +288,9 @@ namespace zSpace
 		{
 			fieldObj = &_fieldObj;		
 
+			fnType = zFnType::zMeshFieldFn;
 			fnMesh = zFnMesh (_fieldObj);
+			
 		}
 
 
@@ -4258,63 +4264,112 @@ namespace zSpace
 		if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
 		{
 			
-			computeDomain(scalars, contourValueDomain);
-
-			
+			computeDomain(scalars, contourValueDomain);			
 
 			//convert to HSV
-			fieldColorDomain.min.toHSV(); fieldColorDomain.max.toHSV();
 
-			for (int i = 0; i < scalars.size(); i++)
+			if (contourValueDomain.min == contourValueDomain.max)
 			{
-				zColor col;
+				zColor col(0.5,0.5,0.5);
 
+				if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(col);
+				else fnMesh.setFaceColor( col);
 
-				if (scalars[i] < contourValueDomain.min) col = fieldColorDomain.min;
-				else if (scalars[i] > contourValueDomain.max) col = fieldColorDomain.max;
-				else
+				if (fnMesh.numPolygons() == scalars.size())
 				{
-					col = coreUtils.blendColor(scalars[i], contourValueDomain, fieldColorDomain,  zHSV);
-					
-				}
+					contourVertexValues.clear();
 
-				if (fnMesh.numVertices() == scalars.size()) fnMesh.setVertexColor(i, col);
-				else fnMesh.setFaceColor(i, col);
-			}
+					fnMesh.computeVertexColorfromFaceColor();
 
-			if (fnMesh.numPolygons() == scalars.size())
-			{
-				contourVertexValues.clear();
-
-				fnMesh.computeVertexColorfromFaceColor();
-
-				for (int i = 0; i < fnMesh.numVertices(); i++)
-				{
-					vector<int> cFaces;
-					fnMesh.getConnectedFaces(i, zVertexData, cFaces);
-
-					double val; 
-
-					for (int j = 0; j < cFaces.size(); j++)
+					for (int i = 0; i < fnMesh.numVertices(); i++)
 					{
-						val += scalars[cFaces[j]];					
+						vector<int> cFaces;
+						fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+
+						double val;
+
+						for (int j = 0; j < cFaces.size(); j++)
+						{
+							val += scalars[cFaces[j]];
+						}
+
+						val /= cFaces.size();
+
+						contourVertexValues.push_back(val);
 					}
 
-					val /= cFaces.size();
+					computeDomain(contourVertexValues, contourValueDomain);
 
-					contourVertexValues.push_back(val);					
 				}
 
-				computeDomain(contourVertexValues, contourValueDomain);
+				if (fnMesh.numVertices() == scalars.size())
+				{
+					contourVertexValues = scalars;
 
+					fnMesh.computeFaceColorfromVertexColor();
+				}
+
+
+
+				return;
 			}
-
-			if (fnMesh.numVertices() == scalars.size())
+			
+			else
 			{
-				contourVertexValues = scalars;
+				fieldColorDomain.min.toHSV(); fieldColorDomain.max.toHSV();
 
-				fnMesh.computeFaceColorfromVertexColor();
-			}
+				zColor* cols = fnMesh.getRawVertexColors();				
+				if (fnMesh.numPolygons() == scalars.size()) cols = fnMesh.getRawFaceColors();
+
+				for (int i = 0; i < scalars.size(); i++)
+				{				
+
+					if (scalars[i] < contourValueDomain.min) cols[i] = fieldColorDomain.min;
+					else if (scalars[i] > contourValueDomain.max) cols[i] = fieldColorDomain.max;
+					else
+					{
+						cols[i] = coreUtils.blendColor(scalars[i], contourValueDomain, fieldColorDomain, zHSV);
+					}
+									
+				}
+
+				if (fnMesh.numPolygons() == scalars.size())
+				{
+					contourVertexValues.clear();
+
+					fnMesh.computeVertexColorfromFaceColor();
+
+					for (int i = 0; i < fnMesh.numVertices(); i++)
+					{
+						vector<int> cFaces;
+						fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+
+						double val;
+
+						for (int j = 0; j < cFaces.size(); j++)
+						{
+							val += scalars[cFaces[j]];
+						}
+
+						val /= cFaces.size();
+
+						contourVertexValues.push_back(val);
+					}
+
+					computeDomain(contourVertexValues, contourValueDomain);
+
+				}
+
+				if (fnMesh.numVertices() == scalars.size())
+				{
+					contourVertexValues = scalars;
+
+					fnMesh.computeFaceColorfromVertexColor();
+				}
+			}		
+			
+
+			
 
 		}
 

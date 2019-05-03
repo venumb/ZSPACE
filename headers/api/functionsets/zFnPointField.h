@@ -39,6 +39,8 @@ namespace zSpace
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------		
+		
+		zFnType fnType;
 
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
@@ -112,7 +114,11 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zFnPointField() {}
+		zFnPointField() 
+		{
+			fnType = zFnType::zPointFieldFn;
+			fieldObj = nullptr;			
+		}
 
 		/*! \brief Overloaded constructor.
 		*
@@ -122,8 +128,10 @@ namespace zSpace
 		zFnPointField(zObjPointField<T> &_fieldObj)
 		{
 			fieldObj = &_fieldObj;	
-
 			fnPoints = zFnPointCloud(_fieldObj);
+
+			fnType = zFnType::zPointFieldFn;
+			
 		}
 
 

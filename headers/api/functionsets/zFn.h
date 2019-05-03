@@ -29,6 +29,9 @@ namespace zSpace
 	protected:
 		zFnType fnType;
 
+		/*!	\brief pointer to a object  */
+		zObj *Obj;
+
 	public:
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -86,6 +89,50 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		virtual void clear() {};
+
+		/*! \brief This method performs a transformation on the input object based on its transform.
+		*
+		*	\since version 0.0.2
+		*/
+		virtual void updateTransform() {};
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+		/*! \brief This method sets the object transform to the input transform.
+		*
+		*	\param [in]		inTransform		- input transform.
+		*	\since version 0.0.2
+		*/
+		void setTransform(zTransform &inTransform)
+		{
+			Obj->transform = inTransform;
+		}
+
+		//--------------------------
+		//---- GET METHODS
+		//--------------------------
+
+		/*! \brief This method gets the object transform.
+		*
+		*	\since version 0.0.2
+		*/
+		zTransform getTransform()
+		{
+			return Obj->transform ;
+		}
+
+
+		//--------------------------
+		//---- TRANSFORMATION METHODS
+		//--------------------------
+
+		void scaleUniform(double scaleFac)
+		{
+
+		}
+
 	};
 
 

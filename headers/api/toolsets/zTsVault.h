@@ -417,7 +417,7 @@ namespace zSpace
 		*	\param		[in]	forceDiagramScale					- scale of force diagram.
 		*	\since version 0.0.2
 		*/
-		void setForceDensitiesFromDiagrams(double forceDiagramScale);	
+		void setForceDensitiesFromDiagrams(double forceDiagramScale , bool negate = false);	
 
 
 		/*! \brief This method sets tension edges of the form diagram.
@@ -885,7 +885,6 @@ namespace zSpace
 					zVector b_i(0, 0, 0);
 					for (int j = 0; j < cEdges.size(); j++)
 					{
-
 						zVector v_j = positions[fnForce.getEndVertexIndex(cEdges[j])];
 
 						zVector e_ij = v_i - v_j;
@@ -1453,7 +1452,7 @@ namespace zSpace
 
 	//---- graph specilization for setForceDensitiesFromDiagrams
 	template<>
-	inline void zTsVault<zObjGraph, zFnGraph>::setForceDensitiesFromDiagrams(double forceDiagramScale)
+	inline void zTsVault<zObjGraph, zFnGraph>::setForceDensitiesFromDiagrams(double forceDiagramScale, bool negate)
 	{
 		forceDensities.clear();
 
@@ -1480,6 +1479,12 @@ namespace zSpace
 
 				forceDensities.push_back(forceDensity / forceDiagramScale);
 				forceDensities.push_back(forceDensity / forceDiagramScale);
+
+				if (negate)
+				{
+					forceDensities[i] *= -1;
+					forceDensities[i+1] *= -1;
+				}
 
 			}
 
@@ -1495,7 +1500,7 @@ namespace zSpace
 
 	//---- mesh specilization for setForceDensitiesFromDiagrams
 	template<>
-	inline void zTsVault<zObjMesh, zFnMesh>::setForceDensitiesFromDiagrams(double forceDiagramScale)
+	inline void zTsVault<zObjMesh, zFnMesh>::setForceDensitiesFromDiagrams(double forceDiagramScale, bool negate)
 	{
 		forceDensities.clear();
 
@@ -1523,6 +1528,12 @@ namespace zSpace
 				forceDensities.push_back(forceDensity / forceDiagramScale);
 				forceDensities.push_back(forceDensity / forceDiagramScale);
 
+
+				if (negate)
+				{
+					forceDensities[i] *= -1;
+					forceDensities[i + 1] *= -1;
+				}
 			}
 
 			else
@@ -2621,7 +2632,7 @@ namespace zSpace
 					{
 						if (eForm*eForce > 0) eId = fnForce.getSymIndex(eId);
 					}
-					// for compression edge point to the edge in the same direction
+					//for compression edge point to the edge in the same direction
 					else
 					{
 						if (eForm*eForce < 0) eId = fnForce.getSymIndex(eId);
@@ -2983,34 +2994,32 @@ namespace zSpace
 
 		minEdgeLength = maxEdgeLength * minmax_Edge;
 
-		vector<int> cEdges;
-		zVector v_i, v_j, e_ij, t_ij, b_i, r_i;
-		zVector forceV;
-
+		
+		zVector* positions = fnForm.getRawVertexPositions();
 
 		for (int k = 0; k < numIterations; k++)
 		{
 			for (int i = 0; i < fnForm.numVertices(); i++)
 			{
-				cEdges.clear();
+				vector<int> cEdges;
 				fnForm.getConnectedEdges(i, zVertexData, cEdges);
 
-				v_i = fnForm.getVertexPosition(i);
+				zVector v_i = positions[i];
 
 				// compute barycenter per vertex
-				b_i = zVector(0, 0, 0);
+				zVector b_i(0, 0, 0);
 				for (int j = 0; j < cEdges.size(); j++)
 				{
 
-					v_j = fnForm.getVertexPosition(fnForm.getEndVertexIndex(cEdges[j]));
+					zVector v_j = positions[fnForm.getEndVertexIndex(cEdges[j])];
 
-					e_ij = v_i - v_j;
+					zVector e_ij = v_i - v_j;
 					double len_e_ij = e_ij.length();
 
 					if (len_e_ij < minEdgeLength) len_e_ij = minEdgeLength;
 					if (len_e_ij > maxEdgeLength) len_e_ij = maxEdgeLength;
 
-					t_ij = targetEdges_form[fnForm.getSymIndex(cEdges[j])];
+					zVector t_ij = targetEdges_form[fnForm.getSymIndex(cEdges[j])];
 					t_ij.normalize();
 
 					b_i += (v_j + (t_ij * len_e_ij));
@@ -3019,11 +3028,10 @@ namespace zSpace
 
 				b_i /= cEdges.size();
 
-				// compute residue force
-				r_i = b_i - v_i;
-				v_residual[i] = (r_i);
+				// compute residue force				
+				v_residual[i] = (b_i - v_i);
 
-				forceV = v_residual[i] * formVWeights[i];
+				zVector forceV = v_residual[i] * formVWeights[i];
 				fnFormParticles[i].addForce(forceV);
 			}
 
@@ -3077,18 +3085,16 @@ namespace zSpace
 
 		minEdgeLength = maxEdgeLength * minmax_Edge;
 
-		
-	
-	
+			
 		zVector* positions = fnForm.getRawVertexPositions();
 
 		for (int k = 0; k < numIterations; k++)
 		{
-			vector<int> cEdges;
+			
 
 			for (int i = 0; i < fnForm.numVertices(); i++)
 			{
-				cEdges.clear();
+				vector<int> cEdges;
 				fnForm.getConnectedEdges(i, zVertexData, cEdges);
 
 				zVector v_i = positions[i];
@@ -3398,11 +3404,17 @@ namespace zSpace
 
 		// POSITION MATRIX
 		MatrixXd Xz(fnResult.numVertices(), 1);
+		zVector* pos = fnResult.getRawVertexPositions();
+
+		zVector* posForm = fnForm.getRawVertexPositions();
+
 		for (int i = 0; i < fnResult.numVertices(); i++)
 		{
-			zVector pos = fnResult.getVertexPosition(i);
+			Xz(i, 0) = pos[i].z;
 
-			Xz(i, 0) = pos.z;
+			// set x and y to form diagram
+			pos[i].x = posForm[i].x;
+			pos[i].y = posForm[i].y;
 
 		};
 
@@ -3427,31 +3439,7 @@ namespace zSpace
 				q[FD_EdgesCounter] = forceDensities[i];
 				if (forceDensities[i] < 0) positiveDensities = false;
 				FD_EdgesCounter++;
-			}
-
-			//// form edge
-			//int eId_form = i;
-			//zVector e_form = fnForm.getEdgeVector(eId_form);
-			//double e_form_len = e_form.length();
-
-			//if (formEdge_forceEdge[eId_form] != -1)
-			//{
-			//	// force edge
-			//	int eId_force = formEdge_forceEdge[eId_form];
-			//	zVector e_force = fnForce.getEdgeVector(eId_force);
-			//	double e_force_len = e_force.length();
-
-			//	double forceDensity = ((e_force_len / e_form_len));
-
-			//	e_form.normalize();
-			//	e_force.normalize();
-			//	forceDensity *= (e_form * e_force);
-
-			//	if (forceDensity < 0)positiveDensities = false;
-
-			//	q[FD_EdgesCounter] = (forceDensity / forceDiagramScale);
-			//	FD_EdgesCounter++;
-			//}
+			}			
 		}	
 
 
@@ -3537,12 +3525,9 @@ namespace zSpace
 		// POSITIONS OF NON FIXED VERTICES
 		for (int i = 0; i < freeVertices.size(); i++)
 		{
-			int id = freeVertices[i];
-
-			zVector pos =	fnResult.getVertexPosition(id);
-			pos.z = Xn(i, 0);
+			int id = freeVertices[i];			
+			pos[id].z = Xn(i, 0);	
 			
-			fnResult.setVertexPosition(id, pos);
 		}
 
 		return true;
@@ -3554,7 +3539,7 @@ namespace zSpace
 	{
 		if (computeForceDensitities)
 		{
-			setForceDensitiesFromDiagrams(forceDiagramScale);
+			setForceDensitiesFromDiagrams(forceDiagramScale, false);
 
 			computeForceDensitities = false;
 		}
@@ -3584,9 +3569,16 @@ namespace zSpace
 		MatrixXd Xz(fnResult.numVertices(), 1);
 		zVector* pos = fnResult.getRawVertexPositions();
 
+		zVector* posForm = fnForm.getRawVertexPositions();
+
 		for (int i = 0; i < fnResult.numVertices(); i++)
 		{
 			Xz(i, 0) = pos[i].z;
+
+			// set x and y to form diagram
+
+			pos[i].x = posForm[i].x;
+			pos[i].y = posForm[i].y;
 
 		};
 
@@ -3617,30 +3609,7 @@ namespace zSpace
 				if (forceDensities[i] < 0) positiveDensities = false;
 				FD_EdgesCounter++;
 			}
-
-			//// form edge
-			//int eId_form = i;
-			//zVector e_form = fnForm.getEdgeVector(eId_form);
-			//double e_form_len = e_form.length();
-
-			//if (formEdge_forceEdge[eId_form] != -1)
-			//{
-			//	// force edge
-			//	int eId_force = formEdge_forceEdge[eId_form];
-			//	zVector e_force = fnForce.getEdgeVector(eId_force);
-			//	double e_force_len = e_force.length();
-
-			//	double forceDensity = ((e_force_len / e_form_len));
-
-			//	e_form.normalize();
-			//	e_force.normalize();
-			//	forceDensity *= (e_form * e_force);
-
-			//	if (forceDensity < 0) positiveDensities = false;
-
-			//	q[FD_EdgesCounter] = (forceDensity /forceDiagramScale);
-			//	FD_EdgesCounter++;
-			//}
+			
 		}
 
 
@@ -3887,8 +3856,8 @@ namespace zSpace
 
 		}
 
-		printf("\n Fn:");
-		cout << endl << Fn << endl;
+		//printf("\n Fn:");
+		//cout << endl << Fn << endl;
 
 
 		//// OUT

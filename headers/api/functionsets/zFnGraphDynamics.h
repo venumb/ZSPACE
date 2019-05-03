@@ -48,7 +48,13 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zFnGraphDynamics() {}
+		zFnGraphDynamics() 
+		{
+			fnType = zFnType::zGraphDynamicsFn;
+			graphObj = nullptr;
+
+			Obj = nullptr;
+		}
 
 		/*! \brief Overloaded constructor.
 		*
@@ -58,6 +64,9 @@ namespace zSpace
 		zFnGraphDynamics(zObjGraph &_graphObj)
 		{
 			graphObj = &_graphObj;
+			fnType = zFnType::zGraphDynamicsFn;
+
+			Obj = graphObj;
 		}
 
 		//--------------------------

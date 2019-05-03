@@ -469,7 +469,8 @@ namespace zSpace
 		*/
 		zTsSlimeEnvironment(zObjMeshField<double> &_fieldObj)
 		{
-			fieldObj = &_fieldObj;			
+			fieldObj = &_fieldObj;	
+			fnMesh = zFnMesh(_fieldObj);
 		}
 			
 

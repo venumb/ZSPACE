@@ -13,3 +13,9 @@
 #include <headers/api/toolsets/zTsPolytopal.h>
 
 #include <headers/api/toolsets/zTsSpatialStructure.h>
+
+//--------------------------
+//---- zTOPOPT
+//--------------------------
+
+#include <headers/api/toolsets/zTsTopOpt.h>

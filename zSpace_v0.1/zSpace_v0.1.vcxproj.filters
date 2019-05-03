@@ -257,5 +257,11 @@
     <ClInclude Include="..\headers\framework\utilities\zUtilsPointerMethods.h">
       <Filter>Header Files\FRAMEWORK\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsTopOpt.h">
+      <Filter>Header Files\API\Toolsets\statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\framework\core\zTransform.h">
+      <Filter>Header Files\FRAMEWORK\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

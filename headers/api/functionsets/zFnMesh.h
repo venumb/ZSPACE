@@ -28,7 +28,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class zFnMesh : protected zFn
+	class zFnMesh : public zFn
 	{
 
 	private:
@@ -682,7 +682,7 @@ namespace zSpace
 			myfile.close();
 
 		}
-
+	
 		/*! \brief This method imports zMesh from an OBJ file.
 		*
 		*	\param [in]		infilename			- input file name including the directory path and extension.
@@ -937,7 +937,7 @@ namespace zSpace
 			{
 				for (int k = 0; k < meshJSON.faceAttributes[i].size(); k++)
 				{
-					// position
+					// normal and color
 					if (meshJSON.faceAttributes[i].size() == 6)
 					{
 						zColor col(meshJSON.faceAttributes[i][k + 3], meshJSON.faceAttributes[i][k + 4], meshJSON.faceAttributes[i][k + 5], 1);
@@ -949,10 +949,27 @@ namespace zSpace
 											   
 						k += 5;
 					}
+
+					if (meshJSON.faceAttributes[i].size() == 3)
+					{
+						zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
+						meshObj->mesh.faceNormals.push_back(normal);
+
+
+						meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
+
+						k += 2;
+					}
 				}
 
 			}
 			
+			if (meshJSON.faceAttributes.size() == 0)
+			{
+				computeMeshNormals();
+				setFaceColor(zColor(0.5, 0.5, 0.5, 1));
+			}
+
 
 			// add to maps 
 			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
@@ -985,6 +1002,8 @@ namespace zSpace
 		{
 			fnType = zFnType::zMeshFn;
 			meshObj = nullptr;
+
+			Obj = nullptr;
 		}
 
 		/*! \brief Overloaded constructor.
@@ -994,8 +1013,10 @@ namespace zSpace
 		*/
 		zFnMesh(zObjMesh &_meshObj)
 		{
-			meshObj = &_meshObj;
+			meshObj = &_meshObj;			
+
 			fnType = zFnType::zMeshFn;
+			Obj = meshObj;
 		}
 
 		//--------------------------
@@ -1529,7 +1550,7 @@ namespace zSpace
 
 				for (int i = 0; i < fEdges.size(); i++)
 				{
-					if (onBoundary(fEdges[i], zEdgeData))
+					if (onBoundary(getSymIndex(fEdges[i]), zEdgeData))
 					{
 						out = true;
 						break;
@@ -2739,6 +2760,7 @@ namespace zSpace
 		*/
 		zVector getFaceNormal(int index)
 		{
+
 			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 

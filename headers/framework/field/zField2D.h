@@ -126,8 +126,10 @@ namespace zSpace
 			unit_Y = _unit_Y;
 			n_X = _n_X;
 			n_Y = _n_Y;
-					   		
+			
+			minBB = _minBB;
 			maxBB = _minBB + zVector(unit_X * n_X, unit_Y * n_Y, 0);
+
 
 			zVector unitVec = zVector(unit_X, unit_Y, 0);
 			zVector startPt = _minBB;

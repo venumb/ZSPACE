@@ -69,6 +69,18 @@ namespace  zSpace
 			z = _z;
 		}
 
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	vals	- input array of values.
+		*	\since version 0.0.1
+		*/
+		zVector(double3 vals)
+		{
+			x = vals[0];
+			y = vals[1];
+			z = vals[2];
+		}
+
 		//---- DESTRUCTOR
 
 		/*! \brief Default destructor.
@@ -434,7 +446,7 @@ namespace  zSpace
 	
 		/*! \brief This method returns the component value of the current zVector.
 		*
-		*	\param		[in]	i			- index. ( 0 - x component, 0 - y component, 2 - z component).
+		*	\param		[in]	i			- index. ( 0 - x component, 1 - y component, 2 - z component).
 		*	\return				double		- value of the dihedral angle between the vectors.
 		*	\since version 0.0.1
 		*/	
@@ -443,6 +455,18 @@ namespace  zSpace
 			if (i == 0)return x;
 			if (i == 1)return y;
 			if (i == 2)return z;
+		}
+
+		/*! \brief This method gets the components as a array of doubles of the current zVector.
+		*
+		*	\param		[out]	vals		- output compnent values. ( 0 - x component, 1 - y component, 2 - z component).
+		*	\since version 0.0.1
+		*/
+		void getComponents(double3 &vals)
+		{
+			vals[0] = x;
+			vals[1] = y;
+			vals[2] = z;
 		}
 
 		/*! \brief This method returns the row matrix of the current zVector.

@@ -120,7 +120,7 @@ namespace zSpace
 	*	\brief	functionset types.
 	*	\since	version 0.0.1
 	*/
-	enum zFnType { zInvalidFn = 160, zPointCloudFn, zMeshFn, zGraphFn, zField2DFn, zTyField3DFn, zParticleFn };
+	enum zFnType { zInvalidFn = 160, zPointsFn, zMeshFn, zGraphFn, zMeshFieldFn, zPointField3DFn, zParticleFn, zMeshDynamicsFn, zGraphDynamicsFn};
 
 	/*! \enum	zDiagramType
 	*	\brief	diagram types for vaults.

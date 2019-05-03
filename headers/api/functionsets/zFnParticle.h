@@ -46,6 +46,9 @@ namespace zSpace
 		zFnParticle()
 		{
 			fnType = zFnType::zMeshFn;
+
+			particleObj = nullptr;
+			Obj = nullptr;
 		}
 
 		/*! \brief Overloaded constructor.
@@ -57,6 +60,8 @@ namespace zSpace
 		{
 			particleObj = &_particleObj;
 			fnType = zFnType::zParticleFn;
+
+			Obj = particleObj;
 		}
 
 		//--------------------------

@@ -1094,12 +1094,6 @@ namespace zSpace
 	*/	
 	typedef zMatrix<float> zMatrixf;
 
-	/*! \typedef zTransform
-	*	\brief A 4X4 matrix  of doubles.
-	*
-	*	\since version 0.0.1
-	*/
-	typedef zMatrix<double> zTransform;
 	
 	/** @}*/
 	/** @}*/ 

@@ -624,7 +624,13 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zFnGraph() {}
+		zFnGraph() 
+		{
+			fnType = zFnType::zGraphFn;
+			graphObj = nullptr;
+
+			Obj = nullptr;
+		}
 
 		/*! \brief Overloaded constructor.
 		*
@@ -633,10 +639,14 @@ namespace zSpace
 		*/
 		zFnGraph(zObjGraph &_graphObj, bool  _planarGraph = false, zVector _graphNormal = zVector(0,0,1) )
 		{
+			fnType = zFnType::zGraphFn;
+
 			graphObj = &_graphObj;
 
 			planarGraph = _planarGraph;
 			graphNormal = _graphNormal;
+
+			Obj = graphObj;
 		}
 
 

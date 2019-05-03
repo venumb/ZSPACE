@@ -105,4 +105,57 @@ namespace zSpace
 
 	};
 
+
+	/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zUtilities
+	*	\brief The utility classes and structs of the library.
+	*  @{
+	*/
+
+	/*! \struct zUtilsJsonTopOpt
+	*	\brief A json utility struct for storing topOpt data.
+	*	\since version 0.0.2
+	*/
+
+	/** @}*/
+
+	/** @}*/
+	struct zUtilsJsonTopOpt
+	{
+		/*!	\brief container of edge data */
+		vector<vector<int>> edges;
+
+		/*!	\brief container of face data */
+		vector<vector<int>> faces;
+
+		/*!	\brief container of vertex attribute data - positions, normals*/
+		vector<vector<double>> vertexAttributes;
+
+		/*!	\brief container of face attribute data - normals*/
+		vector<vector<double>> faceAttributes;
+
+		/*!	\brief container of SPC*/
+		vector<bool> SPC;
+
+		/*!	\brief container of design space*/
+		vector<bool> designSpace;
+
+		/*!	\brief container of Load point data*/
+		vector<vector<double>> loads;
+
+		/*!	\brief container of Load point data*/
+		vector<vector<int>> loadPoints;
+
+		/*!	\brief container of pattern grouping data  */
+		vector<double> patternGrouping;
+
+		/*!	\brief container of material data  */
+		vector<double> material;
+				
+	};
+
 }

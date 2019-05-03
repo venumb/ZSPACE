@@ -143,7 +143,9 @@ namespace zSpace
 		*/
 		zFnPointCloud()
 		{
-			fnType = zFnType::zPointCloudFn;
+			fnType = zFnType::zPointsFn;
+			pointsObj = nullptr;
+			Obj = nullptr;
 		}
 
 		/*! \brief Overloaded constructor.
@@ -154,7 +156,10 @@ namespace zSpace
 		zFnPointCloud(zObjPointCloud &_pointsObj)
 		{
 			pointsObj = &_pointsObj;
-			fnType = zFnType::zPointCloudFn;
+			fnType = zFnType::zPointsFn;
+
+
+			Obj = pointsObj;
 		}
 
 		//--------------------------

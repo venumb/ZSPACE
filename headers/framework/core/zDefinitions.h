@@ -72,6 +72,13 @@ namespace zSpace
 	#endif
 
 	/*!
+	*	\brief Defines the scale value for transformation when it is zero.
+	*/
+	#ifndef scaleZero
+	#define scaleZero 0.00001
+	#endif
+
+	/*!
 	*	\brief Defines the degrees of freedom.
 	*/
 	#ifndef DOF
@@ -132,6 +139,12 @@ namespace zSpace
 	#define GLIntSize sizeof(GLint)
 	#endif
 
+	/*! \typedef double3
+	*	\brief An array of doubles of size 3.
+	*
+	*	\since version 0.0.1
+	*/
+	typedef double double3[3];
 	
 
 	/** @}*/
@@ -139,4 +152,8 @@ namespace zSpace
 	/** @}*/
 
 	/** @}*/ 
+
+
+
+
 }

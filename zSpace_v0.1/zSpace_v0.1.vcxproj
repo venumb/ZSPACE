@@ -63,6 +63,7 @@
     <ClInclude Include="..\headers\api\toolsets\zTsKMeans.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsRemesh.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsShortestPath.h" />
+    <ClInclude Include="..\headers\api\toolsets\zTsTopOpt.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsVault.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsVariableExtrude.h" />
     <ClInclude Include="..\headers\api\viewer\zModel.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="..\headers\framework\core\zDomain.h" />
     <ClInclude Include="..\headers\framework\core\zEnumerators.h" />
     <ClInclude Include="..\headers\framework\core\zMatrix.h" />
+    <ClInclude Include="..\headers\framework\core\zTransform.h" />
     <ClInclude Include="..\headers\framework\core\zVector.h" />
     <ClInclude Include="..\headers\framework\data\zDatabase.h" />
     <ClInclude Include="..\headers\framework\display\zObjBuffer.h" />
