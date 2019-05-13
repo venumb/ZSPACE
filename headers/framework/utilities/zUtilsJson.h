@@ -151,7 +151,7 @@ namespace zSpace
 		vector<vector<int>> loadPoints;
 
 		/*!	\brief container of pattern grouping data  */
-		vector<double> patternGrouping;
+		vector< vector<double>> patternGrouping;
 
 		/*!	\brief container of material data  */
 		vector<double> material;

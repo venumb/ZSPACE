@@ -56,6 +56,7 @@
     <ClInclude Include="..\headers\api\object\zObjPointCloud.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsOSM.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsRobot.h" />
+    <ClInclude Include="..\headers\api\toolsets\zTsSpectral.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsStreams2D.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsPolytopal.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsSlimeMould.h" />
@@ -67,6 +68,7 @@
     <ClInclude Include="..\headers\api\toolsets\zTsVault.h" />
     <ClInclude Include="..\headers\api\toolsets\zTsVariableExtrude.h" />
     <ClInclude Include="..\headers\api\viewer\zModel.h" />
+    <ClInclude Include="..\headers\app\include\Tools\zTsDigitalFabrication.h" />
     <ClInclude Include="..\headers\app\include\Tools\zTsStatics.h" />
     <ClInclude Include="..\headers\app\include\Tools\zTsData.h" />
     <ClInclude Include="..\headers\app\include\Tools\zTsGeometry.h" />
@@ -81,7 +83,7 @@
     <ClInclude Include="..\headers\framework\core\zDomain.h" />
     <ClInclude Include="..\headers\framework\core\zEnumerators.h" />
     <ClInclude Include="..\headers\framework\core\zMatrix.h" />
-    <ClInclude Include="..\headers\framework\core\zTransform.h" />
+    <ClInclude Include="..\headers\framework\core\zTransformationMatrix.h" />
     <ClInclude Include="..\headers\framework\core\zVector.h" />
     <ClInclude Include="..\headers\framework\data\zDatabase.h" />
     <ClInclude Include="..\headers\framework\display\zObjBuffer.h" />

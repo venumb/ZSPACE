@@ -27,10 +27,10 @@ namespace zSpace
 	{
 
 	protected:
+		
+		/*!	\brief function type  */
 		zFnType fnType;
-
-		/*!	\brief pointer to a object  */
-		zObj *Obj;
+		
 
 	public:
 		//--------------------------
@@ -43,7 +43,8 @@ namespace zSpace
 		*/
 		zFn() 
 		{
-			fnType = zInvalidFn;
+			fnType = zInvalidFn;	
+					
 		}
 
 		//--------------------------
@@ -88,13 +89,8 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		virtual void clear() {};
+		virtual void clear() {}
 
-		/*! \brief This method performs a transformation on the input object based on its transform.
-		*
-		*	\since version 0.0.2
-		*/
-		virtual void updateTransform() {};
 
 		//--------------------------
 		//---- SET METHODS
@@ -102,14 +98,47 @@ namespace zSpace
 
 		/*! \brief This method sets the object transform to the input transform.
 		*
-		*	\param [in]		inTransform		- input transform.
+		*	\param [in]		inTransform			- input transform.
+		*	\param [in]		decompose			- decomposes transform to rotation and translation if true.
+		*	\param [in]		updatePositions		- updates the object positions if true.
 		*	\since version 0.0.2
 		*/
-		void setTransform(zTransform &inTransform)
-		{
-			Obj->transform = inTransform;
-		}
+		virtual void setTransform(zTransform &inTransform,bool decompose = true, bool updatePositions = true){}
+	
+		
+		/*! \brief This method sets the scale components of the object.
+		*
+		*	\param [in]		scale		- input scale values.
+		*	\since version 0.0.2
+		*/
+		virtual void setScale(double3 &scale){}
+	
 
+		/*! \brief This method sets the rotation components of the object.
+		*
+		*	\param [in]		rotation			- input rotation values.
+		*	\param [in]		append		- true if the input values are added to the existing rotations.
+		*	\since version 0.0.2
+		*/
+		virtual void setRotation(double3 &rotation, bool append = false){}
+	
+
+		/*! \brief This method sets the translation components of the object.
+		*
+		*	\param [in]		translation			- input translation vector.
+		*	\param [in]		append				- true if the input values are added to the existing translation.
+		*	\since version 0.0.2
+		*/
+		virtual void setTranslation(zVector &translation, bool append = false){}
+		
+
+		/*! \brief This method sets the pivot of the object.
+		*
+		*	\param [in]		pivot				- input pivot position.
+		*	\since version 0.0.2
+		*/
+		virtual void setPivot(zVector &pivot) {}
+	
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
@@ -118,20 +147,22 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zTransform getTransform()
-		{
-			return Obj->transform ;
-		}
+		virtual  void getTransform(zTransform &transform) {}
+
 
 
 		//--------------------------
 		//---- TRANSFORMATION METHODS
 		//--------------------------
+				
+	protected:
+		
 
-		void scaleUniform(double scaleFac)
-		{
-
-		}
+		/*! \brief This method scales the object with the input scale transformation matix.
+		*
+		*	\since version 0.0.2
+		*/
+		virtual void transformObject(zTransform &transform) {  }
 
 	};
 

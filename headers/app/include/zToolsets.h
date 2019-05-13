@@ -23,3 +23,7 @@
 #include <headers/api/toolsets/zTsKMeans.h>
 
 #include <headers/api/toolsets/zTsOSM.h>
+
+#include <headers/api/toolsets/zTsRobot.h>
+
+#include <headers/api/toolsets/zTsSpectral.h>

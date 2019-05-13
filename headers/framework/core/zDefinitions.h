@@ -140,12 +140,18 @@ namespace zSpace
 	#endif
 
 	/*! \typedef double3
-	*	\brief An array of doubles of size 3.
+	*	\brief An array of double of size 3.
 	*
-	*	\since version 0.0.1
+	*	\since version 0.0.2
 	*/
 	typedef double double3[3];
 	
+	/*! \typedef pDouble3
+	*	\brief An pointer array of double of size 3.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef double* pDouble3[3];
 
 	/** @}*/
 

@@ -281,6 +281,11 @@ namespace zSpace
 
 				if (showFaceNormals) drawMesh_FaceNormals();
 			}
+
+			if (showObjectTransform)
+			{
+				displayUtils->drawTransform(transformationMatrix);
+			}
 			
 		}
 
@@ -528,8 +533,8 @@ namespace zSpace
 
 			// Vertex Attributes
 
-			mesh.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(mesh.vertexPositions, mesh.vertexNormals);
-			mesh.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(mesh.vertexColors);
+			mesh.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(&mesh.vertexPositions[0], &mesh.vertexNormals[0], mesh.vertexPositions.size());
+			mesh.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(&mesh.vertexColors[0], mesh.vertexColors.size());
 
 
 		}

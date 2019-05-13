@@ -5,9 +5,7 @@
 #include <headers/api/functionsets/zFnParticle.h>
 
 
-typedef Eigen::SparseMatrix<double> SpMat; // declares a column-major sparse matrix type of double
-typedef Eigen::Triplet<double> Tri;
-typedef DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> Diag;
+
 
 namespace zSpace
 {

@@ -260,8 +260,14 @@
     <ClInclude Include="..\headers\api\toolsets\zTsTopOpt.h">
       <Filter>Header Files\API\Toolsets\statics</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zTransform.h">
+    <ClInclude Include="..\headers\framework\core\zTransformationMatrix.h">
       <Filter>Header Files\FRAMEWORK\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\app\include\Tools\zTsDigitalFabrication.h">
+      <Filter>Header Files\APP\Include\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\toolsets\zTsSpectral.h">
+      <Filter>Header Files\API\Toolsets\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

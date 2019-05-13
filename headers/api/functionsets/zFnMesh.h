@@ -73,6 +73,9 @@ namespace zSpace
 		}
 
 	protected:
+		/*!	\brief core utilities Object  */
+		zUtilsCore coreUtils;
+		
 		/*!	\brief pointer to a mesh object  */
 		zObjMesh *meshObj;
 
@@ -780,13 +783,14 @@ namespace zSpace
 					}
 				}
 			}
-
+						
 			myfile.close();
 
-
+			
+			
 			meshObj->mesh = zMesh(positions, polyCounts, polyConnects);;
 			printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
-
+			
 
 			setFaceNormals(faceNormals);
 
@@ -899,7 +903,7 @@ namespace zSpace
 						meshObj->mesh.vertexPositions.push_back(pos);
 
 						zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
-						meshObj->mesh.vertexNormals.push_back(pos);
+						meshObj->mesh.vertexNormals.push_back(normal);
 
 						zColor col(meshJSON.vertexAttributes[i][k + 6], meshJSON.vertexAttributes[i][k + 7], meshJSON.vertexAttributes[i][k + 8], 1);
 						meshObj->mesh.vertexColors.push_back(col);
@@ -1001,9 +1005,7 @@ namespace zSpace
 		zFnMesh()
 		{
 			fnType = zFnType::zMeshFn;
-			meshObj = nullptr;
-
-			Obj = nullptr;
+			meshObj = nullptr;			
 		}
 
 		/*! \brief Overloaded constructor.
@@ -1014,9 +1016,9 @@ namespace zSpace
 		zFnMesh(zObjMesh &_meshObj)
 		{
 			meshObj = &_meshObj;			
-
+			
 			fnType = zFnType::zMeshFn;
-			Obj = meshObj;
+					
 		}
 
 		//--------------------------
@@ -1597,14 +1599,61 @@ namespace zSpace
 			return out;
 		}
 
+		/*! \brief This method computes the mesh laplcaian operator.
+		*
+		*	\details Based on http://www.cs.jhu.edu/~misha/Fall07/Papers/Nealen06.pdf and http://mgarland.org/files/papers/ssq.pdf
+		*	\return			MatrixXd	- output mesh laplacian matrix.		
+		*	\since version 0.0.2
+		*/
+		MatrixXd getTopologicalLaplacian()
+		{
+			int n_v = numVertices();
+			MatrixXd meshLaplacian(n_v, n_v);
+			//meshLaplacian.setZero();
+
+			// compute laplacian weights
+			for (int j = 0; j < n_v; j++)
+			{
+				for (int i = 0; i < n_v; i++)
+				{
+					if (i == j)
+					{
+						vector<int> cEdges;
+						getConnectedEdges(i, zVertexData, cEdges);
+
+						double out = 0;
+
+						for (int k = 0; k < cEdges.size(); k++)
+						{
+							out += getEdgeCotangentWeight(cEdges[k]) * 0.5;
+						}
+
+						meshLaplacian(j, i) = out;
+					}
+					else
+					{
+						int e;
+						bool chk = edgeExists(i, j, e);
+
+						if (chk)  meshLaplacian(j, i) = getEdgeCotangentWeight(e) * 0.5 * -1;
+						else meshLaplacian(j, i) = 0;
+					}
+					
+				}
+			}
+
+
+			return meshLaplacian;
+		}
+
 		//--------------------------
 		//--- HALF EDGE QUERY METHODS 
 		//--------------------------
 
 		
-		/*!	\brief This method return the next edge of the input indexed edge.
+		/*!	\brief This method returns the next edge of the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				zEdge	- pointer to next edge.
 		*	\since version 0.0.2
 		*/
@@ -1616,9 +1665,9 @@ namespace zSpace
 			return meshObj->mesh.edges[index].getNext();
 		}
 
-		/*!	\brief This method return the next edge index of the input indexed edge.
+		/*!	\brief This method returns the next edge index of the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				int		- index of next edge if it exists , else -1.
 		*	\since version 0.0.2
 		*/
@@ -1631,9 +1680,9 @@ namespace zSpace
 			else return -1;
 		}
 
-		/*!	\brief This method return the previous edge of the input indexed edge.
+		/*!	\brief This method returns the previous edge of the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				zEdge	- pointer to previous edge.
 		*	\since version 0.0.2
 		*/
@@ -1645,9 +1694,9 @@ namespace zSpace
 			return meshObj->mesh.edges[index].getPrev();
 		}
 
-		/*!	\brief This method return the previous edge index of the input indexed edge.
+		/*!	\brief This method returns the previous edge index of the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge lcontainerist.
 		*	\return				int		- index of previous edge if it exists , else -1.
 		*	\since version 0.0.2
 		*/
@@ -1660,9 +1709,9 @@ namespace zSpace
 			else return -1;
 		}
 
-		/*!	\brief This method return the symmetry edge of the input indexed edge.
+		/*!	\brief This method returns the symmetry edge of the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				zEdge	- pointer to symmetry edge.
 		*	\since version 0.0.2
 		*/
@@ -1674,9 +1723,9 @@ namespace zSpace
 			return meshObj->mesh.edges[index].getSym();
 		}
 
-		/*!	\brief This method return the symmetry edge index of the input indexed edge.
+		/*!	\brief This method returns the symmetry edge index of the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				int		- index of symmetry edge.
 		*	\since version 0.0.2
 		*/
@@ -1688,9 +1737,9 @@ namespace zSpace
 			return meshObj->mesh.edges[index].getSym()->getEdgeId();			
 		}
 
-		/*!	\brief This method return the face attached to the input indexed edge.
+		/*!	\brief This method returns the face attached to the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				zFace	- pointer to face.
 		*	\since version 0.0.2
 		*/
@@ -1702,9 +1751,9 @@ namespace zSpace
 			return meshObj->mesh.edges[index].getFace();
 		}
 
-		/*!	\brief This method return the face index attached to the input indexed edge.
+		/*!	\brief This method returns the face index attached to the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				int		- index of face if it exists , else -1.
 		*	\since version 0.0.2
 		*/
@@ -1717,9 +1766,9 @@ namespace zSpace
 			else return -1;
 		}
 
-		/*!	\brief This method return the vertex pointed by the input indexed edge.
+		/*!	\brief This method returns the vertex pointed by the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				zVertex	- pointer to vertex.
 		*	\since version 0.0.2
 		*/
@@ -1731,9 +1780,9 @@ namespace zSpace
 			return meshObj->mesh.edges[index].getVertex();
 		}
 
-		/*!	\brief This method return the vertex pointed by the input indexed edge.
+		/*!	\brief This method returns the vertex pointed by the input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				int		- index of vertex if it exists , else -1.
 		*	\since version 0.0.2
 		*/
@@ -1746,9 +1795,9 @@ namespace zSpace
 			else return -1;
 		}
 
-		/*!	\brief This method return the vertex pointed by the symmetry of input indexed edge.
+		/*!	\brief This method returns the vertex pointed by the symmetry of input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				zVertex	- pointer to vertex.
 		*	\since version 0.0.2
 		*/
@@ -1760,9 +1809,9 @@ namespace zSpace
 			return getSym(index)->getVertex(); 
 		}
 
-		/*!	\brief This method return the vertex pointed by the symmetry of input indexed edge.
+		/*!	\brief This method returns the vertex pointed by the symmetry of input indexed edge.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the edge container.
 		*	\return				int		- index of vertex if it exists , else -1.
 		*	\since version 0.0.2
 		*/
@@ -1775,9 +1824,9 @@ namespace zSpace
 			else return -1;
 		}
 
-		/*!	\brief This method return the edge attached to the input indexed vertex or edge or  face.
+		/*!	\brief This method returns the edge attached to the input indexed vertex or edge or  face.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the vertex/edge/face container.
 		*	\param		[in]	type	- zVertexData or zEdgeData or zFaceData.
 		*	\return				zEdge	- pointer to edge.
 		*	\since version 0.0.2
@@ -1812,9 +1861,9 @@ namespace zSpace
 			
 		}
 
-		/*!	\brief This method return the index of the edge attached to the input indexed vertex or face.
+		/*!	\brief This method returns the index of the edge attached to the input indexed vertex or face.
 		*
-		*	\param		[in]	index	- index in the vertex list.
+		*	\param		[in]	index	- index in the vertex or face container.
 		*	\param		[in]	type	- zVertexData or zFaceData.
 		*	\return				int		- index of edge.
 		*	\since version 0.0.2
@@ -1840,8 +1889,62 @@ namespace zSpace
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 
-		
+		/*!	\brief This method returns the cotangent weight of the indexed edge.
+		*
+		*	\param		[in]	index	- index in the edge container.
+		*	\return				double	- output edge contangent weight.
+		*	\since version 0.0.2
+		*/
+		double getEdgeCotangentWeight(int index )
+		{
+			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
+			
+
+			int i = getStartVertexIndex(index);
+			int j = getEndVertexIndex(index);
+
+			zVector* pt = getRawVertexPosition(i);
+
+			zVector* pt1 = getRawVertexPosition(j);
+
+			int nextEdge = getSym(index)->getNext()->getEdgeId();
+			int nextVert = getEndVertexIndex(nextEdge);;
+			zVector* pt2 = getRawVertexPosition(nextVert);
+
+			int prevEdge = getPrev(index)->getSym()->getEdgeId();
+			int prevVert = getEndVertexIndex(prevEdge);;
+			zVector* pt3 = getRawVertexPosition(prevVert);
+
+			/*zVector cr = (*pt1 - *pt) ^ (*pt2 - *pt);
+
+			zVector cr_alpha = (*pt - *pt2) ^ (*pt1 - *pt2);
+			zVector cr_beta = (*pt - *pt3) ^ (*pt1 - *pt3);
+
+			double coTan_alpha = (((pt - pt2)*(pt1 - pt2)) / cr_alpha.length());
+			double coTan_beta = (((pt - pt3)*(pt1 - pt3)) / cr_beta.length());*/
+
+			zVector alpha1 = (*pt - *pt2);
+			zVector alpha2 = (*pt1 - *pt2);
+			double coTan_alpha = alpha1.cotan(alpha2);
+
+			zVector beta1 = (*pt - *pt3);
+			zVector beta2 = (*pt1 - *pt3);
+			double coTan_beta = beta1.cotan(beta2);
+
+			if (onBoundary(index,zEdgeData))coTan_alpha = 0;;
+			if (onBoundary(getSymIndex(index), zEdgeData))coTan_beta = 0;;
+		
+			double wt = coTan_alpha + coTan_beta;
+
+			if (isnan(wt)) wt = 0.0;
+
+			return wt;
+			
+		}
+
+		
 		//--------------------------
 		//--- COMPUTE METHODS 
 		//--------------------------
@@ -2166,7 +2269,7 @@ namespace zSpace
 			computeVertexNormalfromFaceNormal();
 		}
 
-
+		
 		/*! \brief This method averages the positions of vertex except for the ones on the boundary.
 		*
 		*	\param		[in]	numSteps	- number of times the averaging is carried out.
@@ -2390,6 +2493,35 @@ namespace zSpace
 			if (setVertexColor) computeVertexColorfromFaceColor();
 		}
 
+		/*! \brief This method sets face color of all the faces based on face normal angle to the input light vector.
+		*
+		*	\param		[in]	lightVec		- input light vector.
+		*	\param		[in]	setVertexColor	- vertex color is computed based on the face color if true.
+		*	\since version 0.0.2
+		*/
+		void setFaceColorOcclusion(zVector &lightVec ,  bool setVertexColor = false)
+		{
+			zVector* norm = getRawFaceNormals();
+			zColor* col = getRawFaceColors();
+			
+
+			for (int i = 0; i < numPolygons(); i++)
+			{
+				
+				double ang = norm[i].angle(lightVec);
+
+				double val;
+
+				if (ang <= 90) 	val = /*ofMap(ang, 0, 90, 1, 0.4)*/ 0.4;
+				else if (ang > 90) 	val = coreUtils.ofMap(ang, 90.0, 180.0, 0.4, 1.0);
+
+				
+				col[i] = zColor(val, val, val, 1);
+
+			}
+
+			if (setVertexColor) computeVertexColorfromFaceColor();
+		}
 
 		/*! \brief This method sets face normals of all the faces to the input normal.
 		*
@@ -3645,7 +3777,7 @@ namespace zSpace
 			}
 		}
 
-		/*! \brief This method computes the local curvature of the mesh vertices.
+		/*! \brief This method computes the principal curvatures of the mesh vertices.
 		*
 		*	\param		[out]	vertexCurvature		- container of vertex curvature.
 		*	\since version 0.0.2
@@ -3765,6 +3897,27 @@ namespace zSpace
 					vertexCurvatures.push_back(curv);
 				}
 			}
+		}
+
+		/*! \brief This method computes the gaussian curvature of the mesh vertices.
+		*
+		*	\param		[out]	vertexCurvature		- container of vertex curvature.
+		*	\since version 0.0.2
+		*/
+		void getGaussianCurvature(vector<double> &vertexCurvatures)
+		{
+			vector<zCurvature> pCurvature;
+
+			getPrincipalCurvature(pCurvature);
+
+
+			vertexCurvatures.clear();
+			vertexCurvatures.assign(numVertices(), -1);
+			for (int i = 0; i < numVertices(); i++)
+			{
+				vertexCurvatures[i] = pCurvature[i].k1 * pCurvature[i].k2;
+			}
+
 		}
 
 		/*! \brief This method computes the dihedral angle per edge of mesh.
@@ -4132,7 +4285,45 @@ namespace zSpace
 			return out;
 		}
 
+		/*! \brief This method gets VBO vertex index of the mesh.
+		*
+		*	\return				int			- VBO Vertex Index.
+		*	\since version 0.0.2
+		*/
+		int getVBOVertexIndex()
+		{
+			return meshObj->mesh.VBO_VertexId;
+		}
 		
+		/*! \brief This method gets VBO edge index of the mesh.
+		*
+		*	\return				int			- VBO Edge Index.
+		*	\since version 0.0.2
+		*/
+		int getVBOEdgeIndex()
+		{
+			return meshObj->mesh.VBO_EdgeId;
+		}
+
+		/*! \brief This method gets VBO edge index of the mesh.
+		*
+		*	\return				int			- VBO Face Index.
+		*	\since version 0.0.2
+		*/
+		int getVBOFaceIndex()
+		{
+			return meshObj->mesh.VBO_FaceId;
+		}
+
+		/*! \brief This method gets VBO vertex color index of the mesh.
+		*
+		*	\return				int			- VBO Vertex Color Index.
+		*	\since version 0.0.2
+		*/
+		int getVBOVertexColorIndex()
+		{
+			return meshObj->mesh.VBO_VertexColorId;
+		}
 
 		//--------------------------
 		//---- TRI-MESH MODIFIER METHODS
@@ -5701,8 +5892,151 @@ namespace zSpace
 
 			}
 		}
+			   		 	  	  		
+		//--------------------------
+		//---- TRANSFORM METHODS OVERRIDES
+		//--------------------------
+	
+		
+		virtual void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override
+		{
+			if (updatePositions)
+			{
+				zTransformationMatrix to;
+				to.setTransform(inTransform, decompose);
+
+				zTransform transMat = meshObj->transformationMatrix.getToMatrix(to);
+				transformObject(transMat);								
+
+				meshObj->transformationMatrix.setTransform(inTransform);				
+
+				// update pivot values of object transformation matrix
+				zVector p = meshObj->transformationMatrix.getPivot();
+				p = p * transMat;
+				setPivot(p);
+
+			}
+			else
+			{
+				meshObj->transformationMatrix.setTransform(inTransform, decompose);
+
+				zVector p = meshObj->transformationMatrix.getO();
+				setPivot(p);
+
+			}
+
+		}
+				
+		virtual void setScale(double3 &scale) override
+		{
+			// get  inverse pivot translations
+			zTransform invScalemat = meshObj->transformationMatrix.asInverseScaleTransformMatrix();
+
+			// set scale values of object transformation matrix
+			meshObj->transformationMatrix.setScale(scale);
+
+			// get new scale transformation matrix
+			zTransform scaleMat = meshObj->transformationMatrix.asScaleTransformMatrix();
+
+			// compute total transformation
+			zTransform transMat = invScalemat * scaleMat;
+
+			// transform object
+			transformObject(transMat);
+		}
+				
+		virtual void setRotation(double3 &rotation, bool appendRotations = false) override
+		{
+			// get pivot translation and inverse pivot translations
+			zTransform pivotTransMat = meshObj->transformationMatrix.asPivotTranslationMatrix();
+			zTransform invPivotTransMat = meshObj->transformationMatrix.asInversePivotTranslationMatrix();
+
+			// get plane to plane transformation
+			zTransformationMatrix to = meshObj->transformationMatrix;
+			to.setRotation(rotation, appendRotations);
+			zTransform toMat = meshObj->transformationMatrix.getToMatrix(to);
+
+			// compute total transformation
+			zTransform transMat = invPivotTransMat * toMat * pivotTransMat;
+
+			// transform object
+			transformObject(transMat);
+
+			// set rotation values of object transformation matrix
+			meshObj->transformationMatrix.setRotation(rotation, appendRotations);;
+		}
 
 		
+		virtual void setTranslation(zVector &translation, bool appendTranslations = false) override
+		{
+			// get vector as double3
+			double3 t;
+			translation.getComponents(t);
+
+			// get pivot translation and inverse pivot translations
+			zTransform pivotTransMat = meshObj->transformationMatrix.asPivotTranslationMatrix();
+			zTransform invPivotTransMat = meshObj->transformationMatrix.asInversePivotTranslationMatrix();
+
+			// get plane to plane transformation
+			zTransformationMatrix to = meshObj->transformationMatrix;
+			to.setTranslation(t, appendTranslations);
+			zTransform toMat = meshObj->transformationMatrix.getToMatrix(to);
+
+			// compute total transformation
+			zTransform transMat = invPivotTransMat * toMat * pivotTransMat;
+
+			// transform object
+			transformObject(transMat);
+
+			// set translation values of object transformation matrix
+			meshObj->transformationMatrix.setTranslation(t, appendTranslations);;
+
+			// update pivot values of object transformation matrix
+			zVector p = meshObj->transformationMatrix.getPivot();
+			p = p * transMat;
+			setPivot(p);
+
+		}
+		
+		virtual void setPivot(zVector &pivot) override
+		{
+			// get vector as double3
+			double3 p;
+			pivot.getComponents(p);
+
+			// set pivot values of object transformation matrix
+			meshObj->transformationMatrix.setPivot(p);
+		}
+
+		virtual void getTransform(zTransform &transform) override
+		{
+			transform = meshObj->transformationMatrix.asMatrix();
+		}
+
+
+	protected:
+
+		//--------------------------
+		//---- PROTECTED OVERRIDE METHODS
+		//--------------------------	
+
+
+		virtual void transformObject(zTransform &transform) override
+		{
+
+			if (numVertices() == 0) return;
+
+
+			zVector* pos = getRawVertexPositions();	
+
+			for (int i = 0; i < numVertices(); i++)
+			{
+
+				zVector newPos = pos[i] * transform;				
+				pos[i] = newPos;				
+			}
+			
+		}
 
 	};
 

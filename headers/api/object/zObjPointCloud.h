@@ -92,6 +92,11 @@ namespace zSpace
 				drawPointCloud();				
 			}
 
+			if (showObjectTransform)
+			{
+				displayUtils->drawTransform(transformationMatrix);
+			}
+
 		}
 		//--------------------------
 		//---- DISPLAY METHODS
@@ -127,10 +132,10 @@ namespace zSpace
 			showObject =  showVertices =  false;			
 
 			// Vertex Attributes
-			vector<zVector>_dummynormals;
+			zVector*_dummynormals = nullptr;
 
-			pCloud.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(pCloud.vertexPositions, _dummynormals);
-			pCloud.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(pCloud.vertexColors);
+			pCloud.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(&pCloud.vertexPositions[0], _dummynormals, pCloud.vertexPositions.size());
+			pCloud.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(&pCloud.vertexColors[0], pCloud.vertexColors.size());
 		}
 
 	};

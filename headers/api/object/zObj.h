@@ -38,6 +38,8 @@ namespace zSpace
 		/*! \brief boolean for displaying the object		*/
 		bool showObject;
 
+		/*! \brief boolean for displaying the object transform		*/
+		bool showObjectTransform;
 
 	public:
 		//--------------------------
@@ -45,8 +47,8 @@ namespace zSpace
 		//--------------------------		
 			
 
-		/*! \brief stores a 4X4 matrix transform			*/
-		zTransform transform;	
+		/*! \brief object transformation matrix			*/
+		zTransformationMatrix transformationMatrix;
 		
 
 		//--------------------------
@@ -60,6 +62,9 @@ namespace zSpace
 		zObj()
 		{
 			showObject = true;
+			showObjectTransform = false;
+
+			transformationMatrix = zTransformationMatrix();
 		}
 
 		//--------------------------
@@ -95,6 +100,16 @@ namespace zSpace
 		void setShowObject(bool _showObject)
 		{
 			showObject = _showObject;
+		}
+
+		/*! \brief This method sets show object transform boolean.
+		*
+		*	\param		[in]	_showObjectTransform				- input show object transform boolean.
+		*	\since version 0.0.2
+		*/
+		void setShowTransform(bool _showObjectTransform)
+		{
+			showObjectTransform = _showObjectTransform;
 		}
 
 		/*! \brief This method sets display utils.

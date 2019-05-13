@@ -165,25 +165,26 @@ namespace zSpace
 
 		/*! \brief This method appends the vertex attributes of position and normals(if available) to the buffer. 
 		*
-		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
-		*	\param		[in]	_normals		- container of type zVector containing normal information of vertices.
+		*	\param		[in]	_positions			- zVector pointer to vertex positions container.
+		*	\param		[in]	_normals			- zVector pointer to vertex normals container.
+		*	\param		[in]	size				- size of container.
 		*	\since version 0.0.1
 		*/
-		int appendVertexAttributes(vector<zVector>(&_positions), vector<zVector>(&_normals))
+		int appendVertexAttributes(zVector*_positions, zVector* _normals, int size)
 		{
 
 			int out = nVertices;
 
-			GLfloat *vertices = new GLfloat[_positions.size() * vertexAttribStride];
+			GLfloat *vertices = new GLfloat[size * vertexAttribStride];
 
-			for (int i = 0; i < _positions.size(); i++)
+			for (int i = 0; i < size; i++)
 			{
 				vertices[(i * vertexAttribStride) + 0] = _positions[i].x;
 				vertices[(i * vertexAttribStride) + 1] = _positions[i].y;
 				vertices[(i * vertexAttribStride) + 2] = _positions[i].z;
 
 
-				if (_normals.size() > 0 && _normals.size() == _positions.size())
+				if (!_normals)
 				{
 					vertices[(i * vertexAttribStride) + 3] = _normals[i].x;
 					vertices[(i * vertexAttribStride) + 4] = _normals[i].y;
@@ -192,9 +193,9 @@ namespace zSpace
 			}
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO_vertices);
-			glBufferSubData(GL_ARRAY_BUFFER, nVertices * vertexAttribStride * GLFloatSize, _positions.size()  * vertexAttribStride * GLFloatSize, vertices);
+			glBufferSubData(GL_ARRAY_BUFFER, nVertices * vertexAttribStride * GLFloatSize, size  * vertexAttribStride * GLFloatSize, vertices);
 
-			nVertices += _positions.size();
+			nVertices += size;
 
 			delete[] vertices;
 
@@ -203,17 +204,18 @@ namespace zSpace
 
 		/*! \brief This method appends the vertex color attribute to the buffer.
 		*
-		*	\param		[in]	_colors			- container of type zColor containing color information of vertices.
+		*	\param		[in]	_colors				- zColor pointer to vertex colors container.
+		*	\param		[in]	size				- size of container.
 		*	\since version 0.0.1
 		*/
-		int appendVertexColors(vector<zColor> &_colors)
+		int appendVertexColors(zColor* _colors, int size)
 		{
 
 			int out = nColors;
 
-			GLfloat *colors = new GLfloat[_colors.size() * vertexColorStride];
+			GLfloat *colors = new GLfloat[size * vertexColorStride];
 
-			for (int i = 0; i < _colors.size(); i++)
+			for (int i = 0; i < size; i++)
 			{
 				colors[(i * vertexColorStride) + 0] = _colors[i].r;
 				colors[(i * vertexColorStride) + 1] = _colors[i].g;
@@ -223,9 +225,9 @@ namespace zSpace
 
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO_vertexColors);
-			glBufferSubData(GL_ARRAY_BUFFER, nColors * vertexColorStride *GLFloatSize, _colors.size() * vertexColorStride * GLFloatSize, colors);
+			glBufferSubData(GL_ARRAY_BUFFER, nColors * vertexColorStride *GLFloatSize, size * vertexColorStride * GLFloatSize, colors);
 
-			nColors += _colors.size();
+			nColors += size;
 
 			delete[] colors;
 
@@ -297,16 +299,17 @@ namespace zSpace
 		
 		/*! \brief This method update the vertex positions stored in the buffer from the buffer offset given by the input start index.
 		*
-		*	\param		[in]	_positions			- container of type zVector containing position information of vertices.
+		*	\param		[in]	_positions			- zVector pointer to vertex positions container.
+		*	\param		[in]	size				- size of container.
 		*	\param		[in]	startId				- buffer offset.
 		*	\since version 0.0.1
 		*/
-		void updateVertexPositions(vector<zVector>(&_positions), int &startId)
+		void updateVertexPositions(zVector* _positions, int size,  int startId)
 		{
 
-			GLfloat *positions = new GLfloat[_positions.size() * vertexAttribStride];
+			GLfloat *positions = new GLfloat[size * vertexAttribStride];			
 
-			for (int i = 0; i < _positions.size(); i++)
+			for (int i = 0; i < size; i++)
 			{
 				positions[(i * vertexAttribStride) + 0] = _positions[i].x;
 				positions[(i * vertexAttribStride) + 1] = _positions[i].y;
@@ -314,7 +317,7 @@ namespace zSpace
 			}
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO_vertices);
-			glBufferSubData(GL_ARRAY_BUFFER, startId * vertexAttribStride * GLFloatSize, _positions.size()  * vertexAttribStride * GLFloatSize, positions);
+			glBufferSubData(GL_ARRAY_BUFFER, startId * vertexAttribStride * GLFloatSize, size  * vertexAttribStride * GLFloatSize, positions);
 
 			delete[] positions;
 
@@ -322,16 +325,17 @@ namespace zSpace
 
 		/*! \brief This method update the vertex normals stored in the buffer from the buffer offset given by the input start index.
 		*
-		*	\param		[in]	_normals			- container of type zVector containing normal information of vertices.
+		*	\param		[in]	_normals			-  zVector pointer to vertex normals container.
+		*	\param		[in]	size				- size of container.
 		*	\param		[in]	startId				- buffer offset.
 		*	\since version 0.0.1
 		*/
 		
-		void updateVertexNormals(vector<zVector>(&_normals), int &startId) 
+		void updateVertexNormals(zVector* _normals, int size, int &startId)
 		{
-			GLfloat *normals = new GLfloat[_normals.size() * vertexAttribStride];
+			GLfloat *normals = new GLfloat[size * vertexAttribStride];
 
-			for (int i = 0; i < _normals.size(); i++)
+			for (int i = 0; i < size; i++)
 			{
 				normals[(i * vertexAttribStride) + 3] = _normals[i].x;
 				normals[(i * vertexAttribStride) + 4] = _normals[i].y;
@@ -339,7 +343,7 @@ namespace zSpace
 			}
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO_vertices);
-			glBufferSubData(GL_ARRAY_BUFFER, startId * vertexAttribStride * GLFloatSize, _normals.size()  * vertexAttribStride * GLFloatSize, normals);
+			glBufferSubData(GL_ARRAY_BUFFER, startId * vertexAttribStride * GLFloatSize, size  * vertexAttribStride * GLFloatSize, normals);
 
 			delete[] normals;
 
@@ -347,16 +351,17 @@ namespace zSpace
 
 		/*! \brief This method update the vertex colors stored in the buffer from the buffer offset given by the input start index.
 		*
-		*	\param		[in]	_colors				- container of type zColor containing color information of vertices.
+		*	\param		[in]	_colors				- zColor pointer to vertex colors container.
+		*	\param		[in]	size				- size of container.
 		*	\param		[in]	startId				- buffer offset.
 		*	\since version 0.0.1
 		*/
 
-		void updateVertexColors(vector<zColor>(&_colors), int &startId)
+		void updateVertexColors(zColor*_colors, int size, int &startId)
 		{
-			GLfloat *colors = new GLfloat[_colors.size() * vertexColorStride];
+			GLfloat *colors = new GLfloat[size * vertexColorStride];
 
-			for (int i = 0; i < _colors.size(); i++)
+			for (int i = 0; i < size; i++)
 			{
 				colors[(i * vertexColorStride) + 0] = _colors[i].r;
 				colors[(i * vertexColorStride) + 1] = _colors[i].g;
@@ -366,7 +371,7 @@ namespace zSpace
 
 
 			glBindBuffer(GL_ARRAY_BUFFER, VBO_vertexColors);
-			glBufferSubData(GL_ARRAY_BUFFER, startId * vertexColorStride *GLFloatSize, _colors.size() * vertexColorStride * GLFloatSize, colors);
+			glBufferSubData(GL_ARRAY_BUFFER, startId * vertexColorStride *GLFloatSize, size * vertexColorStride * GLFloatSize, colors);
 
 			delete[] colors;
 

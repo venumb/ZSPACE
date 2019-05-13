@@ -55,9 +55,7 @@ namespace zSpace
 		zFnMeshDynamics() 
 		{
 			fnType = zFnType::zMeshDynamicsFn;
-			meshObj = nullptr;
-
-			Obj = nullptr;
+			meshObj = nullptr;			
 		}
 
 		/*! \brief Overloaded constructor.
@@ -70,7 +68,7 @@ namespace zSpace
 			fnType = zFnType::zMeshDynamicsFn;
 			meshObj = &_meshObj;	
 
-			Obj = meshObj;
+			
 		}
 
 		//--------------------------

@@ -301,16 +301,27 @@ namespace zSpace
 			}
 
 			// PatternGrouping
-			meshJSON.patternGrouping.push_back(pattern.type);
-			meshJSON.patternGrouping.push_back(pattern.anchor.x);
-			meshJSON.patternGrouping.push_back(pattern.anchor.y);
-			meshJSON.patternGrouping.push_back(pattern.anchor.z);
-			meshJSON.patternGrouping.push_back(pattern.node1.x);
-			meshJSON.patternGrouping.push_back(pattern.node1.y);
-			meshJSON.patternGrouping.push_back(pattern.node1.z);
-			meshJSON.patternGrouping.push_back(pattern.node2.x);
-			meshJSON.patternGrouping.push_back(pattern.node2.y);
-			meshJSON.patternGrouping.push_back(pattern.node2.z);
+			vector<double> type;
+			type.push_back(pattern.type);
+			meshJSON.patternGrouping.push_back(type);
+
+			vector<double> anchor;
+			anchor.push_back(pattern.anchor.x);
+			anchor.push_back(pattern.anchor.y);
+			anchor.push_back(pattern.anchor.z);
+			meshJSON.patternGrouping.push_back(anchor);
+
+			vector<double> node1;
+			node1.push_back(pattern.node1.x);
+			node1.push_back(pattern.node1.y);
+			node1.push_back(pattern.node1.z);
+			meshJSON.patternGrouping.push_back(node1);
+
+			vector<double> node2;
+			node2.push_back(pattern.node2.x);
+			node2.push_back(pattern.node2.y);
+			node2.push_back(pattern.node2.z);
+			meshJSON.patternGrouping.push_back(node2);			
 
 
 			// Material
@@ -348,7 +359,7 @@ namespace zSpace
 			}
 
 			//myfile.precision(16);
-			myfile << j.dump();
+			myfile << j.dump(1);
 			myfile.close();
 		}
 
@@ -407,6 +418,12 @@ namespace zSpace
 		//---- TO METHOD
 		//--------------------------
 
+		/*! \brief This method exports the topOpt as a JSON file.
+		*
+		*	\param [in]		path			- input file name including the directory path and extension.
+		*	\param [in]		type			- type of file - zJSON.
+		*	\since version 0.0.2
+		*/
 		void to(string path, zFileTpye type)
 		{
 			if (type == zJSON)
@@ -421,40 +438,101 @@ namespace zSpace
 		//---- CREATE
 		//--------------------------
 
+		/*! \brief This method creates the mesh from a file.
+		*
+		*	\param [in]		path			- input file name including the directory path and extension.
+		*	\param [in]		type			- type of file to be imported.
+		*	\since version 0.0.2
+		*/
 		void createFromFile(string path, zFileTpye type)
 		{
-			fnMesh.from(path, type, false);
+			fnMesh.from(path, type, true);
 		}
 
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
 
-		void setSinglePointConstraints(vector<int> &_SPC)
-		{
+		/*! \brief This method sets the single point constraints.
+		*
+		*	\param [in]		_SPC			- input container of constraint vertices. If the container is empty , then all vertices will non constrained.
+		*	\since version 0.0.2
+		*/
+		void setSinglePointConstraints(const vector<int> &_SPC = vector<int>())
+		{			
+			
+			if (SPC_Boolean.size() != fnMesh.numVertices())
+			{
+				SPC_Boolean.clear();
+				SPC_Boolean.assign(fnMesh.numVertices(), false);
+
+				fnMesh.setVertexColor(zColor(0.2, 0.2, 0.2, 1));
+			}
+
 			for (int i = 0; i < _SPC.size(); i++)
 			{
 				SPC_Boolean[_SPC[i]] = true;
 
-				fnMesh.setVertexColor(_SPC[i], zColor());
+				fnMesh.setVertexColor(_SPC[i], zColor(1,0,0,1));
 			}
+
+			if (_SPC.size() == 0) fill(SPC_Boolean.begin(), SPC_Boolean.end(), false);
 		}
 
-		void setNonDesignSpace(vector<int> &_NonDesignSpace)
+		/*! \brief This method sets the non design space.
+		*
+		*	\param [in]		_SPC			- input container of constraint vertices. If the container is empty , then all faces will be set as design.
+		*	\since version 0.0.2
+		*/
+		void setNonDesignSpace(const vector<int> &_NonDesignSpace = vector<int>())
 		{
+			if (designSpace_Boolean.size() != fnMesh.numPolygons())
+			{
+				designSpace_Boolean.clear();
+				designSpace_Boolean.assign(fnMesh.numPolygons(), true);	
+
+				fnMesh.setFaceColor( zColor(0, 1, 0.5, 1));
+			}
+
 			for (int i = 0; i < _NonDesignSpace.size(); i++)
 			{
 				designSpace_Boolean[_NonDesignSpace[i]] = false;
 
 				fnMesh.setFaceColor(_NonDesignSpace[i], zColor(1,0,0.5,1));
 			}
+
+			if (_NonDesignSpace.size() == 0) fill(designSpace_Boolean.begin(), designSpace_Boolean.end(), true);
 		}
 
+		/*! \brief This method sets the material.
+		*
+		*	\param [in]		material			- input material.
+		*	\since version 0.0.2
+		*/
 		void setMaterial(zTopOptMaterial &material)
 		{
 			mat = material;
 		}
 
+
+		/*! \brief This method sets the pattern grouping.
+		*
+		*	\param [in]		_pattern		- input pattern.
+		*	\since version 0.0.2
+		*/
+		void setPatternGrouping(zTopOptPattern &_pattern)
+		{
+			pattern = _pattern;			
+		}
+
+		/*! \brief This method sets the pattern grouping.
+		*
+		*	\param [in]		type			- input type. ( 0 - no groupings, 1 - 1 plane symmetry, 2 - 2 plane symmetry)
+		*	\param [in]		anchor			- input anchor point.
+		*	\param [in]		n1				- input first node point.
+		*	\param [in]		n2				- input second node point.
+		*	\since version 0.0.2
+		*/
 		void setPatternGrouping(int type = 0, const zVector &anchor = zVector(), const zVector &n1 = zVector(), const zVector &n2 = zVector())
 		{
 			pattern.type = type;
@@ -464,21 +542,48 @@ namespace zSpace
 		}
 
 		//--------------------------
-		//--- APPEND METHODS 
+		//--- LOAD METHODS 
 		//--------------------------
 
-		void appendLoads(double _magnitude, zVector &_dir, vector<int>& vIndices)
+		/*! \brief This method adds a load conditions.
+		*
+		*	\param [in]		_magnitude		- input load magnitude.
+		*	\param [in]		_dir			- input load direction.
+		*	\param [in]		vIndices		- input container of vertices to which the load is applied.
+		*	\since version 0.0.2
+		*/
+		void addLoad(double _magnitude, zVector &_dir, vector<int>& vIndices)
 		{
 			zTopOptLoads load;
 			load.magnitude = _magnitude;
 			load.dir = _dir;
 			load.indicies = vIndices;
 
+			loads.push_back(load);
+			
 		}
 
-		//--------------------------
-		//--- CLEAR METHODS 
-		//--------------------------
+		/*! \brief This method removes a existing load conditions.
+		*
+		*	\param [in]		index			- input load index to be removed.
+		*	\since version 0.0.2
+		*/
+		void removeLoad(int index)
+		{
+			if (index <0 || index >= loads.size()) throw std::invalid_argument("input index out of bounds.");
+
+			loads.erase(loads.begin() + index);
+		}
+
+		/*! \brief This method removes all existing load conditions.
+		*
+		*	\since version 0.0.2
+		*/
+		void removeLoads()
+		{
+			loads.clear();
+		}
+		
 
 	};
 

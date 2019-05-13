@@ -225,7 +225,8 @@ namespace zSpace
 
 		//---- METHODS
 
-		/*! \brief This method update the transform T
+		/*! \brief This method updates the transform T
+		*	\since version 0.0.2
 		*/
 		void updateTransform()
 		{
@@ -290,7 +291,7 @@ namespace zSpace
 	{
 	protected:
 
-		enum robotRotationType { zJoint = 200, zJointHome, zJointMinimum, zJointMaximum	};
+		
 
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
@@ -317,28 +318,22 @@ namespace zSpace
 		double robot_scale = 1.0;
 
 		/*!	\brief contatiner of robot links DH Parameters  */
-		vector<zDHparameter> robot_DH;
-
-		/*!	\brief contatiner of robot joint rotations  */
-		vector<zJointRotation> jointRotations;
+		vector<zDHparameter> robot_DH;		
 
 		/*!	\brief contatiner of robot links  */
-		vector<zLink> Bars;
+		vector<zLink> Bars;		
 
-		/*!	\brief contatiner of robot joint matrices  */
-		vector<zMatrixd> robotJoint_matrices;
-
-		/*!	\brief contatiner of robot joint mesh matrices  */
-		vector<zMatrixd> robotJointMesh_matrices;
+		/*!	\brief contatiner of robot joint mesh transform  */
+		vector<zTransform> robotMesh_transforms;
 
 		/*!	\brief robot base matrix  */
-		zMatrixd robot_base_matrix;
+		zTransform robot_base_matrix;
 
 		/*!	\brief robot target matrix  */
-		zMatrixd robot_target_matrix;
+		zTransform robot_target_matrix;
 
 		/*!	\brief robot end effector matrix  */
-		zMatrixd robot_endEffector_matrix;
+		zTransform robot_endEffector_matrix;
 
 
 		/*!	\brief contatiner of robot GCode  */
@@ -348,19 +343,32 @@ namespace zSpace
 		//---- MESH ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief contatiner of robot mesh dihedral angles  */
-		vector<vector<double>> robot_jointMeshes_edgeAngle;
+	
 
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
+		
+
 		/*!	\brief container of joint mesh function set  */
 		vector<zFnMesh> fnMeshJoints;
 
 		/*!	\brief joint graph function set  */
 		zFnGraph fnGraphJoint;
+
+		/*!	\brief contatiner of robot joint rotations  */
+		vector<zJointRotation> jointRotations;
+
+		/*!	\brief contatiner of robot joint transforms  */
+		vector<zTransform> robotJointTransforms;
+
+		/*!	\brief contatiner of robot mesh dihedral angles  */
+		vector<vector<double>> robot_jointMeshes_edgeAngle;
+
+		/*!	\brief contatiner of robot target transforms  */
+		vector<zTransform> robotTargets;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -385,8 +393,8 @@ namespace zSpace
 				jointRot.pulse = jointRot.mask = jointRot.offset = 0.0;
 				jointRotations.push_back(jointRot);
 
-				robotJoint_matrices.push_back(zMatrixd());
-				robotJointMesh_matrices.push_back(zMatrixd());
+				robotJointTransforms.push_back(zTransform(4,4));
+				robotMesh_transforms.push_back(zTransform(4,4));
 			}
 
 			for (int i = 0; i < DOF; i++) jointMeshObjs.push_back( nullptr);
@@ -413,6 +421,8 @@ namespace zSpace
 				jointMeshObjs.push_back(&_jointMeshObjs[i]);
 				fnMeshJoints.push_back(_jointMeshObjs[i]);		
 			}
+
+			
 
 		}
 
@@ -465,11 +475,15 @@ namespace zSpace
 				jointRotations.push_back(jointRot);
 
 
-				robotJoint_matrices.push_back(zMatrixd());
-				robotJointMesh_matrices.push_back(zMatrixd());
+				robotJointTransforms.push_back(zTransform(4,4));
+				robotMesh_transforms.push_back(zTransform(4,4));
 			}
-
+			
 			createRobotJointGraph();
+		
+			forwardKinematics(zJointHome);	
+
+			setJointMeshTransform(false);
 			
 		}
 	
@@ -484,7 +498,14 @@ namespace zSpace
 			if (type == zJSON)
 			{
 				fromJSON(path);
+				
 				createRobotJointGraph();
+
+				computeJoints();
+
+				forwardKinematics(zJointHome);	
+
+				setJointMeshTransform(false);
 			}
 			else throw std::invalid_argument(" invalid file type.");
 		}
@@ -507,7 +528,9 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_base.json");
-					fnMeshJoints[0].from(path, type); 
+					fnMeshJoints[0].from(path, type, false);
+
+					
 				}
 				
 				// import joints
@@ -517,7 +540,8 @@ namespace zSpace
 					path.append("/r_");
 					path.append(to_string(i));
 					path.append(".json");
-					fnMeshJoints[i].from(path, type);
+					fnMeshJoints[i].from(path, type, false);
+
 				}
 
 				// import EE
@@ -525,8 +549,12 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_EE.json");
-					fnMeshJoints[8].from(path, type);
-				}
+					fnMeshJoints[8].from(path, type, false);
+				
+
+				}		
+
+				setJointMeshColor(zVector(0, 0, 1));
 
 			}
 
@@ -537,7 +565,9 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_base.obj");
-					fnMeshJoints[0].from(path, type);
+					fnMeshJoints[0].from(path, type, true);
+				
+					
 				}
 
 				// import joints
@@ -547,21 +577,67 @@ namespace zSpace
 					path.append("/r_");
 					path.append(to_string(i));
 					path.append(".obj");
-					fnMeshJoints[i].from(path, type);
+					fnMeshJoints[i].from(path, type, false);
+										
 				}
 
-				// import EE
+				//// import EE
 				for (int i = 0; i < 1; i++)
 				{
 					string path = directory;
 					path.append("/r_EE.obj");
 					fnMeshJoints[8].from(path, type);
+					
 				}
+
+				setJointMeshColor(zVector(0,0,-1));
+				
 			}
 
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
 
 		
+		}
+
+
+		/*! \brief This method creates the robot targets from the input file.
+		*
+		*	\param [in]		directory		- input file directory path.
+		*	\param [in]		type			- type of file to be imported.
+		*	\since version 0.0.2
+		*/
+		void createTargetsfromFile(string infilename, zFileTpye type)
+		{
+			if (type == zTXT)
+			{
+				fromTXT(infilename);
+
+				cout << robotTargets[robotTargets.size() - 1];
+			}
+		}
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+		/*! \brief This method set the robot target matrix.
+		*
+		*	\param [in]		target			- input target matrix.	
+		*	\since version 0.0.2
+		*/
+		void setTarget(zTransform &target)
+		{
+			robot_target_matrix = target.transpose();
+		}
+
+		/*! \brief This method set the robot end effector matrix.
+		*
+		*	\param [in]		EE			- input endeffector matrix.
+		*	\since version 0.0.2
+		*/
+		void setEndEffector(zTransform &EE)
+		{
+			robot_endEffector_matrix = EE.transpose();
 		}
 
 		//--------------------------
@@ -580,12 +656,13 @@ namespace zSpace
 			for (int i = 0; i < DOF; i++)
 			{		 
 				Tbase = Tbase * Bars[i].T;
-				robotJoint_matrices[i] = Tbase;
+				robotJointTransforms[i] = Tbase;
 			}
 
 			update_robotJointGraph();
 
-			update_robotJointMeshes();
+			setJointMeshTransform(true);
+			
 		}
 
 		/*! \brief This Methods computes the forward kinematics chain of zRobot for the specified joint rotation values.
@@ -593,7 +670,7 @@ namespace zSpace
 		*	\param		[in]	type		- robot joint rotation type.
 		*	\since version 0.0.2
 		*/
-		zVector forwardKinematics(robotRotationType rotType = zJoint)
+		zVector forwardKinematics(zRobotRotationType rotType = zJoint)
 		{
 			zVector out;
 
@@ -621,7 +698,7 @@ namespace zSpace
 			for (int i = 0; i < DOF; i++)Bars[i].updateTransform();
 
 			computeJoints();
-			out = zVector(robotJoint_matrices[DOF - 1](0, 3), robotJoint_matrices[DOF - 1](1, 3), robotJoint_matrices[DOF - 1](2, 3));
+			out = zVector(robotJointTransforms[DOF - 1](0, 3), robotJointTransforms[DOF - 1](1, 3), robotJointTransforms[DOF - 1](2, 3));
 
 			return out;
 
@@ -634,7 +711,7 @@ namespace zSpace
 		zVector inverseKinematics()
 		{
 			// compute target for joint 6
-			zMatrixd Target_J6 = robot_target_matrix * robot_endEffector_matrix;
+			zTransform Target_J6 = robot_target_matrix * robot_endEffector_matrix;
 
 			// CALCULATE WRIST CENTER
 			zVector wristC = zVector(Target_J6(0, 3), Target_J6(1, 3), Target_J6(2, 3));
@@ -656,7 +733,7 @@ namespace zSpace
 			double d = (r * r + s * s - a1 * a1 - a2 * a2) / (2.0 * a1 * a2);
 			double th2 = atan2(sqrt(1.0 - d * d), d); // negate for alt sol'n
 
-													  // 2nd angle
+			// 2nd angle
 			double k1 = a1 + a2 * cos(th2);
 			double k2 = a2 * sin(th2);
 			double th1 = atan2(s, r) - atan2(k2, k1);
@@ -676,9 +753,9 @@ namespace zSpace
 
 			// SOLVE LAST 3 ANGLES
 
-			zMatrixd r03 = Bars[0].T * Bars[1].T * Bars[2].T;		
+			zTransform r03 = Bars[0].T * Bars[1].T * Bars[2].T;		
 
-			zMatrixd r36 = r03.transpose() * Target_J6;
+			zTransform r36 = r03.transpose() * Target_J6;
 			double t = r36(2, 2);
 
 			double th3 = atan2(-r36(1, 2), -r36(0, 2));
@@ -692,14 +769,145 @@ namespace zSpace
 			// SET FORWARD
 			forwardKinematics();
 
-			zVector out(robotJoint_matrices[DOF - 1](0, 3), robotJoint_matrices[DOF - 1](1, 3), robotJoint_matrices[DOF - 1](2, 3));
+			zVector out(robotJointTransforms[DOF - 1](0, 3), robotJointTransforms[DOF - 1](1, 3), robotJointTransforms[DOF - 1](2, 3));
 
 			return out;
 		}
 
 		//--------------------------
+		//----MESH METHODS
+		//--------------------------
+		
+		/*! \brief This methods sets the joint mesh dihedral edge angles container.
+		*
+		*	\param		[in]	lightVec		- vector of light.
+		*	\since version 0.0.2
+		*/
+		void setJointMeshDihedralEdges()
+		{
+			robot_jointMeshes_edgeAngle.clear();
+			for (int i = 0; i < DOF + 2 /*fnMeshJoints.size()*/; i++)
+			{
+
+				if (fnMeshJoints[i].numVertices() == 0) continue;
+
+				vector<double> dihedralAngles;
+
+				fnMeshJoints[i].getEdgeDihedralAngles(dihedralAngles);
+
+				robot_jointMeshes_edgeAngle.push_back(dihedralAngles);
+			}
+		}
+
+		/*! \brief This methods sets the joint mesh occlusion face color .
+		*
+		*	\param		[in]	lightVec		- vector of light.
+		*	\since version 0.0.2
+		*/
+		void setJointMeshColor(zVector lightVec)
+		{
+			for (int i = 0; i < DOF + 2 /*fnMeshJoints.size()*/; i++)
+			{
+
+				if (fnMeshJoints[i].numVertices() == 0) continue;
+
+				fnMeshJoints[i].setFaceColorOcclusion(lightVec, true);
+			}
+
+			setJointMeshDihedralEdges();
+		}
+
+		/*! \brief This methods sets the joint mesh transformation matrix to the joint transform of the robot .
+		*
+		*	\since version 0.0.2
+		*/
+		void setJointMeshTransform(bool updatePositions = true)
+		{
+			
+			for (int i = 0; i < DOF; i++)
+			{
+				
+				robotMesh_transforms[i] = robotJointTransforms[i].transpose();			
+
+				fnMeshJoints[i + 1].setTransform(robotMesh_transforms[i],false, updatePositions);				
+
+				// update EE
+				if( i == DOF -1)fnMeshJoints[i + 2].setTransform(robotMesh_transforms[i], false, updatePositions);
+			}
+		}
+
+
+		//--------------------------
 		//----GCODE METHODS
 		//--------------------------
+		
+		/*! \brief This method stores the robot gcode.
+		*
+		*	\param [in]		target_position			- target position to be stored.
+		*	\param [in]		velocity				- robot velocity.
+		*	\param [in]		moveType				- robot move type - zMoveLinear/zMoveJoint .
+		*	\since version 0.0.2
+		*/
+		void gCode_store(zVector &target_position, double velocity, zRobotMoveType moveType, zRobotEEControlType endEffectorControl)
+		{
+			zGCode inGCode;
+			inGCode.vel = velocity;
+			inGCode.moveType = moveType;
+			inGCode.endEffectorControl = endEffectorControl;
+
+			zTransform TCP = robotJointTransforms[DOF - 1] * robot_endEffector_matrix;
+
+			inGCode.robotTCP_position = zVector(TCP(0, 3), TCP(1, 3), TCP(2, 3));
+			inGCode.target_position = target_position;
+
+			inGCode.distDifference = inGCode.robotTCP_position.distanceTo(inGCode.target_position);
+
+			inGCode.targetReached = true;
+			if (inGCode.distDifference > 0.1) inGCode.targetReached = false;
+
+			for (int i = 0; i < DOF; i++)
+			{
+				if (robot_gCode.size() > 0 && i == 3)
+				{
+					int numGPoints = robot_gCode.size() - 1;
+					bool prevRot = (robot_gCode[numGPoints].rotations[i].rotation >= 0) ? true : false;
+
+					bool currentRot = (jointRotations[i].rotation >= 0) ? true : false;
+
+					if (prevRot != currentRot)
+					{
+						if (prevRot) jointRotations[i].rotation += 360;
+						else jointRotations[i].rotation -= 360;
+					}
+				}
+
+				inGCode.rotations.push_back(jointRotations[i]);
+
+				if ((jointRotations[i].rotation + jointRotations[i].offset) < jointRotations[i].minimum || (jointRotations[i].rotation + jointRotations[i].offset) > jointRotations[i].maximum) inGCode.targetReached = false;
+			}
+
+			robot_gCode.push_back(inGCode);
+		}
+
+		/*! \brief This method exports the robot gcode to the input folder.
+		*
+		*	\param [in]		directoryPath			- input directory path.
+		*	\param [in]		type					- robot type.
+		*	\since version 0.0.2
+		*/
+		void gCode_to(string directoryPath, zRobotType type)
+		{
+			if (type == zRobotABB)
+			{
+				string filename = directoryPath;
+				filename.append("/ABB_GCode.prg");
+				toABBGcode(filename);
+			}
+		}
+
+
+		
+
 
 	protected:
 
@@ -712,14 +920,16 @@ namespace zSpace
 			vector<zVector> positions;
 			vector<int> edgeConnects;
 
-			positions.push_back(zVector());
+			positions.push_back(zVector());			
+			positions.push_back(zVector(0,0, robotJointTransforms[0](2, 3)));
 
 			for (int i = 0; i < DOF; i++)
 			{
 				zVector pos; 
-				pos.x = robotJoint_matrices[i](0, 3);
-				pos.y = robotJoint_matrices[i](1, 3);
-				pos.z = robotJoint_matrices[i](2, 3);
+				pos.x = robotJointTransforms[i](0, 3);
+				pos.y = robotJointTransforms[i](1, 3);
+				pos.z = robotJointTransforms[i](2, 3);
+								
 
 				positions.push_back(pos);
 			}
@@ -740,105 +950,19 @@ namespace zSpace
 		*/
 		void update_robotJointGraph()
 		{
+			zVector p(zVector(0, 0, robotJointTransforms[0](2, 3)));
+			fnGraphJoint.setVertexPosition(1, p);
+
 			for (int i = 0; i < DOF; i++)
 			{
 				zVector pos;
-				pos.x = robotJoint_matrices[i](0, 3);
-				pos.y = robotJoint_matrices[i](1, 3);
-				pos.z = robotJoint_matrices[i](2, 3);
+				pos.x = robotJointTransforms[i](0, 3);
+				pos.y = robotJointTransforms[i](1, 3);
+				pos.z = robotJointTransforms[i](2, 3);
 
-				fnGraphJoint.setVertexPosition(i + 1, pos);				
+				fnGraphJoint.setVertexPosition(i + 2, pos);				
 			}
-		}
-
-		/*! \brief This method update the positions of the joint meshes based on joint positions.
-		*
-		*	\since version 0.0.2
-		*/
-		void update_robotJointMeshes()
-		{
-			zMatrixd standardBasis;
-			standardBasis.setIdentity();
-
-			// find transfrom from standard basis to new basis
-			zMatrixd basisTransform = coreUtils.PlanetoPlane(standardBasis, robot_base_matrix);
-
-			zMatrixd robot_EE_matrices = robotJointMesh_matrices[DOF - 1];
-
-			for (int i = 0; i < fnMeshJoints.size(); i++)
-			{
-				// transform each joint to local coordinates
-
-				zMatrixd tMat_local;
-				tMat_local.setIdentity();
-
-				if (i > 0 && i <= DOF) 	tMat_local = robotJointMesh_matrices[i - 1];
-				if (i > DOF) tMat_local = robot_EE_matrices;
-
-				zMatrixd result_toLocal = coreUtils.toLocalMatrix(tMat_local);
-
-				//printf("\n robotJointMesh_matrices : %i ", robotJointMesh_matrices.size());
-
-				for (int j = 0; j < fnMeshJoints[i].numVertices(); j++)
-				{
-
-					zVector pos = fnMeshJoints[i].getVertexPosition(j);
-
-					zVector new_pos = pos * result_toLocal;
-
-					if (!isnan(new_pos.x) && !isnan(new_pos.y) && !isnan(new_pos.z))
-					{
-						fnMeshJoints[i].setVertexPosition(j, new_pos);
-
-					}
-
-				}
-
-				// transform to world coordinates
-				if (i > 0 && i <= DOF)
-				{
-					zMatrixd tMat_world = robotJoint_matrices[i - 1];
-					zMatrixd result_toWorld = coreUtils.toWorldMatrix(tMat_world);
-
-					for (int j = 0; j < fnMeshJoints[i].numVertices(); j++)
-					{
-
-						zVector pos = fnMeshJoints[i].getVertexPosition(j);
-
-						zVector new_pos = pos * result_toWorld;
-
-						if (!isnan(new_pos.x) && !isnan(new_pos.y) && !isnan(new_pos.z))
-						{
-							fnMeshJoints[i].setVertexPosition(j, new_pos);
-						}
-
-
-
-					}
-
-					robotJointMesh_matrices[i - 1] = robotJoint_matrices[i - 1];
-				}
-
-				if (i > DOF)
-				{
-					zMatrixd tMat_world = robotJoint_matrices[DOF - 1];
-					zMatrixd result_toWorld = coreUtils.toWorldMatrix(tMat_world);
-
-					for (int j = 0; j < fnMeshJoints[i].numVertices(); j++)
-					{
-
-						zVector pos = fnMeshJoints[i].getVertexPosition(j);
-						zVector new_pos = pos * result_toWorld;
-
-						if (!isnan(new_pos.x) && !isnan(new_pos.y) && !isnan(new_pos.z))
-						{
-							fnMeshJoints[i].setVertexPosition(j, new_pos);
-						}
-					}
-
-				}
-			}
-		}
+		}		
 
 		//--------------------------
 		//---- FACTORY METHODS
@@ -869,10 +993,9 @@ namespace zSpace
 			in_myfile.close();
 
 
-			// READ Data from JSON
-			
-			robotJSON.scale = (j["scale"].get<int>());
-
+			// READ Data from JSON			
+		
+			robotJSON.scale = (j["scale"].get<double>());
 			robot_scale = robotJSON.scale;
 
 			//DH
@@ -891,7 +1014,7 @@ namespace zSpace
 				DH.alpha = robotJSON.alpha[i] * DEG_TO_RAD;
 				DH.d = robotJSON.d[i] * robot_scale;
 				DH.theta = robotJSON.theta[i] * DEG_TO_RAD;
-				DH.a = robotJSON.a[i] * robot_scale;
+				DH.a = robotJSON.a[i] * robot_scale;				
 
 				Bars.push_back(zLink(DH));
 
@@ -926,10 +1049,187 @@ namespace zSpace
 				jointRotations.push_back(jointRot);
 
 
-				robotJoint_matrices.push_back(zMatrixd());
-				robotJointMesh_matrices.push_back(zMatrixd());
+				robotJointTransforms.push_back(zTransform());
+				robotMesh_transforms.push_back(zTransform());
 			}
 
+		}
+
+		/*! \brief This method imports robot targets from a TXT file format .
+		*
+		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\since version 0.0.2
+		*/
+		void fromTXT(string infilename)
+		{
+			robotTargets.clear();
+
+			ifstream myfile;
+			myfile.open(infilename.c_str());
+
+			int lineCnt = 0;
+			
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return ;				
+			}
+
+			int lay0 = 0;
+			int lay1 = 0;
+			int nPtsPerLayer = 0;;
+
+			while (!myfile.eof()/* && lineCnt < 15*/)
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = coreUtils.splitString(str, ",");
+					
+			
+
+				if (perlineData.size() == 12)
+				{
+					zTransform mat;
+					mat.setIdentity();
+
+					//x
+					mat(0, 0) = atof(perlineData[0].c_str());
+					mat(0, 1) = atof(perlineData[1].c_str());
+					mat(0, 2) = atof(perlineData[2].c_str());
+
+					////y
+					mat(1, 0) = atof(perlineData[3].c_str());
+					mat(1, 1) = atof(perlineData[4].c_str());
+					mat(1, 2) = atof(perlineData[5].c_str());
+
+					//z
+					mat(2, 0) = atof(perlineData[6].c_str());
+					mat(2, 1) = atof(perlineData[7].c_str());
+					mat(2, 2) = atof(perlineData[8].c_str());
+					
+
+					//cen
+					mat(3, 0) = atof(perlineData[9].c_str());
+					mat(3, 1) = atof(perlineData[10].c_str());
+					mat(3, 2) = atof(perlineData[11].c_str());					
+
+					robotTargets.push_back(mat);
+					
+				}
+
+				lineCnt++;
+			}			
+		}
+
+		/*! \brief This method exports robot gcode for an ABB robot.
+		*
+		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\since version 0.0.2
+		*/
+		void toABBGcode(string infilename)
+		{
+			printf(" ----------- writing \n ");
+
+			ofstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return;
+			}
+
+			//myfile << " \n ! GCode for ABB ROBOT \n " << endl;
+			//myfile << " \n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n " << endl;
+
+			// start MODULE
+			myfile << "\n MODULE Module1 \n";
+
+			// boolean variables
+			myfile << "\n !Flag, end the program \n";
+			myfile << " \n VAR bool bProgEnd; \n ";
+
+			// constant variable for home position
+			myfile << "\n !Constant for the joint calibrate position \n ";
+			myfile << "\n CONST jointtarget calib_pos := [[0, 0, 0, 0, 0, 0], [0, 9E9, 9E9, 9E9, 9E9, 9E9]]; \n";
+
+			// PROCEDURE Main
+			myfile << "\n PROC Main() \n ";
+			myfile << "\n Init; \n ";
+
+			myfile << "\n mv_Calib; \n ";
+
+			// write custom gcode
+			myfile << "\n mv_Custom; \n ";
+			// complete custom gcode
+
+			myfile << "\n mv_Calib; \n ";
+			myfile << "\n ENDPROC \n ";
+
+			// PROCEDURE init
+			myfile << "\n PROC Init() \n ";
+
+			// define varaiale initial value if any
+			myfile << "\n !Defined setting of the variables \n";
+			myfile << "\n bProgEnd := FALSE; \n ";
+
+			myfile << "\n ENDPROC \n ";
+
+			// PROCEDURE mv_Calib
+			myfile << "\n PROC mv_Calib() \n ";
+
+			myfile << "\n MoveAbsJ calib_pos,v100,z10,tool0; \n ";
+
+			myfile << "\n ENDPROC \n ";
+
+			// PROCEDURE mv_Custom
+			myfile << "\n PROC mv_Custom() \n ";
+			myfile << "\n  CONST num count := " << robot_gCode.size() << ";";
+
+			myfile << "\n  CONST jointtarget poses {count} := ";
+			myfile << "\n [ ";
+
+			for (int i = 0; i < robot_gCode.size(); i++)
+			{
+
+				myfile << "\n  [[  ";
+
+				for (int j = 0; j < DOF; j++)
+				{
+					myfile << to_string(robot_gCode[i].rotations[j].rotation + robot_gCode[i].rotations[j].offset);
+					if (j < DOF - 1) myfile << ", ";
+				}
+
+				myfile << "], [0, 9E9, 9E9, 9E9, 9E9, 9E9]] ";
+
+				if (i != robot_gCode.size() - 1) myfile << ",";
+			}
+
+			myfile << "\n ]; ";
+
+			myfile << "\n FOR i FROM 1 TO count DO ";
+			myfile << "\n MoveAbsJ poses{i}, v100, z10, tool0;";
+			myfile << "\n ENDFOR";
+
+			/*for (int i = 0; i < robot_gCode.size(); i++)
+			{
+				myfile << "\n";
+
+				if(robot_gCode[i].moveType == zRobot_Move_joint) myfile << "MoveAbsJ ";
+				if(robot_gCode[i].moveType == zRobot_Move_linear) myfile << "MoveL ";
+
+				myfile<< "p" << i << ", v" << to_string((int)robot_gCode[i].vel) << ", z10, tool0; \n";
+			}*/
+
+			myfile << "\n ENDPROC \n ";
+
+			//End MODULE
+			myfile << "\n ENDMODULE \n";
+
+			//close file
+			myfile.close();
 		}
 	};
 

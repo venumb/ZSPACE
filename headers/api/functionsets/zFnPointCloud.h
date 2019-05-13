@@ -145,7 +145,7 @@ namespace zSpace
 		{
 			fnType = zFnType::zPointsFn;
 			pointsObj = nullptr;
-			Obj = nullptr;
+	
 		}
 
 		/*! \brief Overloaded constructor.
@@ -157,9 +157,6 @@ namespace zSpace
 		{
 			pointsObj = &_pointsObj;
 			fnType = zFnType::zPointsFn;
-
-
-			Obj = pointsObj;
 		}
 
 		//--------------------------

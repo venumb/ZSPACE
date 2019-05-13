@@ -112,21 +112,51 @@ namespace zSpace
 
 	/*! \enum	zFileTpye
 	*	\brief	input and ouput file types.
-	*	\since	version 0.0.1
+	*	\since	version 0.0.2
 	*/
 	enum zFileTpye { zJSON = 150, zOBJ, zTXT, zCSV, zBMP, zMESH , zGRAPH};
 
 	/*! \enum	zFnType
 	*	\brief	functionset types.
-	*	\since	version 0.0.1
+	*	\since	version 0.0.2
 	*/
 	enum zFnType { zInvalidFn = 160, zPointsFn, zMeshFn, zGraphFn, zMeshFieldFn, zPointField3DFn, zParticleFn, zMeshDynamicsFn, zGraphDynamicsFn};
 
 	/*! \enum	zDiagramType
 	*	\brief	diagram types for vaults.
-	*	\since	version 0.0.1
+	*	\since	version 0.0.2
 	*/
 	enum zDiagramType { zFormDiagram = 190, zForceDiagram, zResultDiagram };
+
+	/*! \enum	zRobotType
+	*	\brief	robot types.
+	*	\since	version 0.0.2
+	*/
+	enum zRobotType { zRobotABB = 200, zRobotKuka, zRobotNachi };
+
+	/*! \enum	zRobotRotationType
+	*	\brief	robot rotation types.
+	*	\since	version 0.0.2
+	*/
+	enum zRobotRotationType { zJoint = 210, zJointHome, zJointMinimum, zJointMaximum };
+
+	/*! \enum	zRobotMoveType
+	*	\brief	robot move types.
+	*	\since	version 0.0.2
+	*/
+	enum zRobotMoveType { zMoveLinear = 220, zMoveJoint };
+
+	/*! \enum	zRobotEEControlType
+	*	\brief	robot end effector control types.
+	*	\since	version 0.0.2
+	*/
+	enum zRobotEEControlType { zEEOn = 230, zEEOff, zEENeutral };
+
+	/*! \enum	zSpectralVertexType
+	*	\brief	spectral processing vertex types.
+	*	\since	version 0.0.2
+	*/
+	enum zSpectralVertexType { zRegular = 240, zMinima, zMaxima, zSaddle };
 
 	/** @}*/
 

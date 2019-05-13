@@ -31,6 +31,11 @@ namespace  zSpace
 
 	class zVector
 	{
+	protected:
+		
+		/*!	\brief pointer to components	*/
+		pDouble3 vals;
+
 	public:
 		/*!	\brief x component				*/
 		double x;			
@@ -53,6 +58,10 @@ namespace  zSpace
 			x = 0;
 			y = 0;
 			z = 0;
+			
+			vals[0] = &x;
+			vals[1] = &y;
+			vals[2] = &z;
 		}
 
 		/*! \brief Overloaded constructor.
@@ -63,22 +72,33 @@ namespace  zSpace
 		*	\since version 0.0.1
 		*/		
 		zVector(double _x, double _y, double _z)
-		{
+		{		
+
 			x = _x;
 			y = _y;
 			z = _z;
+			
+			vals[0] = &x;
+			vals[1] = &y;
+			vals[2] = &z;
+					
 		}
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	vals	- input array of values.
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		zVector(double3 vals)
-		{
-			x = vals[0];
-			y = vals[1];
-			z = vals[2];
+		zVector(double3 &_vals)
+		{	
+
+			x = _vals[0];
+			y = _vals[1];
+			z = _vals[2];
+			
+			vals[0] = &x;
+			vals[1] = &y;
+			vals[2] = &z;
 		}
 
 		//---- DESTRUCTOR
@@ -87,7 +107,7 @@ namespace  zSpace
 		*	\since version 0.0.1
 		*/
 		
-		~zVector() {}
+		~zVector() 	{}
 
 		//---- OPERATORS
 
@@ -201,6 +221,23 @@ namespace  zSpace
 			return this->fromColumnMatrix(outVecMatrix);
 		}
 
+		/*! \brief This operator is used for 4x4 / 3X3 matrix muliplication of a vector.
+		*
+		*	\param		[in]	inMatrix	- input 4X4 / 3X3 zMatrixd to be multiplied with the current vector.
+		*	\return				zVector		- resultant vector after the matrix multiplication.
+		*	\since version 0.0.1
+		*/
+		zVector operator*(zTransform inTrans)
+		{
+			Vector4d p(x, y, z, 1);
+			
+			Vector4d newP = inTrans * p;
+
+			zVector out(newP(0), newP(1), newP(2));
+
+			return out;
+		}
+
 		/*! \brief This operator is used for scalar division of a vector.
 		*
 		*	\param		[in]	val		- scalar value used to divide from the current vector.
@@ -301,6 +338,16 @@ namespace  zSpace
 		//--------------------------
 		//---- METHODS
 		//--------------------------
+
+		/*! \brief This method returns the squared length of the zVector.
+		*
+		*	\return				double		- value of the squared maginute of the vector.
+		*	\since version 0.0.1
+		*/
+		double squareLength()
+		{
+			return (x*x + y * y + z * z);
+		}
 
 		/*! \brief This method returns the magnitude/length of the zVector.
 		*
@@ -419,6 +466,7 @@ namespace  zSpace
 
 		/*! \brief This method returns the dihedral angle between the two input zVectors using current zVector as edge reference.
 		*
+		*	\details Based on https://www.cs.cmu.edu/~kmcrane/Projects/Other/TriangleMeshDerivativesCheatSheet.pdf
 		*	\param		[in]	v1			- input vector.
 		*	\param		[in]	v2			- input vector.
 		*	\return				double		- value of the dihedral angle between the vectors.
@@ -426,24 +474,44 @@ namespace  zSpace
 		*/	
 		double dihedralAngle(zVector &v1, zVector &v2)
 		{
-			zVector edgeRef(x, y, z);
-			zVector tmp(v1.x, v1.y, v1.z);
-
+			zVector e(x, y, z);
 			
 			v1.normalize();
 			v2.normalize();
 			double dot = v1 * v2;
-			dot = (dot < -1.0 ? -1.0 : (dot > 1.0 ? 1.0 : dot));
-			double  dtheta = atan2((tmp^v2).length(), tmp*v2);
-			while (dtheta > PI)
-				dtheta -= PI * 2;
-			while (dtheta < -PI)
-				dtheta += PI * 2;
 
-			return(dtheta * (180.0 / PI) * ((v1^v2)*edgeRef < 0 ? -1 : 1));
+			zVector cross = v1 ^ v2;
+			double  dtheta = atan2(e * cross, dot);	
+
+			return(dtheta * (180.0 / PI));
 		}
 
 	
+		/*! \brief This method returns the contangetn of the angle between the current and input vector. 
+		*
+		*	\details Based on http://multires.caltech.edu/pubs/diffGeoOps.pdf and http://rodolphe-vaillant.fr/?e=69
+		*	\param		[in]	v			- input vector.
+		*	\return				double		- cotangent of angle between the vectors.
+		*	\since version 0.0.1
+		*/
+		double cotan(zVector &v)
+		{
+			zVector u(x, y, z);
+
+			double dot = u * v;
+
+			//using http://multires.caltech.edu/pubs/diffGeoOps.pdf
+			//double denom = (u*u) * (v*v) - (dot*dot);	
+			//if (denom == 0) return 0.0;
+			//else return dot / sqrt(denom);
+
+			//using http://rodolphe-vaillant.fr/?e=69
+			double denom = (u ^ v).length();
+
+			if (denom == 0) return 0.0;
+			else return dot / denom;
+		}
+
 		/*! \brief This method returns the component value of the current zVector.
 		*
 		*	\param		[in]	i			- index. ( 0 - x component, 1 - y component, 2 - z component).
@@ -452,21 +520,29 @@ namespace  zSpace
 		*/	
 		double  getComponent(int i)
 		{
-			if (i == 0)return x;
-			if (i == 1)return y;
-			if (i == 2)return z;
+			if (i >= 0 && i<= 2)return *vals[i];		
 		}
 
 		/*! \brief This method gets the components as a array of doubles of the current zVector.
 		*
 		*	\param		[out]	vals		- output compnent values. ( 0 - x component, 1 - y component, 2 - z component).
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		void getComponents(double3 &vals)
+		void getComponents(double3 &_vals)
 		{
-			vals[0] = x;
-			vals[1] = y;
-			vals[2] = z;
+			_vals[0] = x;
+			_vals[1] = y;
+			_vals[2] = z;
+		}
+
+		/*! \brief This method gets the raw pointer to the components.
+		*
+		*	\return				double*		- pointer to the first value of the components.
+		*	\since version 0.0.2
+		*/
+		double* getRawComponents()
+		{
+			return *vals;
 		}
 
 		/*! \brief This method returns the row matrix of the current zVector.

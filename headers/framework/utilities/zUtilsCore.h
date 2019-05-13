@@ -4,7 +4,7 @@
 #include <headers/framework/core/zVector.h>
 #include <headers/framework/core/zColor.h>
 #include <headers/framework/core/zMatrix.h>
-#include <headers/framework/core/zTransform.h>
+#include <headers/framework/core/zTransformationMatrix.h>
 #include <headers/framework/core/zDomain.h>
 
 #include<headers/framework/utilities/zUtilsPointerMethods.h>

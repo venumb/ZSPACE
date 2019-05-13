@@ -247,6 +247,77 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method draws the X, Y Z axis of the transformation matrix.
+		*	\param		 [in]		transform	- transform  to be drawn.
+		*	\since version 0.0.2
+		*/
+		void drawTransform(zTransformationMatrix &transform)
+		{
+
+			double* val = transform.asRawMatrix();
+			double* pivot = transform.getRawPivot();	
+
+
+			glLineWidth(2.0);
+
+			glBegin(GL_LINES);
+			
+			//X
+			glColor3f(1, 0, 0);
+			glVertex3f(pivot[0], pivot[1], pivot[2]);
+			glVertex3f(pivot[0] + val[0], pivot[1] + val[4], pivot[2] + val[8]);
+
+			//Y
+			glColor3f(0, 1, 0);
+			glVertex3f(pivot[0], pivot[1], pivot[2]);
+			glVertex3f(pivot[0] + val[1], pivot[1] + val[5], pivot[2] + val[9]);
+
+			//Z
+			glColor3f(0, 0, 1);
+			glVertex3f(pivot[0], pivot[1], pivot[2]);
+			glVertex3f(pivot[0] + val[2], pivot[1] + val[6], pivot[2] + val[10]);
+			
+			glEnd();
+
+			glLineWidth(1.0);
+			glColor3f(0, 0, 0);
+
+		}
+		
+		/*! \brief This method draws the X, Y Z axis of the transformation matrix.
+		*	\param		 [in]		transform	- transform  to be drawn.
+		*	\since version 0.0.2
+		*/
+		void drawTransform(zTransform &transform)
+		{
+
+			double* val = transform.data();
+
+			glLineWidth(2.0);
+
+			glBegin(GL_LINES);
+
+			//X
+			glColor3f(1, 0, 0);
+			glVertex3f(val[3], val[7], val[11]);
+			glVertex3f(val[3] + val[0], val[7] + val[4], val[11] + val[8]);
+
+			//Y
+			glColor3f(0, 1, 0);
+			glVertex3f(val[3], val[7], val[11]);
+			glVertex3f(val[3] + val[1], val[7] + val[5], val[11] + val[9]);
+
+			//Z
+			glColor3f(0, 0, 1);
+			glVertex3f(val[3], val[7], val[11]);
+			glVertex3f(val[3] + val[2], val[7] + val[6], val[11] + val[10]);
+
+			glEnd();
+
+			glLineWidth(1.0);
+			glColor3f(0, 0, 0);
+
+		}
 
 		//--------------------------
 		//---- VBO DISPLAY

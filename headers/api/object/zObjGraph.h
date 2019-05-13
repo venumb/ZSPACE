@@ -131,6 +131,11 @@ namespace zSpace
 			{
 				drawGraph();
 			}
+
+			if (showObjectTransform)
+			{
+				displayUtils->drawTransform(transformationMatrix);
+			}
 		}
 
 		//--------------------------
@@ -215,10 +220,10 @@ namespace zSpace
 
 
 			// Vertex Attributes
-			vector<zVector>_dummynormals;
+			zVector* _dummynormals = nullptr;
 
-			graph.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(graph.vertexPositions, _dummynormals);
-			graph.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(graph.vertexColors);
+			graph.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(&graph.vertexPositions[0], _dummynormals, graph.vertexPositions.size());
+			graph.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(&graph.vertexColors[0], graph.vertexColors.size());
 		}
 
 	};

@@ -5,6 +5,13 @@
 #include <vector>
 using namespace std;
 
+#include<depends/Eigen/Core>
+#include<depends/Eigen/Dense>
+#include<depends/Eigen/Sparse>
+#include<depends/Eigen/Eigen>
+#include<depends/Eigen/Sparse>
+using namespace Eigen;
+
 namespace zSpace
 {
 
@@ -326,18 +333,38 @@ namespace zSpace
 			return out;
 		}
 
+		/*! \brief This method gets the mats values container.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+		*	\param		[out]	_mat		- vector of matrix values.
+		*	\since version 0.0.1
+		*/
+		void getMatrixValues(vector<T> & _mat)
+		{		
+			_mat = mat;
+		}
+
+		/*! \brief This method gets pointer to the internal matrix values container.
+		*
+		*	\tparam				T					- Type to work with standard c++ numerical datatypes.
+		*	\return				T*					- pointer to internal matrix value container.
+		*	\since version 0.0.2
+		*/
+		T* getRawMatrixValues()
+		{
+			return &mat[0];
+		}
+
 
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets the mats values with the input list of values.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		/*! \brief This method sets the matrix values with the input container of values.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	_mat		- vector of matrix values.
 		*	\since version 0.0.1
 		*/
-
-		void setMat(vector<T> & _mat)
+		void setMatrixValues(vector<T> & _mat)
 		{
 			if (this->getNumCols() * this->getNumRows() != _mat.size()) throw std::invalid_argument("input _mat size not equal to (rows * cols).");
 						
@@ -690,6 +717,9 @@ namespace zSpace
 			if (this->getNumCols()!= m1.getNumRows()) throw std::invalid_argument("number of columns in current matrix not equal to number of rows in m1.");
 			
 			vector<T> out;
+			out.assign(this->getNumRows() * m1.getNumCols(), T());
+
+			int count = 0;
 
 			for (int i = 0; i < this->getNumRows(); i++)
 			{
@@ -706,7 +736,8 @@ namespace zSpace
 						val += rVals[k] * cVals[k];
 					}
 
-					out.push_back(val);
+					out[count]  = (val);
+					count++;
 				}
 			}
 
@@ -1094,6 +1125,35 @@ namespace zSpace
 	*/	
 	typedef zMatrix<float> zMatrixf;
 
+	/*! \typedef zTransform
+	*	\brief A 4x4 matrix.
+	*
+	*	\since version 0.0.2
+	*/	
+	typedef Eigen::Matrix4d zTransform;
+
+	/*! \typedef SpMat
+	*	\brief A  Eigen library column-major sparse matrix type of double.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef Eigen::SparseMatrix<double> SpMat; 
+
+	/*! \typedef Tri
+	*	\brief A  Eigen library triplet of double.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef Eigen::Triplet<double> Tri;
+
+	/*! \typedef Diag
+	*	\brief A  Eigen library diagonal matrix of double.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> Diag;
+	
+	//typedef zMatrix<double> zTransform;
 	
 	/** @}*/
 	/** @}*/ 

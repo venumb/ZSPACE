@@ -95,6 +95,11 @@ namespace zSpace
 			{
 				if (showForces) drawForces();
 			}
+
+			if (showObjectTransform)
+			{
+				displayUtils->drawTransform(transformationMatrix);
+			}
 		}
 
 		//--------------------------
