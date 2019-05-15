@@ -1605,16 +1605,39 @@ namespace zSpace
 		*	\return			MatrixXd	- output mesh laplacian matrix.		
 		*	\since version 0.0.2
 		*/
-		MatrixXd getTopologicalLaplacian()
+		zSparseMatrix getTopologicalLaplacian()
 		{
 			int n_v = numVertices();
-			MatrixXd meshLaplacian(n_v, n_v);
+		
+			//MatrixXd meshLaplacian(n_v, n_v);
 			//meshLaplacian.setZero();
+			
+			zSparseMatrix meshLaplacian(n_v, n_v);
+			//meshLaplacian.setZero();
+
 
 			// compute laplacian weights
 			for (int j = 0; j < n_v; j++)
 			{
-				for (int i = 0; i < n_v; i++)
+				vector<int> cEdges;
+				getConnectedEdges(j, zVertexData, cEdges);
+
+				double out = 0;
+
+				for (int k = 0; k < cEdges.size(); k++)
+				{				
+
+					double val = getEdgeCotangentWeight(cEdges[k]) * 0.5;
+					out += val;
+
+					int i = getEndVertexIndex(cEdges[k]);
+
+					meshLaplacian.insert(j, i) = val * -1;			
+				}
+
+				meshLaplacian.insert(j, j) = out;
+
+				/*for (int i = 0; i < n_v; i++)
 				{
 					if (i == j)
 					{
@@ -1639,7 +1662,7 @@ namespace zSpace
 						else meshLaplacian(j, i) = 0;
 					}
 					
-				}
+				}*/
 			}
 
 
@@ -1933,8 +1956,8 @@ namespace zSpace
 			zVector beta2 = (*pt1 - *pt3);
 			double coTan_beta = beta1.cotan(beta2);
 
-			if (onBoundary(index,zEdgeData))coTan_alpha = 0;;
-			if (onBoundary(getSymIndex(index), zEdgeData))coTan_beta = 0;;
+			if (onBoundary(index,zEdgeData))coTan_beta = 0;;
+			if (onBoundary(getSymIndex(index), zEdgeData))coTan_alpha = 0;;
 		
 			double wt = coTan_alpha + coTan_beta;
 
@@ -3424,6 +3447,104 @@ namespace zSpace
 			
 		}
 		   	
+		/*! \brief This method returns the rainflow graph of the input mesh.
+		*
+		*	\param		[out]	rainflowGraphObj		- output rainflow graph object.
+		*	\param		[in]	excludeBoundary			- true if boundary vertices are to be ignored.
+		*	\since version 0.0.2
+		*/
+		void getRainflowGraph(zObjGraph &rainflowGraphObj, bool excludeBoundary = false)
+		{
+			vector<zVector> positions;
+			vector<int> edgeConnects;
+
+			zVector* pos = getRawVertexPositions();
+
+			unordered_map <string, int> positionVertex;
+
+			for (int i = 0; i < numVertices(); i++)
+			{
+				if (excludeBoundary && onBoundary(i, zVertexData)) continue;
+
+				vector<int> cFaces;
+				getConnectedFaces(i, zVertexData, cFaces);
+
+
+				vector<int> positionIndicies;
+				for (int j = 0; j < cFaces.size(); j++)
+				{
+					vector<int> fVerts;
+					getVertices(cFaces[j], zFaceData, fVerts);
+
+					for (int k = 0; k < fVerts.size(); k++) positionIndicies.push_back(fVerts[k]);
+				}
+
+
+				// get lowest positions
+
+				zVector lowPosition = pos[i];
+			
+				for (int j = 0; j < positionIndicies.size(); j++)
+				{
+					if (pos[positionIndicies[j]].z < lowPosition.z)
+					{
+						lowPosition = pos[positionIndicies[j]];
+						
+					}
+				}
+
+				vector<int> lowId;
+				if (lowPosition.z != pos[i].z)
+				{
+					for (int j = 0; j < positionIndicies.size(); j++)
+					{
+						if (pos[positionIndicies[j]].z == lowPosition.z)
+						{
+							lowId.push_back(positionIndicies[j]);
+
+						}
+					}
+				}
+				
+
+				if (lowId.size() > 0)
+				{
+				
+					for (int j = 0; j < lowId.size(); j++)
+					{
+						zVector pos1 = pos[i];
+						int v1;
+						bool check1 = coreUtils.vertexExists(positionVertex, pos1, 3, v1);
+						if (!check1)
+						{
+							v1 = positions.size();
+							positions.push_back(pos1);
+							coreUtils.addToPositionMap(positionVertex, pos1, v1, 3);
+						}
+
+
+						zVector pos2 = pos[lowId[j]];
+						int v2;
+						bool check2 = coreUtils.vertexExists(positionVertex, pos2, 3, v2);
+						if (!check2)
+						{
+							v2 = positions.size();
+							positions.push_back(pos2);
+							coreUtils.addToPositionMap(positionVertex, pos2, v2, 3);
+						}
+
+
+						edgeConnects.push_back(v1);
+						edgeConnects.push_back(v2);
+					}
+
+					
+				}
+
+			}
+
+			rainflowGraphObj.graph = zGraph(positions, edgeConnects);
+		}
 
 		/*! \brief This method computes the input face triangulations using ear clipping algorithm.
 		*

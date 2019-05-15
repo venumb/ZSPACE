@@ -2163,6 +2163,149 @@ namespace zSpace
 		}
 
 		
+		//--------------------------
+		//---- TRANSFORM METHODS OVERRIDES
+		//--------------------------
+
+		virtual void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override
+		{
+			if (updatePositions)
+			{
+				zTransformationMatrix to;
+				to.setTransform(inTransform, decompose);
+
+				zTransform transMat = graphObj->transformationMatrix.getToMatrix(to);
+				transformObject(transMat);
+
+				graphObj->transformationMatrix.setTransform(inTransform);
+
+				// update pivot values of object transformation matrix
+				zVector p = graphObj->transformationMatrix.getPivot();
+				p = p * transMat;
+				setPivot(p);
+
+			}
+			else
+			{
+				graphObj->transformationMatrix.setTransform(inTransform, decompose);
+
+				zVector p = graphObj->transformationMatrix.getO();
+				setPivot(p);
+
+			}
+
+		}
+
+		virtual void setScale(double3 &scale) override
+		{
+			// get  inverse pivot translations
+			zTransform invScalemat = graphObj->transformationMatrix.asInverseScaleTransformMatrix();
+
+			// set scale values of object transformation matrix
+			graphObj->transformationMatrix.setScale(scale);
+
+			// get new scale transformation matrix
+			zTransform scaleMat = graphObj->transformationMatrix.asScaleTransformMatrix();
+
+			// compute total transformation
+			zTransform transMat = invScalemat * scaleMat;
+
+			// transform object
+			transformObject(transMat);
+		}
+
+		virtual void setRotation(double3 &rotation, bool appendRotations = false) override
+		{
+			// get pivot translation and inverse pivot translations
+			zTransform pivotTransMat = graphObj->transformationMatrix.asPivotTranslationMatrix();
+			zTransform invPivotTransMat = graphObj->transformationMatrix.asInversePivotTranslationMatrix();
+
+			// get plane to plane transformation
+			zTransformationMatrix to = graphObj->transformationMatrix;
+			to.setRotation(rotation, appendRotations);
+			zTransform toMat = graphObj->transformationMatrix.getToMatrix(to);
+
+			// compute total transformation
+			zTransform transMat = invPivotTransMat * toMat * pivotTransMat;
+
+			// transform object
+			transformObject(transMat);
+
+			// set rotation values of object transformation matrix
+			graphObj->transformationMatrix.setRotation(rotation, appendRotations);;
+		}
+
+
+		virtual void setTranslation(zVector &translation, bool appendTranslations = false) override
+		{
+			// get vector as double3
+			double3 t;
+			translation.getComponents(t);
+
+			// get pivot translation and inverse pivot translations
+			zTransform pivotTransMat = graphObj->transformationMatrix.asPivotTranslationMatrix();
+			zTransform invPivotTransMat = graphObj->transformationMatrix.asInversePivotTranslationMatrix();
+
+			// get plane to plane transformation
+			zTransformationMatrix to = graphObj->transformationMatrix;
+			to.setTranslation(t, appendTranslations);
+			zTransform toMat = graphObj->transformationMatrix.getToMatrix(to);
+
+			// compute total transformation
+			zTransform transMat = invPivotTransMat * toMat * pivotTransMat;
+
+			// transform object
+			transformObject(transMat);
+
+			// set translation values of object transformation matrix
+			graphObj->transformationMatrix.setTranslation(t, appendTranslations);;
+
+			// update pivot values of object transformation matrix
+			zVector p = graphObj->transformationMatrix.getPivot();
+			p = p * transMat;
+			setPivot(p);
+
+		}
+
+		virtual void setPivot(zVector &pivot) override
+		{
+			// get vector as double3
+			double3 p;
+			pivot.getComponents(p);
+
+			// set pivot values of object transformation matrix
+			graphObj->transformationMatrix.setPivot(p);
+		}
+
+		virtual void getTransform(zTransform &transform) override
+		{
+			transform = graphObj->transformationMatrix.asMatrix();
+		}
+
+
+	protected:
+
+		//--------------------------
+		//---- PROTECTED OVERRIDE METHODS
+		//--------------------------	
+
+
+		virtual void transformObject(zTransform &transform) override
+		{
+
+			if (numVertices() == 0) return;
+
+
+			zVector* pos = getRawVertexPositions();
+
+			for (int i = 0; i < numVertices(); i++)
+			{
+
+				zVector newPos = pos[i] * transform;
+				pos[i] = newPos;
+			}
+
+		}
 
 	};
 

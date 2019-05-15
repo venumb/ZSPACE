@@ -757,7 +757,7 @@ namespace zSpace
 
 		/*! \brief This method computes the Edge Node Matrix for the input mesh.
 		*
-		*	\tparam				V									- Type to work with SpMat and MatrixXd.
+		*	\tparam				V									- Type to work with zSparseMatrix and MatrixXd.
 		*	\param		[in]	numCols								- number of columns in the out matrix.
 		*	\return				V									- edge node matrix.
 		*	\since version 0.0.2
@@ -770,12 +770,12 @@ namespace zSpace
 		*
 		*	\param		[in]	C									- input sparse matrix.
 		*	\param		[in]	nodes								- container of integers.
-		*	\return				SpMat								- sub matrix.
+		*	\return				zSparseMatrix								- sub matrix.
 		*	\since version 0.0.2
 		*/
-		SpMat subMatrix(SpMat &C, vector<int> &nodes)
+		zSparseMatrix subMatrix(zSparseMatrix &C, vector<int> &nodes)
 		{
-			SpMat C_sub(C.rows(), nodes.size());
+			zSparseMatrix C_sub(C.rows(), nodes.size());
 			for (int i = 0; i < nodes.size(); i++)C_sub.col(i) = C.col(nodes[i]);
 			return C_sub;
 		}
@@ -1072,22 +1072,22 @@ namespace zSpace
 
 	//---------------//
 
-	//---- SpMat specilization for getEdgeNodeMatrix using graph
+	//---- zSparseMatrix specilization for getEdgeNodeMatrix using graph
 	template<>
 	template<>
-	inline SpMat zTsVault<zObjGraph, zFnGraph>::getEdgeNodeMatrix(int numCols)
+	inline zSparseMatrix zTsVault<zObjGraph, zFnGraph>::getEdgeNodeMatrix(int numCols)
 	{
 		int n_e = fnResult.numEdges();
 		int n_v = fnResult.numVertices();
 
 
 
-		SpMat out(numCols, n_v);
+		zSparseMatrix out(numCols, n_v);
 		out.setZero();
 
 		int coefsCounter = 0;
 
-		vector<Tri> coefs; // 1 for from vertex and -1 for to vertex
+		vector<zTriplet> coefs; // 1 for from vertex and -1 for to vertex
 
 		for (int i = 0; i < n_e; i += 2)
 		{
@@ -1100,8 +1100,8 @@ namespace zSpace
 
 			if (!fixedVerticesBoolean[v1] || !fixedVerticesBoolean[v2])
 			{
-				coefs.push_back(Tri(coefsCounter, v1, 1));
-				coefs.push_back(Tri(coefsCounter, v2, -1));
+				coefs.push_back(zTriplet(coefsCounter, v1, 1));
+				coefs.push_back(zTriplet(coefsCounter, v2, -1));
 
 				coefsCounter++;
 			}
@@ -1114,22 +1114,22 @@ namespace zSpace
 
 	}
 
-	//---- SpMat specilization for getEdgeNodeMatrix using mesh
+	//---- zSparseMatrix specilization for getEdgeNodeMatrix using mesh
 	template<>
 	template<>
-	inline SpMat zTsVault<zObjMesh, zFnMesh>::getEdgeNodeMatrix(int numCols)
+	inline zSparseMatrix zTsVault<zObjMesh, zFnMesh>::getEdgeNodeMatrix(int numCols)
 	{
 		int n_e = fnResult.numEdges();
 		int n_v = fnResult.numVertices();
 
 
 
-		SpMat out(numCols, n_v);
+		zSparseMatrix out(numCols, n_v);
 		out.setZero();
 
 		int coefsCounter = 0;
 
-		vector<Tri> coefs; // 1 for from vertex and -1 for to vertex
+		vector<zTriplet> coefs; // 1 for from vertex and -1 for to vertex
 
 		for (int i = 0; i < n_e; i += 2)
 		{
@@ -1144,8 +1144,8 @@ namespace zSpace
 
 			if (!fixedVerticesBoolean[v1] || !fixedVerticesBoolean[v2])
 			{
-				coefs.push_back(Tri(coefsCounter, v1, 1));
-				coefs.push_back(Tri(coefsCounter, v2, -1));
+				coefs.push_back(zTriplet(coefsCounter, v1, 1));
+				coefs.push_back(zTriplet(coefsCounter, v2, -1));
 
 				coefsCounter++;
 			}
@@ -1933,7 +1933,7 @@ namespace zSpace
 		};
 
 		// EDGE NODE MATRIX
-		SpMat C = getEdgeNodeMatrix<SpMat>(numEdges);
+		zSparseMatrix C = getEdgeNodeMatrix<zSparseMatrix>(numEdges);
 
 		// FORCE DENSITY VECTOR
 		VectorXd q(numEdges);
@@ -1962,7 +1962,7 @@ namespace zSpace
 		//printf("\n Force Densities: \n");
 		//cout << endl << q;
 
-		Diag Q = q.asDiagonal();
+		zDiagonalMatrix Q = q.asDiagonal();
 
 		// LOAD VECTOR
 		VectorXd p(fnResult.numVertices());
@@ -1990,21 +1990,21 @@ namespace zSpace
 
 		}
 
-		SpMat Cn = subMatrix(C, freeVertices);
-		SpMat Cf = subMatrix(C, fixedVertices);
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
 		MatrixXd Xf = subMatrix(X, fixedVertices);
 		MatrixXd Pn = subMatrix(P, freeVertices);
 
 		//cout << "Cn: \n" << Cn << endl;
 		//cout << "Cf: \n" << Cf << endl;
 
-		SpMat Cn_transpose;
+		zSparseMatrix Cn_transpose;
 		Cn_transpose = Cn.transpose();
 
 		//CHOLESKY DECOMPOSITION
 
-		SpMat Dn = Cn_transpose * Q * Cn;
-		SpMat Df = Cn_transpose * Q * Cf;
+		zSparseMatrix Dn = Cn_transpose * Q * Cn;
+		zSparseMatrix Df = Cn_transpose * Q * Cf;
 
 		MatrixXd  B = Pn - Df * Xf;
 
@@ -2013,7 +2013,7 @@ namespace zSpace
 
 		if (positiveDensities)
 		{
-			SimplicialLLT< SpMat > solver; // sparse cholesky solver
+			SimplicialLLT< zSparseMatrix > solver; // sparse cholesky solver
 			solver.compute(Dn); // compute cholesky factors
 
 			if (solver.info() != Eigen::Success)
@@ -2088,7 +2088,7 @@ namespace zSpace
 		};
 
 		// EDGE NODE MATRIX
-		SpMat C = getEdgeNodeMatrix<SpMat>(numEdges);
+		zSparseMatrix C = getEdgeNodeMatrix<zSparseMatrix>(numEdges);
 
 		// FORCE DENSITY VECTOR
 		VectorXd q(numEdges);
@@ -2116,7 +2116,7 @@ namespace zSpace
 		//printf("\n Force Densities: \n");
 		//cout << endl << q <<endl;
 
-		Diag Q = q.asDiagonal();
+		zDiagonalMatrix Q = q.asDiagonal();
 
 		// LOAD VECTOR
 		VectorXd p(fnResult.numVertices());
@@ -2144,21 +2144,21 @@ namespace zSpace
 
 		}
 
-		SpMat Cn = subMatrix(C, freeVertices);
-		SpMat Cf = subMatrix(C, fixedVertices);
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
 		MatrixXd Xf = subMatrix(X, fixedVertices);
 		MatrixXd Pn = subMatrix(P, freeVertices);
 
 		//cout << "Cn: \n" << Cn << endl;
 		//cout << "Cf: \n" << Cf << endl;
 
-		SpMat Cn_transpose;
+		zSparseMatrix Cn_transpose;
 		Cn_transpose = Cn.transpose();
 
 		//CHOLESKY DECOMPOSITION
 
-		SpMat Dn = Cn_transpose * Q * Cn;
-		SpMat Df = Cn_transpose * Q * Cf;
+		zSparseMatrix Dn = Cn_transpose * Q * Cn;
+		zSparseMatrix Df = Cn_transpose * Q * Cf;
 
 		MatrixXd  B = Pn - Df * Xf;
 
@@ -2167,7 +2167,7 @@ namespace zSpace
 
 		if (positiveDensities)
 		{
-			SimplicialLLT< SpMat > solver; // sparse cholesky solver
+			SimplicialLLT< zSparseMatrix > solver; // sparse cholesky solver
 			solver.compute(Dn); // compute cholesky factors
 
 			if (solver.info() != Eigen::Success)
@@ -3417,7 +3417,7 @@ namespace zSpace
 		};
 
 		// EDGE NODE MATRIX
-		SpMat C = getEdgeNodeMatrix<SpMat>(numEdges);
+		zSparseMatrix C = getEdgeNodeMatrix<zSparseMatrix>(numEdges);
 
 		// FORCE DENSITY VECTOR
 		VectorXd q(numEdges);
@@ -3444,7 +3444,7 @@ namespace zSpace
 		//printf("\n Force Densities: \n");
 		//cout << endl << q;
 
-		Diag Q = q.asDiagonal();
+		zDiagonalMatrix Q = q.asDiagonal();
 
 		// LOAD VECTOR
 		VectorXd p(fnResult.numVertices());
@@ -3471,21 +3471,21 @@ namespace zSpace
 
 		}
 
-		SpMat Cn = subMatrix(C, freeVertices);
-		SpMat Cf = subMatrix(C, fixedVertices);
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
 		MatrixXd Xf = subMatrix(Xz, fixedVertices);
 		MatrixXd Pn = subMatrix(P, freeVertices);
 
 		//cout << "Cn: \n" << Cn << endl;
 		//cout << "Cf: \n" << Cf << endl;
 
-		SpMat Cn_transpose;
+		zSparseMatrix Cn_transpose;
 		Cn_transpose = Cn.transpose();
 
 		//CHOLESKY DECOMPOSITION
 
-		SpMat Dn = Cn_transpose * Q * Cn;
-		SpMat Df = Cn_transpose * Q * Cf;
+		zSparseMatrix Dn = Cn_transpose * Q * Cn;
+		zSparseMatrix Df = Cn_transpose * Q * Cf;
 
 		MatrixXd  B = Pn - Df * Xf;
 
@@ -3494,7 +3494,7 @@ namespace zSpace
 
 		if (positiveDensities)
 		{
-			SimplicialLLT< SpMat > solver; // sparse cholesky solver
+			SimplicialLLT< zSparseMatrix > solver; // sparse cholesky solver
 			solver.compute(Dn); // compute cholesky factors
 
 			if (solver.info() != Eigen::Success)
@@ -3584,7 +3584,7 @@ namespace zSpace
 		//cout << endl << Xz;
 
 		// EDGE NODE MATRIX
-		SpMat C = getEdgeNodeMatrix<SpMat>(numEdges);
+		zSparseMatrix C = getEdgeNodeMatrix<zSparseMatrix>(numEdges);
 
 		//printf("\n edgeNode: \n");
 		//cout << endl << C;
@@ -3614,7 +3614,7 @@ namespace zSpace
 		//printf("\n Force Densities: \n");
 		//cout << endl << q;
 
-		Diag Q = q.asDiagonal();
+		zDiagonalMatrix Q = q.asDiagonal();
 
 		// LOAD VECTOR
 		VectorXd p(fnResult.numVertices());
@@ -3643,21 +3643,21 @@ namespace zSpace
 
 		}
 
-		SpMat Cn = subMatrix(C, freeVertices);
-		SpMat Cf = subMatrix(C, fixedVertices);
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
 		MatrixXd Xf = subMatrix(Xz, fixedVertices);
 		MatrixXd Pn = subMatrix(P, freeVertices);
 
 		//cout << "Cn: \n" << Cn << endl;
 		//cout << "Cf: \n" << Cf << endl;
 
-		SpMat Cn_transpose;
+		zSparseMatrix Cn_transpose;
 		Cn_transpose = Cn.transpose();
 
 		//CHOLESKY DECOMPOSITION
 
-		SpMat Dn = Cn_transpose * Q * Cn;
-		SpMat Df = Cn_transpose * Q * Cf;
+		zSparseMatrix Dn = Cn_transpose * Q * Cn;
+		zSparseMatrix Df = Cn_transpose * Q * Cf;
 
 		MatrixXd  B = Pn - Df * Xf;
 
@@ -3668,7 +3668,7 @@ namespace zSpace
 		{
 			
 
-			SimplicialLLT< SpMat > solver; // sparse cholesky solver
+			SimplicialLLT< zSparseMatrix > solver; // sparse cholesky solver
 			solver.compute(Dn); // compute cholesky factors
 
 			if (solver.info() != Eigen::Success)
@@ -3754,7 +3754,7 @@ namespace zSpace
 		};
 
 		// EDGE NODE MATRIX
-		SpMat C = getEdgeNodeMatrix<SpMat>(numEdges);
+		zSparseMatrix C = getEdgeNodeMatrix<zSparseMatrix>(numEdges);
 
 		//printf("\n edgeNode: \n");
 		//cout << endl << C;
@@ -3783,7 +3783,7 @@ namespace zSpace
 		//printf("\n Force Densities: \n");
 		//cout << endl << q;
 
-		Diag Q = q.asDiagonal();
+		zDiagonalMatrix Q = q.asDiagonal();
 
 		
 		// SUB MATRICES
@@ -3799,20 +3799,20 @@ namespace zSpace
 
 		}
 
-		SpMat Cn = subMatrix(C, freeVertices);
-		SpMat Cf = subMatrix(C, fixedVertices);
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
 		MatrixXd Xf = subMatrix(X, fixedVertices);	
 		MatrixXd Xn = subMatrix(X, freeVertices);
 		
 
-		SpMat Cn_transpose;
+		zSparseMatrix Cn_transpose;
 		Cn_transpose = Cn.transpose();
 	
 		
 		//CHOLESKY DECOMPOSITION
 
-		SpMat Dn = Cn_transpose * Q * Cn;
-		SpMat Df = Cn_transpose * Q * Cf;
+		zSparseMatrix Dn = Cn_transpose * Q * Cn;
+		zSparseMatrix Df = Cn_transpose * Q * Cf;
 		
 		MatrixXd  B =Xn - Df * Xf ;
 			   			
@@ -3825,7 +3825,7 @@ namespace zSpace
 		{
 
 
-			SimplicialLLT< SpMat > solver; // sparse cholesky solver
+			SimplicialLLT< zSparseMatrix > solver; // sparse cholesky solver
 			solver.compute(Dn); // compute cholesky factors
 
 			if (solver.info() != Eigen::Success)
