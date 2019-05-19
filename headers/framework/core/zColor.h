@@ -176,8 +176,7 @@ namespace zSpace
 
 		/*! \brief This methods calculates the RGB_A components based on the HSV components of color.
 		*	\since version 0.0.1
-		*/
-		
+		*/		
 		void toRGB()
 		{
 			double      hh, p, q, t, ff;
@@ -195,7 +194,8 @@ namespace zSpace
 			hh = h;
 
 			if (hh >= 360.0) hh = 0.0;
-			hh /= 60.0;
+			if(hh != 0.0) hh /= 60.0;
+			
 			i = (long)hh;
 			ff = hh - i;
 			p = v * (1.0 - s);

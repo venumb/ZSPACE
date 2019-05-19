@@ -867,8 +867,7 @@ namespace zSpace
 				if (meshJSON.halfedges[i][k + 3] != -1) meshObj->mesh.edges[i].setFace(&meshObj->mesh.faces[meshJSON.halfedges[i][k + 3]]);
 
 
-				if (i % 2 == 0) meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i]);
-				else  meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i - 1]);
+				meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i]);				
 
 				meshObj->mesh.edgeActive.push_back(true);
 			}

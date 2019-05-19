@@ -387,8 +387,7 @@ namespace zSpace
 					if (graphJSON.halfedges[i - 1][k + 2] != -1) graphObj->graph.edges[i].setVertex(&graphObj->graph.vertices[graphJSON.halfedges[i - 1][k + 2]]);
 				}
 
-				if (i % 2 == 0) graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i]);
-				else  graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i - 1]);
+				graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i]);				
 
 				graphObj->graph.edgeActive.push_back(true);
 			}

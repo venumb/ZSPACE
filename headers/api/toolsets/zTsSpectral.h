@@ -62,11 +62,16 @@ namespace zSpace
 		/*!	\brief container storing eigen function values.  */
 		vector<double> eigenFunctionValues;
 
+		/*!	\brief color type - zHSV/ zRGB  */
+		zColorType colorType;
+
 		/*!	\brief color domain.  */
 		zDomainColor colorDomain = zDomainColor(zColor(), zColor(1, 1, 1, 1));
 
 		/*!	\brief eigen values domain.  */
 		zDomainDouble eigenDomain = zDomainDouble(0.0, 1.0);
+
+		
 
 		/*!	\brief number of eigen vectors required.  */
 		int n_Eigens;
@@ -335,11 +340,13 @@ namespace zSpace
 		/*! \brief This method sets the color domain.
 		*
 		*	\param		[in]	colDomain		- input color domain.
+		*	\param		[in]	colType			- input color type.
 		*	\since version 0.0.2
 		*/
-		void setColorDomain(zDomainColor &colDomain)
+		void setColorDomain(zDomainColor &colDomain, zColorType colType)
 		{
 			colorDomain = colDomain;
+			colorType = colType;
 		}
 
 		/*! \brief This method sets vertex color of all the vertices based on the eigen function.
@@ -349,15 +356,11 @@ namespace zSpace
 		*/
 		void setVertexColorFromEigen(bool setFaceColor = false)
 		{
-			zColor* cols = fnMesh.getRawVertexColors();
-
-			colorDomain.min.toHSV(); colorDomain.max.toHSV();
+			zColor* cols = fnMesh.getRawVertexColors();			
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
-			{
-				
-				cols[i] = coreUtils.blendColor(eigenFunctionValues[i], eigenDomain, colorDomain, zHSV);
-				
+			{				
+				cols[i] = coreUtils.blendColor(eigenFunctionValues[i], eigenDomain, colorDomain, colorType);				
 			}
 
 			if (setFaceColor) fnMesh.computeFaceColorfromVertexColor();

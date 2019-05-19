@@ -500,6 +500,7 @@ namespace zSpace
 						if (abs(edge_dihedralAngles[i]) > angleThreshold || edge_dihedralAngles[i] == -1)
 						{
 							_edgeIndicies.push_back(mesh.edges[i].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
+							_edgeIndicies.push_back(mesh.edges[i + 1].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
 						}
 					}
 

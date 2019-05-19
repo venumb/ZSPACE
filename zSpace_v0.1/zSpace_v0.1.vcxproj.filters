@@ -269,5 +269,8 @@
     <ClInclude Include="..\headers\api\toolsets\zTsSpectral.h">
       <Filter>Header Files\API\Toolsets\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\framework\core\zQuaternion.h">
+      <Filter>Header Files\FRAMEWORK\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

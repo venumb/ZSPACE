@@ -139,6 +139,7 @@ namespace zSpace
 
 			if (_num_vertices != 0) vertices = new zVertex[max_n_v];
 			if (_num_edges != 0) edges = new zEdge[max_n_e];
+						
 
 			n_v = n_e = 0;
 
