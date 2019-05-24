@@ -125,17 +125,38 @@ namespace zSpace
 			pCD = nullptr;
 			sMin = nullptr;
 		}
-
 		
-		/*! \brief Overloaded constructor.
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.2
+		*	\since version 0.0.1
 		*/
-		zTsSlimeAgent(zVector &_pos, double &_SO, double &_SA, double &_RA, double &_depT, double &_pCD, double &_sMin)
+		~zTsSlimeAgent(){}
+
+
+		//--------------------------
+		//---- CREATE METHOD
+		//--------------------------
+
+		/*! \brief This method creates the agent with the input parameters.
+		*
+		*	\param		[in]	_pos				- start positions of the agent.
+		*	\param		[in]	_SO					- sensor offset.
+		*	\param		[in]	_SA					- sensor angle.
+		*	\param		[in]	_RA					- rotation angle.
+		*	\param		[in]	_depT				- deposition rate.
+		*	\param		[in]	_pCD				- probability of random change in direction.
+		*	\param		[in]	_sMin				- sensitivity threshold.
+		*	\since version 0.0.1
+		*/
+		void create(zVector &_pos, double &_SO, double &_SA, double &_RA, double &_depT, double &_pCD, double &_sMin)
 		{
 			particlesObj.particle = zParticle(_pos, false);
 			fnParticle = zFnParticle(particlesObj);
-					
 
 			tCol = zColor(0, 0, 0, 1);
 			tWeight = 1;
@@ -153,17 +174,6 @@ namespace zSpace
 			pCD = &_pCD;
 			sMin = &_sMin;
 		}
-
-		//--------------------------
-		//---- DESTRUCTOR
-		//--------------------------
-
-		/*! \brief Default destructor.
-		*
-		*	\since version 0.0.1
-		*/
-		~zTsSlimeAgent(){}
-
 		
 		//--------------------------
 		//---- GET METHODS
@@ -275,6 +285,7 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
+	
 		/*! \brief This method returns the direction for the agent based on input values of F, Fr and FL.
 		*
 		*	\param		[in]	a_F					- value of chemA in forward direction.
@@ -715,7 +726,7 @@ namespace zSpace
 			environment.resY = _resY;
 
 		
-			environment.create(_minBB, _maxBB, _resX, _resY, _NR);
+			environment.create(_minBB, _maxBB, _resX, _resY, _NR, true, false);
 
 			environment.chemA.clear();
 			environment.occupied.clear();
@@ -790,16 +801,22 @@ namespace zSpace
 
 				zVector pos = environment.getPosition(rnd);
 				fnPositions.addPosition(pos);
+
+				fnPositions.setColor(i, zColor(1, 1, 1, 1));
 				
 				environment.occupied[rnd] = true;
-			}		
-					   
+			}	
+					 
+			
 			agents.clear();
+			agents.assign(fnPositions.numVertices(), zTsSlimeAgent());
+			
+			zVector* pos = fnPositions.getRawVertexPositions();
 
 			for (int i = 0; i < fnPositions.numVertices(); i++)
-			{
-				agents.push_back(zTsSlimeAgent(pointsObj->pCloud.vertexPositions[i], _SO, _SA, _RA, _depT, _pCD, _sMin));
-
+			{				
+				agents[i].create(pos[i], _SO, _SA, _RA, _depT, _pCD, _sMin);
+				
 				double randX = coreUtils.randomNumber_double(-1, 1);
 				double randY = coreUtils.randomNumber_double(-1, 1);
 
@@ -1069,8 +1086,8 @@ namespace zSpace
 
 			while (!exit)
 			{
-				int rndX = coreUtils.randomNumber(boundaryOffset, environment.resX - boundaryOffset);
-				int rndY = coreUtils.randomNumber(boundaryOffset, environment.resY - boundaryOffset);
+				int rndX = coreUtils.randomNumber(boundaryOffset, environment.resX - boundaryOffset - 1);
+				int rndY = coreUtils.randomNumber(boundaryOffset, environment.resY - boundaryOffset - 1 );
 
 				int id = (rndX * environment.resY) + rndY;
 				if (!environment.occupied[id])
@@ -1127,6 +1144,7 @@ namespace zSpace
 		//--------------------------
 		//---- UTILITY METHODS
 		//--------------------------
+			   
 
 		/*! \brief This method computes the color value of each cell in the environment based on chemical A or agent occupied cells.
 		*
@@ -1136,84 +1154,7 @@ namespace zSpace
 		*/
 		void computeEnvironmentColor(bool dispAgents = false, bool usePercentile = false)
 		{
-			
-
-			if (!dispAgents)
-			{
-				for (int i = 0; i < environment.chemA.size(); i++)
-				{
-					double val;
-
-					if (!usePercentile)
-					{
-						val = coreUtils.ofMap(environment.chemA[i], environment.minA, environment.maxA, 0.0, 1.0);
-						environment.fnMesh.setFaceColor(i,  zColor(val, val, val, 1));
-						
-
-					}
-					
-
-					if (usePercentile)
-					{
-						if (environment.chemA[i] >= 0 && environment.chemA[i] <= environment.maxA)
-						{
-							val = coreUtils.ofMap(environment.chemA[i], 0.0, environment.maxA, 0.5, 1.0);
-							environment.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
-						}
-						else if (environment.chemA[i] > environment.maxA)
-						{
-							val = 1;
-							environment.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
-						}
-						else if (environment.chemA[i] < 0 && environment.chemA[i] >= environment.minA)
-						{
-							val = coreUtils.ofMap(environment.chemA[i], environment.minA, 0.0, 1.0, 0.5);
-
-							environment.fnMesh.setFaceColor(i,  zColor(1 - val, 1 - val, 1 - val, 1));
-						}
-						else
-						{
-							val = 0;
-							environment.fnMesh.setFaceColor(i, zColor(val, val, val, 1));
-						}
-					}
-					
-
-
-				}
-
-				environment.fnMesh.computeVertexColorfromFaceColor();
-
-			}
-
-			else
-			{
-
-				for (int i = 0; i < environment.resX * environment.resY; i++)
-				{
-					environment.fnMesh.setFaceColor(i, zColor(0, 0, 0, 1));
-				}
-
-				for (int i = 0; i < agents.size(); i++)
-				{
-					int outId;
-					zVector cPos = agents[i].fnParticle.getPosition();
-					bool check = environment.getIndex(cPos,outId);
-
-					if (check)
-					{
-						if (!agents[i].fnParticle.getFixed())
-						{
-							if (environment.bRepellants[outId]) agents[i].fnParticle.setFixed(true);
-
-							environment.fnMesh.setFaceColor(outId,  zColor(1, 0, 0, 1));
-						}
-					}
-							
-				}
-
-				environment.fnMesh.computeVertexColorfromFaceColor();
-			}
+			environment.setFieldValues(environment.chemA);			
 		}
 
 

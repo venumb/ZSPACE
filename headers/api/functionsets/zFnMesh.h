@@ -867,7 +867,8 @@ namespace zSpace
 				if (meshJSON.halfedges[i][k + 3] != -1) meshObj->mesh.edges[i].setFace(&meshObj->mesh.faces[meshJSON.halfedges[i][k + 3]]);
 
 
-				meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i]);				
+				 if(i %2 == 0) meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i+1]);
+				 else meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i - 1]);
 
 				meshObj->mesh.edgeActive.push_back(true);
 			}
@@ -918,10 +919,11 @@ namespace zSpace
 			// Edge Attributes
 			meshJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
 
+			meshObj->mesh.edgeColors.clear();
+			meshObj->mesh.edgeWeights.clear();
 			if (meshJSON.halfedgeAttributes.size() == 0)
 			{
-				meshObj->mesh.edgeColors.clear(); 
-				meshObj->mesh.edgeWeights.clear();
+				
 
 				for (int i = 0; i < meshObj->mesh.n_e; i++)
 				{
@@ -929,7 +931,21 @@ namespace zSpace
 					meshObj->mesh.edgeWeights.push_back(1.0);
 				}
 			}
-					
+			else
+			{
+				for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i++)
+				{
+					// color
+					if (meshJSON.halfedgeAttributes[i].size() == 3)
+					{
+						zColor col(meshJSON.halfedgeAttributes[i][0], meshJSON.halfedgeAttributes[i][1], meshJSON.halfedgeAttributes[i][2], 1);
+
+						meshObj->mesh.edgeColors.push_back(col);
+						meshObj->mesh.edgeWeights.push_back(1.0);
+
+					}
+				}
+			}
 
 			// face Attributes
 			meshJSON.faceAttributes = j["FaceAttributes"].get<vector<vector<double>>>();
@@ -973,6 +989,7 @@ namespace zSpace
 				setFaceColor(zColor(0.5, 0.5, 0.5, 1));
 			}
 
+			printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
 
 			// add to maps 
 			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)

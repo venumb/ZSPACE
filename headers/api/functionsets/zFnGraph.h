@@ -386,8 +386,9 @@ namespace zSpace
 				{
 					if (graphJSON.halfedges[i - 1][k + 2] != -1) graphObj->graph.edges[i].setVertex(&graphObj->graph.vertices[graphJSON.halfedges[i - 1][k + 2]]);
 				}
-
-				graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i]);				
+					
+				if (i % 2 == 0) graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i + 1]);
+				else graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i - 1]);
 
 				graphObj->graph.edgeActive.push_back(true);
 			}
@@ -427,19 +428,33 @@ namespace zSpace
 			// Edge Attributes
 			graphJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
 			
+			graphObj->graph.edgeColors.clear();
+			graphObj->graph.edgeWeights.clear();
 			if (graphJSON.halfedgeAttributes.size() == 0)
-			{
-				graphObj->graph.edgeColors.clear();
-				graphObj->graph.edgeWeights.clear();
-
+			{	
 				for (int i = 0; i < graphObj->graph.n_e; i++)
 				{
 					graphObj->graph.edgeColors.push_back(zColor());
 					graphObj->graph.edgeWeights.push_back(1.0);
 				}
 			}
-			
-			printf("\n graphObj->graph: %i %i ", numVertices(), numEdges());
+			else
+			{
+				for (int i = 0; i < graphJSON.halfedgeAttributes.size(); i++)
+				{
+					// color
+					if (graphJSON.halfedgeAttributes[i].size() == 3)
+					{
+						zColor col(graphJSON.halfedgeAttributes[i][0], graphJSON.halfedgeAttributes[i][1], graphJSON.halfedgeAttributes[i][2], 1);
+
+						graphObj->graph.edgeColors.push_back(col);
+						graphObj->graph.edgeWeights.push_back(1.0);
+
+					}
+				}
+			}
+
+			printf("\n graph: %i %i ", numVertices(), numEdges());
 
 			// add to maps 
 			for (int i = 0; i < graphObj->graph.vertexPositions.size(); i++)
