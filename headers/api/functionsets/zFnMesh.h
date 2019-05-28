@@ -787,7 +787,8 @@ namespace zSpace
 			myfile.close();
 
 			
-			
+			printf("\n positions: %i %i ", positions.size(), polyCounts.size());
+
 			meshObj->mesh = zMesh(positions, polyCounts, polyConnects);;
 			printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
 			
@@ -1516,7 +1517,7 @@ namespace zSpace
 		*	\return				bool	- true if on boundary else false.
 		*	\since version 0.0.2
 		*/
-		bool onBoundary(int index, zHEData type = zVertexData)
+		bool onBoundary(int index, zHEData type)
 		{
 			bool out = false;
 
