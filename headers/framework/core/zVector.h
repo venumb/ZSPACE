@@ -117,12 +117,23 @@ namespace  zSpace
 		*	\return				bool	- true if vectors are equal.
 		*	\since version 0.0.1
 		*/		
-		bool operator==(zVector v1)
+		bool operator==(const zVector &v1)
 		{
 			bool out = false;
 			if (x == v1.x && y == v1.y && z == v1.z) out = true;
 
 			return out;
+		}
+
+		/*! \brief This method returns the component value of the current zVector.
+		*
+		*	\param		[in]	index		- index. ( 0 - x component, 1 - y component, 2 - z component).
+		*	\return				double		- value of the component.
+		*	\since version 0.0.1
+		*/
+		double  operator[](int index)
+		{
+			if (index >= 0 && index <= 2)return *vals[index];
 		}
 
 		/*! \brief This operator is used for vector addition.
@@ -131,7 +142,7 @@ namespace  zSpace
 		*	\return				zVector	- resultant vector after the addition.
 		*	\since version 0.0.1
 		*/		
-		zVector operator+(zVector v1)
+		zVector operator+(const zVector &v1)
 		{
 			return zVector(x + v1.x, y + v1.y, z + v1.z);
 		}
@@ -142,7 +153,7 @@ namespace  zSpace
 		*	\return				zVector	- resultant vector after the subtraction.
 		*	\since version 0.0.1
 		*/	
-		zVector operator -(zVector v1)
+		zVector operator -(const zVector &v1)
 		{
 			return zVector(x - v1.x, y - v1.y, z - v1.z);
 		}
@@ -153,7 +164,7 @@ namespace  zSpace
 		*	\return				double	- resultant value after the dot product.
 		*	\since version 0.0.1
 		*/	
-		double operator *(zVector v1)
+		double operator *(const zVector &v1)
 		{
 			return (x * v1.x + y * v1.y + z * v1.z);
 		}
@@ -164,7 +175,7 @@ namespace  zSpace
 		*	\return				zVector	- resultant vector after the cross product.
 		*	\since version 0.0.1
 		*/	
-		zVector operator ^(zVector v1)
+		zVector operator ^(const zVector &v1)
 		{
 			return zVector(y * v1.z - z * v1.y, z*v1.x - x * v1.z, x*v1.y - y * v1.x);
 		}
@@ -196,8 +207,7 @@ namespace  zSpace
 		*	\param		[in]	val		- scalar value to be multiplied with the current vector.
 		*	\return				zVector	- resultant vector after the scalar multiplication.
 		*	\since version 0.0.1
-		*/
-	
+		*/	
 		zVector operator *(double val)
 		{
 			return  zVector(x * val, y * val, z * val);
@@ -221,9 +231,9 @@ namespace  zSpace
 			return this->fromColumnMatrix(outVecMatrix);
 		}
 
-		/*! \brief This operator is used for 4x4 / 3X3 matrix muliplication of a vector.
+		/*! \brief This operator is used for 4x4 matrix muliplication of a vector.
 		*
-		*	\param		[in]	inMatrix	- input 4X4 / 3X3 zMatrixd to be multiplied with the current vector.
+		*	\param		[in]	inMatrix	- input 4X4 zTransform to be multiplied with the current vector.
 		*	\return				zVector		- resultant vector after the matrix multiplication.
 		*	\since version 0.0.1
 		*/
@@ -261,7 +271,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector which is added to the current vector.
 		*	\since version 0.0.1
 		*/		
-		void operator +=(zVector v1)
+		void operator +=(const zVector &v1)
 		{
 			x += v1.x;
 			y += v1.y;
@@ -274,7 +284,7 @@ namespace  zSpace
 		*	\param		[in]	v1		- zVector which is subtacted from the current vector.
 		*	\since version 0.0.1
 		*/	
-		void operator -=(zVector v1)
+		void operator -=(const zVector &v1)
 		{
 			x -= v1.x;
 			y -= v1.y;
@@ -344,7 +354,7 @@ namespace  zSpace
 		*	\return				double		- value of the squared maginute of the vector.
 		*	\since version 0.0.1
 		*/
-		double squareLength()
+		double length2()
 		{
 			return (x*x + y * y + z * z);
 		}
@@ -510,17 +520,6 @@ namespace  zSpace
 
 			if (denom == 0) return 0.0;
 			else return dot / denom;
-		}
-
-		/*! \brief This method returns the component value of the current zVector.
-		*
-		*	\param		[in]	i			- index. ( 0 - x component, 1 - y component, 2 - z component).
-		*	\return				double		- value of the dihedral angle between the vectors.
-		*	\since version 0.0.1
-		*/	
-		double  getComponent(int i)
-		{
-			if (i >= 0 && i<= 2)return *vals[i];		
 		}
 
 		/*! \brief This method gets the components as a array of doubles of the current zVector.

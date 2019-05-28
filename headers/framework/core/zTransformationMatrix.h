@@ -608,6 +608,8 @@ namespace zSpace
 		*/
 		void computeTransform()
 		{
+			Transform.setIdentity();
+
 			zTransform PS = P * S;
 			zTransform PSInverse = PS.inverse();			
 
@@ -622,6 +624,7 @@ namespace zSpace
 		*/
 		void computeR()
 		{
+			R.setIdentity();
 			R = Rx * Ry *Rz;
 		}
 
@@ -631,6 +634,8 @@ namespace zSpace
 		*/
 		void computeRx()
 		{
+			Rx.setIdentity();
+
 			Rx(1, 1) = cos(rotation[0]);
 			Rx(1, 2) = sin(rotation[0]);
 
@@ -645,6 +650,8 @@ namespace zSpace
 		*/
 		void computeRy()
 		{
+			Ry.setIdentity();
+
 			Ry(0, 0) = cos(rotation[1]);
 			Ry(0, 2) = -sin(rotation[1]);
 
@@ -659,6 +666,8 @@ namespace zSpace
 		*/
 		void computeRz()
 		{
+			Rz.setIdentity();
+
 			Rz(0, 0) = cos(rotation[2]);
 			Rz(0, 1) = sin(rotation[2]);
 
@@ -672,6 +681,8 @@ namespace zSpace
 		*/
 		void computeT()
 		{
+			T.setIdentity();
+
 			T(3, 0) = translation[0];
 			T(3, 1) = translation[1];
 			T(3, 2) = translation[2];
@@ -683,6 +694,8 @@ namespace zSpace
 		*/
 		void computeP()
 		{
+			P.setIdentity();
+
 			P(3, 0) = pivot[0];
 			P(3, 1) = pivot[1];
 			P(3, 2) = pivot[2];
@@ -694,6 +707,8 @@ namespace zSpace
 		*/
 		void computeS()
 		{
+			S.setIdentity();
+
 			S(0, 0) = scale[0];
 			S(1, 1) = scale[1];
 			S(2, 2) = scale[2];
@@ -741,8 +756,6 @@ namespace zSpace
 			rotation[0] = rot0[0]; 
 			rotation[1] = rot0[1];
 			rotation[2] = rot0[2];
-
-			//printf("\n %1.2f %1.2f %1.2f ", RAD_TO_DEG* rotation[0], RAD_TO_DEG*rotation[1], RAD_TO_DEG* rotation[2]);
 
 			computeRx(); computeRy(); computeRz();
 		}

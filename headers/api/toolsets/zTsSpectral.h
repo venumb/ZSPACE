@@ -2,6 +2,10 @@
 
 #include <headers/api/functionsets/zFnMesh.h>
 
+#include <depends/spectra/include/Spectra/SymEigsShiftSolver.h>
+#include <depends/spectra/include/Spectra/MatOp/SparseSymShiftSolve.h>
+using namespace Spectra;
+
 namespace zSpace
 {
 
@@ -53,10 +57,13 @@ namespace zSpace
 		vector< vector<int>> vertexRing;
 
 		/*!	\brief matrix to store mesh laplacian weights  */
-		MatrixXd meshLaplacian;
+		zSparseMatrix meshLaplacian;
 
 		/*!	\brief container storing eigen function values.  */
 		vector<double> eigenFunctionValues;
+
+		/*!	\brief color type - zHSV/ zRGB  */
+		zColorType colorType;
 
 		/*!	\brief color domain.  */
 		zDomainColor colorDomain = zDomainColor(zColor(), zColor(1, 1, 1, 1));
@@ -64,6 +71,11 @@ namespace zSpace
 		/*!	\brief eigen values domain.  */
 		zDomainDouble eigenDomain = zDomainDouble(0.0, 1.0);
 
+		
+
+		/*!	\brief number of eigen vectors required.  */
+		int n_Eigens;
+		
 	public:
 
 		//--------------------------
@@ -73,9 +85,11 @@ namespace zSpace
 		/*!	\brief mesh function set  */
 		zFnMesh fnMesh;	
 
-		/*!	\brief eigen solver  */
-		SelfAdjointEigenSolver<MatrixXd> eigensolver;		
+		/*!	\brief Eigen vectors matrix  */		
+		MatrixXd eigenVectors;
 
+		/*!	\brief Eigen values vector  */
+		VectorXd eigenValues;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -96,6 +110,8 @@ namespace zSpace
 		{
 			meshObj = &_meshObj;
 			fnMesh = zFnMesh(_meshObj);
+
+			n_Eigens = fnMesh.numVertices() - 1;
 		}
 
 		//--------------------------
@@ -122,6 +138,7 @@ namespace zSpace
 		{
 			fnMesh.from(path, type, false);		
 			
+			n_Eigens = fnMesh.numVertices() - 1;
 		}
 
 		//--------------------------
@@ -133,27 +150,64 @@ namespace zSpace
 		*
 		*	\details Based on http://mgarland.org/files/papers/ssq.pdf
 		*	\param		[in]	frequency		- input frequency value.		
-		*	\param		[in]	useVertexArea	- uses vertex area for laplcaian weight calculation if true.
+		*	\param		[in]	computeEigenVectors	- cmputes eigen vectors if true.
 		*	\since version 0.0.2
 		*/
-		void computeEigenFunction(double &frequency)
+		double computeEigenFunction(double &frequency, bool &computeEigenVectors)
 		{
 			int n_v = fnMesh.numVertices();
 
-
 			if (meshLaplacian.cols() != n_v)
 			{
+				std::clock_t start;
+				start = std::clock();
+
 				meshLaplacian = fnMesh.getTopologicalLaplacian();
 
-				eigensolver.compute(meshLaplacian);
-				if (eigensolver.info() != Success) abort();
+				printf("\n meshLaplacian: r %i  c %i ", meshLaplacian.rows(), meshLaplacian.cols());
+
+				double t_duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+				std::cout << "\n mesh Laplacian compute: " << t_duration << " seconds";					
+			}
+
+			if (computeEigenVectors)
+			{
+				std::clock_t start;
+				start = std::clock();
+
+				//using spectra
+				SparseSymShiftSolve<double> op(meshLaplacian);
+				SymEigsShiftSolver< double, LARGEST_MAGN, SparseSymShiftSolve<double> > eigs(&op, n_Eigens, n_Eigens + 1, 0.0);
+
+				// Initialize and compute
+				eigs.init();
+				int nconv = eigs.compute();
+
+				double t_duration2 = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+				std::cout << "\n Eigen solve : " << t_duration2 << " seconds";
+
+				// Retrieve results
+				if (eigs.info() == SUCCESSFUL)
+				{
+					eigenVectors = eigs.eigenvectors(nconv);
+					eigenValues = eigs.eigenvalues();
+				}
+				else
+				{
+					cout << "\n Eigen convergence unsuccessful ";
+					return -1.0;
+				}
+
+				printf("\n Eigen num converge %i : eigenVectors r %i  c %i ", nconv, eigenVectors.rows(), eigenVectors.cols());
+
+				computeEigenVectors = !computeEigenVectors;
 			}
 
 
-			int val = (int) frequency;
-			if (val >= n_v) val = (int)frequency % n_v;
+			if (eigenVectors.rows() != n_v) return -1.0;
 
-			
+			int val = (int) frequency;
+			if (val >= n_Eigens) val = (int)frequency % n_Eigens;			
 
 			// compute derivatives
 			zDomainDouble inDomain;			
@@ -169,8 +223,7 @@ namespace zSpace
 
 			for (int i = 0; i < n_v; i++)
 			{
-				
-				double matVal = eigensolver.eigenvectors().col(val).row(i).value();
+				double matVal = eigenVectors.col(val).row(i).value();			
 
 				double EigenFunctionRegular = matVal;
 
@@ -178,6 +231,8 @@ namespace zSpace
 			}
 
 			setVertexColorFromEigen(true);
+
+			return eigenValues[val];
 		}
 
 		/*! \brief This method computes the vertex type.
@@ -270,14 +325,28 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
+		/*! \brief This method sets the number of eigens to be requested. The value is capped to number of vertices in the mesh , if the input value is higher.
+		*
+		*	\param		[in]	_numEigen		- input number of eigens. 
+		*	\since version 0.0.2
+		*/
+		void setNumEigens( int _numEigen)
+		{
+			n_Eigens = _numEigen;
+
+			if (_numEigen >= fnMesh.numVertices()) n_Eigens = fnMesh.numVertices() - 1;
+		}
+
 		/*! \brief This method sets the color domain.
 		*
 		*	\param		[in]	colDomain		- input color domain.
+		*	\param		[in]	colType			- input color type.
 		*	\since version 0.0.2
 		*/
-		void setColorDomain(zDomainColor &colDomain)
+		void setColorDomain(zDomainColor &colDomain, zColorType colType)
 		{
 			colorDomain = colDomain;
+			colorType = colType;
 		}
 
 		/*! \brief This method sets vertex color of all the vertices based on the eigen function.
@@ -287,15 +356,11 @@ namespace zSpace
 		*/
 		void setVertexColorFromEigen(bool setFaceColor = false)
 		{
-			zColor* cols = fnMesh.getRawVertexColors();
-
-			colorDomain.min.toHSV(); colorDomain.max.toHSV();
+			zColor* cols = fnMesh.getRawVertexColors();			
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
-			{
-				
-				cols[i] = coreUtils.blendColor(eigenFunctionValues[i], eigenDomain, colorDomain, zHSV);
-				
+			{				
+				cols[i] = coreUtils.blendColor(eigenFunctionValues[i], eigenDomain, colorDomain, colorType);				
 			}
 
 			if (setFaceColor) fnMesh.computeFaceColorfromVertexColor();
@@ -305,6 +370,16 @@ namespace zSpace
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
+
+		/*! \brief This method gets the number of eigens.
+		*
+		*	\return			int		-  number of eigens.
+		*	\since version 0.0.2
+		*/
+		int numEigens()
+		{
+			return n_Eigens;
+		}
 
 		/*! \brief This method gets the current function values.
 		*
@@ -347,7 +422,7 @@ namespace zSpace
 			
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
-				double matVal = eigensolver.eigenvectors().col(colIndex).row(i).value();
+				double matVal = eigenVectors.col(colIndex).row(i).value();			
 
 				if (matVal < inDomain.min) inDomain.min = matVal;
 				if (matVal > inDomain.max) inDomain.max = matVal;

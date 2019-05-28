@@ -5,6 +5,7 @@
 #include <headers/framework/core/zColor.h>
 #include <headers/framework/core/zMatrix.h>
 #include <headers/framework/core/zTransformationMatrix.h>
+#include <headers/framework/core/zQuaternion.h>
 #include <headers/framework/core/zDomain.h>
 
 #include<headers/framework/utilities/zUtilsPointerMethods.h>
@@ -218,7 +219,7 @@ namespace zSpace
 		T ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax)
 		{
 			return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
-		}
+		}		
 
 		/*! \brief This method maps the input value from the input domain to output domain.
 		*
@@ -233,6 +234,23 @@ namespace zSpace
 		T ofMap(T value, zDomain<T> inDomain, zDomain<T> outDomain)
 		{
 			return ofMap(value, inDomain.min, inDomain.max, outDomain.min, outDomain.max);
+		}
+
+		/*! \brief This method clamps the input value to the input domain.
+		*
+		*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	value			- input value to be mapped.
+		*	\param		[in]	inputMin		- input domain minimum.
+		*	\param		[in]	inputMax		- input domain maximum.
+		*	\return				double			- clamped value.
+		*	\since version 0.0.1
+		*/
+		template <typename T>
+		T ofClamp(T value, T inputMin, T inputMax)
+		{
+			if (value > inputMax) return inputMax;
+			else if (value < inputMin) return inputMin;
+			else return value;
 		}
 
 		/*! \brief This method returns the minimum of the two input values.
@@ -1394,7 +1412,7 @@ namespace zSpace
 					float val = 0;
 					for (int k = 0; k < points.size(); k++)
 					{
-						val += (points[k].getComponent(i) - averagePt.getComponent(i)) * (points[k].getComponent(j) - averagePt.getComponent(j));
+						val += (points[k][i] - averagePt[i]) * (points[k][j] - averagePt[j]);
 					}
 
 					if (val > 0.001) val /= (points.size() - 1);
@@ -1587,7 +1605,7 @@ namespace zSpace
 		{
 			zColor out;
 
-			if (type = zRGB)
+			if (type == zRGB)
 			{
 				out.r = (c2.r + c1.r)	* 0.5;
 				out.g = (c2.g + c1.g)	* 0.5;
@@ -1599,7 +1617,7 @@ namespace zSpace
 
 			}
 
-			if (type = zHSV)
+			if (type == zHSV)
 			{
 				out.h = (c2.h + c1.h)	* 0.5;
 				out.s = (c2.s + c1.s)	* 0.5;
@@ -1624,7 +1642,7 @@ namespace zSpace
 		{
 			zColor out;
 
-			if (type = zRGB)
+			if (type == zRGB)
 			{
 				for (int i = 0; i < c1.size(); i++)
 				{
@@ -1645,7 +1663,7 @@ namespace zSpace
 
 			}
 
-			if (type = zHSV)
+			if (type == zHSV)
 			{
 				for (int i = 0; i < c1.size(); i++)
 				{
@@ -1681,23 +1699,56 @@ namespace zSpace
 		{
 			zColor out;
 
-			if (type = zRGB)
+			if (type == zRGB)
 			{
-				out.r = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.r, outDomain.max.r);
-				out.g = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.g, outDomain.max.g);
-				out.b = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.b, outDomain.max.b);
+				
+				if (inDomain.min == inDomain.max)
+				{
+					out.r = outDomain.min.r;
+					out.g = outDomain.min.g;
+					out.b = outDomain.min.b;
+					out.a = outDomain.min.a;
+				}
+				else
+				{
+					if (outDomain.min.r == outDomain.max.r)out.r = outDomain.min.r;
+					else out.r = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.r, outDomain.max.r);
 
-				out.a = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.a, outDomain.max.a);
+					if (outDomain.min.g == outDomain.max.g)out.g = outDomain.min.g;
+					else out.g = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.g, outDomain.max.g);
 
+					if (outDomain.min.b == outDomain.max.b)out.b = outDomain.min.b;
+					else out.b = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.b, outDomain.max.b);
+
+					if (outDomain.min.a == outDomain.max.a)out.a = outDomain.min.a;
+					else out.a = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.a, outDomain.max.a);
+				}				
+				
 				out.toHSV();
 
 			}
 
-			if (type = zHSV)
+			if (type == zHSV)
 			{
-				out.h = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.h, outDomain.max.h);
-				out.s = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.s, outDomain.max.s);
-				out.v = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.v, outDomain.max.v);
+				
+				if (inDomain.min == inDomain.max)
+				{
+					out.h = outDomain.min.h;
+					out.s = outDomain.min.s;
+					out.v = outDomain.min.v;
+				}
+				else
+				{
+					if(outDomain.min.h == outDomain.max.h)out.h = outDomain.min.h;
+					else out.h = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.h, outDomain.max.h);
+
+					if (outDomain.min.s == outDomain.max.s)out.s = outDomain.min.s;
+					else out.s = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.s, outDomain.max.s);
+
+					if (outDomain.min.v == outDomain.max.v)out.v = outDomain.min.v;					
+					else out.v = ofMap(inputValue, inDomain.min, inDomain.max, outDomain.min.v, outDomain.max.v);
+				}
+
 
 				out.toRGB();
 			}

@@ -877,8 +877,8 @@ namespace zSpace
 		*/
 		void getPositions(vector<zVector> &positions)
 		{
-			if (setValuesperVertex) 	positions =  fnMesh.getVertexPositions();
-			else positions =  fnMesh.getCenters(zFaceData);
+			if (setValuesperVertex) 	fnMesh.getVertexPositions(positions);
+			else fnMesh.getCenters(zFaceData, positions);
 		}
 
 		/*! \brief This method gets the position of the field at the input index.
@@ -2038,52 +2038,116 @@ namespace zSpace
 		//----  2D SD FIELD METHODS
 		//--------------------------
 
-		/*! \brief This method gets the signed distance scalar for the input line.
+		/*! \brief This method gets the scalars for a circle.
 		*
 		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	cen				- centre of the circle.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	r				- radius value.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getScalars_Circle(vector<double> &scalars, zVector &cen, float r, double annularVal = 0, bool normalise = true)
+		{
+			scalars.clear();
+			scalars.assign(fnMesh.numVertices(), 0.0);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				if (annularVal == 0) scalars[i] = getScalar_Circle(cen, meshPositions[i], r);
+				else scalars[i] = abs(getScalar_Circle(cen, meshPositions[i], r) - annularVal);
+			}
+
+			if (normalise) normliseValues(scalars);
+		}
+
+		/*! \brief This method gets the scalars for a line.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	p				- input field point.
 		*	\param	[in]	v0				- input positions 0 of line.
 		*	\param	[in]	v1				- input positions 1 of line.
-		*	\return			double			- scalar value.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		double getScalar_sdLine(zVector& p, zVector& v0, zVector& v1)
+		void getScalars_Line(vector<double> &scalars, zVector &v0, zVector &v1, double annularVal = 0, bool normalise = true)
 		{
-			zVector pa = p - v0;
-			zVector ba = v1 - v0;
+			scalars.clear();
+			scalars.assign(fnMesh.numVertices(), 0.0);
 
-			float h = coreUtils.ofClamp((pa* ba) / (ba* ba), 0.0, 1.0);
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
 
-			zVector out = pa - (ba*h);
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				if (annularVal == 0) scalars[i] = getScalar_Line(meshPositions[i], v0, v1);
+				else scalars[i] = abs(getScalar_Line(meshPositions[i], v0, v1) - annularVal);
+			}
 
-
-			return (out.length());
-
+			if (normalise) normliseValues(scalars);
 		}
 
-		/*! \brief This method gets the signed distance scalar for the input line.
+		/*! \brief This method gets the scalars for a square.
 		*
 		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	p				- input field point.
-		*	\param	[in]	v0				- input positions 0 of line.
-		*	\param	[in]	v1				- input positions 1 of line.
-		*	\return			double			- scalar value.
+		*	\param	[in]	dimension		- input square dimensions.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		double getScalar_sdTrapezoid(zVector& p, float& r1, float& r2, float &he, zVector &cen = zVector())
+		void getScalars_Square(vector<double> &scalars, zVector &dimensions, double annularVal = 0, bool normalise = true)
 		{
-			/*zVector k1(r2, he, 0);
-			zVector ba = b - v1;
+			scalars.clear();
+			scalars.assign(fnMesh.numVertices(), 0.0);
 
-			float h = coreUtils.ofClamp((pa* ba) / (ba* ba), 0.0, 1.0);
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
 
-			zVector out = pa - (ba*h);
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				zVector p = meshPositions[i];
+				if (annularVal == 0) scalars[i] = getScalar_Square(p, dimensions);
+				else scalars[i] = abs(getScalar_Square(p, dimensions) - annularVal);
+			}
 
-
-			return (out.length());*/
-
+			if (normalise) normliseValues(scalars);
 		}
-				
+
+		/*! \brief This method gets the scalars for a trapezoid.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	r1				- input distance 1 value.
+		*	\param	[in]	r2				- input distance 2 value.
+		*	\param	[in]	he				- input height value.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getScalars_Trapezoid(vector<double> &scalars, double r1, double r2, double he, double annularVal = 0, bool normalise = true)
+		{
+			scalars.clear();
+			scalars.assign(fnMesh.numVertices(), 0.0);
+
+			zVector *meshPositions = fnMesh.getRawVertexPositions();
+
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				zVector p = meshPositions[i];
+				if (annularVal == 0) scalars[i] = getScalar_Trapezoid(p, r1, r2, he);
+				else scalars[i] = abs(getScalar_Trapezoid(p, r1, r2, he) - annularVal);
+			}
+
+			if (normalise) normliseValues(scalars);
+		}
+
+						
 
 		//--------------------------
 		//--- COMPUTE METHODS 
@@ -2556,6 +2620,89 @@ namespace zSpace
 		//---- PROTECTED METHODS
 		//--------------------------
 	protected:
+
+		/*! \brief This method gets the scalar for the input point.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[in]	cen				- centre of the circle.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	r				- radius value.
+		*	\return			double			- scalar value.
+		*	\since version 0.0.2
+		*/
+		double getScalar_Circle(zVector &cen, zVector &p, float r)
+		{
+			return ((p - cen).length() - r);
+		}
+
+		/*! \brief This method gets the scalar for the input line.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	v0				- input positions 0 of line.
+		*	\param	[in]	v1				- input positions 1 of line.
+		*	\return			double			- scalar value.
+		*	\since version 0.0.2
+		*/
+		double getScalar_Line(zVector &p, zVector &v0, zVector &v1)
+		{
+			zVector pa = p - v0;
+			zVector ba = v1 - v0;
+
+			float h = coreUtils.ofClamp((pa* ba) / (ba* ba), 0.0, 1.0);
+
+			zVector out = pa - (ba*h);
+
+
+			return (out.length());
+		}
+
+		/*! \brief This method gets the sqaure scalar for the input point.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	dimention		- input distance.
+		*	\since version 0.0.2
+		*/
+		double getScalar_Square(zVector &p, zVector &dimensions)
+		{
+			p.x = abs(p.x); p.y = abs(p.y); p.z = abs(p.z);
+
+			zVector out;
+			out.x = coreUtils.zMax<double>(coreUtils.zMax<double>(p.x - dimensions.x, 0), coreUtils.zMax<double>(p.y - dimensions.y, 0));
+			out.y = 0;
+			out.z = 0;
+
+			return(out.length());
+		}
+
+		/*! \brief This method gets the scalar for a trapezoid.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	r1				- input distance 1 value.
+		*	\param	[in]	r2				- input distance 2 value.
+		*	\param	[in]	he				- input height value.
+		*	\return			double			- scalar value.
+		*	\since version 0.0.2
+		*/
+		double getScalar_Trapezoid(zVector &p, double &r1, double &r2, double &he)
+		{
+			zVector k1 = zVector(r2, he, 0);
+			zVector k2 = zVector((r2 - r1), (2.0 * he), 0);
+
+			p.x = abs(p.x);
+			zVector ca = zVector(p.x - coreUtils.zMin(p.x, (p.y < 0.0) ? r1 : r2), abs(p.y) - he, 0.0);
+			zVector cb = p - k1 + k2 * coreUtils.ofClamp(((k1 - p) * k2) / (k2*k2), 0.0, 1.0);
+
+			double s = (cb.x < 0.0 && ca.y < 0.0) ? -1.0 : 1.0;
+
+			double out = s * sqrt(coreUtils.zMin((ca * ca), (cb * cb)));
+
+			return out;
+		}
+
 
 		/*! \brief This method gets the isoline case based on the input vertex binary values.
 		*

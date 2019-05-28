@@ -386,9 +386,9 @@ namespace zSpace
 				{
 					if (graphJSON.halfedges[i - 1][k + 2] != -1) graphObj->graph.edges[i].setVertex(&graphObj->graph.vertices[graphJSON.halfedges[i - 1][k + 2]]);
 				}
-
-				if (i % 2 == 0) graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i]);
-				else  graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i - 1]);
+					
+				if (i % 2 == 0) graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i + 1]);
+				else graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i - 1]);
 
 				graphObj->graph.edgeActive.push_back(true);
 			}
@@ -428,19 +428,33 @@ namespace zSpace
 			// Edge Attributes
 			graphJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
 			
+			graphObj->graph.edgeColors.clear();
+			graphObj->graph.edgeWeights.clear();
 			if (graphJSON.halfedgeAttributes.size() == 0)
-			{
-				graphObj->graph.edgeColors.clear();
-				graphObj->graph.edgeWeights.clear();
-
+			{	
 				for (int i = 0; i < graphObj->graph.n_e; i++)
 				{
 					graphObj->graph.edgeColors.push_back(zColor());
 					graphObj->graph.edgeWeights.push_back(1.0);
 				}
 			}
-			
-			printf("\n graphObj->graph: %i %i ", numVertices(), numEdges());
+			else
+			{
+				for (int i = 0; i < graphJSON.halfedgeAttributes.size(); i++)
+				{
+					// color
+					if (graphJSON.halfedgeAttributes[i].size() == 3)
+					{
+						zColor col(graphJSON.halfedgeAttributes[i][0], graphJSON.halfedgeAttributes[i][1], graphJSON.halfedgeAttributes[i][2], 1);
+
+						graphObj->graph.edgeColors.push_back(col);
+						graphObj->graph.edgeWeights.push_back(1.0);
+
+					}
+				}
+			}
+
+			printf("\n graph: %i %i ", numVertices(), numEdges());
 
 			// add to maps 
 			for (int i = 0; i < graphObj->graph.vertexPositions.size(); i++)
@@ -2163,6 +2177,149 @@ namespace zSpace
 		}
 
 		
+		//--------------------------
+		//---- TRANSFORM METHODS OVERRIDES
+		//--------------------------
+
+		virtual void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override
+		{
+			if (updatePositions)
+			{
+				zTransformationMatrix to;
+				to.setTransform(inTransform, decompose);
+
+				zTransform transMat = graphObj->transformationMatrix.getToMatrix(to);
+				transformObject(transMat);
+
+				graphObj->transformationMatrix.setTransform(inTransform);
+
+				// update pivot values of object transformation matrix
+				zVector p = graphObj->transformationMatrix.getPivot();
+				p = p * transMat;
+				setPivot(p);
+
+			}
+			else
+			{
+				graphObj->transformationMatrix.setTransform(inTransform, decompose);
+
+				zVector p = graphObj->transformationMatrix.getO();
+				setPivot(p);
+
+			}
+
+		}
+
+		virtual void setScale(double3 &scale) override
+		{
+			// get  inverse pivot translations
+			zTransform invScalemat = graphObj->transformationMatrix.asInverseScaleTransformMatrix();
+
+			// set scale values of object transformation matrix
+			graphObj->transformationMatrix.setScale(scale);
+
+			// get new scale transformation matrix
+			zTransform scaleMat = graphObj->transformationMatrix.asScaleTransformMatrix();
+
+			// compute total transformation
+			zTransform transMat = invScalemat * scaleMat;
+
+			// transform object
+			transformObject(transMat);
+		}
+
+		virtual void setRotation(double3 &rotation, bool appendRotations = false) override
+		{
+			// get pivot translation and inverse pivot translations
+			zTransform pivotTransMat = graphObj->transformationMatrix.asPivotTranslationMatrix();
+			zTransform invPivotTransMat = graphObj->transformationMatrix.asInversePivotTranslationMatrix();
+
+			// get plane to plane transformation
+			zTransformationMatrix to = graphObj->transformationMatrix;
+			to.setRotation(rotation, appendRotations);
+			zTransform toMat = graphObj->transformationMatrix.getToMatrix(to);
+
+			// compute total transformation
+			zTransform transMat = invPivotTransMat * toMat * pivotTransMat;
+
+			// transform object
+			transformObject(transMat);
+
+			// set rotation values of object transformation matrix
+			graphObj->transformationMatrix.setRotation(rotation, appendRotations);;
+		}
+
+
+		virtual void setTranslation(zVector &translation, bool appendTranslations = false) override
+		{
+			// get vector as double3
+			double3 t;
+			translation.getComponents(t);
+
+			// get pivot translation and inverse pivot translations
+			zTransform pivotTransMat = graphObj->transformationMatrix.asPivotTranslationMatrix();
+			zTransform invPivotTransMat = graphObj->transformationMatrix.asInversePivotTranslationMatrix();
+
+			// get plane to plane transformation
+			zTransformationMatrix to = graphObj->transformationMatrix;
+			to.setTranslation(t, appendTranslations);
+			zTransform toMat = graphObj->transformationMatrix.getToMatrix(to);
+
+			// compute total transformation
+			zTransform transMat = invPivotTransMat * toMat * pivotTransMat;
+
+			// transform object
+			transformObject(transMat);
+
+			// set translation values of object transformation matrix
+			graphObj->transformationMatrix.setTranslation(t, appendTranslations);;
+
+			// update pivot values of object transformation matrix
+			zVector p = graphObj->transformationMatrix.getPivot();
+			p = p * transMat;
+			setPivot(p);
+
+		}
+
+		virtual void setPivot(zVector &pivot) override
+		{
+			// get vector as double3
+			double3 p;
+			pivot.getComponents(p);
+
+			// set pivot values of object transformation matrix
+			graphObj->transformationMatrix.setPivot(p);
+		}
+
+		virtual void getTransform(zTransform &transform) override
+		{
+			transform = graphObj->transformationMatrix.asMatrix();
+		}
+
+
+	protected:
+
+		//--------------------------
+		//---- PROTECTED OVERRIDE METHODS
+		//--------------------------	
+
+
+		virtual void transformObject(zTransform &transform) override
+		{
+
+			if (numVertices() == 0) return;
+
+
+			zVector* pos = getRawVertexPositions();
+
+			for (int i = 0; i < numVertices(); i++)
+			{
+
+				zVector newPos = pos[i] * transform;
+				pos[i] = newPos;
+			}
+
+		}
 
 	};
 

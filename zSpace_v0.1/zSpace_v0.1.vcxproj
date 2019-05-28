@@ -83,6 +83,7 @@
     <ClInclude Include="..\headers\framework\core\zDomain.h" />
     <ClInclude Include="..\headers\framework\core\zEnumerators.h" />
     <ClInclude Include="..\headers\framework\core\zMatrix.h" />
+    <ClInclude Include="..\headers\framework\core\zQuaternion.h" />
     <ClInclude Include="..\headers\framework\core\zTransformationMatrix.h" />
     <ClInclude Include="..\headers\framework\core\zVector.h" />
     <ClInclude Include="..\headers\framework\data\zDatabase.h" />
@@ -286,7 +287,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Depends;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

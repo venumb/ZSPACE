@@ -1132,26 +1132,26 @@ namespace zSpace
 	*/	
 	typedef Eigen::Matrix4d zTransform;
 
-	/*! \typedef SpMat
+	/*! \typedef zSparseMatrix
 	*	\brief A  Eigen library column-major sparse matrix type of double.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::SparseMatrix<double> SpMat; 
+	typedef Eigen::SparseMatrix<double> zSparseMatrix; 
 
-	/*! \typedef Tri
+	/*! \typedef zTriplet
 	*	\brief A  Eigen library triplet of double.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::Triplet<double> Tri;
+	typedef Eigen::Triplet<double> zTriplet;
 
-	/*! \typedef Diag
+	/*! \typedef zDiagonalMatrix
 	*	\brief A  Eigen library diagonal matrix of double.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> Diag;
+	typedef DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> zDiagonalMatrix;
 	
 	//typedef zMatrix<double> zTransform;
 	
