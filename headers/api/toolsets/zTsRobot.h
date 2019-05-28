@@ -1314,7 +1314,6 @@ namespace zSpace
 				myfile << "S=" << to_string(robot_gCode[i].vel) << ",";
 
 				myfile << "H=3, MS, CONF=0001" << endl;
-
 			}
 
 			//close file
