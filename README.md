@@ -4,7 +4,7 @@ zSpace is a C++  header-only  collection of geometry data-structures, algorithms
 - [Used third-party dependcencies](#used-third-party-dependencies)
 
 
-#used-third-party-dependencies
+# used-third-party-dependencies
 The library itself consists of header only files licensed under the MIT license. 
 
 However, it has some dependencies on third-party tools and services, which have different licensing. Thanks a lot!
