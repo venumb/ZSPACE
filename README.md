@@ -8,8 +8,6 @@
 
 # License
 
-<img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
-
 The library is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 
