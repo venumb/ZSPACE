@@ -4,19 +4,18 @@
 **ZSPACE** is a C++  library collection of geometry data-structures, algorithms and city data visualization framework. It is implemented as a header-only C++ library, whose dependencies, are header-only or static libraries. Hence **ZSPACE** can be easily embedded in C++ projects. 
 
 - [License](#license)
-- [Used third-party dependcencies](#used-third-party-dependencies)
+- [Third party dependcencies](#used-third-party-dependencies)
 
-## License
+# License
 
 <img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
 
 The library is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
 
-# used-third-party-dependencies
-The library itself consists of header only files licensed under the MIT license. 
-
-However, it has some dependencies on third-party tools and services, which have different licensing. Thanks a lot!
+# Third party dependencies
+The library has some dependencies on third-party tools and services, which have different licensing as listed below.
+Thanks a lot!
 
 - [**OPENGL**](https://www.opengl.org/about/) for display methods. End users, independent software vendors, and others writing code based on the OpenGL API are free from licensing requirements.
 
