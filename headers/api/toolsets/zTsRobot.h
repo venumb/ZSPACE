@@ -549,8 +549,7 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_EE.json");
-					fnMeshJoints[8].from(path, type, true);
-				
+					fnMeshJoints[7].from(path, type, false);
 
 				}		
 
@@ -586,7 +585,7 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_EE.obj");
-					fnMeshJoints[8].from(path, type, true);
+					fnMeshJoints[7].from(path, type);
 					
 				}
 
@@ -611,9 +610,40 @@ namespace zSpace
 			if (type == zTXT)
 			{
 				fromTXT(infilename);
-
-				cout << robotTargets[robotTargets.size() - 1];
 			}
+		}
+
+		/*! \brief This method create a new target from input position and rotations vectors.
+		*
+		*	\param [in]		_position		- target position.
+		*	\param [in]		_rotationX		- target X rotation axis.
+		*	\param [in]		_rotationY		- target Y rotation axis.
+		*	\param [in]		_rotationZ		- target Z rotation axis.
+		*	\since version 0.0.2
+		*/
+		void addTarget(zVector& _position, zVector& _rotationX, zVector& _rotationY, zVector _rotationZ)
+		{
+			zTransform target;
+
+			target.setIdentity();
+
+			target(0, 0) = _rotationX.x;
+			target(0, 1) = _rotationX.y;
+			target(0, 2) = _rotationX.z;
+
+			target(1, 0) = _rotationY.x;
+			target(1, 1) = _rotationY.y;
+			target(1, 2) = _rotationY.z;
+
+			target(2, 0) = _rotationZ.x;
+			target(2, 1) = _rotationZ.y;
+			target(2, 2) = _rotationZ.z;
+
+			target(3, 0) = _position.x;
+			target(3, 1) = _position.y;
+			target(3, 2) = _position.z;
+
+			robotTargets.push_back(target);
 		}
 
 		//--------------------------
@@ -673,7 +703,6 @@ namespace zSpace
 		zVector forwardKinematics(zRobotRotationType rotType = zJoint)
 		{
 			zVector out;
-
 
 			if (rotType != zJoint)
 			{
@@ -826,7 +855,6 @@ namespace zSpace
 			
 			for (int i = 0; i < DOF; i++)
 			{
-				
 				robotMesh_transforms[i] = robotJointTransforms[i].transpose();			
 
 				fnMeshJoints[i + 1].setTransform(robotMesh_transforms[i],false, updatePositions);				
@@ -854,7 +882,7 @@ namespace zSpace
 			inGCode.vel = velocity;
 			inGCode.moveType = moveType;
 			inGCode.endEffectorControl = endEffectorControl;
-
+			
 			zTransform TCP = robotJointTransforms[DOF - 1] * robot_endEffector_matrix;
 
 			inGCode.robotTCP_position = zVector(TCP(0, 3), TCP(1, 3), TCP(2, 3));
@@ -867,19 +895,19 @@ namespace zSpace
 
 			for (int i = 0; i < DOF; i++)
 			{
-				if (robot_gCode.size() > 0 && i == 3)
-				{
-					int numGPoints = robot_gCode.size() - 1;
-					bool prevRot = (robot_gCode[numGPoints].rotations[i].rotation >= 0) ? true : false;
+				//if (robot_gCode.size() > 0 && i == 3)
+				//{
+				//	int numGPoints = robot_gCode.size() - 1;
+				//	bool prevRot = (robot_gCode[numGPoints].rotations[i].rotation >= 0) ? true : false;
 
-					bool currentRot = (jointRotations[i].rotation >= 0) ? true : false;
+				//	bool currentRot = (jointRotations[i].rotation >= 0) ? true : false;
 
-					if (prevRot != currentRot)
-					{
-						if (prevRot) jointRotations[i].rotation += 360;
-						else jointRotations[i].rotation -= 360;
-					}
-				}
+				//	if (prevRot != currentRot)
+				//	{
+				//		if (prevRot) jointRotations[i].rotation += 360;
+				//		else jointRotations[i].rotation -= 360;
+				//	}
+				//}
 
 				inGCode.rotations.push_back(jointRotations[i]);
 
@@ -903,10 +931,14 @@ namespace zSpace
 				filename.append("/ABB_GCode.prg");
 				toABBGcode(filename);
 			}
+
+			if (type == zRobotNachi)
+			{
+				string filename = directoryPath;
+				filename.append("/MZ07-01-A.080");
+				toNACHI_MZ07Gcode(filename);
+			}
 		}
-
-
-		
 
 
 	protected:
@@ -1234,6 +1266,64 @@ namespace zSpace
 
 			//close file
 			myfile.close();
+		}
+
+		/*! \brief This method exports robot gcode for a NACHI MZ07 robot.
+		*
+		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\since version 0.0.2
+		*/
+		void toNACHI_MZ07Gcode(string infilename)
+		{
+			printf("\n----------- writing \n ");
+
+			ofstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return;
+			}
+
+			//for (int i = 0; i < robot_gCode.size(); i++)
+			//{
+			//	if (!robot_gCode[i].targetReached)
+			//	{
+			//		cout << " some or all points out of range" << endl;
+
+			//		cout << "--------------------------- EXPORT GCODE ----------------- " << endl;
+			//		cout << "Ensure you have inspected robot reach at all points previously " << endl;
+			//		cout << "un-reachable points revert to previous reach-able points" << endl;
+
+			//		return;
+			//	}
+			//}
+
+			for (int i = 0; i < robot_gCode.size(); i++)
+			{
+				myfile << "MOVEX A=6, AC=0, SM=0, M1J, P,";
+
+				myfile << "(";
+
+				for (int j = 0; j < DOF; j++)
+				{
+					myfile << to_string((robot_gCode[i].rotations[j].rotation + robot_gCode[i].rotations[j].offset) * robot_gCode[i].rotations[j].mask);
+
+					if (j < DOF - 1) myfile << ",";
+				}
+
+				myfile << "),";
+
+				myfile << "S=" << to_string(robot_gCode[i].vel) << ",";
+
+				myfile << "H=3, MS, CONF=0001" << endl;
+			}
+
+			//close file
+			myfile.close();
+
+			printf("\nG-CODE Exported Succesfully\n ");
 		}
 	};
 
