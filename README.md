@@ -1,4 +1,4 @@
-# zSpace
+# ZSPACE
 zSpace is a C++  header-only  collection of geometry data-structures, algorithms and city data visualization framework.
 
 - [Used third-party dependcencies](#used-third-party-dependencies)
