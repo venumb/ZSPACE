@@ -6,6 +6,8 @@
 #include<headers/api/functionsets/zFn.h>
 #include<headers/api/functionsets/zFnMesh.h>
 
+#include<headers/api/iterators/zItGraph.h>
+
 namespace zSpace
 {
 	/** \addtogroup API
@@ -39,17 +41,17 @@ namespace zSpace
 		{
 			graphObj->graph.staticGeometry = true;
 
-			vector<vector<zVector>> edgePositions;
+			vector<vector<int>> edgeVerts;
 
-			for (int i = 0; i < numEdges(); i++)
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
 			{
-				vector<zVector> vPositions;
-				getVertexPositions(i, zEdgeData, vPositions);
+				vector<int> verts;
+				e.getVertices(verts);
 
-				edgePositions.push_back(vPositions);
+				edgeVerts.push_back(verts);
 			}
 
-			graphObj->graph.setStaticEdgePositions(edgePositions);			
+			graphObj->graph.setStaticEdgeVertices(edgeVerts);
 		}
 
 	protected:
@@ -70,159 +72,67 @@ namespace zSpace
 		*	\param		[in]	type			- zVertexData or zEdgeData .
 		*	\since version 0.0.2
 		*/
-		void removeInactive(zHEData type = zVertexData)
+		void removeInactive(zHEData type)
 		{
 			//  Vertex
 			if (type == zVertexData)
 			{
+				zItVertex v = graphObj->graph.vertices.begin();
 
-				zVertex *resized = new zVertex[graphObj->graph.max_n_v];
-
-				int vertexActiveID = 0;
-				int numOrginalVertexActive = graphObj->graph.vertexActive.size();
-
-				for (int i = 0; i < numVertices(); i++)
+				while (v != graphObj->graph.vertices.end())
 				{
+					bool active = v->isActive();
 
-					while (!graphObj->graph.vertexActive[i])
+					if (!active)
 					{
-						graphObj->graph.vertexActive.erase(graphObj->graph.vertexActive.begin() + i);
+						graphObj->graph.vertices.erase(v++);
 
-						graphObj->graph.vertexPositions.erase(graphObj->graph.vertexPositions.begin() + i);
-
-						graphObj->graph.vertexColors.erase(graphObj->graph.vertexColors.begin() + i);
-
-						vertexActiveID++;
+						graphObj->graph.n_v--;
 					}
-
-					resized[i].setVertexId(i);
-
-
-					// get connected edges and repoint their pointers
-					if (vertexActiveID < numOrginalVertexActive)
-					{
-						vector<int> cEdges;
-						getConnectedEdges(vertexActiveID, zVertexData, cEdges);
-
-						for (int j = 0; j < cEdges.size(); j++)
-						{
-							graphObj->graph.edges[cEdges[j]].getSym()->setVertex(&resized[i]);
-						}
-
-
-						resized[i].setEdge(&graphObj->graph.edges[graphObj->graph.vertices[vertexActiveID].getEdge()->getEdgeId()]);
-
-						graphObj->graph.edges[graphObj->graph.vertices[vertexActiveID].getEdge()->getEdgeId()].getSym()->setVertex(&resized[i]);
-					}
-
-
-					vertexActiveID++;
-
 				}
-
-				//printf("\n m: %i %i ", numVertices(), vertexActive.size());
-
-
-				delete[] graphObj->graph.vertices;
-
-				graphObj->graph.vertices = resized;
+			
+				graphObj->graph.indexElements(zVertexData);
 
 				printf("\n removed inactive vertices. ");
 
 			}
 
 			//  Edge
-			else if (type == zEdgeData) {
+			else if (type == zEdgeData || type == zHalfEdgeData)
+			{
 
-				zEdge *resized = new zEdge[graphObj->graph.max_n_e];
+				zItHalfEdge he = graphObj->graph.halfEdges.begin();
 
-				int edgeActiveID = 0;
-				int numOrginalEdgeActive = graphObj->graph.edgeActive.size();
-
-				int inactiveCounter = 0;
-
-				// clear vertices edge map
-				graphObj->graph.verticesEdge.clear();
-
-
-				for (int i = 0; i < numEdges(); i += 2)
+				while (he != graphObj->graph.halfEdges.end())
 				{
+					bool active = he->isActive();
 
-					while (!graphObj->graph.edgeActive[i])
+					if (!active)
 					{
-						graphObj->graph.edgeActive.erase(graphObj->graph.edgeActive.begin() + i);
-						edgeActiveID++;
+						graphObj->graph.halfEdges.erase(he++);
+
+						graphObj->graph.n_he--;
 					}
-
-
-					resized[i].setEdgeId(i);
-					resized[i + 1].setEdgeId(i + 1);
-
-					// get connected edges and repoint their pointers
-					if (edgeActiveID < numOrginalEdgeActive)
-					{
-
-
-						resized[i].setSym(&resized[i + 1]);
-
-						if (graphObj->graph.edges[edgeActiveID].getNext())
-						{
-							resized[i].setNext(&resized[graphObj->graph.edges[edgeActiveID].getNext()->getEdgeId()]);
-
-							graphObj->graph.edges[edgeActiveID].getNext()->setPrev(&resized[i]);
-						}
-						if (graphObj->graph.edges[edgeActiveID].getPrev())
-						{
-							resized[i].setPrev(&resized[graphObj->graph.edges[edgeActiveID].getPrev()->getEdgeId()]);
-
-							graphObj->graph.edges[edgeActiveID].getPrev()->setNext(&resized[i]);
-						}
-
-
-						if (graphObj->graph.edges[edgeActiveID].getVertex()) resized[i].setVertex(&graphObj->graph.vertices[graphObj->graph.edges[edgeActiveID].getVertex()->getVertexId()]);
-						graphObj->graph.vertices[graphObj->graph.edges[edgeActiveID].getVertex()->getVertexId()].setEdge(resized[i].getSym());
-
-
-						//sym edge
-						if (graphObj->graph.edges[edgeActiveID + 1].getNext())
-						{
-							resized[i + 1].setNext(&resized[graphObj->graph.edges[edgeActiveID + 1].getNext()->getEdgeId()]);
-
-							graphObj->graph.edges[edgeActiveID + 1].getNext()->setPrev(&resized[i + 1]);
-
-						}
-						if (graphObj->graph.edges[edgeActiveID + 1].getPrev())
-						{
-							resized[i + 1].setPrev(&resized[graphObj->graph.edges[edgeActiveID + 1].getPrev()->getEdgeId()]);
-
-							graphObj->graph.edges[edgeActiveID + 1].getPrev()->setNext(&resized[i + 1]);
-						}
-
-						if (graphObj->graph.edges[edgeActiveID + 1].getVertex()) resized[i + 1].setVertex(&graphObj->graph.vertices[graphObj->graph.edges[edgeActiveID + 1].getVertex()->getVertexId()]);
-						graphObj->graph.vertices[graphObj->graph.edges[edgeActiveID + 1].getVertex()->getVertexId()].setEdge(resized[i + 1].getSym());
-
-
-
-						// rebuild vertices edge map
-						int v2 = resized[i].getVertex()->getVertexId();
-						int v1 = resized[i + 1].getVertex()->getVertexId();
-
-						graphObj->graph.addToVerticesEdge(v1, v2, i);
-
-
-
-					}
-
-					edgeActiveID += 2;
-
 				}
 
-				//printf("\n m: %i %i ", numEdges(), edgeActive.size());
+				zItEdge e = graphObj->graph.edges.begin();
 
-				delete[] graphObj->graph.edges;
-				graphObj->graph.edges = resized;
+				while (e != graphObj->graph.edges.end())
+				{
+					bool active = e->isActive();
+
+					if (!active)
+					{
+						graphObj->graph.edges.erase(e++);
+
+						graphObj->graph.n_e--;
+					}
+				}
 
 				printf("\n removed inactive edges. ");
+
+				graphObj->graph.indexElements(zHalfEdgeData);
+				graphObj->graph.indexElements(zEdgeData);
 
 			}
 
@@ -237,9 +147,10 @@ namespace zSpace
 		*
 		*	\param [in]		inGraph				- graph created from the txt file.
 		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\return 		bool			- true if the file was read succesfully.
 		*	\since version 0.0.2
 		*/
-		void fromTXT(string infilename)
+		bool fromTXT(string infilename)
 		{
 			vector<zVector>positions;
 			vector<int>edgeConnects;
@@ -251,7 +162,7 @@ namespace zSpace
 			if (myfile.fail())
 			{
 				cout << " error in opening file  " << infilename.c_str() << endl;
-				return;
+				return false;
 
 			}
 
@@ -298,7 +209,7 @@ namespace zSpace
 			myfile.close();
 
 
-			if (!planarGraph) graphObj->graph = zGraph(positions, edgeConnects);;
+			if (!planarGraph) graphObj->graph.create(positions, edgeConnects);;
 			if (planarGraph)
 			{
 				graphNormal.normalize();
@@ -306,20 +217,21 @@ namespace zSpace
 				zVector x(1, 0, 0);
 				zVector sortRef = graphNormal ^ x;
 
-				graphObj->graph = zGraph(positions, edgeConnects, graphNormal, sortRef);
+				graphObj->graph.create(positions, edgeConnects, graphNormal, sortRef);
 			}
 			printf("\n graphObj->graph: %i %i ", numVertices(), numEdges());
 
-
+			return true;
 		}
 
 		/*! \brief This method imports zGraph from a JSON file format using JSON Modern Library.
 		*
 		*	\param [in]		inGraph				- graph created from the JSON file.
 		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\return 		bool			- true if the file was read succesfully.
 		*	\since version 0.0.2
 		*/
-		void fromJSON(string infilename)
+		bool fromJSON(string infilename)
 		{
 			json j;
 			zUtilsJsonHE graphJSON;
@@ -333,7 +245,7 @@ namespace zSpace
 			if (in_myfile.fail())
 			{
 				cout << " error in opening file  " << infilename.c_str() << endl;
-				return;
+				return false;
 			}
 
 			in_myfile >> j;
@@ -349,51 +261,109 @@ namespace zSpace
 			graphJSON.halfedges.clear();
 			graphJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
 
-
+			graphObj->graph.edges.clear();
 
 			// update  graph
 
-			graphObj->graph.vertices = new zVertex[graphJSON.vertices.size() * 2];
-			graphObj->graph.edges = new zEdge[graphJSON.halfedges.size() * 2];
+			graphObj->graph.clear();
 
+			graphObj->graph.vertices.assign(graphJSON.vertices.size(), zVertex());
+			graphObj->graph.halfEdges.assign(graphJSON.halfedges.size(), zHalfEdge());
+			graphObj->graph.edges.assign(floor(graphJSON.halfedges.size()*0.5), zEdge());
+			
+			graphObj->graph.vHandles.assign(graphJSON.vertices.size(), zVertexHandle());
+			graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size()*0.5), zEdgeHandle());
+			graphObj->graph.heHandles.assign(graphJSON.halfedges.size(), zHalfEdgeHandle());
 
-			graphObj->graph.setNumVertices(graphJSON.vertices.size());
-			graphObj->graph.setNumEdges(floor(graphJSON.halfedges.size()));
-
-
-			graphObj->graph.vertexActive.clear();
-			for (int i = 0; i < graphJSON.vertices.size(); i++)
+			int n_v = 0; 
+			for (zItGraphVertex v(*graphObj); !v.end(); v.next())
 			{
-				graphObj->graph.vertices[i].setVertexId(i);
-				if (graphJSON.vertices[i] != -1) graphObj->graph.vertices[i].setEdge(&graphObj->graph.edges[graphJSON.vertices[i]]);
+				v.setId(n_v);			
 
-				graphObj->graph.vertexActive.push_back(true);
-			}
-
-			int k = 0;
-			graphObj->graph.edgeActive.clear();
-			for (int i = 0; i < graphJSON.halfedges.size(); i++)
-			{
-				graphObj->graph.edges[i].setEdgeId(i);
-
-				if (graphJSON.halfedges[i][k] != -1) 	graphObj->graph.edges[i].setPrev(&graphObj->graph.edges[graphJSON.halfedges[i][k]]);
-				if (graphJSON.halfedges[i][k + 1] != -1) graphObj->graph.edges[i].setNext(&graphObj->graph.edges[graphJSON.halfedges[i][k + 1]]);
-				if (i % 2 == 0)
+				if (graphJSON.vertices[n_v] != -1)
 				{
-					if (graphJSON.halfedges[i + 1][k + 2] != -1) graphObj->graph.edges[i].setVertex(&graphObj->graph.vertices[graphJSON.halfedges[i + 1][k + 2]]);
+					zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]);;
+					v.setHalfEdge(e);
+
+					graphObj->graph.vHandles[n_v].he = graphJSON.vertices[n_v];
+				}
+
+
+
+				n_v++;
+			}
+			graphObj->graph.setNumVertices(n_v);
+		
+			int n_he = 0;
+			int n_e = 0;
+
+			for (zItGraphHalfEdge he(*graphObj); !he.end(); he.next())
+			{
+
+				// Half Edge
+				he.setId(n_he);
+
+				if (graphJSON.halfedges[n_he][0] != -1)
+				{
+					zItGraphHalfEdge e(*graphObj, graphJSON.halfedges[n_he][0]);
+					he.setPrev(e);
+
+					graphObj->graph.heHandles[n_he].p = graphJSON.halfedges[n_he][0];
+				}
+
+				if (graphJSON.halfedges[n_he][1] != -1)
+				{
+					zItGraphHalfEdge e(*graphObj, graphJSON.halfedges[n_he][1]);
+					he.setNext(e);
+
+					graphObj->graph.heHandles[n_he].n = graphJSON.halfedges[n_he][1];
+				}
+
+				if (graphJSON.halfedges[n_he][2] != -1)
+				{
+					zItGraphVertex v(*graphObj, graphJSON.halfedges[n_he][2]);
+					he.setVertex(v);
+
+					graphObj->graph.heHandles[n_he].v = graphJSON.halfedges[n_he][2];
+				}
+
+			
+
+				// symmetry half edges
+				if (n_he % 2 == 0)
+				{
+					zItGraphHalfEdge e(*graphObj, n_he + 1);
+					he.setSym(e);
 				}
 				else
 				{
-					if (graphJSON.halfedges[i - 1][k + 2] != -1) graphObj->graph.edges[i].setVertex(&graphObj->graph.vertices[graphJSON.halfedges[i - 1][k + 2]]);
+					zItGraphHalfEdge e(*graphObj, n_he - 1);
+					he.setSym(e);
 				}
-					
-				if (i % 2 == 0) graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i + 1]);
-				else graphObj->graph.edges[i].setSym(&graphObj->graph.edges[i - 1]);
 
-				graphObj->graph.edgeActive.push_back(true);
+
+				// Edge
+				if (n_he % 2 == 1)
+				{
+					zItGraphEdge e(*graphObj, n_e);
+
+					zItGraphHalfEdge heSym = he.getSym();
+
+					e.setHalfEdge(heSym, 0);
+					e.setHalfEdge(he, 1);								   				
+
+					graphObj->graph.heHandles[n_he].e = n_e;
+
+					n_e++;
+				}
+
+				n_he++;
+
 			}
 
+			graphObj->graph.setNumEdges(n_e);
 
+			
 
 			// Vertex Attributes
 			graphJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
@@ -440,7 +410,7 @@ namespace zSpace
 			}
 			else
 			{
-				for (int i = 0; i < graphJSON.halfedgeAttributes.size(); i++)
+				for (int i = 0; i < graphJSON.halfedgeAttributes.size(); i+=2)
 				{
 					// color
 					if (graphJSON.halfedgeAttributes[i].size() == 3)
@@ -454,6 +424,8 @@ namespace zSpace
 				}
 			}
 
+		
+
 			printf("\n graph: %i %i ", numVertices(), numEdges());
 
 			// add to maps 
@@ -463,14 +435,16 @@ namespace zSpace
 			}
 
 
-			for (int i = 0; i < numEdges(); i += 2)
+			
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
 			{
-				int v1 = graphObj->graph.edges[i].getVertex()->getVertexId();
-				int v2 = graphObj->graph.edges[i + 1].getVertex()->getVertexId();
+				int v1 = e.getHalfEdge(0).getVertex().getId();
+				int v2 = e.getHalfEdge(1).getVertex().getId();
 
-				graphObj->graph.addToVerticesEdge(v1, v2, i);
+				graphObj->graph.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());
 			}
 
+			return true;
 
 		}
 
@@ -484,8 +458,8 @@ namespace zSpace
 		void toTXT(string outfilename)
 		{
 			// remove inactive elements
-			if (numVertices() != graphObj->graph.vertexActive.size()) removeInactiveElements(zVertexData);
-			if (numEdges() != graphObj->graph.edgeActive.size()) removeInactiveElements(zEdgeData);
+			if (numVertices() != graphObj->graph.vertices.size()) removeInactiveElements(zVertexData);
+			if (numEdges() != graphObj->graph.edges.size()) removeInactiveElements(zEdgeData);
 
 
 			// output file
@@ -502,27 +476,26 @@ namespace zSpace
 			myfile << "\n ";
 
 			// vertex positions
-			for (int i = 0; i < graphObj->graph.vertexActive.size(); i++)
+			for (auto &vPos : graphObj->graph.vertexPositions)
 			{
-				if (!graphObj->graph.vertexActive[i]) continue;
-
-				myfile << "\n v " << graphObj->graph.vertexPositions[i].x << " " << graphObj->graph.vertexPositions[i].y << " " << graphObj->graph.vertexPositions[i].z;
+				
+				myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
 
 			}
 
 			myfile << "\n ";
 
 			// edge connectivity
-			for (int i = 0; i < graphObj->graph.edgeActive.size(); i += 2)
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
 			{
-				if (!graphObj->graph.edgeActive[i]) continue;
+				int v1 = e.getHalfEdge(0).getVertex().getId();
+				int v2 = e.getHalfEdge(1).getVertex().getId();
 
 				myfile << "\n e ";
 
-				myfile << graphObj->graph.edges[i].getVertex()->getVertexId() << " ";
-				myfile << graphObj->graph.edges[i].getVertex()->getVertexId();
-
-			}
+				myfile << v1 << " ";
+				myfile << v2;
+			}			
 
 			myfile << "\n ";
 
@@ -541,8 +514,8 @@ namespace zSpace
 		void toJSON(string outfilename)
 		{
 			// remove inactive elements
-			if (numVertices() != graphObj->graph.vertexActive.size()) removeInactiveElements(zVertexData);
-			if (numEdges() != graphObj->graph.edgeActive.size()) removeInactiveElements(zEdgeData);
+			if (numVertices() != graphObj->graph.vertices.size()) removeInactiveElements(zVertexData);
+			if (numEdges() != graphObj->graph.edges.size()) removeInactiveElements(zEdgeData);
 
 
 			// output file
@@ -552,24 +525,25 @@ namespace zSpace
 			// create json
 
 			// Vertices
-			for (int i = 0; i < numVertices(); i++)
+			for (zItGraphVertex v(*graphObj); !v.end(); v.next())
 			{
-				if (graphObj->graph.vertices[i].getEdge()) graphJSON.vertices.push_back(graphObj->graph.vertices[i].getEdge()->getEdgeId());
+				if (v.getHalfEdge().isActive()) graphJSON.vertices.push_back(v.getHalfEdge().getId());
 				else graphJSON.vertices.push_back(-1);
+
 			}
 
 			//Edges
-			for (int i = 0; i < numEdges(); i++)
+			for (zItGraphHalfEdge he(*graphObj); !he.end(); he.next())
 			{
 				vector<int> HE_edges;
 
-				if (graphObj->graph.edges[i].getPrev()) HE_edges.push_back(graphObj->graph.edges[i].getPrev()->getEdgeId());
+				if (he.getPrev().isActive()) HE_edges.push_back(he.getPrev().getId());
 				else HE_edges.push_back(-1);
 
-				if (graphObj->graph.edges[i].getNext()) HE_edges.push_back(graphObj->graph.edges[i].getNext()->getEdgeId());
+				if (he.getNext().isActive()) HE_edges.push_back(he.getNext().getId());
 				else HE_edges.push_back(-1);
 
-				if (graphObj->graph.edges[i].getVertex()) HE_edges.push_back(graphObj->graph.edges[i].getVertex()->getVertexId());
+				if (he.getVertex().isActive()) HE_edges.push_back(he.getVertex().getId());
 				else HE_edges.push_back(-1);
 
 				graphJSON.halfedges.push_back(HE_edges);
@@ -701,32 +675,7 @@ namespace zSpace
 
 		void clear() override
 		{
-			if (graphObj->graph.vertices != NULL)
-			{
-				delete[] graphObj->graph.vertices;
-				graphObj->graph.vertices = NULL;
-
-				graphObj->graph.vertexActive.clear();
-				graphObj->graph.vertexPositions.clear();
-				graphObj->graph.vertexColors.clear();
-				graphObj->graph.vertexWeights.clear();
-
-				graphObj->graph.positionVertex.clear();
-				graphObj->graph.verticesEdge.clear();
-
-			}
-
-			if (graphObj->graph.edges != NULL)
-			{
-				delete[] graphObj->graph.edges;
-				graphObj->graph.edges = NULL;
-
-				graphObj->graph.edgeActive.clear();
-				graphObj->graph.edgeColors.clear();
-				graphObj->graph.edgeWeights.clear();
-			}
-
-			graphObj->graph.n_v = graphObj->graph.n_e = 0;
+			graphObj->graph.clear();				
 		}
 
 		//--------------------------
@@ -742,7 +691,7 @@ namespace zSpace
 		*/
 		void create(vector<zVector>(&_positions), vector<int>(&edgeConnects), bool staticGraph = false)
 		{
-			graphObj->graph = zGraph(_positions, edgeConnects);
+			graphObj->graph.create(_positions, edgeConnects);
 
 			if (staticGraph) setStaticContainers();
 		}
@@ -763,20 +712,20 @@ namespace zSpace
 			zVector x(1, 0, 0);
 			zVector sortRef = graphNormal ^ x;
 
-			graphObj->graph = zGraph(_positions, edgeConnects, graphNormal, sortRef);
+			graphObj->graph.create(_positions, edgeConnects, graphNormal, sortRef);
 
 			if (staticGraph) setStaticContainers();
 		}
 
 		/*! \brief This method creates a graph from a mesh.
 		*
-		*	\param		[in]	meshObj			- input mesh object.	
+		*	\param		[in]	graphObj			- input mesh object.	
 		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
 		*	\since version 0.0.2
 		*/
-		void createFromMesh(zObjMesh &meshObj, bool staticGraph = false)
+		void createFromMesh(zObjMesh &graphObj, bool staticGraph = false)
 		{
-			zFnMesh fnMesh(meshObj);
+			zFnMesh fnMesh(graphObj);
 
 			vector<int>edgeConnects;
 			vector<zVector> vertexPositions;
@@ -795,7 +744,7 @@ namespace zSpace
 		//--- TOPOLOGY QUERY METHODS 
 		//--------------------------
 
-		/*! \brief This method returns the number of vertices in the graph or mesh.
+		/*! \brief This method returns the number of vertices in the graph.
 		*	\return				number of vertices.
 		*	\since version 0.0.2
 		*/
@@ -804,7 +753,7 @@ namespace zSpace
 			return graphObj->graph.n_v;
 		}
 
-		/*! \brief This method returns the number of half edges in the graph or mesh.
+		/*! \brief This method returns the number of edges in the graph.
 		*	\return				number of edges.
 		*	\since version 0.0.2
 		*/
@@ -813,435 +762,41 @@ namespace zSpace
 			return graphObj->graph.n_e;
 		}
 
+		/*! \brief This method returns the number of half edges in the graph .
+		*	\return				number of half edges.
+		*	\since version 0.0.2
+		*/
+		int numHalfEdges()
+		{
+			return graphObj->graph.n_he;
+		}
+
 		/*! \brief This method detemines if a vertex already exists at the input position
 		*
 		*	\param		[in]		pos			- position to be checked.
 		*	\param		[out]		outVertexId	- stores vertexId if the vertex exists else it is -1.
+		*	\param		[in]		precisionfactor	- input precision factor.
 		*	\return		[out]		bool		- true if vertex exists else false.
 		*	\since version 0.0.2
 		*/
-		bool vertexExists(zVector pos, int &outVertexId)
-		{
-			bool out = false;;
-
-			double factor = pow(10, 3);
-			double x = round(pos.x *factor) / factor;
-			double y = round(pos.y *factor) / factor;
-			double z = round(pos.z *factor) / factor;
-
-			string hashKey = (to_string(x) + "," + to_string(y) + "," + to_string(z));
-			std::unordered_map<std::string, int>::const_iterator got = graphObj->graph.positionVertex.find(hashKey);
-
-
-			if (got != graphObj->graph.positionVertex.end())
-			{
-				out = true;
-				outVertexId = got->second;
-			}
-
-
-			return out;
+		bool vertexExists(zVector pos, int &outVertexId, int precisionfactor = 6)
+		{		
+			return graphObj->graph.vertexExists(pos, outVertexId, precisionfactor);
 		}
 	
 		/*! \brief This method detemines if an edge already exists between input vertices.
 		*
 		*	\param		[in]	v1			- vertexId 1.
 		*	\param		[in]	v2			- vertexId 2.
-		*	\param		[out]	outEdgeId	- stores edgeId if the edge exists else it is -1.
+		*	\param		[out]	outHalfEdge	- stores halfedgeId if the vertex exists else it is -1.
 		*	\return		[out]	bool		- true if edge exists else false.
 		*	\since version 0.0.2
 		*/
-		bool edgeExists(int v1, int v2, int &outEdgeId)
-		{
+		bool halfEdgeExists(int v1, int v2, int &outHalfEdge)
+		{			
 
-			bool out = false;
-
-			string hashKey = (to_string(v1) + "," + to_string(v2));
-			std::unordered_map<std::string, int>::const_iterator got = graphObj->graph.verticesEdge.find(hashKey);
-
-
-			if (got != graphObj->graph.verticesEdge.end())
-			{
-				out = true;
-				outEdgeId = got->second;
-			}
-
-			return out;
+			return graphObj->graph.halfEdgeExists(v1,v2, outHalfEdge);
 		}
-
-		/*! \brief This method gets the edges connected to input zVertex or zEdge.
-		*
-		*	\param		[in]	index			- index in the vertex/edge list.
-		*	\param		[in]	type			- zVertexData or zEdgeData.
-		*	\param		[out]	edgeIndicies	- vector of edge indicies.
-		*	\since version 0.0.2
-		*/
-		void getConnectedEdges(int index, zHEData type, vector<int>& edgeIndicies)
-		{
-			edgeIndicies.clear();
-
-			//  Vertex 
-			if (type == zVertexData)
-			{
-				if (graphObj->graph.vertices[index].getEdge())
-				{
-					zEdge* start = graphObj->graph.vertices[index].getEdge();
-					zEdge* e = start;
-
-					bool exit = false;
-
-					do
-					{
-						edgeIndicies.push_back(e->getEdgeId());
-
-						//printf("\n %i %i ", e->getEdgeId(), start->getEdgeId());
-
-						if (e->getPrev())
-						{
-							if (e->getPrev()->getSym()) e = e->getPrev()->getSym();
-							else exit = true;
-						}
-						else exit = true;
-
-					} while (e != start && !exit);
-				}
-			}
-
-			//  Edge
-			else if (type == zEdgeData)
-			{
-				vector<int> connectedEdgestoVert0;
-				getConnectedEdges(graphObj->graph.edges[index].getVertex()->getVertexId(), zVertexData, connectedEdgestoVert0);
-
-				vector<int> connectedEdgestoVert1;
-				getConnectedEdges(graphObj->graph.edges[index].getSym()->getVertex()->getVertexId(), zVertexData, connectedEdgestoVert1);
-
-				for (int i = 0; i < connectedEdgestoVert0.size(); i++)
-				{
-					if (connectedEdgestoVert0[i] != index) edgeIndicies.push_back(connectedEdgestoVert0[i]);
-				}
-
-
-				for (int i = 0; i < connectedEdgestoVert1.size(); i++)
-				{
-					if (connectedEdgestoVert1[i] != index) edgeIndicies.push_back(connectedEdgestoVert1[i]);
-				}
-			}
-
-			else  throw std::invalid_argument(" error: invalid zHEData type");
-			
-		}
-
-		/*! \brief This method gets the vertices connected to input zVertex.
-		*
-		*	\param		[in]	index			- index in the vertex list.
-		*	\param		[in]	type			- zVertexData.
-		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
-		*	\since version 0.0.2
-		*/
-		void getConnectedVertices(int index, zHEData type, vector<int>& vertexIndicies)
-		{
-			vertexIndicies.clear();
-
-			// Vertex
-			if (type == zVertexData)
-			{
-
-				vector<int> connectedEdges;
-				getConnectedEdges(index, type, connectedEdges);
-
-				for (int i = 0; i < connectedEdges.size(); i++)
-				{
-					vertexIndicies.push_back(graphObj->graph.edges[connectedEdges[i]].getVertex()->getVertexId());
-				}
-
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		
-		}
-
-		/*!	\brief This method gets the vertices attached to input zEdge.
-		*
-		*	\param		[in]	index			- index in the edge list.
-		*	\param		[in]	type			- zEdgeData.
-		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
-		*	\since version 0.0.2
-		*/
-		void getVertices(int index, zHEData type, vector<int>& vertexIndicies)
-		{
-			vertexIndicies.clear();
-
-			//  Edge
-			if (type == zEdgeData)
-			{
-				vertexIndicies.push_back(graphObj->graph.edges[index].getVertex()->getVertexId());
-				vertexIndicies.push_back(graphObj->graph.edges[index].getSym()->getVertex()->getVertexId());
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			
-		}
-
-		/*!	\brief This method gets the vertex positions attached to input zEdge or zFace.
-		*
-		*	\param		[in]	index			- index in the edge container.
-		*	\param		[in]	type			- zEdgeData.
-		*	\param		[out]	vertPositions	- vector of vertex positions.
-		*	\since version 0.0.2
-		*/
-		void getVertexPositions(int index, zHEData type, vector<zVector> &vertPositions)
-		{
-			vertPositions.clear();
-
-			// Edge
-			if (type == zEdgeData)
-			{
-
-				vector<int> eVerts;
-
-				getVertices(index, type, eVerts);
-
-				for (int i = 0; i < eVerts.size(); i++)
-				{
-					vertPositions.push_back(graphObj->graph.vertexPositions[eVerts[i]]);
-				}
-
-			}			
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-		}
-
-		/*!	\brief This method calculate the valency of the input zVertex.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- valency of input vertex input valence.
-		*	\since version 0.0.2
-		*/
-		int getVertexValence(int index)
-		{
-			int out;
-
-			vector<int> connectedEdges;
-			getConnectedEdges(index, zVertexData, connectedEdges);
-
-			out = connectedEdges.size();
-
-			return out;
-		}
-
-		/*!	\brief This method determines if input zVertex valency is equal to the input valence number.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\param		[in]	valence	- input valence value.
-		*	\return				bool	- true if valency is equal to input valence.
-		*	\since version 0.0.2
-		*/
-		bool checkVertexValency(int index, int valence = 1)
-		{
-			bool out = false;
-			out = (getVertexValence(index) == valence) ? true : false;
-
-
-			return out;
-		}
-
-		
-
-		//--------------------------
-		//--- HALF EDGE QUERY METHODS 
-		//--------------------------
-
-		/*!	\brief This method return the next edge of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				zEdge	- pointer to next edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getNext(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.edges[index].getNext();
-		}
-
-		/*!	\brief This method return the next edge index of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- index of next edge if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getNextIndex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (graphObj->graph.edges[index].getNext()) return graphObj->graph.edges[index].getNext()->getEdgeId();
-			else return -1;
-		}
-
-		/*!	\brief This method return the previous edge of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				zEdge	- pointer to previous edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getPrev(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.edges[index].getPrev();
-		}
-
-		/*!	\brief This method return the previous edge index of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- index of previous edge if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getPrevIndex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (graphObj->graph.edges[index].getPrev()) return graphObj->graph.edges[index].getPrev()->getEdgeId();
-			else return -1;
-		}
-
-		/*!	\brief This method return the symmetry edge of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				zEdge	- pointer to symmetry edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getSym(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.edges[index].getSym();
-		}
-
-		/*!	\brief This method return the symmetry edge index of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- index of symmetry edge.
-		*	\since version 0.0.2
-		*/
-		int getSymIndex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.edges[index].getSym()->getEdgeId();
-		}
-
-
-		/*!	\brief This method return the vertex pointed by the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.2
-		*/
-		zVertex* getEndVertex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.edges[index].getVertex();
-		}
-
-		/*!	\brief This method return the vertex pointed by the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getEndVertexIndex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (graphObj->graph.edges[index].getVertex()) return graphObj->graph.edges[index].getVertex()->getVertexId();
-			else return -1;
-		}
-
-		/*!	\brief This method return the vertex pointed by the symmetry of input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.2
-		*/
-		zVertex* getStartVertex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return getSym(index)->getVertex();
-		}
-
-		/*!	\brief This method return the vertex pointed by the symmetry of input indexed edge.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getStartVertexIndex(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (getSym(index)->getVertex()) return getSym(index)->getVertex()->getVertexId();
-			else return -1;
-		}
-
-		/*!	\brief This method return the edge attached to the input indexed vertex.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\param		[in]	type	- zVertexData .
-		*	\return				zEdge	- pointer to edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getEdge(int index, zHEData type)
-		{
-			if (type = zVertexData)
-			{
-				if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return graphObj->graph.vertices[index].getEdge();
-			}
-			
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-		}
-
-		/*!	\brief This method return the index of the edge attached to the input indexed vertex.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\param		[in]	type	- zVertexData.
-		*	\return				int		- index of edge.
-		*	\since version 0.0.2
-		*/
-		int getEdgeIndex(int index, zHEData type)
-		{
-			if (type = zVertexData)
-			{
-				if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return graphObj->graph.vertices[index].getEdge()->getEdgeId();
-			}
-		
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		}
-
 		
 
 		//--------------------------
@@ -1255,12 +810,12 @@ namespace zSpace
 		void computeEdgeColorfromVertexColor()
 		{
 
-			for (int i = 0; i < graphObj->graph.edgeActive.size(); i += 2)
+			for(zItGraphEdge e(*graphObj); !e.end();e.next())
 			{
-				if (graphObj->graph.edgeActive[i])
+				if (e.isActive())
 				{
-					int v0 = graphObj->graph.edges[i].getVertex()->getVertexId();
-					int v1 = graphObj->graph.edges[i + 1].getVertex()->getVertexId();
+					int v0 = e.getHalfEdge(0).getVertex().getId();
+					int v1 = e.getHalfEdge(1).getVertex().getId();
 
 					zColor col;
 					col.r = (graphObj->graph.vertexColors[v0].r + graphObj->graph.vertexColors[v1].r) * 0.5;
@@ -1268,17 +823,14 @@ namespace zSpace
 					col.b = (graphObj->graph.vertexColors[v0].b + graphObj->graph.vertexColors[v1].b) * 0.5;
 					col.a = (graphObj->graph.vertexColors[v0].a + graphObj->graph.vertexColors[v1].a) * 0.5;
 
-					if (graphObj->graph.edgeColors.size() <= i) graphObj->graph.edgeColors.push_back(col);
-					else graphObj->graph.edgeColors[i] = col;
+					if (graphObj->graph.edgeColors.size() <= e.getId()) graphObj->graph.edgeColors.push_back(col);
+					else graphObj->graph.edgeColors[e.getId()] = col;
 
-					if (graphObj->graph.edgeColors.size() <= i + 1) graphObj->graph.edgeColors.push_back(col);
-					else graphObj->graph.edgeColors[i + 1] = col;
+					
 				}
 				
 
 			}
-
-
 
 		}
 
@@ -1287,13 +839,13 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void computeVertexColorfromEdgeColor()
-		{
-			for (int i = 0; i < graphObj->graph.vertexActive.size(); i++)
+		{		
+			for (zItGraphVertex v(*graphObj); !v.end(); v.next())			
 			{
-				if (graphObj->graph.vertexActive[i])
+				if (v.isActive())
 				{
 					vector<int> cEdges;
-					getConnectedEdges(i, zVertexData, cEdges);
+					v.getConnectedHalfEdges(cEdges);
 
 					zColor col;
 					for (int j = 0; j < cEdges.size(); j++)
@@ -1305,7 +857,7 @@ namespace zSpace
 
 					col.r /= cEdges.size(); col.g /= cEdges.size(); col.b /= cEdges.size();
 
-					graphObj->graph.vertexColors[i] = col;
+					graphObj->graph.vertexColors[v.getId()] = col;
 
 				}
 			}
@@ -1322,25 +874,25 @@ namespace zSpace
 			{
 				vector<zVector> tempVertPos;
 
-				for (int i = 0; i < graphObj->graph.vertexActive.size(); i++)
+				for (zItGraphVertex v(*graphObj); !v.end(); v.next())
 				{
-					tempVertPos.push_back(graphObj->graph.vertexPositions[i]);
+					tempVertPos.push_back(graphObj->graph.vertexPositions[v.getId()]);
 
-					if (graphObj->graph.vertexActive[i])
+					if (v.isActive())
 					{
-						if (!checkVertexValency(i, 1))
+						if (!v.checkVertexValency(1))
 						{
 							vector<int> cVerts;
 
-							getConnectedVertices(i, zVertexData, cVerts);
+							v.getConnectedVertices(cVerts);
 
 							for (int j = 0; j < cVerts.size(); j++)
 							{
 								zVector p = graphObj->graph.vertexPositions[cVerts[j]];
-								tempVertPos[i] += p;
+								tempVertPos[v.getId()] += p;
 							}
 
-							tempVertPos[i] /= (cVerts.size() + 1);
+							tempVertPos[v.getId()] /= (cVerts.size() + 1);
 						}
 					}
 					
@@ -1359,7 +911,7 @@ namespace zSpace
 		*/
 		void removeInactiveElements(zHEData type)
 		{
-			if (type == zVertexData || type == zEdgeData) removeInactive(type);
+			if (type == zVertexData || type == zEdgeData || type == zHalfEdgeData) removeInactive(type);
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 		
@@ -1377,20 +929,6 @@ namespace zSpace
 		//--------------------------
 
 		
-		/*! \brief This method sets vertex position of the input vertex.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\param		[in]	pos						- vertex position.
-		*	\since version 0.0.2
-		*/
-		void setVertexPosition(int index, zVector &pos)
-		{
-			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			graphObj->graph.vertexPositions[index] = pos;
-
-		}
 
 		/*! \brief This method sets vertex positions of all the vertices.
 		*
@@ -1407,24 +945,6 @@ namespace zSpace
 			}
 		}
 
-		/*! \brief This method sets vertex color of the input vertex to the input color.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\param		[in]	col						- input color.
-		*	\since version 0.0.2
-		*/
-		void setVertexColor(int index, zColor col)
-		{
-
-			if (graphObj->graph.vertexColors.size() != graphObj->graph.vertexActive.size())
-			{
-				graphObj->graph.vertexColors.clear();
-				for (int i = 0; i < graphObj->graph.vertexActive.size(); i++) graphObj->graph.vertexColors.push_back(zColor());
-			}
-
-			graphObj->graph.vertexColors[index] = col;
-
-		}
 
 		/*! \brief This method sets vertex color of all the vertices to the input color.
 		*
@@ -1448,10 +968,10 @@ namespace zSpace
 		*/
 		void setVertexColors(vector<zColor>& col, bool setEdgeColor = false)
 		{
-			if (graphObj->graph.vertexColors.size() != graphObj->graph.vertexActive.size())
+			if (graphObj->graph.vertexColors.size() != graphObj->graph.vertices.size())
 			{
 				graphObj->graph.vertexColors.clear();
-				for (int i = 0; i < graphObj->graph.vertexActive.size(); i++) graphObj->graph.vertexColors.push_back(zColor(1, 0, 0, 1));
+				for (int i = 0; i < graphObj->graph.vertices.size(); i++) graphObj->graph.vertexColors.push_back(zColor(1, 0, 0, 1));
 			}
 
 			if (col.size() != graphObj->graph.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of graph vertices.");
@@ -1464,28 +984,6 @@ namespace zSpace
 			if (setEdgeColor) computeEdgeColorfromVertexColor();
 		}
 				
-		/*! \brief This method sets edge color of of the input edge and its symmetry edge to the input color.
-		*
-		*	\param		[in]	index					- input edge index.
-		*	\param		[in]	col						- input color.
-		*	\since version 0.0.2
-		*/
-		void setEdgeColor(int index, zColor col)
-		{
-
-			if (graphObj->graph.edgeColors.size() != graphObj->graph.edgeActive.size())
-			{
-				graphObj->graph.edgeColors.clear();
-				for (int i = 0; i < graphObj->graph.edgeActive.size(); i++) graphObj->graph.edgeColors.push_back(zColor());
-			}
-
-			graphObj->graph.edgeColors[index] = col;
-
-			int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
-
-			graphObj->graph.edgeColors[symEdge] = col;
-
-		}
 
 		/*! \brief This method sets edge color of all the edges to the input color.
 		*
@@ -1521,29 +1019,6 @@ namespace zSpace
 			if (setVertexColor) computeVertexColorfromEdgeColor();
 		}
 
-		/*! \brief This method sets edge weight of of the input edge and its symmetry edge to the input weight.
-		*
-		*	\param		[in]	index					- input edge index.
-		*	\param		[in]	wt						- input wight.
-		*	\since version 0.0.2
-		*/
-		void setEdgeWeight(int index, double wt)
-		{
-
-			if (graphObj->graph.edgeWeights.size() != graphObj->graph.edgeActive.size())
-			{
-				graphObj->graph.edgeWeights.clear();
-				for (int i = 0; i < graphObj->graph.edgeActive.size(); i++) graphObj->graph.edgeWeights.push_back(1);
-
-			}
-
-			graphObj->graph.edgeWeights[index] = wt;
-
-			int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
-
-			graphObj->graph.edgeWeights[symEdge] = wt;
-
-		}
 
 		/*! \brief This method sets edge weight of all the edges to the input weight.
 		*
@@ -1577,35 +1052,6 @@ namespace zSpace
 		//--- GET METHODS 
 		//--------------------------
 
-		/*! \brief This method gets vertex position of the input vertex.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\return				zvector					- vertex position.
-		*	\since version 0.0.2
-		*/
-		zVector getVertexPosition(int index)
-		{
-			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.vertexPositions[index];
-
-		}
-
-		/*! \brief This method gets pointer to the vertex position at the input index.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\return				zVector*				- pointer to internal vertex position.
-		*	\since version 0.0.2
-		*/
-		zVector* getRawVertexPosition(int index)
-		{
-			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &graphObj->graph.vertexPositions[index];
-
-		}
 
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
@@ -1629,35 +1075,7 @@ namespace zSpace
 			return &graphObj->graph.vertexPositions[0];
 		}
 
-		/*! \brief This method gets vertex color of the input vertex.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\return				zColor					- vertex color.
-		*	\since version 0.0.2
-		*/
-		zColor getVertexColor(int index)
-		{
-			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.vertexColors[index];
-
-		}
-
-		/*! \brief This method gets pointer to the vertex color at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zColor*				- pointer to internal vertex color.
-		*	\since version 0.0.2
-		*/
-		zColor* getRawVertexColor(int index)
-		{
-			if (index > graphObj->graph.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &graphObj->graph.vertexColors[index];
-
-		}
+	
 
 		/*! \brief This method gets vertex color of all the vertices.
 		*
@@ -1680,36 +1098,7 @@ namespace zSpace
 
 			return &graphObj->graph.vertexColors[0];
 		}
-
-		/*! \brief This method gets edge color of the input edge.
-		*
-		*	\param		[in]	index					- input edge index.
-		*	\return				zColor					- edge color.
-		*	\since version 0.0.2
-		*/
-		zColor getEdgeColor(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return graphObj->graph.edgeColors[index];
-
-		}
-
-		/*! \brief This method gets pointer to the edge color at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zColor*				- pointer to internal edge color.
-		*	\since version 0.0.2
-		*/
-		zColor* getRawEdgeColor(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &graphObj->graph.edgeColors[index];
-
-		}
+		
 
 		/*! \brief This method gets edge color of all the edges.
 		*
@@ -1733,28 +1122,6 @@ namespace zSpace
 			return &graphObj->graph.edgeColors[0];
 		}
 
-		/*! \brief This method computes the centers of a the input index edge or face of the mesh.
-		*
-		*	\param		[in]	type					- zEdgeData or zFaceData.
-		*	\return				zVector					- center.
-		*	\since version 0.0.2
-		*/
-		zVector getCenter(int index, zHEData type)
-		{
-			//  Edge 
-			if (type == zEdgeData)
-			{
-				if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				vector<int> eVerts;
-				getVertices(index, zEdgeData, eVerts);
-
-				return (graphObj->graph.vertexPositions[eVerts[0]] + graphObj->graph.vertexPositions[eVerts[1]]) * 0.5;
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		}
 
 		/*! \brief This method computes the center the graph.
 		*
@@ -1779,122 +1146,134 @@ namespace zSpace
 
 		/*! \brief This method computes the centers of a all edges of the graph.
 		*
-		*	\param		[in]	type					- zEdgeData.
+		*	\param		[in]	type					- zEdgeData or zHalfEdgeData.
 		*	\param		[out]	centers					- vector of centers of type zVector.
 		*	\since version 0.0.2
 		*/
 		void getCenters(zHEData type, vector<zVector> &centers)
 		{
 			// graph Edge 
-			if (type == zEdgeData)
+			if (type == zHalfEdgeData)
 			{
-				vector<zVector> edgeCenters;
 
-				edgeCenters.clear();
+				centers.clear();
 
-				for (int i = 0; i < graphObj->graph.edgeActive.size(); i += 2)
+				for (zItGraphHalfEdge he(*graphObj); !he.end(); he.next())
 				{
-					if (graphObj->graph.edgeActive[i])
+					if (he.isActive())
 					{
-						vector<int> eVerts;
-						getVertices(i, zEdgeData, eVerts);
-
-						zVector cen = (graphObj->graph.vertexPositions[eVerts[0]] + graphObj->graph.vertexPositions[eVerts[1]]) * 0.5;
-
-						edgeCenters.push_back(cen);
-						edgeCenters.push_back(cen);
+						centers.push_back(he.getCenter());
 					}
 					else
 					{
-						edgeCenters.push_back(zVector());
-						edgeCenters.push_back(zVector());
+						centers.push_back(zVector());
+
 					}
 				}
 
-				centers = edgeCenters;
+			}
+			else if (type == zEdgeData)
+			{
+
+				centers.clear();
+
+				for (zItGraphEdge e(*graphObj); !e.end(); e.next())
+				{
+					if (e.isActive())
+					{
+						centers.push_back(e.getCenter());
+					}
+					else
+					{
+						centers.push_back(zVector());
+
+					}
+				}
+
 			}
 			
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 
-		/*! \brief This method computes the edge vector of the input edge of the graph.
+
+		/*! \brief This method computes the lengths of all the half edges of a the graph.
 		*
-		*	\param		[in]	index					- edge index.
-		*	\return				zVector					- edge vector.
+		*	\param		[out]	halfEdgeLengths				- vector of halfedge lengths.
+		*	\return				double						- total edge lengths.
 		*	\since version 0.0.2
 		*/
-		zVector getEdgeVector(int index)
+		double getHalfEdgeLengths(vector<double> &halfEdgeLengths)
 		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			double total = 0.0;
 
-			int v1 = graphObj->graph.edges[index].getVertex()->getVertexId();
-			int v2 = graphObj->graph.edges[index].getSym()->getVertex()->getVertexId();
 
-			zVector out = graphObj->graph.vertexPositions[v1] - (graphObj->graph.vertexPositions[v2]);
+			halfEdgeLengths.clear();
 
-			return out;
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
+			{
+				if (e.isActive())
+				{
+					double e_len = e.getEdgeLength();
+
+					halfEdgeLengths.push_back(e_len);
+					halfEdgeLengths.push_back(e_len);
+
+					total += e_len;
+				}
+				else
+				{
+					halfEdgeLengths.push_back(0);
+					halfEdgeLengths.push_back(0);
+				}
+			}
+
+			return total;
 		}
 
-		/*! \brief This method computes the edge length of the input edge of the graph.
+		/*! \brief This method computes the lengths of all the  edges of a the graph.
 		*
-		*	\param		[in]	index			- edge index.
-		*	\return				double			- edge length.
-		*	\since version 0.0.2
-		*/
-		double getEdgelength(int index)
-		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			int v1 = graphObj->graph.edges[index].getVertex()->getVertexId();
-			int v2 = graphObj->graph.edges[index].getSym()->getVertex()->getVertexId();
-
-			double out = graphObj->graph.vertexPositions[v1].distanceTo(graphObj->graph.vertexPositions[v2]);
-
-			return out;
-		}
-
-		/*! \brief This method computes the lengths of all the edges of a the graph.
-		*
-		*	\param		[out]	edgeLengths				- vector of edge lengths.
-		*	\return				double					- total edge lengths.
+		*	\param		[out]	EdgeLengths		- vector of edge lengths.
+		*	\return				double				- total edge lengths.
 		*	\since version 0.0.2
 		*/
 		double getEdgeLengths(vector<double> &edgeLengths)
 		{
 			double total = 0.0;
 
-			vector<double> out;
 
-			for (int i = 0; i < graphObj->graph.edgeActive.size(); i += 2)
+			edgeLengths.clear();
+
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
 			{
-				if (graphObj->graph.edgeActive[i])
+				if (e.isActive())
 				{
-					int v1 = graphObj->graph.edges[i].getVertex()->getVertexId();
-					int v2 = graphObj->graph.edges[i].getSym()->getVertex()->getVertexId();
-
-					zVector e = graphObj->graph.vertexPositions[v1] - graphObj->graph.vertexPositions[v2];
-					double e_len = e.length();
-
-					out.push_back(e_len);
-					out.push_back(e_len);
-
+					double e_len = e.getEdgeLength();
+					edgeLengths.push_back(e_len);
 					total += e_len;
 				}
 				else
 				{
-					out.push_back(0);
-					out.push_back(0);
-
+					edgeLengths.push_back(0);
 				}
-
-
 			}
 
-			edgeLengths = out;
-
 			return total;
+		}
+
+		/*! \brief This method stores graph edge connectivity information in the input containers
+		*
+		*	\param		[out]	edgeConnects	- stores list of esdge connection with vertex ids for each edge.
+		*	\since version 0.0.2
+		*/
+		void getEdgeData(vector<int> &edgeConnects)
+		{
+			edgeConnects.clear();
+
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
+			{
+				edgeConnects.push_back(e.getHalfEdge(0).getVertex().getId());
+				edgeConnects.push_back(e.getHalfEdge(1).getVertex().getId());
+			}
 		}
 
 		/*! \brief This method creates a duplicate of the input graph.
@@ -1908,23 +1287,15 @@ namespace zSpace
 		{
 			zObjGraph out;
 
-			if(numVertices() != graphObj->graph.vertexActive.size()) removeInactiveElements(zVertexData);
-			if (numEdges() != graphObj->graph.edgeActive.size()) removeInactiveElements(zEdgeData);
+			if(numVertices() != graphObj->graph.vertices.size()) removeInactiveElements(zVertexData);
+			if (numEdges() != graphObj->graph.edges.size()) removeInactiveElements(zEdgeData);
 
 			vector<zVector> positions;
 			vector<int> edgeConnects;
 
 
 			positions = graphObj->graph.vertexPositions;
-
-			for (int i = 0; i < numEdges(); i += 2)
-			{
-				int v0 = graphObj->graph.edges[i].getVertex()->getVertexId();
-				int v1 = graphObj->graph.edges[i + 1].getVertex()->getVertexId();
-
-				edgeConnects.push_back(v1);
-				edgeConnects.push_back(v0);
-			}
+			getEdgeData(edgeConnects);			
 
 
 			if (planarGraph)
@@ -1934,9 +1305,9 @@ namespace zSpace
 				zVector x(1, 0, 0);
 				zVector sortRef = graphNormal ^ x;
 
-				out.graph = zGraph(positions, edgeConnects, graphNormal, sortRef);
+				out.graph.create(positions, edgeConnects, graphNormal, sortRef);
 			}
-			else out.graph = zGraph(positions, edgeConnects);
+			else out.graph.create(positions, edgeConnects);
 
 			out.graph.vertexColors = graphObj->graph.vertexColors;
 			out.graph.edgeColors = graphObj->graph.edgeColors;
@@ -1959,19 +1330,19 @@ namespace zSpace
 			vector<int> polyConnects;
 			vector<int> polyCounts;
 
-			if(numVertices() != graphObj->graph.vertexActive.size()) removeInactiveElements(zVertexData);
-			if (numEdges() != graphObj->graph.edgeActive.size()) removeInactiveElements(zEdgeData);
+			if(numVertices() != graphObj->graph.vertices.size()) removeInactiveElements(zVertexData);
+			if (numEdges() != graphObj->graph.edges.size()) removeInactiveElements(zEdgeData);
 
 			positions = graphObj->graph.vertexPositions;
 
 			vector<vector<int>> edgeVertices;
-			for (int i = 0; i < numEdges(); i++)
+			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
 			{
-				vector<int> temp;
-				int v0 = graphObj->graph.edges[i].getSym()->getVertex()->getVertexId();
-				int v1 = graphObj->graph.edges[i].getVertex()->getVertexId();
 
-
+				int v0 = e.getHalfEdge(1).getVertex().getId();
+				int v1 = e.getHalfEdge(0).getVertex().getId();
+		
+				vector<int> temp;	
 				temp.push_back(v0);
 				temp.push_back(v1);
 				temp.push_back(-1);
@@ -1980,21 +1351,21 @@ namespace zSpace
 				edgeVertices.push_back(temp);
 			}
 
-			for (int i = 0; i < numVertices(); i++)
+			for (zItGraphVertex v(*graphObj); !v.end(); v.next())
 			{
-				vector<int> cEdges;
-				getConnectedEdges(i, zVertexData, cEdges);
+				vector<zItGraphHalfEdge> cEdges;
+				v.getConnectedHalfEdges(cEdges);
 
 				if (cEdges.size() == 1)
 				{
 
-					int currentId = cEdges[0];
-					int prevId = graphObj->graph.edges[currentId].getPrev()->getEdgeId();
+					int currentId = cEdges[0].getId();
+					int prevId = cEdges[0].getPrev().getId();
 
-					zVector e_current = getEdgeVector( currentId);
+					zVector e_current = cEdges[0].getHalfEdgeVector();
 					e_current.normalize();
 
-					zVector e_prev = getEdgeVector( prevId);
+					zVector e_prev = cEdges[0].getPrev().getHalfEdgeVector();
 					e_prev.normalize();
 
 					zVector n_current = graphNormal ^ e_current;
@@ -2003,14 +1374,14 @@ namespace zSpace
 					zVector n_prev = graphNormal ^ e_prev;
 					n_prev.normalize();
 
-					zVector v = graphObj->graph.vertexPositions[i];
+			
 					double w = width * 0.5;
 
 					edgeVertices[currentId][3] = positions.size();
-					positions.push_back(v + (n_current * w));
+					positions.push_back(v.getVertexPosition() + (n_current * w));
 
 					edgeVertices[prevId][2] = positions.size();
-					positions.push_back(v + (n_prev * w));
+					positions.push_back(v.getVertexPosition() + (n_prev * w));
 
 				}
 
@@ -2018,13 +1389,14 @@ namespace zSpace
 				{
 					for (int j = 0; j < cEdges.size(); j++)
 					{
-						int currentId = cEdges[j];
-						int prevId = graphObj->graph.edges[currentId].getPrev()->getEdgeId();
+						int currentId = cEdges[j].getId();
+						int prevId = cEdges[j].getPrev().getId();
+						
 
-						zVector e_current = getEdgeVector( currentId);
+						zVector e_current = cEdges[0].getHalfEdgeVector();
 						e_current.normalize();
 
-						zVector e_prev = getEdgeVector( prevId);
+						zVector e_prev = cEdges[0].getPrev().getHalfEdgeVector();
 						e_prev.normalize();
 
 						zVector n_current = graphNormal ^ e_current;
@@ -2036,14 +1408,14 @@ namespace zSpace
 						zVector norm = (n_current + n_prev) * 0.5;
 						norm.normalize();
 
-						zVector v = graphObj->graph.vertexPositions[i];
+						
 						double w = width * 0.5;
 
 						edgeVertices[currentId][3] = positions.size();
 
 						edgeVertices[prevId][2] = positions.size();
 
-						positions.push_back(v + (norm * w));
+						positions.push_back(v.getVertexPosition() + (norm * w));
 					}
 				}
 
@@ -2067,7 +1439,7 @@ namespace zSpace
 			// mesh
 			if (positions.size() > 0)
 			{
-				out.mesh = zMesh(positions, polyCounts, polyConnects);
+				out.mesh.create(positions, polyCounts, polyConnects);
 			}
 
 			
@@ -2089,91 +1461,101 @@ namespace zSpace
 		*/
 		int splitEdge(int index, double edgeFactor = 0.5)
 		{
-			if (index > graphObj->graph.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!graphObj->graph.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			//if (index >= numEdges()) throw std::invalid_argument(" error: index out of bounds.");
+			//zItEdge e = graphObj->graph.indexToEdge[index];
+			//if (!e->isActive()) throw std::invalid_argument(" error: index out of bounds.");
 
-			
-			zEdge* edgetoSplit = &graphObj->graph.edges[index];
-			zEdge* edgetoSplitSym = edgetoSplit->getSym();
+			//
+			//zItHalfEdge edgetoSplit = e->halfEdges[0];
+			//zItHalfEdge edgetoSplitSym = edgetoSplit->sym;
 
-			zEdge* e_next = edgetoSplit->getNext();
-			zEdge* e_prev = edgetoSplit->getPrev();
+			//zItHalfEdge e_next = edgetoSplit->next;
+			//zItHalfEdge e_prev = edgetoSplit->prev;
 
-			zEdge* es_next = edgetoSplitSym->getNext();
-			zEdge* es_prev = edgetoSplitSym->getPrev();
-
-
-			zVector edgeDir = getEdgeVector(index);
-			double  edgeLength = edgeDir.length();
-			edgeDir.normalize();
+			//zItHalfEdge es_next = edgetoSplitSym->next;
+			//zItHalfEdge es_prev = edgetoSplitSym->prev;
 
 
-			zVector v0 =	getVertexPosition( getSym(index)->getVertex()->getVertexId());
-			zVector newVertPos = v0 + edgeDir * edgeFactor * edgeLength;
-					
+			//zVector edgeDir = getHalfEdgeVector(index);
+			//double  edgeLength = edgeDir.length();
+			//edgeDir.normalize();
 
 
-			// check if vertex exists if not add new vertex
-			int VertId;
-			bool vExists = vertexExists(newVertPos, VertId);
-			if (!vExists)
-			{
-				graphObj->graph.addVertex(newVertPos);
-				VertId = graphObj->graph.vertexActive.size() - 1;
-			}
-
-			//printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
-
-			if (!vExists)
-			{
-				// remove from verticesEdge map
-				graphObj->graph.removeFromVerticesEdge(edgetoSplit->getVertex()->getVertexId(), edgetoSplitSym->getVertex()->getVertexId());
-
-				// add new edges
-				int v1 = VertId;
-				int v2 = edgetoSplit->getVertex()->getVertexId();
-				bool edgesResize = graphObj->graph.addEdges(v1, v2);
-
-				// recompute pointers if resize is true
-				if (edgesResize)
-				{
-					edgetoSplit = &graphObj->graph.edges[index];
-					edgetoSplitSym = edgetoSplit->getSym();
-
-					e_next = edgetoSplit->getNext();
-					e_prev = edgetoSplit->getPrev();
-
-					es_next = edgetoSplitSym->getNext();
-					es_prev = edgetoSplitSym->getPrev();
-
-					//printf("\n working!");
-
-				}
-
-				bool v2_val1 = checkVertexValency(v2, 1);
-
-				// update vertex pointers
-				graphObj->graph.vertices[v1].setEdge(&graphObj->graph.edges[graphObj->graph.edgeActive.size() - 2]);
-				graphObj->graph.vertices[v2].setEdge(&graphObj->graph.edges[graphObj->graph.edgeActive.size() - 1]);
-
-				//// update pointers
-				edgetoSplit->setVertex(&graphObj->graph.vertices[VertId]);			// current edge vertex pointer updated to new added vertex
-
-				graphObj->graph.edges[graphObj->graph.edgeActive.size() - 1].setNext(edgetoSplitSym);		// new added edge next pointer to point to the next of current edge
-				if(!v2_val1) graphObj->graph.edges[graphObj->graph.edgeActive.size() - 1].setPrev(es_prev);
-				else graphObj->graph.edges[graphObj->graph.edgeActive.size() - 1].setPrev(&graphObj->graph.edges[graphObj->graph.edgeActive.size() - 2]);
-
-				graphObj->graph.edges[graphObj->graph.edgeActive.size() - 2].setPrev(edgetoSplit);
-				if (!v2_val1) graphObj->graph.edges[graphObj->graph.edgeActive.size() - 2].setNext(e_next);
+			//zVector v0 =	getVertexPosition( getSym(index)->v->index);
+			//zVector newVertPos = v0 + edgeDir * edgeFactor * edgeLength;
+			//		
 
 
-				// update verticesEdge map
-				graphObj->graph.addToVerticesEdge(edgetoSplitSym->getVertex()->getVertexId(), edgetoSplit->getVertex()->getVertexId(), edgetoSplit->getEdgeId());
+			//// check if vertex exists if not add new vertex
+			//int VertId;
+			//bool vExists = vertexExists(newVertPos, VertId);
+			//if (!vExists)
+			//{
+			//	graphObj->graph.addVertex(newVertPos);
+			//	VertId =numVertices() - 1;
+			//}
 
-			}
+			////printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
 
-			
-			return VertId;
+			//if (!vExists)
+			//{
+			//	// remove from verticesEdge map
+			//	graphObj->graph.removeFromHalfEdgesMap(edgetoSplit->v->index, edgetoSplitSym->v->index);
+
+			//	// add new edges
+			//	int v1 = VertId;
+			//	int v2 = edgetoSplit->v->index;
+			//	graphObj->graph.addEdges(v1, v2);				
+
+			//	bool v2_val1 = checkVertexValency(v2, 1);
+
+			//	// update vertex pointers
+			//	zItVertex vIter1 = graphObj->graph.indexToVertex[v1];
+			//	zItVertex vIter2 = graphObj->graph.indexToVertex[v2];
+
+			//	zItHalfEdge he1 = graphObj->graph.indexToHalfEdge[numHalfEdges() - 2];
+			//	zItHalfEdge he2 = graphObj->graph.indexToHalfEdge[numHalfEdges() - 1];
+
+			//	vIter1->e = he1;
+			//	vIter2->e = he2;
+			//	
+
+			//	//// update pointers
+
+			//	zItVertex vIter = graphObj->graph.indexToVertex[VertId];
+			//	edgetoSplit->v = vIter;				// current edge vertex pointer updated to new added vertex
+
+			//	he2->next = edgetoSplitSym;		// new added edge next pointer to point to the next of current edge
+			//	
+			//	if (!v2_val1)
+			//	{
+			//		he2->prev = es_prev;
+			//		es_prev->next = he2;
+			//	}
+			//	else
+			//	{
+			//		he2->prev = he1; 
+			//		he1->next = he2;
+			//	}
+
+			//	he1->prev = edgetoSplit;
+			//	edgetoSplit->next = he1;
+
+			//	
+			//	if (!v2_val1)
+			//	{
+			//		he1->next = e_next;
+			//		e_next->prev = he1;					
+			//	}
+
+
+			//	// update verticesEdge map
+			//	graphObj->graph.addToHalfEdgesMap(edgetoSplitSym->v->index, edgetoSplit->v->index, edgetoSplit);
+
+			//}
+
+			//
+			//return VertId;
 		}
 
 		
@@ -2322,5 +1704,13 @@ namespace zSpace
 		}
 
 	};
+
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+
+	
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 }

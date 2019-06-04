@@ -4,7 +4,7 @@
 #include<headers/api/object/zObjMesh.h>
 #include<headers/api/functionsets/zFn.h>
 
-
+#include<headers/api/iterators/zItMesh.h>
 
 
 namespace zSpace
@@ -30,983 +30,7 @@ namespace zSpace
 
 	class zFnMesh : public zFn
 	{
-
-	private:
-		//--------------------------
-		//---- PRIVATE ATTRIBUTES
-		//--------------------------
-
-		/*! \brief This method sets the edge and face vertex position conatiners for static meshes.
-		*
-		*	\since version 0.0.2
-		*/
-		void setStaticContainers()
-		{
-			meshObj->mesh.staticGeometry = true;
-
-			vector<vector<zVector>> edgePositions;
-
-			for (int i = 0; i < numEdges(); i ++)
-			{
-				vector<zVector> vPositions;
-				getVertexPositions(i, zEdgeData, vPositions);
-
-				edgePositions.push_back(vPositions);			
-			}
-
-			meshObj->mesh.setStaticEdgePositions(edgePositions);
-
-				
-			vector<vector<zVector>> facePositions;
-
-			for (int i = 0; i < numPolygons(); i ++)
-			{
-				vector<zVector> vPositions;
-				getVertexPositions(i, zFaceData, vPositions);
-
-				facePositions.push_back(vPositions);
-			}
-
-			meshObj->mesh.setStaticFacePositions(facePositions);
-
-			
-		}
-
-	protected:
-		/*!	\brief core utilities Object  */
-		zUtilsCore coreUtils;
-		
-		/*!	\brief pointer to a mesh object  */
-		zObjMesh *meshObj;
-
-		//--------------------------
-		//---- FACTORY METHODS
-		//--------------------------
-
-		/*! \brief This method deactivates the input elements from the array connected with the input type.
-		*
-		*	\param		[in]	index			- index to be deactivated.
-		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
-		*	\since version 0.0.2
-		*/
-		void deactivate(int index, zHEData type)
-		{
-			//  Vertex
-			if (type == zVertexData)
-			{
-				if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				// remove from vertexPosition map
-				meshObj->mesh.removeFromPositionMap(meshObj->mesh.vertexPositions[index]);
-
-				// null pointers indexed vertex
-				meshObj->mesh.vertices[index].removeVertex();
-
-				// disable indexed vertex
-
-				meshObj->mesh.vertexActive[index] = false;
-
-				meshObj->mesh.vertexPositions[index] = zVector(10000, 10000, 10000); // dummy position for VBO
-				meshObj->mesh.vertexNormals[index] = zVector(0, 0, 1); // dummy normal for VBO
-				meshObj->mesh.vertexColors[index] = zColor(1, 1, 1, 1); // dummy color for VBO
-
-
-																 // update numVertices
-				int newNumVertices = numVertices() - 1;
-				meshObj->mesh.setNumVertices(newNumVertices, false);
-			}
-
-			//  Edge
-			else if (type == zEdgeData)
-			{
-
-				if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				int symEdge = meshObj->mesh.edges[index].getSym()->getEdgeId();
-
-				// check if the vertex attached to the edge has the pointer to the current  edge. If true update the pointer. 
-				int v1 = meshObj->mesh.edges[index].getVertex()->getVertexId();
-				int v2 = meshObj->mesh.edges[symEdge].getVertex()->getVertexId();
-
-
-				if (meshObj->mesh.vertices[v1].getEdge()->getEdgeId() == symEdge)
-				{
-					vector<int> cEdgesV1;
-					getConnectedEdges(v1, zVertexData, cEdgesV1);
-
-					for (int i = 0; i < cEdgesV1.size(); i++)
-					{
-						if (cEdgesV1[i] != symEdge) meshObj->mesh.vertices[v1].setEdge(&meshObj->mesh.edges[cEdgesV1[i]]);
-					}
-				}
-
-				if (meshObj->mesh.vertices[v2].getEdge()->getEdgeId() == index)
-				{
-					vector<int> cEdgesV2;
-					getConnectedEdges(v2, zVertexData, cEdgesV2);
-
-					for (int i = 0; i < cEdgesV2.size(); i++)
-					{
-						if (cEdgesV2[i] != index) meshObj->mesh.vertices[v2].setEdge(&meshObj->mesh.edges[cEdgesV2[i]]);
-					}
-				}
-
-				// check if the face attached to the edge has the pointer to the current edge. if true update pointer. 
-
-				if (meshObj->mesh.edges[index].getFace())
-				{
-
-					if (meshObj->mesh.edges[index].getFace()->getEdge()->getEdgeId() == index)
-					{
-						vector<int> cEdgesV1;
-						getConnectedEdges(v1, zVertexData, cEdgesV1);
-
-						for (int i = 0; i < cEdgesV1.size(); i++)
-						{
-							if (meshObj->mesh.edges[cEdgesV1[i]].getFace() == meshObj->mesh.edges[index].getFace()) meshObj->mesh.edges[index].getFace()->setEdge(&meshObj->mesh.edges[cEdgesV1[i]]);
-						}
-
-					}
-
-				}
-
-				if (meshObj->mesh.edges[symEdge].getFace())
-				{
-					if (meshObj->mesh.edges[symEdge].getFace()->getEdge()->getEdgeId() == symEdge)
-					{
-						vector<int> cEdgesV2;
-						getConnectedEdges(v2, zVertexData, cEdgesV2);
-
-						for (int i = 0; i < cEdgesV2.size(); i++)
-						{
-							if (meshObj->mesh.edges[cEdgesV2[i]].getFace() == meshObj->mesh.edges[symEdge].getFace()) meshObj->mesh.edges[symEdge].getFace()->setEdge(&meshObj->mesh.edges[cEdgesV2[i]]);
-						}
-
-					}
-
-				}
-
-				// remove edge from vertex edge map
-				meshObj->mesh.removeFromVerticesEdge(v1, v2);
-
-				// make current edge pointer null
-				meshObj->mesh.edges[index].removeEdge();
-				meshObj->mesh.edges[symEdge].removeEdge();
-
-				// deactivate edges
-				meshObj->mesh.edgeActive[index] = false;
-				meshObj->mesh.edgeActive[symEdge] = false;
-
-				// update numEdges
-				int newNumEdges = numEdges() - 2;
-				meshObj->mesh.setNumEdges(newNumEdges, false);
-			}
-
-			// Face
-			else if (type == zFaceData)
-			{
-				if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-
-				// make current face pointers null
-				meshObj->mesh.faces[index].removeFace();;
-
-				// deactivate face
-				meshObj->mesh.faceActive[index] = false;
-
-				// update numPolygons
-				int newNumFaces = numPolygons() - 1;
-				meshObj->mesh.setNumPolygons(newNumFaces, false);
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-		}
-
-		/*! \brief This method removes inactive elements from the array connected with the input type.
-		*
-		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
-		*	\since version 0.0.2
-		*/
-		void removeInactive(zHEData type = zVertexData)
-		{
-			//  Vertex
-			if (type == zVertexData)
-			{
-
-				if (meshObj->mesh.vertexActive.size() != numVertices())
-				{
-					zVertex *resized = new zVertex[meshObj->mesh.max_n_v];
-
-					int vertexActiveID = 0;
-					int numOrginalVertexActive = meshObj->mesh.vertexActive.size();
-
-					for (int i = 0; i < numVertices(); i++)
-					{
-
-						while (!meshObj->mesh.vertexActive[i])
-						{
-							meshObj->mesh.vertexActive.erase(meshObj->mesh.vertexActive.begin() + i);
-
-							meshObj->mesh.vertexPositions.erase(meshObj->mesh.vertexPositions.begin() + i);
-
-							meshObj->mesh.vertexColors.erase(meshObj->mesh.vertexColors.begin() + i);
-
-							meshObj->mesh.vertexNormals.erase(meshObj->mesh.vertexNormals.begin() + i);
-
-							vertexActiveID++;
-
-						}
-
-						resized[i].setVertexId(i);
-
-
-						// get connected edges and repoint their pointers
-						if (vertexActiveID < numOrginalVertexActive)
-						{
-							vector<int> cEdges;
-							getConnectedEdges(vertexActiveID, zVertexData, cEdges);
-
-							for (int j = 0; j < cEdges.size(); j++)
-							{
-								meshObj->mesh.edges[cEdges[j]].getSym()->setVertex(&resized[i]);
-							}
-
-
-							if (meshObj->mesh.vertices[vertexActiveID].getEdge())
-							{
-								resized[i].setEdge(&meshObj->mesh.edges[meshObj->mesh.vertices[vertexActiveID].getEdge()->getEdgeId()]);
-
-								meshObj->mesh.edges[meshObj->mesh.vertices[vertexActiveID].getEdge()->getEdgeId()].getSym()->setVertex(&resized[i]);
-							}
-						}
-
-
-						vertexActiveID++;
-
-					}
-
-					//printf("\n m: %i %i ", numVertices(), vertexActive.size());
-
-
-					delete[] meshObj->mesh.vertices;
-
-					meshObj->mesh.vertices = resized;
-
-					//printf("\n removed inactive vertices. ");
-				}
-
-			}
-
-			//  Edge
-			else if (type == zEdgeData)
-			{
-				if (meshObj->mesh.edgeActive.size() != numEdges())
-				{
-					zEdge *resized = new zEdge[meshObj->mesh.max_n_e];
-
-					int edgeActiveID = 0;
-					int numOrginalEdgeActive = meshObj->mesh.edgeActive.size();
-
-					int inactiveCounter = 0;
-
-					// clear vertices edge map
-					meshObj->mesh.verticesEdge.clear();
-
-
-					for (int i = 0; i < numEdges(); i += 2)
-					{
-
-						while (!meshObj->mesh.edgeActive[i])
-						{
-							meshObj->mesh.edgeActive.erase(meshObj->mesh.edgeActive.begin() + i);
-
-							meshObj->mesh.edgeColors.erase(meshObj->mesh.edgeColors.begin() + i);
-
-							edgeActiveID++;
-
-						}
-
-
-						resized[i].setEdgeId(i);
-						resized[i + 1].setEdgeId(i + 1);
-
-						// get connected edges and repoint their pointers
-						if (edgeActiveID < numOrginalEdgeActive)
-						{
-
-
-							resized[i].setSym(&resized[i + 1]);
-
-							if (meshObj->mesh.edges[edgeActiveID].getNext())
-							{
-								resized[i].setNext(&resized[meshObj->mesh.edges[edgeActiveID].getNext()->getEdgeId()]);
-
-								meshObj->mesh.edges[edgeActiveID].getNext()->setPrev(&resized[i]);
-							}
-							if (meshObj->mesh.edges[edgeActiveID].getPrev())
-							{
-								resized[i].setPrev(&resized[meshObj->mesh.edges[edgeActiveID].getPrev()->getEdgeId()]);
-
-								meshObj->mesh.edges[edgeActiveID].getPrev()->setNext(&resized[i]);
-							}
-
-
-							if (meshObj->mesh.edges[edgeActiveID].getVertex())
-							{
-								resized[i].setVertex(&meshObj->mesh.vertices[meshObj->mesh.edges[edgeActiveID].getVertex()->getVertexId()]);
-
-								meshObj->mesh.vertices[meshObj->mesh.edges[edgeActiveID].getVertex()->getVertexId()].setEdge(resized[i].getSym());
-							}
-
-							if (meshObj->mesh.edges[edgeActiveID].getFace())
-							{
-								resized[i].setFace(&meshObj->mesh.faces[meshObj->mesh.edges[edgeActiveID].getFace()->getFaceId()]);
-								meshObj->mesh.faces[meshObj->mesh.edges[edgeActiveID].getFace()->getFaceId()].setEdge(&resized[i]);
-							}
-
-
-
-							//sym edge
-							if (meshObj->mesh.edges[edgeActiveID + 1].getNext())
-							{
-								resized[i + 1].setNext(&resized[meshObj->mesh.edges[edgeActiveID + 1].getNext()->getEdgeId()]);
-
-								meshObj->mesh.edges[edgeActiveID + 1].getNext()->setPrev(&resized[i + 1]);
-
-							}
-							if (meshObj->mesh.edges[edgeActiveID + 1].getPrev())
-							{
-								resized[i + 1].setPrev(&resized[meshObj->mesh.edges[edgeActiveID + 1].getPrev()->getEdgeId()]);
-
-								meshObj->mesh.edges[edgeActiveID + 1].getPrev()->setNext(&resized[i + 1]);
-							}
-
-							if (meshObj->mesh.edges[edgeActiveID + 1].getVertex())
-							{
-								resized[i + 1].setVertex(&meshObj->mesh.vertices[meshObj->mesh.edges[edgeActiveID + 1].getVertex()->getVertexId()]);
-								meshObj->mesh.vertices[meshObj->mesh.edges[edgeActiveID + 1].getVertex()->getVertexId()].setEdge(resized[i + 1].getSym());
-							}
-
-							if (meshObj->mesh.edges[edgeActiveID + 1].getFace())
-							{
-								resized[i + 1].setFace(&meshObj->mesh.faces[meshObj->mesh.edges[edgeActiveID + 1].getFace()->getFaceId()]);
-								meshObj->mesh.faces[meshObj->mesh.edges[edgeActiveID + 1].getFace()->getFaceId()].setEdge(&resized[i + 1]);
-							}
-
-
-							// rebuild vertices edge map
-							int v2 = resized[i].getVertex()->getVertexId();
-							int v1 = resized[i + 1].getVertex()->getVertexId();
-
-							meshObj->mesh.addToVerticesEdge(v1, v2, i);
-
-						}
-
-						edgeActiveID += 2;
-
-					}
-
-					//printf("\n m: %i %i ", numEdges(), edgeActive.size());
-
-					for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
-					{
-						if (meshObj->mesh.vertices[i].getEdge()) meshObj->mesh.vertices[i].setEdge(&resized[meshObj->mesh.vertices[i].getEdge()->getEdgeId()]);
-					}
-
-					for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
-					{
-						if (meshObj->mesh.faces[i].getEdge()) meshObj->mesh.faces[i].setEdge(&resized[meshObj->mesh.faces[i].getEdge()->getEdgeId()]);
-
-					}
-
-					delete[] meshObj->mesh.edges;
-					meshObj->mesh.edges = resized;
-
-					//printf("\n removed inactive edges. ");
-				}
-
-
-
-			}
-
-			// Mesh Face
-			else if (type == zFaceData)
-			{
-				if (meshObj->mesh.faceActive.size() != numPolygons())
-				{
-					zFace *resized = new zFace[meshObj->mesh.max_n_f];
-
-					int faceActiveID = 0;
-					int numOrginalFaceActive = meshObj->mesh.faceActive.size();
-
-					for (int i = 0; i < numPolygons(); i++)
-					{
-
-						while (!meshObj->mesh.faceActive[i])
-						{
-							meshObj->mesh.faceActive.erase(meshObj->mesh.faceActive.begin() + i);
-
-							meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() + i);
-
-							meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + i);
-
-							faceActiveID++;
-
-						}
-
-						resized[i].setFaceId(i);
-
-
-						// get connected edges and repoint their pointers
-						if (faceActiveID < numOrginalFaceActive)
-						{
-							//printf("\n f: %i ", faceActiveID);
-							vector<int> fEdges;
-							getEdges(faceActiveID, zFaceData, fEdges);
-
-							for (int j = 0; j < fEdges.size(); j++)
-							{
-								meshObj->mesh.edges[fEdges[j]].setFace(&resized[i]);
-							}
-
-							if (meshObj->mesh.faces[faceActiveID].getEdge()) resized[i].setEdge(&meshObj->mesh.edges[meshObj->mesh.faces[faceActiveID].getEdge()->getEdgeId()]);
-
-						}
-
-						faceActiveID++;
-
-					}
-
-					//printf("\n m: %i %i ", numPolygons(), faceActive.size());
-
-
-					delete[] meshObj->mesh.faces;
-
-					meshObj->mesh.faces = resized;
-
-					//printf("\n removed inactive faces. ");
-				}
-
-
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		}
-
-		//--------------------------
-		//---- FACTORY METHODS
-		//--------------------------
-
-		/*! \brief This method exports zMesh as an OBJ file.
-		*
-		*	\param [in]		outfilename			- output file name including the directory path and extension.
-		*	\since version 0.0.2
-		*/
-		void toOBJ(string outfilename)
-		{
-
-			// remove inactive elements
-			if (numVertices() != meshObj->mesh.vertexActive.size()) removeInactiveElements(zVertexData);
-			if (numEdges() != meshObj->mesh.edgeActive.size()) removeInactiveElements(zEdgeData);
-			if (numPolygons() != meshObj->mesh.faceActive.size()) removeInactiveElements(zFaceData);
-
-			// output file
-			ofstream myfile;
-			myfile.open(outfilename.c_str());
-
-			if (myfile.fail())
-			{
-				cout << " error in opening file  " << outfilename.c_str() << endl;
-				return;
-
-			}
-
-
-
-			// vertex positions
-			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
-			{
-				myfile << "\n v " << meshObj->mesh.vertexPositions[i].x << " " << meshObj->mesh.vertexPositions[i].y << " " << meshObj->mesh.vertexPositions[i].z;
-
-			}
-
-			// vertex nornmals
-			for (int i = 0; i < meshObj->mesh.vertexNormals.size(); i++)
-			{
-				myfile << "\n vn " << meshObj->mesh.vertexNormals[i].x << " " << meshObj->mesh.vertexNormals[i].y << " " << meshObj->mesh.vertexNormals[i].z;
-
-			}
-
-			myfile << "\n";
-
-			// face connectivity
-			for (int i = 0; i < numPolygons(); i++)
-			{
-				vector<int> fVerts;
-				getVertices(i, zFaceData, fVerts);
-
-				myfile << "\n f ";
-
-				for (int j = 0; j < fVerts.size(); j++)
-				{
-					myfile << fVerts[j] + 1;
-
-					if (j != fVerts.size() - 1) myfile << " ";
-				}
-
-			}
-
-
-
-
-			myfile.close();
-
-			cout << endl << " OBJ exported. File:   " << outfilename.c_str() << endl;
-
-		}
-
-		/*! \brief This method exports zMesh to a JSON file format using JSON Modern Library.
-		*
-		*	\param [in]		outfilename			- output file name including the directory path and extension.
-		*	\since version 0.0.2
-		*/
-		void toJSON(string outfilename)
-		{
-
-			// remove inactive elements
-			if (numVertices() != meshObj->mesh.vertexActive.size()) removeInactiveElements(zVertexData);
-			if (numEdges() != meshObj->mesh.edgeActive.size()) removeInactiveElements(zEdgeData);
-			if (numPolygons() != meshObj->mesh.faceActive.size())removeInactiveElements(zFaceData);
-
-			// CREATE JSON FILE
-			zUtilsJsonHE meshJSON;
-			json j;
-
-			// Vertices
-			for (int i = 0; i < numVertices(); i++)
-			{
-				if (meshObj->mesh.vertices[i].getEdge()) meshJSON.vertices.push_back(meshObj->mesh.vertices[i].getEdge()->getEdgeId());
-				else meshJSON.vertices.push_back(-1);
-
-			}
-
-			//Edges
-			for (int i = 0; i < numEdges(); i++)
-			{
-				vector<int> HE_edges;
-
-				if (meshObj->mesh.edges[i].getPrev()) HE_edges.push_back(meshObj->mesh.edges[i].getPrev()->getEdgeId());
-				else HE_edges.push_back(-1);
-
-				if (meshObj->mesh.edges[i].getNext()) HE_edges.push_back(meshObj->mesh.edges[i].getNext()->getEdgeId());
-				else HE_edges.push_back(-1);
-
-				if (meshObj->mesh.edges[i].getVertex()) HE_edges.push_back(meshObj->mesh.edges[i].getVertex()->getVertexId());
-				else HE_edges.push_back(-1);
-
-				if (meshObj->mesh.edges[i].getFace()) HE_edges.push_back(meshObj->mesh.edges[i].getFace()->getFaceId());
-				else HE_edges.push_back(-1);
-
-				meshJSON.halfedges.push_back(HE_edges);
-			}
-
-			// Faces
-			for (int i = 0; i < numPolygons(); i++)
-			{
-				if (meshObj->mesh.faces[i].getEdge()) meshJSON.faces.push_back(meshObj->mesh.faces[i].getEdge()->getEdgeId());
-				else meshJSON.faces.push_back(-1);
-			}
-
-			// vertex Attributes
-			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
-			{
-				vector<double> v_attrib;
-
-				v_attrib.push_back(meshObj->mesh.vertexPositions[i].x);
-				v_attrib.push_back(meshObj->mesh.vertexPositions[i].y);
-				v_attrib.push_back(meshObj->mesh.vertexPositions[i].z);
-
-				v_attrib.push_back(meshObj->mesh.vertexNormals[i].x);
-				v_attrib.push_back(meshObj->mesh.vertexNormals[i].y);
-				v_attrib.push_back(meshObj->mesh.vertexNormals[i].z);
-
-				
-				v_attrib.push_back(meshObj->mesh.vertexColors[i].r);
-				v_attrib.push_back(meshObj->mesh.vertexColors[i].g);
-				v_attrib.push_back(meshObj->mesh.vertexColors[i].b);
-				
-
-				meshJSON.vertexAttributes.push_back(v_attrib);
-			}
-
-			// face Attributes
-			for (int i = 0; i < numPolygons(); i++)
-			{
-				vector<double> f_attrib;
-
-				f_attrib.push_back(meshObj->mesh.faceNormals[i].x);
-				f_attrib.push_back(meshObj->mesh.faceNormals[i].y);
-				f_attrib.push_back(meshObj->mesh.faceNormals[i].z);
-
-				f_attrib.push_back(meshObj->mesh.faceColors[i].r);
-				f_attrib.push_back(meshObj->mesh.faceColors[i].g);
-				f_attrib.push_back(meshObj->mesh.faceColors[i].b);
-
-				meshJSON.faceAttributes.push_back(f_attrib);
-			}
-
-
-
-			// Json file 
-			j["Vertices"] = meshJSON.vertices;
-			j["Halfedges"] = meshJSON.halfedges;
-			j["Faces"] = meshJSON.faces;
-			j["VertexAttributes"] = meshJSON.vertexAttributes;
-			j["HalfedgeAttributes"] = meshJSON.halfedgeAttributes;
-			j["FaceAttributes"] = meshJSON.faceAttributes;
-
-			// EXPORT	
-
-			ofstream myfile;
-			myfile.open(outfilename.c_str());
-
-			if (myfile.fail())
-			{
-				cout << " error in opening file  " << outfilename.c_str() << endl;
-				return;
-			}
-
-			//myfile.precision(16);
-			myfile << j.dump();
-			myfile.close();
-
-		}
 	
-		/*! \brief This method imports zMesh from an OBJ file.
-		*
-		*	\param [in]		infilename			- input file name including the directory path and extension.
-		*	\since version 0.0.2
-		*/
-		void fromOBJ(string infilename)
-		{
-			vector<zVector>positions;
-			vector<int>polyConnects;
-			vector<int>polyCounts;
-
-			vector<zVector>  vertexNormals;
-			vector<zVector>  faceNormals;
-
-			ifstream myfile;
-			myfile.open(infilename.c_str());
-
-			if (myfile.fail())
-			{
-				cout << " error in opening file  " << infilename.c_str() << endl;
-				return;
-
-			}
-
-			while (!myfile.eof())
-			{
-				string str;
-				getline(myfile, str);
-
-				vector<string> perlineData = meshObj->mesh.coreUtils.splitString(str, " ");
-
-				if (perlineData.size() > 0)
-				{
-					// vertex
-					if (perlineData[0] == "v")
-					{
-						if (perlineData.size() == 4)
-						{
-							zVector pos;
-							pos.x = atof(perlineData[1].c_str());
-							pos.y = atof(perlineData[2].c_str());
-							pos.z = atof(perlineData[3].c_str());
-
-							positions.push_back(pos);
-						}
-						//printf("\n working vertex");
-					}
-
-					// vertex normal
-					if (perlineData[0] == "vn")
-					{
-						//printf("\n working vertex normal ");
-						if (perlineData.size() == 4)
-						{
-							zVector norm;
-							norm.x = atof(perlineData[1].c_str());
-							norm.y = atof(perlineData[2].c_str());
-							norm.z = atof(perlineData[3].c_str());
-
-							vertexNormals.push_back(norm);
-						}
-						//printf("\n working vertex");
-					}
-
-					// face
-					if (perlineData[0] == "f")
-					{
-
-						zVector norm;
-
-
-
-						for (int i = 1; i < perlineData.size(); i++)
-						{
-							vector<string> faceData = meshObj->mesh.coreUtils.splitString(perlineData[i], "/");
-
-							//vector<string> cleanFaceData = splitString(faceData[0], "/\/");
-
-							int id = atoi(faceData[0].c_str()) - 1;
-							polyConnects.push_back(id);
-
-							//printf(" %i ", id);
-
-							int normId = atoi(faceData[faceData.size() - 1].c_str()) - 1;
-							norm += vertexNormals[normId];
-
-						}
-
-						norm /= (perlineData.size() - 1);
-						norm.normalize();
-						faceNormals.push_back(norm);
-
-						polyCounts.push_back(perlineData.size() - 1);
-						//printf("\n working face ");
-					}
-				}
-			}
-						
-			myfile.close();
-
-			
-			
-			meshObj->mesh = zMesh(positions, polyCounts, polyConnects);;
-			printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
-			
-
-			setFaceNormals(faceNormals);
-
-		}
-
-		/*! \brief This method imports zMesh from a JSON file format using JSON Modern Library.
-		*
-		*	\param [in]		infilename			- input file name including the directory path and extension.
-		*	\since version 0.0.2
-		*/
-		void fromJSON(string infilename)
-		{
-			json j;
-			zUtilsJsonHE meshJSON;
-
-			
-			ifstream in_myfile;
-			in_myfile.open(infilename.c_str());
-
-			int lineCnt = 0;
-
-			if (in_myfile.fail())
-			{
-				cout << " error in opening file  " << infilename.c_str() << endl;
-				return;
-			}
-
-			in_myfile >> j;
-			in_myfile.close();
-
-			// READ Data from JSON
-
-			// Vertices
-			meshJSON.vertices.clear();
-			meshJSON.vertices = (j["Vertices"].get<vector<int>>());
-
-			//Edges
-			meshJSON.halfedges.clear();
-			meshJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
-
-			// Faces
-			meshJSON.faces.clear();
-			meshJSON.faces = (j["Faces"].get<vector<int>>());
-
-
-			// update  mesh
-
-			meshObj->mesh.vertices = new zVertex[meshJSON.vertices.size() * 2];
-			meshObj->mesh.edges = new zEdge[meshJSON.halfedges.size() * 2];
-			meshObj->mesh.faces = new zFace[meshJSON.faces.size() * 2];
-
-			meshObj->mesh.setNumVertices(meshJSON.vertices.size());
-			meshObj->mesh.setNumEdges(floor(meshJSON.halfedges.size()));
-			meshObj->mesh.setNumPolygons(meshJSON.faces.size());
-
-			meshObj->mesh.vertexActive.clear();
-			for (int i = 0; i < meshJSON.vertices.size(); i++)
-			{
-				meshObj->mesh.vertices[i].setVertexId(i);
-				if (meshJSON.vertices[i] != -1) meshObj->mesh.vertices[i].setEdge(&meshObj->mesh.edges[meshJSON.vertices[i]]);
-
-				meshObj->mesh.vertexActive.push_back(true);
-			}
-
-			int k = 0;
-			meshObj->mesh.edgeActive.clear();
-			for (int i = 0; i < meshJSON.halfedges.size(); i++)
-			{
-				meshObj->mesh.edges[i].setEdgeId(i);
-
-				if (meshJSON.halfedges[i][k] != -1) 	meshObj->mesh.edges[i].setPrev(&meshObj->mesh.edges[meshJSON.halfedges[i][k]]);
-				if (meshJSON.halfedges[i][k + 1] != -1) meshObj->mesh.edges[i].setNext(&meshObj->mesh.edges[meshJSON.halfedges[i][k + 1]]);
-				if (meshJSON.halfedges[i][k + 2] != -1) meshObj->mesh.edges[i].setVertex(&meshObj->mesh.vertices[meshJSON.halfedges[i][k + 2]]);
-				if (meshJSON.halfedges[i][k + 3] != -1) meshObj->mesh.edges[i].setFace(&meshObj->mesh.faces[meshJSON.halfedges[i][k + 3]]);
-
-
-				 if(i %2 == 0) meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i+1]);
-				 else meshObj->mesh.edges[i].setSym(&meshObj->mesh.edges[i - 1]);
-
-				meshObj->mesh.edgeActive.push_back(true);
-			}
-
-			meshObj->mesh.faceActive.clear();
-			for (int i = 0; i < meshJSON.faces.size(); i++)
-			{
-				meshObj->mesh.faces[i].setFaceId(i);
-				if (meshJSON.faces[i] != -1) meshObj->mesh.faces[i].setEdge(&meshObj->mesh.edges[meshJSON.faces[i]]);
-
-				meshObj->mesh.faceActive.push_back(true);
-			}
-
-			// Vertex Attributes
-			meshJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
-			//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
-
-			meshObj->mesh.vertexPositions.clear();
-			meshObj->mesh.vertexNormals.clear();
-			meshObj->mesh.vertexColors.clear();
-			meshObj->mesh.vertexWeights.clear();
-			for (int i = 0; i < meshJSON.vertexAttributes.size(); i++)
-			{
-				for (int k = 0; k < meshJSON.vertexAttributes[i].size(); k++)
-				{
-					
-					// position and color
-
-					if (meshJSON.vertexAttributes[i].size() == 9)
-					{
-						zVector pos(meshJSON.vertexAttributes[i][k], meshJSON.vertexAttributes[i][k + 1], meshJSON.vertexAttributes[i][k + 2]);
-						meshObj->mesh.vertexPositions.push_back(pos);
-
-						zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
-						meshObj->mesh.vertexNormals.push_back(normal);
-
-						zColor col(meshJSON.vertexAttributes[i][k + 6], meshJSON.vertexAttributes[i][k + 7], meshJSON.vertexAttributes[i][k + 8], 1);
-						meshObj->mesh.vertexColors.push_back(col);
-
-						meshObj->mesh.vertexWeights.push_back(2.0);
-
-						k += 8;
-					}
-				}
-			}
-
-
-			// Edge Attributes
-			meshJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
-
-			meshObj->mesh.edgeColors.clear();
-			meshObj->mesh.edgeWeights.clear();
-			if (meshJSON.halfedgeAttributes.size() == 0)
-			{
-				
-
-				for (int i = 0; i < meshObj->mesh.n_e; i++)
-				{
-					meshObj->mesh.edgeColors.push_back(zColor());
-					meshObj->mesh.edgeWeights.push_back(1.0);
-				}
-			}
-			else
-			{
-				for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i++)
-				{
-					// color
-					if (meshJSON.halfedgeAttributes[i].size() == 3)
-					{
-						zColor col(meshJSON.halfedgeAttributes[i][0], meshJSON.halfedgeAttributes[i][1], meshJSON.halfedgeAttributes[i][2], 1);
-
-						meshObj->mesh.edgeColors.push_back(col);
-						meshObj->mesh.edgeWeights.push_back(1.0);
-
-					}
-				}
-			}
-
-			// face Attributes
-			meshJSON.faceAttributes = j["FaceAttributes"].get<vector<vector<double>>>();
-
-			meshObj->mesh.faceColors.clear();
-			meshObj->mesh.faceNormals.clear();
-			for (int i = 0; i < meshJSON.faceAttributes.size(); i++)
-			{
-				for (int k = 0; k < meshJSON.faceAttributes[i].size(); k++)
-				{
-					// normal and color
-					if (meshJSON.faceAttributes[i].size() == 6)
-					{
-						zColor col(meshJSON.faceAttributes[i][k + 3], meshJSON.faceAttributes[i][k + 4], meshJSON.faceAttributes[i][k + 5], 1);
-						meshObj->mesh.faceColors.push_back(col);
-
-
-						zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
-						meshObj->mesh.faceNormals.push_back(normal);
-											   
-						k += 5;
-					}
-
-					if (meshJSON.faceAttributes[i].size() == 3)
-					{
-						zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
-						meshObj->mesh.faceNormals.push_back(normal);
-
-
-						meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
-
-						k += 2;
-					}
-				}
-
-			}
-			
-			if (meshJSON.faceAttributes.size() == 0)
-			{
-				computeMeshNormals();
-				setFaceColor(zColor(0.5, 0.5, 0.5, 1));
-			}
-
-			printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
-
-			// add to maps 
-			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
-			{
-				meshObj->mesh.addToPositionMap(meshObj->mesh.vertexPositions[i], i);
-			}
-
-
-			for (int i = 0; i < numEdges(); i += 2)
-			{
-				int v1 = meshObj->mesh.edges[i].getVertex()->getVertexId();
-				int v2 = meshObj->mesh.edges[i + 1].getVertex()->getVertexId();
-
-				meshObj->mesh.addToVerticesEdge(v1, v2, i);
-			}
-
-		}
 
 	public:
 		
@@ -1055,14 +79,14 @@ namespace zSpace
 		{
 			if (type == zOBJ)
 			{
-				fromOBJ(path);
-				if(staticGeom) setStaticContainers();
+				bool chk = fromOBJ(path);
+				if(chk && staticGeom) setStaticContainers();
 			}
 			
 			else if (type == zJSON)
 			{
-				fromJSON(path);
-				if (staticGeom) setStaticContainers();
+				bool chk = fromJSON(path);
+				if (chk && staticGeom) setStaticContainers();
 			}
 			
 			else throw std::invalid_argument(" error: invalid zFileTpye type");
@@ -1078,52 +102,31 @@ namespace zSpace
 
 		void clear() override 
 		{
-			if (meshObj->mesh.vertices != NULL)
-			{
-				delete[] meshObj->mesh.vertices;
-				meshObj->mesh.vertices = NULL;
 
-				meshObj->mesh.vertexActive.clear();
-				meshObj->mesh.vertexPositions.clear();
-				meshObj->mesh.vertexNormals.clear();
-				meshObj->mesh.vertexColors.clear();
-				meshObj->mesh.vertexWeights.clear();
-
-				meshObj->mesh.positionVertex.clear();
-				meshObj->mesh.verticesEdge.clear();
-
-
-			}
-
-			if (meshObj->mesh.edges != NULL)
-			{
-				delete[] meshObj->mesh.edges;
-				meshObj->mesh.edges = NULL;
-
-				meshObj->mesh.edgeActive.clear();
-				meshObj->mesh.edgeColors.clear();
-				meshObj->mesh.edgeWeights.clear();
-
-			}
-
-
-			if (meshObj->mesh.faces != NULL)
-			{
-				delete[]meshObj->mesh.faces;
-				meshObj->mesh.faces = NULL;
-
-				meshObj->mesh.faceActive.clear();
-				meshObj->mesh.faceColors.clear();
-				meshObj->mesh.faceNormals.clear();
-			}
-
-			meshObj->mesh.n_v = meshObj->mesh.n_e = meshObj->mesh.n_f = 0;
+			meshObj->mesh.clear();				
 		}
 		
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
+		/*! \brief This method reserves memorm for the mesh element containers. 
+		*
+		*	\param		[in]	_n_v			- size of vertices.
+		*	\param		[in]	_n_e			- size of edges.
+		*	\param		[in]	_n_f			- size of faces.		
+		*	\since version 0.0.2
+		*/
+		void reserve(int _n_v, int  _n_e, int _n_f)
+		{
+			meshObj->mesh.clear();
+
+			meshObj->mesh.vertices.reserve(_n_v);
+			meshObj->mesh.faces.reserve(_n_f);
+			meshObj->mesh.edges.reserve(_n_e);
+			meshObj->mesh.halfEdges.reserve(_n_e *2);
+
+		}
 				
 		/*! \brief This method creates a mesh from the input containers.
 		*
@@ -1135,7 +138,7 @@ namespace zSpace
 		*/
 		void create(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects), bool staticMesh = false)
 		{
-			meshObj->mesh = zMesh(_positions, polyCounts, polyConnects);
+			meshObj->mesh.create(_positions, polyCounts, polyConnects);
 
 			// compute mesh normals
 			computeMeshNormals();
@@ -1144,6 +147,119 @@ namespace zSpace
 			
 		}
 				
+		/*! \brief This method adds a vertex to the mesh. 
+		*
+		*	\param		[in]	_pos				- zVector holding the position information of the vertex.
+		*	\param		[in]	checkDuplicates		- checks for duplicates if true.
+		*	\param		[out]	vertex			- vertex iterator of the new vertex or existing if it is a duplicate.
+		*	\return				bool				- true if the vertex container is resized.
+		*	\note	 The vertex pointers will need to be computed/ set.
+		*	\since version 0.0.2
+		*/
+		bool addVertex(zVector &_pos, bool checkDuplicates,zItMeshVertex &vertex )
+		{			
+			if (checkDuplicates)
+			{
+				int id;
+				bool chk = vertexExists(_pos, vertex);
+				if (chk)	return false;
+				
+			}
+			
+			bool out = meshObj->mesh.addVertex(_pos);
+			vertex = zItMeshVertex(*meshObj, numVertices() - 1);
+
+			return out;
+		}
+
+		/*! \brief This method adds an edge and its symmetry edge to the mesh.
+		*
+		*	\param		[in]	v1			- start vertex index of the edge.
+		*	\param		[in]	v2			- end vertex index of the edge.
+		*	\param		[out]	halfEdge	- hafedge iterator of the new halfedge or existing if it is a duplicate.
+		*	\return				bool		- true if the edges container is resized.
+		*	\note	 The half edge pointers will need to be computed/ set.
+		*	\since version 0.0.2
+		*/
+		bool addEdges(int &v1, int &v2, bool checkDuplicates, zItMeshHalfEdge &halfEdge)
+		{
+			if (v1 < 0 && v1 >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+			if (v2 < 0 && v2 >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+
+			if (checkDuplicates)
+			{
+				int id;
+				bool chk = halfEdgeExists(v1, v2, id);
+				if (chk)
+				{
+					halfEdge = zItMeshHalfEdge(*meshObj, id);
+					return false;
+				}
+			}
+
+			bool out = meshObj->mesh.addEdges(v1, v2);
+			
+			halfEdge = zItMeshHalfEdge(*meshObj, numHalfEdges() - 2);
+
+			return out;
+		}
+
+		/*! \brief This method adds a face to the mesh.
+		*
+		*	\param		[in]	fVertices	- array of ordered vertex index that make up the polygon.
+		*	\param		[out]	face		- face iterator of the new face
+		*	\return				bool		- true if the faces container is resized.
+		*	\since version 0.0.2
+		*/
+		bool addPolygon(vector<int> &fVertices, zItMeshFace &face)
+		{
+			for (auto &v : fVertices)
+			{
+				if (v < 0 && v >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+			}
+
+			bool out = meshObj->mesh.addPolygon(fVertices);
+
+			face = zItMeshFace(*meshObj, numPolygons() - 1);
+
+			return out;
+		}
+
+		/*! \brief This method adds a face to the mesh.
+		*
+		*	\param		[in]	fVertices	- array of ordered vertex positions that make up the polygon.
+		*	\param		[out]	face		- face iterator of the new face
+		*	\return				bool		- true if the faces container is resized.
+		*	\since version 0.0.2
+		*/
+		bool addPolygon(vector<zVector> &fVertices, zItMeshFace &face)
+		{
+			vector<int> fVerts;
+
+			for (auto &v : fVertices)
+			{
+				zItMeshVertex vId;
+				addVertex(v, true, vId);
+				fVerts.push_back(vId.getId());
+			}
+
+			return addPolygon(fVerts, face);
+		}
+
+		/*! \brief This method adds a face to the mesh.
+		*
+		*	\param		[out]	face		- face iterator of the new face
+		*	\return				bool		- true if the faces container is resized.
+		*	\note	 The face pointers will need to be computed/ set.
+		*	\since version 0.0.2
+		*/
+		bool addPolygon(zItMeshFace &face)
+		{
+			bool out = meshObj->mesh.addPolygon();
+			face = zItMeshFace(*meshObj, numPolygons() - 1);
+
+			return out;
+		}
 
 		//--------------------------
 		//--- TOPOLOGY QUERY METHODS 
@@ -1151,7 +267,7 @@ namespace zSpace
 
 		
 		/*! \brief This method returns the number of vertices in the mesh.
-		*	\return				number of vertices.
+		*	\return				int - number of vertices.
 		*	\since version 0.0.2
 		*/
 		int numVertices()
@@ -1160,12 +276,21 @@ namespace zSpace
 		}
 
 		/*! \brief This method returns the number of half edges in the mesh.
-		*	\return				number of edges.
+		*	\return				int - number of edges.
 		*	\since version 0.0.2
 		*/
 		int numEdges()
 		{
 			return meshObj->mesh.n_e;
+		}
+
+		/*! \brief This method returns the number of half edges in the mesh.
+		*	\return				int - number of half edges.
+		*	\since version 0.0.2
+		*/
+		int numHalfEdges()
+		{
+			return meshObj->mesh.n_he;
 		}
 
 		/*! \brief This method returns the number of polygons in the mesh
@@ -1182,437 +307,50 @@ namespace zSpace
 		*
 		*	\param		[in]		pos			- position to be checked.
 		*	\param		[out]		outVertexId	- stores vertexId if the vertex exists else it is -1.
+		*	\param		[in]		precisionfactor	- input precision factor.
 		*	\return		[out]		bool		- true if vertex exists else false.
 		*	\since version 0.0.2
 		*/
-		bool vertexExists(zVector pos, int &outVertexId)
+		bool vertexExists(zVector pos, zItMeshVertex &outVertex, int precisionfactor = 6)
 		{
-			bool out = false;;
 
-			double factor = pow(10, 3);
-			double x = round(pos.x *factor) / factor;
-			double y = round(pos.y *factor) / factor;
-			double z = round(pos.z *factor) / factor;
+			int id;
+			bool chk = meshObj->mesh.vertexExists(pos, id, precisionfactor);
 
-			string hashKey = (to_string(x) + "," + to_string(y) + "," + to_string(z));
-			std::unordered_map<std::string, int>::const_iterator got = meshObj->mesh.positionVertex.find(hashKey);
+			if (chk) outVertex = zItMeshVertex(*meshObj, id);
 
-
-			if (got != meshObj->mesh.positionVertex.end())
-			{
-				out = true;
-				outVertexId = got->second;
-			}
-
-
-			return out;
+			return chk;
 		}
 
 		/*! \brief This method detemines if an edge already exists between input vertices.
 		*
-		*	\param		[in]	v1			- vertexId 1.
-		*	\param		[in]	v2			- vertexId 2.
-		*	\param		[out]	outEdgeId	- stores edgeId if the edge exists else it is -1.
-		*	\return		[out]	bool		- true if edge exists else false.
+		*	\param		[in]	v1			-  vertexId 1.
+		*	\param		[in]	v2			-  vertexId 2.
+		*	\param		[out]	outHalfEdgeId	-  half edge id.
+		*	\return		[out]	bool		-  true if edge exists else false.
 		*	\since version 0.0.2
 		*/
-		bool edgeExists(int v1, int v2, int &outEdgeId)
+		bool halfEdgeExists(int v1, int v2, int &outHalfEdgeId)
 		{
-
-			bool out = false;
-
-			string hashKey = (to_string(v1) + "," + to_string(v2));
-			std::unordered_map<std::string, int>::const_iterator got = meshObj->mesh.verticesEdge.find(hashKey);
-
-
-			if (got != meshObj->mesh.verticesEdge.end())
-			{
-				out = true;
-				outEdgeId = got->second;
-			}
-
-			return out;
+			return meshObj->mesh.halfEdgeExists(v1, v2, outHalfEdgeId);
 		}
-
-		/*! \brief This method gets the edges of a zFace.
+				
+		/*! \brief This method detemines if an edge already exists between input vertices.
 		*
-		*	\param		[in]	index			- index in the face container.
-		*	\param		[in]	type			- zFaceData.
-		*	\param		[out]	edgeIndicies	- vector of edge indicies.
+		*	\param		[in]	v1			-  vertexId 1.
+		*	\param		[in]	v2			-  vertexId 2.
+		*	\param		[out]	outEdgeId	-  half edge iterator if edge exists.
+		*	\return		[out]	bool		-  true if edge exists else false.
 		*	\since version 0.0.2
 		*/
-		void getEdges(int index, zHEData type, vector<int> &edgeIndicies)
+		bool halfEdgeExists(int v1, int v2, zItMeshHalfEdge &outHalfEdge)
 		{
-			
-			edgeIndicies.clear();
+			int id;
+			bool chk = halfEdgeExists(v1, v2, id);
 
-			// Face 
-			if (type == zFaceData)
-			{
-				if (meshObj->mesh.faces[index].getEdge())
-				{
-					zEdge* start = meshObj->mesh.faces[index].getEdge();
-					zEdge* e = start;
+			if(chk) outHalfEdge = zItMeshHalfEdge(*meshObj,id);
 
-					bool exit = false;
-
-					do
-					{
-						edgeIndicies.push_back(e->getEdgeId());
-						if (e->getNext())e = e->getNext();
-						else exit = true;
-
-					} while (e != start && !exit);
-				}
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			
-		}
-
-		/*!	\brief This method gets the vertices attached to input zEdge or zFace.
-		*
-		*	\param		[in]	index			- index in the edge/face container.
-		*	\param		[in]	type			- zEdgeData or zFaceData.
-		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
-		*	\since version 0.0.2
-		*/
-		void getVertices(int index, zHEData type, vector<int> &vertexIndicies)
-		{
-			
-			vertexIndicies.clear();
-
-			// Edge
-			if (type == zEdgeData)
-			{
-				vertexIndicies.push_back(meshObj->mesh.edges[index].getVertex()->getVertexId());
-				vertexIndicies.push_back(meshObj->mesh.edges[index].getSym()->getVertex()->getVertexId());
-			}
-
-
-			// Face 
-			else if (type == zFaceData)
-			{
-
-				vector<int> faceEdges;
-				getEdges(index, type, faceEdges);
-
-				for (int i = 0; i < faceEdges.size(); i++)
-				{
-					//out.push_back(edges[faceEdges[i]].getVertex()->getVertexId());
-					vertexIndicies.push_back(meshObj->mesh.edges[faceEdges[i]].getSym()->getVertex()->getVertexId());
-				}
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			
-		}
-
-		/*!	\brief This method gets the vertex positions attached to input zEdge or zFace.
-		*
-		*	\param		[in]	index			- index in the edge/face container.
-		*	\param		[in]	type			- zEdgeData or zFaceData.
-		*	\param		[out]	vertPositions	- vector of vertex positions.
-		*	\since version 0.0.2
-		*/
-		void getVertexPositions(int index, zHEData type, vector<zVector> &vertPositions)
-		{
-			vertPositions.clear();
-
-			// Mesh Edge
-			if (type == zEdgeData)
-			{
-
-				vector<int> eVerts;
-
-				getVertices(index, type, eVerts);
-
-				for (int i = 0; i < eVerts.size(); i++)
-				{
-					vertPositions.push_back(meshObj->mesh.vertexPositions[eVerts[i]]);
-				}
-
-			}
-
-
-			// Mesh Face 
-			else if (type == zFaceData)
-			{
-
-				vector<int> fVerts;
-
-				getVertices(index, type, fVerts);
-
-				for (int i = 0; i < fVerts.size(); i++)
-				{
-					vertPositions.push_back(meshObj->mesh.vertexPositions[fVerts[i]]);
-				}
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-						
-		}
-
-		/*! \brief This method gets the edges connected to input zVertex or zEdge.
-		*
-		*	\param		[in]	index			- index in the vertex/edge list.
-		*	\param		[in]	type			- zVertexData or zEdgeData.
-		*	\param		[out]	edgeIndicies	- vector of edge indicies.
-		*	\since version 0.0.2
-		*/
-		void getConnectedEdges(int index, zHEData type, vector<int>& edgeIndicies)
-		{
-			edgeIndicies.clear();
-
-			//  Vertex 
-			if (type == zVertexData)
-			{
-				if (meshObj->mesh.vertices[index].getEdge())
-				{
-					zEdge* start = meshObj->mesh.vertices[index].getEdge();
-					zEdge* e = start;
-
-					bool exit = false;
-
-					do
-					{
-						edgeIndicies.push_back(e->getEdgeId());
-
-						//printf("\n %i %i ", e->getEdgeId(), start->getEdgeId());
-
-						if (e->getPrev())
-						{
-							if (e->getPrev()->getSym()) e = e->getPrev()->getSym();
-							else exit = true;
-						}
-						else exit = true;
-
-					} while (e != start && !exit);
-				}
-			}
-
-			//  Edge
-			else if (type == zEdgeData)
-			{
-				vector<int> connectedEdgestoVert0;
-				getConnectedEdges(meshObj->mesh.edges[index].getVertex()->getVertexId(), zVertexData, connectedEdgestoVert0);
-
-				vector<int> connectedEdgestoVert1;
-				getConnectedEdges(meshObj->mesh.edges[index].getSym()->getVertex()->getVertexId(), zVertexData, connectedEdgestoVert1);
-
-				for (int i = 0; i < connectedEdgestoVert0.size(); i++)
-				{
-					if (connectedEdgestoVert0[i] != index) edgeIndicies.push_back(connectedEdgestoVert0[i]);
-				}
-
-
-				for (int i = 0; i < connectedEdgestoVert1.size(); i++)
-				{
-					if (connectedEdgestoVert1[i] != index) edgeIndicies.push_back(connectedEdgestoVert1[i]);
-				}
-			}
-
-			else  throw std::invalid_argument(" error: invalid zHEData type");
-
-			
-		}
-
-		/*! \brief This method gets the vertices connected to input zVertex.
-		*
-		*	\param		[in]	index			- index in the vertex list.
-		*	\param		[in]	type			- zVertexData.
-		*	\param		[out]	vertexIndicies	- vector of vertex indicies.
-		*	\since version 0.0.2
-		*/
-		void getConnectedVertices(int index, zHEData type, vector<int>& vertexIndicies)
-		{
-			vertexIndicies.clear();
-
-			// Vertex
-			if (type == zVertexData)
-			{
-
-				vector<int> connectedEdges;
-				getConnectedEdges(index, type, connectedEdges);
-
-				for (int i = 0; i < connectedEdges.size(); i++)
-				{
-					vertexIndicies.push_back(meshObj->mesh.edges[connectedEdges[i]].getVertex()->getVertexId());
-				}
-
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-						
-		}
-
-		/*! \brief This method gets the faces connected to input zVertex or zFace
-		*
-		*	\param		[in]	index	- index in the vertex/face container.
-		*	\param		[in]	type	- zVertexData or zFaceData.
-		*	\param		[out]	faceIndicies	- vector of face indicies.
-		*	\since version 0.0.2
-		*/
-		void getConnectedFaces(int index, zHEData type, vector<int> &faceIndicies)
-		{
-			faceIndicies.clear();
-
-			// Vertex
-			if (type == zVertexData)
-			{
-				vector<int> connectedEdges;
-				getConnectedEdges(index, type, connectedEdges);
-
-				for (int i = 0; i < connectedEdges.size(); i++)
-				{
-					if (meshObj->mesh.edges[connectedEdges[i]].getFace()) faceIndicies.push_back(meshObj->mesh.edges[connectedEdges[i]].getFace()->getFaceId());
-				}
-			}
-
-			// Face
-			else if (type == zFaceData)
-			{
-				vector<int> fEdges;
-				getEdges(index, type, fEdges);
-
-
-
-				for (int i = 0; i < fEdges.size(); i++)
-				{
-					vector<int> eFaces;
-					getFaces(fEdges[i], zEdgeData, eFaces);
-
-					for (int k = 0; k < eFaces.size(); k++)
-					{
-						if (eFaces[k] != index) faceIndicies.push_back(eFaces[k]);
-					}
-
-					/*if (edges[fEdges[i]].f)
-					{
-					if(edges[fEdges[i]].f->faceId != index) out.push_back(edges[fEdges[i]].f->faceId);
-					if(edges)
-					}*/
-				}
-
-
-			}
-			else throw std::invalid_argument(" error: invalid zHEData type");
-						
-		}
-
-		/*! \brief This method gets the faces attached to input zEdge
-		*
-		*	\param		[in]	index			- index in the edge list.
-		*	\param		[in]	type			- zEdgeData.
-		*	\param		[out]	faceIndicies	- vector of face indicies.
-		*	\since version 0.0.2
-		*/
-		void getFaces(int &index, zHEData type, vector<int> &faceIndicies)
-		{
-
-			faceIndicies.clear();
-
-			// Mesh Edge
-			if (type == zEdgeData)
-			{
-				if (meshObj->mesh.edges[index].getFace()) faceIndicies.push_back(meshObj->mesh.edges[index].getFace()->getFaceId());
-				if (meshObj->mesh.edges[index].getSym()->getFace()) faceIndicies.push_back(meshObj->mesh.edges[index].getSym()->getFace()->getFaceId());
-			}
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			
-		}
-
-		/*!	\brief This method determines if  input zVertex or zEdge or zFace is on the boundary.
-		*
-		*	\param		[in]	index	- index in the vertex/edge/face list.
-		*	\param		[in]	type	- zVertexData or zEdgeData or zFaceData.
-		*	\return				bool	- true if on boundary else false.
-		*	\since version 0.0.2
-		*/
-		bool onBoundary(int index, zHEData type = zVertexData)
-		{
-			bool out = false;
-
-			// zMesh Vertex
-			if (type == zVertexData && index != -1)
-			{
-
-				vector<int> connectedEdges;
-				getConnectedEdges(index, type, connectedEdges);
-
-				for (int i = 0; i < connectedEdges.size(); i++)
-				{
-					if (onBoundary(connectedEdges[i], zEdgeData))
-					{
-						out = true;
-						break;
-					}
-				}
-			}
-
-			// Mesh Edge 
-			else if (type == zEdgeData && index != -1)
-			{
-				if (!meshObj->mesh.edges[index].getFace()) out = true;
-				//else printf("\n face: %i", edges[index].getFace()->getFaceId());
-			}
-
-			// Mesh Face 
-			else if (type == zFaceData && index != -1)
-			{
-				vector<int> fEdges;
-				getEdges(index, zFaceData, fEdges);
-
-				for (int i = 0; i < fEdges.size(); i++)
-				{
-					if (onBoundary(getSymIndex(fEdges[i]), zEdgeData))
-					{
-						out = true;
-						break;
-					}
-				}
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-
-			return out;
-		}
-
-		/*!	\brief This method calculate the valency of the input zVertex.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\return				int		- valency of input vertex input valence.
-		*	\since version 0.0.2
-		*/
-		int getVertexValence(int index)
-		{
-			int out;
-
-			vector<int> connectedEdges;
-			getConnectedEdges(index, zVertexData, connectedEdges);
-
-			out = connectedEdges.size();
-
-			return out;
-		}
-
-		/*!	\brief This method determines if input zVertex valency is equal to the input valence number.
-		*
-		*	\param		[in]	index	- index in the vertex list.
-		*	\param		[in]	valence	- input valence value.
-		*	\return				bool	- true if valency is equal to input valence.
-		*	\since version 0.0.2
-		*/
-		bool checkVertexValency(int index, int valence = 1)
-		{
-			bool out = false;
-			out = (getVertexValence(index) == valence) ? true : false;
-
-
-			return out;
+			return chk;
 		}
 
 		/*! \brief This method computes the mesh laplcaian operator.
@@ -1633,10 +371,12 @@ namespace zSpace
 
 
 			// compute laplacian weights
-			for (int j = 0; j < n_v; j++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
-				vector<int> cEdges;
-				getConnectedEdges(j, zVertexData, cEdges);
+				vector<zItMeshHalfEdge> cEdges;
+				v.getConnectedHalfEdges(cEdges);
+
+				int j = v.getId();
 
 				double out = 0;
 
@@ -1646,7 +386,7 @@ namespace zSpace
 					double val = getEdgeCotangentWeight(cEdges[k]) * 0.5;
 					out += val;
 
-					int i = getEndVertexIndex(cEdges[k]);
+					int i = cEdges[k].getVertex().getId(); 
 
 					meshLaplacian.insert(j, i) = val * -1;			
 				}
@@ -1685,284 +425,31 @@ namespace zSpace
 			return meshLaplacian;
 		}
 
-		//--------------------------
-		//--- HALF EDGE QUERY METHODS 
-		//--------------------------
 
-		
-		/*!	\brief This method returns the next edge of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				zEdge	- pointer to next edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getNext(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-			return meshObj->mesh.edges[index].getNext();
-		}
-
-		/*!	\brief This method returns the next edge index of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				int		- index of next edge if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getNextIndex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if(meshObj->mesh.edges[index].getNext()) return meshObj->mesh.edges[index].getNext()->getEdgeId();
-			else return -1;
-		}
-
-		/*!	\brief This method returns the previous edge of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				zEdge	- pointer to previous edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getPrev(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.edges[index].getPrev();
-		}
-
-		/*!	\brief This method returns the previous edge index of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge lcontainerist.
-		*	\return				int		- index of previous edge if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getPrevIndex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (meshObj->mesh.edges[index].getPrev()) return meshObj->mesh.edges[index].getPrev()->getEdgeId();
-			else return -1;
-		}
-
-		/*!	\brief This method returns the symmetry edge of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				zEdge	- pointer to symmetry edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getSym(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.edges[index].getSym();
-		}
-
-		/*!	\brief This method returns the symmetry edge index of the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				int		- index of symmetry edge.
-		*	\since version 0.0.2
-		*/
-		int getSymIndex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.edges[index].getSym()->getEdgeId();			
-		}
-
-		/*!	\brief This method returns the face attached to the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				zFace	- pointer to face.
-		*	\since version 0.0.2
-		*/
-		zFace* getFace(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.edges[index].getFace();
-		}
-
-		/*!	\brief This method returns the face index attached to the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				int		- index of face if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getFaceIndex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (meshObj->mesh.edges[index].getFace()) return meshObj->mesh.edges[index].getFace()->getFaceId();
-			else return -1;
-		}
-
-		/*!	\brief This method returns the vertex pointed by the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.2
-		*/
-		zVertex* getEndVertex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.edges[index].getVertex();
-		}
-
-		/*!	\brief This method returns the vertex pointed by the input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getEndVertexIndex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (meshObj->mesh.edges[index].getVertex()) return meshObj->mesh.edges[index].getVertex()->getVertexId();
-			else return -1;
-		}
-
-		/*!	\brief This method returns the vertex pointed by the symmetry of input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				zVertex	- pointer to vertex.
-		*	\since version 0.0.2
-		*/
-		zVertex* getStartVertex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return getSym(index)->getVertex(); 
-		}
-
-		/*!	\brief This method returns the vertex pointed by the symmetry of input indexed edge.
-		*
-		*	\param		[in]	index	- index in the edge container.
-		*	\return				int		- index of vertex if it exists , else -1.
-		*	\since version 0.0.2
-		*/
-		int getStartVertexIndex(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			if (getSym(index)->getVertex()) return getSym(index)->getVertex()->getVertexId();
-			else return -1;
-		}
-
-		/*!	\brief This method returns the edge attached to the input indexed vertex or edge or  face.
-		*
-		*	\param		[in]	index	- index in the vertex/edge/face container.
-		*	\param		[in]	type	- zVertexData or zEdgeData or zFaceData.
-		*	\return				zEdge	- pointer to edge.
-		*	\since version 0.0.2
-		*/
-		zEdge* getEdge(int index, zHEData type)
-		{
-			if (type == zVertexData)
-			{
-				if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return meshObj->mesh.vertices[index].getEdge();
-			}
-
-			else if (type == zEdgeData)
-			{
-				if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return &meshObj->mesh.edges[index];
-			}
-
-			else if (type == zFaceData)
-			{
-				if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return meshObj->mesh.faces[index].getEdge();
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-			
-		}
-
-		/*!	\brief This method returns the index of the edge attached to the input indexed vertex or face.
-		*
-		*	\param		[in]	index	- index in the vertex or face container.
-		*	\param		[in]	type	- zVertexData or zFaceData.
-		*	\return				int		- index of edge.
-		*	\since version 0.0.2
-		*/
-		int getEdgeIndex(int index, zHEData type)
-		{
-			if (type == zVertexData)
-			{
-				if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return meshObj->mesh.vertices[index].getEdge()->getEdgeId();
-			}
-
-			else if (type == zFaceData)
-			{
-				if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				return meshObj->mesh.faces[index].getEdge()->getEdgeId();
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		}
-
-		/*!	\brief This method returns the cotangent weight of the indexed edge.
+		/*!	\brief This method returns the cotangent weight of the indexed half edge.
 		*
 		*	\param		[in]	index	- index in the edge container.
 		*	\return				double	- output edge contangent weight.
 		*	\since version 0.0.2
 		*/
-		double getEdgeCotangentWeight(int index )
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+		double getEdgeCotangentWeight(zItMeshHalfEdge &he )
+		{			
 
-			
+			zItMeshVertex i = he.getStartVertex(); 
+			zItMeshVertex j = he.getVertex();
 
-			int i = getStartVertexIndex(index);
-			int j = getEndVertexIndex(index);
+			zVector* pt = i.getRawVertexPosition();
 
-			zVector* pt = getRawVertexPosition(i);
+			zVector* pt1 = j.getRawVertexPosition();
 
-			zVector* pt1 = getRawVertexPosition(j);
+			zItMeshHalfEdge nextEdge = he.getSym().getNext();
+			zItMeshVertex nextVert = nextEdge.getVertex();;
+			zVector* pt2 = nextVert.getRawVertexPosition();
 
-			int nextEdge = getSym(index)->getNext()->getEdgeId();
-			int nextVert = getEndVertexIndex(nextEdge);;
-			zVector* pt2 = getRawVertexPosition(nextVert);
-
-			int prevEdge = getPrev(index)->getSym()->getEdgeId();
-			int prevVert = getEndVertexIndex(prevEdge);;
-			zVector* pt3 = getRawVertexPosition(prevVert);
-
-			/*zVector cr = (*pt1 - *pt) ^ (*pt2 - *pt);
-
-			zVector cr_alpha = (*pt - *pt2) ^ (*pt1 - *pt2);
-			zVector cr_beta = (*pt - *pt3) ^ (*pt1 - *pt3);
-
-			double coTan_alpha = (((pt - pt2)*(pt1 - pt2)) / cr_alpha.length());
-			double coTan_beta = (((pt - pt3)*(pt1 - pt3)) / cr_beta.length());*/
+			zItMeshHalfEdge prevEdge = he.getPrev().getSym();
+			zItMeshVertex prevVert = prevEdge.getVertex();
+			zVector* pt3 = prevVert.getRawVertexPosition();			
 
 			zVector alpha1 = (*pt - *pt2);
 			zVector alpha2 = (*pt1 - *pt2);
@@ -1972,8 +459,8 @@ namespace zSpace
 			zVector beta2 = (*pt1 - *pt3);
 			double coTan_beta = beta1.cotan(beta2);
 
-			if (onBoundary(index,zEdgeData))coTan_beta = 0;;
-			if (onBoundary(getSymIndex(index), zEdgeData))coTan_alpha = 0;;
+			if (he.onBoundary())coTan_beta = 0;;
+			if (he.getSym().onBoundary())coTan_alpha = 0;;
 		
 			double wt = coTan_alpha + coTan_beta;
 
@@ -1995,13 +482,12 @@ namespace zSpace
 		*/
 		void computeEdgeColorfromVertexColor()
 		{
-
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			for( zItMeshEdge e (*meshObj); !e.end(); e.next())			
 			{
-				if (meshObj->mesh.edgeActive[i])
+				if (e.isActive())
 				{
-					int v0 = meshObj->mesh.edges[i].getVertex()->getVertexId();
-					int v1 = meshObj->mesh.edges[i + 1].getVertex()->getVertexId();
+					int v0 = e.getHalfEdge(0).getVertex().getId();
+					int v1 = e.getHalfEdge(0).getVertex().getId();
 
 					zColor col;
 					col.r = (meshObj->mesh.vertexColors[v0].r + meshObj->mesh.vertexColors[v1].r) * 0.5;
@@ -2009,11 +495,10 @@ namespace zSpace
 					col.b = (meshObj->mesh.vertexColors[v0].b + meshObj->mesh.vertexColors[v1].b) * 0.5;
 					col.a = (meshObj->mesh.vertexColors[v0].a + meshObj->mesh.vertexColors[v1].a) * 0.5;
 
-					if (meshObj->mesh.edgeColors.size() <= i) meshObj->mesh.edgeColors.push_back(col);
-					else meshObj->mesh.edgeColors[i] = col;
+					if (meshObj->mesh.edgeColors.size() <= e.getId()) meshObj->mesh.edgeColors.push_back(col);
+					else meshObj->mesh.edgeColors[e.getId()] = col;
 
-					if (meshObj->mesh.edgeColors.size() <= i + 1) meshObj->mesh.edgeColors.push_back(col);
-					else meshObj->mesh.edgeColors[i + 1] = col;
+
 				}
 
 
@@ -2029,12 +514,13 @@ namespace zSpace
 		*/
 		void computeVertexColorfromEdgeColor()
 		{
-			for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+			
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
-				if (meshObj->mesh.vertexActive[i])
+				if (v.isActive())
 				{
 					vector<int> cEdges;
-					getConnectedEdges(i, zVertexData, cEdges);
+					v.getConnectedHalfEdges(cEdges);
 
 					zColor col;
 					for (int j = 0; j < cEdges.size(); j++)
@@ -2046,7 +532,7 @@ namespace zSpace
 
 					col.r /= cEdges.size(); col.g /= cEdges.size(); col.b /= cEdges.size();
 
-					meshObj->mesh.vertexColors[i] = col;
+					meshObj->mesh.vertexColors[v.getId()] = col;
 
 				}
 			}
@@ -2058,12 +544,14 @@ namespace zSpace
 		*/
 		void computeFaceColorfromVertexColor()
 		{
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			
+
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
-				if (meshObj->mesh.faceActive[i])
+				if (f.isActive())
 				{
 					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					zColor col;
 					for (int j = 0; j < fVerts.size(); j++)
@@ -2075,7 +563,7 @@ namespace zSpace
 
 					col.r /= fVerts.size(); col.g /= fVerts.size(); col.b /= fVerts.size();
 
-					meshObj->mesh.faceColors[i] = col;
+					meshObj->mesh.faceColors[f.getId()] = col;
 				}
 			}
 
@@ -2088,12 +576,12 @@ namespace zSpace
 		void computeVertexColorfromFaceColor()
 		{
 
-			for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
-				if (meshObj->mesh.vertexActive[i])
+				if (v.isActive())
 				{
 					vector<int> cFaces;
-					getConnectedFaces(i, zVertexData, cFaces);
+					v.getConnectedFaces(cFaces);
 
 					zColor col;
 					for (int j = 0; j < cFaces.size(); j++)
@@ -2105,7 +593,7 @@ namespace zSpace
 
 					col.r /= cFaces.size(); col.g /= cFaces.size(); col.b /= cFaces.size();
 
-					meshObj->mesh.vertexColors[i] = col;
+					meshObj->mesh.vertexColors[v.getId()] = col;
 				}
 			}
 
@@ -2124,15 +612,15 @@ namespace zSpace
 				{
 					vector<zColor> tempColors;
 
-					for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+					for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 					{
 						zColor col;
-						if (meshObj->mesh.vertexActive[i])
+						if (v.isActive())
 						{
 							vector<int> cVerts;
-							getConnectedVertices(i, zVertexData, cVerts);
+							v.getConnectedVertices(cVerts);
 
-							zColor currentCol = meshObj->mesh.vertexColors[i];
+							zColor currentCol = meshObj->mesh.vertexColors[v.getId()];
 
 
 							for (int j = 0; j < cVerts.size(); j++)
@@ -2153,11 +641,11 @@ namespace zSpace
 
 					}
 
-					for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+					for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 					{
-						if (meshObj->mesh.vertexActive[i])
+						if (v.isActive())
 						{
-							meshObj->mesh.vertexColors[i] = (tempColors[i]);
+							meshObj->mesh.vertexColors[v.getId()] = (tempColors[v.isActive()]);
 						}
 					}
 				}
@@ -2167,15 +655,15 @@ namespace zSpace
 				{
 					vector<zColor> tempColors;
 
-					for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+					for (zItMeshFace f(*meshObj); !f.end(); f.next())
 					{
 						zColor col;
-						if (meshObj->mesh.faceActive[i])
+						if (f.isActive())
 						{
 							vector<int> cFaces;
-							getConnectedFaces(i, zFaceData, cFaces);
+							f.getConnectedFaces(cFaces);
 
-							zColor currentCol = meshObj->mesh.faceColors[i];
+							zColor currentCol = meshObj->mesh.faceColors[f.getId()];
 							for (int j = 0; j < cFaces.size(); j++)
 							{
 								col.r += meshObj->mesh.faceColors[cFaces[j]].r;
@@ -2193,11 +681,11 @@ namespace zSpace
 
 					}
 
-					for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+					for (zItMeshFace f(*meshObj); !f.end(); f.next())
 					{
-						if (meshObj->mesh.faceActive[i])
+						if (f.isActive())
 						{
-							meshObj->mesh.faceColors[i] = (tempColors[i]);
+							meshObj->mesh.faceColors[f.getId()] = (tempColors[f.getId()]);
 						}
 					}
 				}
@@ -2218,12 +706,12 @@ namespace zSpace
 
 			meshObj->mesh.vertexNormals.clear();
 
-			for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
-				if (meshObj->mesh.vertexActive[i])
+				if (v.isActive())
 				{
-					vector<int> cFaces;
-					getConnectedFaces(i, zVertexData, cFaces);
+					vector<int> cFaces;					
+					v.getConnectedFaces(cFaces);
 
 					zVector norm;
 
@@ -2249,15 +737,15 @@ namespace zSpace
 		{
 			meshObj->mesh.faceNormals.clear();
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
-				if (meshObj->mesh.faceActive[i])
+				if (f.isActive())
 				{
 					// get face vertices and correspondiing positions
 
 					//printf("\n f %i :", i);
 					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					zVector fCen; // face center
 
@@ -2320,25 +808,25 @@ namespace zSpace
 			{
 				vector<zVector> tempVertPos;
 
-				for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+				for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 				{
-					tempVertPos.push_back(meshObj->mesh.vertexPositions[i]);
+					tempVertPos.push_back(meshObj->mesh.vertexPositions[v.getId()]);
 
-					if (meshObj->mesh.vertexActive[i])
+					if (v.isActive())
 					{
-						if (!checkVertexValency(i, 1))
+						if (!v.checkVertexValency(1))
 						{
 							vector<int> cVerts;
 
-							getConnectedVertices(i, zVertexData, cVerts);
+							v.getConnectedVertices(cVerts);
 
 							for (int j = 0; j < cVerts.size(); j++)
 							{
 								zVector p = meshObj->mesh.vertexPositions[cVerts[j]];
-								tempVertPos[i] += p;
+								tempVertPos[v.getId()] += p;
 							}
 
-							tempVertPos[i] /= (cVerts.size() + 1);
+							tempVertPos[v.getId()] /= (cVerts.size() + 1);
 						}
 					}
 
@@ -2350,26 +838,15 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method deactivate the input elements from the array connected with the input type.
-		*
-		*	\param		[in]	index			-  index in element container.
-		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData .
-		*	\since version 0.0.2
-		*/
-		void deactivateElement(int index, zHEData type)
-		{
-			deactivate(index,type);
-		}
 		
-		/*! \brief This method removes inactive elements from the array connected with the input type.
+		/*! \brief This method removes inactive elements from the containers connected with the input type.
 		*
-		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData .
+		*	\param		[in]	type			- zVertexData or zEdgeData or zHalfEdgeData or zFaceData .
 		*	\since version 0.0.2
 		*/
-		void removeInactiveElements(zHEData type)
+		void garbageCollection(zHEData type)
 		{
-			removeInactive(type);
-			
+			removeInactive(type);			
 		}
 
 		/*! \brief This method makes the mesh a static mesh. Makes the mesh fixed and computes the static edge and face vertex positions if true.
@@ -2386,21 +863,6 @@ namespace zSpace
 		//--- SET METHODS 
 		//--------------------------
 		
-		/*! \brief This method sets vertex position of the input vertex.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\param		[in]	pos						- vertex position.
-		*	\since version 0.0.2
-		*/
-		void setVertexPosition(int index, zVector &pos)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			meshObj->mesh.vertexPositions[index] = pos;
-
-		}
-
 		/*! \brief This method sets vertex positions of all the vertices.
 		*
 		*	\param		[in]	pos				- positions  contatiner.
@@ -2408,7 +870,7 @@ namespace zSpace
 		*/
 		void setVertexPositions(vector<zVector>& pos)
 		{
-			if (pos.size() != meshObj->mesh.vertexPositions.size()) throw std::invalid_argument("size of position contatiner is not equal to number of mesh vertices.");
+			if (pos.size() != meshObj->mesh.vertexPositions.size()) throw std::invalid_argument("size of position contatiner is not equal to number of graph vertices.");
 
 			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
 			{
@@ -2416,24 +878,6 @@ namespace zSpace
 			}
 		}
 
-		/*! \brief This method sets vertex color of the input vertex to the input color.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\param		[in]	col						- input color.
-		*	\since version 0.0.2
-		*/
-		void setVertexColor(int index, zColor col)
-		{
-
-			if (meshObj->mesh.vertexColors.size() != meshObj->mesh.vertexActive.size())
-			{
-				meshObj->mesh.vertexColors.clear();
-				for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++) meshObj->mesh.vertexColors.push_back(zColor());
-			}
-
-			meshObj->mesh.vertexColors[index] = col;
-
-		}
 
 		/*! \brief This method sets vertex color of all the vertices to the input color.
 		*
@@ -2459,10 +903,10 @@ namespace zSpace
 		*/
 		void setVertexColors(vector<zColor>& col, bool setFaceColor = false)
 		{
-			if (meshObj->mesh.vertexColors.size() != meshObj->mesh.vertexActive.size())
+			if (meshObj->mesh.vertexColors.size() != meshObj->mesh.vertices.size())
 			{
 				meshObj->mesh.vertexColors.clear();
-				for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++) meshObj->mesh.vertexColors.push_back(zColor(1, 0, 0, 1));
+				for (int i = 0; i < meshObj->mesh.vertices.size(); i++) meshObj->mesh.vertexColors.push_back(zColor(1, 0, 0, 1));
 			}
 
 			if (col.size() != meshObj->mesh.vertexColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh vertices.");
@@ -2475,24 +919,6 @@ namespace zSpace
 			if (setFaceColor) computeFaceColorfromVertexColor();
 		}
 
-		/*! \brief This method sets edge color of of the input vertex to the input color.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\param		[in]	col						- input color.
-		*	\since version 0.0.2
-		*/
-		void setFaceColor(int index, zColor col)
-		{
-
-			if (meshObj->mesh.faceColors.size() != meshObj->mesh.faceActive.size())
-			{
-				meshObj->mesh.faceColors.clear();
-				for (int i = 0; i < meshObj->mesh.faceActive.size(); i++) meshObj->mesh.faceColors.push_back(zColor());
-			}
-
-			meshObj->mesh.faceColors[index] = col;
-
-		}
 
 		/*! \brief This method sets face color of all the faces to the input color.
 		*
@@ -2516,10 +942,10 @@ namespace zSpace
 		*/
 		void setFaceColors(vector<zColor>& col, bool setVertexColor = false)
 		{
-			if (meshObj->mesh.faceColors.size() != meshObj->mesh.faceActive.size())
+			if (meshObj->mesh.faceColors.size() != meshObj->mesh.faces.size())
 			{
 				meshObj->mesh.faceColors.clear();
-				for (int i = 0; i < meshObj->mesh.faceActive.size(); i++) meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
+				for (int i = 0; i < meshObj->mesh.faces.size(); i++) meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
 			}
 
 			if (col.size() != meshObj->mesh.faceColors.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
@@ -2587,42 +1013,16 @@ namespace zSpace
 		void setFaceNormals(vector<zVector> &fNormals)
 		{
 
-			if (meshObj->mesh.faceActive.size() != fNormals.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
+			if (meshObj->mesh.faces.size() != fNormals.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
 
 			meshObj->mesh.faceNormals.clear();
 
-			for (int i = 0; i < fNormals.size(); i++)
-			{
-				meshObj->mesh.faceNormals.push_back(fNormals[i]);
-			}
+			meshObj->mesh.faceNormals = fNormals;			
 
 			// compute normals per face based on vertex normals and store it in faceNormals
 			computeVertexNormalfromFaceNormal();
 		}
 
-		/*! \brief This method sets edge color of of the input edge and its symmetry edge to the input color.
-		*
-		*	\param		[in]	index					- input edge index.
-		*	\param		[in]	col						- input color.
-		*	\since version 0.0.2
-		*/
-		void setEdgeColor(int index, zColor col)
-		{
-
-			if (meshObj->mesh.edgeColors.size() != meshObj->mesh.edgeActive.size())
-			{
-				meshObj->mesh.edgeColors.clear();
-				for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++) meshObj->mesh.edgeColors.push_back(zColor());
-								
-			}
-
-			meshObj->mesh.edgeColors[index] = col;
-
-			int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
-
-			meshObj->mesh.edgeColors[symEdge] = col;
-
-		}
 
 		/*! \brief This method sets edge color of all the edges to the input color.
 		*
@@ -2668,10 +1068,10 @@ namespace zSpace
 		void setEdgeWeight(int index, double wt)
 		{
 
-			if (meshObj->mesh.edgeWeights.size() != meshObj->mesh.edgeActive.size())
+			if (meshObj->mesh.edgeWeights.size() != meshObj->mesh.edges.size())
 			{
 				meshObj->mesh.edgeWeights.clear();
-				for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++) meshObj->mesh.edgeWeights.push_back(1);
+				for (int i = 0; i < meshObj->mesh.edges.size(); i++) meshObj->mesh.edgeWeights.push_back(1);
 
 			}
 
@@ -2683,17 +1083,6 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method sets edge weight of all the edges to the input weight.
-		*
-		*	\param		[in]	wt				- input weight.
-		*	\since version 0.0.2
-		*/
-		void setEdgeWeight(double wt)
-		{			
-			meshObj->mesh.edgeWeights.clear();
-			meshObj->mesh.edgeWeights.assign(meshObj->mesh.n_e, wt);					
-
-		}
 
 		/*! \brief This method sets edge weights of all the edges with the input weight contatiner.
 		*
@@ -2714,36 +1103,7 @@ namespace zSpace
 		//--------------------------
 		//--- GET METHODS 
 		//--------------------------
-
-		/*! \brief This method gets vertex position at the input index.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\return				zVector					- vertex position.
-		*	\since version 0.0.2
-		*/
-		zVector getVertexPosition(int index)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.vertexPositions[index];
-
-		}
-
-		/*! \brief This method gets pointer to the vertex position at the input index.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\return				zVector*				- pointer to internal vertex position.
-		*	\since version 0.0.2
-		*/
-		zVector* getRawVertexPosition(int index)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &meshObj->mesh.vertexPositions[index];
-
-		}
+				
 
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
@@ -2767,35 +1127,6 @@ namespace zSpace
 			return &meshObj->mesh.vertexPositions[0];			
 		}
 
-		/*! \brief This method gets vertex normal at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zVector				- vertex normal.
-		*	\since version 0.0.2
-		*/
-		zVector getVertexNormal(int index)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.vertexNormals[index];
-
-		}
-
-		/*! \brief This method gets pointer to the vertex normal at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zVector*			- pointer to internal vertex normal.
-		*	\since version 0.0.2
-		*/
-		zVector* getRawVertexNormal(int index)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &meshObj->mesh.vertexNormals[index];
-
-		}
 
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
@@ -2819,35 +1150,6 @@ namespace zSpace
 			return &meshObj->mesh.vertexNormals[0];
 		}
 
-		/*! \brief This method gets vertex color at the input index.
-		*
-		*	\param		[in]	index					- input vertex index.
-		*	\return				zColor					- vertex color.
-		*	\since version 0.0.2
-		*/
-		zColor getVertexColor(int index)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-		
-			return meshObj->mesh.vertexColors[index];
-
-		}
-
-		/*! \brief This method gets pointer to the vertex color at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zColor*				- pointer to internal vertex color.
-		*	\since version 0.0.2
-		*/
-		zColor* getRawVertexColor(int index)
-		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &meshObj->mesh.vertexColors[index];
-
-		}
 
 		/*! \brief This method gets vertex color of all the vertices.
 		*
@@ -2871,35 +1173,6 @@ namespace zSpace
 			return &meshObj->mesh.vertexColors[0];
 		}
 
-		/*! \brief This method gets edge color of the input edge.
-		*
-		*	\param		[in]	index					- input edge index.
-		*	\return				zColor					- edge color.
-		*	\since version 0.0.2
-		*/
-		zColor getEdgeColor(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.edgeColors[index];
-
-		}
-
-		/*! \brief This method gets pointer to the edge color at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zColor*				- pointer to internal edge color.
-		*	\since version 0.0.2
-		*/
-		zColor* getRawEdgeColor(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &meshObj->mesh.edgeColors[index];
-
-		}
 
 		/*! \brief This method gets edge color of all the edges.
 		*
@@ -2923,37 +1196,6 @@ namespace zSpace
 			return &meshObj->mesh.edgeColors[0];
 		}
 
-		/*! \brief This method gets face normal of the input face.
-		*
-		*	\param		[in]	index					- input face index.
-		*	\return				zVector					- face normal.
-		*	\since version 0.0.2
-		*/
-		zVector getFaceNormal(int index)
-		{
-
-			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.faceNormals[index];
-
-		}
-
-		/*! \brief This method gets pointer to the face normal at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zVector*			- pointer to internal face normal.
-		*	\since version 0.0.2
-		*/
-		zVector* getRawFaceNormal(int index)
-		{
-			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &meshObj->mesh.faceNormals[index];
-
-		}
-
 		/*! \brief This method gets face normals of all the faces.
 		*
 		*	\param		[out]	norm			- normals  contatiner.
@@ -2974,37 +1216,7 @@ namespace zSpace
 			if (numPolygons() == 0) throw std::invalid_argument(" error: null pointer.");
 
 			return &meshObj->mesh.faceNormals[0];
-		}
-
-		/*! \brief This method gets face color of the input face.
-		*
-		*	\param		[in]	index					- input face index.
-		*	\return				zColor					- face color.
-		*	\since version 0.0.2
-		*/
-		zColor getFaceColor(int index)
-		{
-			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return meshObj->mesh.faceColors[index];
-
-		}
-
-		/*! \brief This method gets pointer to the face color at the input index.
-		*
-		*	\param		[in]	index				- input vertex index.
-		*	\return				zColor*				- pointer to internal face color.
-		*	\since version 0.0.2
-		*/
-		zColor* getRawFaceColor(int index)
-		{
-			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			return &meshObj->mesh.faceColors[index];
-
-		}
+		}	
 
 		/*! \brief This method gets face color of all the faces.
 		*
@@ -3026,47 +1238,7 @@ namespace zSpace
 			if (numEdges() == 0) throw std::invalid_argument(" error: null pointer.");
 
 			return &meshObj->mesh.faceColors[0];
-		}
-
-		/*! \brief This method computes the centers of a the input index edge or face of the mesh.
-		*
-		*	\param		[in]	type					- zEdgeData or zFaceData.
-		*	\return				zVector					- center.
-		*	\since version 0.0.2
-		*/
-		zVector getCenter( int index, zHEData type)
-		{
-			// Mesh Edge 
-			if (type == zEdgeData)
-			{
-				if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				vector<int> eVerts;
-				getVertices(index, zEdgeData, eVerts);
-
-				return (meshObj->mesh.vertexPositions[eVerts[0]] + meshObj->mesh.vertexPositions[eVerts[1]]) * 0.5;
-			}
-
-			// Mesh Face 
-			else if (type == zFaceData)
-			{
-
-				if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-				if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-				vector<int> fVerts;
-				getVertices(index, zFaceData, fVerts);
-				zVector cen;
-
-				for (int j = 0; j < fVerts.size(); j++) cen += meshObj->mesh.vertexPositions[fVerts[j]];
-				cen /= fVerts.size();
-
-				return cen;
-
-			}
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		}
+		}		
 
 		/*! \brief This method computes the center the mesh.
 		*
@@ -3097,60 +1269,62 @@ namespace zSpace
 		void getCenters(zHEData type, vector<zVector> &centers)
 		{
 			// Mesh Edge 
-			if (type == zEdgeData)
+			if (type == zHalfEdgeData)
 			{
-				vector<zVector> edgeCenters;
 
-				edgeCenters.clear();
+				centers.clear();
 
-				for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+				for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
 				{
-					if (meshObj->mesh.edgeActive[i])
-					{
-						vector<int> eVerts;
-						getVertices(i, zEdgeData, eVerts);
-
-						zVector cen = (meshObj->mesh.vertexPositions[eVerts[0]] + meshObj->mesh.vertexPositions[eVerts[1]]) * 0.5;
-
-						edgeCenters.push_back(cen);
-						edgeCenters.push_back(cen);
+					if (he.isActive())
+					{				
+						centers.push_back(he.getCenter());					
 					}
 					else
 					{
-						edgeCenters.push_back(zVector());
-						edgeCenters.push_back(zVector());
+						centers.push_back(zVector());
+						
 					}
 				}
 
-				centers = edgeCenters;
+			}
+			else if (type == zEdgeData)
+			{
+
+				centers.clear();
+
+				for (zItMeshEdge e(*meshObj); !e.end(); e.next())
+				{
+					if (e.isActive())
+					{						
+						centers.push_back(e.getCenter());
+					}
+					else
+					{
+						centers.push_back(zVector());
+
+					}
+				}
+
 			}
 
 			// Mesh Face 
 			else if (type == zFaceData)
 			{
-				vector<zVector> faceCenters;
-				faceCenters.clear();
+				centers.clear();
 
-				for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+				for (zItMeshFace f(*meshObj); !f.end(); f.next())
 				{
-					if (meshObj->mesh.faceActive[i])
-					{
-						vector<int> fVerts;
-						getVertices(i, zFaceData, fVerts);
-						zVector cen;
-
-						for (int j = 0; j < fVerts.size(); j++) cen += meshObj->mesh.vertexPositions[fVerts[j]];
-
-						cen /= fVerts.size();
-						faceCenters.push_back(cen);
+					if (f.isActive())
+					{	
+						centers.push_back(f.getCenter());
 					}
 					else
 					{
-						faceCenters.push_back(zVector());
+						centers.push_back(zVector());
+
 					}
 				}
-
-				centers = faceCenters;
 			}
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
@@ -3174,59 +1348,60 @@ namespace zSpace
 			getCenters(zFaceData, fCenters);
 
 			vector<zVector> eCenters;
-			getCenters(zEdgeData, eCenters);
+			getCenters(zHalfEdgeData, eCenters);
 
 			positions = fCenters;
 
 			// store map for input mesh edge to new vertex Id
 			vector<int> inEdge_dualVertex;
 
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++)
+			//for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++)
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
 			{
 				inEdge_dualVertex.push_back(-1);
 
 
-				if (!meshObj->mesh.edgeActive[i]) continue;
+				if (!he.isActive()) continue;
 
-				if (onBoundary(i, zEdgeData))
+				if (he.onBoundary())
 				{
 					if (!excludeBoundary)
 					{
-						inEdge_dualVertex[i] = positions.size();
-						positions.push_back(eCenters[i]);
+						inEdge_dualVertex[he.getId()] = positions.size();
+						positions.push_back(eCenters[he.getId()]);
 					}
 				}
 				else
 				{
-					inEdge_dualVertex[i] = meshObj->mesh.edges[i].getFace()->getFaceId();
+					inEdge_dualVertex[he.getId()] = he.getFace().getId();  ;
 				}
 			}
 
 
-			for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
-				if (!meshObj->mesh.vertexActive[i]) continue;
+				if (!v.isActive()) continue;
 
-				if (onBoundary(i, zVertexData))
+				if (v.onBoundary())
 				{
 					if (excludeBoundary) continue;
 
-					zEdge *e = meshObj->mesh.vertices[i].getEdge();
+					zItMeshHalfEdge e = v.getHalfEdge(); ;
 
-					zEdge *start = e;
+					zItMeshHalfEdge start = v.getHalfEdge();
 
 					vector<int> tempPolyConnects;
 					do
 					{
-						int eId = e->getEdgeId();
+						int eId = e.getId();
 						int index = -1;
 						bool checkRepeat = meshObj->mesh.coreUtils.checkRepeatElement(inEdge_dualVertex[eId], tempPolyConnects, index);
 						if (!checkRepeat) tempPolyConnects.push_back(inEdge_dualVertex[eId]);
 
 						if (keepExistingBoundary)
 						{
-							int vId = e->getVertex()->getVertexId();
-							if (onBoundary(eId, zEdgeData) && vId == i)
+							int vId = e.getVertex().getId();
+							if (e.onBoundary() && vId == v.getId())
 							{
 								//printf("\n working!");
 								//tempPolyConnects.push_back(vId);
@@ -3234,13 +1409,13 @@ namespace zSpace
 						}
 
 
-						e = e->getPrev();
-						eId = e->getEdgeId();
+						e = e.getPrev();
+						eId = e.getId();
 
 						if (keepExistingBoundary)
 						{
-							int vId = e->getVertex()->getVertexId();
-							if (onBoundary(eId, zEdgeData) && vId == i)
+							int vId = e.getVertex().getId();
+							if (e.onBoundary() && vId == v.getId())
 							{
 								//printf("\n working2!");
 								//tempPolyConnects.push_back(positions.size());
@@ -3255,7 +1430,7 @@ namespace zSpace
 
 
 
-						e = e->getSym();
+						e = e.getSym();
 
 					} while (e != start);
 
@@ -3271,7 +1446,7 @@ namespace zSpace
 				else
 				{
 					vector<int> cEdges;
-					getConnectedEdges(i, zVertexData, cEdges);
+					v.getConnectedHalfEdges(cEdges);
 
 					for (int j = 0; j < cEdges.size(); j++)
 					{
@@ -3282,11 +1457,10 @@ namespace zSpace
 				}
 
 
-
 			}
 
 
-			dualMeshObj.mesh = zMesh(positions, polyCounts, polyConnects);
+			dualMeshObj.mesh.create(positions, polyCounts, polyConnects);
 
 			// rotate by 90
 
@@ -3311,8 +1485,9 @@ namespace zSpace
 			}
 
 			// compute dualEdge_inEdge
-			dualEdge_inEdge.clear();
-			for (int i = 0; i < dualMeshObj.mesh.edgeActive.size(); i++)
+			dualEdge_inEdge.clear();			
+			
+			for(auto &he : dualMeshObj.mesh.halfEdges)
 			{
 				dualEdge_inEdge.push_back(-1);
 			}
@@ -3320,14 +1495,15 @@ namespace zSpace
 			// compute inEdge to dualEdge	
 			inEdge_dualEdge.clear();
 
-			for (int i = 0; i < numEdges(); i++)
+			for (int i = 0; i < numHalfEdges(); i++)
 			{
 				int v1 = inEdge_dualVertex[i];
 				int v2 = (i % 2 == 0) ? inEdge_dualVertex[i + 1] : inEdge_dualVertex[i - 1];
 
-				int eId = -1;
-				dualMeshObj.mesh.edgeExists(v1, v2, eId);
-				inEdge_dualEdge.push_back(eId);
+				int eId;
+				bool chk  = dualMeshObj.mesh.halfEdgeExists(v1, v2, eId);
+				if(chk) inEdge_dualEdge.push_back(eId);
+				else inEdge_dualEdge.push_back(-1);
 
 				if (inEdge_dualEdge[i] != -1)
 				{
@@ -3359,21 +1535,22 @@ namespace zSpace
 			getCenters( zFaceData, fCenters);
 
 			vector<zVector> eCenters;
-			getCenters( zEdgeData, eCenters);
+			getCenters( zHalfEdgeData, eCenters);
 			
 			positions = fCenters;
 
 			// store map for input mesh edge to new vertex Id
 			vector<int> inEdge_dualVertex;
 
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i++)
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
 			{
 				inEdge_dualVertex.push_back(-1);
 
+				int i = he.getId();
 
-				if (!meshObj->mesh.edgeActive[i]) continue;
+				if (!he.isActive()) continue;
 
-				if (onBoundary(i, zEdgeData))
+				if (he.onBoundary())
 				{
 					if (!excludeBoundary)
 					{
@@ -3383,11 +1560,11 @@ namespace zSpace
 				}
 				else
 				{
-					inEdge_dualVertex[i] = meshObj->mesh.edges[i].getFace()->getFaceId();
+					inEdge_dualVertex[i] = he.getFace().getId();
 				}
 			}
 
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			for (int i = 0; i < meshObj->mesh.halfEdges.size(); i += 2)
 			{
 				int v_0 = inEdge_dualVertex[i];
 				int v_1 = inEdge_dualVertex[i + 1];
@@ -3408,10 +1585,10 @@ namespace zSpace
 				zVector x(1, 0, 0);
 				zVector sortRef = graphNorm ^ x;
 
-				dualGraphObj.graph = zGraph(positions, edgeConnects, graphNorm, sortRef);
+				dualGraphObj.graph.create(positions, edgeConnects, graphNorm, sortRef);
 			}
 
-			else dualGraphObj.graph = zGraph(positions, edgeConnects);
+			else dualGraphObj.graph.create(positions, edgeConnects);
 
 			// rotate by 90
 
@@ -3437,7 +1614,7 @@ namespace zSpace
 
 			// compute dualEdge_inEdge
 			dualEdge_inEdge.clear();
-			for (int i = 0; i < dualGraphObj.graph.edgeActive.size(); i++)
+			for (int i = 0; i < dualGraphObj.graph.halfEdges.size(); i++)
 			{
 				dualEdge_inEdge.push_back(-1);
 			}
@@ -3445,14 +1622,16 @@ namespace zSpace
 			// compute inEdge to dualEdge	
 			inEdge_dualEdge.clear();
 
-			for (int i = 0; i < numEdges(); i++)
+			for (int i = 0; i < numHalfEdges(); i++)
 			{
 				int v1 = inEdge_dualVertex[i];
 				int v2 = (i % 2 == 0) ? inEdge_dualVertex[i + 1] : inEdge_dualVertex[i - 1];
 
-				int eId = -1;
-				dualGraphObj.graph.edgeExists(v1, v2, eId);
-				inEdge_dualEdge.push_back(eId);
+				int eId;
+				bool chk = dualGraphObj.graph.halfEdgeExists(v1, v2, eId);
+				
+				if(chk) inEdge_dualEdge.push_back(eId);
+				else inEdge_dualEdge.push_back(-1);
 
 				if (inEdge_dualEdge[i] != -1)
 				{
@@ -3478,19 +1657,19 @@ namespace zSpace
 
 			unordered_map <string, int> positionVertex;
 
-			for (int i = 0; i < numVertices(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())			
 			{
-				if (excludeBoundary && onBoundary(i, zVertexData)) continue;
+				if (excludeBoundary && v.onBoundary()) continue;
 
-				vector<int> cFaces;
-				getConnectedFaces(i, zVertexData, cFaces);
+				vector<zItMeshFace> cFaces;
+				v.getConnectedFaces(cFaces);
 
 
 				vector<int> positionIndicies;
-				for (int j = 0; j < cFaces.size(); j++)
+				for (auto &f : cFaces)
 				{
 					vector<int> fVerts;
-					getVertices(cFaces[j], zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					for (int k = 0; k < fVerts.size(); k++) positionIndicies.push_back(fVerts[k]);
 				}
@@ -3498,7 +1677,7 @@ namespace zSpace
 
 				// get lowest positions
 
-				zVector lowPosition = pos[i];
+				zVector lowPosition = pos[v.getId()];
 			
 				for (int j = 0; j < positionIndicies.size(); j++)
 				{
@@ -3510,7 +1689,7 @@ namespace zSpace
 				}
 
 				vector<int> lowId;
-				if (lowPosition.z != pos[i].z)
+				if (lowPosition.z != pos[v.getId()].z)
 				{
 					for (int j = 0; j < positionIndicies.size(); j++)
 					{
@@ -3528,7 +1707,7 @@ namespace zSpace
 				
 					for (int j = 0; j < lowId.size(); j++)
 					{
-						zVector pos1 = pos[i];
+						zVector pos1 = pos[v.getId()];
 						int v1;
 						bool check1 = coreUtils.vertexExists(positionVertex, pos1, 3, v1);
 						if (!check1)
@@ -3559,7 +1738,7 @@ namespace zSpace
 
 			}
 
-			rainflowGraphObj.graph = zGraph(positions, edgeConnects);
+			rainflowGraphObj.graph.create(positions, edgeConnects);
 		}
 
 		/*! \brief This method computes the input face triangulations using ear clipping algorithm.
@@ -3570,7 +1749,7 @@ namespace zSpace
 		*	\param		[out]	tris			- index array of each triangle associated with the face.
 		*	\since version 0.0.2
 		*/
-		void getFaceTriangles(int faceIndex, int &numTris, vector<int> &tris)
+		void getFaceTriangles(zItMeshFace &face, int &numTris, vector<int> &tris)
 		{
 			double angle_Max = 90;
 			bool noEars = true; // check for if there are no ears
@@ -3581,18 +1760,19 @@ namespace zSpace
 			// get face vertices
 
 			vector<int> fVerts;
-			getVertices(faceIndex, zFaceData, fVerts);
+			
+			face.getVertices(fVerts);
 			vector<int> vertexIndices = fVerts;
 
+			int faceIndex = face.getId();
+
 			vector<zVector> points;
-			for (int i = 0; i < fVerts.size(); i++)
-			{
-				points.push_back(meshObj->mesh.vertexPositions[fVerts[i]]);
-			}
+			face.getVertexPositions(points);
+			
 
 			if (fVerts.size() < 3) throw std::invalid_argument(" error: invalid face, triangulation is not succesful.");
 
-			// compute 
+			// compute 			
 			zVector norm = meshObj->mesh.faceNormals[faceIndex];
 
 			// compute ears
@@ -3668,6 +1848,8 @@ namespace zSpace
 
 			while (numTris < maxTris - 1)
 			{
+				printf("\n working!");
+
 				int earId = -1;
 				bool earFound = false;;
 
@@ -3787,25 +1969,26 @@ namespace zSpace
 		*/
 		void getMeshTriangles(vector<vector<int>> &faceTris)
 		{
-			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faceActive.size()) computeMeshNormals();
+			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
 			faceTris.clear();
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
 				vector<int> Tri_connects;
+				int i = f.getId();
 
-				if (meshObj->mesh.faceActive[i])
+				if (f.isActive())
 				{
 
 					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					// compute polygon Triangles
 
 
 					int n_Tris = 0;
-					if (fVerts.size() > 0) getFaceTriangles( i, n_Tris, Tri_connects);
+					if (fVerts.size() > 0) getFaceTriangles( f, n_Tris, Tri_connects);
 					else Tri_connects = fVerts;
 				}
 
@@ -3851,16 +2034,15 @@ namespace zSpace
 		*	\return				double			- volume of the polyhedras formed by the face vertices and the face center.
 		*	\since version 0.0.2
 		*/
-		double getMeshFaceVolume( int index, vector<vector<int>> &faceTris, vector<zVector> &fCenters, bool absoluteVolume = true)
-		{
-			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+		double getMeshFaceVolume( zItMeshFace &face, vector<vector<int>> &faceTris, vector<zVector> &fCenters, bool absoluteVolume = true)
+		{			
 
-			if (faceTris.size() == 0 || faceTris.size() != meshObj->mesh.faceActive.size()) getMeshTriangles( faceTris);
-			if (fCenters.size() == 0 || fCenters.size() != meshObj->mesh.faceActive.size()) getCenters( zFaceData, fCenters);
+			if (faceTris.size() == 0 ) getMeshTriangles( faceTris);
+			if (fCenters.size() == 0 || fCenters.size() != numPolygons()) getCenters( zFaceData, fCenters);
 
 			double out = 0;
 
+			int index = face.getId();
 			zVector fCenter = fCenters[index];
 
 			// add volume of face tris
@@ -3874,7 +2056,7 @@ namespace zSpace
 			// add volumes of tris formes by each pair of face edge vertices and face center
 
 			vector<int> fVerts;
-			getVertices(index, zFaceData, fVerts);
+			face.getVertices( fVerts);
 
 			for (int j = 0; j < fVerts.size(); j += 1)
 			{
@@ -3901,14 +2083,14 @@ namespace zSpace
 		*/
 		void getMeshFaceVolumes(vector<vector<int>> &faceTris, vector<zVector> &fCenters, vector<double> &faceVolumes, bool absoluteVolumes = true)
 		{
-			if (faceTris.size() == 0 || faceTris.size() != meshObj->mesh.faceActive.size()) getMeshTriangles( faceTris);
-			if (fCenters.size() == 0 || fCenters.size() != meshObj->mesh.faceActive.size()) getCenters( zFaceData, fCenters);
+			if (faceTris.size() == 0 ) getMeshTriangles( faceTris);
+			if (fCenters.size() == 0 || fCenters.size() != numPolygons()) getCenters( zFaceData, fCenters);
 
 			faceVolumes.clear();
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
-				double vol = getMeshFaceVolume( i, faceTris, fCenters, absoluteVolumes);
+				double vol = getMeshFaceVolume( f, faceTris, fCenters, absoluteVolumes);
 
 				faceVolumes.push_back(vol);
 			}
@@ -3921,10 +2103,11 @@ namespace zSpace
 		*/
 		void getPrincipalCurvature(vector<zCurvature> &vertexCurvatures)
 		{
-			for (int j = 0; j < numVertices(); j++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
+				int j = v.getId();
 
-				if (meshObj->mesh.vertexActive[j])
+				if (v.isActive())
 				{
 					double angleSum = 0;
 					double cotangentSum = 0;
@@ -3940,10 +2123,10 @@ namespace zSpace
 
 					zVector meanCurvNormal;
 
-					if (!onBoundary(j, zVertexData))
+					if (!v.onBoundary())
 					{
 						vector<int> connectedvertices;
-						getConnectedVertices(j, zVertexData, connectedvertices);
+						v.getConnectedVertices(connectedvertices);
 
 						zVector pt = meshObj->mesh.vertexPositions[j];
 
@@ -4066,43 +2249,45 @@ namespace zSpace
 		{
 			vector<double> out;
 
-			if (meshObj->mesh.faceNormals.size() != meshObj->mesh.faceActive.size()) computeMeshNormals();
+			if (meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			for (zItMeshEdge e(*meshObj); !e.end(); e.next())
 			{
-				if (meshObj->mesh.edgeActive[i])
+				int i = e.getId();
+
+				if (e.isActive())
 				{
-					if (!onBoundary(i, zEdgeData) && !onBoundary(i + 1, zEdgeData))
+					if (!e.onBoundary())
 					{
 						// get connected face to edge
 						vector<int> cFaces;
-						getFaces(i, zEdgeData, cFaces);
+						e.getFaces(cFaces);
 
 						zVector n0 = meshObj->mesh.faceNormals[cFaces[0]];
 						zVector n1 = meshObj->mesh.faceNormals[cFaces[1]];
 
-						zVector e = meshObj->mesh.vertexPositions[meshObj->mesh.edges[i].getVertex()->getVertexId()] - meshObj->mesh.vertexPositions[meshObj->mesh.edges[i + 1].getVertex()->getVertexId()];
+						zVector eVec = e.getEdgeVector(); 
 
 						double di_ang;
-						di_ang = e.dihedralAngle(n0, n1);
+						di_ang = eVec.dihedralAngle(n0, n1);
 
-						// per half edge
+						// per edge
 						out.push_back(di_ang);
-						out.push_back(di_ang);
+						
 
 					}
 					else
 					{
-						// per half edge
+						// per  edge
 						out.push_back(-1);
-						out.push_back(-1);
+						
 					}
 				}
 				else
 				{
 					// per half edge
 					out.push_back(-2);
-					out.push_back(-2);
+					
 				}
 
 
@@ -4110,120 +2295,74 @@ namespace zSpace
 
 			dihedralAngles = out;
 		}
-
-		/*! \brief This method computes the edge vector of the input edge of the mesh.
-		*
-		*	\param		[in]	index					- edge index.
-		*	\return				zVector					- edge vector.
-		*	\since version 0.0.2
-		*/
-		zVector getEdgeVector(int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			int v1 = meshObj->mesh.edges[index].getVertex()->getVertexId();
-			int v2 = meshObj->mesh.edges[index].getSym()->getVertex()->getVertexId();
-
-			zVector out = meshObj->mesh.vertexPositions[v1] - (meshObj->mesh.vertexPositions[v2]);
-
-			return out;
-		}
 		
-		/*! \brief This method computes the edge length of the input edge of the mesh.
+
+
+		/*! \brief This method computes the lengths of all the half edges of a the mesh.
 		*
-		*	\param		[out]	index			- edge index.
-		*	\return				double			- edge length.
+		*	\param		[out]	halfEdgeLengths				- vector of halfedge lengths.
+		*	\return				double						- total edge lengths.
 		*	\since version 0.0.2
 		*/
-		double getEdgelength( int index)
+		double getHalfEdgeLengths(vector<double> &halfEdgeLengths)
 		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			double total = 0.0;
 
-			int v1 = meshObj->mesh.edges[index].getVertex()->getVertexId();
-			int v2 = meshObj->mesh.edges[index].getSym()->getVertex()->getVertexId();
 
-			double out = meshObj->mesh.vertexPositions[v1].distanceTo(meshObj->mesh.vertexPositions[v2]);
+			halfEdgeLengths.clear();
 
-			return out;
+			for (zItMeshEdge e(*meshObj); !e.end(); e.next())
+			{
+				if (e.isActive())
+				{
+					double e_len = e.getEdgeLength();
+
+					halfEdgeLengths.push_back(e_len);
+					halfEdgeLengths.push_back(e_len);
+
+					total += e_len;
+				}
+				else
+				{
+					halfEdgeLengths.push_back(0);
+					halfEdgeLengths.push_back(0);
+				}
+			}
+
+			return total;
 		}
 
-		/*! \brief This method computes the lengths of all the edges of a the mesh.
+		/*! \brief This method computes the lengths of all the  edges of a the mesh.
 		*
-		*	\param		[out]	edgeLengths				- vector of edge lengths.
-		*	\return				double					- total edge lengths.
+		*	\param		[out]	EdgeLengths		- vector of edge lengths.
+		*	\return				double				- total edge lengths.
 		*	\since version 0.0.2
 		*/
 		double getEdgeLengths(vector<double> &edgeLengths)
 		{
 			double total = 0.0;
 
-			vector<double> out;
 
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			edgeLengths.clear();
+
+			for (zItMeshEdge e(*meshObj); !e.end(); e.next())
 			{
-				if (meshObj->mesh.edgeActive[i])
+				if (e.isActive())
 				{
-					int v1 = meshObj->mesh.edges[i].getVertex()->getVertexId();
-					int v2 = meshObj->mesh.edges[i].getSym()->getVertex()->getVertexId();
-
-					zVector e = meshObj->mesh.vertexPositions[v1] - meshObj->mesh.vertexPositions[v2];
-					double e_len = e.length();
-
-					out.push_back(e_len);
-					out.push_back(e_len);
-
+					double e_len = e.getEdgeLength();
+					edgeLengths.push_back(e_len);
 					total += e_len;
 				}
 				else
 				{
-					out.push_back(0);
-					out.push_back(0);
-
+					edgeLengths.push_back(0);
 				}
-
-
 			}
-
-			edgeLengths = out;
 
 			return total;
 		}
 
-		/*! \brief This method computes the edge length of the edge loop starting at the input edge of zMesh.
-		*
-		*	\param		[out]	index			- edge index.
-		*	\return				double			- edge length.
-		*	\since version 0.0.2
-		*/
-		double getEdgeLoopLength( int index)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
-
-			bool exit = false;
-
-			zEdge *e = &meshObj->mesh.edges[index];
-			zEdge *start = &meshObj->mesh.edges[index];
-			double out = 0;
-
-			while (!exit)
-			{
-				out += getEdgelength(e->getEdgeId());
-
-				int v = e->getVertex()->getVertexId();
-
-				if (onBoundary(v, zVertexData)) exit = true;
-
-				if (!exit) e = e->getNext()->getSym()->getNext();
-
-				if (e == start) exit = true;
-			}
-
-
-			return out;
-		}
+		
 
 		/*! \brief This method computes the area around every vertex of a mesh based on face centers.
 		*
@@ -4240,30 +2379,32 @@ namespace zSpace
 
 			double totalArea = 0;
 
-			for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
 				double vArea = 0;
 
+				int i = v.getId();
 
-				if (meshObj->mesh.vertexActive[i])
+				if (v.isActive())
 				{
-					vector<int> cEdges;
-					getConnectedEdges(i, zVertexData, cEdges);
+					vector<zItMeshHalfEdge> cEdges;
+					v.getConnectedHalfEdges(cEdges);
 
 					for (int j = 0; j < cEdges.size(); j++)
 					{
 
-						int currentEdge = cEdges[j];
-						int nextEdge = cEdges[(j + 1) % cEdges.size()];
+						
+						zItMeshHalfEdge cE = cEdges[j];						
+						zItMeshHalfEdge nE = cEdges[(j + 1) % cEdges.size()];
 
-						if (!meshObj->mesh.edges[currentEdge].getFace() || !meshObj->mesh.edges[nextEdge].getSym()->getFace()) continue;
+						if (cE.onBoundary() || nE.getSym().onBoundary()) continue;
 
-						if (meshObj->mesh.edges[currentEdge].getFace()->getFaceId() != meshObj->mesh.edges[nextEdge].getSym()->getFace()->getFaceId()) continue;
+						if (cE.getFace().getId() != nE.getSym().getFace().getId()) continue;
 
 						zVector vPos = meshObj->mesh.vertexPositions[i];
-						zVector fCen = faceCenters[meshObj->mesh.edges[currentEdge].getFace()->getFaceId()];
-						zVector currentEdge_cen = edgeCenters[currentEdge];
-						zVector nextEdge_cen = edgeCenters[nextEdge];
+						zVector fCen = faceCenters[cE.getFace().getId()];
+						zVector currentEdge_cen = edgeCenters[cE.getId()];
+						zVector nextEdge_cen = edgeCenters[nE.getId()];
 
 						double Area1 = meshObj->mesh.coreUtils.getTriangleArea(vPos, currentEdge_cen, fCen);
 						vArea += (Area1);
@@ -4301,22 +2442,23 @@ namespace zSpace
 		{
 
 
-			if (meshObj->mesh.faceNormals.size() != meshObj->mesh.faceActive.size()) computeMeshNormals();
+			if (meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
 			vector<double> out;
 
 			double totalArea = 0;
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
 				double fArea = 0;
+				int i = f.getId();
 
-				if (meshObj->mesh.faceActive[i])
+				if (f.isActive())
 				{
 					zVector fNorm = meshObj->mesh.faceNormals[i];
 
 					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					for (int j = 0; j < fVerts.size(); j++)
 					{
@@ -4340,19 +2482,7 @@ namespace zSpace
 			return totalArea;
 		}
 
-		/*! \brief This method return the number of vertices in the face given by the input index.
-		*
-		*	\param		[in]	index			- index of the face.
-		*	\return				int				- number of vertices in the face.
-		*	\since version 0.0.2
-		*/
-		int getNumPolygonVertices(int index)
-		{
-			vector<int> fEdges;
-			getEdges(index, zFaceData, fEdges);
-
-			return fEdges.size();
-		}
+		
 
 		/*! \brief This method stores mesh face connectivity information in the input containers
 		*
@@ -4365,18 +2495,21 @@ namespace zSpace
 			polyConnects.clear();
 			polyCounts.clear();
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
-				if (!meshObj->mesh.faceActive[i]) continue;
+				if (!f.isActive()) continue;
 
+				
 				vector<int> facevertices;
-				getVertices(i, zFaceData, facevertices);
+				f.getVertices(facevertices);
 
 				polyCounts.push_back(facevertices.size());
+				
 
 				for (int j = 0; j < facevertices.size(); j++)
 				{
 					polyConnects.push_back(facevertices[j]);
+					
 				}
 			}
 		}
@@ -4390,21 +2523,20 @@ namespace zSpace
 		{
 			edgeConnects.clear();
 
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			for (zItMeshEdge e(*meshObj); !e.end(); e.next())
 			{
-				edgeConnects.push_back(meshObj->mesh.edges[i + 1].getVertex()->getVertexId());
-				edgeConnects.push_back(meshObj->mesh.edges[i].getVertex()->getVertexId());
+				edgeConnects.push_back(e.getHalfEdge(0).getVertex().getId());
+				edgeConnects.push_back(e.getHalfEdge(1).getVertex().getId());
 			}
 		}
 
 		/*! \brief This method creates a duplicate of the mesh.
 		*
-		*	\return				zMesh			- duplicate mesh.
+		*	\param		[out]	out			- duplicate mesh object.
 		*	\since version 0.0.2
 		*/
-		zObjMesh getDuplicate()
-		{
-			zObjMesh out;
+		void getDuplicate(zObjMesh &out)
+		{			
 
 			vector<zVector> positions;
 			vector<int> polyConnects;
@@ -4413,13 +2545,14 @@ namespace zSpace
 			positions = meshObj->mesh.vertexPositions;
 			getPolygonData(polyConnects, polyCounts);
 
-			out.mesh = zMesh(positions, polyCounts, polyConnects);
+			out.mesh.create(positions, polyCounts, polyConnects);
+		
 
 			out.mesh.vertexColors = meshObj->mesh.vertexColors;
 			out.mesh.edgeColors = meshObj->mesh.edgeColors;
 			out.mesh.faceColors = meshObj->mesh.faceColors;
 
-			return out;
+			
 		}
 
 		/*! \brief This method gets VBO vertex index of the mesh.
@@ -4472,25 +2605,23 @@ namespace zSpace
 		*	\param		[in]	faceIndex		- face index  of the face to be triangulated in the faces container.
 		*	\since version 0.0.2
 		*/
-		void faceTriangulate(int faceIndex)
+		void faceTriangulate(zItMeshFace &face)
 		{
 
-			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faceActive.size())computeMeshNormals();
-
+			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
+	
 			vector<int> fVerts;
-			getVertices(faceIndex, zFaceData, fVerts);
+			face.getVertices( fVerts);
 
-			//printf("\n %i : nV %i ", i, fVerts.size());
-
-			int numfaces_original = meshObj->mesh.faceActive.size();
-			int numEdges_original = meshObj->mesh.edgeActive.size();
+			int numfaces_original = meshObj->mesh.faces.size();
+			int numHalfEdges_original = meshObj->mesh.halfEdges.size();
 
 			if (fVerts.size() != 3)
 			{
 				// compute polygon Triangles
 				int n_Tris = 0;
 				vector<int> Tri_connects;
-				getFaceTriangles( faceIndex, n_Tris, Tri_connects);
+				getFaceTriangles(face, n_Tris, Tri_connects);
 
 				//printf("\n %i numtris: %i %i ", faceIndex, n_Tris, Tri_connects.size());
 
@@ -4503,132 +2634,83 @@ namespace zSpace
 
 					//printf("\n %i %i %i ", Tri_connects[j * 3], Tri_connects[j * 3 + 1], Tri_connects[j * 3 + 2]);
 
-					// check if edges e01, e12 or e20
-					int e01_ID, e12_ID, e20_ID;
+					// check if edges e01, e12 or e20					
+					zItMeshHalfEdge e01, e12, e20; 
+
 					bool e01_Boundary = false;
 					bool e12_Boundary = false;
 					bool e20_Boundary = false;
 
 					for (int k = 0; k < triVerts.size(); k++)
 					{
-						int e;
-						bool eExists = meshObj->mesh.edgeExists(triVerts[k], triVerts[(k + 1) % triVerts.size()], e);
-
-
+				
 						if (k == 0)
 						{
+							addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()], true, e01);
 
-							if (eExists)
+							if (e01.getId() < numHalfEdges_original)
 							{
-								e01_ID = e;
-
-								if (e01_ID < numEdges_original)
-								{
-									if (onBoundary(e, zEdgeData))
-									{
-										e01_Boundary = true;
-
-									}
-								}
-
-
-							}
-							else
-							{
-								meshObj->mesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e01_ID = meshObj->mesh.edgeActive.size() - 2;
-
-
+								if (e01.onBoundary())  e01_Boundary = true;								
 							}
 						}
-
-
+		
 						if (k == 1)
 						{
-							if (eExists)
+							addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()], true, e12);
+
+							if (e12.getId() < numHalfEdges_original)
 							{
-								e12_ID = e;
-
-								if (e12_ID < numEdges_original)
-								{
-									if (onBoundary(e, zEdgeData))
-									{
-										e12_Boundary = true;
-									}
-								}
-
-							}
-							else
-							{
-								meshObj->mesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-
-								e12_ID = meshObj->mesh.edgeActive.size() - 2;
+								if (e12.onBoundary())  e12_Boundary = true;
 							}
 						}
-
-
 
 						if (k == 2)
 						{
-							if (eExists)
+							addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()], true, e20);
+
+							if (e20.getId() < numHalfEdges_original)
 							{
-
-								e20_ID = e;
-
-								if (e20_ID < numEdges_original)
-								{
-									if (onBoundary(e, zEdgeData))
-									{
-										e20_Boundary = true;
-
-									}
-								}
-
+								if (e20.onBoundary())  e20_Boundary = true;
 							}
-							else
-							{
-								meshObj->mesh.addEdges(triVerts[k], triVerts[(k + 1) % triVerts.size()]);
-								e20_ID = meshObj->mesh.edgeActive.size() - 2;
-							}
-
 						}
-
-
 
 					}
 
-					zEdge* e01 = &meshObj->mesh.edges[e01_ID];
-					zEdge* e12 = &meshObj->mesh.edges[e12_ID];
-					zEdge* e20 = &meshObj->mesh.edges[e20_ID];
-
-					//printf("\n %i %i %i ", e01_ID, e12_ID, e20_ID);
-
+					//printf("\n %i %i %i ", e01.getId(), e12.getId(), e20.getId());
 
 					if (j > 0)
 					{
-						meshObj->mesh.addPolygon();
-						meshObj->mesh.faces[meshObj->mesh.faceActive.size() - 1].setEdge(e01);
+						zItMeshFace newFace;
+						bool check = addPolygon(newFace);						
+						
+						newFace.setHalfEdge(e01);						
 
-						if (!e01_Boundary) e01->setFace(&meshObj->mesh.faces[meshObj->mesh.faceActive.size() - 1]);
-						if (!e12_Boundary) e12->setFace(&meshObj->mesh.faces[meshObj->mesh.faceActive.size() - 1]);
-						if (!e20_Boundary) e20->setFace(&meshObj->mesh.faces[meshObj->mesh.faceActive.size() - 1]);
+						if (!e01_Boundary) e01.setFace(newFace);
+						if (!e12_Boundary) e12.setFace(newFace);
+						if (!e20_Boundary) e20.setFace(newFace);
 					}
 					else
 					{
-						if (!e01_Boundary) meshObj->mesh.faces[faceIndex].setEdge(e01);
-						else if (!e12_Boundary) meshObj->mesh.faces[faceIndex].setEdge(e12);
-						else if (!e20_Boundary) meshObj->mesh.faces[faceIndex].setEdge(e20);
+
+						if (!e01_Boundary) face.setHalfEdge(e01);
+						else if (!e12_Boundary) face.setHalfEdge(e12);
+						else if (!e20_Boundary) face.setHalfEdge(e20);
 
 
-						if (!e01_Boundary) e01->setFace(&meshObj->mesh.faces[faceIndex]);
-						if (!e12_Boundary) e12->setFace(&meshObj->mesh.faces[faceIndex]);
-						if (!e20_Boundary) e20->setFace(&meshObj->mesh.faces[faceIndex]);
+						if (!e01_Boundary) e01.setFace(face);
+						if (!e12_Boundary) e12.setFace(face);
+						if (!e20_Boundary) e20.setFace(face);
 					}
 
 					// update edge pointers
-					e01->setNext(e12);
-					e01->setPrev(e20);
-					e12->setNext(e20);
+					e01.setNext(e12);
+					e12.setPrev(e01);
+
+					e01.setPrev(e20);
+					e20.setNext(e01);
+
+					e12.setNext(e20);
+					e20.setPrev(e12);
 
 				}
 			}
@@ -4642,24 +2724,22 @@ namespace zSpace
 		void triangulate()
 		{
 
-			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faceActive.size()) computeMeshNormals();
+			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
-
+			
 
 			// iterate through faces and triangulate faces with more than 3 vetices
-			int numfaces_original = meshObj->mesh.faceActive.size();
-
-			int numEdges_original = meshObj->mesh.edgeActive.size();
-			//printf("\n numfaces_before: %i ", numfaces_before);
+			int numfaces_original = meshObj->mesh.faces.size();					
 
 			for (int i = 0; i < numfaces_original; i++)
 			{
-				if (!meshObj->mesh.faceActive[i]) continue;
+				
+				zItMeshFace f(*meshObj,i);
+				if (!f.isActive()) continue;				
 
-				faceTriangulate(i);
+				faceTriangulate(f);
 
 			}
-
 
 			computeMeshNormals();
 
@@ -4677,128 +2757,128 @@ namespace zSpace
 		*/
 		void deleteVertex(int index, bool removeInactiveElems = true)
 		{
-			if (index > meshObj->mesh.vertexActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.vertexActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			//if (index >= meshObj->mesh.vertices.size()) throw std::invalid_argument(" error: index out of bounds.");
+			//if (!meshObj->mesh.indexToVertex[index]->isActive()) throw std::invalid_argument(" error: index out of bounds.");
 
-			// check if boundary vertex
-			bool boundaryVertex = (onBoundary(index, zVertexData));
+			//// check if boundary vertex
+			//bool boundaryVertex = (onBoundary(index, zVertexData));
 
-			// get connected faces
-			vector<int> cFaces;
-			getConnectedFaces(index, zVertexData, cFaces);
+			//// get connected faces
+			//vector<int> cFaces;
+			//getConnectedFaces(index, zVertexData, cFaces);
 
-			// get connected edges
-			vector<int> cEdges;
-			getConnectedEdges(index, zVertexData, cEdges);
-
-
-
-			// get vertices in cyclical orders without the  the vertex to be removed. remove duplicates if any
-			vector<int> outerVertices;
-
-			vector<int> deactivateVertices;
-			vector<int> deactivateEdges;
-
-			deactivateVertices.push_back(index);
-
-			// add to deactivate edges connected edges
-			for (int i = 0; i < cEdges.size(); i++) deactivateEdges.push_back(cEdges[i]);
-
-			// add to deactivate vertices with valence 2 and  connected edges of that vertex
-			for (int i = 0; i < cEdges.size(); i++)
-			{
-				int v0 = meshObj->mesh.edges[cEdges[i]].getVertex()->getVertexId();
-
-				if (!onBoundary(v0, zVertexData) && checkVertexValency(v0, 2))
-				{
-					deactivateVertices.push_back(v0);
-					deactivateEdges.push_back(meshObj->mesh.edges[cEdges[i]].getNext()->getEdgeId());
-				}
-			}
-
-			// compute new face vertices
-			for (int i = 0; i < cEdges.size(); i++)
-			{
-				if (!meshObj->mesh.edges[cEdges[i]].getFace()) continue;
-
-				zEdge *curEdge = &meshObj->mesh.edges[cEdges[i]];
-				int v0 = curEdge->getVertex()->getVertexId();
-
-				do
-				{
-					bool vertExists = false;
-
-					for (int k = 0; k < outerVertices.size(); k++)
-					{
-						if (v0 == outerVertices[k])
-						{
-							vertExists = true;
-							break;
-						}
-					}
-
-					if (!vertExists)
-					{
-						for (int k = 0; k < deactivateVertices.size(); k++)
-						{
-							if (v0 == deactivateVertices[k])
-							{
-								vertExists = true;
-								break;
-							}
-						}
-					}
-
-					if (!vertExists) outerVertices.push_back(v0);
+			//// get connected edges
+			//vector<int> cEdges;
+			//getConnectedEdges(index, zVertexData, cEdges);
 
 
 
-					curEdge = curEdge->getNext();
-					v0 = curEdge->getVertex()->getVertexId();
+			//// get vertices in cyclical orders without the  the vertex to be removed. remove duplicates if any
+			//vector<int> outerVertices;
+
+			//vector<int> deactivateVertices;
+			//vector<int> deactivateEdges;
+
+			//deactivateVertices.push_back(index);
+
+			//// add to deactivate edges connected edges
+			//for (int i = 0; i < cEdges.size(); i++) deactivateEdges.push_back(cEdges[i]);
+
+			//// add to deactivate vertices with valence 2 and  connected edges of that vertex
+			//for (int i = 0; i < cEdges.size(); i++)
+			//{
+			//	int v0 = meshObj->mesh.edges[cEdges[i]].getVertex()->getVertexId();
+
+			//	if (!onBoundary(v0, zVertexData) && checkVertexValency(v0, 2))
+			//	{
+			//		deactivateVertices.push_back(v0);
+			//		deactivateEdges.push_back(meshObj->mesh.edges[cEdges[i]].getNext()->getEdgeId());
+			//	}
+			//}
+
+			//// compute new face vertices
+			//for (int i = 0; i < cEdges.size(); i++)
+			//{
+			//	if (!meshObj->mesh.edges[cEdges[i]].getFace()) continue;
+
+			//	zEdge *curEdge = &meshObj->mesh.edges[cEdges[i]];
+			//	int v0 = curEdge->getVertex()->getVertexId();
+
+			//	do
+			//	{
+			//		bool vertExists = false;
+
+			//		for (int k = 0; k < outerVertices.size(); k++)
+			//		{
+			//			if (v0 == outerVertices[k])
+			//			{
+			//				vertExists = true;
+			//				break;
+			//			}
+			//		}
+
+			//		if (!vertExists)
+			//		{
+			//			for (int k = 0; k < deactivateVertices.size(); k++)
+			//			{
+			//				if (v0 == deactivateVertices[k])
+			//				{
+			//					vertExists = true;
+			//					break;
+			//				}
+			//			}
+			//		}
+
+			//		if (!vertExists) outerVertices.push_back(v0);
 
 
-				} while (v0 != index);
 
-			}
-
-
-			// deactivate connected edges 
-			for (int i = 0; i < deactivateEdges.size(); i++)
-			{
-				if (meshObj->mesh.edgeActive[deactivateEdges[i]])deactivateElement(deactivateEdges[i], zEdgeData);
-			}
-
-			// disable connected faces
-			for (int i = 0; i < cFaces.size(); i++)
-			{
-				if (meshObj->mesh.faceActive[cFaces[i]]) deactivateElement(cFaces[i], zFaceData);
-			}
-
-			// deactivate vertex
-			for (int i = 0; i < deactivateVertices.size(); i++)
-			{
-				if (meshObj->mesh.vertexActive[deactivateVertices[i]]) deactivateElement(deactivateVertices[i], zVertexData);
-			}
+			//		curEdge = curEdge->getNext();
+			//		v0 = curEdge->getVertex()->getVertexId();
 
 
+			//	} while (v0 != index);
 
-			// add new face if outerVertices has more than 2 vertices
+			//}
 
-			if (outerVertices.size() > 2)
-			{
-				meshObj->mesh.addPolygon(outerVertices);
 
-				if (boundaryVertex)  meshObj->mesh.update_BoundaryEdgePointers();
-			}
+			//// deactivate connected edges 
+			//for (int i = 0; i < deactivateEdges.size(); i++)
+			//{
+			//	if (meshObj->mesh.edgeActive[deactivateEdges[i]])deactivateElement(deactivateEdges[i], zEdgeData);
+			//}
 
-			computeMeshNormals();
+			//// disable connected faces
+			//for (int i = 0; i < cFaces.size(); i++)
+			//{
+			//	if (meshObj->mesh.faceActive[cFaces[i]]) deactivateElement(cFaces[i], zFaceData);
+			//}
 
-			if (removeInactiveElems)
-			{
-				removeInactiveElements(zVertexData);
-				removeInactiveElements(zEdgeData);
-				removeInactiveElements(zFaceData);
-			}
+			//// deactivate vertex
+			//for (int i = 0; i < deactivateVertices.size(); i++)
+			//{
+			//	if (meshObj->mesh.vertexActive[deactivateVertices[i]]) deactivateElement(deactivateVertices[i], zVertexData);
+			//}
+
+
+
+			//// add new face if outerVertices has more than 2 vertices
+
+			//if (outerVertices.size() > 2)
+			//{
+			//	meshObj->mesh.addPolygon(outerVertices);
+
+			//	if (boundaryVertex)  meshObj->mesh.update_BoundaryEdgePointers();
+			//}
+
+			//computeMeshNormals();
+
+			//if (removeInactiveElems)
+			//{
+			//	removeInactiveElements(zVertexData);
+			//	removeInactiveElements(zEdgeData);
+			//	removeInactiveElements(zFaceData);
+			//}
 		}
 
 
@@ -4810,99 +2890,99 @@ namespace zSpace
 		*/
 		void deleteFace(int index, bool removeInactiveElems = true)
 		{
-			if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			//if (index > meshObj->mesh.faceActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			//if (!meshObj->mesh.faceActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-			// check if there is only 1 polygon. If true, cant perform collapse.
-			if (numPolygons() == 1)
-			{
-				printf("\n Can't delete on single face mesh.");
-				return;
-			}
+			//// check if there is only 1 polygon. If true, cant perform collapse.
+			//if (numPolygons() == 1)
+			//{
+			//	printf("\n Can't delete on single face mesh.");
+			//	return;
+			//}
 
-			// get faces vertices
-			vector<int> fVerts;
-			getVertices(index, zFaceData, fVerts);
-
-
-
-			// get face edges.
-			vector<int> fEdges;
-			getEdges(index, zFaceData, fEdges);
-
-			// connected edge for each face vertex
-			vector<int> fVertsValence;
-			for (int i = 0; i < fVerts.size(); i++)
-			{
-
-				vector<int> cEdges;
-				getConnectedEdges(fVerts[i], zVertexData, cEdges);
-				fVertsValence.push_back(cEdges.size());
-
-				// update vertex edge pointer if ther are pointing to face edges , as they will be disabled.
-
-				for (int j = 0; j < cEdges.size(); j++)
-				{
-					bool chk = false;
-
-					for (int k = 0; k < fEdges.size(); k++)
-					{
-						int sEdge = meshObj->mesh.edges[fEdges[k]].getSym()->getEdgeId();
-
-						if (cEdges[j] == fEdges[k] || cEdges[j] == sEdge)
-						{
-							chk = true;
-							break;
-						}
-					}
-
-					if (!chk)
-					{
-						meshObj->mesh.vertices[fVerts[i]].setEdge(&meshObj->mesh.edges[cEdges[j]]);
-						break;
-					}
-				}
-
-			}
-
-			// make face edges as  boundary edges, and disable them if both half edges have null face pointers.
-			for (int i = 0; i < fEdges.size(); i++)
-			{
-				meshObj->mesh.edges[fEdges[i]].setFace(nullptr);
-
-				int symEdge = meshObj->mesh.edges[fEdges[i]].getSym()->getEdgeId();
-
-				if (onBoundary(fEdges[i], zEdgeData) && onBoundary(symEdge, zEdgeData))
-				{
-					deactivateElement(fEdges[i], zEdgeData);
-				}
-			}
-
-			// get face vertices and deactivate them if all connected half edges are in active.
-			for (int i = 0; i < fVerts.size(); i++)
-			{
-				bool removeVertex = true;
-				if (fVertsValence[i] > 2) removeVertex = false;
+			//// get faces vertices
+			//vector<int> fVerts;
+			//getVertices(index, zFaceData, fVerts);
 
 
-				if (removeVertex)
-				{
-					deactivateElement(fVerts[i], zVertexData);
-				}
 
-			}
+			//// get face edges.
+			//vector<int> fEdges;
+			//getEdges(index, zFaceData, fEdges);
+
+			//// connected edge for each face vertex
+			//vector<int> fVertsValence;
+			//for (int i = 0; i < fVerts.size(); i++)
+			//{
+
+			//	vector<int> cEdges;
+			//	getConnectedEdges(fVerts[i], zVertexData, cEdges);
+			//	fVertsValence.push_back(cEdges.size());
+
+			//	// update vertex edge pointer if ther are pointing to face edges , as they will be disabled.
+
+			//	for (int j = 0; j < cEdges.size(); j++)
+			//	{
+			//		bool chk = false;
+
+			//		for (int k = 0; k < fEdges.size(); k++)
+			//		{
+			//			int sEdge = meshObj->mesh.edges[fEdges[k]].getSym()->getEdgeId();
+
+			//			if (cEdges[j] == fEdges[k] || cEdges[j] == sEdge)
+			//			{
+			//				chk = true;
+			//				break;
+			//			}
+			//		}
+
+			//		if (!chk)
+			//		{
+			//			meshObj->mesh.vertices[fVerts[i]].setEdge(&meshObj->mesh.edges[cEdges[j]]);
+			//			break;
+			//		}
+			//	}
+
+			//}
+
+			//// make face edges as  boundary edges, and disable them if both half edges have null face pointers.
+			//for (int i = 0; i < fEdges.size(); i++)
+			//{
+			//	meshObj->mesh.edges[fEdges[i]].setFace(nullptr);
+
+			//	int symEdge = meshObj->mesh.edges[fEdges[i]].getSym()->getEdgeId();
+
+			//	if (onBoundary(fEdges[i], zEdgeData) && onBoundary(symEdge, zEdgeData))
+			//	{
+			//		deactivateElement(fEdges[i], zEdgeData);
+			//	}
+			//}
+
+			//// get face vertices and deactivate them if all connected half edges are in active.
+			//for (int i = 0; i < fVerts.size(); i++)
+			//{
+			//	bool removeVertex = true;
+			//	if (fVertsValence[i] > 2) removeVertex = false;
 
 
-			// deactivate face
-			deactivateElement(index, zFaceData);
+			//	if (removeVertex)
+			//	{
+			//		deactivateElement(fVerts[i], zVertexData);
+			//	}
+
+			//}
 
 
-			if (removeInactiveElems)
-			{
-				removeInactiveElements(zVertexData);
-				removeInactiveElements(zEdgeData);
-				removeInactiveElements(zFaceData);
-			}
+			//// deactivate face
+			//deactivateElement(index, zFaceData);
+
+
+			//if (removeInactiveElems)
+			//{
+			//	removeInactiveElements(zVertexData);
+			//	removeInactiveElements(zEdgeData);
+			//	removeInactiveElements(zFaceData);
+			//}
 
 		}
 
@@ -4927,406 +3007,407 @@ namespace zSpace
 		*/
 		void collapseEdge( int index, double edgeFactor = 0.5, bool removeInactiveElems = true)
 		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			//if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			//if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-			int nFVerts = (onBoundary(index, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[index].getFace()->getFaceId());
+			//int nFVerts = (onBoundary(index, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[index].getFace()->getFaceId());
 
-			int sEdge = meshObj->mesh.edges[index].getSym()->getEdgeId();
-			int nFVerts_Sym = (onBoundary(sEdge, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[sEdge].getFace()->getFaceId());
+			//int sEdge = meshObj->mesh.edges[index].getSym()->getEdgeId();
+			//int nFVerts_Sym = (onBoundary(sEdge, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[sEdge].getFace()->getFaceId());
 
-			// check if there is only 1 polygon and its a triangle. If true, cant perform collapse.
-			if (numPolygons() == 1)
-			{
-				if (nFVerts == 3 || nFVerts_Sym == 3)
-				{
-					printf("\n Can't perform collapse on single trianglular face.");
-					return;
-				}
+			//// check if there is only 1 polygon and its a triangle. If true, cant perform collapse.
+			//if (numPolygons() == 1)
+			//{
+			//	if (nFVerts == 3 || nFVerts_Sym == 3)
+			//	{
+			//		printf("\n Can't perform collapse on single trianglular face.");
+			//		return;
+			//	}
 
-			}
+			//}
 
-			// get edge faces
-			vector<int> eFaces;
-			getFaces(index, zEdgeData, eFaces);
+			//// get edge faces
+			//vector<int> eFaces;
+			//getFaces(index, zEdgeData, eFaces);
 
-			if (numPolygons() == eFaces.size())
-			{
-				if (nFVerts == nFVerts_Sym && nFVerts_Sym == 3)
-				{
-					printf("\n Can't perform collapse on common edge of 2 triangular face mesh.");
-					return;
-				}
+			//if (numPolygons() == eFaces.size())
+			//{
+			//	if (nFVerts == nFVerts_Sym && nFVerts_Sym == 3)
+			//	{
+			//		printf("\n Can't perform collapse on common edge of 2 triangular face mesh.");
+			//		return;
+			//	}
 
-			}
+			//}
 
-			int v1 = meshObj->mesh.edges[index].getVertex()->getVertexId();
-			int v2 = meshObj->mesh.edges[sEdge].getVertex()->getVertexId();
+			//int v1 = meshObj->mesh.edges[index].getVertex()->getVertexId();
+			//int v2 = meshObj->mesh.edges[sEdge].getVertex()->getVertexId();
 
-			int vertexRemoveID = v1;
-			int vertexRetainID = v2;
+			//int vertexRemoveID = v1;
+			//int vertexRetainID = v2;
 
-			if (getVertexValence(v1) > getVertexValence(v2))
-			{
-				vertexRemoveID = v2;
-				vertexRetainID = v1;
+			//if (getVertexValence(v1) > getVertexValence(v2))
+			//{
+			//	vertexRemoveID = v2;
+			//	vertexRetainID = v1;
 
-				edgeFactor = 1 - edgeFactor;
+			//	edgeFactor = 1 - edgeFactor;
 
-			}
+			//}
 
-			// set new position of retained vertex
-			zVector e = meshObj->mesh.vertexPositions[vertexRemoveID] - meshObj->mesh.vertexPositions[vertexRetainID];
-			double eLength = e.length();
-			e.normalize();
+			//// set new position of retained vertex
+			//zVector e = meshObj->mesh.vertexPositions[vertexRemoveID] - meshObj->mesh.vertexPositions[vertexRetainID];
+			//double eLength = e.length();
+			//e.normalize();
 
-			meshObj->mesh.vertexPositions[vertexRetainID] = meshObj->mesh.vertexPositions[vertexRetainID] + e * (edgeFactor * eLength);
+			//meshObj->mesh.vertexPositions[vertexRetainID] = meshObj->mesh.vertexPositions[vertexRetainID] + e * (edgeFactor * eLength);
 
 
-			// get connected edges of vertexRemoveID
-			vector<int> cEdges;
-			getConnectedEdges(vertexRemoveID, zVertexData, cEdges);
+			//// get connected edges of vertexRemoveID
+			//vector<int> cEdges;
+			//getConnectedEdges(vertexRemoveID, zVertexData, cEdges);
 
 
-			// get connected edges
+			//// get connected edges
 
-			int vNext = meshObj->mesh.edges[index].getNext()->getVertex()->getVertexId();
-			vector<int> cEdgesVNext;
-			getConnectedEdges(vNext, zVertexData, cEdgesVNext);
+			//int vNext = meshObj->mesh.edges[index].getNext()->getVertex()->getVertexId();
+			//vector<int> cEdgesVNext;
+			//getConnectedEdges(vNext, zVertexData, cEdgesVNext);
 
-			int vPrev = meshObj->mesh.edges[index].getPrev()->getVertex()->getVertexId();
-			vector<int> cEdgesVPrev;
-			getConnectedEdges(vPrev, zVertexData, cEdgesVPrev);
+			//int vPrev = meshObj->mesh.edges[index].getPrev()->getVertex()->getVertexId();
+			//vector<int> cEdgesVPrev;
+			//getConnectedEdges(vPrev, zVertexData, cEdgesVPrev);
 
-			int vNext_sEdge = meshObj->mesh.edges[sEdge].getNext()->getVertex()->getVertexId();
-			vector<int> cEdgesVNext_sEdge;
-			getConnectedEdges(vNext_sEdge, zVertexData, cEdgesVNext_sEdge);
+			//int vNext_sEdge = meshObj->mesh.edges[sEdge].getNext()->getVertex()->getVertexId();
+			//vector<int> cEdgesVNext_sEdge;
+			//getConnectedEdges(vNext_sEdge, zVertexData, cEdgesVNext_sEdge);
 
-			int vPrev_sEdge = meshObj->mesh.edges[sEdge].getPrev()->getVertex()->getVertexId();
-			vector<int> cEdgesVPrev_sEdge;
-			getConnectedEdges(vPrev_sEdge, zVertexData, cEdgesVPrev_sEdge);
+			//int vPrev_sEdge = meshObj->mesh.edges[sEdge].getPrev()->getVertex()->getVertexId();
+			//vector<int> cEdgesVPrev_sEdge;
+			//getConnectedEdges(vPrev_sEdge, zVertexData, cEdgesVPrev_sEdge);
 
-			// current edge 
-			if (nFVerts == 3)
-			{
+			//// current edge 
+			//if (nFVerts == 3)
+			//{
 
-				// update pointers
-				meshObj->mesh.edges[index].getNext()->setNext(meshObj->mesh.edges[index].getPrev()->getSym()->getNext());
-				meshObj->mesh.edges[index].getNext()->setPrev(meshObj->mesh.edges[index].getPrev()->getSym()->getPrev());
+			//	// update pointers
+			//	meshObj->mesh.edges[index].getNext()->setNext(meshObj->mesh.edges[index].getPrev()->getSym()->getNext());
+			//	meshObj->mesh.edges[index].getNext()->setPrev(meshObj->mesh.edges[index].getPrev()->getSym()->getPrev());
 
-				meshObj->mesh.edges[index].getPrev()->setPrev(nullptr);
-				meshObj->mesh.edges[index].getPrev()->setNext(nullptr);
+			//	meshObj->mesh.edges[index].getPrev()->setPrev(nullptr);
+			//	meshObj->mesh.edges[index].getPrev()->setNext(nullptr);
 
-				meshObj->mesh.edges[index].getPrev()->getSym()->setPrev(nullptr);
-				meshObj->mesh.edges[index].getPrev()->getSym()->setNext(nullptr);
+			//	meshObj->mesh.edges[index].getPrev()->getSym()->setPrev(nullptr);
+			//	meshObj->mesh.edges[index].getPrev()->getSym()->setNext(nullptr);
 
-				meshObj->mesh.edges[index].getNext()->setFace(meshObj->mesh.edges[index].getPrev()->getSym()->getFace());
+			//	meshObj->mesh.edges[index].getNext()->setFace(meshObj->mesh.edges[index].getPrev()->getSym()->getFace());
 
-				if (meshObj->mesh.edges[index].getPrev()->getSym()->getFace())
-				{
-					meshObj->mesh.edges[index].getPrev()->getSym()->getFace()->setEdge(meshObj->mesh.edges[index].getNext());
-					meshObj->mesh.edges[index].getPrev()->getSym()->setFace(nullptr);
-				}
+			//	if (meshObj->mesh.edges[index].getPrev()->getSym()->getFace())
+			//	{
+			//		meshObj->mesh.edges[index].getPrev()->getSym()->getFace()->setEdge(meshObj->mesh.edges[index].getNext());
+			//		meshObj->mesh.edges[index].getPrev()->getSym()->setFace(nullptr);
+			//	}
 
-				// update vertex edge pointer if pointing to prev edge
-
-				if (meshObj->mesh.vertices[vNext].getEdge()->getEdgeId() == meshObj->mesh.edges[index].getPrev()->getEdgeId())
-				{
-					for (int i = 0; i < cEdgesVNext.size(); i++)
-					{
-						if (cEdgesVNext[i] != meshObj->mesh.edges[index].getPrev()->getEdgeId())
-						{
-							meshObj->mesh.vertices[vNext].setEdge(&meshObj->mesh.edges[cEdgesVNext[i]]);
-						}
-					}
-				}
-
-				// update vertex edge pointer if pointing to prev edge
-
-				if (meshObj->mesh.vertices[vPrev].getEdge()->getEdgeId() == meshObj->mesh.edges[index].getPrev()->getSym()->getEdgeId() || meshObj->mesh.vertices[vPrev].getEdge()->getEdgeId() == index)
-				{
-					for (int i = 0; i < cEdgesVPrev.size(); i++)
-					{
-						if (cEdgesVPrev[i] != meshObj->mesh.edges[index].getPrev()->getSym()->getEdgeId() && cEdgesVPrev[i] != index)
-						{
-							meshObj->mesh.vertices[vPrev].setEdge(&meshObj->mesh.edges[cEdgesVPrev[i]]);
-						}
-					}
-				}
-
-				// decativate prev edge
-				deactivateElement(meshObj->mesh.edges[index].getPrev()->getEdgeId(), zEdgeData);
-
-				// decativate next and sym pointer of the next edge are same, deactivate edge
-				if (meshObj->mesh.edges[index].getNext()->getNext() == meshObj->mesh.edges[index].getNext()->getSym())
-				{
-
-					deactivateElement(meshObj->mesh.edges[index].getNext()->getEdgeId(), zEdgeData);
-					deactivateElement(vNext, zVertexData);
-				}
-
-				// decativate prev and sym pointer of the next edge are same, deactivate edge
-				else if (meshObj->mesh.edges[index].getNext()->getPrev() == meshObj->mesh.edges[index].getNext()->getSym())
-				{
-					deactivateElement(meshObj->mesh.edges[index].getNext()->getVertex()->getVertexId(), zVertexData);
-					deactivateElement(vNext, zVertexData);
-				}
-
-				// deactivate face pointed by collapse edge
-				deactivateElement(meshObj->mesh.edges[index].getFace()->getFaceId(), zFaceData);
-
-				meshObj->mesh.edges[index].setFace(nullptr);
-
-				meshObj->mesh.edges[index].setNext(nullptr);
-				meshObj->mesh.edges[index].setPrev(nullptr);
-
-			}
-			else
-			{
-				// update vertex edge pointer if pointing to current edge
-				if (meshObj->mesh.vertices[vPrev].getEdge()->getEdgeId() == meshObj->mesh.edges[index].getEdgeId())
-				{
-					meshObj->mesh.vertices[vPrev].setEdge(meshObj->mesh.edges[index].getPrev()->getSym());
-				}
-
-				// update pointers
-				meshObj->mesh.edges[index].getNext()->setPrev(meshObj->mesh.edges[index].getPrev());
-
-				meshObj->mesh.edges[index].setNext(nullptr);
-				meshObj->mesh.edges[index].setPrev(nullptr);
-			}
-
-			// symmetry edge 
-			if (nFVerts_Sym == 3)
-			{
-
-
-				// update pointers
-				meshObj->mesh.edges[sEdge].getNext()->setNext(meshObj->mesh.edges[sEdge].getPrev()->getSym()->getNext());
-				meshObj->mesh.edges[sEdge].getNext()->setPrev(meshObj->mesh.edges[sEdge].getPrev()->getSym()->getPrev());
-
-				meshObj->mesh.edges[sEdge].getPrev()->setPrev(nullptr);
-				meshObj->mesh.edges[sEdge].getPrev()->setNext(nullptr);
-
-				meshObj->mesh.edges[sEdge].getPrev()->getSym()->setPrev(nullptr);
-				meshObj->mesh.edges[sEdge].getPrev()->getSym()->setNext(nullptr);
-
-				meshObj->mesh.edges[sEdge].getNext()->setFace(meshObj->mesh.edges[sEdge].getPrev()->getSym()->getFace());
-
-				if (meshObj->mesh.edges[sEdge].getPrev()->getSym()->getFace())
-				{
-					meshObj->mesh.edges[sEdge].getPrev()->getSym()->getFace()->setEdge(meshObj->mesh.edges[sEdge].getNext());
-					meshObj->mesh.edges[sEdge].getPrev()->getSym()->setFace(nullptr);
-				}
-
-				// update vertex edge pointer if pointing to prev edge
-
-				if (meshObj->mesh.vertices[vNext_sEdge].getEdge()->getEdgeId() == meshObj->mesh.edges[sEdge].getPrev()->getEdgeId())
-				{
-					for (int i = 0; i < cEdgesVNext_sEdge.size(); i++)
-					{
-						if (cEdgesVNext_sEdge[i] != meshObj->mesh.edges[sEdge].getPrev()->getEdgeId())
-						{
-							meshObj->mesh.vertices[vNext_sEdge].setEdge(&meshObj->mesh.edges[cEdgesVNext_sEdge[i]]);
-						}
-					}
-				}
-
-				// update vertex edge pointer if pointing to prev edge
-
-				if (meshObj->mesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == meshObj->mesh.edges[sEdge].getPrev()->getSym()->getEdgeId() || meshObj->mesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == sEdge)
-				{
-					for (int i = 0; i < cEdgesVPrev_sEdge.size(); i++)
-					{
-						if (cEdgesVPrev_sEdge[i] != meshObj->mesh.edges[sEdge].getPrev()->getSym()->getEdgeId() && cEdgesVPrev_sEdge[i] != sEdge)
-						{
-							meshObj->mesh.vertices[vPrev_sEdge].setEdge(&meshObj->mesh.edges[cEdgesVPrev_sEdge[i]]);
-						}
-					}
-				}
-
-				// decativate prev edge
-				deactivateElement(meshObj->mesh.edges[sEdge].getPrev()->getEdgeId(), zEdgeData);
-
-				// decativate next and sym pointer of the next edge are same, deactivate edge
-				if (meshObj->mesh.edges[sEdge].getNext()->getNext() == meshObj->mesh.edges[sEdge].getNext()->getSym())
-				{
-					deactivateElement(meshObj->mesh.edges[sEdge].getNext()->getEdgeId(), zEdgeData);
-					deactivateElement(vNext_sEdge, zVertexData);
-				}
-
-				// decativate prev and sym pointer of the next edge are same, deactivate edge
-				else if (meshObj->mesh.edges[sEdge].getNext()->getPrev() == meshObj->mesh.edges[sEdge].getNext()->getSym())
-				{
-					deactivateElement(meshObj->mesh.edges[sEdge].getNext()->getEdgeId(), zEdgeData);
-					deactivateElement(vNext_sEdge, zVertexData);
-				}
-
-				// deactivate face pointed by collapse edge
-				deactivateElement(meshObj->mesh.edges[sEdge].getFace()->getFaceId(), zFaceData);
-
-				meshObj->mesh.edges[sEdge].setFace(nullptr);
-
-				meshObj->mesh.edges[sEdge].setNext(nullptr);
-				meshObj->mesh.edges[sEdge].setPrev(nullptr);
-
-			}
-			else
-			{
-				// update vertex edge pointer if pointing to current edge
-				if (meshObj->mesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == meshObj->mesh.edges[sEdge].getEdgeId())
-				{
-					meshObj->mesh.vertices[vPrev_sEdge].setEdge(meshObj->mesh.edges[sEdge].getPrev()->getSym());
-				}
-
-				// update pointers
-				meshObj->mesh.edges[sEdge].getNext()->setPrev(meshObj->mesh.edges[sEdge].getPrev());
-
-				meshObj->mesh.edges[sEdge].setNext(nullptr);
-				meshObj->mesh.edges[sEdge].setPrev(nullptr);
-			}
-
-			// update connected edges verter pointer
-			for (int i = 0; i < cEdges.size(); i++)
-			{
-				if (meshObj->mesh.edgeActive[cEdges[i]])
-				{
-					int v1 = meshObj->mesh.edges[cEdges[i]].getVertex()->getVertexId();
-					int v2 = vertexRemoveID;
-					meshObj->mesh.removeFromVerticesEdge(v1, v2);
-
-					meshObj->mesh.edges[cEdges[i]].getSym()->setVertex(&meshObj->mesh.vertices[vertexRetainID]);
-
-					meshObj->mesh.addToVerticesEdge(v1, vertexRetainID, cEdges[i]);
-				}
-			}
-
-
-			// deactivate collapse edge
-			if (meshObj->mesh.edgeActive[index])
-			{
-				deactivateElement(index, zEdgeData);
-			}
-
-			// deactivate vertexRemoveID
-			if (meshObj->mesh.vertexActive[vertexRemoveID])
-			{
-				deactivateElement(vertexRemoveID, zVertexData);
-			}
-
-			// compute normals		
-			computeMeshNormals();
-
-
-			// remove inactive elements
-			if (removeInactiveElems)
-			{
-				removeInactiveElements(zVertexData);
-				removeInactiveElements(zEdgeData);
-				removeInactiveElements(zFaceData);
-			}
+			//	// update vertex edge pointer if pointing to prev edge
+
+			//	if (meshObj->mesh.vertices[vNext].getEdge()->getEdgeId() == meshObj->mesh.edges[index].getPrev()->getEdgeId())
+			//	{
+			//		for (int i = 0; i < cEdgesVNext.size(); i++)
+			//		{
+			//			if (cEdgesVNext[i] != meshObj->mesh.edges[index].getPrev()->getEdgeId())
+			//			{
+			//				meshObj->mesh.vertices[vNext].setEdge(&meshObj->mesh.edges[cEdgesVNext[i]]);
+			//			}
+			//		}
+			//	}
+
+			//	// update vertex edge pointer if pointing to prev edge
+
+			//	if (meshObj->mesh.vertices[vPrev].getEdge()->getEdgeId() == meshObj->mesh.edges[index].getPrev()->getSym()->getEdgeId() || meshObj->mesh.vertices[vPrev].getEdge()->getEdgeId() == index)
+			//	{
+			//		for (int i = 0; i < cEdgesVPrev.size(); i++)
+			//		{
+			//			if (cEdgesVPrev[i] != meshObj->mesh.edges[index].getPrev()->getSym()->getEdgeId() && cEdgesVPrev[i] != index)
+			//			{
+			//				meshObj->mesh.vertices[vPrev].setEdge(&meshObj->mesh.edges[cEdgesVPrev[i]]);
+			//			}
+			//		}
+			//	}
+
+			//	// decativate prev edge
+			//	deactivateElement(meshObj->mesh.edges[index].getPrev()->getEdgeId(), zEdgeData);
+
+			//	// decativate next and sym pointer of the next edge are same, deactivate edge
+			//	if (meshObj->mesh.edges[index].getNext()->getNext() == meshObj->mesh.edges[index].getNext()->getSym())
+			//	{
+
+			//		deactivateElement(meshObj->mesh.edges[index].getNext()->getEdgeId(), zEdgeData);
+			//		deactivateElement(vNext, zVertexData);
+			//	}
+
+			//	// decativate prev and sym pointer of the next edge are same, deactivate edge
+			//	else if (meshObj->mesh.edges[index].getNext()->getPrev() == meshObj->mesh.edges[index].getNext()->getSym())
+			//	{
+			//		deactivateElement(meshObj->mesh.edges[index].getNext()->getVertex()->getVertexId(), zVertexData);
+			//		deactivateElement(vNext, zVertexData);
+			//	}
+
+			//	// deactivate face pointed by collapse edge
+			//	deactivateElement(meshObj->mesh.edges[index].getFace()->getFaceId(), zFaceData);
+
+			//	meshObj->mesh.edges[index].setFace(nullptr);
+
+			//	meshObj->mesh.edges[index].setNext(nullptr);
+			//	meshObj->mesh.edges[index].setPrev(nullptr);
+
+			//}
+			//else
+			//{
+			//	// update vertex edge pointer if pointing to current edge
+			//	if (meshObj->mesh.vertices[vPrev].getEdge()->getEdgeId() == meshObj->mesh.edges[index].getEdgeId())
+			//	{
+			//		meshObj->mesh.vertices[vPrev].setEdge(meshObj->mesh.edges[index].getPrev()->getSym());
+			//	}
+
+			//	// update pointers
+			//	meshObj->mesh.edges[index].getNext()->setPrev(meshObj->mesh.edges[index].getPrev());
+
+			//	meshObj->mesh.edges[index].setNext(nullptr);
+			//	meshObj->mesh.edges[index].setPrev(nullptr);
+			//}
+
+			//// symmetry edge 
+			//if (nFVerts_Sym == 3)
+			//{
+
+
+			//	// update pointers
+			//	meshObj->mesh.edges[sEdge].getNext()->setNext(meshObj->mesh.edges[sEdge].getPrev()->getSym()->getNext());
+			//	meshObj->mesh.edges[sEdge].getNext()->setPrev(meshObj->mesh.edges[sEdge].getPrev()->getSym()->getPrev());
+
+			//	meshObj->mesh.edges[sEdge].getPrev()->setPrev(nullptr);
+			//	meshObj->mesh.edges[sEdge].getPrev()->setNext(nullptr);
+
+			//	meshObj->mesh.edges[sEdge].getPrev()->getSym()->setPrev(nullptr);
+			//	meshObj->mesh.edges[sEdge].getPrev()->getSym()->setNext(nullptr);
+
+			//	meshObj->mesh.edges[sEdge].getNext()->setFace(meshObj->mesh.edges[sEdge].getPrev()->getSym()->getFace());
+
+			//	if (meshObj->mesh.edges[sEdge].getPrev()->getSym()->getFace())
+			//	{
+			//		meshObj->mesh.edges[sEdge].getPrev()->getSym()->getFace()->setEdge(meshObj->mesh.edges[sEdge].getNext());
+			//		meshObj->mesh.edges[sEdge].getPrev()->getSym()->setFace(nullptr);
+			//	}
+
+			//	// update vertex edge pointer if pointing to prev edge
+
+			//	if (meshObj->mesh.vertices[vNext_sEdge].getEdge()->getEdgeId() == meshObj->mesh.edges[sEdge].getPrev()->getEdgeId())
+			//	{
+			//		for (int i = 0; i < cEdgesVNext_sEdge.size(); i++)
+			//		{
+			//			if (cEdgesVNext_sEdge[i] != meshObj->mesh.edges[sEdge].getPrev()->getEdgeId())
+			//			{
+			//				meshObj->mesh.vertices[vNext_sEdge].setEdge(&meshObj->mesh.edges[cEdgesVNext_sEdge[i]]);
+			//			}
+			//		}
+			//	}
+
+			//	// update vertex edge pointer if pointing to prev edge
+
+			//	if (meshObj->mesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == meshObj->mesh.edges[sEdge].getPrev()->getSym()->getEdgeId() || meshObj->mesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == sEdge)
+			//	{
+			//		for (int i = 0; i < cEdgesVPrev_sEdge.size(); i++)
+			//		{
+			//			if (cEdgesVPrev_sEdge[i] != meshObj->mesh.edges[sEdge].getPrev()->getSym()->getEdgeId() && cEdgesVPrev_sEdge[i] != sEdge)
+			//			{
+			//				meshObj->mesh.vertices[vPrev_sEdge].setEdge(&meshObj->mesh.edges[cEdgesVPrev_sEdge[i]]);
+			//			}
+			//		}
+			//	}
+
+			//	// decativate prev edge
+			//	deactivateElement(meshObj->mesh.edges[sEdge].getPrev()->getEdgeId(), zEdgeData);
+
+			//	// decativate next and sym pointer of the next edge are same, deactivate edge
+			//	if (meshObj->mesh.edges[sEdge].getNext()->getNext() == meshObj->mesh.edges[sEdge].getNext()->getSym())
+			//	{
+			//		deactivateElement(meshObj->mesh.edges[sEdge].getNext()->getEdgeId(), zEdgeData);
+			//		deactivateElement(vNext_sEdge, zVertexData);
+			//	}
+
+			//	// decativate prev and sym pointer of the next edge are same, deactivate edge
+			//	else if (meshObj->mesh.edges[sEdge].getNext()->getPrev() == meshObj->mesh.edges[sEdge].getNext()->getSym())
+			//	{
+			//		deactivateElement(meshObj->mesh.edges[sEdge].getNext()->getEdgeId(), zEdgeData);
+			//		deactivateElement(vNext_sEdge, zVertexData);
+			//	}
+
+			//	// deactivate face pointed by collapse edge
+			//	deactivateElement(meshObj->mesh.edges[sEdge].getFace()->getFaceId(), zFaceData);
+
+			//	meshObj->mesh.edges[sEdge].setFace(nullptr);
+
+			//	meshObj->mesh.edges[sEdge].setNext(nullptr);
+			//	meshObj->mesh.edges[sEdge].setPrev(nullptr);
+
+			//}
+			//else
+			//{
+			//	// update vertex edge pointer if pointing to current edge
+			//	if (meshObj->mesh.vertices[vPrev_sEdge].getEdge()->getEdgeId() == meshObj->mesh.edges[sEdge].getEdgeId())
+			//	{
+			//		meshObj->mesh.vertices[vPrev_sEdge].setEdge(meshObj->mesh.edges[sEdge].getPrev()->getSym());
+			//	}
+
+			//	// update pointers
+			//	meshObj->mesh.edges[sEdge].getNext()->setPrev(meshObj->mesh.edges[sEdge].getPrev());
+
+			//	meshObj->mesh.edges[sEdge].setNext(nullptr);
+			//	meshObj->mesh.edges[sEdge].setPrev(nullptr);
+			//}
+
+			//// update connected edges verter pointer
+			//for (int i = 0; i < cEdges.size(); i++)
+			//{
+			//	if (meshObj->mesh.edgeActive[cEdges[i]])
+			//	{
+			//		int v1 = meshObj->mesh.edges[cEdges[i]].getVertex()->getVertexId();
+			//		int v2 = vertexRemoveID;
+			//		meshObj->mesh.removeFromVerticesEdge(v1, v2);
+
+			//		meshObj->mesh.edges[cEdges[i]].getSym()->setVertex(&meshObj->mesh.vertices[vertexRetainID]);
+
+			//		meshObj->mesh.addToVerticesEdge(v1, vertexRetainID, cEdges[i]);
+			//	}
+			//}
+
+
+			//// deactivate collapse edge
+			//if (meshObj->mesh.edgeActive[index])
+			//{
+			//	deactivateElement(index, zEdgeData);
+			//}
+
+			//// deactivate vertexRemoveID
+			//if (meshObj->mesh.vertexActive[vertexRemoveID])
+			//{
+			//	deactivateElement(vertexRemoveID, zVertexData);
+			//}
+
+			//// compute normals		
+			//computeMeshNormals();
+
+
+			//// remove inactive elements
+			//if (removeInactiveElems)
+			//{
+			//	removeInactiveElements(zVertexData);
+			//	removeInactiveElements(zEdgeData);
+			//	removeInactiveElements(zFaceData);
+			//}
 
 		}
 
 		/*! \brief This method splits an edge and inserts a vertex along the edge at the input factor.
 		*
-		*	\param		[in]	index			- index of the edge to be split.
+		*	\param		[in]	edge			- iterator of edge to be split.
 		*	\param		[in]	edgeFactor		- factor in the range [0,1] that represent how far along each edge must the split be done.
-		*	\param		[in]	fTriangulate	- true if contained edge faces needs to be triangulated after the edge spliting.
-		*	\return				int				- index of the new vertex added after splitinng the edge.
+		*	\return				zItMeshVertex	- iterator to new vertex added after splitting the edge.
 		*	\since version 0.0.2
 		*/
-		int splitEdge(int index, double edgeFactor = 0.5, bool fTriangulate = false)
-		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+		zItMeshVertex splitEdge(zItMeshEdge &edge, double edgeFactor = 0.5)
+		{			
 
-			vector<int> eFaces;
-			getFaces(index, zEdgeData, eFaces);
+			
 
-			zEdge* edgetoSplit = &meshObj->mesh.edges[index];
-			zEdge* edgetoSplitSym = edgetoSplit->getSym();
+			zItMeshHalfEdge he = edge.getHalfEdge(0);
+			zItMeshHalfEdge heS = edge.getHalfEdge(1);
 
-			zEdge* e_next = edgetoSplit->getNext();
-			zEdge* e_prev = edgetoSplit->getPrev();
+			zItMeshHalfEdge he_next = he.getNext();
+			zItMeshHalfEdge he_prev = he.getPrev();
 
-			zEdge* es_next = edgetoSplitSym->getNext();
-			zEdge* es_prev = edgetoSplitSym->getPrev();
+			zItMeshHalfEdge heS_next = heS.getNext();
+			zItMeshHalfEdge heS_prev = heS.getPrev();
 
 
-			zVector edgeDir = meshObj->mesh.vertexPositions[edgetoSplit->getVertex()->getVertexId()] - meshObj->mesh.vertexPositions[edgetoSplitSym->getVertex()->getVertexId()];
+			zVector edgeDir = he.getHalfEdgeVector(); 
 			double  edgeLength = edgeDir.length();
 			edgeDir.normalize();
 
-			zVector newVertPos = meshObj->mesh.vertexPositions[edgetoSplitSym->getVertex()->getVertexId()] + edgeDir * edgeFactor * edgeLength;
+			zVector newVertPos = he.getStartVertex().getVertexPosition() + edgeDir * edgeFactor * edgeLength;
 
-
+			int numOriginalVertices = numVertices();
 
 			// check if vertex exists if not add new vertex
-			int VertId;
-			bool vExists = vertexExists(newVertPos, VertId);
-			if (!vExists)
-			{
-				meshObj->mesh.addVertex(newVertPos);
-				VertId = meshObj->mesh.vertexActive.size() - 1;
-			}
+			zItMeshVertex newVertex;				
+			addVertex(newVertPos,true, newVertex);
+
+			
 
 			//printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
 
-			if (!vExists)
+			if (newVertex.getId() >= numOriginalVertices)
 			{
-				// remove from verticesEdge map
-				meshObj->mesh.removeFromVerticesEdge(edgetoSplit->getVertex()->getVertexId(), edgetoSplitSym->getVertex()->getVertexId());
+				// remove from halfEdge vertices map
+				removeFromHalfEdgesMap(he);
 
 				// add new edges
-				int v1 = VertId;
-				int v2 = edgetoSplit->getVertex()->getVertexId();
-				bool edgesResize = meshObj->mesh.addEdges(v1, v2);
+				int v1 = newVertex.getId();
+				int v2 = he.getVertex().getId();			
 
-				// recompute pointers if resize is true
+				zItMeshHalfEdge newHe;
+				bool edgesResize = addEdges(v1, v2, false, newHe);
+
+				// recompute iterators if resize is true
 				if (edgesResize)
 				{
-					edgetoSplit = &meshObj->mesh.edges[index];
-					edgetoSplitSym = edgetoSplit->getSym();
+					he = edge.getHalfEdge(0);
+					heS = edge.getHalfEdge(1);
 
-					e_next = edgetoSplit->getNext();
-					e_prev = edgetoSplit->getPrev();
+					he_next = he.getNext();
+					he_prev = he.getPrev();
 
-					es_next = edgetoSplitSym->getNext();
-					es_prev = edgetoSplitSym->getPrev();
+					heS_next = heS.getNext();
+					heS_prev = heS.getPrev();
 
-					//printf("\n working!");
-
+					printf("\n working!");
 				}
 
+				zItMeshHalfEdge newHeS = newHe.getSym();
+
 				// update vertex pointers
-				meshObj->mesh.vertices[v1].setEdge(&meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 2]);
-				meshObj->mesh.vertices[v2].setEdge(&meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 1]);
+				newVertex.setHalfEdge(newHe);
+				he.getVertex().setHalfEdge(newHeS);				
 
 				//// update pointers
-				edgetoSplit->setVertex(&meshObj->mesh.vertices[VertId]);			// current edge vertex pointer updated to new added vertex
+				he.setVertex(newVertex);		// current edge vertex pointer updated to new added vertex
 
-				meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 1].setNext(edgetoSplitSym);		// new added edge next pointer to point to the next of current edge
-				meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 1].setPrev(es_prev);
+				newHeS.setNext(heS); // new added edge next pointer to point to the next of current edge
+				newHeS.setPrev(heS_prev);
+				
+				if (!heS.onBoundary())
+				{
+					zItMeshFace heS_f = heS.getFace();
+					newHeS.setFace(heS_f);
+				}
+				
+				newHe.setPrev(he);
+				newHe.setNext(he_next);				
 
-				if (edgetoSplitSym->getFace()) meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 1].setFace(edgetoSplitSym->getFace());
-
-				meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 2].setPrev(edgetoSplit);
-				meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 2].setNext(e_next);
-
-				if (edgetoSplit->getFace()) meshObj->mesh.edges[meshObj->mesh.edgeActive.size() - 2].setFace(edgetoSplit->getFace());
+				if (!he.onBoundary())
+				{
+					zItMeshFace he_f = he.getFace();
+					newHe.setFace(he_f);
+				}
+				
 
 				// update verticesEdge map
-				meshObj->mesh.addToVerticesEdge(edgetoSplitSym->getVertex()->getVertexId(), edgetoSplit->getVertex()->getVertexId(), edgetoSplit->getEdgeId());
+				addToHalfEdgesMap(he);
 
 			}
+						
 
-			if (fTriangulate)
-			{
-				for (int i = 0; i < eFaces.size(); i++) faceTriangulate( eFaces[i]);
-			}
-
-			return VertId;
+			return newVertex;
 		}
 
 		/*! \brief This method detaches an edge.
@@ -5345,78 +3426,78 @@ namespace zSpace
 		*/
 		void flipTriangleEdge(int &index)
 		{
-			if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-			if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+			//if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
+			//if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-			zEdge* edgetoFlip = &meshObj->mesh.edges[index];
-			zEdge* edgetoFlipSym = edgetoFlip->getSym();
+			//zEdge* edgetoFlip = &meshObj->mesh.edges[index];
+			//zEdge* edgetoFlipSym = edgetoFlip->getSym();
 
-			if (!edgetoFlip->getFace() || !edgetoFlipSym->getFace())
-			{
-				throw std::invalid_argument("\n Cannot flip boundary edge %i ");
-				return;
-			}
+			//if (!edgetoFlip->getFace() || !edgetoFlipSym->getFace())
+			//{
+			//	throw std::invalid_argument("\n Cannot flip boundary edge %i ");
+			//	return;
+			//}
 
-			vector<int> edgetoFlip_fVerts;
-			getVertices(edgetoFlip->getFace()->getFaceId(), zFaceData, edgetoFlip_fVerts);
+			//vector<int> edgetoFlip_fVerts;
+			//getVertices(edgetoFlip->getFace()->getFaceId(), zFaceData, edgetoFlip_fVerts);
 
-			vector<int> edgetoFlipSym_fVerts;
-			getVertices(edgetoFlipSym->getFace()->getFaceId(), zFaceData, edgetoFlipSym_fVerts);
+			//vector<int> edgetoFlipSym_fVerts;
+			//getVertices(edgetoFlipSym->getFace()->getFaceId(), zFaceData, edgetoFlipSym_fVerts);
 
-			if (edgetoFlip_fVerts.size() != 3 || edgetoFlipSym_fVerts.size() != 3)
-			{
-				throw std::invalid_argument("\n Cannot flip edge not shared by two Triangles.");
-				return;
-			}
+			//if (edgetoFlip_fVerts.size() != 3 || edgetoFlipSym_fVerts.size() != 3)
+			//{
+			//	throw std::invalid_argument("\n Cannot flip edge not shared by two Triangles.");
+			//	return;
+			//}
 
-			zEdge* e_next = edgetoFlip->getNext();
-			zEdge* e_prev = edgetoFlip->getPrev();
+			//zEdge* e_next = edgetoFlip->getNext();
+			//zEdge* e_prev = edgetoFlip->getPrev();
 
-			zEdge* es_next = edgetoFlipSym->getNext();
-			zEdge* es_prev = edgetoFlipSym->getPrev();
+			//zEdge* es_next = edgetoFlipSym->getNext();
+			//zEdge* es_prev = edgetoFlipSym->getPrev();
 
-			// remove from verticesEdge map
-			string removeHashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
-			meshObj->mesh.verticesEdge.erase(removeHashKey);
+			//// remove from verticesEdge map
+			//string removeHashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
+			//meshObj->mesh.verticesEdge.erase(removeHashKey);
 
-			string removeHashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
-			meshObj->mesh.verticesEdge.erase(removeHashKey1);
+			//string removeHashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
+			//meshObj->mesh.verticesEdge.erase(removeHashKey1);
 
-			// update pointers
+			//// update pointers
 
-			if (edgetoFlip->getVertex()->getEdge() == edgetoFlipSym)edgetoFlip->getVertex()->setEdge(edgetoFlipSym->getPrev()->getSym());
-			if (edgetoFlipSym->getVertex()->getEdge() == edgetoFlip) edgetoFlipSym->getVertex()->setEdge(edgetoFlip->getPrev()->getSym());
+			//if (edgetoFlip->getVertex()->getEdge() == edgetoFlipSym)edgetoFlip->getVertex()->setEdge(edgetoFlipSym->getPrev()->getSym());
+			//if (edgetoFlipSym->getVertex()->getEdge() == edgetoFlip) edgetoFlipSym->getVertex()->setEdge(edgetoFlip->getPrev()->getSym());
 
-			edgetoFlip->setVertex(e_next->getVertex());
-			edgetoFlipSym->setVertex(es_next->getVertex());
+			//edgetoFlip->setVertex(e_next->getVertex());
+			//edgetoFlipSym->setVertex(es_next->getVertex());
 
 
 
-			edgetoFlip->setNext(e_prev);
-			edgetoFlip->setPrev(es_next);
+			//edgetoFlip->setNext(e_prev);
+			//edgetoFlip->setPrev(es_next);
 
-			edgetoFlipSym->setNext(es_prev);
-			edgetoFlipSym->setPrev(e_next);
+			//edgetoFlipSym->setNext(es_prev);
+			//edgetoFlipSym->setPrev(e_next);
 
-			e_prev->setNext(es_next);
-			es_prev->setNext(e_next);
+			//e_prev->setNext(es_next);
+			//es_prev->setNext(e_next);
 
-			edgetoFlip->getNext()->setFace(edgetoFlip->getFace());
-			edgetoFlip->getPrev()->setFace(edgetoFlip->getFace());
+			//edgetoFlip->getNext()->setFace(edgetoFlip->getFace());
+			//edgetoFlip->getPrev()->setFace(edgetoFlip->getFace());
 
-			edgetoFlipSym->getNext()->setFace(edgetoFlipSym->getFace());
-			edgetoFlipSym->getPrev()->setFace(edgetoFlipSym->getFace());
+			//edgetoFlipSym->getNext()->setFace(edgetoFlipSym->getFace());
+			//edgetoFlipSym->getPrev()->setFace(edgetoFlipSym->getFace());
 
-			edgetoFlip->getFace()->setEdge(edgetoFlip);
-			edgetoFlipSym->getFace()->setEdge(edgetoFlipSym);
+			//edgetoFlip->getFace()->setEdge(edgetoFlip);
+			//edgetoFlipSym->getFace()->setEdge(edgetoFlipSym);
 
-			// update verticesEdge map
+			//// update verticesEdge map
 
-			string hashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
-			meshObj->mesh.verticesEdge[hashKey] = edgetoFlipSym->getEdgeId();
+			//string hashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
+			//meshObj->mesh.verticesEdge[hashKey] = edgetoFlipSym->getEdgeId();
 
-			string hashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
-			meshObj->mesh.verticesEdge[hashKey1] = edgetoFlip->getEdgeId();
+			//string hashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
+			//meshObj->mesh.verticesEdge[hashKey1] = edgetoFlip->getEdgeId();
 		}
 
 
@@ -5428,100 +3509,100 @@ namespace zSpace
 		*/
 		void splitFaces(vector<int> &edgeList, vector<double> &edgeFactor)
 		{
-			if (edgeFactor.size() > 0)
-			{
-				if (edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
-			}
+			//if (edgeFactor.size() > 0)
+			//{
+			//	if (edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
+			//}
 
-			int numOriginalVertices = meshObj->mesh.vertexActive.size();
-			int numOriginalEdges = meshObj->mesh.edgeActive.size();
-			int numOriginalFaces = meshObj->mesh.faceActive.size();
+			//int numOriginalVertices = meshObj->mesh.vertexActive.size();
+			//int numOriginalEdges = meshObj->mesh.edgeActive.size();
+			//int numOriginalFaces = meshObj->mesh.faceActive.size();
 
-			for (int i = 0; i < edgeList.size(); i++)
-			{
-				if (edgeFactor.size() > 0) splitEdge( edgeList[i], edgeFactor[i]);
-				else splitEdge( edgeList[i]);
-			}
+			//for (int i = 0; i < edgeList.size(); i++)
+			//{
+			//	if (edgeFactor.size() > 0) splitEdge( edgeList[i], edgeFactor[i]);
+			//	else splitEdge( edgeList[i]);
+			//}
 
-			for (int j = 0; j < edgeList.size(); j++)
-			{
-				for (int i = 0; i < 2; i++)
-				{
-					zEdge *start = (i == 0) ? &meshObj->mesh.edges[edgeList[j]] : meshObj->mesh.edges[edgeList[j]].getSym();
+			//for (int j = 0; j < edgeList.size(); j++)
+			//{
+			//	for (int i = 0; i < 2; i++)
+			//	{
+			//		zEdge *start = (i == 0) ? &meshObj->mesh.edges[edgeList[j]] : meshObj->mesh.edges[edgeList[j]].getSym();
 
-					zEdge *e = start;
+			//		zEdge *e = start;
 
-					if (!start->getFace()) continue;
+			//		if (!start->getFace()) continue;
 
-					bool exit = false;
+			//		bool exit = false;
 
-					int v1 = start->getVertex()->getVertexId();
-					int v2 = start->getVertex()->getVertexId();
+			//		int v1 = start->getVertex()->getVertexId();
+			//		int v2 = start->getVertex()->getVertexId();
 
-					do
-					{
-						if (e->getNext())
-						{
-							e = e->getNext();
-							if (e->getVertex()->getVertexId() > numOriginalVertices)
-							{
-								v2 = e->getVertex()->getVertexId();
-								exit = true;
-							}
-						}
-						else exit = true;
+			//		do
+			//		{
+			//			if (e->getNext())
+			//			{
+			//				e = e->getNext();
+			//				if (e->getVertex()->getVertexId() > numOriginalVertices)
+			//				{
+			//					v2 = e->getVertex()->getVertexId();
+			//					exit = true;
+			//				}
+			//			}
+			//			else exit = true;
 
-					} while (e != start && !exit);
+			//		} while (e != start && !exit);
 
-					// add new edges and face
-					if (v1 == v2) continue;
+			//		// add new edges and face
+			//		if (v1 == v2) continue;
 
-					// check if edge exists continue loop. 
-					int outEdgeId;
-					bool eExists = meshObj->mesh.edgeExists(v1, v2, outEdgeId);
+			//		// check if edge exists continue loop. 
+			//		int outEdgeId;
+			//		bool eExists = meshObj->mesh.edgeExists(v1, v2, outEdgeId);
 
-					if (eExists) continue;
+			//		if (eExists) continue;
 
-					int startEdgeId = start->getEdgeId();
-					int e_EdgeId = e->getEdgeId();
+			//		int startEdgeId = start->getEdgeId();
+			//		int e_EdgeId = e->getEdgeId();
 
-					bool resizeEdges = meshObj->mesh.addEdges(v1, v2);
+			//		bool resizeEdges = meshObj->mesh.addEdges(v1, v2);
 
-					if (resizeEdges)
-					{
-						start = &meshObj->mesh.edges[startEdgeId];
-						e = &meshObj->mesh.edges[e_EdgeId];
-					}
+			//		if (resizeEdges)
+			//		{
+			//			start = &meshObj->mesh.edges[startEdgeId];
+			//			e = &meshObj->mesh.edges[e_EdgeId];
+			//		}
 
-					meshObj->mesh.addPolygon(); // empty polygon
+			//		meshObj->mesh.addPolygon(); // empty polygon
 
-										 // update pointers
-					zEdge *start_next = start->getNext();
-					zEdge *e_next = e->getNext();
+			//							 // update pointers
+			//		zEdge *start_next = start->getNext();
+			//		zEdge *e_next = e->getNext();
 
-					start->setNext(&meshObj->mesh.edges[numEdges() - 2]);
-					e_next->setPrev(&meshObj->mesh.edges[numEdges() - 2]);
+			//		start->setNext(&meshObj->mesh.edges[numEdges() - 2]);
+			//		e_next->setPrev(&meshObj->mesh.edges[numEdges() - 2]);
 
-					start_next->setPrev(&meshObj->mesh.edges[numEdges() - 1]);
-					e->setNext(&meshObj->mesh.edges[numEdges() - 1]);
+			//		start_next->setPrev(&meshObj->mesh.edges[numEdges() - 1]);
+			//		e->setNext(&meshObj->mesh.edges[numEdges() - 1]);
 
-					meshObj->mesh.faces[numPolygons() - 1].setEdge(start_next);
+			//		meshObj->mesh.faces[numPolygons() - 1].setEdge(start_next);
 
-					// edge face pointers to new face
-					zEdge *newFace_E = start_next;
+			//		// edge face pointers to new face
+			//		zEdge *newFace_E = start_next;
 
-					do
-					{
-						newFace_E->setFace(&meshObj->mesh.faces[numPolygons() - 1]);
+			//		do
+			//		{
+			//			newFace_E->setFace(&meshObj->mesh.faces[numPolygons() - 1]);
 
-						if (newFace_E->getNext()) newFace_E = newFace_E->getNext();
-						else exit = true;
+			//			if (newFace_E->getNext()) newFace_E = newFace_E->getNext();
+			//			else exit = true;
 
-					} while (newFace_E != start_next && !exit);
+			//		} while (newFace_E != start_next && !exit);
 
-				}
+			//	}
 
-			}
+			//}
 
 
 		}
@@ -5533,17 +3614,25 @@ namespace zSpace
 		*/
 		void subdivideMesh(int numDivisions)
 		{
+			// remove inactive elements
+			if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+			if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+			if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
+
 			for (int j = 0; j < numDivisions; j++)
 			{
 
-				int numOriginalVertices = meshObj->mesh.vertexActive.size();
+				int numOriginalVertices = numVertices();
 
 				// split edges at center
-				int numOriginaledges = meshObj->mesh.edgeActive.size();
+				int numOriginalHalfEdges = numHalfEdges();
 
-				for (int i = 0; i < numOriginaledges; i += 2)
+				int numOrginalEdges = numEdges();
+				zItMeshEdge e(*meshObj);
+
+				for (int i = 0; i < numOrginalEdges; i++, e.next())
 				{
-					if (meshObj->mesh.edgeActive[i]) splitEdge( i);
+					if (e.isActive()) splitEdge(e);
 				}
 
 
@@ -5553,59 +3642,125 @@ namespace zSpace
 
 
 				// add faces
-				int numOriginalfaces = meshObj->mesh.faceActive.size();
-
-				for (int i = 0; i < numOriginalfaces; i++)
+				int numOriginalfaces = numPolygons();
+				zItMeshFace f(*meshObj);
+				for (int i = 0; i < numOriginalfaces; i++, f.next())
 				{
-					if (!meshObj->mesh.faceActive[i]) continue;
+					if (!f.isActive()) continue;
 
-					vector<int> fEdges;
-					getEdges(i, zFaceData, fEdges);
-
-					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					vector<zItMeshHalfEdge> fEdges;
+					f.getHalfEdges(fEdges);					
 
 
 					// disable current face
-					meshObj->mesh.faceActive[i] = false;
-
-					int numCurrentEdges = meshObj->mesh.edgeActive.size();;
+					f.deactivate();				
 
 					// check if vertex exists if not add new vertex
-					int VertId;
-					bool vExists = vertexExists(fCenters[i], VertId);
-					if (!vExists)
-					{
-						meshObj->mesh.addVertex(fCenters[i]);
-						VertId = meshObj->mesh.vertexActive.size() - 1;
-					}
+					zItMeshVertex vertexCen;
+					addVertex(fCenters[i], true, vertexCen);
 
 
 					// add new faces				
 					int startId = 0;
-					if (meshObj->mesh.edges[fEdges[0]].getVertex()->getVertexId() < numOriginalVertices) startId = 1;
+					if (fEdges[0].getVertex().getId() < numOriginalVertices) startId = 1;
 
 					for (int k = startId; k < fEdges.size() + startId; k += 2)
 					{
 						vector<int> newFVerts;
+						
+						newFVerts.push_back(fEdges[k].getVertex().getId());
+						
+						newFVerts.push_back(vertexCen.getId());
 
-						int v1 = meshObj->mesh.edges[fEdges[k]].getVertex()->getVertexId();
-						newFVerts.push_back(v1);
+						newFVerts.push_back(fEdges[k].getPrev().getStartVertex().getId());
+						
+						newFVerts.push_back(fEdges[k].getPrev().getVertex().getId());
 
-						int v2 = VertId; // face center
-						newFVerts.push_back(v2);
+						zItMeshFace newF;
+						bool chk = addPolygon(newFVerts,newF);
 
-						int v3 = meshObj->mesh.edges[fEdges[k]].getPrev()->getSym()->getVertex()->getVertexId();
-						newFVerts.push_back(v3);
-
-						int v4 = meshObj->mesh.edges[fEdges[k]].getPrev()->getVertex()->getVertexId();
-						newFVerts.push_back(v4);
-
-						meshObj->mesh.addPolygon(newFVerts);
-
+						printf("\n %s ", (chk) ? "true" : "false");
 					}
 
 				}
+					
+
+				// remove inactive elements
+				//if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+				//if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+				//if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
+
+				/*for (zItMeshVertex v(*meshObj) ;!v.end(); v.next())
+				{
+					printf("\n  %i ", v.getId());
+					printf("    %i ", v.getHalfEdge().getId());
+				}
+
+				printf("\n \n");
+				for (zItMeshEdge e(*meshObj); !e.end(); e.next())
+				{
+					printf("\n  %i ", e.getId());
+					printf("    %i ", e.getHalfEdge(0).getId());
+					printf("    %i ", e.getHalfEdge(1).getId());
+				}
+
+				printf("\n \n");
+				for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
+				{
+					printf("\n  %i ", he.getId());
+					printf("    %i ", he.getSym().getId());
+					printf("    %i ", he.getPrev().getId());
+					printf("    %i ", he.getNext().getId());
+					printf("    %i ", he.getVertex().getId());
+					printf("    %i ", he.getEdge().getId());
+					if (!he.onBoundary()) printf("    %i ", he.getFace().getId());
+					else printf("    %i ", -1);
+				}
+
+				printf("\n \n");
+				for (zItMeshFace f(*meshObj); !f.end(); f.next())
+				{
+					printf("\n  %i ", f.getId());
+					printf("    %i ", f.getHalfEdge().getId());
+				}*/
+
+				for (auto &v : meshObj->mesh.vHandles)
+				{
+					printf("\n  %i ", v.id);
+					printf("    %i ", v.he);
+				}
+
+				printf("\n \n");
+				for (auto &e: meshObj->mesh.eHandles)
+				{
+					printf("\n  %i ", e.id);
+					printf("    %i ", e.he0);
+					printf("    %i ", e.he1);
+				}
+
+				printf("\n \n");
+				for (auto &he : meshObj->mesh.heHandles)
+				{
+					printf("\n  %i ", he.id);
+					
+					printf("    %i ", he.p);
+					printf("    %i ", he.n);
+					printf("    %i ", he.v);
+					printf("    %i ", he.e);
+					printf("    %i ", he.f);
+					
+				}
+
+				printf("\n \n");
+				for (auto &f : meshObj->mesh.fHandles)
+				{
+					printf("\n  %i ", f.id);
+					printf("    %i ", f.he);
+				}
+
+				
+
+				
 
 				computeMeshNormals();
 
@@ -5622,6 +3777,11 @@ namespace zSpace
 		*/
 		void smoothMesh( int numDivisions = 1, bool smoothCorner = false)
 		{
+			// remove inactive elements
+			if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+			if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+			if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
+
 			for (int j = 0; j < numDivisions; j++)
 			{
 
@@ -5637,168 +3797,154 @@ namespace zSpace
 
 				tempECenters = eCenters;
 
+				zVector* vPositions = getRawVertexPositions();
+
 				// compute new smooth positions of the edge centers
-				for (int i = 0; i < eCenters.size(); i += 2)
+				for (zItMeshEdge e(*meshObj); !e.end(); e.next())
 				{
 
 					zVector newPos;
 
-					if (onBoundary(i, zEdgeData) || onBoundary(i + 1, zEdgeData)) continue;
+					if (e.onBoundary()) continue;
 
-					int eId = i;
+					int eId = e.getId();
 
 					vector<int> eVerts;
-					getVertices(i, zEdgeData, eVerts);
-					for (int j = 0; j < eVerts.size(); j++) newPos += meshObj->mesh.vertexPositions[eVerts[j]];
+					e.getVertices(eVerts);
+					
+					for (auto &vId : eVerts) newPos += vPositions[vId];
 
 
 					vector<int> eFaces;
-					getFaces(i, zEdgeData, eFaces);
-					for (int j = 0; j < eFaces.size(); j++) newPos += fCenters[eFaces[j]];
+					e.getFaces(eFaces);
+					for (auto &fId : eFaces) newPos += fCenters[fId];
 
 					newPos /= (eFaces.size() + eVerts.size());
 
-					eCenters[i] = newPos;
-					eCenters[i + 1] = newPos;
-
+					eCenters[eId] = newPos;
 				}
 
 				// compute new smooth positions for the original vertices
-				for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+				for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 				{
-					if (onBoundary(i, zVertexData))
+					if (v.onBoundary())
 					{
-						vector<int> cEdges;
-						getConnectedEdges(i, zVertexData, cEdges);
+						vector<zItMeshEdge> cEdges;
+						v.getConnectedEdges(cEdges);
 
 						if (!smoothCorner && cEdges.size() == 2) continue;
 
-						zVector P = meshObj->mesh.vertexPositions[i];
+						zVector P = vPositions[v.getId()];
 						int n = 1;
 
 						zVector R;
-						for (int j = 0; j < cEdges.size(); j++)
+						for (auto &e : cEdges)
 						{
-							int symEdge = meshObj->mesh.edges[cEdges[j]].getSym()->getEdgeId();
-
-							if (onBoundary(cEdges[j], zEdgeData) || onBoundary(symEdge, zEdgeData))
+							if (e.onBoundary())
 							{
-								R += tempECenters[cEdges[j]];
+								R += tempECenters[e.getId()];
 								n++;
 							}
 						}
 
-						meshObj->mesh.vertexPositions[i] = (P + R) / n;
+						vPositions[v.getId()] = (P + R) / n;
 
 					}
 					else
 					{
 						zVector R;
+						
 						vector<int> cEdges;
-						getConnectedEdges(i, zVertexData, cEdges);
-						for (int j = 0; j < cEdges.size(); j++) R += tempECenters[cEdges[j]];
+						v.getConnectedEdges(cEdges);
+						
+						for (auto &eId : cEdges) R += tempECenters[eId];
 						R /= cEdges.size();
 
 						zVector F;
 						vector<int> cFaces;
-						getConnectedFaces(i, zVertexData, cFaces);
-						for (int j = 0; j < cFaces.size(); j++) F += fCenters[cFaces[j]];
+						v.getConnectedFaces(cFaces);
+						for (auto &fId : cFaces) F += fCenters[fId];
 						F /= cFaces.size();
 
-						zVector P = meshObj->mesh.vertexPositions[i];
+						zVector P = vPositions[v.getId()];
 						int n = cFaces.size();
 
-						meshObj->mesh.vertexPositions[i] = (F + (R * 2) + (P * (n - 3))) / n;
+						vPositions[v.getId()] = (F + (R * 2) + (P * (n - 3))) / n;
 					}
 
 
 				}
 
 
-				int numOriginalVertices = meshObj->mesh.vertexActive.size();
+				int numOriginalVertices = numVertices();
 
 				// split edges at center
-				int numOriginaledges = meshObj->mesh.edgeActive.size();
+				int numOriginalEdges = numEdges();
 
-				for (int i = 0; i < numOriginaledges; i += 2)
+				zItMeshEdge e(*meshObj);
+				for (int i = 0; i < numOriginalEdges; i++,e.next() )
 				{
-					if (meshObj->mesh.edgeActive[i])
+					if (e.isActive())
 					{
-						int newVert = splitEdge( i);
-
-						meshObj->mesh.vertexPositions[newVert] = eCenters[i];
+						zItMeshVertex newVert = splitEdge(e);
+						newVert.setVertexPosition(eCenters[newVert.getId()]);						
 					}
 				}
 
 
 
 				// add faces
-				int numOriginalfaces = meshObj->mesh.faceActive.size();
+				int numOriginalFaces = numPolygons();
 
-				for (int i = 0; i < numOriginalfaces; i++)
+				zItMeshFace f(*meshObj);
+				for (int i = 0; i < numOriginalFaces; i++, f.next())
 				{
-					if (!meshObj->mesh.faceActive[i]) continue;
+					if (!f.isActive()) continue;
 
-					vector<int> fEdges;
-					getEdges(i, zFaceData, fEdges);
-
-					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					vector<zItMeshHalfEdge> fEdges;
+					f.getHalfEdges(fEdges);
 
 
-					//// disable current face
-
-					meshObj->mesh.faceActive[i] = false;
-
-					int numCurrentEdges = meshObj->mesh.edgeActive.size();;
+					// disable current face
+					f.deactivate();
 
 					// check if vertex exists if not add new vertex
-					int VertId;
-					bool vExists = vertexExists(fCenters[i], VertId);
-					if (!vExists)
-					{
-						meshObj->mesh.addVertex(fCenters[i]);
-						VertId = meshObj->mesh.vertexActive.size() - 1;
-					}
+					zItMeshVertex vertexCen;
+					addVertex(fCenters[i], true, vertexCen);
 
 
 					// add new faces				
 					int startId = 0;
-					if (meshObj->mesh.edges[fEdges[0]].getVertex()->getVertexId() < numOriginalVertices) startId = 1;
+					if (fEdges[0].getVertex().getId() < numOriginalVertices) startId = 1;
 
 					for (int k = startId; k < fEdges.size() + startId; k += 2)
 					{
 						vector<int> newFVerts;
 
-						int v1 = meshObj->mesh.edges[fEdges[k]].getVertex()->getVertexId();
-						newFVerts.push_back(v1);
+						newFVerts.push_back(fEdges[k].getVertex().getId());
 
-						int v2 = VertId; // face center
-						newFVerts.push_back(v2);
+						newFVerts.push_back(vertexCen.getId());
 
-						int v3 = meshObj->mesh.edges[fEdges[k]].getPrev()->getSym()->getVertex()->getVertexId();
-						newFVerts.push_back(v3);
+						newFVerts.push_back(fEdges[k].getPrev().getStartVertex().getId());
 
-						int v4 = meshObj->mesh.edges[fEdges[k]].getPrev()->getVertex()->getVertexId();
-						newFVerts.push_back(v4);
+						newFVerts.push_back(fEdges[k].getPrev().getVertex().getId());
 
-						meshObj->mesh.addPolygon(newFVerts);
-
+						zItMeshFace newF;
+						addPolygon(newFVerts, newF);
 
 					}
 
 
-
-				}
-
-
-				//printMesh(inMesh);
+				}				
 
 				computeMeshNormals();
 
 			}
 
-
+			// remove inactive elements
+			if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+			if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+			if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
 
 
 		}
@@ -5812,7 +3958,7 @@ namespace zSpace
 		*/
 		zObjMesh extrudeMesh(float extrudeThickness, bool thicknessTris = false)
 		{
-			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faceActive.size()) computeMeshNormals();
+			if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
 			zObjMesh out;
 
@@ -5832,10 +3978,10 @@ namespace zSpace
 				positions.push_back(meshObj->mesh.vertexPositions[i] + (meshObj->mesh.vertexNormals[i] * extrudeThickness));
 			}
 
-			for (int i = 0; i < numPolygons(); i++)
+			for (zItMeshFace f(*meshObj);!f.end(); f.next())
 			{
 				vector<int> fVerts;
-				getVertices(i, zFaceData, fVerts);
+				f.getVertices(fVerts);
 
 				for (int j = 0; j < fVerts.size(); j++)
 				{
@@ -5854,12 +4000,12 @@ namespace zSpace
 			}
 
 
-			for (int i = 0; i < numEdges(); i++)
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
 			{
-				if (onBoundary(i, zEdgeData))
+				if (he.onBoundary())
 				{
 					vector<int> eVerts;
-					getVertices(i, zEdgeData, eVerts);
+					he.getVertices(eVerts);
 
 					if (thicknessTris)
 					{
@@ -5889,146 +4035,13 @@ namespace zSpace
 				}
 			}
 
-			out.mesh = zMesh(positions, polyCounts, polyConnects);
+			out.mesh.create(positions, polyCounts, polyConnects);
 
 			return out;
-		}
-			
-
-		/*! \brief This method returns the offset positions of a polygon of the input mesh.
-		*
-		*	\details	beased on http://pyright.blogspot.com/2014/11/polygon-offset-using-vector-math-in.html
-		*	\param		[in]	faceIndex			- face index.
-		*	\param		[in]	offset				- offset distance.
-		*	\param		[out]	offsetPositions		- container with the offset positions.
-		*	\since version 0.0.2
-		*/
-		void offsetMeshFace(int faceIndex, double offset, vector<zVector>& offsetPositions)
-		{
-			vector<zVector> out;
-
-			vector<int> fVerts;
-			getVertices(faceIndex, zFaceData, fVerts);
-
-			for (int j = 0; j < fVerts.size(); j++)
-			{
-				int next = (j + 1) % fVerts.size();
-				int prev = (j - 1 + fVerts.size()) % fVerts.size();
+		}			
 
 
-				zVector Ori = meshObj->mesh.vertexPositions[fVerts[j]];;
-				zVector v1 = meshObj->mesh.vertexPositions[fVerts[prev]] - meshObj->mesh.vertexPositions[fVerts[j]];
-				v1.normalize();
 
-				zVector v2 = meshObj->mesh.vertexPositions[fVerts[next]] - meshObj->mesh.vertexPositions[fVerts[j]];
-				v2.normalize();
-
-				zVector v3 = v1;
-
-				v1 = v1 ^ v2;
-				v3 = v3 + v2;
-
-				double cs = v3 * v2;
-
-				zVector a1 = v2 * cs;
-				zVector a2 = v3 - a1;
-
-				double alpha = sqrt(a2.length() * a2.length());
-				if (cs < 0) alpha *= -1;
-
-				double length = offset / alpha;
-
-				zVector mPos = meshObj->mesh.vertexPositions[fVerts[j]];
-				zVector offPos = mPos + (v3 * length);
-
-				out.push_back(offPos);
-
-			}
-
-			offsetPositions = out;
-
-		}
-
-		/*! \brief This method returns the vartiable offset positions of a polygon of the input mesh.
-		*
-		*	\param		[in]	inMesh					- input mesh.
-		*	\param		[in]	faceIndex				- face index.
-		*	\param		[in]	offsets					- offset distance from each edge of the mesh.
-		*	\param		[in]	faceCenter				- center of polygon.
-		*	\param		[in]	faceNormal				- normal of polygon.
-		*	\param		[out]	intersectionPositions	- container with the intersection positions.
-		*	\since version 0.0.2
-		*/
-		void offsetMeshFace_Variable( int faceIndex, vector<double>& offsets, zVector& faceCenter, zVector& faceNormal, vector<zVector>& intersectionPositions)
-		{
-			vector<zVector> offsetPoints;
-			vector<int> fEdges;
-			getEdges(faceIndex, zFaceData, fEdges);
-
-			for (int j = 0; j < fEdges.size(); j++)
-			{
-				zVector p2 = meshObj->mesh.vertexPositions[meshObj->mesh.edges[fEdges[j]].getVertex()->getVertexId()];
-				zVector p1 = meshObj->mesh.vertexPositions[meshObj->mesh.edges[fEdges[j]].getSym()->getVertex()->getVertexId()];
-
-				zVector norm1 = ((p1 - p2) ^ faceNormal);
-				norm1.normalize();
-				if ((faceCenter - p1) * norm1 < 0) norm1 *= -1;
-
-
-				offsetPoints.push_back(p1 + norm1 * offsets[j]);
-				offsetPoints.push_back(p2 + norm1 * offsets[j]);
-
-			}
-
-
-			for (int j = 0; j < fEdges.size(); j++)
-			{
-				int prevId = (j - 1 + fEdges.size()) % fEdges.size();
-
-				zVector a0 = offsetPoints[j * 2];
-				zVector a1 = offsetPoints[j * 2 + 1];
-
-				zVector b0 = offsetPoints[prevId * 2];
-				zVector b1 = offsetPoints[prevId * 2 + 1];
-
-				
-
-				double uA = -1;
-				double uB = -1;
-				bool intersect = meshObj->mesh.coreUtils.line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
-
-				if (intersect)
-				{
-					//printf("\n %i working!! ", j);
-
-					zVector closestPt;
-
-					if (uA >= uB)
-					{
-						zVector dir = a1 - a0;
-						double len = dir.length();
-						dir.normalize();
-
-						if (uA < 0) dir *= -1;
-						closestPt = a0 + dir * len * uA;
-					}
-					else
-					{
-						zVector dir = b1 - b0;
-						double len = dir.length();
-						dir.normalize();
-
-						if (uB < 0) dir *= -1;
-
-						closestPt = b0 + dir * len * uB;
-					}
-
-
-					intersectionPositions.push_back(closestPt);
-				}
-
-			}
-		}
 			   		 	  	  		
 		//--------------------------
 		//---- TRANSFORM METHODS OVERRIDES
@@ -6151,28 +4164,810 @@ namespace zSpace
 		}
 
 
+
 	protected:
+		/*!	\brief core utilities Object  */
+		zUtilsCore coreUtils;
+
+		/*!	\brief pointer to a mesh object  */
+		zObjMesh *meshObj;
+
 
 		//--------------------------
-		//---- PROTECTED OVERRIDE METHODS
-		//--------------------------	
-
-
+		//---- TRNASFORM  METHODS
+		//--------------------------
 		virtual void transformObject(zTransform &transform) override
 		{
 
 			if (numVertices() == 0) return;
 
 
-			zVector* pos = getRawVertexPositions();	
+			zVector* pos = getRawVertexPositions();
 
 			for (int i = 0; i < numVertices(); i++)
 			{
 
-				zVector newPos = pos[i] * transform;				
-				pos[i] = newPos;				
+				zVector newPos = pos[i] * transform;
+				pos[i] = newPos;
 			}
+
+		}
+
+		//--------------------------
+		//---- FACTORY METHODS
+		//--------------------------
+
+		/*! \brief This method exports zMesh as an OBJ file.
+		*
+		*	\param [in]		outfilename			- output file name including the directory path and extension.
+		*	\since version 0.0.2
+		*/
+		void toOBJ(string outfilename)
+		{
+
+			// remove inactive elements
+			if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+			if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+			if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
+
+			// output file
+			ofstream myfile;
+			myfile.open(outfilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfilename.c_str() << endl;
+				return;
+
+			}
+
+
+
+			// vertex positions
+			for (auto &vPos : meshObj->mesh.vertexPositions)
+			{
+				myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
+
+			}
+
+			// vertex nornmals
+			for (auto &vNorm : meshObj->mesh.vertexNormals)
+			{
+				myfile << "\n vn " << vNorm.x << " " << vNorm.y << " " << vNorm.z;
+
+			}
+
+			myfile << "\n";
+
+			// face connectivity
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
+			{
+				vector<int> fVerts;
+				f.getVertices(fVerts);
+
+				myfile << "\n f ";
+
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					myfile << fVerts[j] + 1;
+
+					if (j != fVerts.size() - 1) myfile << " ";
+				}
+
+			}
+
+
+
+
+			myfile.close();
+
+			cout << endl << " OBJ exported. File:   " << outfilename.c_str() << endl;
+
+		}
+
+		/*! \brief This method exports zMesh to a JSON file format using JSON Modern Library.
+		*
+		*	\param [in]		outfilename			- output file name including the directory path and extension.
+		*	\since version 0.0.2
+		*/
+		void toJSON(string outfilename)
+		{
+
+			// remove inactive elements
+			if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+			if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+			if (numPolygons() != meshObj->mesh.faces.size())garbageCollection(zFaceData);
+
+			// CREATE JSON FILE
+			zUtilsJsonHE meshJSON;
+			json j;
+
+			// Vertices
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
+			{
+				if (v.getHalfEdge().isActive()) meshJSON.vertices.push_back(v.getHalfEdge().getId());
+				else meshJSON.vertices.push_back(-1);
+
+			}
+
+			//Edges
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
+			{
+				vector<int> HE_edges;
+
+				if (he.getPrev().isActive()) HE_edges.push_back(he.getPrev().getId());
+				else HE_edges.push_back(-1);
+
+				if (he.getNext().isActive()) HE_edges.push_back(he.getNext().getId());
+				else HE_edges.push_back(-1);
+
+				if (he.getVertex().isActive()) HE_edges.push_back(he.getVertex().getId());
+				else HE_edges.push_back(-1);
+
+				meshJSON.halfedges.push_back(HE_edges);
+			}
+
+			// Faces
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
+			{
+				if (f.getHalfEdge().isActive()) meshJSON.faces.push_back(f.getHalfEdge().getId());
+				else meshJSON.faces.push_back(-1);
+			}
+
+			// vertex Attributes
+			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+			{
+				vector<double> v_attrib;
+
+				v_attrib.push_back(meshObj->mesh.vertexPositions[i].x);
+				v_attrib.push_back(meshObj->mesh.vertexPositions[i].y);
+				v_attrib.push_back(meshObj->mesh.vertexPositions[i].z);
+
+				v_attrib.push_back(meshObj->mesh.vertexNormals[i].x);
+				v_attrib.push_back(meshObj->mesh.vertexNormals[i].y);
+				v_attrib.push_back(meshObj->mesh.vertexNormals[i].z);
+
+
+				v_attrib.push_back(meshObj->mesh.vertexColors[i].r);
+				v_attrib.push_back(meshObj->mesh.vertexColors[i].g);
+				v_attrib.push_back(meshObj->mesh.vertexColors[i].b);
+
+
+				meshJSON.vertexAttributes.push_back(v_attrib);
+			}
+
+			// face Attributes
+			for (int i = 0; i < numPolygons(); i++)
+			{
+				vector<double> f_attrib;
+
+				f_attrib.push_back(meshObj->mesh.faceNormals[i].x);
+				f_attrib.push_back(meshObj->mesh.faceNormals[i].y);
+				f_attrib.push_back(meshObj->mesh.faceNormals[i].z);
+
+				f_attrib.push_back(meshObj->mesh.faceColors[i].r);
+				f_attrib.push_back(meshObj->mesh.faceColors[i].g);
+				f_attrib.push_back(meshObj->mesh.faceColors[i].b);
+
+				meshJSON.faceAttributes.push_back(f_attrib);
+			}
+
+
+
+			// Json file 
+			j["Vertices"] = meshJSON.vertices;
+			j["Halfedges"] = meshJSON.halfedges;
+			j["Faces"] = meshJSON.faces;
+			j["VertexAttributes"] = meshJSON.vertexAttributes;
+			j["HalfedgeAttributes"] = meshJSON.halfedgeAttributes;
+			j["FaceAttributes"] = meshJSON.faceAttributes;
+
+			// EXPORT	
+
+			ofstream myfile;
+			myfile.open(outfilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfilename.c_str() << endl;
+				return;
+			}
+
+			//myfile.precision(16);
+			myfile << j.dump();
+			myfile.close();
+
+		}
+
+		/*! \brief This method imports zMesh from an OBJ file.
+		*
+		*	\param	[in]		infilename			- input file name including the directory path and extension.
+		*	\return 			bool				- true if the file was read succesfully.
+		*	\since version 0.0.2
+		*/
+		bool fromOBJ(string infilename)
+		{
+			vector<zVector>positions;
+			vector<int>polyConnects;
+			vector<int>polyCounts;
+
+			vector<zVector>  vertexNormals;
+			vector<zVector>  faceNormals;
+
+			ifstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return false;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+				vector<string> perlineData = meshObj->mesh.coreUtils.splitString(str, " ");
+
+				if (perlineData.size() > 0)
+				{
+					// vertex
+					if (perlineData[0] == "v")
+					{
+						if (perlineData.size() == 4)
+						{
+							zVector pos;
+							pos.x = atof(perlineData[1].c_str());
+							pos.y = atof(perlineData[2].c_str());
+							pos.z = atof(perlineData[3].c_str());
+
+							positions.push_back(pos);
+						}
+						//printf("\n working vertex");
+					}
+
+					// vertex normal
+					if (perlineData[0] == "vn")
+					{
+						//printf("\n working vertex normal ");
+						if (perlineData.size() == 4)
+						{
+							zVector norm;
+							norm.x = atof(perlineData[1].c_str());
+							norm.y = atof(perlineData[2].c_str());
+							norm.z = atof(perlineData[3].c_str());
+
+							vertexNormals.push_back(norm);
+						}
+						//printf("\n working vertex");
+					}
+
+					// face
+					if (perlineData[0] == "f")
+					{
+
+						zVector norm;
+
+
+
+						for (int i = 1; i < perlineData.size(); i++)
+						{
+							vector<string> faceData = meshObj->mesh.coreUtils.splitString(perlineData[i], "/");
+
+							//vector<string> cleanFaceData = splitString(faceData[0], "/\/");
+
+							int id = atoi(faceData[0].c_str()) - 1;
+							polyConnects.push_back(id);
+
+							//printf(" %i ", id);
+
+							int normId = atoi(faceData[faceData.size() - 1].c_str()) - 1;
+							norm += vertexNormals[normId];
+
+						}
+
+						norm /= (perlineData.size() - 1);
+						norm.normalize();
+						faceNormals.push_back(norm);
+
+						polyCounts.push_back(perlineData.size() - 1);
+						//printf("\n working face ");
+					}
+				}
+			}
+
+			myfile.close();
+
+
+			meshObj->mesh.create(positions, polyCounts, polyConnects);;
+			printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
+
+
+			setFaceNormals(faceNormals);
+
+			return true;
+		}
+
+		/*! \brief This method imports zMesh from a JSON file format using JSON Modern Library.
+		*
+		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\return 		bool			- true if the file was read succesfully.
+		*	\since version 0.0.2
+		*/
+		bool fromJSON(string infilename)
+		{
+			json j;
+			zUtilsJsonHE meshJSON;
+
+
+			ifstream in_myfile;
+			in_myfile.open(infilename.c_str());
+
+			int lineCnt = 0;
+
+			if (in_myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return false;
+			}
+
+			in_myfile >> j;
+			in_myfile.close();
+
+			// READ Data from JSON
+
+			// Vertices
+			meshJSON.vertices.clear();
+			meshJSON.vertices = (j["Vertices"].get<vector<int>>());
+
+			//Edges
+			meshJSON.halfedges.clear();
+			meshJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
+
+
+
+			// Faces
+			meshJSON.faces.clear();
+			meshJSON.faces = (j["Faces"].get<vector<int>>());
+
+
+
+			// update  mesh
+
+			meshObj->mesh.clear();
+
+			meshObj->mesh.vertices.assign(meshJSON.vertices.size(), zVertex());
+			meshObj->mesh.halfEdges.assign(meshJSON.halfedges.size(), zHalfEdge());
+			meshObj->mesh.edges.assign(floor(meshJSON.halfedges.size()*0.5), zEdge());
+			meshObj->mesh.faces.assign(meshJSON.faces.size(), zFace());
+
+			meshObj->mesh.vHandles.assign(meshJSON.vertices.size(), zVertexHandle());
+			meshObj->mesh.eHandles.assign(floor(meshJSON.halfedges.size()*0.5), zEdgeHandle());
+			meshObj->mesh.heHandles.assign(meshJSON.halfedges.size(), zHalfEdgeHandle());
+			meshObj->mesh.fHandles.assign(meshJSON.faces.size(), zFaceHandle());
+
+			int n_v = 0;
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
+			{
+				v.setId(n_v);
+
+				if (meshJSON.vertices[n_v] != -1)
+				{
+					zItMeshHalfEdge e(*meshObj, meshJSON.vertices[n_v]);;
+					v.setHalfEdge(e);
+
+					meshObj->mesh.vHandles[n_v].he = meshJSON.vertices[n_v];
+				}
+
+
+
+				n_v++;
+			}
+			meshObj->mesh.setNumVertices(n_v);
+
+			int n_he = 0;
+			int n_e = 0;
+
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
+			{
+
+				// Half Edge
+				he.setId(n_he);
+
+
+				if (meshJSON.halfedges[n_he][0] != -1)
+				{
+					zItMeshHalfEdge e(*meshObj, meshJSON.halfedges[n_he][0]);
+					he.setPrev(e);
+
+					meshObj->mesh.heHandles[n_he].p = meshJSON.halfedges[n_he][0];
+				}
+
+				if (meshJSON.halfedges[n_he][1] != -1)
+				{
+					zItMeshHalfEdge e(*meshObj, meshJSON.halfedges[n_he][1]);
+					he.setNext(e);
+
+					meshObj->mesh.heHandles[n_he].n = meshJSON.halfedges[n_he][1];
+				}
+
+				if (meshJSON.halfedges[n_he][2] != -1)
+				{
+					zItMeshVertex v(*meshObj, meshJSON.halfedges[n_he][2]);
+					he.setVertex(v);
+
+					meshObj->mesh.heHandles[n_he].v = meshJSON.halfedges[n_he][2];
+				}
+
+				if (meshJSON.halfedges[n_he][3] != -1)
+				{
+					zItMeshFace f(*meshObj, meshJSON.halfedges[n_he][3]);
+					he.setFace(f);
+
+					meshObj->mesh.heHandles[n_he].f = meshJSON.halfedges[n_he][3];
+
+				}
+
+				// symmetry half edges
+				if (n_he % 2 == 0)
+				{
+					zItMeshHalfEdge e(*meshObj, n_he + 1);
+					he.setSym(e);
+				}
+				else
+				{
+					zItMeshHalfEdge e(*meshObj, n_he - 1);
+					he.setSym(e);
+				}
+
+
+				// Edge
+				if (n_he % 2 == 1)
+				{
+					zItMeshEdge e(*meshObj, n_e);
+
+					zItMeshHalfEdge heSym = he.getSym();
+
+					e.setHalfEdge(heSym, 0);
+					e.setHalfEdge(he, 1);
+
+					meshObj->mesh.heHandles[n_he].e = n_e;
+
+					n_e++;
+				}
+
+				n_he++;
+
+			}
+
+			meshObj->mesh.setNumEdges(n_e);
+
+			int n_f = 0;
+
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
+			{
+				f.setId(n_f);
+
+				if (meshJSON.vertices[n_f] != -1)
+				{
+					zItMeshHalfEdge he(*meshObj, meshJSON.faces[n_f]);
+					f.setHalfEdge(he);
+				}
+
+
+
+				n_f++;
+			}
+			meshObj->mesh.setNumPolygons(n_f);
+
+
+
+			// Vertex Attributes
+			meshJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
+			//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
+
+			meshObj->mesh.vertexPositions.clear();
+			meshObj->mesh.vertexNormals.clear();
+			meshObj->mesh.vertexColors.clear();
+			meshObj->mesh.vertexWeights.clear();
+			for (int i = 0; i < meshJSON.vertexAttributes.size(); i++)
+			{
+				for (int k = 0; k < meshJSON.vertexAttributes[i].size(); k++)
+				{
+
+					// position and color
+
+					if (meshJSON.vertexAttributes[i].size() == 9)
+					{
+						zVector pos(meshJSON.vertexAttributes[i][k], meshJSON.vertexAttributes[i][k + 1], meshJSON.vertexAttributes[i][k + 2]);
+						meshObj->mesh.vertexPositions.push_back(pos);
+
+						zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
+						meshObj->mesh.vertexNormals.push_back(normal);
+
+						zColor col(meshJSON.vertexAttributes[i][k + 6], meshJSON.vertexAttributes[i][k + 7], meshJSON.vertexAttributes[i][k + 8], 1);
+						meshObj->mesh.vertexColors.push_back(col);
+
+						meshObj->mesh.vertexWeights.push_back(2.0);
+
+						k += 8;
+					}
+				}
+			}
+
+
+			// Edge Attributes
+			meshJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
+
+			meshObj->mesh.edgeColors.clear();
+			meshObj->mesh.edgeWeights.clear();
+			if (meshJSON.halfedgeAttributes.size() == 0)
+			{
+
+
+				for (int i = 0; i < meshObj->mesh.n_e; i++)
+				{
+					meshObj->mesh.edgeColors.push_back(zColor());
+					meshObj->mesh.edgeWeights.push_back(1.0);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i++)
+				{
+					// color
+					if (meshJSON.halfedgeAttributes[i].size() == 3)
+					{
+						zColor col(meshJSON.halfedgeAttributes[i][0], meshJSON.halfedgeAttributes[i][1], meshJSON.halfedgeAttributes[i][2], 1);
+
+						meshObj->mesh.edgeColors.push_back(col);
+						meshObj->mesh.edgeWeights.push_back(1.0);
+
+					}
+				}
+			}
+
+			// face Attributes
+			meshJSON.faceAttributes = j["FaceAttributes"].get<vector<vector<double>>>();
+
+			meshObj->mesh.faceColors.clear();
+			meshObj->mesh.faceNormals.clear();
+			for (int i = 0; i < meshJSON.faceAttributes.size(); i++)
+			{
+				for (int k = 0; k < meshJSON.faceAttributes[i].size(); k++)
+				{
+					// normal and color
+					if (meshJSON.faceAttributes[i].size() == 6)
+					{
+						zColor col(meshJSON.faceAttributes[i][k + 3], meshJSON.faceAttributes[i][k + 4], meshJSON.faceAttributes[i][k + 5], 1);
+						meshObj->mesh.faceColors.push_back(col);
+
+
+						zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
+						meshObj->mesh.faceNormals.push_back(normal);
+
+						k += 5;
+					}
+
+					if (meshJSON.faceAttributes[i].size() == 3)
+					{
+						zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
+						meshObj->mesh.faceNormals.push_back(normal);
+
+
+						meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
+
+						k += 2;
+					}
+				}
+
+			}
+
+			if (meshJSON.faceAttributes.size() == 0)
+			{
+				computeMeshNormals();
+				setFaceColor(zColor(0.5, 0.5, 0.5, 1));
+			}
+
+			printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
+
+			// add to maps 
+			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+			{
+				meshObj->mesh.addToPositionMap(meshObj->mesh.vertexPositions[i], i);
+			}
+
+
+			for (zItMeshEdge e(*meshObj); !e.end(); e.next())
+			{
+				int v1 = e.getHalfEdge(0).getVertex().getId();
+				int v2 = e.getHalfEdge(1).getVertex().getId();
+
+				meshObj->mesh.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());
+			}
+
+			return true;
+
+		}
+
+	private:
 			
+		//--------------------------
+		//---- PRIVATE METHODS
+		//--------------------------
+
+		/*! \brief This method sets the edge and face vertex position conatiners for static meshes.
+		*
+		*	\since version 0.0.2
+		*/
+		void setStaticContainers()
+		{
+			meshObj->mesh.staticGeometry = true;
+
+			vector<vector<int>> edgeVerts;
+
+			for (zItMeshEdge e(*meshObj); !e.end(); e.next())
+			{
+				vector<int> verts;
+				e.getVertices(verts);
+
+				edgeVerts.push_back(verts);
+			}
+
+			meshObj->mesh.setStaticEdgeVertices(edgeVerts);
+
+
+			vector<vector<int>> faceVerts;
+
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
+			{
+				vector<int> verts;
+				f.getVertices(verts);
+
+				faceVerts.push_back(verts);
+			}
+
+			meshObj->mesh.setStaticFaceVertices(faceVerts);
+
+
+		}
+
+		//--------------------------
+		//---- DEACTIVATE AND REMOVE METHODS
+		//--------------------------
+
+		/*! \brief This method adds input half edge and corresponding symmety edge from the halfEdgesMap.
+		*
+		*	\param		[in]	zItMeshHalfEdge			- half edge iterator.
+		*	\since version 0.0.2
+		*/
+		void addToHalfEdgesMap(zItMeshHalfEdge &he)
+		{
+			meshObj->mesh.addToHalfEdgesMap(he.getStartVertex().getId(), he.getVertex().getId(), he.getId());
+		}
+
+		/*! \brief This method removes input half edge and corresponding symmety edge from the halfEdgesMap.
+		*
+		*	\param		[in]	zItMeshHalfEdge			- half edge iterator.
+		*	\since version 0.0.2
+		*/
+		void removeFromHalfEdgesMap(zItMeshHalfEdge &he)
+		{
+			meshObj->mesh.removeFromHalfEdgesMap(he.getStartVertex().getId(), he.getVertex().getId());
+		}
+
+		/*! \brief This method removes inactive elements from the container connected with the input type.
+		*
+		*	\param		[in]	type			- zVertexData or zHalfEdgeData or zEdgeData or zFaceData.
+		*	\since version 0.0.2
+		*/
+		void removeInactive(zHEData type)
+		{
+			//  Vertex		
+			if (type == zVertexData)
+			{
+				vector<zVertexHandle>::iterator v = meshObj->mesh.vHandles.begin();
+
+				while (v != meshObj->mesh.vHandles.end())
+				{
+					bool active = (v->id == -1) ? false : true;
+
+					if (!active)
+					{
+						meshObj->mesh.vertexPositions.erase(meshObj->mesh.vertexPositions.begin() + v->id);
+
+						meshObj->mesh.vertexColors.erase(meshObj->mesh.vertexColors.begin() + v->id);
+
+						meshObj->mesh.vertexWeights.erase(meshObj->mesh.vertexWeights.begin() + v->id);
+
+						meshObj->mesh.vertexNormals.erase(meshObj->mesh.vertexNormals.begin() + v->id);
+
+						meshObj->mesh.vHandles.erase(v++);
+
+						meshObj->mesh.n_v--;
+					}
+				}
+
+				meshObj->mesh.resizeArray(zVertexData, numVertices());
+
+				printf("\n removed inactive vertices. ");
+
+			}
+
+			//  Edge
+			else if (type == zEdgeData || type == zHalfEdgeData)
+			{
+				vector<zHalfEdgeHandle>::iterator he = meshObj->mesh.heHandles.begin();
+
+				while (he != meshObj->mesh.heHandles.end())
+				{
+					bool active = (he->id == -1) ? false : true;
+
+					if (!active)
+					{
+						meshObj->mesh.heHandles.erase(he++);
+
+						meshObj->mesh.n_he--;
+					}
+				}
+
+				vector<zEdgeHandle>::iterator e = meshObj->mesh.eHandles.begin();
+
+
+				while (e != meshObj->mesh.eHandles.end())
+				{
+					bool active = (e->id == -1) ? false : true;
+
+					if (!active)
+					{
+						meshObj->mesh.edgeColors.erase(meshObj->mesh.edgeColors.begin() + e->id);
+
+						meshObj->mesh.edgeWeights.erase(meshObj->mesh.edgeWeights.begin() + e->id);
+
+						meshObj->mesh.eHandles.erase(e++);
+
+						meshObj->mesh.n_e--;
+					}
+				}
+
+				printf("\n removed inactive edges and had edges. ");
+
+				meshObj->mesh.resizeArray(zHalfEdgeData, numHalfEdges());
+
+				meshObj->mesh.resizeArray(zEdgeData, numHalfEdges());
+
+			}
+
+			// Mesh Face
+			else if (type == zFaceData)
+			{
+				vector<zFaceHandle>::iterator f = meshObj->mesh.fHandles.begin();
+
+				while (f != meshObj->mesh.fHandles.end())
+				{
+					bool active = (f->id == -1) ? false : true;
+
+					if (!active)
+					{
+
+						meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + f->id);
+
+						meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() + f->id);
+
+						meshObj->mesh.fHandles.erase(f++);
+
+						meshObj->mesh.n_v--;
+					}
+				}
+
+				meshObj->mesh.resizeArray(zFaceData, numPolygons());
+
+				printf("\n removed inactive faces. ");
+			}
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
 
 	};

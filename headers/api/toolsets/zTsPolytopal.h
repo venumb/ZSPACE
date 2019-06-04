@@ -216,7 +216,7 @@ namespace zSpace
 			for (int j = 0; j < fnForces.size(); j++)
 			{
 				int n_v = fnForces[j].numVertices();
-				int n_e = fnForces[j].numEdges();
+				int n_e = fnForces[j].numHalfEdges();
 				int n_f = fnForces[j].numPolygons();
 
 				zVector volCenter =	fnForces[j].getCenter();
@@ -283,9 +283,13 @@ namespace zSpace
 
 			fnForm.create(positions, edgeConnects);
 
-			for (int i = 0; i < fnForm.numVertices(); i++)
+			for (zItGraphVertex v(*formObj); !v.end(); v.next())			
 			{
-				if (!fnForm.checkVertexValency(i, 1)) fnForm.setVertexColor(i, zColor());
+				if (!v.checkVertexValency(1))
+				{
+					zColor col(0, 0, 0, 1);
+					v.setVertexColor(col);
+				}
 			}
 			
 			setVertexOffset(offset);			
@@ -293,8 +297,10 @@ namespace zSpace
 
 
 			// compute intersection point
-			for (int i = 0; i < fnForm.numVertices(); i++)
+			for (zItGraphVertex v(*formObj); !v.end(); v.next())
 			{
+				int i = v.getId();
+
 				if (formGraphVertex_forceVolumeFace[i * 2] >= -1 && formGraphVertex_forceVolumeFace[(i * 2) + 1] != -1)
 				{
 					int volMesh_1 = formGraphVertex_forceVolumeMesh[i * 2];
@@ -302,27 +308,28 @@ namespace zSpace
 
 					if (f1 == -1) continue;
 					
-					zVector normF1 = fnForces[volMesh_1].getFaceNormal(f1); 
+					zItMeshFace force_face(*forceObjs[volMesh_1], f1);
+					zVector normF1 = force_face.getFaceNormal();
 					
-					zVector currentPos = fnForm.getVertexPosition(i);
+					zVector currentPos = v.getVertexPosition();
 
-					vector<int> cVerts;
-					fnForm.getConnectedVertices(i, zVertexData, cVerts);
+					vector<zItGraphVertex> cVerts;
+					v.getConnectedVertices(cVerts);
 
 					if (cVerts.size() == 2)
 					{
-						zVector p1 = fnForm.getVertexPosition(cVerts[0]);
+						zVector p1 = cVerts[0].getVertexPosition();
 						
-						zVector p2 = fnForm.getVertexPosition(cVerts[1]);
+						zVector p2 = cVerts[1].getVertexPosition();
 
-						formGraphVertex_Offsets[i] = (formGraphVertex_Offsets[cVerts[0]] + formGraphVertex_Offsets[cVerts[1]])*0.5;
+						formGraphVertex_Offsets[i] = (formGraphVertex_Offsets[cVerts[0].getId()] + formGraphVertex_Offsets[cVerts[1].getId()])*0.5;
 
 						zVector interPt;
 						bool chkIntersection = coreUtils.line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
 
 						if (chkIntersection)
 						{
-							fnForm.setVertexPosition(i, interPt);							
+							v.setVertexPosition( interPt);							
 
 							double distTOp1 = interPt.distanceTo(p1);
 							double distTOp2 = interPt.distanceTo(p2);
@@ -331,7 +338,7 @@ namespace zSpace
 							double wt1 = distTOp1 / distp12;
 							double wt2 = distTOp2 / distp12;
 
-							formGraphVertex_Offsets[i] = (formGraphVertex_Offsets[cVerts[0]] * wt1) + (formGraphVertex_Offsets[cVerts[1]] * wt2);
+							formGraphVertex_Offsets[i] = (formGraphVertex_Offsets[cVerts[0].getId()] * wt1) + (formGraphVertex_Offsets[cVerts[1].getId()] * wt2);
 
 						}
 					}
@@ -471,12 +478,13 @@ namespace zSpace
 				volMesh_fAreas.push_back(fAreas);
 			}
 
-			for (int i = 0; i < fnForm.numVertices(); i++)
+			for(zItGraphVertex v(*formObj);!v.end(); v.next())			
 			{
+				int i = v.getId();
 				if (formGraphVertex_forceVolumeFace[i * 2] == -1 && formGraphVertex_forceVolumeFace[(i * 2) + 1] == -1) continue;
 
-				vector<int> cEdges;
-				fnForm.getConnectedEdges(i, zVertexData, cEdges);
+				vector<zItGraphHalfEdge> cEdges;
+				v.getConnectedHalfEdges(cEdges);
 
 				int volID = formGraphVertex_forceVolumeMesh[i * 2];
 				int faceID = formGraphVertex_forceVolumeFace[i * 2];
@@ -489,8 +497,8 @@ namespace zSpace
 
 					zColor col = coreUtils.blendColor(fArea, areaDomain, colDomain, zRGB);
 				
-					fnForm.setEdgeWeight(cEdges[j], val);  					
-					fnForm.setEdgeColor(cEdges[j], col);
+					cEdges[j].getEdge().setEdgeWeight(val);
+					cEdges[j].getEdge().setEdgeColor(col);
 				}
 
 			}
@@ -516,7 +524,7 @@ namespace zSpace
 			vector<int>polyCounts;
 
 			int n_v = fnForces[forceIndex].numVertices();
-			int n_e = fnForces[forceIndex].numEdges();
+			int n_e = fnForces[forceIndex].numHalfEdges();
 			int n_f = fnForces[forceIndex].numPolygons();
 
 
@@ -527,17 +535,16 @@ namespace zSpace
 			vector<zVector> fCenters;
 			fnForces[forceIndex].getCenters(zFaceData, fCenters);
 
-			for (int i = 0; i < n_e; i += 2)
+			for( zItMeshEdge e(*forceObjs[forceIndex]);!e.end(); e.next())			
 			{
 				vector<int> eFaces;
-				fnForces[forceIndex].getFaces(i, zEdgeData, eFaces);
-				vector<int> eVertices;
-				fnForces[forceIndex].getVertices(i, zEdgeData, eVertices);
+				e.getFaces(eFaces);
+				
 
-				zVector pos0 =	fnForces[forceIndex].getVertexPosition(eVertices[1]);
+				zVector pos0 =	e.getHalfEdge(1).getVertex().getVertexPosition();
+				zVector pos1 = e.getHalfEdge(0).getVertex().getVertexPosition();
 
-				zVector pos1 = 	fnForces[forceIndex].getVertexPosition(eVertices[0]);
-
+				zVector* formPositions = fnForm.getRawVertexPositions();
 
 				if (eFaces.size() == 2)
 				{
@@ -553,7 +560,7 @@ namespace zSpace
 						double boundaryOffset = formGraphVertex_Offsets[vId_fCenter];
 
 						zVector fCenter = fCenters[eFaces[j]];
-						zVector fCenter_graphPos = 	fnForm.getVertexPosition(vId_fCenter);
+						zVector fCenter_graphPos = formPositions[vId_fCenter];
 
 						zVector dir_fCenter_0 = pos0 - fCenter;
 						double len0 = dir_fCenter_0.length();
@@ -584,7 +591,7 @@ namespace zSpace
 					bool chkExists_v = coreUtils.existsInMap(hashKey_v, forceVolumeFace_formGraphVertex, vId_vCenter);
 					
 					double centerOffset = formGraphVertex_Offsets[vId_vCenter];
-					zVector vCenter_graphPos = 	fnForm.getVertexPosition(vId_vCenter);
+					zVector vCenter_graphPos = formPositions[vId_vCenter];
 
 					zVector newPos = volCenter + (dir_volCenter_0 * len0 *centerOffset);
 					newPos += (vCenter_graphPos - volCenter);
@@ -623,7 +630,7 @@ namespace zSpace
 				zFnMesh tempFn(tempObj);
 
 				tempFn.create(positions, polyCounts, polyConnects);
-				getPolytopalRulingRemesh(forceIndex, tempFn, subdivs);
+				getPolytopalRulingRemesh(forceIndex, tempObj, subdivs);
 			}
 
 			
@@ -636,51 +643,52 @@ namespace zSpace
 		*	\param		[in]	SUBDIVS					- input number of subdivisions.
 		*	\since version 0.0.2
 		*/
-		void getPolytopalRulingRemesh(int index, zFnMesh &inFnMesh, int SUBDIVS)
+		void getPolytopalRulingRemesh(int index, zObjMesh &inMeshObj, int SUBDIVS)
 		{
 			vector<zVector>positions;
 			vector<int>polyConnects;
 			vector<int>polyCounts;
 
+			zFnMesh inFnMesh(inMeshObj);
 			int n_v_lowPoly = inFnMesh.numVertices();
 
 			inFnMesh.smoothMesh(SUBDIVS);
 
 			int n_v = inFnMesh.numVertices();
-			int n_e = inFnMesh.numEdges();
+			int n_e = inFnMesh.numHalfEdges();
 			int n_f = inFnMesh.numPolygons();
 
 			for (int i = 0; i < n_v_lowPoly; i += 6)
 			{
-				int vert0 = i;
-				int vert1 = i + 1;
-				int edge0, edge1;
+				zItMeshVertex vert0(inMeshObj,i);
+				zItMeshVertex vert1(inMeshObj, i+1);				
+				zItMeshHalfEdge edge0, edge1;
 
-				vector<int> cEdges0;
-				inFnMesh.getConnectedEdges(vert0, zVertexData, cEdges0);
+				vector<zItMeshHalfEdge> cEdges0;
+				vert0.getConnectedHalfEdges(cEdges0);
 
-				for (int j = 0; j < cEdges0.size(); j++)
+				for (auto &he : cEdges0)
 				{
-					if (!inFnMesh.onBoundary(cEdges0[j], zEdgeData))
+					if (!he.onBoundary())
 					{
-						edge0 = inFnMesh.getSymIndex(cEdges0[j]); 
+						edge0 = he.getSym();
 					}
 				}
 
-				vector<int> cEdges1;
-				inFnMesh.getConnectedEdges(vert1, zVertexData, cEdges1);
+				vector<zItMeshHalfEdge> cEdges1;
+				vert1.getConnectedHalfEdges(cEdges1);
 
-				for (int j = 0; j < cEdges1.size(); j++)
+				for (auto &he : cEdges1)
 				{
-					if (inFnMesh.onBoundary(cEdges1[j], zEdgeData))
+					if (he.onBoundary())
 					{
-						edge1 = cEdges1[j];
+						edge1 = he;
 					}
 				}
 
-				zVector v0 = inFnMesh.getVertexPosition(vert0);
+				zVector v0 = vert0.getVertexPosition();
 
-				zVector v1 = inFnMesh.getVertexPosition(vert1);
+				zVector v1 = vert1.getVertexPosition();
 
 				positions.push_back(v0);
 				positions.push_back(v1);
@@ -688,14 +696,11 @@ namespace zSpace
 				//while (smoothPolytopalMesh.edges[edge0].getVertex()->getVertexId() != i + 2)
 				for (int k = 0; k < pow(2, (SUBDIVS + 1)); k++)
 				{
-					int numVerts = positions.size();
+					int numVerts = positions.size();					
 
-					int vert2 = inFnMesh.getStartVertexIndex(edge0);   
-					int vert3 = inFnMesh.getEndVertexIndex(edge1); 
+					zVector v2 = edge0.getStartVertex().getVertexPosition(); ;
 
-					zVector v2 = inFnMesh.getVertexPosition(vert2);
-
-					zVector v3 = inFnMesh.getVertexPosition(vert3);
+					zVector v3 = edge1.getVertex().getVertexPosition();
 
 					positions.push_back(v2);
 					positions.push_back(v3);
@@ -709,8 +714,8 @@ namespace zSpace
 					//vert0 = vert2;
 					//vert1 = vert3;
 
-					edge0 = inFnMesh.getPrevIndex(edge0);
-					edge1 = inFnMesh.getNextIndex(edge1);
+					edge0 = edge0.getPrev();
+					edge1 = edge1.getNext();
 				}
 			}
 
@@ -725,53 +730,64 @@ namespace zSpace
 		*	\return				bool					- true if there is a intersection else false.
 		*	\since version 0.0.2
 		*/
-		bool computeRulingIntersection(int polytopalIndex, int v0, int v1, zVector &closestPt)
+		bool computeRulingIntersection(int polytopalIndex, zItMeshVertex &v0, zItMeshVertex &v1, zVector &closestPt)
 		{
 			bool out = false;
 
-			int e0 = -1;
-			int e1 = -1;
+			zItMeshHalfEdge e0;
+			zItMeshHalfEdge e1;
 
-			vector<int> cEdges0;
-			fnPolytopals[polytopalIndex].getConnectedEdges(v0, zVertexData, cEdges0);
+			bool e0HasEdge = false;
+			bool e1HasEdge = false;
+
+			vector<zItMeshHalfEdge> cEdges0;
+			v0.getConnectedHalfEdges(cEdges0);
+			
 			if (cEdges0.size() == 3)
 			{
-				for (int i = 0; i < cEdges0.size(); i++)
+				for (auto &he : cEdges0)
 				{
-					if (!fnPolytopals[polytopalIndex].onBoundary(cEdges0[i], zEdgeData))
+					if (!he.onBoundary())
 					{
-						e0 = cEdges0[i];
+						e0 = he;
+						e0HasEdge = true;
 						break;
 					}
 				}
 			}
 
-			vector<int> cEdges1;
-			fnPolytopals[polytopalIndex].getConnectedEdges(v1, zVertexData, cEdges1);
+			vector<zItMeshHalfEdge> cEdges1;
+			v1.getConnectedHalfEdges(cEdges1);
 			if (cEdges1.size() == 3)
 			{
-				for (int i = 0; i < cEdges1.size(); i++)
+				for (auto &he : cEdges1)
 				{
-					if (!fnPolytopals[polytopalIndex].onBoundary(cEdges1[i], zEdgeData))
+					if (!he.onBoundary())
 					{
-						e1 = cEdges1[i];
+						e1 = he;
+						e1HasEdge = true;
 						break;
 					}
 				}
 			}
 
-			if (e0 != -1 && e1 != -1)
+			if (e0HasEdge  && e1HasEdge)
 			{
-				int v2 = (v0 % 2 == 0) ? v0 + 1 : v0 - 1;
-				int v3 = (v1 % 2 == 0) ? v1 + 1 : v1 - 1;
+				zItMeshVertex v2 = v0;
+				(v0.getId() % 2 == 0) ? v2.next() : v2.prev();
 
-				zVector a0 = fnPolytopals[polytopalIndex].getVertexPosition(v2);
+				zItMeshVertex v3 = v1;
+				(v1.getId() % 2 == 0) ? v3.next() : v3.prev();
 
-				zVector a1 = fnPolytopals[polytopalIndex].getVertexPosition(v0);
 
-				zVector b0 = fnPolytopals[polytopalIndex].getVertexPosition(v3);
 
-				zVector b1 = fnPolytopals[polytopalIndex].getVertexPosition(v1);
+				zVector a0 = v2.getVertexPosition();
+
+				zVector a1 = v0.getVertexPosition();
+
+				zVector b0 = v3.getVertexPosition();
+
+				zVector b1 = v1.getVertexPosition();
 
 				double uA = -1;
 				double uB = -1;
@@ -816,11 +832,11 @@ namespace zSpace
 			if (smoothSubDivs == 0) return;
 
 			int n_v = fnForces[forceIndex].numVertices();
-			int n_e = fnForces[forceIndex].numEdges();
+			int n_e = fnForces[forceIndex].numHalfEdges();
 			int n_f = fnForces[forceIndex].numPolygons();
 
 			int n_v_smooth = fnPolytopals[forceIndex].numVertices();
-			int n_e_smooth = fnPolytopals[forceIndex].numEdges();
+			int n_e_smooth = fnPolytopals[forceIndex].numHalfEdges();
 			int n_f_smooth = fnPolytopals[forceIndex].numPolygons();
 
 			int numVertsPerStrip = floor(n_v_smooth / (0.5 * n_e));
@@ -834,14 +850,14 @@ namespace zSpace
 				vertVisited.push_back(false);
 			}
 
-			for (int i = 0; i < n_e; i += 2)
+			for(zItMeshEdge e(*forceObjs[forceIndex]); !e.end(); e.next())			
 			{
-				int eStripId = floor(i / 2);
+				int eStripId = e.getId();
 
 
 				//-- Prev  Edge	
 
-				int ePrev = fnForces[forceIndex].getPrevIndex(i);
+				int ePrev = e.getHalfEdge(0).getPrev().getId(); ;
 				int ePrevStripId = floor(ePrev / 2);
 
 
@@ -849,23 +865,23 @@ namespace zSpace
 				{
 					for (int j = 1, k = 0; j < half_NumVertsPerStrip - 2, k < half_NumVertsPerStrip - 2; j += 2, k += 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = ePrevStripId * numVertsPerStrip + j;
+						zItMeshVertex v0 (*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1 (*forceObjs[forceIndex], ePrevStripId * numVertsPerStrip + j);
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
 
 							}
 
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 
 
@@ -876,51 +892,51 @@ namespace zSpace
 				{
 					for (int j = numVertsPerStrip - 2, k = 0; j > half_NumVertsPerStrip - 1, k < half_NumVertsPerStrip - 2; j -= 2, k += 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = ePrevStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], ePrevStripId * numVertsPerStrip + j);
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
 
 							}
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 					}
 				}
 
 				//-- Next Edge		
 
-				int eNext = fnForces[forceIndex].getNextIndex(i);
+				int eNext = e.getHalfEdge(0).getNext().getId(); ;
 				int eNextStripId = floor(eNext / 2);
 
 				if (eNext % 2 == 0)
 				{
 					for (int j = 0, k = 1; j < half_NumVertsPerStrip - 2, k < half_NumVertsPerStrip; j += 2, k += 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = eNextStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], eNextStripId * numVertsPerStrip + j);
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
-							}
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
 
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							}
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 
 					}
@@ -929,22 +945,22 @@ namespace zSpace
 				{
 					for (int j = numVertsPerStrip - 2, k = 1; j > half_NumVertsPerStrip - 1, k < half_NumVertsPerStrip; j -= 2, k += 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = eNextStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], eNextStripId * numVertsPerStrip + j);
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
-							}
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
 
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							}
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 
 					}
@@ -952,10 +968,9 @@ namespace zSpace
 
 
 				//-- SYM Prev  Edge	
+						
 
-				int symEdge = fnForces[forceIndex].getSymIndex(i);
-
-				int eSymPrev = fnForces[forceIndex].getPrevIndex(symEdge);
+				int eSymPrev = e.getHalfEdge(1).getPrev().getId();
 				int eSymPrevStripId = floor(eSymPrev / 2);
 
 
@@ -963,22 +978,22 @@ namespace zSpace
 				{
 					for (int j = 1, k = numVertsPerStrip - 1; j<half_NumVertsPerStrip - 2, k>half_NumVertsPerStrip; j += 2, k -= 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = eSymPrevStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], eSymPrevStripId * numVertsPerStrip + j);
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
-							}
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
 
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							}
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 					}
 				}
@@ -986,52 +1001,52 @@ namespace zSpace
 				{
 					for (int j = numVertsPerStrip - 2, k = numVertsPerStrip - 1; j > half_NumVertsPerStrip - 1, k > half_NumVertsPerStrip; j -= 2, k -= 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = eSymPrevStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], eSymPrevStripId * numVertsPerStrip + j);
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
-
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
-							}
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
 
+							}
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 					}
 				}
 
 
 				//--SYM Next Edge		
-				int eSymNext = fnForces[forceIndex].getNextIndex(symEdge);
+				int eSymNext = e.getHalfEdge(1).getNext().getId();
 				int eSymNextStripId = floor(eSymNext / 2);
 
 				if (eSymNext % 2 == 0)
 				{
 					for (int j = 0, k = numVertsPerStrip - 2; j<half_NumVertsPerStrip - 2, k>half_NumVertsPerStrip - 1; j += 2, k -= 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = eSymNextStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], eSymNextStripId * numVertsPerStrip + j);
 
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
+
 							}
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 					}
 				}
@@ -1039,32 +1054,33 @@ namespace zSpace
 				{
 					for (int j = numVertsPerStrip - 1, k = numVertsPerStrip - 2; j > half_NumVertsPerStrip, k > half_NumVertsPerStrip - 1; j -= 2, k -= 2)
 					{
-						int v0 = eStripId * numVertsPerStrip + k;
-						int v1 = eSymNextStripId * numVertsPerStrip + j;
+						zItMeshVertex v0(*forceObjs[forceIndex], eStripId * numVertsPerStrip + k);
+						zItMeshVertex v1(*forceObjs[forceIndex], eSymNextStripId * numVertsPerStrip + j);
 
 
-						if (!vertVisited[v0] && !vertVisited[v1])
+						if (!vertVisited[v0.getId()] && !vertVisited[v1.getId()])
 						{
 							zVector cPt;
 							bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
 
 							if (intersectChk)
 							{
-								fnPolytopals[forceIndex].setVertexPosition(v0, cPt);
-								fnPolytopals[forceIndex].setVertexPosition(v1, cPt);
+								v0.setVertexPosition(cPt);
+								v1.setVertexPosition(cPt);
+
 							}
-							vertVisited[v0] = true;
-							vertVisited[v1] = true;
+							vertVisited[v0.getId()] = true;
+							vertVisited[v1.getId()] = true;
 						}
 
 					}
 				}
 			}
 
-			for (int i = 0; i < n_v; i++)
+			for (zItMeshVertex v(*forceObjs[forceIndex]); !v.end(); v.next())			
 			{
 				vector<int> cEdges;
-				fnForces[forceIndex].getConnectedEdges(i, zVertexData, cEdges);
+				v.getConnectedHalfEdges(cEdges);
 
 				vector<int> smoothMeshVerts;
 				vector<zVector> intersectPoints;
@@ -1082,10 +1098,10 @@ namespace zSpace
 				// comput smooth mesh vertices
 				for (int j = 0; j < smoothMeshVerts.size(); j++)
 				{
-					int v0 = smoothMeshVerts[j];
-					int v1 = smoothMeshVerts[(j + 1) % smoothMeshVerts.size()];
+					zItMeshVertex v0(*forceObjs[forceIndex], smoothMeshVerts[j]);
+					zItMeshVertex v1(*forceObjs[forceIndex], smoothMeshVerts[(j + 1) % smoothMeshVerts.size()]);
 
-					vertVisited[v0] = true;
+					vertVisited[v0.getId()] = true;
 
 					zVector cPt;
 					bool intersectChk = computeRulingIntersection(forceIndex, v0, v1, cPt);
@@ -1109,7 +1125,8 @@ namespace zSpace
 				//// update positions
 				for (int j = 0; j < smoothMeshVerts.size(); j++)
 				{
-					fnPolytopals[forceIndex].setVertexPosition(smoothMeshVerts[j], avgIntersectPoint);
+					zItMeshVertex v0(*forceObjs[forceIndex], smoothMeshVerts[j]);
+					v0.setVertexPosition(avgIntersectPoint);
 				}
 
 			}
@@ -1142,33 +1159,35 @@ namespace zSpace
 		{
 			targetEdges_form.clear(); 
 
-			for (int i = 0; i < fnForm.numEdges(); i++)
+			for (int i = 0; i < fnForm.numHalfEdges(); i++)
 			{
 				targetEdges_form.push_back(zVector());
 			}
 
-			for (int i = 0; i < fnForm.numVertices(); i++)
+			for (zItGraphVertex v(*formObj); !v.end(); v.next())			
 			{
 				// get position of vertex
-				zVector v_i = fnForm.getVertexPosition(i);
+				zVector v_i = v.getVertexPosition();
+
+				int i = v.getId();
 
 				int volId_V = formGraphVertex_forceVolumeMesh[i * 2];
 				int faceId_V = formGraphVertex_forceVolumeFace[i * 2];
 
-				if (fnForm.checkVertexValency(i, 1))	continue;
+				if (v.checkVertexValency(1))	continue;
 				if (faceId_V != -1 && formGraphVertex_forceVolumeFace[i * 2 + 1] != -1) continue;
 			
 				// get connected vertices
-				vector<int> cEdges;
-				fnForm.getConnectedEdges(i, zVertexData, cEdges);
+				vector<zItGraphHalfEdge> cEdges;
+				v.getConnectedHalfEdges( cEdges);
 
 			
-				for (int j = 0; j < cEdges.size(); j++)
+				for (auto &he : cEdges)
 				{
 					// get vertex 
-					int v1_ID = fnForm.getEndVertexIndex(cEdges[j]);
+					int v1_ID = he.getVertex().getId();
 					
-					zVector v_j = fnForm.getVertexPosition(v1_ID);
+					zVector v_j = he.getVertex().getVertexPosition();
 					zVector e_ij = v_i - v_j;
 					e_ij.normalize();
 
@@ -1176,14 +1195,16 @@ namespace zSpace
 					int volId = formGraphVertex_forceVolumeMesh[v1_ID * 2];
 					int faceId = formGraphVertex_forceVolumeFace[v1_ID * 2];				
 
-					zVector t_ij = fnForces[volId].getFaceNormal(faceId);;
+					zItMeshFace forceFace(*forceObjs[volId], faceId);
+
+					zVector t_ij = forceFace.getFaceNormal();;
 					t_ij.normalize();
 
 					if (e_ij * t_ij > 0) t_ij *= -1;
 
-					targetEdges_form[cEdges[j]] = t_ij;
+					targetEdges_form[he.getId()] = t_ij;
 
-					int symEdge = fnForm.getSymIndex(cEdges[j]);
+					int symEdge = he.getSym().getId();
 					targetEdges_form[symEdge] = (t_ij * -1);
 
 				}
@@ -1206,14 +1227,14 @@ namespace zSpace
 			vector<double> deviations;
 			deviation = zDomainDouble(10000, -10000);			
 
-			for (int i = 0; i < fnForm.numEdges(); i+= 1)
+			for (zItGraphEdge e(*formObj); !e.end(); e.next())			
 			{
 				//form edge
-				int eId_form = i;
-				zVector e_form = fnForm.getEdgeVector(eId_form);
+				int eId_form = e.getHalfEdge(0).getId();
+				zVector e_form = e.getHalfEdge(0).getHalfEdgeVector();
 				e_form.normalize();
 
-				zVector e_target = targetEdges_form[i];
+				zVector e_target = targetEdges_form[eId_form];
 
 				double a_i = e_form.angle(e_target);
 				
@@ -1240,14 +1261,14 @@ namespace zSpace
 			{
 				zDomainColor colDomain(zColor(180, 1, 1), zColor(0, 1, 1));
 
-				for (int i = 0; i < fnForm.numEdges(); i += 1)
+				for (zItGraphEdge e(*formObj); !e.end(); e.next())
 				{
 					
-					zColor col = coreUtils.blendColor(deviations[i], deviation, colDomain, zHSV);
+					zColor col = coreUtils.blendColor(deviations[e.getId()], deviation, colDomain, zHSV);
 
-					if (deviations[i] < angleTolerance) col = zColor();
+					if (deviations[e.getId()] < angleTolerance) col = zColor();
 
-					fnForm.setEdgeColor(i, col);				
+					e.setEdgeColor(col);				
 
 				}
 
@@ -1266,15 +1287,21 @@ namespace zSpace
 		*/
 		void updateFormDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations = 1000)
 		{
+
+			zVector* pos = fnForm.getRawVertexPositions();
+
 			if (fnFormParticles.size() != fnForm.numVertices())
 			{
 				fnFormParticles.clear();
 				formParticlesObj.clear();
 
 
-				for (int i = 0; i < fnForm.numVertices(); i++)
+
+				for (zItGraphVertex v(*formObj); !v.end(); v.next())
 				{
 					bool fixed = false;
+
+					int i = v.getId();
 
 					int volId_V = formGraphVertex_forceVolumeMesh[i * 2];
 					int faceId_V = formGraphVertex_forceVolumeFace[i * 2];
@@ -1282,11 +1309,11 @@ namespace zSpace
 					if (faceId_V != -1 && formGraphVertex_forceVolumeFace[i * 2 + 1] != -1)
 					{
 						fixed = true;
-						fnForm.setVertexColor(i, zColor());
+						v.setVertexColor(zColor());
 					}					
 
 					zObjParticle p;
-					p.particle = zParticle(formObj->graph.vertexPositions[i], fixed);
+					p.particle = zParticle(pos[i], fixed);
 					formParticlesObj.push_back(p);
 
 				}
@@ -1307,13 +1334,14 @@ namespace zSpace
 
 			minEdgeLength = maxEdgeLength * minmax_Edge;
 
-			zVector* pos = fnForm.getRawVertexPositions();
+			
 
 			for (int k = 0; k < numIterations; k++)
 			{
 				// get positions on the graph at volume centers only - 0 to inputVolumemesh size vertices of the graph
-				for (int i = 0; i < fnFormParticles.size(); i++)
+				for (zItGraphVertex v(*formObj); !v.end(); v.next())
 				{
+					int i = v.getId();
 
 					if (fnFormParticles[i].getFixed()) continue;
 
@@ -1324,15 +1352,15 @@ namespace zSpace
 					int faceId_V = formGraphVertex_forceVolumeFace[i * 2];
 
 					// get connected vertices
-					vector<int> cEdges;
-					fnForm.getConnectedEdges(i, zVertexData, cEdges);
+					vector<zItGraphHalfEdge> cEdges;
+					v.getConnectedHalfEdges(cEdges);
 
 					// compute barycenter per vertex
 					zVector b_i;
-					for (int j = 0; j < cEdges.size(); j++)
+					for (auto &he: cEdges)
 					{
 						// get vertex 
-						int v1_ID = fnForm.getEndVertexIndex(cEdges[j]);
+						int v1_ID = he.getVertex().getId();
 
 						zVector v_j = pos[v1_ID];
 
@@ -1342,7 +1370,7 @@ namespace zSpace
 						if (len_e_ij < minEdgeLength) len_e_ij = minEdgeLength;
 						if (len_e_ij > maxEdgeLength) len_e_ij = maxEdgeLength;
 
-						int symEdge = fnForm.getSymIndex(cEdges[j]);
+						int symEdge = he.getSym().getId();
 
 						zVector t_ij = targetEdges_form[symEdge];;
 						t_ij.normalize();
@@ -1407,32 +1435,36 @@ namespace zSpace
 				}
 
 				// update fixed particle positions ( ones with a common face) 
-				for (int i = 0; i < fnFormParticles.size(); i++)
+				for (zItGraphVertex v(*formObj); !v.end(); v.next())
 				{
+					int i = v.getId();
+
 					if (!fnFormParticles[i].getFixed()) continue;
 
-					vector<int> cVerts;
-					fnForm.getConnectedVertices(i, zVertexData, cVerts);
+					vector<zItGraphVertex> cVerts;
+					v.getConnectedVertices(cVerts);
 
 
 					int volId_V = formGraphVertex_forceVolumeMesh[i * 2];
 					int faceId_V = formGraphVertex_forceVolumeFace[i * 2];
 
-					zVector normF1 = fnForces[volId_V].getFaceNormal(faceId_V);
+					zItMeshFace fForce(*forceObjs[volId_V], faceId_V);
 
-					zVector currentPos = fnForm.getVertexPosition(i);
+					zVector normF1 = fForce.getFaceNormal();
+
+					zVector currentPos = v.getVertexPosition();
 
 					if (cVerts.size() == 2)
 					{
-						zVector p1 = fnForm.getVertexPosition(cVerts[0]);
+						zVector p1 = cVerts[0].getVertexPosition();
 
-						zVector p2 = fnForm.getVertexPosition(cVerts[1]);
+						zVector p2 = cVerts[1].getVertexPosition();
 
 						zVector interPt;
 
 						zVector newPos = (p1 + p2) *0.5;
 
-						fnForm.setVertexPosition(i, newPos);
+						v.setVertexPosition(newPos);
 
 						/*bool chkIntersection = coreUtils.line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
 

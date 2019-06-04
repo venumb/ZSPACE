@@ -153,6 +153,15 @@ namespace zSpace
 	*/
 	typedef double* pDouble3[3];
 
+
+	struct zVertexHandle { int id, he;  zVertexHandle() { id = he = -1; } };
+
+	struct zHalfEdgeHandle { int id, p, n, v, e, f; zHalfEdgeHandle() { id = p = n = v = e = f = -1; } };
+
+	struct zEdgeHandle { int id, he0, he1; zEdgeHandle() { id = he0 = he1 = -1; } };
+
+	struct zFaceHandle { int id, he; zFaceHandle() { id = he = -1; } };
+
 	/** @}*/
 
 	/** @}*/

@@ -802,7 +802,9 @@ namespace zSpace
 				zVector pos = environment.getPosition(rnd);
 				fnPositions.addPosition(pos);
 
-				fnPositions.setColor(i, zColor(1, 1, 1, 1));
+				zItPointCloudVertex v(*pointsObj, i);
+
+				v.setVertexColor(zColor(1, 1, 1, 1));
 				
 				environment.occupied[rnd] = true;
 			}	

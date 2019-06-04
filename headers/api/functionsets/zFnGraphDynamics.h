@@ -102,14 +102,14 @@ namespace zSpace
 		{
 			fnParticles.clear();
 
-			for (int i = 0; i < graphObj->graph.vertexPositions.size(); i++)
+			for (zItGraphVertex v(*graphObj); !v.end(); v.next())			
 			{
 				bool fixed = false;
 
-				if (fixBoundary) fixed = (checkVertexValency(i, 1));
+				if (fixBoundary) fixed = (v.checkVertexValency(1));
 
 				zObjParticle p;
-				p.particle = zParticle(graphObj->graph.vertexPositions[i], fixed);
+				p.particle = zParticle(*v.getRawVertexPosition(), fixed);
 				particlesObj.push_back(p);
 
 				if (!fixed) setVertexColor(zColor(0, 0, 1, 1));
@@ -163,22 +163,24 @@ namespace zSpace
 		void addEdgeForce(const vector<double> &weights = vector<double>())
 		{
 
-			if (weights.size() > 0 && weights.size() != graphObj->graph.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
+			if (weights.size() > 0 && weights.size() != graphObj->graph.vertices.size()) throw std::invalid_argument("cannot apply edge force.");
 
-			for (int i = 0; i < graphObj->graph.vertexActive.size(); i++)
+			for (zItGraphVertex v(*graphObj); !v.end(); v.next())
 			{
-				if (graphObj->graph.vertexActive[i])
+				int i = v.getId();
+
+				if (v.isActive())
 				{
 					if (fnParticles[i].getFixed()) continue;
 
-					vector<int> cEdges;
-					getConnectedEdges(i, zVertexData, cEdges);
+					vector<zItGraphHalfEdge> cEdges;
+					v.getConnectedHalfEdges(cEdges);
 
 					zVector eForce;
 
-					for (int j = 0; j < cEdges.size(); j++)
+					for (auto &he : cEdges)
 					{
-						int v1 = graphObj->graph.edges[cEdges[j]].getVertex()->getVertexId();
+						int v1 = he.getVertex().getId();
 						zVector e = graphObj->graph.vertexPositions[v1] - graphObj->graph.vertexPositions[i];
 
 						double len = e.length();
@@ -192,7 +194,7 @@ namespace zSpace
 					fnParticles[i].addForce(eForce);
 
 				}
-				else fnParticles[i].setFixed(true);;
+				else  fnParticles[i].setFixed(true);;
 
 			}
 

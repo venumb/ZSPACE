@@ -90,22 +90,25 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method draws points from a container.
+
+		/*! \brief This method draws vertices of a graph or mesh.
 		*	\param		 [in]		pos			- container of positions  to be drawn.
 		*	\param		 [in]		col			- container of colors.
 		*	\param		 [in]		wt			- container of weights.
+		*	\param		 [in]		size		- size of container.
 		*	\since version 0.0.1
 		*/
-		void drawPoints(vector<zVector> &pos, vector<zColor> &col , vector<double> &wt)
+		void drawPoints(zVector *pos, zColor *col, double *wt, int size)
 		{
 
 			glBegin(GL_POINTS);
-			for (int i = 0; i < pos.size(); i++)
-			{
+			for (int i =0; i< size; i++)
+			{			
+
 				glPointSize(wt[i]);
 				glColor3f(col[i].r, col[i].g, col[i].b);
 				glVertex3f(pos[i].x, pos[i].y, pos[i].z);
-			}			
+			}
 			glEnd();
 
 			glPointSize(1.0);
@@ -136,29 +139,95 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method draws edge lines from a two dimensional container.
+		/*! \brief This method draws vertices of a graph or mesh.
+		*	\param		 [in]		vHandles	- vertex handle container.
 		*	\param		 [in]		pos			- container of positions  to be drawn.
 		*	\param		 [in]		col			- container of colors.
 		*	\param		 [in]		wt			- container of weights.
 		*	\since version 0.0.1
 		*/
-		void drawEdges(vector<vector<zVector>> &pos, vector<zColor> &col, vector<double> wt)
+		void drawVertices(vector<zVertexHandle> &vHandles, zVector *pos, zColor *col, double *wt)
+		{
+
+			glBegin(GL_POINTS);
+			for (auto &v : vHandles)
+			{
+				if (v.id == -1) continue;
+
+				int i = v.id;
+
+				glPointSize(wt[i]);
+				glColor3f(col[i].r, col[i].g, col[i].b);
+				glVertex3f(pos[i].x, pos[i].y, pos[i].z);
+			}
+			glEnd();
+
+			glPointSize(1.0);
+
+			glColor3f(0, 0, 1);
+
+		}
+
+		/*! \brief This method draws edge of a graph or mesh.
+		*	\param		 [in]		eHandles	- edge handle container.
+		*	\param		 [in]		edgeVerts	- container of vertices per edge to be drawn.
+		*	\param		 [in]		pos			- container of positions.
+		*	\param		 [in]		col			- container of colors.
+		*	\param		 [in]		wt			- container of weights.
+		*	\since version 0.0.1
+		*/
+		void drawEdges(vector<zEdgeHandle> &eHandles, vector<vector<int>> &edgeVerts, zVector *pos, zColor *col, double *wt)
 		{
 			glBegin(GL_LINES);
-			for (int i = 0; i < pos.size(); i+= 2)
+			for (auto &e : eHandles)
 			{
+				if (e.id == -1) continue;
+
+				int i = e.id;
+
 				glColor3f(col[i].r, col[i].g, col[i].b);
 				glLineWidth(wt[i]);
 
-				for (int j = 0; j < pos[i].size(); j++)
+				for (int j = 0; j < edgeVerts[i].size(); j++)
 				{
-					glVertex3f(pos[i][j].x, pos[i][j].y,pos[i][j].z);
+					glVertex3f(pos[edgeVerts[i][j]].x, pos[edgeVerts[i][j]].y,pos[edgeVerts[i][j]].z);
 				}
 			}
 
 			glEnd();
 
 			glLineWidth(1.0);
+			glColor3f(0, 0, 1);
+
+		}
+
+		/*! \brief This method draws polygons of a mesh.
+		*	\param		 [in]		eHandles	- edge handle container.
+		*	\param		 [in]		faceVerts	- container of vertices per polygon to be drawn.
+		*	\param		 [in]		pos			- container of positions.
+		*	\param		 [in]		col			- container of colors.
+		*	\since version 0.0.1
+		*/
+		void drawFaces(vector<zFaceHandle> &fHandles, vector<vector<int>> &faceVerts, zVector *pos, zColor *col)
+		{
+
+			for (auto &f : fHandles)
+			{
+				if (f.id == -1) continue;
+
+				int i = f.id;
+
+				glColor3f(col[i].r, col[i].g, col[i].b);
+
+
+				glBegin(GL_POLYGON);
+				for (int j = 0; j < faceVerts[i].size(); j++)
+				{
+					glVertex3f(pos[faceVerts[i][j]].x, pos[faceVerts[i][j]].y, pos[faceVerts[i][j]].z);
+				}
+				glEnd();
+			}
+
 			glColor3f(0, 0, 1);
 
 		}
@@ -204,7 +273,7 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method displays the a face of zMesh.
+		/*! \brief This method displays the a face of mesh.
 		*
 		*	\param		[in]	pos				- vector of type zVector storing the polygon points.
 		*	\param		[in]	col				- color of the polygon.
@@ -222,30 +291,7 @@ namespace zSpace
 			glColor3f(0, 0, 1);
 		}
 
-		/*! \brief This method draws polygons from a two dimensional container.
-		*	\param		 [in]		pos			- container of positions  to be drawn.
-		*	\param		 [in]		col			- container of colors.
-		*	\since version 0.0.1
-		*/
-		void drawPolygons(vector<vector<zVector>> &pos, vector<zColor> &col)
-		{
-			
-			for (int i = 0; i < pos.size(); i += 1)
-			{
-				glColor3f(col[i].r, col[i].g, col[i].b);
-				
-
-				glBegin(GL_POLYGON);
-				for (int j = 0; j < pos[i].size(); j++)
-				{
-					glVertex3f(pos[i][j].x, pos[i][j].y, pos[i][j].z);
-				}
-				glEnd();
-			}
 		
-			glColor3f(0, 0, 1);
-
-		}
 
 		/*! \brief This method draws the X, Y Z axis of the transformation matrix.
 		*	\param		 [in]		transform	- transform  to be drawn.

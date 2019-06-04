@@ -153,7 +153,7 @@ namespace zSpace
 			if (showVertices)
 			{
 
-				displayUtils->drawPoints(graph.vertexPositions, graph.vertexColors, graph.vertexWeights);
+				displayUtils->drawVertices(graph.vHandles, &graph.vertexPositions[0], &graph.vertexColors[0], &graph.vertexWeights[0]);
 
 			}
 
@@ -163,33 +163,29 @@ namespace zSpace
 			{
 				if (graph.staticGeometry)
 				{
-					displayUtils->drawEdges(graph.edgePositions, graph.edgeColors, graph.edgeWeights);
+					displayUtils->drawEdges(graph.eHandles, graph.edgeVertices, &graph.vertexPositions[0], &graph.edgeColors[0], &graph.edgeWeights[0]);
 				}
 
 				else
 				{
-					vector<vector<zVector>> edgePositions;
+					vector<vector<int>> edgeVertices;
+					edgeVertices.assign(graph.edges.size(), vector<int>(2) = { -1,-1 });
 
-					for (int i = 0; i < graph.n_e; i++)
+					for (auto &e : graph.edges)
 					{
 
-						if (graph.edges[i].getVertex() && graph.edges[i + 1].getVertex())
+						if (graph.eHandles[e.getId()].id != -1)
 						{
-							int v1 = graph.edges[i].getVertex()->getVertexId();
-							int v2 = graph.edges[i + 1].getVertex()->getVertexId();
+							vector<int> eVerts;
 
-							vector<zVector> vPositions;
-							vPositions.push_back(graph.vertexPositions[v1]);
-							vPositions.push_back(graph.vertexPositions[v2]);
-
-							edgePositions.push_back(vPositions);
-
+							edgeVertices[e.getId()][0] = e.getHalfEdge(0)->getVertex()->getId();
+							edgeVertices[e.getId()][1] = e.getHalfEdge(1)->getVertex()->getId();
 						}
+
 
 					}
 
-					displayUtils->drawEdges(edgePositions, graph.edgeColors, graph.edgeWeights);
-
+					displayUtils->drawEdges(graph.eHandles, edgeVertices, &graph.vertexPositions[0], &graph.edgeColors[0], &graph.edgeWeights[0]);
 				}
 
 			}
@@ -211,9 +207,10 @@ namespace zSpace
 			// Edge Indicies
 			vector<int> _edgeIndicies;
 
-			for (int i = 0; i < graph.edgeActive.size(); i++)
+			//for (int i = 0; i < graph.edgeActive.size(); i++)
+			for (auto &e : graph.halfEdges)
 			{
-				_edgeIndicies.push_back(graph.edges[i].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
+				_edgeIndicies.push_back(e.getVertex()->getId() + displayUtils->bufferObj.nVertices);
 			}
 
 			graph.VBO_EdgeId = displayUtils->bufferObj.appendEdgeIndices(_edgeIndicies);

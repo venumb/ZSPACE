@@ -41,13 +41,15 @@ namespace zSpace
 	{
 	protected:
 
-		/*!	\brief pointer to stream graph Object  */
-		zObjGraph *graphObj;
+		
 
 	public:
 		//--------------------------
 		//----  PUBLIC ATTRIBUTES
 		//--------------------------
+
+		/*!	\brief pointer to stream graph Object  */
+		zObjGraph *graphObj;
 
 		/*!<stores the stream line as a graph.*/
 		zFnGraph fnGraph;
@@ -91,7 +93,6 @@ namespace zSpace
 			fnGraph = zFnGraph(_graphObj);
 
 			parent = -1; // no parent
-
 		}
 
 
@@ -907,32 +908,34 @@ namespace zSpace
 		*/
 		void getSeedPoints(zStream& currentStream, int vertexId, vector<zVector> &seedPoints)
 		{
-			if (currentStream.fnGraph.checkVertexValency(vertexId, 1)) return;
+			zItGraphVertex v(*currentStream.graphObj, vertexId);
+
+			if (v.checkVertexValency(1)) return;
 
 			zVector up(0, 0, 1);
 			zVector norm;
 
-			zVector v = currentStream.fnGraph.getVertexPosition(vertexId);
+			zVector vPos = v.getVertexPosition();
 
 
 
-			zEdge *curEdge = currentStream.fnGraph.getEdge(vertexId,zVertexData);
+			zItGraphHalfEdge curEdge = v.getHalfEdge();
 
 
 
-			if (curEdge->getVertex())
+			if (curEdge.getVertex().isActive())
 			{
-				zVector v1 = currentStream.fnGraph.getVertexPosition(curEdge->getVertex()->getVertexId());
-				zVector e1 = v1 - v;
+				zVector v1 = curEdge.getVertex().getVertexPosition();
+				zVector e1 = v1 - vPos;
 				e1.normalize();
 
 				norm += e1 ^ up;
 			}
 
-			if (curEdge->getPrev())
+			if (curEdge.getPrev().isActive())
 			{
-				zVector v2 = currentStream.fnGraph.getVertexPosition(curEdge->getPrev()->getSym()->getVertex()->getVertexId());
-				zVector e2 = v - v2;
+				zVector v2 = curEdge.getPrev().getStartVertex().getVertexPosition();
+				zVector e2 = vPos - v2;
 				e2.normalize();
 
 				norm += e2 ^ up;
@@ -944,11 +947,11 @@ namespace zSpace
 			norm *= 0.5;
 			norm.normalize();
 
-			zVector tempSeedPoint = v + (norm* *dSep);
+			zVector tempSeedPoint = vPos + (norm* *dSep);
 			bool out = checkValidSeedPosition(tempSeedPoint, *dSep);
 			if (out)  seedPoints.push_back(tempSeedPoint);
 
-			tempSeedPoint = v + (norm* *dSep*-1);
+			tempSeedPoint = vPos + (norm* *dSep*-1);
 			out = checkValidSeedPosition(tempSeedPoint, *dSep);
 			if (out)  seedPoints.push_back(tempSeedPoint);
 
@@ -1265,16 +1268,18 @@ namespace zSpace
 		*/
 		void getSeedPoints_Influence(zFnMeshField<double>& fnInfluenceField, zStream& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
 		{
-			if (currentStream.fnGraph.checkVertexValency(vertexId, 1)) return;
+			zItGraphVertex v(*currentStream.graphObj, vertexId);
+
+			if (v.checkVertexValency(1)) return;
 
 			zVector up(0, 0, 1);
 			zVector norm;
 
-			zVector v = currentStream.fnGraph.getVertexPosition(vertexId);
+			zVector vPos = v.getVertexPosition();
 
 			// get dSep
 			double influenceFieldValue;
-			fnInfluenceField.getFieldValue(v, zFieldNeighbourWeighted, influenceFieldValue);
+			fnInfluenceField.getFieldValue(vPos, zFieldNeighbourWeighted, influenceFieldValue);
 
 			double power = coreUtils.ofMap(influenceFieldValue, -1.0, 1.0, min_Power, max_Power);
 			power = floor(power);
@@ -1283,23 +1288,23 @@ namespace zSpace
 
 
 
-			zEdge *curEdge = currentStream.fnGraph.getEdge(vertexId, zVertexData);
+			zItGraphHalfEdge curEdge = v.getHalfEdge();
 
 
 
-			if (curEdge->getVertex())
+			if (curEdge.getVertex().isActive())
 			{
-				zVector v1 = currentStream.fnGraph.getVertexPosition(curEdge->getVertex()->getVertexId());
-				zVector e1 = v1 - v;
+				zVector v1 = curEdge.getVertex().getVertexPosition();
+				zVector e1 = v1 - vPos;
 				e1.normalize();
 
 				norm += e1 ^ up;
 			}
 
-			if (curEdge->getPrev())
+			if (curEdge.getPrev().isActive())
 			{
-				zVector v2 = currentStream.fnGraph.getVertexPosition(curEdge->getPrev()->getSym()->getVertex()->getVertexId());
-				zVector e2 = v - v2;
+				zVector v2 = curEdge.getPrev().getStartVertex().getVertexPosition();
+				zVector e2 = vPos - v2;
 				e2.normalize();
 
 				norm += e2 ^ up;
@@ -1311,11 +1316,11 @@ namespace zSpace
 			norm *= 0.5;
 			norm.normalize();
 
-			zVector tempSeedPoint = v + (norm*distSep);
+			zVector tempSeedPoint = vPos + (norm*distSep);
 			bool out = checkValidSeedPosition(tempSeedPoint, distSep);
 			if (out)  seedPoints.push_back(tempSeedPoint);
 
-			tempSeedPoint = v + (norm*distSep*-1);
+			tempSeedPoint = vPos + (norm*distSep*-1);
 			out = checkValidSeedPosition(tempSeedPoint, distSep);
 			if (out)  seedPoints.push_back(tempSeedPoint);
 

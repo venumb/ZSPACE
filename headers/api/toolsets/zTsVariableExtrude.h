@@ -110,17 +110,14 @@ namespace zSpace
 				fnMesh.getVertexPositions(positions);			
 			}
 
-			for (int i = 0; i < fnMesh.numPolygons(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
 				
 
-				vector<int> fVerts;
-				fnMesh.getVertices(i, zFaceData, fVerts);
+				vector<zItMeshVertex> fVerts;
+				f.getVertices(fVerts);			
 
-				vector<zVector> fVertPositions;
-				fnMesh.getVertexPositions(i, zFaceData, fVertPositions);
-
-				zColor faceCol = fnMesh.getFaceColor(i);
+				zColor faceCol = f.getFaceColor();
 				double faceVal = faceCol.r;
 				zColor newCol(faceCol.r, 0, 0, 1);
 
@@ -130,20 +127,21 @@ namespace zSpace
 				int numVerts = positions.size();
 
 				// append new positions
-				for (int j = 0; j < fVertPositions.size(); j++)
+				for (auto &fV : fVerts)
 				{
-					zVector dir = fCenters[i] - fVertPositions[j];
+					zVector pos = fV.getVertexPosition();
+					zVector dir = fCenters[f.getId()] - pos;
 					double len = dir.length();
 					dir.normalize();
 
 					if (useVertexColor)
 					{
-						zColor vertexCol = fnMesh.getVertexColor(fVerts[j]);
+						zColor vertexCol = fV.getVertexColor();
 
 						extrudeVal = coreUtils.ofMap(vertexCol.r, 0.0, 1.0, minVal, maxVal);
 					}
 
-					zVector newPos = fVertPositions[j] + dir * len * extrudeVal;
+					zVector newPos = pos + dir * len * extrudeVal;
 
 					positions.push_back(newPos);
 				}
@@ -156,8 +154,8 @@ namespace zSpace
 						int currentId = j;
 						int nextId = (j + 1) % fVerts.size();
 
-						polyConnects.push_back(fVerts[currentId]);
-						polyConnects.push_back(fVerts[nextId]);
+						polyConnects.push_back(fVerts[currentId].getId());
+						polyConnects.push_back(fVerts[nextId].getId());
 						polyConnects.push_back(numVerts + nextId);
 						polyConnects.push_back(numVerts + currentId);
 
@@ -172,7 +170,7 @@ namespace zSpace
 				else
 				{
 
-					for (int j = 0; j < fVertPositions.size(); j++)
+					for (int j = 0; j < fVerts.size(); j++)
 					{
 						int currentId = j;
 						polyConnects.push_back(numVerts + currentId);
@@ -180,7 +178,7 @@ namespace zSpace
 
 					if (assignColor) faceColors.push_back(newCol);
 
-					polyCounts.push_back(fVertPositions.size());
+					polyCounts.push_back(fVerts.size());
 
 				}
 
@@ -227,58 +225,58 @@ namespace zSpace
 			{
 				vector<vector<int>> inVertex_newVertex;
 
-				for (int i = 0; i < fnMesh.numVertices(); i++)
+				for (zItMeshVertex v(*meshObj); !v.end(); v.next())				
 				{
 					vector<int> temp;
 
-					if (fnMesh.onBoundary(i, zVertexData))
+					if (v.onBoundary())
 					{
 
 						temp.push_back(positions.size());
 
 						
-						positions.push_back(fnMesh.getVertexPosition(i));
+						positions.push_back(v.getVertexPosition());
 
 						if (assignColor)
 						{
-							vertexColors.push_back(fnMesh.getVertexColor(i));
+							vertexColors.push_back(v.getVertexColor());
 						}
 
-						double vertexVal = fnMesh.getVertexColor(i).r;
-						zColor newCol(fnMesh.getVertexColor(i).r, 0, 0, 1);
+						double vertexVal = v.getVertexColor().r;
+						zColor newCol(v.getVertexColor().r, 0, 0, 1);
 
 						double extrudeVal = coreUtils.ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
 
 
-						zEdge *vEdge;
+						zItMeshHalfEdge vEdge;
 
-						vector<int> cEdges;
-						fnMesh.getConnectedEdges(i, zVertexData, cEdges);
+						vector<zItMeshHalfEdge> cEdges;
+						v.getConnectedHalfEdges(cEdges);
 
-						for (int j = 0; j < cEdges.size(); j++)
+						for (auto &he : cEdges)
 						{
-							if (fnMesh.onBoundary(cEdges[j], zEdgeData))
+							if (he.onBoundary())
 							{
-								vEdge = fnMesh.getEdge(cEdges[j],zEdgeData);
+								vEdge = he;
 							}
 						}
 
 						//if (vEdge == NULL) continue;
 
-						int next = vEdge->getVertex()->getVertexId();;
-						int prev = vEdge->getPrev()->getSym()->getVertex()->getVertexId();
+						zItMeshVertex next = vEdge.getVertex();;
+						zItMeshVertex prev = vEdge.getPrev().getSym().getVertex();
 
-						zVector vNorm = fnMesh.getVertexNormal(i);
+						zVector vNorm = v.getVertexNormal();
 
-						zVector Ori = fnMesh.getVertexPosition(i);;
+						zVector Ori = v.getVertexPosition();;
 
-						zVector v1 = Ori - fnMesh.getVertexPosition(prev);
+						zVector v1 = Ori - prev.getVertexPosition();
 						v1.normalize();
 
 						zVector n1 = v1 ^ vNorm;
 						n1.normalize();
 
-						zVector v2 = fnMesh.getVertexPosition(next) - Ori;
+						zVector v2 = next.getVertexPosition() - Ori;
 						v2.normalize();
 
 						zVector n2 = v2 ^ vNorm;
@@ -310,7 +308,7 @@ namespace zSpace
 
 						temp.push_back(positions.size());
 						positions.push_back(offPos);
-						if (assignColor) vertexColors.push_back(fnMesh.getVertexColor(i));
+						if (assignColor) vertexColors.push_back(v.getVertexColor());
 
 
 
@@ -321,13 +319,12 @@ namespace zSpace
 				}
 
 				// poly connects 
-
-				for (int i = 0; i < fnMesh.numEdges(); i++)
+				for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
 				{
-					if (fnMesh.onBoundary(i, zEdgeData))
+					if (he.onBoundary())
 					{
 						vector<int> eVerts;
-						fnMesh.getVertices(i, zEdgeData, eVerts);
+						he.getVertices(eVerts);
 
 						polyConnects.push_back(inVertex_newVertex[eVerts[0]][0]);
 						polyConnects.push_back(inVertex_newVertex[eVerts[1]][0]);
@@ -345,50 +342,49 @@ namespace zSpace
 			if (!keepExistingFaces)
 			{
 
-
-				for (int i = 0; i < fnMesh.numVertices(); i++)
+				for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 				{
 					vector<int> temp;
 
-					if (fnMesh.onBoundary(i, zVertexData))
+					if (v.onBoundary())
 					{
 
-						double vertexVal = fnMesh.getVertexColor(i).r;
-						zColor newCol(fnMesh.getVertexColor(i).r, 0, 0, 1);
+						double vertexVal = v.getVertexColor().r;
+						zColor newCol(v.getVertexColor().r, 0, 0, 1);
 
 						double extrudeVal = coreUtils.ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
 
 
-						zEdge *vEdge = fnMesh.getEdge(i, zVertexData);  
+						zItMeshHalfEdge vEdge = v.getHalfEdge();  
 
-						vector<int> cEdges;
-						fnMesh.getConnectedEdges(i, zVertexData, cEdges);
+						vector<zItMeshHalfEdge> cEdges;
+						v.getConnectedHalfEdges(cEdges);
 
-						for (int j = 0; j < cEdges.size(); j++)
+						for (auto &he: cEdges)
 						{
-							if (fnMesh.onBoundary(cEdges[j], zEdgeData))
+							if (he.onBoundary())
 							{
-								vEdge =fnMesh.getEdge(cEdges[j],zEdgeData) ;
+								vEdge =he ;
 							}
 						}
 
 						//if (vEdge == NULL) continue;
 
 
-						int next = vEdge->getVertex()->getVertexId();;
-						int prev = vEdge->getPrev()->getSym()->getVertex()->getVertexId();
+						zItMeshVertex next = vEdge.getVertex();;
+						zItMeshVertex prev = vEdge.getPrev().getSym().getVertex();
 
-						zVector vNorm = fnMesh.getVertexNormal(i);
+						zVector vNorm = v.getVertexNormal();
 
-						zVector Ori = fnMesh.getVertexPosition(i); 
+						zVector Ori = v.getVertexPosition(); 
 
-						zVector v1 = Ori - fnMesh.getVertexPosition(prev);  
+						zVector v1 = Ori - prev.getVertexPosition();
 						v1.normalize();
 
 						zVector n1 = v1 ^ vNorm;
 						n1.normalize();
 
-						zVector v2 = fnMesh.getVertexPosition(next) - Ori;
+						zVector v2 = next.getVertexPosition() - Ori;
 						v2.normalize();
 
 						zVector n2 = v2 ^ vNorm;
@@ -420,26 +416,25 @@ namespace zSpace
 
 
 						positions.push_back(offPos);
-						if (assignColor) vertexColors.push_back(fnMesh.getVertexColor(i));
+						if (assignColor) vertexColors.push_back(v.getVertexColor());
 
 					}
 
 					else
 					{
-						positions.push_back(fnMesh.getVertexPosition(i));
-						if (assignColor) vertexColors.push_back(fnMesh.getVertexColor(i));
+						positions.push_back(v.getVertexPosition());
+						if (assignColor) vertexColors.push_back(v.getVertexColor());
 					}
 
 
 				}
 
 				// poly connects 
-
-				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				for (zItMeshFace f(*meshObj); !f.end(); f.next())				
 				{
 
 					vector<int> fVerts;
-					fnMesh.getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					for (int j = 0; j < fVerts.size(); j++)
 					{
@@ -495,27 +490,27 @@ namespace zSpace
 
 			if (assignColor)  fnMesh.getVertexColors(vertexColors);
 
-			for (int i = 0; i < fnMesh.numVertices(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())			
 			{
-				double vertexVal = fnMesh.getVertexColor(i).r;
-				zColor newCol(fnMesh.getVertexColor(i).r, 0, 0, 1);
+				double vertexVal = v.getVertexColor().r;
+				zColor newCol(v.getVertexColor().r, 0, 0, 1);
 
 				double extrudeVal = coreUtils.ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
 
-				zVector vNormal = fnMesh.getVertexNormal(i);
+				zVector vNormal = v.getVertexNormal();
 				vNormal.normalize();
 
-				positions.push_back(fnMesh.getVertexPosition(i) + vNormal * extrudeVal);
+				positions.push_back(v.getVertexPosition() + vNormal * extrudeVal);
 
-				if (assignColor) vertexColors.push_back(fnMesh.getVertexColor(i));
+				if (assignColor) vertexColors.push_back(v.getVertexColor());
 
 			}
 
 			// bottom and top face connectivity
-			for (int i = 0; i < fnMesh.numPolygons(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())			
 			{
 				vector<int> fVerts;
-				fnMesh.getVertices(i, zFaceData, fVerts);
+				f.getVertices( fVerts);
 
 				// top face
 				for (int j = 0; j < fVerts.size(); j++)
@@ -535,12 +530,12 @@ namespace zSpace
 			}
 
 			// boundary thickness
-			for (int i = 0; i < fnMesh.numEdges(); i++)
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())			
 			{
-				if (fnMesh.onBoundary(i, zEdgeData))
+				if (he.onBoundary())
 				{
 					vector<int> eVerts;
-					fnMesh.getVertices(i, zEdgeData, eVerts);
+					he.getVertices(eVerts);
 
 					polyConnects.push_back(eVerts[0]);
 					polyConnects.push_back(eVerts[1]);

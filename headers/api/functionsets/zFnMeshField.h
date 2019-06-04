@@ -866,8 +866,16 @@ namespace zSpace
 		{
 			if (index > numFieldValues()) throw std::invalid_argument(" error: index out of bounds.");
 			
-			if(setValuesperVertex) 	return fnMesh.getVertexPosition(index);
-			else return fnMesh.getCenter(index, zFaceData);
+			if (setValuesperVertex)
+			{
+				zItMeshVertex v(*fieldObj, index);
+				return v.getVertexPosition();
+			}
+			else
+			{
+				zItMeshFace f(*fieldObj, index);
+				return f.getCenter();
+			}
 		}
 
 		/*! \brief This method gets all the positions of the field.
@@ -1945,7 +1953,7 @@ namespace zSpace
 				double d = 0.0;
 				double tempDist = 10000;
 
-				for (int j = 0; j < inFnMesh.numEdges(); j++)
+				for (int j = 0; j < inFnMesh.numHalfEdges(); j+= 2)
 				{
 
 					int e0 = inFnMesh.getEndVertex(j);   
@@ -2001,7 +2009,7 @@ namespace zSpace
 				double d = 0.0;
 				double tempDist = 10000;
 
-				for (int j = 0; j < inFnGraph.numEdges(); j++)
+				for (int j = 0; j < inFnGraph.numHalfEdges(); j+= 2)
 				{
 
 					int e0 = inFnGraph.getEndVertex(j);
@@ -2434,7 +2442,7 @@ namespace zSpace
 			vector<int> edgetoIsoGraphVertexId;
 
 			// compute positions
-			for (int i = 0; i < fnMesh.numEdges(); i += 2)
+			for (int i = 0; i < fnMesh.numHalfEdges(); i += 2)
 			{
 				edgetoIsoGraphVertexId.push_back(-1);
 				edgetoIsoGraphVertexId.push_back(-1);
@@ -4428,10 +4436,10 @@ namespace zSpace
 
 					fnMesh.computeVertexColorfromFaceColor();
 
-					for (int i = 0; i < fnMesh.numVertices(); i++)
+					for (zItMeshVertex v(*fieldObj); !v.end(); v.next())					
 					{
 						vector<int> cFaces;
-						fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+						v.getConnectedFaces(cFaces);
 
 						double val;
 
@@ -4486,10 +4494,10 @@ namespace zSpace
 
 					fnMesh.computeVertexColorfromFaceColor();
 
-					for (int i = 0; i < fnMesh.numVertices(); i++)
+					for (zItMeshVertex v(*fieldObj); !v.end(); v.next())
 					{
 						vector<int> cFaces;
-						fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+						v.getConnectedFaces(cFaces);
 
 						double val;
 
@@ -4681,10 +4689,10 @@ namespace zSpace
 		{
 			if (fnMesh.numPolygons() == fValues.size())
 			{
-				for (int i = 0; i < fnMesh.numVertices(); i++)
+				for (zItMeshVertex v(*fieldObj); !v.end(); v.next())
 				{
 					vector<int> cFaces;
-					fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+					v.getConnectedFaces(cFaces);
 					double val;
 
 					for (int j = 0; j < cFaces.size(); j++)
@@ -4694,7 +4702,7 @@ namespace zSpace
 
 					val /= cFaces.size();
 
-					setFieldValue(val, i);
+					setFieldValue(val, v.getId());
 				}
 
 			}
@@ -4714,10 +4722,10 @@ namespace zSpace
 		{
 			if (fnMesh.numVertices() == fValues.size())
 			{
-				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				for (zItMeshFace f(*fieldObj); !f.end(); f.next())
 				{
 					vector<int> fVerts;
-					fnMesh.getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 					double val;
 
 					for (int j = 0; j < fVerts.size(); j++)
@@ -4727,7 +4735,7 @@ namespace zSpace
 
 					val /= fVerts.size();
 
-					setFieldValue(val, i);
+					setFieldValue(val, f.getId());
 				}
 
 			}
@@ -4756,10 +4764,10 @@ namespace zSpace
 		{
 			if (fnMesh.numPolygons() == fValues.size())
 			{
-				for (int i = 0; i < fnMesh.numVertices(); i++)
+				for (zItMeshVertex v(*fieldObj); !v.end(); v.next())
 				{
 					vector<int> cFaces;
-					fnMesh.getConnectedFaces(i, zVertexData, cFaces);
+					v.getConnectedFaces(cFaces);
 					zVector val;
 
 					for (int j = 0; j < cFaces.size(); j++)
@@ -4769,7 +4777,7 @@ namespace zSpace
 
 					val /= cFaces.size();
 
-					setFieldValue(val, i);
+					setFieldValue(val, v.getId());
 				}
 
 			}
@@ -4789,10 +4797,10 @@ namespace zSpace
 		{
 			if (fnMesh.numVertices() == fValues.size())
 			{
-				for (int i = 0; i < fnMesh.numPolygons(); i++)
+				for (zItMeshFace f(*fieldObj); !f.end(); f.next())
 				{
 					vector<int> fVerts;
-					fnMesh.getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 					zVector val;
 
 					for (int j = 0; j < fVerts.size(); j++)
@@ -4802,7 +4810,7 @@ namespace zSpace
 
 					val /= fVerts.size();
 
-					setFieldValue(val, i);
+					setFieldValue(val, f.getId());
 				}
 
 			}

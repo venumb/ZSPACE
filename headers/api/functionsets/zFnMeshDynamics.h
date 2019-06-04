@@ -32,9 +32,7 @@ namespace zSpace
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
-		
-		/*!	\brief pointer to a mesh object  */
-		zObjMesh *meshObj;
+				
 
 		/*!	\brief container of particle function set  */
 		vector<zFnParticle> fnParticles;	
@@ -104,44 +102,7 @@ namespace zSpace
 		void clear() override
 		{
 
-			if (meshObj->mesh.vertices != NULL)
-			{
-				delete[] meshObj->mesh.vertices;
-				meshObj->mesh.vertices = NULL;
-
-				meshObj->mesh.vertexActive.clear();
-				meshObj->mesh.vertexPositions.clear();
-				meshObj->mesh.vertexNormals.clear();
-				meshObj->mesh.vertexColors.clear();
-				meshObj->mesh.vertexWeights.clear();
-
-				meshObj->mesh.positionVertex.clear();
-				meshObj->mesh.verticesEdge.clear();
-
-
-			}
-
-			if (meshObj->mesh.edges != NULL)
-			{
-				delete[] meshObj->mesh.edges;
-				meshObj->mesh.edges = NULL;
-
-				meshObj->mesh.edgeActive.clear();
-				meshObj->mesh.edgeColors.clear();
-				meshObj->mesh.edgeWeights.clear();
-
-			}
-
-
-			if (meshObj->mesh.faces != NULL)
-			{
-				delete[]meshObj->mesh.faces;
-				meshObj->mesh.faces = NULL;
-
-				meshObj->mesh.faceActive.clear();
-				meshObj->mesh.faceColors.clear();
-				meshObj->mesh.faceNormals.clear();
-			}
+			zFnMesh::clear();
 
 			fnParticles.clear();
 			particlesObj.clear();
@@ -162,15 +123,14 @@ namespace zSpace
 			fnParticles.clear();
 			particlesObj.clear();
 			
-
-			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
 				bool fixed = false;
 
-				if (fixBoundary) fixed = (onBoundary(i, zVertexData));
+				if (fixBoundary) fixed = (v.onBoundary());
 	
 				zObjParticle p;
-				p.particle = zParticle(meshObj->mesh.vertexPositions[i], fixed);
+				p.particle = zParticle(*v.getRawVertexPosition(), fixed);
 				particlesObj.push_back(p);
 
 				if (!fixed) setVertexColor(zColor(0, 0, 1, 1));
@@ -222,22 +182,26 @@ namespace zSpace
 		void addEdgeForce(const vector<double> &weights = vector<double>())
 		{
 
-			if (weights.size() > 0 && weights.size() != meshObj->mesh.vertexActive.size()) throw std::invalid_argument("cannot apply edge force.");
+			if (weights.size() > 0 && weights.size() != meshObj->mesh.vertices.size()) throw std::invalid_argument("cannot apply edge force.");
 			
-			for (int i = 0; i < meshObj->mesh.vertexActive.size(); i++)
+			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
-				if (meshObj->mesh.vertexActive[i])
+				int i = v.getId();
+
+				if (v.isActive())
 				{
 					if (fnParticles[i].getFixed()) continue;
 
-					vector<int> cEdges;
-					getConnectedEdges(i, zVertexData, cEdges);
+					vector<zItMeshHalfEdge> cEdges;
+					v.getConnectedHalfEdges( cEdges);
 
 					zVector eForce;
 
-					for (int j = 0; j < cEdges.size(); j++)
+					for (auto &he: cEdges)
 					{
-						int v1 = meshObj->mesh.edges[cEdges[j]].getVertex()->getVertexId();
+						
+							 
+						int v1 = he.getVertex().getId(); 
 						zVector e = meshObj->mesh.vertexPositions[v1] - meshObj->mesh.vertexPositions[i];
 
 						double len = e.length();
@@ -266,18 +230,20 @@ namespace zSpace
 		*/
 		void addPlanarityForce(vector<double> &fVolumes, vector<zVector> fCenters, double tolerance = 0.001)
 		{
-			if (fVolumes.size() != meshObj->mesh.faceActive.size()) throw std::invalid_argument("sizes of face Volumes and mesh faces dont match.");
-			if (fCenters.size() != meshObj->mesh.faceActive.size()) throw std::invalid_argument("sizes of face Centers and mesh faces dont match.");
+			if (fVolumes.size() != meshObj->mesh.faces.size()) throw std::invalid_argument("sizes of face Volumes and mesh faces dont match.");
+			if (fCenters.size() != meshObj->mesh.faces.size()) throw std::invalid_argument("sizes of face Centers and mesh faces dont match.");
 
-			for (int i = 0; i < meshObj->mesh.faceActive.size(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())
 			{
-				if (meshObj->mesh.faceActive[i] && fVolumes[i] > tolerance)
+				int i = f.getId();
+
+				if (f.isActive() && fVolumes[i] > tolerance)
 				{
 					vector<int> fVerts;
-					getVertices(i, zFaceData, fVerts);
+					f.getVertices(fVerts);
 
 					vector<zVector> fVertPositions;
-					getVertexPositions(i, zFaceData, fVertPositions);
+					f.getVertexPositions(fVertPositions);
 
 					zVector fNormal = meshObj->mesh.faceNormals[i];
 

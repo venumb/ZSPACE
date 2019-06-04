@@ -846,7 +846,7 @@ namespace zSpace
 			
 			
 			
-			out.graph = zGraph(positions, edgeConnects);
+			out.graph.create(positions, edgeConnects);
 
 
 			// attributes
@@ -1024,7 +1024,7 @@ namespace zSpace
 			//printf("\n positions: %i , polyCounts: %i, polyConnects: %i  ", positions.size(), polyCounts.size(), polyConnects.size());
 			
 			
-			out.mesh = zMesh(positions, polyCounts, polyConnects);
+			out.mesh.create(positions, polyCounts, polyConnects);
 
 			
 
@@ -1086,22 +1086,22 @@ namespace zSpace
 		*	\param		[in]	inGraph		- input graph.
 		*	\since version 0.0.1
 		*/
-		void updateScalars_GraphConnectivity(zFnGraph& fnGraph)
+		void updateScalars_GraphConnectivity(zObjGraph& inGraph)
 		{
 			for (int i = 0; i < fnField.numFieldValues(); i++)
 			{
 				fnField.setFieldValue(0.0, i);
 			}
 
-			for (int i = 0; i < fnGraph.numVertices(); i++)
+			for(zItGraphVertex v(inGraph); !v.end(); v.next())		
 			{
 				int fieldIndex;
-				zVector pos = fnGraph.getVertexPosition(i);
+				zVector pos = v.getVertexPosition();
 				bool boundsCheck = fnField.getIndex(pos, fieldIndex);
 
 				if (boundsCheck) continue;
 
-				int valence = fnGraph.getVertexValence(i);
+				int valence = v.getVertexValence();
 
 				fnField.setFieldValue((double)valence, fieldIndex);
 

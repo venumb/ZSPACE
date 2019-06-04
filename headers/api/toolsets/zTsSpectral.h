@@ -250,10 +250,10 @@ namespace zSpace
 			{
 				vertexRing.clear();
 
-				for (int i = 0; i < n_v; i++)
+				for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 				{
 					vector<int> cVertices;
-					fnMesh.getConnectedVertices(i, zVertexData, cVertices);
+					v.getConnectedVertices(cVertices);
 
 					vertexRing.push_back(cVertices);
 				}

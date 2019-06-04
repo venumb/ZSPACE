@@ -69,6 +69,9 @@ namespace zSpace
 		/*!	\brief container of form particle function set  */
 		vector<zFnParticle> fnFormParticles;
 
+		/*!	\brief container storing the target for form edges.  */
+		vector<zVector> targetEdges_form;
+
 		//--------------------------
 		//---- POLYTOPAL ATTRIBUTES
 		//--------------------------
@@ -216,11 +219,15 @@ namespace zSpace
 
 			formGraphVertex_volumeFace.clear();
 
+			
 
 			for (int j = 0; j < fnVolumes.size(); j++)
 			{
+
+				zColor* faceColors = fnVolumes[j].getRawFaceColors();
+
 				int n_v = fnVolumes[j].numVertices();
-				int n_e = fnVolumes[j].numEdges();
+				int n_e = fnVolumes[j].numHalfEdges();
 				int n_f = fnVolumes[j].numPolygons();
 
 				zVector volCenter = fnVolumes[j].getCenter();
@@ -251,7 +258,7 @@ namespace zSpace
 
 				for (int i = 0; i < fCenters.size(); i++)
 				{
-					if (fnVolumes[j].getFaceColor(i).r != 1.0)
+					if (faceColors[i].r != 1.0)
 					{
 						int vId_fCenter = -2;
 						string hashKey_volface = (to_string(j) + "," + to_string(i));
@@ -303,11 +310,12 @@ namespace zSpace
 
 
 			// compute intersection point
-			for (int i = 0; i < fnForm.numVertices(); i++)
+			for (zItGraphVertex v(*formObj); !v.end(); v.next())
 			{
+				int i = v.getId();
 
-				vector<int> cVerts;
-				fnForm.getConnectedVertices(i, zVertexData, cVerts);
+				vector<zItGraphVertex> cVerts;
+				v.getConnectedVertices(cVerts);
 
 
 				int volId_V = formGraphVertex_volumeMesh[i * 2];
@@ -317,18 +325,20 @@ namespace zSpace
 
 				if (cVerts.size() == 2)
 				{
-					zVector normF1 = fnVolumes[volId_V].getFaceNormal(faceId_V);
-					zVector currentPos = fnForm.getVertexPosition(i);
+					zItMeshFace volume_face(*volumeObjs[volId_V], faceId_V);
 
-					zVector p1 = fnForm.getVertexPosition(cVerts[0]);
-					zVector p2 = fnForm.getVertexPosition(cVerts[1]);
+					zVector normF1 = volume_face.getFaceNormal();
+					zVector currentPos = v.getVertexPosition();
+
+					zVector p1 = cVerts[0].getVertexPosition();
+					zVector p2 = cVerts[1].getVertexPosition();
 
 					zVector interPt;
 					bool chkIntersection = coreUtils.line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
 
 					if (chkIntersection)
 					{
-						fnForm.setVertexPosition(i, interPt);
+						v.setVertexPosition(interPt);
 
 						double distTOp1 = interPt.distanceTo(p1);
 						double distTOp2 = interPt.distanceTo(p2);
@@ -337,7 +347,7 @@ namespace zSpace
 						double wt1 = distTOp1 / distp12;
 						double wt2 = distTOp2 / distp12;
 
-						formGraphVertex_Offsets[i] = (formGraphVertex_Offsets[cVerts[0]] * wt1) + (formGraphVertex_Offsets[cVerts[1]] * wt2);
+						formGraphVertex_Offsets[i] = (formGraphVertex_Offsets[cVerts[0].getId()] * wt1) + (formGraphVertex_Offsets[cVerts[1].getId()] * wt2);
 					}
 				}
 				
@@ -367,199 +377,39 @@ namespace zSpace
 		//--------------------------
 			
 
-		/*! \brief This method updates the form diagram.
+		/*! \brief This method updates the form diagram to find equilibrium shape..
 		*
+		*	\param		[in]	minmax_Edge					- minimum value of the target edge as a percentage of maximum target edge.
 		*	\param		[in]	dT							- integration timestep.
 		*	\param		[in]	type						- integration type - zEuler or zRK4.
-		*	\param		[in]	tolerance					- tolerance for force.
+		*	\param		[in]	numIterations				- number of iterations.
+		*	\param		[in]	angleTolerance				- tolerance for angle.
+		*	\param		[in]	colorEdges					- colors edges based on angle deviation if true.
+		*	\param		[in]	printInfo					- prints angle deviation info if true.
 		*	\return				bool						- true if the all the forces are within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool updateForm(double dT, zIntergrationType type, double tolerance = 0.001)
+		bool equilibrium(bool computeTargets, double minmax_Edge, double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = 0.001, bool colorEdges = false, bool printInfo = false)
 		{
-			bool out = true;
 
-			if (fnFormParticles.size() != fnForm.numVertices())
+			if (computeTargets)
 			{
-				fnFormParticles.clear();
-				formParticlesObj.clear();
+				computeFormTargets();
 
-
-				for (int i = 0; i < fnForm.numVertices(); i++)
-				{
-					bool fixed = false;
-
-
-					zObjParticle p;
-					p.particle = zParticle(formObj->graph.vertexPositions[i], fixed);
-					formParticlesObj.push_back(p);
-
-				}
-
-				for (int i = 0; i < formParticlesObj.size(); i++)
-				{
-					fnFormParticles.push_back(zFnParticle(formParticlesObj[i]));
-				}
+				computeTargets = !computeTargets;
 			}
 
-			if (volume_fCenters.size() != fnVolumes.size()) computeForcesFaceCenters();
+			updateFormDiagram(minmax_Edge, dT, type, numIterations);
 
-			vector<double> edgeLengths;
-			fnForm.getEdgeLengths(edgeLengths);
-
-			// get positions on the graph at volume centers only - 0 to inputVolumemesh size vertices of the graph
-			for (int i = 0; i < fnFormParticles.size(); i++)
-			{
-
-
-				if (fnFormParticles[i].getFixed()) continue;
-
-				// get position of vertex
-				zVector V = fnForm.getVertexPosition(i);
-
-				int volId_V = formGraphVertex_volumeMesh[i * 2];
-				int faceId_V = formGraphVertex_volumeFace[i * 2];
-
-				// get connected vertices
-				vector<int> cEdges;
-				fnForm.getConnectedEdges(i, zVertexData, cEdges);
-
-				zVector forceV;
-
-				// perpenducalrity force
-				for (int j = 0; j < cEdges.size(); j++)
-				{
-					// get vertex 
-					int v1_ID = fnForm.getEndVertexIndex(cEdges[j]);
-
-					// get volume and face Id of the connected Vertex
-					int volId = formGraphVertex_volumeMesh[v1_ID * 2];
-					int faceId = formGraphVertex_volumeFace[v1_ID * 2];
-					if (faceId == -1)
-					{
-						//printf("\n working");
-						volId = volId_V;
-						faceId = faceId_V;
-					}
-
-
-					if (fnForm.checkVertexValency(v1_ID, 2)) v1_ID = fnForm.getNext(cEdges[j])->getVertex()->getVertexId();
-					zVector V1 = fnForm.getVertexPosition(v1_ID);
-
-					zVector e = V - V1;
-					double len = e.length();;
-					e.normalize();
-
-
-
-					// get face normal
-					//printf("\n %i faceId %i numP: %i ", volId, faceId, fnForces[volId].numPolygons());
-					zVector fNorm = fnVolumes[volId].getFaceNormal(faceId);
-					fNorm.normalize();
-
-
-					// flipp if edge and face normal are in opposite direction
-					if (e*fNorm < 0) fNorm *= -1;
-
-					// get projected position of vertex along face normal 
-					zVector projV = V1 + (fNorm * len);
-
-					zVector f = (projV - V) * 0.5;
-
-					forceV += f;
-
-
-				}
-
-
-				// keep it in plane force
-				// get volume and face Id of the connected Vertex		
-
-				if (faceId_V != -1 && formGraphVertex_volumeFace[i * 2 + 1] == -1)
-				{
-					// add force to keep point in the plane of the face
-
-					zVector fNorm = fnVolumes[volId_V].getFaceNormal(faceId_V);
-					fNorm.normalize();
-
-					zVector e = V - volume_fCenters[volId_V][faceId_V];
-
-					double minDist = coreUtils.minDist_Point_Plane(V, volume_fCenters[volId_V][faceId_V], fNorm);
-
-					if (minDist > 0)
-					{
-						if (e * fNorm >= 0)	fNorm *= -1;
-
-
-						forceV += (fNorm * minDist);
-					}
-
-					//forceV += (e * -1);
-
-				}
-
-				// common face vertex between volumne centers
-				if (faceId_V != -1 && formGraphVertex_volumeFace[i * 2 + 1] != -1)
-				{
-					fnFormParticles[i].setFixed(true);
-					fnForm.setVertexColor(i, zColor(1, 0, 0, 1));
-
-					forceV = zVector();
-				}
-
-
-				if (forceV.length() > tolerance)
-				{
-					out = false;
-				}
-
-				// add forces to particle
-				fnFormParticles[i].addForce(forceV);
-
-			}
-			
-			// update Particles
-			for (int i = 0; i < fnFormParticles.size(); i++)
-			{
-				fnFormParticles[i].integrateForces(dT, type);
-				fnFormParticles[i].updateParticle(true);
-			}
-
-			// update fixed particle positions ( ones with a common face) 		
-			for (int i = 0; i < fnFormParticles.size(); i++)
-			{
-				if (!fnFormParticles[i].getFixed()) continue;
-
-				vector<int> cVerts;
-				fnForm.getConnectedVertices(i, zVertexData, cVerts);
-
-
-				int volId_V = formGraphVertex_volumeMesh[i * 2];
-				int faceId_V = formGraphVertex_volumeFace[i * 2];
-
-				zVector normF1 = fnVolumes[volId_V].getFaceNormal(faceId_V);
-				zVector currentPos = fnForm.getVertexPosition(i);
-
-				if (cVerts.size() == 2)
-				{
-					zVector p1 = fnForm.getVertexPosition(cVerts[0]);
-					zVector p2 = fnForm.getVertexPosition(cVerts[1]);
-
-					zVector interPt;
-					bool chkIntersection = coreUtils.line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
-
-					if (chkIntersection)
-					{
-						fnForm.setVertexPosition(i, interPt);
-					}
-				}
-
-			}
+			// check deviations
+			zDomainDouble dev;
+			bool out = checkParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 			return out;
 
 		}
-
+			
+	
 	
 
 
@@ -620,12 +470,13 @@ namespace zSpace
 				volMesh_fAreas.push_back(fAreas);
 			}
 
-			for (int i = 0; i < fnForm.numVertices(); i++)
+			for (zItGraphVertex v(*formObj); !v.end(); v.next())
 			{
+				int i = v.getId();
 				if (formGraphVertex_volumeFace[i * 2] == -1 && formGraphVertex_volumeFace[(i * 2) + 1] == -1) continue;
 
-				vector<int> cEdges;
-				fnForm.getConnectedEdges(i, zVertexData, cEdges);
+				vector<zItGraphHalfEdge> cEdges;
+				v.getConnectedHalfEdges(cEdges);
 
 				int volID = formGraphVertex_volumeMesh[i * 2];
 				int faceID = formGraphVertex_volumeFace[i * 2];
@@ -638,8 +489,8 @@ namespace zSpace
 
 					zColor col = coreUtils.blendColor(fArea, areaDomain, colDomain, zRGB);
 
-					fnForm.setEdgeWeight(cEdges[j], val);
-					fnForm.setEdgeColor(cEdges[j], col);
+					cEdges[j].getEdge().setEdgeWeight(val);
+					cEdges[j].getEdge().setEdgeColor(col);
 				}
 
 			}
@@ -663,13 +514,14 @@ namespace zSpace
 
 			fnVolumes[volumeIndex].getVertexPositions(positions);
 
+			
 
-			for (int i = 0; i < fnVolumes[volumeIndex].numPolygons(); i++)
+			for(zItMeshFace f(*volumeObjs[volumeIndex]); !f.end(); f.next())			
 			{
-				double faceVal = fnVolumes[volumeIndex].getFaceColor(i).r;				
+				double faceVal = f.getFaceColor().r;				
 
 				vector<int> fVerts;
-				fnVolumes[volumeIndex].getVertices(i, zFaceData, fVerts);
+				f.getVertices(fVerts);
 
 				if (faceVal != 1.0)
 				{
@@ -680,11 +532,13 @@ namespace zSpace
 				else
 				{
 					vector<zVector> fVertPositions;
-					fnVolumes[volumeIndex].getVertexPositions(i, zFaceData, fVertPositions);
+					f.getVertexPositions(fVertPositions);
 
-					string hashKey_f = (to_string(volumeIndex) + "," + to_string(i));
+					string hashKey_f = (to_string(volumeIndex) + "," + to_string(f.getId()));
 					int vId_fCenter = -1;
 					bool chkExists_f = coreUtils.existsInMap(hashKey_f, volumeFace_formGraphVertex, vId_fCenter);
+
+					zItGraphVertex vForm(*formObj, vId_fCenter);
 
 					double boundaryOffset = formGraphVertex_Offsets[vId_fCenter];
 
@@ -694,13 +548,13 @@ namespace zSpace
 					// append new positions
 					for (int j = 0; j < fVertPositions.size(); j++)
 					{
-						zVector dir = fCenters[i] 	 - fVertPositions[j];
+						zVector dir = fCenters[f.getId()] 	 - fVertPositions[j];
 						double len = dir.length();
 						dir.normalize();
 
 						zVector newPos = fVertPositions[j] + dir * len * boundaryOffset;
 
-						newPos += fnForm.getVertexPosition(vId_fCenter) - fCenters[i];
+						newPos += vForm.getVertexPosition() - fCenters[f.getId()];
 
 						positions.push_back(newPos);
 					}
@@ -755,7 +609,9 @@ namespace zSpace
 
 			zVector volCenter = fnVolumes[volumeIndex].getCenter();
 			
-			zVector vCenter_graphPos = fnForm.getVertexPosition(vId_volCenter);
+			zItGraphVertex vForm(*formObj, vId_volCenter);
+
+			zVector vCenter_graphPos = vForm.getVertexPosition();
 			double volCenterOffset = formGraphVertex_Offsets[vId_volCenter];
 
 			
@@ -764,20 +620,20 @@ namespace zSpace
 
 			// scale original points from scale center
 
-			for (int i = 0; i < fnPolytopals[volumeIndex].numVertices(); i++)
+			for(zItMeshVertex v(*volumeObjs[volumeIndex]); !v.end(); v.next())			
 			{
-				if (fnPolytopals[volumeIndex].onBoundary(i, zVertexData)) continue;
+				if (v.onBoundary()) continue;
 
 
-				zVector dir = volCenter - fnPolytopals[volumeIndex].getVertexPosition(i);
+				zVector dir = volCenter - v.getVertexPosition();
 				double len = dir.length();
 				dir.normalize();
 
-				zVector newPos = fnPolytopals[volumeIndex].getVertexPosition(i) + dir * len * volCenterOffset;
+				zVector newPos = v.getVertexPosition() + dir * len * volCenterOffset;
 
 				newPos += vCenter_graphPos - volCenter;
 
-				fnPolytopals[volumeIndex].setVertexPosition(i, newPos);
+				v.setVertexPosition( newPos);
 			
 
 			}			
@@ -789,7 +645,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		void computeForcesFaceCenters()
+		void computeVolumesFaceCenters()
 		{
 			volume_fCenters.clear();
 
@@ -802,7 +658,332 @@ namespace zSpace
 			}
 		}
 
+		/*! \brief This method computes the targets per edge of the form.
+		*
+		*	\since version 0.0.2
+		*/
+		void computeFormTargets()
+		{
+			targetEdges_form.clear();
+
+			for (int i = 0; i < fnForm.numHalfEdges(); i++)
+			{
+				targetEdges_form.push_back(zVector());
+			}
+
+			for (zItGraphVertex v(*formObj); !v.end(); v.next())
+			{
+				// get position of vertex
+				zVector v_i = v.getVertexPosition();
+
+				int i = v.getId();
+
+				int volId_V = formGraphVertex_volumeMesh[i * 2];
+				int faceId_V = formGraphVertex_volumeFace[i * 2];
+
+				if (v.checkVertexValency(1))	continue;
+				if (faceId_V != -1 && formGraphVertex_volumeFace[i * 2 + 1] != -1) continue;
+
+				// get connected vertices
+				vector<zItGraphHalfEdge> cEdges;
+				v.getConnectedHalfEdges(cEdges);
+
+
+				for (auto &he : cEdges)
+				{
+					// get vertex 
+					int v1_ID = he.getVertex().getId();
+
+					zVector v_j = he.getVertex().getVertexPosition();
+					zVector e_ij = v_i - v_j;
+					e_ij.normalize();
+
+					// get volume and face Id of the connected Vertex
+					int volId = formGraphVertex_volumeMesh[v1_ID * 2];
+					int faceId = formGraphVertex_volumeFace[v1_ID * 2];
+
+					zItMeshFace forceFace(*volumeObjs[volId], faceId);
+
+					zVector t_ij = forceFace.getFaceNormal();;
+					t_ij.normalize();
+
+					if (e_ij * t_ij > 0) t_ij *= -1;
+
+					targetEdges_form[he.getId()] = t_ij;
+
+					int symEdge = he.getSym().getId();
+					targetEdges_form[symEdge] = (t_ij * -1);
+
+				}
+			}
+
+		}
+
+		/*! \brief This method if the form mesh edges and corresponding target edge are parallel.
+		*
+		*	\param		[out]	minDeviation						- stores minimum deviation.
+		*	\param		[out]	maxDeviation						- stores maximum deviation.
+		*	\param		[in]	angleTolerance						- angle tolerance for parallelity.
+		*	\param		[in]	printInfo							- printf information of minimum and maximum deviation if true.
+		*	\return				bool								- true if the all the correponding edges are parallel or within tolerance.
+		*	\since version 0.0.2
+		*/
+		bool checkParallelity(zDomainDouble & deviation, double angleTolerance, bool colorEdges, bool printInfo)
+		{
+			bool out = true;
+			vector<double> deviations;
+			deviation = zDomainDouble(10000, -10000);
+
+			for (zItGraphEdge e(*formObj); !e.end(); e.next())
+			{
+				//form edge
+				int eId_form = e.getHalfEdge(0).getId();
+				zVector e_form = e.getHalfEdge(0).getHalfEdgeVector();
+				e_form.normalize();
+
+				zVector e_target = targetEdges_form[eId_form];
+
+				double a_i = e_form.angle(e_target);
+
+				deviations.push_back(a_i);
+
+
+				if (a_i > angleTolerance)
+				{
+					out = false;
+				}
+
+
+				if (a_i < deviation.min) deviation.min = a_i;
+				if (a_i > deviation.max) deviation.max = a_i;
+			}
+
+
+			if (printInfo)
+			{
+				printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, deviation.min, deviation.max);
+			}
+
+			if (colorEdges)
+			{
+				zDomainColor colDomain(zColor(180, 1, 1), zColor(0, 1, 1));
+
+				for (zItGraphEdge e(*formObj); !e.end(); e.next())
+				{
+
+					zColor col = coreUtils.blendColor(deviations[e.getId()], deviation, colDomain, zHSV);
+
+					if (deviations[e.getId()] < angleTolerance) col = zColor();
+
+					e.setEdgeColor(col);
+
+				}
+
+			}
+
+			return out;
+		}
 		
+
+		/*! \brief This method updates the form diagram.
+		*
+		*	\param		[in]	dT							- integration timestep.
+		*	\param		[in]	type						- integration type - zEuler or zRK4.
+		*	\param		[in]	tolerance					- tolerance for force.
+		*	\return				bool						- true if the all the forces are within tolerance.
+		*	\since version 0.0.2
+		*/
+		bool updateFormDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations = 1000)
+		{
+			bool out = true;
+
+			zVector* pos = fnForm.getRawVertexPositions();
+
+			if (fnFormParticles.size() != fnForm.numVertices())
+			{
+				fnFormParticles.clear();
+				formParticlesObj.clear();
+
+
+				for (zItGraphVertex v(*formObj); !v.end(); v.next())
+				{
+					bool fixed = false;
+
+					int i = v.getId();
+
+					int volId_V = formGraphVertex_volumeMesh[i * 2];
+					int faceId_V = formGraphVertex_volumeFace[i * 2];
+
+					if (faceId_V != -1 && formGraphVertex_volumeFace[i * 2 + 1] != -1)
+					{
+						fixed = true;
+						v.setVertexColor(zColor());
+					}
+
+					zObjParticle p;
+					p.particle = zParticle(formObj->graph.vertexPositions[i], fixed);
+					formParticlesObj.push_back(p);
+
+				}
+
+				for (int i = 0; i < formParticlesObj.size(); i++)
+				{
+					fnFormParticles.push_back(zFnParticle(formParticlesObj[i]));
+				}
+			}
+
+			if (volume_fCenters.size() != fnVolumes.size()) computeVolumesFaceCenters();
+
+			vector<double> edgeLengths;
+			fnForm.getEdgeLengths(edgeLengths);
+
+			double minEdgeLength, maxEdgeLength;
+			maxEdgeLength = coreUtils.zMax(edgeLengths);
+
+			minEdgeLength = maxEdgeLength * minmax_Edge;
+
+			for (int k = 0; k < numIterations; k++)
+			{
+				// get positions on the graph at volume centers only - 0 to inputVolumemesh size vertices of the graph
+				for (zItGraphVertex v(*formObj); !v.end(); v.next())
+				{
+					int i = v.getId();
+
+					if (fnFormParticles[i].getFixed()) continue;
+
+					// get position of vertex
+					zVector v_i = pos[i];
+
+					int volId_V = formGraphVertex_volumeMesh[i * 2];
+					int faceId_V = formGraphVertex_volumeFace[i * 2];
+
+					// get connected vertices
+					vector<zItGraphHalfEdge> cEdges;
+					v.getConnectedHalfEdges(cEdges);
+
+					// compute barycenter per vertex
+					zVector b_i;
+					for (auto &he : cEdges)
+					{
+						// get vertex 
+						int v1_ID = he.getVertex().getId();
+
+						zVector v_j = pos[v1_ID];
+
+						zVector e_ij = v_i - v_j;
+						double len_e_ij = e_ij.length();;
+
+						if (len_e_ij < minEdgeLength) len_e_ij = minEdgeLength;
+						if (len_e_ij > maxEdgeLength) len_e_ij = maxEdgeLength;
+
+						int symEdge = he.getSym().getId();
+
+						zVector t_ij = targetEdges_form[symEdge];;
+						t_ij.normalize();
+						if (e_ij * t_ij < 0) t_ij *= -1;
+
+						b_i += (v_j + (t_ij * len_e_ij));
+
+					}
+
+					b_i /= cEdges.size();
+
+					// compute residue force
+					zVector r_i = b_i - v_i;
+					zVector forceV = r_i;
+
+
+					// add forces to particle
+					fnFormParticles[i].addForce(forceV);
+
+				}
+
+
+				// In plane force for valence 1 vertices
+				//for (int i = 0; i < fnFormParticles.size(); i++)
+				//{
+				//	if (fnForm.checkVertexValency(i, 1))
+				//	{
+				//		// add force to keep point in the plane of the face
+
+				//		int volId_V = formGraphVertex_forceVolumeMesh[i * 2];
+				//		int faceId_V = formGraphVertex_forceVolumeFace[i * 2];
+
+				//		zVector fNorm = fnForces[volId_V].getFaceNormal(faceId_V);
+				//		fNorm.normalize();
+
+				//		zVector V = fnForm.getVertexPosition(i);
+
+				//		zVector e = V - force_fCenters[volId_V][faceId_V];
+
+				//		double minDist = coreUtils.minDist_Point_Plane(V, force_fCenters[volId_V][faceId_V], fNorm);
+
+				//		if (minDist > 0)
+				//		{
+				//			if (e * fNorm >= 0)	fNorm *= -1;
+
+
+				//			zVector forceV = (fNorm * minDist);
+				//			fnFormParticles[i].addForce(forceV);
+				//		}
+
+				//		//forceV += (e * -1);
+
+				//	}
+				//}
+
+
+				// update Particles
+				for (int i = 0; i < fnFormParticles.size(); i++)
+				{
+					fnFormParticles[i].integrateForces(dT, type);
+					fnFormParticles[i].updateParticle(true);
+				}
+
+				// update fixed particle positions ( ones with a common face) 
+				for (zItGraphVertex v(*formObj); !v.end(); v.next())
+				{
+					int i = v.getId();
+
+					if (!fnFormParticles[i].getFixed()) continue;
+
+					vector<zItGraphVertex> cVerts;
+					v.getConnectedVertices(cVerts);
+
+
+					int volId_V = formGraphVertex_volumeMesh[i * 2];
+					int faceId_V = formGraphVertex_volumeFace[i * 2];
+
+					zItMeshFace fForce(*volumeObjs[volId_V], faceId_V);
+
+					zVector normF1 = fForce.getFaceNormal();
+
+					zVector currentPos = v.getVertexPosition();
+
+					if (cVerts.size() == 2)
+					{
+						zVector p1 = cVerts[0].getVertexPosition();
+
+						zVector p2 = cVerts[1].getVertexPosition();
+
+						zVector interPt;
+
+						zVector newPos = (p1 + p2) *0.5;
+
+						v.setVertexPosition(newPos);
+
+						/*bool chkIntersection = coreUtils.line_PlaneIntersection(p1, p2, normF1, currentPos, interPt);
+
+						if (chkIntersection)
+						{
+							fnForm.setVertexPosition(i,interPt);
+						}*/
+					}
+
+				}
+
+			}
+		}
 
 	};
 	

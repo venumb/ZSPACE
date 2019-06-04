@@ -304,7 +304,7 @@ namespace zSpace
 			if (showVertices)
 			{
 
-				displayUtils->drawPoints(mesh.vertexPositions, mesh.vertexColors, mesh.vertexWeights);
+				displayUtils->drawVertices(mesh.vHandles, &mesh.vertexPositions[0], &mesh.vertexColors[0], &mesh.vertexWeights[0]);
 							
 			}
 
@@ -314,32 +314,29 @@ namespace zSpace
 			{
 				if (mesh.staticGeometry)
 				{
-					displayUtils->drawEdges(mesh.edgePositions, mesh.edgeColors, mesh.edgeWeights);
+					displayUtils->drawEdges(mesh.eHandles, mesh.edgeVertices, &mesh.vertexPositions[0], &mesh.edgeColors[0], &mesh.edgeWeights[0]);
 				}
 
 				else
 				{
-					vector<vector<zVector>> edgePositions;
+					vector<vector<int>> edgeVertices;
+					edgeVertices.assign(mesh.edges.size(), vector<int>(2) = { -1,-1 });
 
-					for (int i = 0; i < mesh.n_e; i ++)
+					for (auto &e : mesh.edges)
 					{
 
-						if (mesh.edges[i].getVertex() && mesh.edges[i + 1].getVertex())
+						if (mesh.eHandles[e.getId()].id != -1)
 						{
-							int v1 = mesh.edges[i].getVertex()->getVertexId();
-							int v2 = mesh.edges[i + 1].getVertex()->getVertexId();
+							vector<int> eVerts;
 
-							vector<zVector> vPositions;
-							vPositions.push_back(mesh.vertexPositions[v1]);
-							vPositions.push_back(mesh.vertexPositions[v2]);
-
-							edgePositions.push_back(vPositions);
-								
-						}						
-
+							edgeVertices[e.getId()][0] = e.getHalfEdge(0)->getVertex()->getId();
+							edgeVertices[e.getId()][1] = e.getHalfEdge(1)->getVertex()->getId();
+						}
+						
+						
 					}
 
-					displayUtils->drawEdges(edgePositions, mesh.edgeColors, mesh.edgeWeights);
+					displayUtils->drawEdges(mesh.eHandles, edgeVertices, &mesh.vertexPositions[0], &mesh.edgeColors[0], &mesh.edgeWeights[0]);
 
 				}
 				
@@ -352,28 +349,26 @@ namespace zSpace
 				
 				if (mesh.staticGeometry)
 				{
-					displayUtils->drawPolygons(mesh.facePositions, mesh.faceColors);
+					displayUtils->drawFaces(mesh.fHandles, mesh.faceVertices, &mesh.vertexPositions[0], &mesh.faceColors[0]);
 				}
 				else
 				{
-					vector<vector<zVector>> facePositions;
+					vector<vector<int>> faceVertices;
 
 					for (int i = 0; i < mesh.n_f; i++)
 					{
-						vector<int> faceVertsIds;
-						mesh.getFaceVertices(i, faceVertsIds);
-
-						vector<zVector> faceVerts;
-						for (int j = 0; j < faceVertsIds.size(); j++)
-						{
-							faceVerts.push_back(mesh.vertexPositions[faceVertsIds[j]]);
+						vector<int> faceVerts;
+						if (mesh.fHandles[i].id != -1)
+						{							
+							mesh.getFaceVertices(i, faceVerts);							
 						}
 
-						facePositions.push_back(faceVerts);					
+						faceVertices.push_back(faceVerts);
 
 					}
 
-					displayUtils->drawPolygons(facePositions, mesh.faceColors);
+					displayUtils->drawFaces(mesh.fHandles, faceVertices, &mesh.vertexPositions[0], &mesh.faceColors[0]);
+					
 				}
 			}
 		}
@@ -384,13 +379,14 @@ namespace zSpace
 		*/
 		inline void drawMesh_DihedralEdges()
 		{
-			for (int i = 0; i < mesh.edgeActive.size(); i += 2)
+			for (auto &e : mesh.edges)
 			{
+				int i = e.getId() * 2;
 
-				if (mesh.edgeActive[i])
+				if (e.isActive())
 				{
 
-					if (mesh.edges[i].getVertex() && mesh.edges[i + 1].getVertex() && abs(edge_dihedralAngles[i]) > dihedralAngleThreshold)
+					if (abs(edge_dihedralAngles[i]) > dihedralAngleThreshold)
 					{
 						zColor col;
 						double wt = 1;
@@ -398,8 +394,8 @@ namespace zSpace
 						if (mesh.edgeColors.size() > i)  col = mesh.edgeColors[i];
 						if (mesh.edgeWeights.size() > i) wt = mesh.edgeWeights[i];
 
-						int v1 = mesh.edges[i].getVertex()->getVertexId();
-						int v2 = mesh.edges[i + 1].getVertex()->getVertexId();
+						int v1 = e.getHalfEdge(0)->getVertex()->getId();
+						int v2 = e.getHalfEdge(1)->getVertex()->getId();
 
 						displayUtils->drawLine(mesh.vertexPositions[v1], mesh.vertexPositions[v2], col, wt);
 					}
@@ -412,14 +408,15 @@ namespace zSpace
 		*	\param		[in]	dispScale				- display scale of the normal.
 		*	\since version 0.0.2
 		*/
-		inline void drawMesh_VertexNormals()
+		void drawMesh_VertexNormals()
 		{
 
-			if (mesh.vertexNormals.size() == 0 || mesh.vertexNormals.size() != mesh.vertexActive.size()) throw std::invalid_argument(" error: mesh normals not computed.");
+			if (mesh.vertexNormals.size() == 0 || mesh.vertexNormals.size() != mesh.vertices.size()) throw std::invalid_argument(" error: mesh normals not computed.");
 
-			for (int i = 0; i < mesh.vertexActive.size(); i++)
+			for (auto &v : mesh.vertices)
 			{
-				if (mesh.vertexActive[i])
+				int i = v.getId();
+				if (v.isActive())
 				{
 					zVector p1 = mesh.vertexPositions[i];
 					zVector p2 = p1 + (mesh.faceNormals[i] * normalScale);
@@ -435,15 +432,17 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		inline void drawMesh_FaceNormals()
+		void drawMesh_FaceNormals()
 		{
-			if (mesh.faceNormals.size() == 0 || mesh.faceNormals.size() != mesh.faceActive.size()) throw std::invalid_argument(" error: mesh normals not computed.");
+			if (mesh.faceNormals.size() == 0 || mesh.faceNormals.size() != mesh.faces.size()) throw std::invalid_argument(" error: mesh normals not computed.");
 
-			if (mesh.faceActive.size() != faceCenters.size()) throw std::invalid_argument(" error: number of face centers not equal to number of faces .");
+			if (mesh.faces.size() != faceCenters.size()) throw std::invalid_argument(" error: number of face centers not equal to number of faces .");
 
-			for (int i = 0; i < mesh.faceActive.size(); i++)
+			for (auto &f : mesh.faces)
 			{
-				if (mesh.faceActive[i])
+				int i = f.getId();
+
+				if (f.isActive())
 				{
 					zVector p1 = faceCenters[i];
 					zVector p2 = p1 + (mesh.faceNormals[i] * normalScale);
@@ -476,12 +475,12 @@ namespace zSpace
 			{
 				vector<int> _edgeIndicies;
 
-				for (int i = 0; i < mesh.edgeActive.size(); i += 2)
+				for ( auto &e : mesh.edges )
 				{
-					if (mesh.edgeActive[i])
+					if (e.isActive())
 					{
-						_edgeIndicies.push_back(mesh.edges[i].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
-						_edgeIndicies.push_back(mesh.edges[i + 1].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
+						_edgeIndicies.push_back(e.getHalfEdge(0)->getVertex()->getId() + displayUtils->bufferObj.nVertices);
+						_edgeIndicies.push_back(e.getHalfEdge(1)->getVertex()->getId() + displayUtils->bufferObj.nVertices);
 					}
 				}
 
@@ -493,14 +492,15 @@ namespace zSpace
 
 				vector<int> _edgeIndicies;
 
-				for (int i = 0; i < mesh.edgeActive.size(); i += 2)
+				for (auto &e : mesh.edges)
 				{
-					if (mesh.edgeActive[i])
+					
+					if (e.isActive())
 					{
-						if (abs(edge_dihedralAngles[i]) > angleThreshold || edge_dihedralAngles[i] == -1)
+						if (abs(edge_dihedralAngles[e.getId()]) > angleThreshold || edge_dihedralAngles[e.getId()] == -1)
 						{
-							_edgeIndicies.push_back(mesh.edges[i].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
-							_edgeIndicies.push_back(mesh.edges[i + 1].getVertex()->getVertexId() + displayUtils->bufferObj.nVertices);
+							_edgeIndicies.push_back(e.getHalfEdge(0)->getVertex()->getId() + displayUtils->bufferObj.nVertices);
+							_edgeIndicies.push_back(e.getHalfEdge(1)->getVertex()->getId() + displayUtils->bufferObj.nVertices);
 						}
 					}
 
@@ -514,12 +514,12 @@ namespace zSpace
 
 			vector<int> _faceIndicies;
 
-			for (int i = 0; i < mesh.faceActive.size(); i++)
+			for (auto &f : mesh.faces)
 			{
-				if (mesh.faceActive[i])
+				if (f.isActive())
 				{
 					vector<int> faceVertsIds;
-					mesh.getFaceVertices(i, faceVertsIds);
+					mesh.getFaceVertices(f.getId(), faceVertsIds);
 
 					for (int j = 0; j < faceVertsIds.size(); j++)
 					{

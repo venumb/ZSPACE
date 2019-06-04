@@ -79,6 +79,9 @@
     <Filter Include="Header Files\API\Toolsets\DigiFab">
       <UniqueIdentifier>{2f462b92-fc84-4e0c-9559-d6fc0f48d7de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\API\Iterators">
+      <UniqueIdentifier>{fb301d5c-a95f-4cd2-8eef-3bbc09993dbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="zSpace.cpp">
@@ -182,9 +185,6 @@
     <ClInclude Include="..\headers\app\include\zViewer.h">
       <Filter>Header Files\APP\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\framework\geometry\zGeometry.h">
-      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="..\headers\app\include\Tools\zTsData.h">
       <Filter>Header Files\APP\Include\tools</Filter>
     </ClInclude>
@@ -214,9 +214,6 @@
     </ClInclude>
     <ClInclude Include="..\headers\api\object\zObjPointField.h">
       <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnPointField.h">
-      <Filter>Header Files\API\Functionsets</Filter>
     </ClInclude>
     <ClInclude Include="..\headers\api\toolsets\zTsVault.h">
       <Filter>Header Files\API\Toolsets\statics</Filter>
@@ -271,6 +268,24 @@
     </ClInclude>
     <ClInclude Include="..\headers\framework\core\zQuaternion.h">
       <Filter>Header Files\FRAMEWORK\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\framework\geometry\zGeometryTypes.h">
+      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\iterators\zIt.h">
+      <Filter>Header Files\API\Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\iterators\zItMesh.h">
+      <Filter>Header Files\API\Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\iterators\zItGraph.h">
+      <Filter>Header Files\API\Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\functionsets\zFnPointField.h">
+      <Filter>Header Files\API\Functionsets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\iterators\zItPointCloud.h">
+      <Filter>Header Files\API\Iterators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <headers/framework/geometry/zGraph.h>
-
+#include <set>
 
 namespace zSpace
 {
@@ -42,29 +42,27 @@ namespace zSpace
 		/*!	\brief stores number of active faces  */
 		int n_f;
 
-		/*!	\brief stores number of max vertices, which is the size of the dynamic vertices array. */
-		int max_n_f;
-
 		/*! \brief face container			*/
-		zFace * faces;								
+		vector<zFace> faces;	
 
 		/*!	\brief container which stores vertex normals.	*/
-		vector<zVector> vertexNormals;				
-		
+		vector<zVector> vertexNormals;
+
 		/*!	\brief container which stores face normals. 	*/
-		vector<zVector> faceNormals;	
+		vector<zVector> faceNormals;
 
 		/*!	\brief container which stores face colors. 	*/
-		vector<zColor> faceColors;					
-		
-		/*!	\brief container which stores vertex weights.	*/
-		vector <bool> faceActive;		
-	
-		/*!	\brief stores the start face ID in the VBO, when attached to the zBufferObject.	*/
-		int VBO_FaceId;		
+		vector<zColor> faceColors;
 
-		/*! \brief container of face positions . Used for display if it is a static geometry */
-		vector<vector<zVector>> facePositions;
+		/*!	\brief storesface handles. Used for container resizing only  */
+		vector<zFaceHandle> fHandles;
+
+		/*!	\brief stores the start face ID in the VBO, when attached to the zBufferObject.	*/
+		int VBO_FaceId;
+
+		/*! \brief container of face vertices . Used for display if it is a static geometry */
+		vector<vector<int>> faceVertices;
+		
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -76,54 +74,62 @@ namespace zSpace
 		*/
 		zMesh()
 		{
-			n_v = n_e = n_f = 0;
-
-			vertices = nullptr;
-			edges = nullptr;
-			faces = nullptr;
+			n_v = n_e = n_he = n_f = 0;
+			
 		}
 
-		/*! \brief Overloaded constructor.
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
+		*
+		*	\since version 0.0.1
+		*/
+		~zMesh()
+		{
+
+		}
+
+
+		//--------------------------
+		//---- CREATE METHODS
+		//--------------------------
+		/*! \brief This method creates a mesh from the input containers.
 		*
 		*	\param		[in]	_positions		- container of type zVector containing position information of vertices.
 		*	\param		[in]	polyCounts		- container of type integer with number of vertices per polygon.
 		*	\param		[in]	polyConnects	- polygon connection list with vertex ids for each face.
 		*	\since version 0.0.1
 		*/
-		zMesh(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects))
+		void create(vector<zVector>(&_positions), vector<int>(&polyCounts), vector<int>(&polyConnects))
 		{
-			int _num_vertices = _positions.size();
-			int _num_polygons = polyCounts.size();
-			int _num_edges = _num_vertices + _num_polygons;
+			//clear containers
+			clear();
+
+			int num_edges = computeNumEdges(polyCounts, polyConnects);
+
+			vertices.reserve(_positions.size());
+			faces.reserve(polyCounts.size());
+			edges.reserve(num_edges );
+			halfEdges.reserve(num_edges * 2);
 
 
-			// set max size
-			max_n_v = _num_vertices * 40;
-			max_n_e = _num_edges * 80;
-			max_n_f = _num_polygons * 40;
-
-
-			vertices = new zVertex[max_n_v];
-			edges = new zEdge[max_n_e * 2];
-			faces = new zFace[max_n_f];
-
-			n_v = n_e = n_f = 0;
-
-			verticesEdge.clear();
-			positionVertex.clear();
 
 			// create vertices
-			addVertices(_positions);			
+
+			for (int i = 0; i < _positions.size(); i++) addVertex(_positions[i]);
 
 
 			// create faces and edges connection
 			int polyconnectsCurrentIndex = 0;
-			
+
 			vector<int> fVerts;
-			for (int i = 0; i < _num_polygons; i++)
+			for (int i = 0; i < polyCounts.size(); i++)
 			{
 				int num_faceVerts = polyCounts[i];
-	
+
 				fVerts.clear();
 				for (int j = 0; j < num_faceVerts; j++)
 				{
@@ -135,24 +141,47 @@ namespace zSpace
 
 			}
 
+
 			// update boundary pointers
 			update_BoundaryEdgePointers();			
 
 		}
 
-		//--------------------------
-		//---- DESTRUCTOR
-		//--------------------------
-
-		/*! \brief Default destructor.
+		/*! \brief This methods clears all the mesh containers.
 		*
-		*	\since version 0.0.1
+		*	\since version 0.0.2
 		*/
-		~zMesh() 
+		void clear()
 		{
-			
+			vertices.clear();
+			vertexPositions.clear();
+			vertexNormals.clear();
+			vertexColors.clear();			
+			vertexWeights.clear();
+			positionVertex.clear();
+
+			edges.clear();
+			edgeColors.clear();
+			edgeWeights.clear();			
+
+
+			halfEdges.clear();
+			existingHalfEdges.clear();			
+
+			faces.clear();
+			faceColors.clear();
+			faceNormals.clear();		
+
+			vHandles.clear();
+			eHandles.clear();
+			heHandles.clear();
+			fHandles.clear();
+
+			n_v = n_e = n_he = n_f = 0;
 		}
 
+
+	
 
 		//--------------------------
 		//---- VERTEX METHODS
@@ -161,72 +190,85 @@ namespace zSpace
 		/*! \brief This method adds a vertex to the vertices array.
 		*
 		*	\param		[in]	pos			- zVector holding the position information of the vertex.
-		*	\return				bool		- true if the vertices container is resized.
+		*	\return				bool		- true if the faces container is resized.
 		*	\since version 0.0.1
-		*/	
+		*/
 		bool addVertex(zVector &pos)
-		{
+		{			
 			bool out = false;
 
-			if (max_n_v - vertexActive.size() < 2)
+			if (n_v >= vertices.capacity() - 1)
 			{
-				max_n_v *= 4;
-				resizeArray(max_n_v, zVertexData); // calls the resize in mesh 
-
+				if(n_v >0) resizeArray(zVertexData, n_v * 4);
+				else resizeArray(zVertexData, 100);
 				out = true;
 			}
+			
 
-			addToPositionMap(pos, vertexActive.size());
+			addToPositionMap(pos, n_v);
 
-			vertices[vertexActive.size()] = zVertex();
-			vertices[vertexActive.size()].setVertexId(vertexActive.size());
+			zItVertex newV = vertices.insert(vertices.end(), zVertex());
+			newV->setId(n_v);			
+
 
 			vertexPositions.push_back(pos);
+			vHandles.push_back(zVertexHandle());
+			vHandles[n_v].id = n_v;
 
-			// default Attibute values
-			vertexActive.push_back(true);
+			n_v++;			
+
+			// default Attibute values			
 			vertexColors.push_back(zColor(1, 0, 0, 1));
 			vertexWeights.push_back(2.0);
-
-			n_v++;
 
 			return out;
 		}
 
-		/*! \brief This method adds vertices from the input position array.
-		*
-		*	\param		[in]	pos			- container of zVector holding the position information of the vertex.
-		*	\since version 0.0.1
-		*/
-		void addVertices(vector<zVector> &positions)
-		{		
-			zColor col(1, 0, 0, 1);
-			vertexActive.clear();
-			vertexActive.assign(positions.size(), true);
-
-			vertexColors.clear();
-			vertexColors.assign(positions.size(), col);
-
-			vertexWeights.clear();
-			vertexWeights.assign(positions.size(), 2.0);
-
-			vertexPositions.clear(); 
-			vertexPositions = positions;
-
-			for (int i = 0; i < positions.size(); i++)
-			{
-				addToPositionMap(positions[i], i);
-				vertices[i] = zVertex();
-				vertices[i].setVertexId(i);				
-			}
-
-			n_v = positions.size();
-
-		}
 
 		//--------------------------
 		//---- EDGE METHODS
 		//--------------------------
+
+		/*! \brief This method computes number of edges from the polygon related containers.
+		*
+		*	\param		[in]	polyCounts		- container of type integer with number of vertices per polygon.
+		*	\param		[in]	polyConnects	- polygon connection list with vertex ids for each face.
+		*	\since version 0.0.1
+		*/
+		int computeNumEdges(vector<int>(&polyCounts), vector<int>(&polyConnects))
+		{
+			set< pair<int, int> > tempEdges;
+
+			int polyconnectsCurrentIndex = 0;
+
+			vector<int> fVerts;
+			for (int i = 0; i < polyCounts.size(); i++)
+			{
+				int num_faceVerts = polyCounts[i];
+
+				
+				for (int j = 0; j < num_faceVerts; j++)
+				{
+					int v0 = polyConnects[polyconnectsCurrentIndex + j];
+
+					int next = (j + 1) % num_faceVerts;
+
+					int v1 = polyConnects[polyconnectsCurrentIndex + next];
+
+					if (v0 > v1) swap(v0, v1);
+
+					tempEdges.insert(pair<int, int>(v0, v1));
+				}
+
+				
+				polyconnectsCurrentIndex += num_faceVerts;
+
+			}
+
+			return tempEdges.size();
+		}
+	
+
 
 		/*! \brief This method adds an edge and its symmetry edge to the edges array.
 		*
@@ -237,61 +279,89 @@ namespace zSpace
 		*/
 		bool addEdges(int &v1, int &v2)
 		{
+
 			bool out = false;
 
-			if (max_n_e - edgeActive.size() < 4)
+			if (n_e >= edges.capacity() - 1)
 			{
-				max_n_e *= 4;
-				resizeArray(max_n_e, zEdgeData); // calls the resize in mesh 
 
+				if (n_e > 0)	resizeArray(zEdgeData, n_e * 4);				
+				else	resizeArray(zEdgeData, 100);
 				out = true;
-
 			}
 
-			addToVerticesEdge(v1, v2, edgeActive.size());
+			if (n_he >= halfEdges.capacity() - 2)
+			{
+				if (n_he > 0)resizeArray(zHalfEdgeData, n_he * 4);				
+				else resizeArray(zHalfEdgeData,200);
+				out = true;
+			}
 
-			edges[edgeActive.size()] = zEdge();
 
-			edges[edgeActive.size()].setEdgeId(edgeActive.size());
-			edges[edgeActive.size()].setVertex(&vertices[v2]);
+			// Handles
+			heHandles.push_back(zHalfEdgeHandle());
+			heHandles.push_back(zHalfEdgeHandle());
+			eHandles.push_back(zEdgeHandle());
 
+			// HALF edge	
+			zItHalfEdge newHE1 = halfEdges.insert(halfEdges.end(), zHalfEdge());
+			newHE1->setId(n_he);
+			newHE1->setVertex(&vertices[v2]);	
+
+			heHandles[n_he].id = n_he;
+			heHandles[n_he].v = v2;
+			heHandles[n_he].e = n_e;
+
+			n_he++;
+
+			// SYMMETRY edge			
+			zItHalfEdge newHE2 = halfEdges.insert(halfEdges.end(), zHalfEdge());
+			newHE2->setId(n_he);
+			newHE2->setVertex(&vertices[v1]);	
+
+			heHandles[n_he].id = n_he;
+			heHandles[n_he].v = v1;
+			heHandles[n_he].e = n_e;
+
+			n_he++;
+
+			//EDGE
+			zItEdge newE = edges.insert(edges.end(), zEdge());
+			newE->setId(n_e);
+			newE->setHalfEdge(&halfEdges[n_he - 2], 0);
+			newE->setHalfEdge(&halfEdges[n_he - 1], 1);;
+			
+
+			newHE1->setEdge(&edges[n_e]);
+			newHE2->setEdge(&edges[n_e]);
+
+			eHandles[n_e].id = n_e;
+			eHandles[n_e].he0 = n_he - 2;
+			eHandles[n_e].he1 = n_he - 1;
+			
 			n_e++;
 
-			// default color and weights
-			edgeActive.push_back(true);
-			edgeColors.push_back(zColor(0, 0, 0, 0));
-			edgeWeights.push_back(1.0);
+			// set symmetry iterators 
+			newHE2->setSym(&halfEdges[n_he - 2]);
 
-			// SYMMETRY edge
-						
-			edges[edgeActive.size()] = zEdge();
-
-			edges[edgeActive.size()].setEdgeId(edgeActive.size());
-			edges[edgeActive.size()].setVertex(&vertices[v1]);
-
-			edges[edgeActive.size()].setSym(&edges[edgeActive.size() - 1]);
-
-
-			n_e++;
+			addToHalfEdgesMap(v1, v2, newHE1->getId());
+			
 
 			// default color and weights
-			edgeActive.push_back(true);
 			edgeColors.push_back(zColor(0, 0, 0, 0));
-			edgeWeights.push_back(1.0);
-
+			edgeWeights.push_back(1.0);		
 
 			return out;
-
 		}
 
-		/*! \brief This method sets the static edge positions if the graph is static.
-		*	\param		[in]		_edgePositions	- input container of edgePositions.
+		/*! \brief This method sets the static edge vertices if the graph is static.
+		*	\param		[in]		_edgeVertices	- input container of edge Vertices.
 		*	\since version 0.0.2
 		*/
-		void setStaticEdgePositions(vector<vector<zVector>> &_edgePositions)
+		void setStaticEdgeVertices(vector<vector<int>> &_edgeVertices)
 		{
 			if (!staticGeometry) 	throw std::invalid_argument(" error: mesh not static");
-			edgePositions = _edgePositions;
+			edgeVertices = _edgeVertices;
 		}
 
 		//--------------------------
@@ -300,7 +370,7 @@ namespace zSpace
 
 
 		/*! \brief This method adds a face with null edge pointer to the faces array.
-		*
+		*	
 		*	\return				bool		- true if the faces container is resized.
 		*	\since version 0.0.1
 		*/
@@ -308,33 +378,33 @@ namespace zSpace
 		{
 			bool out = false;
 
-			if (max_n_f - faceActive.size() < 2)
+			if (n_f >= faces.capacity() -1)
 			{
-
-				max_n_f *= 40;
-				resizeArray(max_n_f, zFaceData);
+				if (n_f > 0) resizeArray(zFaceData, n_f * 4);
+				else resizeArray(zFaceData, 100);
 
 				out = true;
 			}
+			
+			zItFace newF = faces.insert(faces.end(), zFace());
+			newF->setId(n_f);
+			
+			fHandles.push_back(zFaceHandle());
+			fHandles[n_f].id = n_f;
 
-			// create face
-			faces[faceActive.size()] = (zFace());
-			faces[faceActive.size()].setFaceId(faceActive.size());
+			n_f++;	
 
-			// update num faces
-			n_f++;
+			
 
 			//add default faceColors 
-			faceActive.push_back(true);
 			faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
 
 			return out;
-
 		}
 
 		/*! \brief This method adds a face to the faces array and updates the pointers of vertices, edges and polygons of the mesh based on face vertices.
 		*
-		*	\param		[in]	fVertices	- array of ordered vertices that make up the polygon.
+		*	\param		[in]	fVertices	- array of ordered vertices that make up the polygon.	
 		*	\return				bool		- true if the faces container is resized.
 		*	\since version 0.0.1
 		*/
@@ -346,24 +416,26 @@ namespace zSpace
 			// get edgeIds of face
 			vector<int> fEdge;
 
-			int currentNumEdges = edgeActive.size();
+			int currentNumEdges = n_he;
+			
 
 			for (int i = 0; i < fVertices.size(); i++)
 			{
 				// check if edge exists
-				int eID = -1;
-				bool chkEdge = edgeExists(fVertices[i], fVertices[(i + 1) % fVertices.size()], eID);
+				int eID;
+				bool chkEdge = halfEdgeExists(fVertices[i], fVertices[(i + 1) % fVertices.size()], eID);
 
 			
 
 				if (chkEdge)
-				{
+				{					
 					fEdge.push_back(eID);
 				}
 				else
 				{
-					addEdges(fVertices[i], fVertices[(i + 1) % fVertices.size()]);
-					fEdge.push_back(edges[edgeActive.size() - 2].getEdgeId());
+					addEdges(fVertices[i], fVertices[(i + 1) % fVertices.size()]);					
+
+					fEdge.push_back(n_he - 2);
 
 				}
 
@@ -373,20 +445,32 @@ namespace zSpace
 			//update current face verts edge pointer
 			for (int i = 0; i < fVertices.size(); i++)
 			{
-				vertices[fVertices[i]].setEdge(&edges[fEdge[i]]);
+				vertices[fVertices[i]].setHalfEdge(&halfEdges[fEdge[i]]);
+
+				vHandles[fVertices[i]].he = fEdge[i];
 			}
 
 			// update face, next and prev edge pointers for face Edges
 			for (int i = 0; i < fEdge.size(); i++)
 			{
-				edges[fEdge[i]].setFace(&faces[faceActive.size() - 1]);
+				halfEdges[fEdge[i]].setFace(&faces[n_f - 1]);
 
-				edges[fEdge[i]].setNext(&edges[fEdge[(i + 1) % fEdge.size()]]);
-				edges[fEdge[i]].setPrev(&edges[fEdge[(i - 1 + fEdge.size()) % fEdge.size()]]);
+				halfEdges[fEdge[i]].setNext(&halfEdges[fEdge[(i + 1) % fEdge.size()]]);
+				halfEdges[fEdge[i]].setPrev(&halfEdges[fEdge[(i - 1 + fEdge.size()) % fEdge.size()]]);
+
+				heHandles[fEdge[i]].f = n_f - 1;
+				heHandles[fEdge[i]].n = fEdge[(i + 1) % fEdge.size()];
+				heHandles[fEdge[i]].p = fEdge[(i - 1 + fEdge.size()) % fEdge.size()];
+
+				heHandles[fEdge[(i + 1) % fEdge.size()]].p = fEdge[i];
+				heHandles[fEdge[(i - 1 + fEdge.size()) % fEdge.size()]].n = fEdge[i];
 			}
 
 			// update curent face edge
-			faces[faceActive.size() - 1].setEdge(&edges[fEdge[0]]);
+			zFace *f1 = &faces[n_f - 1];
+			f1->setHalfEdge(&halfEdges[fEdge[0]]);
+			
+			fHandles[n_f - 1].he = fEdge[0];
 
 			return out;
 		}			   
@@ -398,9 +482,8 @@ namespace zSpace
 		*/		
 		void setNumPolygons(int _n_f, bool setMax = true)
 		{
-			n_f = _n_f;
-		
-			if(setMax) max_n_f = 40 * n_f;
+			n_f = _n_f;		
+			
 		}
 		
 		/*! \brief This method gets the edges of a zFace.
@@ -412,30 +495,29 @@ namespace zSpace
 		*/
 		void getFaceEdges(int index, vector<int> &edgeIndicies)
 		{
-			vector<int> out;
-			out.clear();
+			
+			edgeIndicies.clear();
 
-			if (faces[index].getEdge())
+			if (faces[index].getHalfEdge())
 			{
-				zEdge* start = faces[index].getEdge();
-				zEdge* e = start;
+				zHalfEdge* start = faces[index].getHalfEdge();
+				zHalfEdge* e = start;
 
 				bool exit = false;
 
 				do
 				{
-					out.push_back(e->getEdgeId());
+					edgeIndicies.push_back(e->getId());
 					if (e->getNext())e = e->getNext();
 					else exit = true;
 
 				} while (e != start && !exit);
 			}
+				
 	
-
-
-			edgeIndicies = out;
 		}
 
+	
 
 		/*!	\brief This method gets the vertices attached to input zEdge or zFace.
 		*
@@ -446,142 +528,84 @@ namespace zSpace
 		*/
 		void getFaceVertices(int index, vector<int> &vertexIndicies)
 		{
-			vector<int> out;
+			vertexIndicies.clear();
 
 			vector<int> faceEdges;
 			getFaceEdges(index, faceEdges);
 
 			for (int i = 0; i < faceEdges.size(); i++)
 			{
-				out.push_back(edges[faceEdges[i]].getSym()->getVertex()->getVertexId());
+				vertexIndicies.push_back(halfEdges[faceEdges[i]].getSym()->getVertex()->getId());
 			}
 
-			vertexIndicies = out;
+			
 		}
 
-		/*! \brief This method sets the static edge positions if the mesh is static.
-		*	\param		[in]		_edgePositions	- input container of edgePositions.
+		/*! \brief This method sets the static face verticies if the mesh is static.
+		*	\param		[in]		_faceVertices	- input container of face vertices.
 		*	\since version 0.0.2
 		*/
-		void setStaticFacePositions(vector<vector<zVector>> &_facePositions)
+		void setStaticFaceVertices(vector<vector<int>> &_faceVertices)
 		{
 			if (!staticGeometry) 	throw std::invalid_argument(" error: geometry not static");
-			facePositions = _facePositions;
+			faceVertices = _faceVertices;
 		}
 
-		//--------------------------
-		//---- PRIVATE METHODS
-		//--------------------------
-
-	private:
-
-		/*! \brief This method resizes the array connected with the input type to the specified newSize.
-		*
-		*	\param		[in]	newSize			- new size of the array.
-		*	\param		[in]	type			- zVertexData or zEdgeData or zFaceData.
-		*	\since version 0.0.1
-		*/
-		void resizeArray(int newSize, zHEData type = zVertexData)
-		{	
-			//  Vertex
-			if (type == zVertexData)
-			{
-
-				zVertex *resized = new zVertex[newSize];
-
-				for (int i = 0; i < vertexActive.size(); i++)
-				{
-					resized[i].setVertexId(i);
-
-					if (vertices[i].getEdge())resized[i].setEdge(&edges[vertices[i].getEdge()->getEdgeId()]);
-				}
-				for (int i = 0; i < edgeActive.size(); i++)
-				{
-					if (edges[i].getVertex()) edges[i].setVertex(&resized[edges[i].getVertex()->getVertexId()]);
-				}
-												
-				delete[] vertices;		
-
-				vertices = resized;
-			
-				printf("\n mesh vertices resized. ");
-				
-			}
-
-			//  Edge
-			else if (type == zEdgeData) {
-
-				zEdge *resized = new zEdge[newSize];
-
-				for (int i = 0; i < edgeActive.size(); i++)
-				{
-					resized[i].setEdgeId(i);
-
-					if (edges[i].getSym()) resized[i].setSym(&resized[edges[i].getSym()->getEdgeId()]);
-					if (edges[i].getNext()) resized[i].setNext(&resized[edges[i].getNext()->getEdgeId()]);
-					if (edges[i].getPrev()) resized[i].setPrev(&resized[edges[i].getPrev()->getEdgeId()]);
-
-					if (edges[i].getVertex()) resized[i].setVertex(&vertices[edges[i].getVertex()->getVertexId()]);
-					if (edges[i].getFace()) resized[i].setFace(&faces[edges[i].getFace()->getFaceId()]);
-
-				}
-				
-				for (int i = 0; i < vertexActive.size(); i++)
-				{
-					if (vertices[i].getEdge()) vertices[i].setEdge(&resized[vertices[i].getEdge()->getEdgeId()]);
-				}
-				
-				for (int i = 0; i < faceActive.size(); i++)
-				{
-					if (faces[i].getEdge()) faces[i].setEdge(&resized[faces[i].getEdge()->getEdgeId()]);
-
-				}
-
-				delete[] edges;
-				edges = resized;
-
-				printf("\n mesh edges resized. ");
-
-			}
-
-			// Mesh Face
-			else if (type == zFaceData)
-			{
-
-				zFace *resized = new zFace[newSize];
-
-				for (int i = 0; i < faceActive.size(); i++)
-				{
-					resized[i].setFaceId(i);
-					if (faces[i].getEdge()) resized[i].setEdge(&edges[faces[i].getEdge()->getEdgeId()]);
-
-					//printf("\n %i : %i ", (resized[i].getEdge()) ? resized[i].getEdge()->getEdgeId():-1 , (faces[i].getEdge()) ? faces[i].getEdge()->getEdgeId():-1);
-				}
-
-
-				for (int i = 0; i < edgeActive.size(); i++)
-				{
-					if (edges[i].getFace())
-					{
-						edges[i].setFace(&resized[edges[i].getFace()->getFaceId()]);
-					}
-				}
-
-				delete[] faces;
-				faces = resized;	
-				
-				printf("\n mesh faces resized. ");
-			}
-
-			else throw std::invalid_argument(" error: invalid zHEData type");
-		}
-			
 	
 		//--------------------------
 		//---- UTILITY METHODS
 		//--------------------------
 
-	public:
+		/*! \brief This method assigns a unique index per mesh element.
+		*
+		*	\param		[in]	type				- zVertexData or zEdgeData or zHalfEdgeData or zFaceData.
+		*	\since version 0.0.1
+		*/
+		void indexElements(zHEData type)
+		{
+			if (type == zVertexData)
+			{
+				int n_v = 0;
+				for (auto &v : vertices)
+				{
+					v.setId( n_v);
+					n_v++;
+				}
+			}
+
+			else if (type == zEdgeData)
+			{
+				int n_e = 0;
+				for (auto &e : edges)
+				{
+					e.setId(n_e);
+					n_e++;
+				}
+			}
+
+			else if (type == zHalfEdgeData)
+			{
+				int n_he = 0;
+				for (auto &he : halfEdges)
+				{
+					he.setId(n_he);
+					n_he++;
+				}
+			}
+
+			else if (type == zFaceData)
+			{
+				int n_f = 0;
+				for (auto &f : faces)
+				{
+					f.setId(n_f);
+					n_f++;
+				}
+			}
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
+		}
+
 		
 		/*! \brief This method updates the pointers for boundary Edges.
 		*
@@ -590,44 +614,198 @@ namespace zSpace
 		*/
 		void update_BoundaryEdgePointers()
 		{
-			for (int i = 0; i < edgeActive.size(); i++)
-			{
-				if (edgeActive[i])
+			
+
+			for (int i = 0; i < halfEdges.size(); i++)
+			{		
+
+				
+				
+				if (!halfEdges[i].getFace())
 				{
-					
-					if (!edges[i].getFace())
+					//printf("\n %i ", i);
+
+					zHalfEdge* e = halfEdges[i].getSym();
+					bool exit = false;
+
+					do
 					{
-						//printf("\n %i ", i);
+						e = e->getPrev();
+						e = e->getSym();
 
-						zEdge* e = edges[i].getSym();
-						bool exit = false;
+					} while (e->getFace());
 
-						do
-						{
-							e = e->getPrev();
-							e = e->getSym();
+					halfEdges[i].setNext(e);
 
-						} while (e->getFace());
+					heHandles[i].n = e->getId();
 
-						edges[i].setNext(e);
-						zEdge* e1 = edges[i].getSym();
+					zHalfEdge* e1 = halfEdges[i].getSym();
 
-						do
-						{
-							e1 = e1->getNext();
-							e1 = e1->getSym();
+					do
+					{
+						e1 = e1->getNext();
+						e1 = e1->getSym();
 
-						} while (e1->getFace());
+					} while (e1->getFace());
 
-						edges[i].setPrev(e1);
-					}
+					halfEdges[i].setPrev(e1);
+
+					heHandles[i].p = e1->getId();
 				}
+					
+					
+				
 
 			}
 		}
 
 
+		/*! \brief This method resizes the array connected with the input type to the specified newSize.
+		*
+		*	\param		[in]	type			- zVertexData or zHalfEdgeData or zEdgeData or zFaceData.
+		*	\param		[in]	newSize			- new size of the array.		
+		*	\since version 0.0.1
+		*/
+		void resizeArray(zHEData type, int newSize )
+		{
+			//  Vertex
+			if (type == zVertexData)
+			{
+				vertices.clear();
+				vertices.reserve(newSize);			
+				
+				// reassign pointers
+				int n_v = 0;
+				for (auto &v : vHandles)
+				{
+					zItVertex newV =vertices.insert(vertices.end(), zVertex());
+					newV->setId(n_v);
+					if (v.he != -1)newV->setHalfEdge(&halfEdges[v.he]);
 
+					n_v++;
+				}
+
+				for (int i = 0; i < heHandles.size(); i++)
+				{
+					if (heHandles[i].v != -1) halfEdges[i].setVertex(&vertices[heHandles[i].v]);
+				}								
+
+				printf("\n mesh vertices resized. ");
+
+			}
+
+			//  Edge
+			else if (type == zHalfEdgeData) 
+			{
+
+				halfEdges.clear();
+				halfEdges.reserve(newSize);				
+
+				// reassign pointers
+				int n_he = 0;
+				for (auto &he : heHandles)
+				{		
+
+					zItHalfEdge newHE = halfEdges.insert(halfEdges.end(), zHalfEdge());
+	
+					newHE->setId(n_he);					
+					if (he.n != -1) newHE->setNext(&halfEdges[he.n]);
+					if (he.p != -1) newHE->setPrev(&halfEdges[he.p]);
+					if (he.v != -1) newHE->setVertex(&vertices[he.v]);
+					if (he.e != -1) newHE->setEdge(&edges[he.e]);
+					if (he.f != -1) newHE->setFace(&faces[he.f]);
+
+				
+					if(n_he % 2 == 1) newHE->setSym(&halfEdges[n_he - 1]);
+
+					n_he ++;
+				}
+
+				for (int i = 0; i < vHandles.size(); i++)
+				{
+					if (vHandles[i].he != -1) vertices[i].setHalfEdge(&halfEdges[vHandles[i].he]);
+				}
+
+				for (int i = 0; i < eHandles.size(); i++)
+				{
+					if (eHandles[i].he0 != -1) edges[i].setHalfEdge(&halfEdges[eHandles[i].he0],0);
+					if (eHandles[i].he1 != -1) edges[i].setHalfEdge(&halfEdges[eHandles[i].he1], 1);
+				}
+
+				for (int i = 0; i < fHandles.size(); i++)
+				{
+					if (fHandles[i].he != -1) faces[i].setHalfEdge(&halfEdges[fHandles[i].he]);
+				}
+
+				
+
+				printf("\n mesh half edges resized. ");
+
+			}
+
+			else if (type == zEdgeData)
+			{
+
+				edges.clear();
+				edges.reserve(newSize);				
+
+				// reassign pointers
+				int n_e = 0;
+				for (auto &e : eHandles)
+				{
+					zItEdge newE = edges.insert(edges.end(), zEdge());
+					newE->setId(n_e);
+					
+					if (e.he0 != -1)newE->setHalfEdge(&halfEdges[e.he0], 0);
+					if (e.he1 != -1)newE->setHalfEdge(&halfEdges[e.he1], 1);
+
+					n_e++;
+
+				}
+
+				for(int i = 0; i < heHandles.size(); i++)
+				{
+					if (heHandles[i].e != -1) halfEdges[i].setEdge(&edges[heHandles[i].e]);
+				}
+
+
+
+				printf("\n mesh edges resized. ");
+
+			}
+
+			// Mesh Face
+			else if (type == zFaceData)
+			{
+				faces.clear();
+				faces.reserve(newSize);
+							
+
+				// reassign pointers
+				int n_f = 0;
+				for (auto &f : fHandles)
+				{
+					zItFace newF = faces.insert(faces.end(), zFace());
+					newF->setId(n_f);
+
+					if (f.he != -1)newF->setHalfEdge(&halfEdges[f.he]);
+					
+
+					n_f++;
+
+				}
+
+				for (int i = 0; i < heHandles.size(); i++)
+				{
+					if (heHandles[i].f != -1) halfEdges[i].setFace(&faces[heHandles[i].f]);
+				}
+				
+
+				printf("\n mesh faces resized. ");
+			}
+
+			else throw std::invalid_argument(" error: invalid zHEData type");
+		}
 
 	};
 

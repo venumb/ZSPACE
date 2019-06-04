@@ -91,7 +91,7 @@ namespace zSpace
 		*/
 		void splitLongEdges(double maxEdgeLength)
 		{
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			/*for (int i = 0; i < meshObj->mesh.halfEdges.size(); i += 2)
 			{
 				if (meshObj->mesh.edgeActive[i])
 				{
@@ -104,7 +104,7 @@ namespace zSpace
 
 					}
 				}
-			}
+			}*/
 		}
 
 		/*! \brief This method collapses an edge shorter than the given minimum edge length value if the collapsing doesnt produce adjacent edges longer than the maximum edge length.
@@ -115,54 +115,54 @@ namespace zSpace
 		*/
 		void collapseShortEdges(double minEdgeLength, double maxEdgeLength)
 		{
-			int finished = false;
+			//int finished = false;
 
-			vector<bool> edgeFinished;
+			//vector<bool> edgeFinished;
 
-			while (!finished)
-			{
-				for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
-				{
-					if (meshObj->mesh.edgeActive[i])
-					{
+			//while (!finished)
+			//{
+			//	for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			//	{
+			//		if (meshObj->mesh.edgeActive[i])
+			//		{
 
-						double eLength = fnMesh.getEdgelength(i);
+			//			double eLength = fnMesh.getEdgelength(i);
 
-						if (eLength < minEdgeLength)
-						{
-							int v1 = meshObj->mesh.edges[i].getVertex()->getVertexId();
-							int v2 = meshObj->mesh.edges[i + 1].getVertex()->getVertexId();
+			//			if (eLength < minEdgeLength)
+			//			{
+			//				int v1 = meshObj->mesh.edges[i].getVertex()->getVertexId();
+			//				int v2 = meshObj->mesh.edges[i + 1].getVertex()->getVertexId();
 
-							zVector pos = meshObj->mesh.vertexPositions[v2]; /*(meshObj->mesh.vertexPositions[v1] + meshObj->mesh.vertexPositions[v2]) * 0.5;*/
+			//				zVector pos = meshObj->mesh.vertexPositions[v2]; /*(meshObj->mesh.vertexPositions[v1] + meshObj->mesh.vertexPositions[v2]) * 0.5;*/
 
-							vector<int> cVertsV1;
-							fnMesh.getConnectedVertices(v1, zVertexData, cVertsV1);
+			//				vector<int> cVertsV1;
+			//				fnMesh.getConnectedVertices(v1, zVertexData, cVertsV1);
 
-							bool collapse_ok = true;
+			//				bool collapse_ok = true;
 
-							for (int j = 0; j < cVertsV1.size(); j++)
-							{
-								if (pos.distanceTo(meshObj->mesh.vertexPositions[cVertsV1[j]]) > maxEdgeLength)
-								{
-									collapse_ok = false;
-									break;
-								}
-							}
+			//				for (int j = 0; j < cVertsV1.size(); j++)
+			//				{
+			//					if (pos.distanceTo(meshObj->mesh.vertexPositions[cVertsV1[j]]) > maxEdgeLength)
+			//					{
+			//						collapse_ok = false;
+			//						break;
+			//					}
+			//				}
 
-							if (collapse_ok)
-							{
-								//printf("\n working %i \n", i);
-								fnMesh.collapseEdge(i, 0.5, false);
+			//				if (collapse_ok)
+			//				{
+			//					//printf("\n working %i \n", i);
+			//					fnMesh.collapseEdge(i, 0.5, false);
 
-								//printMesh(inMesh);
-							}
-						}
+			//					//printMesh(inMesh);
+			//				}
+			//			}
 
 
 
-					}
-				}
-			}
+			//		}
+			//	}
+			//}
 
 
 		}
@@ -174,7 +174,7 @@ namespace zSpace
 		*/
 		void equalizeValences()
 		{
-			for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
+			/*for (int i = 0; i < meshObj->mesh.edgeActive.size(); i += 2)
 			{
 				if (meshObj->mesh.edgeActive[i])
 				{
@@ -225,7 +225,7 @@ namespace zSpace
 
 					if (dev_pre <= dev_post) fnMesh.flipTriangleEdge(i);
 				}
-			}
+			}*/
 		}
 
 		/*! \brief This method applies an iterative smoothing to the mesh by  moving the vertex but constrained to its tangent plane.
@@ -235,7 +235,7 @@ namespace zSpace
 		*/
 		void tangentialRelaxation()
 		{
-			for (int i = 0; i < fnMesh.numVertices(); i++)
+			/*for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
 				if (meshObj->mesh.vertexActive[i])
 				{
@@ -262,7 +262,7 @@ namespace zSpace
 					fnMesh.setVertexPosition(i, newPos);
 
 				}
-			}
+			}*/
 
 		}
 	};

@@ -528,7 +528,7 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_base.json");
-					fnMeshJoints[0].from(path, type, false);
+					fnMeshJoints[0].from(path, type, true);
 
 					
 				}
@@ -540,7 +540,7 @@ namespace zSpace
 					path.append("/r_");
 					path.append(to_string(i));
 					path.append(".json");
-					fnMeshJoints[i].from(path, type, false);
+					fnMeshJoints[i].from(path, type, true);
 
 				}
 
@@ -549,7 +549,7 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_EE.json");
-					fnMeshJoints[8].from(path, type, false);
+					fnMeshJoints[8].from(path, type, true);
 				
 
 				}		
@@ -577,7 +577,7 @@ namespace zSpace
 					path.append("/r_");
 					path.append(to_string(i));
 					path.append(".obj");
-					fnMeshJoints[i].from(path, type, false);
+					fnMeshJoints[i].from(path, type, true);
 										
 				}
 
@@ -586,7 +586,7 @@ namespace zSpace
 				{
 					string path = directory;
 					path.append("/r_EE.obj");
-					fnMeshJoints[8].from(path, type);
+					fnMeshJoints[8].from(path, type, true);
 					
 				}
 
@@ -951,16 +951,20 @@ namespace zSpace
 		void update_robotJointGraph()
 		{
 			zVector p(zVector(0, 0, robotJointTransforms[0](2, 3)));
-			fnGraphJoint.setVertexPosition(1, p);
+			
 
-			for (int i = 0; i < DOF; i++)
+			zItGraphVertex v(*jointGraphObj, 1);
+			v.setVertexPosition(p);
+			v.next();
+
+			for (int i = 0; i < DOF; i++, v.next())
 			{
 				zVector pos;
 				pos.x = robotJointTransforms[i](0, 3);
 				pos.y = robotJointTransforms[i](1, 3);
 				pos.z = robotJointTransforms[i](2, 3);
 
-				fnGraphJoint.setVertexPosition(i + 2, pos);				
+				v.setVertexPosition( pos);				
 			}
 		}		
 

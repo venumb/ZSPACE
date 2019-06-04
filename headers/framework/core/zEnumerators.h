@@ -26,7 +26,7 @@ namespace zSpace
 	*	\brief	Data types of a halfedge data structure.
 	*	\since	version 0.0.1
 	*/	
-	enum zHEData { zVertexData = 0, zEdgeData, zFaceData};
+	enum zHEData { zVertexData = 0, zHalfEdgeData, zEdgeData, zFaceData};
 
 	/*! \enum	zScalarfieldData
 	*	\brief	Algorithm types for field navigation.

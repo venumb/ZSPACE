@@ -112,7 +112,7 @@ namespace zSpace
 			if (showVertices)
 			{
 
-				displayUtils->drawPoints(pCloud.vertexPositions, pCloud.vertexColors, pCloud.vertexWeights);
+				displayUtils->drawPoints(&pCloud.vertexPositions[0], &pCloud.vertexColors[0], &pCloud.vertexWeights[0], pCloud.vertexPositions.size());
 
 			}
 

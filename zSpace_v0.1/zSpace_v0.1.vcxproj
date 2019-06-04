@@ -47,6 +47,10 @@
     <ClInclude Include="..\headers\api\functionsets\zFnMeshDynamics.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnParticle.h" />
     <ClInclude Include="..\headers\api\functionsets\zFnPointCloud.h" />
+    <ClInclude Include="..\headers\api\iterators\zIt.h" />
+    <ClInclude Include="..\headers\api\iterators\zItGraph.h" />
+    <ClInclude Include="..\headers\api\iterators\zItMesh.h" />
+    <ClInclude Include="..\headers\api\iterators\zItPointCloud.h" />
     <ClInclude Include="..\headers\api\object\zObj.h" />
     <ClInclude Include="..\headers\api\object\zObjMeshField.h" />
     <ClInclude Include="..\headers\api\object\zObjPointField.h" />
@@ -91,7 +95,7 @@
     <ClInclude Include="..\headers\framework\dynamics\zParticle.h" />
     <ClInclude Include="..\headers\framework\field\zField2D.h" />
     <ClInclude Include="..\headers\framework\field\zField3D.h" />
-    <ClInclude Include="..\headers\framework\geometry\zGeometry.h" />
+    <ClInclude Include="..\headers\framework\geometry\zGeometryTypes.h" />
     <ClInclude Include="..\headers\framework\geometry\zGraph.h" />
     <ClInclude Include="..\headers\framework\geometry\zMesh.h" />
     <ClInclude Include="..\headers\framework\geometry\zPointCloud.h" />

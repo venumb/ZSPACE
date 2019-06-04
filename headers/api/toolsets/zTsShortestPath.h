@@ -238,35 +238,34 @@ namespace zSpace
 		parent[index] = -1;
 
 		// Find shortest path for all vertices 
-		for (int i = 0; i < fnHE.numVertices(); i++)
+		for(zItGraphVertex verts(*heObj); !verts.end(); verts.next())		
 		{
 			// Pick the minimum distance vertex from the set of vertices not 
 			// yet processed. u is always equal to src in the first iteration. 
-			int u = minDistance(dist, sptSet);
+			zItGraphVertex u(*heObj, minDistance(dist, sptSet));
 
 			// Mark the picked vertex as processed 
-			sptSet[u] = true;
+			sptSet[u.getId()] = true;
 
 			// Update dist value of the adjacent vertices of the picked vertex. 
 
-			vector<int> cVerts;
-			fnHE.getConnectedVertices(u, zVertexData, cVerts);
+			vector<zItGraphVertex> cVerts;
+			verts.getConnectedVertices( cVerts);
 
-			for (int j = 0; j < cVerts.size(); j++)
+			for (auto &v: cVerts)
 			{
-				int v = cVerts[j];
-				
-				zVector uPos = 	fnHE.getVertexPosition(u);
+						
+				zVector uPos = 	u.getVertexPosition();
 
-				zVector vPos  = fnHE.getVertexPosition(v);
+				zVector vPos  = v.getVertexPosition();
 
 				float distUV = uPos.distanceTo(vPos);
 				
 
-				if (!sptSet[v] && dist[u] != maxDIST && dist[u] + distUV < dist[v])
+				if (!sptSet[v.getId()] && dist[u.getId()] != maxDIST && dist[u.getId()] + distUV < dist[v.getId()])
 				{
-					dist[v] = dist[u] + distUV;
-					parent[v] = u;
+					dist[v.getId()] = dist[u.getId()] + distUV;
+					parent[v.getId()] = u.getId();
 				}
 			}
 
@@ -300,34 +299,34 @@ namespace zSpace
 		parent[index] = -1;
 
 		// Find shortest path for all vertices 
-		for (int i = 0; i < fnHE.numVertices(); i++)
+		for (zItMeshVertex verts(*heObj); !verts.end(); verts.next())
 		{
 			// Pick the minimum distance vertex from the set of vertices not 
 			// yet processed. u is always equal to src in the first iteration. 
-			int u = minDistance(dist, sptSet);
+			zItMeshVertex u(*heObj, minDistance(dist, sptSet));
 
 			// Mark the picked vertex as processed 
-			sptSet[u] = true;
+			sptSet[u.getId()] = true;
 
 			// Update dist value of the adjacent vertices of the picked vertex. 
 
-			vector<int> cVerts;
-			fnHE.getConnectedVertices(u, zVertexData, cVerts);
+			vector<zItMeshVertex> cVerts;
+			verts.getConnectedVertices(cVerts);
 
-			for (int j = 0; j < cVerts.size(); j++)
+			for (auto &v : cVerts)
 			{
-				int v = cVerts[j];
 
-				zVector uPos =	fnHE.getVertexPosition(u);
+				zVector uPos = u.getVertexPosition();
 
-				zVector vPos = fnHE.getVertexPosition(v);
+				zVector vPos = v.getVertexPosition();
 
-				float distUV = uPos.distanceTo(vPos);				
+				float distUV = uPos.distanceTo(vPos);
 
-				if (!sptSet[v] && dist[u] != maxDIST && dist[u] + distUV < dist[v])
+
+				if (!sptSet[v.getId()] && dist[u.getId()] != maxDIST && dist[u.getId()] + distUV < dist[v.getId()])
 				{
-					dist[v] = dist[u] + distUV;
-					parent[v] = u;
+					dist[v.getId()] = dist[u.getId()] + distUV;
+					parent[v.getId()] = u.getId();
 				}
 			}
 
@@ -356,7 +355,7 @@ namespace zSpace
 			{
 				// get the edge if it exists
 				int eId;
-				bool chkEdge = fnHE.edgeExists(id, nextId, eId);
+				bool chkEdge = fnHE.halfEdgeExists(id, nextId, eId);
 
 				if (chkEdge)
 				{
@@ -379,7 +378,9 @@ namespace zSpace
 				{
 					edgePath[tempEdgePath[i]] ++;
 
-					int symEdge = fnHE.getSymIndex(tempEdgePath[i]);
+					zItGraphHalfEdge he(*heObj, tempEdgePath[i]);
+
+					int symEdge = he.getSym().getId();
 					edgePath[symEdge] ++;
 				}
 			}
@@ -415,7 +416,7 @@ namespace zSpace
 			{
 				// get the edge if it exists
 				int eId;
-				bool chkEdge = fnHE.edgeExists(id, nextId, eId);
+				bool chkEdge = fnHE.halfEdgeExists(id, nextId, eId);
 
 				if (chkEdge)
 				{
@@ -438,7 +439,9 @@ namespace zSpace
 				{
 					edgePath[tempEdgePath[i]] ++;
 
-					int symEdge = fnHE.getSymIndex(tempEdgePath[i]);
+					zItMeshHalfEdge he(*heObj, tempEdgePath[i]);
+
+					int symEdge = he.getSym().getId();
 					edgePath[symEdge] ++;
 				}
 			}
@@ -484,7 +487,7 @@ namespace zSpace
 			{
 				// get the edge if it exists
 				int eId;
-				bool chkEdge = fnHE.edgeExists(id, nextId, eId);
+				bool chkEdge = fnHE.halfEdgeExists(id, nextId, eId);
 
 				if (chkEdge)
 				{
@@ -505,9 +508,9 @@ namespace zSpace
 			{
 				for (int i = 0; i < tempEdgePath.size(); i++)
 				{
-					edgePath[tempEdgePath[i]] ++;
+					zItGraphHalfEdge he(*heObj, tempEdgePath[i]);
 
-					int symEdge = fnHE.getSymIndex(tempEdgePath[i]);
+					int symEdge = he.getSym().getId();
 					edgePath[symEdge] ++;
 				}
 			}
@@ -549,12 +552,12 @@ namespace zSpace
 			{
 				// get the edge if it exists
 				int eId;
-				bool chkEdge = fnHE.edgeExists(id, nextId, eId);
+				bool chkEdge = fnHE.halfEdgeExists(id, nextId, eId);
 
 				if (chkEdge)
 				{
 					// update edge visits
-					edgePath.push_back(eId);
+					tempEdgePath.push_back(eId);
 				}
 			}
 
@@ -571,7 +574,9 @@ namespace zSpace
 				{
 					edgePath[tempEdgePath[i]] ++;
 
-					int symEdge = fnHE.getSymIndex(tempEdgePath[i]);
+					zItMeshHalfEdge he(*heObj, tempEdgePath[i]);
+
+					int symEdge = he.getSym().getId();
 					edgePath[symEdge] ++;
 				}
 			}
@@ -599,7 +604,7 @@ namespace zSpace
 		edgeVisited.clear();
 
 		// initialise edge visits to 0
-		for (int i = 0; i <fnHE.numEdges(); i++)
+		for (int i = 0; i <fnHE.numHalfEdges(); i++)
 		{
 			edgeVisited.push_back(0);
 		}
@@ -630,7 +635,7 @@ namespace zSpace
 		edgeVisited.clear();
 
 		// initialise edge visits to 0
-		for (int i = 0; i < fnHE.numEdges(); i++)
+		for (int i = 0; i < fnHE.numHalfEdges(); i++)
 		{
 			edgeVisited.push_back(0);
 		}
@@ -662,10 +667,10 @@ namespace zSpace
 	{
 
 		// initialise edge visits to 0
-		if (edgeVisited.size() == 0 || edgeVisited.size() < fnHE.numEdges())
+		if (edgeVisited.size() == 0 || edgeVisited.size() < fnHE.numHalfEdges())
 		{
 			edgeVisited.clear();
-			for (int i = 0; i < fnHE.numEdges(); i++)
+			for (int i = 0; i < fnHE.numHalfEdges(); i++)
 			{
 				edgeVisited.push_back(0);
 			}
@@ -692,10 +697,10 @@ namespace zSpace
 	inline void zTsShortestPath<zObjMesh,zFnMesh>::shortestPathWalks_SourceToAll(vector<int> &sourceVertices, vector<int> &edgeVisited)
 	{
 		// initialise edge visits to 0
-		if (edgeVisited.size() == 0 || edgeVisited.size() < fnHE.numEdges())
+		if (edgeVisited.size() == 0 || edgeVisited.size() < fnHE.numHalfEdges())
 		{
 			edgeVisited.clear();
-			for (int i = 0; i < fnHE.numEdges(); i++)
+			for (int i = 0; i < fnHE.numHalfEdges(); i++)
 			{
 				edgeVisited.push_back(0);
 			}
@@ -728,7 +733,7 @@ namespace zSpace
 		vector<bool> computeDone;
 
 		// initialise edge visits to 0
-		for (int i = 0; i < fnHE.numEdges(); i++)
+		for (int i = 0; i < fnHE.numHalfEdges(); i++)
 		{
 			edgeVisited.push_back(0);
 		}
@@ -761,7 +766,7 @@ namespace zSpace
 		vector<bool> computeDone;
 
 		// initialise edge visits to 0
-		for (int i = 0; i < fnHE.numEdges(); i++)
+		for (int i = 0; i < fnHE.numHalfEdges(); i++)
 		{
 			edgeVisited.push_back(0);
 		}
@@ -850,16 +855,16 @@ namespace zSpace
 		currentWalkingEdges.clear();
 		walkedEdges.clear();
 
-		for (int i = 0; i < fnHE.numEdges(); i += 2)
+		for(zItGraphEdge e(*heObj); !e.end(); e.next())
 		{
-			int v1 = fnHE.getEndVertexIndex(i); 
-			int v2 = fnHE.getEndVertexIndex(i+1);
+			zItGraphVertex v1 = e.getHalfEdge(0).getVertex(); 
+			zItGraphVertex v2 = e.getHalfEdge(1).getVertex();
 
-			zVector v1Pos = fnHE.getVertexPosition(v1);
+			zVector v1Pos = v1.getVertexPosition();
 
-			zVector v2Pos = fnHE.getVertexPosition(v2);
+			zVector v2Pos = v2.getVertexPosition();
 
-			if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] <= MaxDistance)
+			if (vertexDistances[v1.getId()] <= MaxDistance && vertexDistances[v2.getId()] <= MaxDistance)
 			{
 				
 
@@ -867,11 +872,11 @@ namespace zSpace
 				walkedEdges.push_back(v2Pos);
 			}
 
-			else if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] > MaxDistance)
+			else if (vertexDistances[v1.getId()] <= MaxDistance && vertexDistances[v2.getId()] > MaxDistance)
 			{
 
 
-				double remainingDist = MaxDistance - vertexDistances[v1];
+				double remainingDist = MaxDistance - vertexDistances[v1.getId()];
 
 				zVector dir = v2Pos - v1Pos;
 				dir.normalize();
@@ -894,11 +899,11 @@ namespace zSpace
 
 			}
 
-			else if (vertexDistances[v1] > MaxDistance && vertexDistances[v2] <= MaxDistance)
+			else if (vertexDistances[v1.getId()] > MaxDistance && vertexDistances[v2.getId()] <= MaxDistance)
 			{
 
 
-				double remainingDist = MaxDistance - vertexDistances[v2];
+				double remainingDist = MaxDistance - vertexDistances[v2.getId()];
 
 				zVector dir = v1Pos - v2Pos;
 				dir.normalize();
@@ -931,16 +936,16 @@ namespace zSpace
 		currentWalkingEdges.clear();
 		walkedEdges.clear();
 
-		for (int i = 0; i < fnHE.numEdges(); i += 2)
+		for (zItMeshEdge e(*heObj); !e.end(); e.next())
 		{
-			int v1 = fnHE.getEndVertexIndex(i);
-			int v2 = fnHE.getEndVertexIndex(i + 1);
+			zItMeshVertex v1 = e.getHalfEdge(0).getVertex();
+			zItMeshVertex v2 = e.getHalfEdge(1).getVertex();
 
-			zVector v1Pos = fnHE.getVertexPosition(v1);
+			zVector v1Pos = v1.getVertexPosition();
 
-			zVector v2Pos = fnHE.getVertexPosition(v2);
+			zVector v2Pos = v2.getVertexPosition();
 
-			if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] <= MaxDistance)
+			if (vertexDistances[v1.getId()] <= MaxDistance && vertexDistances[v2.getId()] <= MaxDistance)
 			{
 
 
@@ -948,11 +953,11 @@ namespace zSpace
 				walkedEdges.push_back(v2Pos);
 			}
 
-			else if (vertexDistances[v1] <= MaxDistance && vertexDistances[v2] > MaxDistance)
+			else if (vertexDistances[v1.getId()] <= MaxDistance && vertexDistances[v2.getId()] > MaxDistance)
 			{
 
 
-				double remainingDist = MaxDistance - vertexDistances[v1];
+				double remainingDist = MaxDistance - vertexDistances[v1.getId()];
 
 				zVector dir = v2Pos - v1Pos;
 				dir.normalize();
@@ -975,11 +980,11 @@ namespace zSpace
 
 			}
 
-			else if (vertexDistances[v1] > MaxDistance && vertexDistances[v2] <= MaxDistance)
+			else if (vertexDistances[v1.getId()] > MaxDistance && vertexDistances[v2.getId()] <= MaxDistance)
 			{
 
 
-				double remainingDist = MaxDistance - vertexDistances[v2];
+				double remainingDist = MaxDistance - vertexDistances[v2.getId()];
 
 				zVector dir = v1Pos - v2Pos;
 				dir.normalize();
