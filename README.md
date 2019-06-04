@@ -1,5 +1,6 @@
 # ZSPACE
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/venumb/zSpace_v003/LICENSE.MIT)
+[![Documentation](https://img.shields.io/badge/docs-doxygen-blue.svg)](//github.com/venumb/zSpace_v003/docs/doxyoutput/html/modules.html)
 
 **ZSPACE** is a C++  library collection of geometry data-structures, algorithms and city data visualization framework. It is implemented as a header-only C++ library, whose dependencies, are header-only or static libraries. Hence **ZSPACE** can be easily embedded in C++ projects. 
 
