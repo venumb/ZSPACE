@@ -33,4 +33,4 @@ However, it has some dependencies on third-party tools and services, which have 
 - [**JSON for Modern C++**](https://github.com/nlohmann/json) to create a JSON file. It is an open source project licensed under
 [MIT License](https://opensource.org/licenses/MIT).
 
-- [**SQLITE**](https://www.sqlite.org/index.html) for SQL database engine. It is an open source project dedicated to the public domain.
+- [**SQLITE**](https://www.sqlite.org/index.html) for SQL database engine. It is an open source project dedicated to the [public domain](https://en.wikipedia.org/wiki/Public_domain).
