@@ -152,6 +152,10 @@ namespace zSpace
 		*/
 		void walk_Animate( double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges);
 
+
+		void getShortestPathGraph(vector<int> &edgeVisited, zObjGraph &outGraph);
+		
+
 		//--------------------------
 		//--- SPANNING TREE METHODS 
 		//--------------------------
@@ -927,7 +931,7 @@ namespace zSpace
 			}
 		}
 	}
-
+		
 	//---- mesh specilization for walking distance sources
 	template<>
 	inline void zTsShortestPath<zObjMesh,zFnMesh>::walk_Animate(double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges)
@@ -1010,6 +1014,25 @@ namespace zSpace
 	}
 	
 	//---------------//
+
+	//---- mesh specilization for getShortestPathGraph
+	template<>
+	inline void zTsShortestPath<zObjMesh, zFnMesh>::getShortestPathGraph(vector<int>& edgeVisited, zObjGraph & outGraph)
+	{
+		vector<zVector> positions;
+		vector<int> vertexIds;
+		vector<int> edgeConnects;
+
+		for (int i = 0; i < edgeVisited.size(); i++)
+		{
+			zItMeshHalfEdge he(*heObj, edgeVisited[i]);
+
+			int v1 = he.getVertex().getId();
+			int v0 = he.getStartVertex().getId();
+
+
+		}
+	}
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 

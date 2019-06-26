@@ -45,7 +45,7 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
-		/*!	\brief pointer to a field 2D object  */
+		/*!	\brief pointer to a field 3D object  */
 		zObjPointField<T> *fieldObj;	
 				
 		/*! \brief This method creates the point cloud from the field parameters.
@@ -157,11 +157,6 @@ namespace zSpace
 		void clear() 
 		{
 
-			
-			fieldObj->field.ringNeighbours.clear();
-			fieldObj->field.adjacentNeighbours.clear();
-
-			fieldObj->field.positions.clear();
 			fieldObj->field.fieldValues.clear();
 
 			fnPoints.clear();

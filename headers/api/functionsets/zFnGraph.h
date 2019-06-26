@@ -3,9 +3,7 @@
 
 #include<headers/api/object/zObjGraph.h>
 
-#include<headers/api/functionsets/zFn.h>
 #include<headers/api/functionsets/zFnMesh.h>
-
 #include<headers/api/iterators/zItGraph.h>
 
 namespace zSpace
@@ -143,9 +141,8 @@ namespace zSpace
 		//---- FACTORY METHODS
 		//--------------------------
 
-		/*! \brief This method imports zGraph from an TXT file.
+		/*! \brief This method imports zGraph from a TXT file.
 		*
-		*	\param [in]		inGraph				- graph created from the txt file.
 		*	\param [in]		infilename			- input file name including the directory path and extension.
 		*	\return 		bool			- true if the file was read succesfully.
 		*	\since version 0.0.2
@@ -220,6 +217,120 @@ namespace zSpace
 				graphObj->graph.create(positions, edgeConnects, graphNormal, sortRef);
 			}
 			printf("\n graphObj->graph: %i %i ", numVertices(), numEdges());
+
+			return true;
+		}
+
+		/*! \brief This method imports zGraph from a TXT file from Maya.
+		*
+		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\return 		bool				- true if the file was read succesfully.
+		*	\since version 0.0.2
+		*/
+		bool fromMAYATXT(string infilename)
+		{
+			vector<zVector>positions;
+			vector<int>edgeConnects;
+			vector<int>positionIds;
+
+			int hashCounter = 0;
+
+			ifstream myfile;
+			myfile.open(infilename.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << infilename.c_str() << endl;
+				return false;
+
+			}
+
+			while (!myfile.eof())
+			{
+				string str;
+				getline(myfile, str);
+
+
+
+				vector<string> perlineData = graphObj->graph.coreUtils.splitString(str, " ");
+
+				if (perlineData.size() > 0)
+				{
+					if (perlineData[0] == "}")
+					{
+
+						for (int i = 1; i < positionIds.size(); i++)
+						{
+
+							edgeConnects.push_back(positionIds[i - 1]);
+							edgeConnects.push_back(positionIds[i]);
+						}
+
+						positionIds.clear();
+						//printf("\n working #");
+
+					}
+
+
+					if (perlineData[0] == "#")
+					{
+						if (hashCounter > 0)
+						{
+							if (positions.size() > 1)
+							{						
+								if (!planarGraph) graphObj->graph.create(positions, edgeConnects);;
+								if (planarGraph)
+								{
+									graphNormal.normalize();
+
+									zVector x(1, 0, 0);
+									zVector sortRef = graphNormal ^ x;
+
+									graphObj->graph.create(positions, edgeConnects, graphNormal, sortRef);
+								}
+								printf("\n graph: %i %i ", numVertices(), numEdges());
+
+							}
+						}
+
+
+
+						hashCounter++;
+
+						positions.clear();
+						edgeConnects.clear();
+
+
+					}
+
+					// vertex
+					if (perlineData[0] == "v")
+					{
+						if (perlineData.size() == 4)
+						{
+							zVector pos;
+							pos.x = atof(perlineData[1].c_str());
+							pos.y = atof(perlineData[2].c_str());
+							pos.z = atof(perlineData[3].c_str());
+
+							int index = -1;
+							bool chk = graphObj->graph.coreUtils.checkRepeatElement(pos, positions, index);
+
+							if (!chk)
+							{
+								positionIds.push_back(positions.size());
+								positions.push_back(pos);
+							}
+							else positionIds.push_back(index);
+						}
+						
+					}
+
+
+
+				}
+			}
+						
 
 			return true;
 		}
@@ -654,6 +765,11 @@ namespace zSpace
 			if (type == zTXT)
 			{
 				fromTXT(path);
+				setStaticContainers();
+			}
+			if (type == zMAYATXT)
+			{
+				fromMAYATXT(path);
 				setStaticContainers();
 			}
 			else if (type == zJSON)
@@ -1317,15 +1433,15 @@ namespace zSpace
 
 		/*! \brief This method returns the mesh created from planar input graph.
 		*
+		*	\param		[out]	zObjMesh				- output mesh object
 		*	\param		[in]	inGraph					- input graph.
 		*	\param		[in]	width					- offset width from the graph.
-		*	\param		[in]	graphNormal				- normal of the plane of the graph.
-		*	\return				zObjMesh				- output mesh object
+		*	\param		[in]	graphNormal				- normal of the plane of the graph.		
 		*	\since version 0.0.2
 		*/
-		zObjMesh getGraphMesh( double width = 0.5, zVector graphNormal = zVector(0, 0, 1))
+		void getGraphMesh(zObjMesh &out, double width = 0.5, zVector graphNormal = zVector(0, 0, 1))
 		{
-			zObjMesh out;
+			
 			vector<zVector>positions;
 			vector<int> polyConnects;
 			vector<int> polyCounts;
@@ -1336,11 +1452,11 @@ namespace zSpace
 			positions = graphObj->graph.vertexPositions;
 
 			vector<vector<int>> edgeVertices;
-			for (zItGraphEdge e(*graphObj); !e.end(); e.next())
+			for (zItGraphHalfEdge he(*graphObj); !he.end(); he.next())
 			{
 
-				int v0 = e.getHalfEdge(1).getVertex().getId();
-				int v1 = e.getHalfEdge(0).getVertex().getId();
+				int v0 = he.getStartVertex().getId();
+				int v1 = he.getVertex().getId();
 		
 				vector<int> temp;	
 				temp.push_back(v0);
@@ -1393,10 +1509,10 @@ namespace zSpace
 						int prevId = cEdges[j].getPrev().getId();
 						
 
-						zVector e_current = cEdges[0].getHalfEdgeVector();
+						zVector e_current = cEdges[j].getHalfEdgeVector();
 						e_current.normalize();
 
-						zVector e_prev = cEdges[0].getPrev().getHalfEdgeVector();
+						zVector e_prev = cEdges[j].getPrev().getHalfEdgeVector();
 						e_prev.normalize();
 
 						zVector n_current = graphNormal ^ e_current;
@@ -1411,11 +1527,44 @@ namespace zSpace
 						
 						double w = width * 0.5;
 
-						edgeVertices[currentId][3] = positions.size();
+						zVector a0 = cEdges[j].getStartVertex().getVertexPosition() + (n_current * w);
+						zVector a1 = cEdges[j].getCenter() + (n_current * w);
 
+						zVector b0 = cEdges[j].getStartVertex().getVertexPosition() + (n_prev * w);
+						zVector b1 = cEdges[j].getPrev().getCenter() + (n_prev * w);
+
+						double uA, uB;
+						bool intersect = graphObj->graph.coreUtils.line_lineClosestPoints(a0, a1, b0, b1, uA, uB);
+
+
+						edgeVertices[currentId][3] = positions.size();
 						edgeVertices[prevId][2] = positions.size();
 
-						positions.push_back(v.getVertexPosition() + (norm * w));
+						
+
+						if(!intersect) positions.push_back(v.getVertexPosition() + (norm * w));
+						else
+						{
+							if (uA >= uB)
+							{
+								zVector dir = a1 - a0;
+								double len = dir.length();
+								dir.normalize();
+
+								if (uA < 0) dir *= -1;
+								positions.push_back(a0 + dir * len * uA);
+							}
+							else
+							{
+								zVector dir = b1 - b0;
+								double len = dir.length();
+								dir.normalize();
+
+								if (uB < 0) dir *= -1;
+
+								positions.push_back( b0 + dir * len * uB);
+							}
+						}
 					}
 				}
 
@@ -1443,7 +1592,7 @@ namespace zSpace
 			}
 
 			
-			return out;;
+			
 		}
 
 		

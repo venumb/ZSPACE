@@ -62,19 +62,6 @@ namespace zSpace
 			showEdges = true;
 		}
 
-		/*! \brief Overloaded constructor.
-		*
-		*	\param		[in]	_displayUtils			- input display utilities.
-		*	\since version 0.0.2
-		*/
-		zObjGraph(zUtilsDisplay &_displayUtils)
-		{
-			displayUtils = &_displayUtils;
-
-			showVertices = false;
-			showEdges = true;
-		}
-
 		//--------------------------
 		//---- DESTRUCTOR
 		//--------------------------
@@ -136,6 +123,11 @@ namespace zSpace
 			{
 				displayUtils->drawTransform(transformationMatrix);
 			}
+		}
+
+		void getBounds(zVector &minBB, zVector &maxBB) override
+		{
+			coreUtils->getBounds(graph.vertexPositions, minBB, maxBB);
 		}
 
 		//--------------------------

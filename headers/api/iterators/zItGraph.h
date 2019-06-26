@@ -1330,7 +1330,7 @@ namespace zSpace
 	//--------------------------
 
 	//getHalfEdge
-	zItGraphHalfEdge zSpace::zItGraphEdge::getHalfEdge(int _index)
+	inline zItGraphHalfEdge zSpace::zItGraphEdge::getHalfEdge(int _index)
 	{
 		return zItGraphHalfEdge(*graphObj, iter->getHalfEdge(_index)->getId());
 	}

@@ -71,6 +71,7 @@ namespace zSpace
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
+		
 		/*! \brief Default constructor.
 		*
 		*	\since version 0.0.2
@@ -91,26 +92,6 @@ namespace zSpace
 
 			normalScale = 1.0;
 		}	
-
-
-		zObjMesh(zMesh &_mesh)
-		{
-			mesh = _mesh;
-
-			displayUtils = nullptr;
-
-			showVertices = false;
-			showEdges = true;
-			showFaces = true;
-
-			showDihedralEdges = false;
-			showVertexNormals = false;
-			showFaceNormals = false;
-
-			dihedralAngleThreshold = 45;
-
-			normalScale = 1.0;
-		}
 
 
 		//--------------------------
@@ -287,6 +268,11 @@ namespace zSpace
 				displayUtils->drawTransform(transformationMatrix);
 			}
 			
+		}
+
+		void getBounds(zVector &minBB, zVector &maxBB) override
+		{
+			coreUtils->getBounds(mesh.vertexPositions, minBB, maxBB);
 		}
 
 		//--------------------------

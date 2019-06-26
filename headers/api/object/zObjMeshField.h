@@ -89,7 +89,10 @@ namespace zSpace
 			zObjMesh::draw();
 		}	
 			
-
+		void getBounds(zVector &minBB, zVector &maxBB) override
+		{
+			zObjMesh::getBounds(minBB, maxBB);
+		}
 
 	};
 

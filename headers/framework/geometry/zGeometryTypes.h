@@ -15,12 +15,6 @@ namespace zSpace
 	typedef std::vector<zHalfEdge>::iterator		zItHalfEdge;
 	typedef std::vector<zEdge>::iterator			zItEdge;
 	typedef std::vector<zFace>::iterator			zItFace;
-
-	typedef std::vector<zVertex>::const_iterator		zCItVertex;
-	typedef std::vector<zHalfEdge>::const_iterator		zCItHalfEdge;
-	typedef std::vector<zEdge>::const_iterator			zCItEdge;
-	typedef std::vector<zFace>::const_iterator			zCItFace;
-
 	
 	/** \addtogroup Framework
 	*	\brief The datastructures of the library.
@@ -46,7 +40,7 @@ namespace zSpace
 	protected:
 		int index;
 
-		/*!	\brief iterator	to 2 half edges of the edge. */
+		/*!	\brief pointer to 2 half edges of the edge. */
 		zHalfEdge* he[2];
 
 	public:		

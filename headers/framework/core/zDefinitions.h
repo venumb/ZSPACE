@@ -151,16 +151,7 @@ namespace zSpace
 	*
 	*	\since version 0.0.2
 	*/
-	typedef double* pDouble3[3];
-
-
-	struct zVertexHandle { int id, he;  zVertexHandle() { id = he = -1; } };
-
-	struct zHalfEdgeHandle { int id, p, n, v, e, f; zHalfEdgeHandle() { id = p = n = v = e = f = -1; } };
-
-	struct zEdgeHandle { int id, he0, he1; zEdgeHandle() { id = he0 = he1 = -1; } };
-
-	struct zFaceHandle { int id, he; zFaceHandle() { id = he = -1; } };
+	typedef double* pDouble3[3];	
 
 	/** @}*/
 
@@ -169,6 +160,45 @@ namespace zSpace
 	/** @}*/ 
 
 
+		/** \addtogroup Framework
+	*	\brief The datastructures of the library.
+	*  @{
+	*/
 
+	/** \addtogroup zGeometryHandles
+	*	\brief The geometry handle classes of the library.
+	*  @{
+	*/
+
+	/*! \struct zVertexHandle
+	*	\brief An vertex handle struct to  hold vertex information of a half-edge data structure as indicies. Used mostly internally for array resizing.
+	*	\since version 0.0.3
+	*/
+	struct zVertexHandle { int id, he;  zVertexHandle() { id = he = -1; } };
+
+	/*! \struct zHalfEdgeHandle
+	*	\brief An half edge handle struct to  hold halfedge information of a half-edge data structure as indicies. Used mostly internally for array resizing.
+	*	\since version 0.0.3
+	*/
+	struct zHalfEdgeHandle { int id, p, n, v, e, f; zHalfEdgeHandle() { id = p = n = v = e = f = -1; } };
+
+	/*! \struct zEdgeHandle
+	*	\brief An edge handle struct to  hold edge information of a half-edge data structure as indicies. Used mostly internally for array resizing.
+	*	\since version 0.0.3
+	*/
+	struct zEdgeHandle { int id, he0, he1; zEdgeHandle() { id = he0 = he1 = -1; } };
+
+	/*! \struct zFaceHandle
+	*	\brief An face handle struct to  hold face information of a half-edge data structure as indicies. Used mostly internally for array resizing.
+	*	\since version 0.0.3
+	*/
+	struct zFaceHandle { int id, he; zFaceHandle() { id = he = -1; } };
+
+
+	/** @}*/
+
+	/** @}*/
+
+	
 
 }

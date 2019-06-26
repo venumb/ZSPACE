@@ -4,9 +4,6 @@
 #include <headers/api/functionsets/zFnGraph.h>
 #include <headers/api/functionsets/zFnParticle.h>
 
-
-
-
 namespace zSpace
 {
 
@@ -58,9 +55,7 @@ namespace zSpace
 		//--------------------------
 		//---- RESULT ATTRIBUTES
 		//--------------------------
-
-		/*!	\brief pointer to result Object  */
-		T *resultObj;
+			
 
 		/*!	\brief container of  result particle objects  */
 		vector<zObjParticle> resultParticlesObj;
@@ -81,9 +76,6 @@ namespace zSpace
 		//---- FORM DIAGRAM ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to form Object  */
-		T *formObj;
-
 		/*!	\brief container of  form particle objects  */
 		vector<zObjParticle> formParticlesObj;
 
@@ -96,9 +88,7 @@ namespace zSpace
 		//--------------------------
 		//---- FORCE DIAGRAM ATTRIBUTES
 		//--------------------------
-
-		/*!	\brief pointer to force Object  */
-		zObjMesh *forceObj;
+			
 
 		/*!	\brief container of  force particle objects  */
 		vector<zObjParticle> forceParticlesObj;
@@ -147,6 +137,15 @@ namespace zSpace
 		
 		/*!	\brief color domain - min for tension edges and max for compression edges.  */
 		zDomainColor elementColorDomain = zDomainColor(zColor(0.5, 0, 0.2, 1), zColor(0, 0.2, 0.5, 1));		
+
+		/*!	\brief pointer to result Object  */
+		T *resultObj;
+
+		/*!	\brief pointer to form Object  */
+		T *formObj;
+
+		/*!	\brief pointer to force Object  */
+		zObjMesh *forceObj;
 
 		/*!	\brief result function set  */
 		U fnResult;
@@ -580,30 +579,35 @@ namespace zSpace
 		//--------------------------
 		
 
-		/*! \brief This method gets the corresponding force diagram edge for the input form diagram indexed edge.
+		/*! \brief This method gets the corresponding force diagram halfedge for the input form diagram indexed halfedge.
 		*
-		*	\param		[in]	formEdgeindex			- form diagram edge index.
-		*	\return				int						- correponding force edge index if it exists, else -1.
+		*	\param		[in]	formEdgeindex			- form diagram halfedge index.
+		*	\param		[out]	outForceEdge			- force diagram halfedge iterator if edge exists.
+		*	\return				bool					- true if correponding force halfedge exists, else false.
 		*	\since version 0.0.2
 		*/
-		int getCorrespondingForceEdge(int formEdgeindex)
+		bool getCorrespondingForceEdge(int formEdgeindex , zItMeshHalfEdge &outForceEdge)
 		{
 			if (formEdgeindex > formEdge_forceEdge.size()) throw std::invalid_argument(" error: index out of bounds.");
+			if (formEdge_forceEdge[formEdgeindex] != -1) outForceEdge = zItMeshHalfEdge(*forceObj, formEdge_forceEdge[formEdgeindex]);
 
-			return formEdge_forceEdge[formEdgeindex];
+			return (formEdge_forceEdge[formEdgeindex] == -1) ? false : true;
 		}
 
-		/*! \brief This method gets the corresponding form diagram edge for the input force diagram indexed edge.
+		/*! \brief This method gets the corresponding form diagram halfedge for the input force diagram indexed halfedge.
 		*
-		*	\param		[in]	forceEdgeindex			- force diagram edge index.
-		*	\return				int						- correponding form edge index if it exists, else -1.
+		*	\param		[in]	forceEdgeindex			- force diagram halfedge index.
+		*	\param		[out]	outFormEdge				- form diagram halfedge iterator if edge exists.
+		*	\return				bool					- true correponding form halfedge exists, else false.
 		*	\since version 0.0.2
 		*/
-		int getCorrespondingFormEdge(int forceEdgeindex)
+		bool getCorrespondingFormEdge(int forceEdgeindex, zItMeshHalfEdge &outFormEdge)
 		{
 			if (forceEdgeindex > forceEdge_formEdge.size()) throw std::invalid_argument(" error: index out of bounds.");
 
-			return forceEdge_formEdge[forceEdgeindex];
+			if (forceEdge_formEdge[forceEdgeindex] != -1) outFormEdge = zItMeshHalfEdge(*forceObj, forceEdge_formEdge[forceEdgeindex]);
+
+			return (forceEdge_formEdge[forceEdgeindex] == -1) ? false : true;
 		}
 
 		/*! \brief This method gets the horizontal equilibrium target vectors for the input diagram type.
@@ -1888,7 +1892,7 @@ namespace zSpace
 		vector<zVector> eCenters;
 		fnResult.getCenters(zHalfEdgeData, eCenters);
 
-		fnResult.getVertexArea(fCenters, eCenters, resultVMass);
+		fnResult.getVertexAreas(fCenters, eCenters, resultVMass);
 
 	}
 
@@ -2633,7 +2637,7 @@ namespace zSpace
 				zVector e_Force_vec = e_force.getHalfEdgeVector();
 				e_Force_vec.normalize();
 
-				
+				eId = e_force.getId();
 
 				// for tension edge point to the edge in the opposite direction
 				//int symId = fnForm.getSymIndex(i);
@@ -2648,8 +2652,8 @@ namespace zSpace
 					{
 						if (e_Form_vec*e_Force_vec < 0) eId = e_force.getSym().getId();
 					}
-				//}
-				
+				//}			
+					
 				
 
 			}
@@ -2793,6 +2797,8 @@ namespace zSpace
 
 				targetEdges_form.push_back(e_target);
 				targetEdges_force[eId_force] = e_target;
+
+				
 			}
 
 			else
@@ -2840,6 +2846,8 @@ namespace zSpace
 
 				double a_i = e_form_vec.angle(e_force_vec);
 				if ((form_tensionEdges[eId_form]))a_i = 180 - a_i;
+
+				
 
 				deviations.push_back(a_i);
 
@@ -2928,7 +2936,7 @@ namespace zSpace
 				// angle
 
 				double a_i = e_form_vec.angle(e_force_vec);
-				if ((form_tensionEdges[eId_form]))a_i = 180 - a_i;
+				if ((form_tensionEdges[eId_form]))a_i = 180 - a_i;				
 
 				deviations.push_back(a_i);
 
@@ -2946,7 +2954,7 @@ namespace zSpace
 
 			}
 			else
-			{
+			{			
 				deviations.push_back(-1);
 			}
 		}

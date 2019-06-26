@@ -98,6 +98,8 @@ namespace zSpace
 			// clear containers
 			clear();
 
+			vertices.reserve(_positions.size());
+
 			for (int i = 0; i < _positions.size(); i++)	addVertex(_positions[i]);
 
 		}

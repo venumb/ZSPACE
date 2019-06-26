@@ -27,7 +27,7 @@ namespace zSpace
 
 	class zObjPointCloud :public zObj
 	{
-	private:
+	protected:
 
 		/*! \brief boolean for displaying the vertices */
 		bool showVertices;
@@ -98,11 +98,17 @@ namespace zSpace
 			}
 
 		}
+
+		void getBounds(zVector &minBB, zVector &maxBB) override
+		{
+			coreUtils->getBounds(pCloud.vertexPositions, minBB, maxBB);
+		}
+
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
 
-		/*! \brief This method displays the zMesh.
+		/*! \brief This method displays the point cloud.
 		*
 		*	\since version 0.0.2
 		*/

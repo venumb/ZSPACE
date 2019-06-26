@@ -226,17 +226,7 @@ namespace zSpace
 					}
 				}
 
-			}
-
-			for (auto &he : halfEdges)
-			{
-				printf("\n %i %i %i %i ", he.getPrev()->getId(), he.getNext()->getId(), he.getVertex()->getId(), he.getEdge()->getId());
-			}
-
-			for (auto &he : heHandles)
-			{
-				printf("\n\n %i %i %i %i ", he.p, he.n, he.v, he.e);
-			}
+			}			
 
 
 			delete[] cEdgesperVert;
@@ -322,17 +312,7 @@ namespace zSpace
 					}
 				}
 
-			}
-
-			for (auto &he : halfEdges)
-			{
-				printf("\n %i %i %i %i ", he.getPrev()->getId(), he.getNext()->getId(), he.getVertex()->getId(), he.getEdge()->getId());
-			}
-
-			for (auto &he : heHandles)
-			{
-				printf("\n\n %i %i %i %i ", he.p, he.n, he.v, he.e);
-			}
+			}			
 
 
 			delete[] cEdgesperVert;

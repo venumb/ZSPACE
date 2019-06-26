@@ -123,12 +123,7 @@ namespace zSpace
 		virtual void deactivate() override 
 		{			
 			iter->reset();			
-		}
-
-		//--------------------------
-		//---- TOPOLOGY QUERY METHODS
-		//--------------------------
-	
+		}   	
 			
 
 	

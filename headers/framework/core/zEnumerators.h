@@ -114,13 +114,13 @@ namespace zSpace
 	*	\brief	input and ouput file types.
 	*	\since	version 0.0.2
 	*/
-	enum zFileTpye { zJSON = 150, zOBJ, zTXT, zCSV, zBMP, zMESH , zGRAPH};
+	enum zFileTpye { zJSON = 150, zOBJ, zTXT,zMAYATXT, zCSV, zBMP, zMESH , zGRAPH};
 
 	/*! \enum	zFnType
 	*	\brief	functionset types.
 	*	\since	version 0.0.2
 	*/
-	enum zFnType { zInvalidFn = 160, zPointsFn, zMeshFn, zGraphFn, zMeshFieldFn, zPointField3DFn, zParticleFn, zMeshDynamicsFn, zGraphDynamicsFn};
+	enum zFnType { zInvalidFn = 160, zPointsFn, zMeshFn, zGraphFn, zMeshFieldFn, zPointFieldFn, zParticleFn, zMeshDynamicsFn, zGraphDynamicsFn};
 
 	/*! \enum	zDiagramType
 	*	\brief	diagram types for vaults.

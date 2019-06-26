@@ -74,7 +74,7 @@ namespace zSpace
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_meshObj			- input mesh object.
-		*	\param		[in]	_index				- input index in mesh vertex list.
+		*	\param		[in]	_index				- input index in mesh vertex container.
 		*	\since version 0.0.3
 		*/
 		zItMeshVertex(zObjMesh &_meshObj, int _index)
@@ -220,6 +220,124 @@ namespace zSpace
 		*/
 		bool checkVertexValency(int valence = 1);		
 
+		/*! \brief This method computes the principal curvatures of the vertex.
+		*
+		*	\return			zCurvature		- vertex curvature.
+		*	\since version 0.0.3
+		*/
+		zCurvature getPrincipalCurvature()
+		{
+			double angleSum = 0;
+			double cotangentSum = 0;
+			double areaSum = 0;
+			double areaSumMixed = 0;
+			double edgeLengthSquare = 0;
+			float gaussianCurv = 0;
+			float gaussianAngle = 0;
+
+			zCurvature curv;
+			curv.k1 = 0;
+			curv.k2 = 0;
+
+			zVector meanCurvNormal;
+					
+
+			if (!onBoundary())
+			{
+				vector<zItMeshVertex> cVerts;
+				getConnectedVertices(cVerts);
+
+				zVector pt = getVertexPosition();
+
+				float multFactor = 0.125;
+
+				int i = 0;
+				for (auto v: cVerts)
+				{
+					int next = (i + 1) % cVerts.size();
+					int prev = (i + cVerts.size() - 1) % cVerts.size();
+
+					zVector pt1 = v.getVertexPosition();
+					zVector pt2 = cVerts[next].getVertexPosition();
+					zVector pt3 = cVerts[prev].getVertexPosition();
+
+					zVector p01 = pt - pt1;
+					zVector p02 = pt - pt2;
+					zVector p10 = pt1 - pt;
+					zVector p20 = pt2 - pt;
+					zVector p12 = pt1 - pt2;
+					zVector p21 = pt2 - pt1;
+					zVector p31 = pt3 - pt1;
+
+					zVector cr = (p10) ^ (p20);
+
+					float ang = (p10).angle(p20);
+					angleSum += ang;
+					cotangentSum += (((p20)*(p10)) / cr.length());
+
+
+					float e_Length = (pt1 - pt2).length();
+
+					edgeLengthSquare += (e_Length * e_Length);
+
+					zVector cr_alpha = (p01) ^ (p21);
+					zVector cr_beta = (p01) ^ (p31);
+
+					float coTan_alpha = (((p01)*(p21)) / cr_alpha.length());
+					float coTan_beta = (((p01)*(p31)) / cr_beta.length());
+
+					// check if triangle is obtuse
+					if ((p10).angle(p20) <= 90 && (p01).angle(p21) <= 90 && (p12).angle(p02) <= 90)
+					{
+						areaSumMixed += (coTan_alpha + coTan_beta) * edgeLengthSquare * 0.125;
+					}
+					else
+					{
+
+						double triArea = (((p10) ^ (p20)).length()) / 2;
+
+						if ((ang) <= 90) areaSumMixed += triArea * 0.25;
+						else areaSumMixed += triArea * 0.5;
+
+					}
+
+					meanCurvNormal += ((pt - pt1)*(coTan_alpha + coTan_beta));
+
+					i++;
+				}
+
+				meanCurvNormal /= (2 * areaSumMixed);
+
+				gaussianCurv = (360 - angleSum) / ((0.5 * areaSum) - (multFactor * cotangentSum * edgeLengthSquare));
+				//outGauss.push_back(gaussianCurv);
+
+				////// Based on Discrete Differential-Geometry Operators for Triangulated 2-Manifolds
+
+				//gaussianCurv = (360 - angleSum) / areaSumMixed;
+
+				double meanCurv = (meanCurvNormal.length() / 2);
+				//if (meanCurv <0.001) meanCurv = 0;
+
+				double deltaX = (meanCurv*meanCurv) - gaussianCurv;
+				if (deltaX < 0) deltaX = 0;
+
+
+				curv.k1 = meanCurv + sqrt(deltaX);
+				curv.k2 = meanCurv - sqrt(deltaX);
+
+
+			}
+
+			return curv;
+		}
+
+		/*! \brief This method computes the voronoi area of the vertex.
+		*
+		*	\return			double		- vertex area.
+		*	\since version 0.0.3
+		*/
+		double getVertexArea();
+		
 	
 		//--------------------------
 		//---- GET METHODS
@@ -293,6 +411,15 @@ namespace zSpace
 			return &meshObj->mesh.vertexNormals[getId()];
 		}
 
+
+		/*! \brief This method gets normalss of the vertex for all faces.
+		*
+		*	\param		[out]	vNormals					- input vertex index.
+		*	\since version 0.0.3
+		*/
+		void getVertexNormals(vector<zVector> &vNormals);
+		
+
 		/*! \brief This method gets color of the vertex.
 		*
 		*	\return				zColor					- vertex color.
@@ -349,7 +476,7 @@ namespace zSpace
 		*	\param		[in]	col						- vertex color.
 		*	\since version 0.0.3
 		*/
-		void setVertexColor(zColor &col)
+		void setVertexColor(zColor col)
 		{
 			meshObj->mesh.vertexColors[getId()] = col;
 		}
@@ -1123,6 +1250,42 @@ namespace zSpace
 			return getEdgeVector().length();
 		}
 
+		/*! \brief This method computes the dihedral angle of the edge.
+		*
+		*	\return			double		- dihedral angle in degrees.
+		*	\since version 0.0.2
+		*/
+		double getDihedralAngle()
+		{
+			if (isActive())
+			{
+				if (!onBoundary())
+				{
+					// get connected face to edge
+					vector<int> cFaces;
+					getFaces(cFaces);
+
+					zVector n0 = meshObj->mesh.faceNormals[cFaces[0]];
+					zVector n1 = meshObj->mesh.faceNormals[cFaces[1]];
+
+					zVector eVec = getEdgeVector();
+
+					double di_ang;
+					di_ang = eVec.dihedralAngle(n0, n1);
+
+					// per edge
+					return (di_ang);
+				}
+				else
+				{
+					// per  edge
+					return (-1);
+
+				}
+			}
+			else return -2;
+		}
+
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
@@ -1593,6 +1756,309 @@ namespace zSpace
 			return fEdges.size();
 		}
 
+		/*! \brief This method computes the input face triangulations using ear clipping algorithm.
+		*
+		*	\details based on  https://www.geometrictools.com/Documentation/TriangulationByEarClipping.pdf & http://abitwise.blogspot.co.uk/2013/09/triangulating-concave-and-convex.html
+		*	\param		[out]	numTris			- number of triangles in the input polygon.
+		*	\param		[out]	tris			- index array of each triangle associated with the face.
+		*	\since version 0.0.2
+		*/
+		void getFaceTriangles(int &numTris, vector<int> &tris)
+		{
+			double angle_Max = 90;
+			bool noEars = true; // check for if there are no ears
+
+			vector<bool> ears;
+			vector<bool> reflexVerts;
+
+			// get face vertices
+
+			vector<int> fVerts;
+
+			getVertices(fVerts);
+			vector<int> vertexIndices = fVerts;
+
+			int faceIndex = getId();
+
+			vector<zVector> points;
+			getVertexPositions(points);
+
+
+			if (fVerts.size() < 3) throw std::invalid_argument(" error: invalid face, triangulation is not succesful.");
+
+			// compute 			
+			zVector norm = meshObj->mesh.faceNormals[faceIndex];
+
+			// compute ears
+
+			for (int i = 0; i < vertexIndices.size(); i++)
+			{
+				int nextId = (i + 1) % vertexIndices.size();
+				int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
+
+				// Triangle edges - e1 and e2 defined above
+				zVector v1 = meshObj->mesh.vertexPositions[vertexIndices[nextId]] - meshObj->mesh.vertexPositions[vertexIndices[i]];
+				zVector v2 = meshObj->mesh.vertexPositions[vertexIndices[prevId]] - meshObj->mesh.vertexPositions[vertexIndices[i]];
+
+				zVector cross = v1 ^ v2;
+				double ang = v1.angle(v2);
+
+				if (cross * norm < 0) ang *= -1;
+
+				if (ang <= 0 || ang == 180) reflexVerts.push_back(true);
+				else reflexVerts.push_back(false);
+
+				// calculate ears
+				if (!reflexVerts[i])
+				{
+					bool ear = true;
+
+					zVector p0 = meshObj->mesh.vertexPositions[fVerts[i]];
+					zVector p1 = meshObj->mesh.vertexPositions[fVerts[nextId]];
+					zVector p2 = meshObj->mesh.vertexPositions[fVerts[prevId]];
+
+					bool CheckPtTri = false;
+
+					for (int j = 0; j < fVerts.size(); j++)
+					{
+						if (!CheckPtTri)
+						{
+							if (j != i && j != nextId && j != prevId)
+							{
+								// vector to point to be checked
+								zVector pt = meshObj->mesh.vertexPositions[fVerts[j]];
+
+								bool Chk = meshObj->mesh.coreUtils.pointInTriangle(pt, p0, p1, p2);
+								CheckPtTri = Chk;
+
+							}
+						}
+
+					}
+
+					if (CheckPtTri) ear = false;
+					ears.push_back(ear);
+
+					if (noEars && ear) noEars = !noEars;
+				}
+				else ears.push_back(false);
+
+				//printf("\n id: %i ang: %1.2f reflex: %s ear: %s", vertexIndices[i], ang, (reflexVerts[i] == true) ? "true" : "false",(ears[i] == true)?"true":"false");
+			}
+
+			if (noEars)
+			{
+				for (int i = 0; i < fVerts.size(); i++)
+				{
+					//printf("\n %1.2f %1.2f %1.2f ", points[i].x, points[i].y, points[i].z);
+				}
+
+				throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+			}
+
+			int maxTris = fVerts.size() - 2;
+
+			// // triangulate 
+
+			while (numTris < maxTris - 1)
+			{
+				printf("\n working!");
+
+				int earId = -1;
+				bool earFound = false;;
+
+				for (int i = 0; i < ears.size(); i++)
+				{
+					if (!earFound)
+					{
+						if (ears[i])
+						{
+							earId = i;
+							earFound = !earFound;
+						}
+					}
+
+				}
+
+				if (earFound)
+				{
+
+
+					for (int i = -1; i <= 1; i++)
+					{
+						int id = (earId + i + vertexIndices.size()) % vertexIndices.size();
+						tris.push_back(vertexIndices[id]);
+					}
+					numTris++;
+
+					// remove vertex earid 
+					vertexIndices.erase(vertexIndices.begin() + earId);
+
+					reflexVerts.clear();
+					ears.clear();
+
+					// check for ears
+					for (int i = 0; i < vertexIndices.size(); i++)
+					{
+
+						int nextId = (i + 1) % vertexIndices.size();
+						int prevId = (i - 1 + vertexIndices.size()) % vertexIndices.size();
+
+						// Triangle edges - e1 and e2 defined above
+						zVector v1 = meshObj->mesh.vertexPositions[vertexIndices[nextId]] - meshObj->mesh.vertexPositions[vertexIndices[i]];
+						zVector v2 = meshObj->mesh.vertexPositions[vertexIndices[prevId]] - meshObj->mesh.vertexPositions[vertexIndices[i]];
+
+						zVector cross = v1 ^ v2;
+						double ang = v1.angle(v2);
+
+						if (cross * norm < 0) ang *= -1;
+
+						if (ang <= 0 || ang == 180) reflexVerts.push_back(true);
+						else reflexVerts.push_back(false);
+
+						// calculate ears
+						if (!reflexVerts[i])
+						{
+							bool ear = true;
+
+							zVector p0 = meshObj->mesh.vertexPositions[vertexIndices[i]];
+							zVector p1 = meshObj->mesh.vertexPositions[vertexIndices[nextId]];
+							zVector p2 = meshObj->mesh.vertexPositions[vertexIndices[prevId]];
+
+							bool CheckPtTri = false;
+
+							for (int j = 0; j < vertexIndices.size(); j++)
+							{
+								if (!CheckPtTri)
+								{
+									if (j != i && j != nextId && j != prevId)
+									{
+										// vector to point to be checked
+										zVector pt = meshObj->mesh.vertexPositions[vertexIndices[j]];
+
+										bool Chk = meshObj->mesh.coreUtils.pointInTriangle(pt, p0, p1, p2);
+										CheckPtTri = Chk;
+									}
+								}
+
+							}
+
+							if (CheckPtTri) ear = false;
+							ears.push_back(ear);
+
+						}
+						else ears.push_back(false);
+
+
+						//printf("\n earId %i id: %i ang: %1.2f reflex: %s ear: %s", earId, vertexIndices[i], ang, (reflexVerts[i] == true) ? "true" : "false", (ears[i] == true) ? "true" : "false");
+					}
+
+
+
+				}
+				else
+				{
+					for (int i = 0; i < vertexIndices.size(); i++)
+					{
+						//printf("\n %1.2f %1.2f %1.2f ", meshObj->mesh.vertexPositions[vertexIndices[i]].x, meshObj->mesh.vertexPositions[vertexIndices[i]].y, meshObj->mesh.vertexPositions[vertexIndices[i]].z);
+					}
+
+					throw std::invalid_argument(" error: no ears found in the face, triangulation is not succesful.");
+				}
+
+			}
+
+			// add the last remaining triangle
+			tris.push_back(vertexIndices[0]);
+			tris.push_back(vertexIndices[1]);
+			tris.push_back(vertexIndices[2]);
+			numTris++;
+
+		}
+
+
+		/*! \brief This method computes the volume of the polyhedras formed by the face vertices and the face center of the input indexed face of the mesh.
+		*
+		*	\param		[in]	index			- input face index.
+		*	\param		[in]	faceTris		- container of index array of each triangle associated per face. It will be computed if the container is empty.
+		*	\param		[in]	fCenters		- center of associated face.  It will be computed if the point to origin.
+		*	\param		[in]	absoluteVolumes	- will make all the volume value positive if true.
+		*	\return				double			- volume of the polyhedras formed by the face vertices and the face center.
+		*	\since version 0.0.2
+		*/
+		double getFaceVolume(vector<int> &faceTris,zVector &fCenter, bool absoluteVolume = true)
+		{
+			
+			int faceNumTris;
+
+			if (faceTris.size() == 0) 	getFaceTriangles(faceNumTris, faceTris);
+			if (fCenter ==zVector(0,0,0)) fCenter = getCenter();
+
+			double out = 0;
+
+			int index = getId();			
+
+			// add volume of face tris			
+			for (int j = 0; j < faceTris.size(); j += 3)
+			{
+				double vol = meshObj->mesh.coreUtils.getSignedTriangleVolume(meshObj->mesh.vertexPositions[faceTris[j + 0]], meshObj->mesh.vertexPositions[faceTris[j + 1]], meshObj->mesh.vertexPositions[faceTris[j + 2]]);
+
+				out += vol;
+			}
+
+			// add volumes of tris formes by each pair of face edge vertices and face center
+
+			vector<zVector> fVerts;
+			getVertexPositions(fVerts);
+
+			for (int j = 0; j < fVerts.size(); j += 1)
+			{
+				int prevId = (j - 1 + fVerts.size()) % fVerts.size();
+
+				double vol = meshObj->mesh.coreUtils.getSignedTriangleVolume(fVerts[j], fVerts[prevId], fCenter);
+
+				out += vol;
+			}
+
+			if (absoluteVolume) out = abs(out);
+
+			return out;
+
+		}
+
+		/*! \brief This method computes the area of the face . It works only for if the faces are planar.
+		*
+		*	\details	Based on http://geomalgorithms.com/a01-_area.html.
+		*	\return				double			- area of the face.
+		*	\since version 0.0.2
+		*/
+		double getPlanarFaceArea()
+		{
+			double fArea = 0;
+
+			if (isActive())
+			{
+				zVector fNorm = getFaceNormal();
+
+				vector<zVector> fVerts;
+				getVertexPositions(fVerts);
+
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					zVector v1 = fVerts[j];
+					zVector v2 = fVerts[(j + 1) % fVerts.size()];
+
+
+					fArea += fNorm * (v1 ^ v2);
+				}
+
+				fArea *= 0.5;
+
+			}
+
+			return fArea;
+		}
+
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
@@ -1882,10 +2348,74 @@ namespace zSpace
 	//--- INLINE VERTEX METHODS 
 	//--------------------------
 	
+	//getVertexArea
+	inline double zItMeshVertex::getVertexArea()
+	{
+		vector<zVector> cFCenters, cECenters;
+
+		if (isActive())
+		{
+			vector<zItMeshHalfEdge> cEdges;
+			getConnectedHalfEdges(cEdges);
+
+
+			for (auto &he : cEdges)
+			{
+				cECenters.push_back(he.getCenter());
+				cFCenters.push_back(he.getFace().getCenter());
+			}
+
+
+			double vArea = 0;
+
+			for (int j = 0; j < cEdges.size(); j++)
+			{
+				int curId = j;
+				int nextId = (j + 1) % cEdges.size();
+
+				zItMeshHalfEdge cE = cEdges[j];
+				zItMeshHalfEdge nE = cEdges[(j + 1) % cEdges.size()];
+
+				if (cE.onBoundary() || nE.getSym().onBoundary()) continue;
+
+				if (cE.getFace().getId() != nE.getSym().getFace().getId()) continue;
+
+				zVector vPos = getVertexPosition();
+				zVector fCen = cFCenters[curId];
+				zVector currentEdge_cen = cECenters[curId];
+				zVector nextEdge_cen = cECenters[nextId];
+
+				double Area1 = meshObj->mesh.coreUtils.getTriangleArea(vPos, currentEdge_cen, fCen);
+				vArea += (Area1);
+
+				double Area2 = meshObj->mesh.coreUtils.getTriangleArea(vPos, nextEdge_cen, fCen);
+				vArea += (Area2);
+			}
+
+			return vArea;
+
+		}
+
+		else return 0;
+	}
+
 	//getHalfEdge
 	inline zItMeshHalfEdge zSpace::zItMeshVertex::getHalfEdge()
 	{
 		return zItMeshHalfEdge(*meshObj, iter->getHalfEdge()->getId());
+	}
+
+	// getVertexNormals 
+	inline void zItMeshVertex::getVertexNormals(vector<zVector>& vNormals)
+	{
+		vNormals.clear();
+		vector<zItMeshFace>cFaces;
+		getConnectedFaces(cFaces);
+
+		for(auto &f : cFaces)
+		{
+			vNormals.push_back(f.getFaceNormal());
+		}
 	}
 
 	// setHalfEdge 
@@ -2164,7 +2694,7 @@ namespace zSpace
 	//--------------------------
 	
 	//getHalfEdge
-	zItMeshHalfEdge zSpace::zItMeshEdge::getHalfEdge(int _index)
+	inline zItMeshHalfEdge zSpace::zItMeshEdge::getHalfEdge(int _index)
 	{
 		return zItMeshHalfEdge(*meshObj, iter->getHalfEdge(_index)->getId());
 	}

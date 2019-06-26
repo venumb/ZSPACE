@@ -703,9 +703,9 @@ namespace zSpace
 
 		/*! \brief This method returns the bounds of the input list points.
 		*
-		*	\param  	[in]	inGraph	- input graph.
-		*	\param  	[out]	minBB	- stores zVector of bounding box minimum.
-		*	\param		[out]	maxBB	- stores zVector of bounding box maximum.
+		*	\param  	[in]	inPoints	- input container of positions.
+		*	\param  	[out]	minBB		- stores zVector of bounding box minimum.
+		*	\param		[out]	maxBB		- stores zVector of bounding box maximum.
 		*/
 		void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB)
 		{
@@ -713,6 +713,30 @@ namespace zSpace
 			maxBB = zVector(-10000, -10000, -10000);
 
 			for (int i = 0; i < inPoints.size(); i++)
+			{
+				if (inPoints[i].x < minBB.x) minBB.x = inPoints[i].x;
+				if (inPoints[i].y < minBB.y) minBB.y = inPoints[i].y;
+				if (inPoints[i].y < minBB.z) minBB.z = inPoints[i].z;
+
+				if (inPoints[i].x > maxBB.x) maxBB.x = inPoints[i].x;
+				if (inPoints[i].y > maxBB.y) maxBB.y = inPoints[i].y;
+				if (inPoints[i].z > maxBB.z) maxBB.z = inPoints[i].z;
+			}
+		}
+
+		/*! \brief This method returns the bounds of the input list points.
+		*
+		*	\param  	[in]	inPoints	- input pointer to container of positions.
+		*	\param  	[in]	numPoints	- number of points in the container.
+		*	\param  	[out]	minBB		- stores zVector of bounding box minimum.
+		*	\param		[out]	maxBB		- stores zVector of bounding box maximum.
+		*/
+		void getBounds(zVector* inPoints, int numPoints, zVector &minBB, zVector &maxBB)
+		{
+			minBB = zVector(10000, 10000, 10000);
+			maxBB = zVector(-10000, -10000, -10000);
+
+			for (int i = 0; i < numPoints; i++)
 			{
 				if (inPoints[i].x < minBB.x) minBB.x = inPoints[i].x;
 				if (inPoints[i].y < minBB.y) minBB.y = inPoints[i].y;

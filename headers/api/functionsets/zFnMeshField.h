@@ -382,6 +382,7 @@ namespace zSpace
 
 
 			fieldObj->field = zField2D<T>(_minBB, _maxBB, _n_X, _n_Y);
+			fieldObj->field.valuesperVertex = setValuesperVertex;
 
 			// compute neighbours
 			ringNeighbours.clear();
@@ -426,6 +427,7 @@ namespace zSpace
 			triMesh = _triMesh;
 
 			fieldObj->field = zField2D<T>(_unit_X, _unit_Y, _n_X, _n_Y, _minBB);
+			fieldObj->field.valuesperVertex = setValuesperVertex;
 
 			// compute neighbours
 			ringNeighbours.clear();

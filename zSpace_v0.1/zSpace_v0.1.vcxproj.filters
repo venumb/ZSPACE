@@ -287,5 +287,17 @@
     <ClInclude Include="..\headers\api\iterators\zItPointCloud.h">
       <Filter>Header Files\API\Iterators</Filter>
     </ClInclude>
+    <ClInclude Include="..\headers\api\iterators\zItMeshField.h">
+      <Filter>Header Files\API\Iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\object\zObjSpatialBin.h">
+      <Filter>Header Files\API\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\framework\field\zBin.h">
+      <Filter>Header Files\FRAMEWORK\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\api\functionsets\zFnSpatialBin.h">
+      <Filter>Header Files\API\Functionsets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

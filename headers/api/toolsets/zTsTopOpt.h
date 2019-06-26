@@ -19,7 +19,7 @@ namespace zSpace
 	*/
 
 	/** \addtogroup zTopOpt
-	*	\brief tool sets for Interop topology optimization with Altair Hypermesh.
+	*	\brief tool sets for Interop of topology optimization with Altair Hypermesh.
 	*  @{
 	*/
 
@@ -81,7 +81,7 @@ namespace zSpace
 	*/
 
 	/** \addtogroup zTopOpt
-	*	\brief tool sets for Interop topology optimization with Altair Hypermesh.
+	*	\brief tool sets for Interop of topology optimization with Altair Hypermesh.
 	*  @{
 	*/
 
@@ -127,7 +127,7 @@ namespace zSpace
 	*/
 
 	/** \addtogroup zTopOpt
-	*	\brief tool sets for Interop topology optimization with Altair Hypermesh.
+	*	\brief tool sets for Interop of topology optimization with Altair Hypermesh.
 	*  @{
 	*/
 
@@ -178,7 +178,7 @@ namespace zSpace
 	*/
 
 	/** \addtogroup zTopOpt
-	*	\brief tool sets for Interop topology optimization with Altair Hypermesh.
+	*	\brief tool sets for Interop of topology optimization with Altair Hypermesh.
 	*  @{
 	*/
 	
@@ -237,10 +237,10 @@ namespace zSpace
 			// edges
 
 			//faces
-			for (int i = 0; i < fnMesh.numPolygons(); i++)
+			for (zItMeshFace f(*meshObj); !f.end(); f.next())			
 			{
 				vector<int> fVerts;
-				fnMesh.getVertices(i, zFaceData, fVerts);
+				f.getVertices(fVerts);
 
 				meshJSON.faces.push_back(fVerts);				
 			}
@@ -473,7 +473,8 @@ namespace zSpace
 			{
 				SPC_Boolean[_SPC[i]] = true;
 
-				fnMesh.setVertexColor(_SPC[i], zColor(1,0,0,1));
+				zItMeshVertex v(*meshObj, _SPC[i]);
+				v.setVertexColor(zColor(1, 0, 0, 1));				
 			}
 
 			if (_SPC.size() == 0) fill(SPC_Boolean.begin(), SPC_Boolean.end(), false);
@@ -498,7 +499,8 @@ namespace zSpace
 			{
 				designSpace_Boolean[_NonDesignSpace[i]] = false;
 
-				fnMesh.setFaceColor(_NonDesignSpace[i], zColor(1,0,0.5,1));
+				zItMeshFace f(*meshObj);
+				f.setFaceColor(zColor(1, 0, 0.5, 1));				
 			}
 
 			if (_NonDesignSpace.size() == 0) fill(designSpace_Boolean.begin(), designSpace_Boolean.end(), true);

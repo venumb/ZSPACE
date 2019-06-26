@@ -61,6 +61,8 @@ namespace zSpace
 		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
 
+		/*!	\brief boolean indicating if the field values size is equal to mesh vertices(true) or equal to mesh faces(false)  */
+		bool valuesperVertex = true;
 
 		//--------------------------
 		//---- CONSTRUCTOR

@@ -63,7 +63,6 @@ namespace zSpace
 		/*!	\brief stores the minimum bounds of the field  */
 		zVector maxBB;
 
-
 		/*!	\brief container for the field values  */
 		vector<T> fieldValues;
 
@@ -105,7 +104,7 @@ namespace zSpace
 			unit_Z = (maxBB.z - minBB.z) / n_Z;
 
 			zVector unitVec = zVector(unit_X, unit_Y, unit_Z);
-			zVector startPt = minBB + (unitVec * 0.5);
+			zVector startPt = minBB ;
 
 			fieldValues.clear();
 

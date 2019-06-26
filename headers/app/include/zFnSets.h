@@ -18,3 +18,5 @@
 #include <headers/api/functionsets/zFnMeshDynamics.h>
 
 #include <headers/api/functionsets/zFnGraphDynamics.h>
+
+#include <headers/api/functionsets/zFnSpatialBin.h>

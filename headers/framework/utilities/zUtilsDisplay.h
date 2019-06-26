@@ -139,6 +139,108 @@ namespace zSpace
 
 		}
 
+		/*! \brief This method displays the a face of mesh.
+		*
+		*	\param		[in]	pos				- vector of type zVector storing the polygon points.
+		*	\param		[in]	col				- color of the polygon.
+		*	\since version 0.0.1
+		*/
+		void drawPolygon(vector<zVector> &pos, const zColor &col = zColor(1, 0, 0, 1))
+		{
+			glColor3f(col.r, col.g, col.b);
+
+			glBegin(GL_POLYGON);
+			for (int i = 0; i < pos.size(); i++)
+				glVertex3f(pos[i].x, pos[i].y, pos[i].z);
+			glEnd();
+
+			glColor3f(0, 0, 1);
+		}
+
+		/*! \brief This method draws a poly-circle on the XY Plane given input center, radius and number of points.
+		*	\param		[in]		c0			- center of circle.
+		*	\param		[in]		circlePts	- points on the the circle. ( use getCircle method to compute the circle points).
+		*	\param		[in]		dispLines	- draws lines if true, else displays points.
+		*	\param		[in]		col			- color of the circle.
+		*	\param		[in]		wt			- weight of the circle.
+		*	\since version 0.0.1
+		*/
+		void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
+		{
+			for (int i = 0; i < circlePts.size(); i++)
+			{
+				if (dispLines) drawLine(circlePts[i], circlePts[(i + 1) % circlePts.size()], col, wt);
+				else drawPoint(circlePts[i], col, wt);
+			}
+
+		}
+
+		/*! \brief This method draws a rectangle on the XY Plane given input bound vectors.
+		*	\param		[in]		minBB		- min bounds of the rectangle.
+		*	\param		[in]		maxBB		- max bounds of the rectangle.
+		*	\param		[in]		col			- color of the rectangle.
+		*	\param		[in]		wt			- weight of the rectangle.
+		*	\since version 0.0.1
+		*/
+		void drawRectangle(zVector &minBB, zVector &maxBB, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
+		{
+
+			zVector p0(minBB.x, minBB.y, minBB.z);
+			zVector p1(minBB.x, maxBB.y, minBB.z);
+			zVector p2(maxBB.x, maxBB.y, minBB.z);
+			zVector p3(maxBB.x, minBB.y, minBB.z);
+
+
+			drawLine(p0, p1, col, wt);
+			drawLine(p1, p2, col, wt);
+			drawLine(p2, p3, col, wt);
+			drawLine(p3, p0, col, wt);
+
+		}
+
+		/*! \brief This method draws a cube given input bound vectors.
+		*	\param		[in]		minBB		- min bounds of the rectangle.
+		*	\param		[in]		maxBB		- max bounds of the rectangle.
+		*	\param		[in]		col			- color of the rectangle.
+		*	\param		[in]		wt			- weight of the rectangle.
+		*	\since version 0.0.1
+		*/
+		void drawCube(zVector &minBB, zVector &maxBB, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
+		{
+
+			zVector p0(minBB.x, minBB.y, minBB.z);
+			zVector p1(minBB.x, maxBB.y, minBB.z);
+			zVector p2(maxBB.x, maxBB.y, minBB.z);
+			zVector p3(maxBB.x, minBB.y, minBB.z);
+
+			zVector p4(minBB.x, minBB.y, maxBB.z);
+			zVector p5(minBB.x, maxBB.y, maxBB.z);
+			zVector p6(maxBB.x, maxBB.y, maxBB.z);
+			zVector p7(maxBB.x, minBB.y, maxBB.z);
+
+			drawLine(p0, p1, col, wt);
+			drawLine(p1, p2, col, wt);
+			drawLine(p2, p3, col, wt);
+			drawLine(p3, p0, col, wt);
+
+			drawLine(p4, p5, col, wt);
+			drawLine(p5, p6, col, wt);
+			drawLine(p6, p7, col, wt);
+			drawLine(p7, p4, col, wt);
+
+			drawLine(p0, p4, col, wt);
+			drawLine(p1, p5, col, wt);
+			drawLine(p2, p6, col, wt);
+			drawLine(p3, p7, col, wt);
+
+		}
+
+		
+		
+		//--------------------------
+		//---- MESH / GRAPH
+		//--------------------------
+		
 		/*! \brief This method draws vertices of a graph or mesh.
 		*	\param		 [in]		vHandles	- vertex handle container.
 		*	\param		 [in]		pos			- container of positions  to be drawn.
@@ -190,7 +292,7 @@ namespace zSpace
 
 				for (int j = 0; j < edgeVerts[i].size(); j++)
 				{
-					glVertex3f(pos[edgeVerts[i][j]].x, pos[edgeVerts[i][j]].y,pos[edgeVerts[i][j]].z);
+					glVertex3f(pos[edgeVerts[i][j]].x, pos[edgeVerts[i][j]].y, pos[edgeVerts[i][j]].z);
 				}
 			}
 
@@ -232,66 +334,9 @@ namespace zSpace
 
 		}
 
-		/*! \brief This method draws a poly-circle on the XY Plane given input center, radius and number of points.
-		*	\param		[in]		c0			- center of circle.
-		*	\param		[in]		circlePts	- points on the the circle. ( use getCircle method to compute the circle points).
-		*	\param		[in]		dispLines	- draws lines if true, else displays points.
-		*	\param		[in]		col			- color of the circle.
-		*	\param		[in]		wt			- weight of the circle.
-		*	\since version 0.0.1
-		*/
-		void drawCircle(zVector &c0, vector<zVector> &circlePts, bool dispLines = true, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
-		{
-			for (int i = 0; i < circlePts.size(); i++)
-			{
-				if (dispLines) drawLine(circlePts[i], circlePts[(i + 1) % circlePts.size()], col, wt);
-				else drawPoint(circlePts[i], col, wt);
-			}
-
-		}
-
-		/*! \brief This method draws a rectangle on the XY Plane given input bound vectors.
-		*	\param		[in]		minBB		- min bounds of the rectangle.
-		*	\param		[in]		maxBB		- max bounds of the rectangle.
-		*	\param		[in]		col			- color of the rectangle.
-		*	\param		[in]		wt			- weight of the rectangle.
-		*	\since version 0.0.1
-		*/
-		void drawRectangle(zVector &minBB, zVector &maxBB, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1)
-		{
-
-			zVector p0(minBB.x, minBB.y, minBB.z);
-			zVector p1(minBB.x, maxBB.y, minBB.z);
-			zVector p2(maxBB.x, maxBB.y, minBB.z);
-			zVector p3(maxBB.x, minBB.y, minBB.z);
-
-
-			drawLine(p0, p1, col, wt);
-			drawLine(p1, p2, col, wt);
-			drawLine(p2, p3, col, wt);
-			drawLine(p3, p0, col, wt);
-
-		}
-
-		/*! \brief This method displays the a face of mesh.
-		*
-		*	\param		[in]	pos				- vector of type zVector storing the polygon points.
-		*	\param		[in]	col				- color of the polygon.
-		*	\since version 0.0.1
-		*/
-		void drawPolygon(vector<zVector> &pos, const zColor &col = zColor(1, 0, 0, 1))
-		{
-			glColor3f(col.r, col.g, col.b);
-
-			glBegin(GL_POLYGON);
-			for (int i = 0; i < pos.size(); i++)
-				glVertex3f(pos[i].x, pos[i].y, pos[i].z);
-			glEnd();
-
-			glColor3f(0, 0, 1);
-		}
-
-		
+		//--------------------------
+		//---- TRANSFORM
+		//--------------------------
 
 		/*! \brief This method draws the X, Y Z axis of the transformation matrix.
 		*	\param		 [in]		transform	- transform  to be drawn.

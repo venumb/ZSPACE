@@ -87,6 +87,11 @@ namespace zSpace
 		*/
 		virtual void draw() {};		
 		
+		/*! \brief This method gets the bounds of the object.
+		*
+		*	\since version 0.0.2
+		*/
+		virtual void getBounds(zVector &minBB, zVector &maxBB) {};
 	
 		//--------------------------
 		//---- SET METHODS
