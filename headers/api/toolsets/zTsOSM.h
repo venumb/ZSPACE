@@ -107,8 +107,22 @@ namespace zSpace
 		/*! \brief stores type of the building as given by OSM.		*/
 		zDataBuilding buildingType;
 
+		double height;
+
+		string postcode;
+		
+
 	};
 
+
+	struct zPostcode
+	{
+		string postcode;
+
+		vector<double> residentialPrices;
+
+		zVector point;
+	};
 
 	/** \addtogroup API
 	*	\brief The Application Program Interface of the library.
@@ -179,7 +193,10 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to a building graph object  */
-		zObjGraph *buildingObj;
+		
+		zObjGraph *buildingGraphObj;
+
+		zObjMesh *buildingObj;
 
 		/*! \brief stores current number of buildings		*/
 		int n_zBuildings;
@@ -193,14 +210,15 @@ namespace zSpace
 		/*!	\brief OSMwayId to zbuildingId. Used to get correponding building graph edges given the osm way id.  */
 		unordered_map <string, int> OSMwaysID_zBuildingsId;
 
+		//--------------------------
+		//---- POSTCODE ATTRIBUTES
+		//--------------------------
+		unordered_map <string, int> postcode_zPostcodeId;
 
 		//--------------------------
 		//---- BOUNDS ATTRIBUTES
 		//--------------------------
-
-		/*!	\brief bounds of OSM data in latitute and logitude.  */
-		double lat_lon[4];
-
+		
 		/*!	\brief minimum bounds of OSM data in 3D space given by a zVector.  */
 		zVector minBB;
 
@@ -219,6 +237,11 @@ namespace zSpace
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief bounds of OSM data in latitute and logitude.  */
+		double lat_lon[4];
+
+		double scaleFactor;
+
 		/*!	\brief field function set  */
 		zFnMeshField<double> fnField;
 
@@ -226,10 +249,19 @@ namespace zSpace
 		zFnGraph fnStreet;
 
 		/*!	\brief graph function set for buildings */
-		zFnGraph fnBuilding;
+		zFnGraph fnGraphBuilding;
+		zFnMesh fnBuilding;
 
 		/*!	\brief 2 dimensional container of stream positions per field index.  */
 		vector<vector<zVector>> fieldIndex_streamPositions;
+
+		vector<zVector> buildingCenters;
+
+		vector<zPostcode> postcodes;
+
+		vector<zVector> tubeStations;
+
+		vector<zVector> parks;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -248,6 +280,8 @@ namespace zSpace
 			streetObj = nullptr;
 
 			buildingObj = nullptr;
+
+			buildingGraphObj = nullptr;
 		}
 
 		/*! \brief Overloaded constructor.
@@ -255,11 +289,10 @@ namespace zSpace
 		*	\param		[in]	DatabaseFileName		- file path to the SQL database.
 		*	\since version 0.0.1
 		*/
-		zTsOSM(char* DatabaseFileName, zObjMeshField<double> &_fieldObj, zObjGraph &_streetObj, zObjGraph &_buildingObj)
+		zTsOSM(char* DatabaseFileName, zObjMeshField<double> &_fieldObj, zObjGraph &_streetObj, zObjMesh &_buildingObj, zObjGraph &_buildingGraphObj)
 		{
 			zDB = new zDatabase(DatabaseFileName);
-			zDB->close();
-
+			
 			fieldObj = &_fieldObj;
 			fnField = zFnMeshField<double>(_fieldObj);
 
@@ -267,7 +300,10 @@ namespace zSpace
 			fnStreet = zFnGraph(_streetObj);
 
 			buildingObj = &_buildingObj;
-			fnBuilding = zFnGraph(_buildingObj);
+			fnBuilding = zFnMesh(_buildingObj);
+
+			buildingGraphObj = &_buildingGraphObj;
+			fnGraphBuilding = zFnGraph(_buildingGraphObj);
 
 		}
 
@@ -285,12 +321,21 @@ namespace zSpace
 		//---- COMPUTE METHODS
 		//--------------------------
 
-		/*! \brief This method computes the bounding box in 3D space of the OSM data from the  lat_lon container of the bounds.
+		/*! \brief This method sets the scale factor.
 		*
 		*	\param		[in]	scaleFactor		- scale of the map to be displayed.
 		*	\since version 0.0.1
 		*/
-		void computeBoundingBox(double scaleFactor)
+		void setScale(double _scaleFactor)
+		{
+			scaleFactor = _scaleFactor;
+		}
+
+		/*! \brief This method computes the bounding box in 3D space of the OSM data from the  lat_lon container of the bounds.
+		*
+		*	\since version 0.0.1
+		*/
+		void computeBoundingBox()
 		{
 			double diagonalDist = computeDistance(this->lat_lon[0], this->lat_lon[1], this->lat_lon[2], this->lat_lon[3]) * scaleFactor;
 
@@ -405,6 +450,7 @@ namespace zSpace
 			vector<string> sqlStm_ways = { " SELECT * FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"highway\");" };
 			stat = zDB->sqlCommand(sqlStm_ways, zSelect, false, outStm_ways, false);
 
+			printf("\n outStm_ways: %i", outStm_ways.size());
 
 			way = new zWays[outStm_ways.size()];
 			n_zWays = 0;
@@ -466,7 +512,8 @@ namespace zSpace
 		*	\param		[in]	edgeCol		- input color to be assigned to the edges of the graph.
 		*	\since version 0.0.1
 		*/
-		void createBuildings(zColor buildingCol = zColor(0, 0, 0, 1))
+
+		void createGraphBuildings(zColor buildingCol = zColor(0, 0, 0, 1))
 		{
 			vector<zVector>(positions);
 			vector<int>(edgeConnects);
@@ -559,10 +606,435 @@ namespace zSpace
 				n_zBuildings++;
 			}
 
-			fnBuilding.create(positions, edgeConnects);
-			fnBuilding.setEdgeColor(buildingCol, false);				
+			printf(" \n num Buildings %i ", n_zBuildings);
+
+			fnGraphBuilding.create(positions, edgeConnects);
+			fnGraphBuilding.setEdgeColor(buildingCol, false);
+
+			// compute centers
+			for (int i = 0; i < n_zBuildings; i++)
+			{
+				zVector cen(0,0,0);
+				
+				for (int j = 0; j < buildings[i].buildingGraph_edgeId.size(); j++)
+				{
+					zItGraphHalfEdge he(*buildingGraphObj, buildings[i].buildingGraph_edgeId[j]);
+
+					zVector p = he.getVertex().getVertexPosition();
+
+					cen += p;
+
+					if (i == 100) printf(" \n %i ", buildings[i].buildingGraph_edgeId[j]);
+				}
+
+				cen /= buildings[i].buildingGraph_edgeId.size();
+
+				//printf("\n %i, %1.2f %1.2f %1.2f ", i, cen.x, cen.y, cen.z);
+
+				buildingCenters.push_back(cen);
+
+			}				
+			
+
 		}
 
+		void exportGraphBuildings(string outfile)
+		{
+			ofstream myfile;
+
+			//string outfile = "C:/Users/vishu/Desktop/OSMData/buildings.txt";
+			myfile.open(outfile.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfile.c_str() << endl;
+				return;
+
+			}
+
+			for (auto &vPos : buildingGraphObj->graph.vertexPositions)
+			{				
+				myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
+			}
+
+
+			for (int i = 0; i < n_zBuildings; i++)
+			{
+				myfile << "\n #";
+
+				for (int j = 0; j < buildings[i].buildingGraph_edgeId.size(); j++)
+				{
+					zItGraphHalfEdge he(*buildingGraphObj, buildings[i].buildingGraph_edgeId[j]);
+
+					int v2 = he.getVertex().getId();
+					int v1 = he.getStartVertex().getId();
+
+					myfile << "\n e ";
+
+					myfile << v1 << " ";
+					myfile << v2;
+				}
+
+				
+				if(i == n_zBuildings -1) myfile << "\n #";
+
+			}
+
+			myfile.close();
+			cout << endl << " TXT exported. File:   " << outfile.c_str() << endl;
+		}
+
+		void exportPartGraphBuildings(string outfile)
+		{
+			ofstream myfile;
+
+			//string outfile = "C:/Users/vishu/Desktop/OSMData/buildings.txt";
+			myfile.open(outfile.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfile.c_str() << endl;
+				return;
+
+			}
+					
+
+			vector<zVector> positions;
+			unordered_map<int, int> vertexMap;
+			int numB = 10;
+
+
+			for (int i = 0; i < numB; i++)
+			{
+				myfile << "\n #";
+
+				for (int j = 0; j < buildings[i].buildingGraph_edgeId.size(); j++)
+				{
+					zItGraphHalfEdge he(*buildingGraphObj, buildings[i].buildingGraph_edgeId[j]);
+
+
+					int v1 = he.getStartVertex().getId();
+					std::unordered_map<int, int>::const_iterator got1 = vertexMap.find(v1);
+					if (got1 != vertexMap.end()) v1 = got1->second;
+					else
+					{
+						vertexMap[v1] = positions.size();
+						v1 = positions.size();
+						positions.push_back(he.getStartVertex().getVertexPosition());
+
+					}
+
+					int v2 = he.getVertex().getId();
+					std::unordered_map<int, int>::const_iterator got2 = vertexMap.find(v2);
+					if (got2 != vertexMap.end()) v2 = got2->second;
+					else 
+					{
+						vertexMap[v2] = positions.size();						
+						v2 = positions.size();
+						positions.push_back(he.getVertex().getVertexPosition());
+
+					}
+
+					
+
+					myfile << "\n e ";
+
+					myfile << v1 << " ";
+					myfile << v2;
+				}
+
+
+				if (i == numB - 1) myfile << "\n #";
+
+			}
+
+			for (auto &vPos : positions)
+			{
+				myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
+			}
+
+			myfile.close();
+			cout << endl << " TXT exported. File:   " << outfile.c_str() << endl;
+		}
+
+		void createBuildings(zColor buildingCol = zColor(0, 0, 0, 1))
+		{
+			vector<zVector>(positions);
+			vector<int>(polyConnects);
+			vector<int>(polyCounts);
+
+
+			unordered_map <string, int> node_buildingVertices;
+			map <int, string> buildingVertices_Node;
+
+
+			vector<string> outStm_nodes;
+			vector<string> sqlStm_nodes = { " SELECT * FROM building_nodes WHERE shapeId IN (SELECT DISTINCT shapeId FROM building_nodes WHERE lat >=" + to_string(lat_lon[0]) 
+				+ " AND lat <= " + to_string(lat_lon[2]) + " AND lon >=" + to_string(lat_lon[1])+ " AND lon <=" + to_string(lat_lon[3]) + ")  ORDER BY rowid;" };
+			bool stat = zDB->sqlCommand(sqlStm_nodes, zSelect, false, outStm_nodes, false);
+
+			printf("\n outStm_nodes: %i", outStm_nodes.size());
+
+			buildings = new zBuildings[outStm_nodes.size()];
+			n_zBuildings = 0;
+
+			
+
+			for (int i = 0; i < outStm_nodes.size()-3; i += 3)
+			{
+				string hashKey = outStm_nodes[i];;
+				int pCounts = 0;
+
+				
+
+				vector<int> tempConnects;
+
+				while (outStm_nodes[i] == hashKey)
+				{
+					tempConnects.push_back(positions.size());
+
+					double lat = atof(outStm_nodes[i + 1].c_str());
+					double lon = atof(outStm_nodes[i + 2].c_str());
+
+					zVector pos = computePositionFromCoordinates(lat, lon);
+
+					positions.push_back(pos);
+					pCounts++;
+
+					i += 3;
+				}
+
+				vector<string> parts = coreUtils.splitString(hashKey, ".");
+
+
+				if (pCounts >= 3 && parts.size() == 1)
+				{
+					polyCounts.push_back(pCounts);
+
+					for (auto id : tempConnects) polyConnects.push_back(id);
+
+					buildings[n_zBuildings].id = n_zBuildings;
+					buildings[n_zBuildings].OS_wayId = hashKey;
+
+					// map
+					OSMwaysID_zBuildingsId[hashKey] = n_zBuildings;
+
+					n_zBuildings++;
+				}				
+
+				i -= 3;
+			}	
+					
+
+
+			fnBuilding.create(positions,polyCounts, polyConnects);
+			fnBuilding.setFaceColor(buildingCol, false);
+
+			zVector *pos = fnBuilding.getRawVertexPositions();
+
+			// get Building Heights
+			vector<string> outStm_heights;
+			vector<string> sqlStm_heights = { " SELECT shapeId, buildingHeight FROM building_outlines WHERE shapeId IN (SELECT DISTINCT shapeId FROM building_nodes WHERE lat >=" + to_string(lat_lon[0])
+				+ " AND lat <= " + to_string(lat_lon[2]) + " AND lon >=" + to_string(lat_lon[1]) + " AND lon <=" + to_string(lat_lon[3]) + ")  ORDER BY rowid;" };
+			stat = zDB->sqlCommand(sqlStm_heights, zSelect, false, outStm_heights, false);
+
+			printf("\n outStm_heights: %i", outStm_heights.size());
+
+
+
+			for (int i = 0; i < outStm_heights.size(); i += 2)
+			{
+				string shapeId = outStm_heights[i];
+
+				std::unordered_map<string, int>::const_iterator got = OSMwaysID_zBuildingsId.find(shapeId);
+
+				if (got != node_buildingVertices.end())
+				{
+					buildings[got->second].height = atof(outStm_heights[i+1].c_str());
+
+					//printf("\n %i %1.2f ", got->second, atof(outStm_heights[i + 1].c_str()));
+
+					zItMeshFace f(*buildingObj, got->second);
+
+					vector<int> fVerts;
+					f.getVertices(fVerts);
+
+					for (auto vID : fVerts) pos[vID].z = buildings[got->second].height *0.001 * scaleFactor;
+				}
+
+			}
+
+
+			
+
+
+
+		}
+
+
+		void getPostcodesPrices()
+		{
+			// get postcodes
+
+			vector<string> outStm_postcodes;
+			
+			vector<string> sqlStm_postcodes = { "SELECT data_residentialprices.postcode, data_residentialprices.price, postcodes_latlon_london.lat, postcodes_latlon_london.lon FROM data_residentialprices INNER JOIN postcodes_latlon_london ON postcodes_latlon_london.postCode = data_residentialprices.postcode WHERE postcodes_latlon_london.lat >= " + to_string(lat_lon[0]) 
+				+ " AND postcodes_latlon_london.lat <= " + to_string(lat_lon[2]) + " AND postcodes_latlon_london.lon >=" + to_string(lat_lon[1]) + " AND postcodes_latlon_london.lon <=" + to_string(lat_lon[3]) + ";" };
+
+
+
+			//vector<string> sqlStm_postcodes = { "SELECT data_residentialprices.postcode, data_residentialprices.price, postcodes_latlon_london.lat, postcodes_latlon_london.lon FROM data_residentialprices INNER JOIN postcodes_latlon_london ON postcodes_latlon_london.postCode = data_residentialprices.postcode WHERE postcodes_latlon_london.lat >= " + to_string(lat_lon[0])
+			//+ " AND postcodes_latlon_london.lat <= " + to_string(lat_lon[2]) + " AND postcodes_latlon_london.lon >=" + to_string(lat_lon[1]) + " AND postcodes_latlon_london.lon <=" + to_string(lat_lon[3]) + "  ORDER BY rowid;" };
+
+			
+			bool stat = zDB->sqlCommand(sqlStm_postcodes, zSelect, false, outStm_postcodes, false);
+			
+
+
+		
+			printf("\n outStm_postcodes: %i", outStm_postcodes.size());
+
+			for (int i = 0; i < outStm_postcodes.size(); i += 4)
+			{
+				string hashKey = outStm_postcodes[i];;
+				int pCounts = 0;
+
+				double lat = atof(outStm_postcodes[i + 2].c_str());
+				double lon = atof(outStm_postcodes[i + 3].c_str());
+
+				zVector pos = computePositionFromCoordinates(lat, lon);
+
+				zPostcode temp;
+
+				temp.postcode = hashKey;
+				temp.point = pos;
+
+				
+
+				while (outStm_postcodes[i] == hashKey)
+				{
+					temp.residentialPrices.push_back(atof(outStm_postcodes[i + 1].c_str()));
+
+					if (postcodes.size() == 0) printf("\n %s ", outStm_postcodes[i + 1].c_str());
+
+					i += 4;
+				}
+
+				postcodes.push_back(temp);
+
+				// map
+				postcode_zPostcodeId[hashKey] = postcodes.size() - 1;		
+
+				i -= 4;
+
+			}
+
+		}
+
+		void getTubeStations()
+		{
+			vector<string> outStm_tubenodes;
+			
+			vector<string> sqlStm_tubenodes = { "SELECT * FROM stations_tube_london WHERE lat >= " + to_string(lat_lon[0])
+						+ " AND lat <= " + to_string(lat_lon[2]) + " AND lon >=" + to_string(lat_lon[1]) + " AND lon <=" + to_string(lat_lon[3]) + ";" };
+
+
+			//vector<string> sqlStm_tubenodes = { "SELECT * FROM stations_tube_london;" };
+
+			bool stat = zDB->sqlCommand(sqlStm_tubenodes, zSelect, false, outStm_tubenodes, false);
+
+			printf("\n outStm_tubenodes: %i", outStm_tubenodes.size());
+
+			tubeStations.clear();
+
+			for (int i = 0; i < outStm_tubenodes.size(); i += 5)
+			{				
+
+				double lat = atof(outStm_tubenodes[i + 1].c_str());
+				double lon = atof(outStm_tubenodes[i + 2].c_str());
+
+				zVector pos = computePositionFromCoordinates(lat, lon);
+
+				tubeStations.push_back(pos);
+			}
+
+
+		}
+
+		void exportTubeStations(string outfile)
+		{
+
+			ofstream myfile;
+
+			myfile.open(outfile.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfile.c_str() << endl;
+				return;
+
+			}
+
+			for (auto &vPos : tubeStations)
+			{
+				myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
+			}
+
+			myfile.close();
+			cout << endl << " TXT exported. File:   " << outfile.c_str() << endl;
+		}
+
+		void getParks()
+		{
+			vector<string> outStm_parknodes;
+
+			vector<string> sqlStm_parknodes = { "SELECT * FROM nodes WHERE id IN (SELECT node_id FROM ways_nodes WHERE way_id IN (SELECT id FROM ways_tags WHERE ways_tags.k = \"leisure\" AND ways_tags.v = \"park\")) ;" };
+
+
+			//vector<string> sqlStm_tubenodes = { "SELECT * FROM stations_tube_london;" };
+
+			bool stat = zDB->sqlCommand(sqlStm_parknodes, zSelect, false, outStm_parknodes, false);
+
+			printf("\n outStm_parknodes: %i", outStm_parknodes.size());
+
+			parks.clear();
+
+			for (int i = 0; i < outStm_parknodes.size(); i += 3)
+			{
+
+				double lat = atof(outStm_parknodes[i + 1].c_str());
+				double lon = atof(outStm_parknodes[i + 2].c_str());
+
+				zVector pos = computePositionFromCoordinates(lat, lon);
+
+				parks.push_back(pos);
+			}
+
+
+		}
+
+		void exportParks(string outfile)
+		{
+
+			ofstream myfile;
+
+			myfile.open(outfile.c_str());
+
+			if (myfile.fail())
+			{
+				cout << " error in opening file  " << outfile.c_str() << endl;
+				return;
+
+			}
+
+			for (auto &vPos : parks)
+			{
+				myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
+			}
+
+			myfile.close();
+			cout << endl << " TXT exported. File:   " << outfile.c_str() << endl;
+		}
 
 		//--------------------------
 		//---- GET METHODS
