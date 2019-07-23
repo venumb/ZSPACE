@@ -81,7 +81,8 @@ namespace zSpace
 		/*!	\brief pointer to polytopal Object  */
 		vector<zObjMesh*> polytopalObjs;
 
-		int smoothSubDivs;
+		int smoothSubDivs;	
+		
 
 	public:
 		//--------------------------
@@ -111,6 +112,39 @@ namespace zSpace
 
 		/*!	\brief container of facecenter per force volume  */
 		vector<vector<zVector>> force_fCenters;
+
+		//--------------------------
+		//---- ALGEBRAIC ATTRIBUTES
+		//--------------------------
+
+		int primal_n_v = 0;
+		int primal_n_e = 0;
+		
+		int primal_n_f_i = 0; // primal faces internal
+		int primal_n_f = 0;
+
+		unordered_map <string, int> volumeVertex_PrimalVertex;  // map of volume-vertex hashkey to primal vertex
+
+		unordered_map <string, int> volumeEdge_PrimalEdge;  // map of volume-edge hashkey to primal edge
+		unordered_map <string, int> primalVertices_PrimalEdge;  // map of primal vertex-vertex hashkey to primal edge
+
+		unordered_map <string, int> volumeFace_PrimalFace; // map of volume-face hashkey to primal face
+
+		vector< vector<int> > primalFace_VolumeFace; // stores the one volume face combination per primal face
+		vector< vector<int> > primalEdge_VolumeEdge; // stores the one volume edge combination per primal edge
+
+		vector< vector<int> > primalEdge_PrimalVertices; // stores theprimal vertices per primal edge
+
+		vector<int> primal_internalFaceIndex; // -1 for GFP or SSP faces 
+
+		vector<zVector> primalVertexPositions;
+		vector<zVector> primalFaceCenters;
+		vector<zVector> primalFaceNormals;
+
+		vector<vector<int>> primalFace_Volumes;
+
+		vector<bool> GFP_SSP_Face;
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -416,8 +450,546 @@ namespace zSpace
 			}
 		}
 			
-
+		//--------------------------
+		//---- MATRIX UTILITIES
+		//--------------------------
 		
+		void set_GFP_SSP(zDiagramType type, int index = -1)
+		{
+			if (type == zForceDiagram)
+			{
+				if (index == -1)
+				{
+
+				}
+
+				else if (index >= 0 && index < fnForces.size())
+				{
+
+				}
+				else throw std::invalid_argument(" invalid index.");
+			}
+			
+			else if (type == zFormDiagram)
+			{
+
+			}
+			
+			else throw std::invalid_argument(" invalid diagram type.");
+		}
+
+		void getPrimal_GlobalElementIndicies(zDiagramType type, int GFP_SSP_Index = -1,  int precisionFac = 6)
+		{
+			if (type == zForceDiagram)
+			{
+
+				if (GFP_SSP_Index < -1 && GFP_SSP_Index >= fnForces.size())  throw std::invalid_argument(" invalid GFP / SSP index.");
+
+				primal_n_v = 0;
+				primal_n_e = 0;
+				primal_n_f = 0;
+				primal_n_f_i = 0;
+
+				primalFace_VolumeFace.clear();
+				primalEdge_VolumeEdge.clear();
+				primalEdge_PrimalVertices.clear();
+				GFP_SSP_Face.clear();
+
+				primalVertexPositions.clear();
+				primalFaceCenters.clear();
+				primalFaceNormals.clear();
+				primal_internalFaceIndex.clear();
+				
+
+				unordered_map <string, int> positionVertex;
+				unordered_map <string, int> faceCenterpositionVertex;			
+									
+				
+									
+
+				// face map
+				for (int j = 0; j < fnForces.size(); j++)
+				{
+
+					vector<zVector> fCenters;
+					vector<zVector> fNorms;
+
+					fnForces[j].getCenters(zFaceData, fCenters);
+					fnForces[j].getFaceNormals(fNorms);
+
+					for (int i = 0; i < fCenters.size(); i++)
+					{
+						int globalFaceId = -1;
+						bool chkExists = coreUtils.vertexExists(faceCenterpositionVertex, fCenters[i], precisionFac, globalFaceId);
+
+
+
+						if (!chkExists)
+						{
+							coreUtils.addToPositionMap(faceCenterpositionVertex, fCenters[i], primal_n_f, precisionFac);
+
+							vector<int> volumeFace = { j,i };
+							primalFace_VolumeFace.push_back(volumeFace);
+
+							globalFaceId = primal_n_f;
+
+							primalFaceCenters.push_back(fCenters[i]);
+
+							fNorms[i].normalize();
+							primalFaceNormals.push_back(fNorms[i]);
+
+							// GFP or SSP are external faces
+							if(GFP_SSP_Index == -1) GFP_SSP_Face.push_back(true);
+							else GFP_SSP_Face.push_back(false);
+
+							primal_n_f++;
+						}
+						else
+						{
+							// GFP or SSP are external faces
+							if (GFP_SSP_Index == -1) GFP_SSP_Face[globalFaceId] = false;
+						}
+
+						string hashKey_volFace = (to_string(j) + "," + to_string(i));
+						volumeFace_PrimalFace[hashKey_volFace] = globalFaceId;
+					}
+				}
+
+				// GFP or SSP are specified volume
+				if (GFP_SSP_Index != -1)
+				{
+					for (int i = 0; i < fnForces[GFP_SSP_Index].numPolygons(); i++)
+					{
+						string hashKey_volFace = (to_string(GFP_SSP_Index) + "," + to_string(i));
+
+						std::unordered_map<std::string, int>::const_iterator gotFace = volumeFace_PrimalFace.find(hashKey_volFace);
+
+						if (gotFace != volumeFace_PrimalFace.end())
+						{
+							int globalFaceId = gotFace->second;
+							GFP_SSP_Face[globalFaceId] =true;
+						}
+					}
+
+					
+				}
+
+				// compute internal face index
+				for (int i = 0; i < GFP_SSP_Face.size(); i++)
+				{
+					if (!GFP_SSP_Face[i])
+					{
+						primal_internalFaceIndex.push_back(primal_n_f_i);
+						primal_n_f_i++;
+					}
+					else primal_internalFaceIndex.push_back(-1);					
+				}
+
+				// vertex and edge maps
+				for (int j = 0; j < fnForces.size(); j++)
+				{
+					// vertex map
+					zVector *pos = fnForces[j].getRawVertexPositions();
+
+					for (int i = 0; i < fnForces[j].numVertices(); i++)
+					{
+						int globalVertexId = -1;
+						bool chkExists = coreUtils.vertexExists(positionVertex, pos[i], precisionFac, globalVertexId);
+
+						if (!chkExists)
+						{
+							coreUtils.addToPositionMap(positionVertex, pos[i], primal_n_v, precisionFac);
+
+							primalVertexPositions.push_back(pos[i]);
+
+							globalVertexId = primal_n_v;
+							primal_n_v++;
+						}
+
+						string hashKey_volVertex = (to_string(j) + "," + to_string(i));
+						volumeVertex_PrimalVertex[hashKey_volVertex] = globalVertexId;
+					}
+
+					//edge map
+					for (zItMeshEdge e(*forceObjs[j]); !e.end(); e.next())
+					{
+						int eId = e.getId();
+
+						vector<int> eFaces;
+						e.getFaces(eFaces);
+
+						bool boundaryEdge = false; 
+
+						for (int i = 0; i < eFaces.size(); i++)
+						{
+							string hashKey_volFace = (to_string(j) + "," + to_string(eFaces[i]));
+
+							std::unordered_map<std::string, int>::const_iterator gotFace = volumeFace_PrimalFace.find(hashKey_volFace);
+
+							if (gotFace != volumeFace_PrimalFace.end())
+							{
+								int globalFaceId = gotFace->second;
+								if(GFP_SSP_Face[globalFaceId]) boundaryEdge = true;
+							}
+						}
+
+						if (boundaryEdge) continue;
+
+						int v0, v1;
+
+						string hashKey_v0 = (to_string(j) + "," + to_string(e.getHalfEdge(0).getStartVertex().getId()));
+						std::unordered_map<std::string, int>::const_iterator got0 = volumeVertex_PrimalVertex.find(hashKey_v0);
+
+						string hashKey_v1 = (to_string(j) + "," + to_string(e.getHalfEdge(0).getVertex().getId()));
+						std::unordered_map<std::string, int>::const_iterator got1 = volumeVertex_PrimalVertex.find(hashKey_v1);
+
+						if (got0 != volumeVertex_PrimalVertex.end() && got1 != volumeVertex_PrimalVertex.end())
+						{
+							v0 = got0->second;
+							v1 = got1->second;
+
+							if (v0 > v1) swap(v0, v1);
+
+							string hashKey_e = (to_string(v0) + "," + to_string(v1));
+							std::unordered_map<std::string, int>::const_iterator gotGlobalEdge = primalVertices_PrimalEdge.find(hashKey_e);
+
+							int globalEdgeId;
+
+							if (gotGlobalEdge != primalVertices_PrimalEdge.end())
+							{
+								globalEdgeId = gotGlobalEdge->second;
+							}
+							else
+							{
+								primalVertices_PrimalEdge[hashKey_e] = primal_n_e;
+
+								vector<int> volumeEdge = { j,eId };
+								primalEdge_VolumeEdge.push_back(volumeEdge);
+
+								vector<int> primalVertices = { v0,v1 };
+								primalEdge_PrimalVertices.push_back(primalVertices);
+
+								globalEdgeId = primal_n_e;
+								primal_n_e++;
+							}
+
+							string hashKey_volEdge = (to_string(j) + "," + to_string(eId));
+							volumeEdge_PrimalEdge[hashKey_volEdge] = globalEdgeId;
+
+						}
+
+					}
+					
+					// face map
+					/*vector<zVector> fCenters;
+					vector<zVector> fNorms;
+					
+					fnForces[j].getCenters(zFaceData, fCenters);
+					fnForces[j].getFaceNormals(fNorms);
+
+					for (int i = 0; i < fCenters.size(); i++)
+					{
+						int globalFaceId = -1;
+						bool chkExists = coreUtils.vertexExists(faceCenterpositionVertex, fCenters[i], precisionFac, globalFaceId);
+
+
+
+						if (!chkExists)
+						{		
+
+							coreUtils.addToPositionMap(faceCenterpositionVertex, fCenters[i], primal_n_f, precisionFac);
+							
+							vector<int> volumeFace = { j,i };
+							primalFace_VolumeFace.push_back(volumeFace);
+
+							globalFaceId = primal_n_f;
+
+							primalFaceCenters.push_back(fCenters[i]);
+
+							fNorms[i].normalize();
+							primalFaceNormals.push_back(fNorms[i]);
+
+							GFP_SSP_Face.push_back(true);
+
+							primal_n_f++;
+						}
+						else
+						{
+							GFP_SSP_Face[globalFaceId] = false;
+							
+						}
+
+						string hashKey_volFace = (to_string(j) + "," + to_string(i));
+						volumeFace_PrimalFace[hashKey_volFace] = globalFaceId;
+					}*/
+
+					
+
+				}
+
+				printf("\n primal Force:  primal_n_v %i , primal_n_e %i , primal_n_f %i  primal_n_f_i %i", primal_n_v, primal_n_e, primal_n_f, primal_n_f_i);
+				printf("\n primal_f_normals %i ", primalFaceNormals.size());
+			
+
+			}
+			
+			else throw std::invalid_argument(" invalid diagram type.");
+
+		}
+
+		bool getPrimal_EdgeVertexMatrix(zDiagramType type, zSparseMatrix &out)
+		{
+			if (type == zForceDiagram)
+			{
+				if (primal_n_v == 0 || primal_n_e == 0) return false;
+
+				vector<bool> edgeVisited;
+				edgeVisited.assign(primal_n_e, false );
+
+				out = zSparseMatrix(primal_n_e, primal_n_v);
+				out.setZero();
+								
+				vector<zTriplet> coefs; // -1 for from vertex and 1 for to vertex
+
+				for (int j = 0; j < primalEdge_PrimalVertices.size(); j++)
+				{
+					int v0 = primalEdge_PrimalVertices[j][0];
+					int v1 = primalEdge_PrimalVertices[j][1];
+
+					coefs.push_back(zTriplet(j, v0, -1));
+					coefs.push_back(zTriplet(j, v1, 1));					
+				}
+				
+				out.setFromTriplets(coefs.begin(), coefs.end());
+
+				return true;
+			}
+
+			else throw std::invalid_argument(" invalid diagram type.");
+
+		}
+
+		bool getPrimal_EdgeFaceMatrix(zDiagramType type, zSparseMatrix &out)
+		{
+			if (type == zForceDiagram)
+			{
+				if (primal_n_f == 0 || primal_n_e == 0) return false;
+
+				out = zSparseMatrix(primal_n_e, primal_n_f_i);
+				out.setZero();
+							
+				vector<zTriplet> coefs; // -1 for from vertex and 1 for to vertex
+
+				for (int j = 0; j < primalFace_VolumeFace.size(); j++)
+				{
+					if (GFP_SSP_Face[j]) continue;
+
+					int volId = primalFace_VolumeFace[j][0];
+					int faceId = primalFace_VolumeFace[j][1];
+
+					
+									   					 			
+					zItMeshFace f(*forceObjs[volId], faceId);
+
+					vector<zItMeshHalfEdge> fHEdges;
+					f.getHalfEdges(fHEdges);
+
+					for (auto &he : fHEdges)
+					{
+						int edgeId = he.getEdge().getId();
+
+						int v0 = he.getStartVertex().getId();
+						int v1 = he.getVertex().getId();
+
+
+						string hashKey_v0 = (to_string(volId) + "," + to_string(v0));
+						std::unordered_map<std::string, int>::const_iterator gotVertex0 = volumeVertex_PrimalVertex.find(hashKey_v0);
+
+						string hashKey_v1 = (to_string(volId) + "," + to_string(v1));
+						std::unordered_map<std::string, int>::const_iterator gotVertex1 = volumeVertex_PrimalVertex.find(hashKey_v1);
+
+						string hashKey_e = (to_string(volId) + "," + to_string(edgeId));
+						std::unordered_map<std::string, int>::const_iterator gotEdge = volumeEdge_PrimalEdge.find(hashKey_e);
+
+						if (gotVertex0 != volumeVertex_PrimalVertex.end() && gotVertex1 != volumeVertex_PrimalVertex.end() && gotEdge != volumeEdge_PrimalEdge.end())
+						{
+							int p_v0 = gotVertex0->second;
+							int p_v1 = gotVertex1->second;							
+
+							int p_e = gotEdge->second;
+
+							if (p_v0 > p_v1)
+							{
+								
+								coefs.push_back(zTriplet(p_e, primal_internalFaceIndex[j], -1));
+							}
+							else
+							{
+								coefs.push_back(zTriplet(p_e, primal_internalFaceIndex[j], 1));
+							}
+						}
+
+					}					
+
+				}
+
+				out.setFromTriplets(coefs.begin(), coefs.end());
+
+				return true;
+			}
+
+			else throw std::invalid_argument(" invalid diagram type.");
+
+		}
+
+		bool getPrimal_FaceVolumeMatrix(zDiagramType type, zSparseMatrix &out)
+		{
+			if (type == zForceDiagram)
+			{
+				if (primal_n_f == 0 ) return false;
+
+				int primal_n_vol = fnForces.size();
+				
+				out = zSparseMatrix(primal_n_f_i, primal_n_vol);
+				out.setZero();
+
+				vector<zTriplet> coefs; 
+
+				for (int j = 0; j < fnForces.size(); j++)
+				{
+					int volId = j;
+					
+
+					for (zItMeshFace f(*forceObjs[volId]); !f.end(); f.next())
+					{
+						int faceId = f.getId();
+
+						string hashKey_f = (to_string(volId) + "," + to_string(faceId));
+						std::unordered_map<std::string, int>::const_iterator gotFace = volumeFace_PrimalFace.find(hashKey_f);
+
+						if (gotFace != volumeFace_PrimalFace.end())
+						{
+							int p_f = gotFace->second;
+
+							if (GFP_SSP_Face[p_f]) continue;
+
+							int p_volId = primalFace_VolumeFace[p_f][0];
+							int p_faceId = primalFace_VolumeFace[p_f][1];
+
+							if (volId == p_volId && faceId == p_faceId && !GFP_SSP_Face[p_f])
+							{
+								coefs.push_back(zTriplet(primal_internalFaceIndex[p_f], volId, 1));
+							}
+							else coefs.push_back(zTriplet(primal_internalFaceIndex[p_f], volId, -1));
+						}
+
+					}			
+
+				}
+
+				out.setFromTriplets(coefs.begin(), coefs.end());
+
+				return true;
+			}
+
+			else throw std::invalid_argument(" invalid diagram type.");
+
+		}
+
+		bool get_EquilibriumMatrix(zDiagramType type, MatrixXd &out)
+		{
+			double factor = pow(10, 4);
+
+			// Get Normal diagonal matricies
+			VectorXd nx(primal_n_f_i);
+			VectorXd ny(primal_n_f_i);
+			VectorXd nz(primal_n_f_i);
+
+
+			for (int j = 0; j < primalFaceNormals.size(); j++)
+			{	
+				if (GFP_SSP_Face[j]) continue;
+
+				zVector n = primalFaceNormals[j];	
+
+				int id = primal_internalFaceIndex[j];
+
+				nx[id] = n.x;
+				ny[id] = n.y;
+				nz[id] = n.z;
+
+				
+			}
+
+			zDiagonalMatrix Nx = nx.asDiagonal();
+			zDiagonalMatrix Ny = ny.asDiagonal();
+			zDiagonalMatrix Nz = nz.asDiagonal();
+
+
+			// primal _ edgefaceMatrix
+			zSparseMatrix C_ef;
+			getPrimal_EdgeFaceMatrix(zForceDiagram, C_ef);			
+
+			//cout << "\n C_ef " <<  endl  << C_ef << endl;
+
+			// compute A
+
+			out = MatrixXd( 3 *primal_n_e, primal_n_f_i);
+			
+			
+
+			for (int i = 0; i < 3; i++)
+			{
+				MatrixXd temp(primal_n_e, primal_n_f);
+				
+				if(i == 0) temp = C_ef * Nx;
+				if (i == 1) temp = C_ef * Ny;
+				if (i == 2) temp = C_ef * Nz;
+
+				for (int j = 0; j < temp.rows(); j++)
+				{
+					for (int k = 0; k < temp.cols(); k++)
+					{
+						out(i*primal_n_e + j,k) = temp(j,k);
+
+						//out(i*primal_n_e + j, k) = round(out(i*primal_n_e + j, k) *factor) / factor;
+
+						//if (out(i*primal_n_e + j, k) >0 &&  out(i*primal_n_e + j, k) < 0.000001) out(i*primal_n_e + j, k) = 0;
+						//if (out(i*primal_n_e + j, k) < 0 && out(i*primal_n_e + j, k) > -0.000001) out(i*primal_n_e + j, k) = 0;
+					}
+				}
+			}
+
+
+		}
+
+		void compute_forceDensities(int precisionFac = 3)
+		{
+			double threshold = 1.0 / pow(10, precisionFac);
+
+			MatrixXd A;
+			get_EquilibriumMatrix(zForceDiagram, A);
+
+			cout << "\n A " << endl << A << endl;
+
+			FullPivLU<MatrixXd> lu_decomp(A);
+
+			lu_decomp.setThreshold(threshold);
+			int rank = lu_decomp.rank();
+			cout << "\n A RANK:  " << rank << endl;
+
+			MatrixXd upper = lu_decomp.matrixLU().triangularView<Eigen::Upper>();
+			cout << "\n upper:  " << endl << upper << endl;
+
+			MatrixXd kernel = lu_decomp.kernel();
+			cout << "Here is a matrix whose columns form a basis of the null-space of A:\n"
+				<< kernel << endl;
+
+
+			MatrixXd B(rank, kernel.cols());
+
+		}
+
 
 		//--------------------------
 		//--- SET METHODS 

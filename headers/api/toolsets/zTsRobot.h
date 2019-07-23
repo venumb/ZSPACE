@@ -667,7 +667,8 @@ namespace zSpace
 		*/
 		void setEndEffector(zTransform &EE)
 		{
-			robot_endEffector_matrix = EE.transpose();
+			zTransform temp = coreUtils.toLocalMatrix(EE);			
+			robot_endEffector_matrix = temp.transpose();
 		}
 
 		//--------------------------
@@ -999,6 +1000,81 @@ namespace zSpace
 				v.setVertexPosition( pos);				
 			}
 		}		
+
+		/*! \brief This method computes the tranformation to the world space of the input 4x4 matrix.
+		*
+		*	\param		[in]	inMatrix	- input zMatrix to be transformed.
+		*	\return 			zMatrix		- world transformation matrix.
+		*	\since version 0.0.2
+		*/
+		zTransform toWorldMatrix(zTransform &inMatrix)
+		{
+
+			zTransform outMatrix;
+			outMatrix.setIdentity();
+
+			zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
+			zVector Y(inMatrix(0, 1), inMatrix(1, 1), inMatrix(2, 1));
+			zVector Z(inMatrix(0, 2), inMatrix(1, 2), inMatrix(2, 2));
+			zVector Cen(inMatrix(0, 3), inMatrix(1, 3), inMatrix(2, 3));
+
+
+			outMatrix(0, 0) = X.x; outMatrix(0, 1) = Y.x; outMatrix(0, 2) = Z.x;
+			outMatrix(1, 0) = X.y; outMatrix(1, 1) = Y.y; outMatrix(1, 2) = Z.y;
+			outMatrix(2, 0) = X.z; outMatrix(2, 1) = Y.z; outMatrix(2, 2) = Z.z;
+
+			outMatrix(0, 3) = Cen.x; outMatrix(1, 3) = Cen.y; outMatrix(2, 3) = Cen.z;
+
+			return outMatrix;
+		}
+
+		/*! \brief This method computes the tranformation to the local space of the input 4x4 matrix.
+		*
+		*	\param		[in]	inMatrix	- input 4X4 zMatrix to be transformed.
+		*	\return 			zMatrix		- world transformation matrix.
+		*	\since version 0.0.2
+		*/
+		zTransform toLocalMatrix(zTransform &inMatrix)
+		{
+
+			zTransform outMatrix;
+			outMatrix.setIdentity();
+
+			zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
+			zVector Y(inMatrix(0, 1), inMatrix(1, 1), inMatrix(2, 1));
+			zVector Z(inMatrix(0, 2), inMatrix(1, 2), inMatrix(2, 2));
+			zVector Cen(inMatrix(0, 3), inMatrix(1, 3), inMatrix(2, 3));
+
+			zVector orig(0, 0, 0);
+			zVector d = Cen - orig;
+
+			outMatrix(0, 0) = X.x; outMatrix(0, 1) = X.y; outMatrix(0, 2) = X.z;
+			outMatrix(1, 0) = Y.x; outMatrix(1, 1) = Y.y; outMatrix(1, 2) = Y.z;
+			outMatrix(2, 0) = Z.x; outMatrix(2, 1) = Z.y; outMatrix(2, 2) = Z.z;
+
+			outMatrix(0, 3) = -(X*d); outMatrix(1, 3) = -(Y*d); outMatrix(2, 3) = -(Z*d);
+
+
+
+			return outMatrix;
+		}
+
+		/*! \brief This method computes the tranformation from one 4X4 matrix to another.
+		*
+		*	\param		[in]	from		- input 4X4 zMatrix.
+		*	\param		[in]	to			- input 4X4 zMatrix.
+		*	\return 			zMatrix		- transformation matrix.
+		*	\since version 0.0.2
+		*/
+		zTransform PlanetoPlane(zTransform &from, zTransform &to)
+		{
+			zTransform world = toWorldMatrix(to);
+			zTransform local = toLocalMatrix(from);
+
+			zTransform out = world * local;
+
+			return out;
+		}
 
 		//--------------------------
 		//---- FACTORY METHODS

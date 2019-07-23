@@ -557,7 +557,7 @@ namespace zSpace
 		zTransform getToMatrix(zTransformationMatrix &to)
 		{
 			zTransform world = to.getWorldMatrix();
-			zTransform local = this->getLocalMatrix();			
+			zTransform local = this->getLocalMatrix();		
 	
 			
 			

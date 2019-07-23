@@ -47,6 +47,39 @@ namespace zSpace
 		/*!	\brief container of face attribute data - normals, colors.*/
 		vector<vector<double>> faceAttributes;	
 
+		zUtilsJsonHE() {};
+
+		~zUtilsJsonHE()
+		{
+			
+			if (halfedges.size() > 0)
+			{
+				for (auto &Jhe : halfedges) Jhe.clear();
+				halfedges.clear();
+			}
+
+			if (vertexAttributes.size() > 0)
+			{
+				for (auto &JvA : vertexAttributes) JvA.clear();
+				vertexAttributes.clear();
+			}
+			
+			if (halfedgeAttributes.size() > 0)
+			{
+				for (auto &JheA : halfedgeAttributes) JheA.clear();
+				halfedgeAttributes.clear();
+			}
+			
+			if (faceAttributes.size() > 0)
+			{
+				for (auto &JfA : faceAttributes) JfA.clear();
+				faceAttributes.clear();
+			}			
+
+			if (faces.size() > 0) faces.clear();
+			if (vertices.size() > 0) vertices.clear();
+		}
+		
 	};
 
 

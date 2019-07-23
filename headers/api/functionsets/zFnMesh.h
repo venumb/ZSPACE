@@ -4102,30 +4102,34 @@ namespace zSpace
 
 			//Edges
 			meshJSON.halfedges.clear();
-			meshJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
-
-
+			meshJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());			
 
 			// Faces
 			meshJSON.faces.clear();
 			meshJSON.faces = (j["Faces"].get<vector<int>>());
-
-
+					
 
 			// update  mesh
-
 			meshObj->mesh.clear();
 
 			meshObj->mesh.vertices.assign(meshJSON.vertices.size(), zVertex());
 			meshObj->mesh.halfEdges.assign(meshJSON.halfedges.size(), zHalfEdge());
-			meshObj->mesh.edges.assign(floor(meshJSON.halfedges.size()*0.5), zEdge());
+
+			int numE = (int) floor(meshJSON.halfedges.size()*0.5);
+			meshObj->mesh.edges.assign(numE, zEdge());
 			meshObj->mesh.faces.assign(meshJSON.faces.size(), zFace());
 
 			meshObj->mesh.vHandles.assign(meshJSON.vertices.size(), zVertexHandle());
-			meshObj->mesh.eHandles.assign(floor(meshJSON.halfedges.size()*0.5), zEdgeHandle());
+			meshObj->mesh.eHandles.assign(numE, zEdgeHandle());
 			meshObj->mesh.heHandles.assign(meshJSON.halfedges.size(), zHalfEdgeHandle());
 			meshObj->mesh.fHandles.assign(meshJSON.faces.size(), zFaceHandle());
 
+			// set IDs
+			for (int i = 0; i < meshJSON.vertices.size(); i++) meshObj->mesh.vertices[i].setId(i);
+			for (int i = 0; i < meshJSON.halfedges.size(); i++) meshObj->mesh.halfEdges[i].setId(i);
+			for (int i = 0; i < meshJSON.faces.size(); i++) meshObj->mesh.faces[i].setId(i);
+
+			// set Pointers
 			int n_v = 0;
 			for (zItMeshVertex v(*meshObj); !v.end(); v.next())
 			{
@@ -4133,9 +4137,10 @@ namespace zSpace
 
 				if (meshJSON.vertices[n_v] != -1)
 				{
-					zItMeshHalfEdge e(*meshObj, meshJSON.vertices[n_v]);;
-					v.setHalfEdge(e);
+					zItMeshHalfEdge he(*meshObj, meshJSON.vertices[n_v]);;
+					v.setHalfEdge(he);
 
+					meshObj->mesh.vHandles[n_v].id = n_v;
 					meshObj->mesh.vHandles[n_v].he = meshJSON.vertices[n_v];
 				}
 
@@ -4147,26 +4152,26 @@ namespace zSpace
 
 			int n_he = 0;
 			int n_e = 0;
-
+								   
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he.next())
 			{
 
 				// Half Edge
 				he.setId(n_he);
-
+				meshObj->mesh.heHandles[n_he].id = n_he;
 
 				if (meshJSON.halfedges[n_he][0] != -1)
 				{
-					zItMeshHalfEdge e(*meshObj, meshJSON.halfedges[n_he][0]);
-					he.setPrev(e);
+					zItMeshHalfEdge hePrev(*meshObj, meshJSON.halfedges[n_he][0]);
+					he.setPrev(hePrev);
 
 					meshObj->mesh.heHandles[n_he].p = meshJSON.halfedges[n_he][0];
 				}
 
 				if (meshJSON.halfedges[n_he][1] != -1)
 				{
-					zItMeshHalfEdge e(*meshObj, meshJSON.halfedges[n_he][1]);
-					he.setNext(e);
+					zItMeshHalfEdge heNext(*meshObj, meshJSON.halfedges[n_he][1]);
+					he.setNext(heNext);
 
 					meshObj->mesh.heHandles[n_he].n = meshJSON.halfedges[n_he][1];
 				}
@@ -4175,6 +4180,7 @@ namespace zSpace
 				{
 					zItMeshVertex v(*meshObj, meshJSON.halfedges[n_he][2]);
 					he.setVertex(v);
+									
 
 					meshObj->mesh.heHandles[n_he].v = meshJSON.halfedges[n_he][2];
 				}
@@ -4185,33 +4191,29 @@ namespace zSpace
 					he.setFace(f);
 
 					meshObj->mesh.heHandles[n_he].f = meshJSON.halfedges[n_he][3];
-
 				}
 
-				// symmetry half edges
-				if (n_he % 2 == 0)
-				{
-					zItMeshHalfEdge e(*meshObj, n_he + 1);
-					he.setSym(e);
-				}
-				else
-				{
-					zItMeshHalfEdge e(*meshObj, n_he - 1);
-					he.setSym(e);
-				}
-
-
-				// Edge
+				// symmetry half edges && Edge
 				if (n_he % 2 == 1)
 				{
+					zItMeshHalfEdge heSym(*meshObj, n_he - 1);
+					he.setSym(heSym);								
+				
 					zItMeshEdge e(*meshObj, n_e);
-
-					zItMeshHalfEdge heSym = he.getSym();
+					e.setId(n_e);						
 
 					e.setHalfEdge(heSym, 0);
 					e.setHalfEdge(he, 1);
 
+					he.setEdge(e);
+					heSym.setEdge(e);
+
 					meshObj->mesh.heHandles[n_he].e = n_e;
+					meshObj->mesh.heHandles[n_he - 1].e = n_e;
+
+					meshObj->mesh.eHandles[n_e].id = n_e;
+					meshObj->mesh.eHandles[n_e].he0 = n_he - 1;
+					meshObj->mesh.eHandles[n_e].he1 = n_he;
 
 					n_e++;
 				}
@@ -4220,6 +4222,7 @@ namespace zSpace
 
 			}
 
+			
 			meshObj->mesh.setNumEdges(n_e);
 
 			int n_f = 0;
@@ -4232,6 +4235,9 @@ namespace zSpace
 				{
 					zItMeshHalfEdge he(*meshObj, meshJSON.faces[n_f]);
 					f.setHalfEdge(he);
+
+					meshObj->mesh.fHandles[n_f].id = n_f;
+					meshObj->mesh.fHandles[n_f].he = meshJSON.faces[n_f];
 				}
 
 
@@ -4242,7 +4248,7 @@ namespace zSpace
 
 
 
-			// Vertex Attributes
+			//// Vertex Attributes
 			meshJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
 			//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
 
@@ -4260,7 +4266,7 @@ namespace zSpace
 					if (meshJSON.vertexAttributes[i].size() == 9)
 					{
 						zVector pos(meshJSON.vertexAttributes[i][k], meshJSON.vertexAttributes[i][k + 1], meshJSON.vertexAttributes[i][k + 2]);
-						meshObj->mesh.vertexPositions.push_back(pos);
+						meshObj->mesh.vertexPositions.push_back(pos);						
 
 						zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
 						meshObj->mesh.vertexNormals.push_back(normal);
@@ -4293,7 +4299,7 @@ namespace zSpace
 			}
 			else
 			{
-				for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i++)
+				for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i+= 2)
 				{
 					// color
 					if (meshJSON.halfedgeAttributes[i].size() == 3)
@@ -4348,8 +4354,7 @@ namespace zSpace
 				computeMeshNormals();
 				setFaceColor(zColor(0.5, 0.5, 0.5, 1));
 			}
-
-			printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
+		
 
 			// add to maps 
 			for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
@@ -4363,8 +4368,12 @@ namespace zSpace
 				int v1 = e.getHalfEdge(0).getVertex().getId();
 				int v2 = e.getHalfEdge(1).getVertex().getId();
 
-				meshObj->mesh.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());
+				meshObj->mesh.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());			
 			}
+						
+			
+
+			printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
 
 			return true;
 

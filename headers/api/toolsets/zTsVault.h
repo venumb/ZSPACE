@@ -274,7 +274,7 @@ namespace zSpace
 		/*! \brief This method computes the horizontal equilibrium of the form and force diagram.
 		*
 		*	\details Based on Block, Philippe, and John Ochsendorf. "Thrust network analysis: A new methodology for three-dimensional equilibrium." Journal of the International Association for shell and spatial structures 48.3 (2007): 167-173.
-		*	\param		[in]	computeTargets						- true if the targets fro horizontal equiibrium have to be computed.
+		*	\param		[in]	computeTargets						- true if the targets for horizontal equiibrium have to be computed.
 		*	\param		[in]	formWeight							- weight of form mesh update. To be between 0 and 1.
 		*	\param		[in]	dT									- integration timestep.
 		*	\param		[in]	type								- integration type - zEuler or zRK4.
@@ -325,6 +325,7 @@ namespace zSpace
 
 			return out;
 		}
+			   		
 				
 
 		/*! \brief This method computes the vertical equilibrium of the result diagram using linear algebra method.

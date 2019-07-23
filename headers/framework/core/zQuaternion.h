@@ -305,7 +305,7 @@ namespace  zSpace
 			*this /= length2();
 		}
 
-		/*! \brief This method computers  spherical-linear interpolation
+		/*! \brief This method computes spherical-linear interpolation
 		*	\param		[in]	q0			- input start quaternion.
 		*	\param		[in]	q1			- input end quaternion.
 		*	\param		[in]	t			- input time step.

@@ -129,8 +129,6 @@ namespace zSpace
 
 			return out;
 		}
-
-
 		
 			
 		/*! \brief This method gets all the files on the input file type in the input directory sorted by time of creation.
@@ -199,6 +197,7 @@ namespace zSpace
 			}
 			return elements;
 		}
+		
 
 		//--------------------------
 		//---- NUMERICAL METHODS
@@ -452,7 +451,7 @@ namespace zSpace
 			string hashKey = (to_string(x1) + "," + to_string(y1) + "," + to_string(z1));
 			std::unordered_map<std::string, int>::const_iterator got = positionVertex.find(hashKey);
 
-			cout << endl << hashKey;
+			//cout << endl << hashKey;
 			
 			if (got != positionVertex.end())
 			{
@@ -1557,17 +1556,17 @@ namespace zSpace
 		//---- VECTOR METHODS GEOMETRY
 		//--------------------------
 
-		/*! \brief This method computes the points on a circle centered around world origin for input radius, and number of points.
+		/*! \brief This method computes the points on a ellipse centered around world origin for input radius, and number of points.
 		*
-		*	\param		[in]		radius		- radius of circle.
-		*	\param		[in]		numPoints	- number of points in the the circle.
-		*	\param		[out]		circlePts	- points on circle.
+		*	\param		[in]		radius		- radius.
+		*	\param		[in]		numPoints	- number of points in the the ellipse.
+		*	\param		[out]		Pts			- points on circle.
 		*	\param		[in]		localPlane	- orientation plane, by default a world plane.
 		*	\param		[out]		xFactor		- the factor of scaling in x direction. For a circle both xFactor and yFactor need to be equal.
 		*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
 		*	\since version 0.0.2
 		*/
-		void getCircle(double radius, int numPoints, vector<zVector> &circlePts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
+		void getEllipse(double radius, int numPoints, vector<zVector> &Pts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0)
 		{
 			double theta = 0;
 
@@ -1581,7 +1580,7 @@ namespace zSpace
 				pos.y = (radius * sin(theta)) / yFactor;
 				pos.z = 0;
 
-				circlePts.push_back(pos * trans);
+				Pts.push_back(pos * trans);
 
 				theta += (TWO_PI / numPoints);
 			}

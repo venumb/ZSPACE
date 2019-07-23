@@ -40,6 +40,10 @@ namespace zSpace
 	protected:
 		/*!	\brief pointer to half edge Object  */		
 		T *heObj;
+		
+		/*! \brief core utilities object			*/
+		zUtilsCore coreUtils;
+
 
 	public:
 		
@@ -110,6 +114,15 @@ namespace zSpace
 		*/
 		void shortestPath(int indexA, int indexB, zWalkType type, vector<int> &edgeContainer);
 
+		/*! \brief This method computes the shortest path from the source vertex to destination vertex of the zGraph/zMesh and returns a graph of the path.
+		*
+		*	\param		[in]	indexA					- source vertex index.
+		*	\param		[in]	indexB					- destination vertex index.
+		*	\param		[out]	outGraph				- output graph of the shortest path.
+		*	\since version 0.0.3
+		*/
+		void getShortestPathGraph(int indexA, int indexB, zObjGraph &outGraph);
+
 		/*! \brief This method computes the shortest path from the all vertices to all vertices of a zGraph/zMesh and returns the number of times an edge is visited in those walks.
 		*
 		*	\param		[out]	edgeVisited				- container of number of times edge is visited.
@@ -153,7 +166,7 @@ namespace zSpace
 		void walk_Animate( double MaxDistance, vector<double>& vertexDistances, vector<zVector>& walkedEdges, vector<zVector>& currentWalkingEdges);
 
 
-		void getShortestPathGraph(vector<int> &edgeVisited, zObjGraph &outGraph);
+		
 		
 
 		//--------------------------
@@ -242,7 +255,7 @@ namespace zSpace
 		parent[index] = -1;
 
 		// Find shortest path for all vertices 
-		for(zItGraphVertex verts(*heObj); !verts.end(); verts.next())		
+		for(int i = 0; i < fnHE.numVertices(); i++)
 		{
 			// Pick the minimum distance vertex from the set of vertices not 
 			// yet processed. u is always equal to src in the first iteration. 
@@ -254,7 +267,7 @@ namespace zSpace
 			// Update dist value of the adjacent vertices of the picked vertex. 
 
 			vector<zItGraphVertex> cVerts;
-			verts.getConnectedVertices( cVerts);
+			u.getConnectedVertices( cVerts);
 
 			for (auto &v: cVerts)
 			{
@@ -303,7 +316,7 @@ namespace zSpace
 		parent[index] = -1;
 
 		// Find shortest path for all vertices 
-		for (zItMeshVertex verts(*heObj); !verts.end(); verts.next())
+		for (int i = 0; i < fnHE.numVertices(); i++)
 		{
 			// Pick the minimum distance vertex from the set of vertices not 
 			// yet processed. u is always equal to src in the first iteration. 
@@ -315,7 +328,7 @@ namespace zSpace
 			// Update dist value of the adjacent vertices of the picked vertex. 
 
 			vector<zItMeshVertex> cVerts;
-			verts.getConnectedVertices(cVerts);
+			u.getConnectedVertices(cVerts);
 
 			for (auto &v : cVerts)
 			{
@@ -1015,24 +1028,113 @@ namespace zSpace
 	
 	//---------------//
 
-	//---- mesh specilization for getShortestPathGraph
+	//---- graph specilization for getShortestPathGraph
+
 	template<>
-	inline void zTsShortestPath<zObjMesh, zFnMesh>::getShortestPathGraph(vector<int>& edgeVisited, zObjGraph & outGraph)
+	inline void zTsShortestPath<zObjGraph, zFnMesh>::getShortestPathGraph(int indexA, int indexB, zObjGraph & outGraph)
 	{
+		vector<int> edgePath;
+		shortestPath(indexA, indexB, zEdgePath, edgePath);
+
 		vector<zVector> positions;
 		vector<int> vertexIds;
 		vector<int> edgeConnects;
 
-		for (int i = 0; i < edgeVisited.size(); i++)
+		unordered_map <string, int> positionVertex;
+
+
+		for (int i = 0; i < edgePath.size(); i++)
 		{
-			zItMeshHalfEdge he(*heObj, edgeVisited[i]);
+			zItGraphHalfEdge he(*heObj, edgePath[i]);
 
-			int v1 = he.getVertex().getId();
-			int v0 = he.getStartVertex().getId();
+			
 
+			zVector v1_pos = he.getVertex().getVertexPosition();
+			zVector v0_pos = he.getStartVertex().getVertexPosition();
+
+			int v0;
+			bool chk0 = coreUtils.vertexExists(positionVertex, v0_pos, 3, v0);
+
+			if (!chk0)
+			{
+				v0 = positions.size();
+				coreUtils.addToPositionMap(positionVertex, v0_pos, v0, 3);
+				positions.push_back(v0_pos);
+			}
+
+			int v1;
+			bool chk1 = coreUtils.vertexExists(positionVertex, v1_pos, 3, v1);
+
+			if (!chk1)
+			{
+				v1 = positions.size();
+				coreUtils.addToPositionMap(positionVertex, v1_pos, v1, 3);
+				positions.push_back(v1_pos);
+			}
+
+			edgeConnects.push_back(v0);
+			edgeConnects.push_back(v1);
 
 		}
+
+		zFnGraph tempFn(outGraph);
+		tempFn.create(positions, edgeConnects, false);
+
 	}
+
+	//---- mesh specilization for getShortestPathGraph
+	template<>
+	inline void zTsShortestPath<zObjMesh, zFnMesh>::getShortestPathGraph(int indexA, int indexB, zObjGraph & outGraph)
+	{
+		vector<int> edgePath;
+		shortestPath(indexA, indexB, zEdgePath, edgePath);
+
+		vector<zVector> positions;
+		vector<int> vertexIds;
+		vector<int> edgeConnects;
+
+		unordered_map <string, int> positionVertex;
+
+
+		for (int i = 0; i < edgePath.size(); i++)
+		{
+			zItMeshHalfEdge he(*heObj, edgePath[i]);
+			
+			zVector v1_pos = he.getVertex().getVertexPosition();
+			zVector v0_pos = he.getStartVertex().getVertexPosition();
+
+			int v0;
+			bool chk0 = coreUtils.vertexExists(positionVertex, v0_pos, 3, v0);
+
+			if (!chk0)
+			{
+				v0 = positions.size();
+				coreUtils.addToPositionMap(positionVertex, v0_pos, v0, 3);
+				positions.push_back(v0_pos);
+			}
+
+			int v1;
+			bool chk1 = coreUtils.vertexExists(positionVertex, v1_pos, 3, v1);
+
+			if (!chk1)
+			{
+				v1 = positions.size();
+				coreUtils.addToPositionMap(positionVertex, v1_pos, v1, 3);				
+				positions.push_back(v1_pos);
+			}
+
+			edgeConnects.push_back(v0);
+			edgeConnects.push_back(v1);
+			
+		}
+
+		zFnGraph tempFn(outGraph);
+		tempFn.create(positions, edgeConnects, false);
+
+	}
+
+	//---------------//
+
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 

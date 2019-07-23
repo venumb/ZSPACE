@@ -457,6 +457,7 @@ namespace zSpace
 				if (n_he % 2 == 1)
 				{
 					zItGraphEdge e(*graphObj, n_e);
+					e.setId(n_e);
 
 					zItGraphHalfEdge heSym = he.getSym();
 
@@ -464,6 +465,11 @@ namespace zSpace
 					e.setHalfEdge(he, 1);								   				
 
 					graphObj->graph.heHandles[n_he].e = n_e;
+					graphObj->graph.heHandles[n_he - 1].e = n_e;
+
+					graphObj->graph.eHandles[n_e].id = n_e;
+					graphObj->graph.eHandles[n_e].he0 = n_he - 1;
+					graphObj->graph.eHandles[n_e].he1 = n_he;
 
 					n_e++;
 				}
@@ -767,7 +773,7 @@ namespace zSpace
 				fromTXT(path);
 				setStaticContainers();
 			}
-			if (type == zMAYATXT)
+			else if (type == zMAYATXT)
 			{
 				fromMAYATXT(path);
 				setStaticContainers();

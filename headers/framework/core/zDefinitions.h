@@ -140,6 +140,13 @@ namespace zSpace
 	#endif
 
 	/*! \typedef double3
+	*	\brief An array of int of size 2.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef int int2[2];
+
+	/*! \typedef double3
 	*	\brief An array of double of size 3.
 	*
 	*	\since version 0.0.2
