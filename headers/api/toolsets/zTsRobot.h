@@ -667,7 +667,7 @@ namespace zSpace
 		*/
 		void setEndEffector(zTransform &EE)
 		{
-			zTransform temp = coreUtils.toLocalMatrix(EE);			
+			zTransform temp = toLocalMatrix(EE);			
 			robot_endEffector_matrix = temp.transpose();
 		}
 

@@ -118,10 +118,11 @@ namespace zSpace
 		//--------------------------
 
 		int primal_n_v = 0;
-		int primal_n_e = 0;
-		
-		int primal_n_f_i = 0; // primal faces internal
 		int primal_n_f = 0;
+
+		int primal_n_e_i = 0; // primal edges internal		
+		int primal_n_f_i = 0; // primal faces internal
+		
 
 		unordered_map <string, int> volumeVertex_PrimalVertex;  // map of volume-vertex hashkey to primal vertex
 
@@ -136,6 +137,7 @@ namespace zSpace
 		vector< vector<int> > primalEdge_PrimalVertices; // stores theprimal vertices per primal edge
 
 		vector<int> primal_internalFaceIndex; // -1 for GFP or SSP faces 
+		vector<int> internalFaceIndex_primalFace; 
 
 		vector<zVector> primalVertexPositions;
 		vector<zVector> primalFaceCenters;
@@ -454,30 +456,7 @@ namespace zSpace
 		//---- MATRIX UTILITIES
 		//--------------------------
 		
-		void set_GFP_SSP(zDiagramType type, int index = -1)
-		{
-			if (type == zForceDiagram)
-			{
-				if (index == -1)
-				{
-
-				}
-
-				else if (index >= 0 && index < fnForces.size())
-				{
-
-				}
-				else throw std::invalid_argument(" invalid index.");
-			}
-			
-			else if (type == zFormDiagram)
-			{
-
-			}
-			
-			else throw std::invalid_argument(" invalid diagram type.");
-		}
-
+	
 		void getPrimal_GlobalElementIndicies(zDiagramType type, int GFP_SSP_Index = -1,  int precisionFac = 6)
 		{
 			if (type == zForceDiagram)
@@ -486,7 +465,7 @@ namespace zSpace
 				if (GFP_SSP_Index < -1 && GFP_SSP_Index >= fnForces.size())  throw std::invalid_argument(" invalid GFP / SSP index.");
 
 				primal_n_v = 0;
-				primal_n_e = 0;
+				primal_n_e_i = 0;
 				primal_n_f = 0;
 				primal_n_f_i = 0;
 
@@ -580,6 +559,7 @@ namespace zSpace
 					if (!GFP_SSP_Face[i])
 					{
 						primal_internalFaceIndex.push_back(primal_n_f_i);
+						internalFaceIndex_primalFace.push_back(i);
 						primal_n_f_i++;
 					}
 					else primal_internalFaceIndex.push_back(-1);					
@@ -633,6 +613,11 @@ namespace zSpace
 							}
 						}
 
+						if (primal_n_f == primal_n_f_i)
+						{
+							if (e.onBoundary()) boundaryEdge = true;
+						}
+
 						if (boundaryEdge) continue;
 
 						int v0, v1;
@@ -661,7 +646,7 @@ namespace zSpace
 							}
 							else
 							{
-								primalVertices_PrimalEdge[hashKey_e] = primal_n_e;
+								primalVertices_PrimalEdge[hashKey_e] = primal_n_e_i;
 
 								vector<int> volumeEdge = { j,eId };
 								primalEdge_VolumeEdge.push_back(volumeEdge);
@@ -669,8 +654,8 @@ namespace zSpace
 								vector<int> primalVertices = { v0,v1 };
 								primalEdge_PrimalVertices.push_back(primalVertices);
 
-								globalEdgeId = primal_n_e;
-								primal_n_e++;
+								globalEdgeId = primal_n_e_i;
+								primal_n_e_i++;
 							}
 
 							string hashKey_volEdge = (to_string(j) + "," + to_string(eId));
@@ -678,57 +663,12 @@ namespace zSpace
 
 						}
 
-					}
-					
-					// face map
-					/*vector<zVector> fCenters;
-					vector<zVector> fNorms;
-					
-					fnForces[j].getCenters(zFaceData, fCenters);
-					fnForces[j].getFaceNormals(fNorms);
-
-					for (int i = 0; i < fCenters.size(); i++)
-					{
-						int globalFaceId = -1;
-						bool chkExists = coreUtils.vertexExists(faceCenterpositionVertex, fCenters[i], precisionFac, globalFaceId);
-
-
-
-						if (!chkExists)
-						{		
-
-							coreUtils.addToPositionMap(faceCenterpositionVertex, fCenters[i], primal_n_f, precisionFac);
-							
-							vector<int> volumeFace = { j,i };
-							primalFace_VolumeFace.push_back(volumeFace);
-
-							globalFaceId = primal_n_f;
-
-							primalFaceCenters.push_back(fCenters[i]);
-
-							fNorms[i].normalize();
-							primalFaceNormals.push_back(fNorms[i]);
-
-							GFP_SSP_Face.push_back(true);
-
-							primal_n_f++;
-						}
-						else
-						{
-							GFP_SSP_Face[globalFaceId] = false;
-							
-						}
-
-						string hashKey_volFace = (to_string(j) + "," + to_string(i));
-						volumeFace_PrimalFace[hashKey_volFace] = globalFaceId;
-					}*/
-
-					
+					}					
 
 				}
 
-				printf("\n primal Force:  primal_n_v %i , primal_n_e %i , primal_n_f %i  primal_n_f_i %i", primal_n_v, primal_n_e, primal_n_f, primal_n_f_i);
-				printf("\n primal_f_normals %i ", primalFaceNormals.size());
+				printf("\n primal Force:  primal_n_v %i , primal_n_e_i %i , primal_n_f %i  primal_n_f_i %i", primal_n_v, primal_n_e_i, primal_n_f, primal_n_f_i);
+				
 			
 
 			}
@@ -741,12 +681,12 @@ namespace zSpace
 		{
 			if (type == zForceDiagram)
 			{
-				if (primal_n_v == 0 || primal_n_e == 0) return false;
+				if (primal_n_v == 0 || primal_n_e_i == 0) return false;
 
 				vector<bool> edgeVisited;
-				edgeVisited.assign(primal_n_e, false );
+				edgeVisited.assign(primal_n_e_i, false );
 
-				out = zSparseMatrix(primal_n_e, primal_n_v);
+				out = zSparseMatrix(primal_n_e_i, primal_n_v);
 				out.setZero();
 								
 				vector<zTriplet> coefs; // -1 for from vertex and 1 for to vertex
@@ -773,9 +713,9 @@ namespace zSpace
 		{
 			if (type == zForceDiagram)
 			{
-				if (primal_n_f == 0 || primal_n_e == 0) return false;
+				if (primal_n_f == 0 || primal_n_e_i == 0) return false;
 
-				out = zSparseMatrix(primal_n_e, primal_n_f_i);
+				out = zSparseMatrix(primal_n_e_i, primal_n_f_i);
 				out.setZero();
 							
 				vector<zTriplet> coefs; // -1 for from vertex and 1 for to vertex
@@ -905,6 +845,8 @@ namespace zSpace
 			VectorXd ny(primal_n_f_i);
 			VectorXd nz(primal_n_f_i);
 
+			
+			
 
 			for (int j = 0; j < primalFaceNormals.size(); j++)
 			{	
@@ -934,15 +876,15 @@ namespace zSpace
 
 			// compute A
 
-			out = MatrixXd( 3 *primal_n_e, primal_n_f_i);
+			out = MatrixXd( 3 *primal_n_e_i, primal_n_f_i);
 			
 			
 
 			for (int i = 0; i < 3; i++)
 			{
-				MatrixXd temp(primal_n_e, primal_n_f);
+				MatrixXd temp(primal_n_e_i, primal_n_f);
 				
-				if(i == 0) temp = C_ef * Nx;
+				if (i == 0) temp = C_ef * Nx;
 				if (i == 1) temp = C_ef * Ny;
 				if (i == 2) temp = C_ef * Nz;
 
@@ -950,12 +892,12 @@ namespace zSpace
 				{
 					for (int k = 0; k < temp.cols(); k++)
 					{
-						out(i*primal_n_e + j,k) = temp(j,k);
+						out(i*primal_n_e_i + j,k) = temp(j,k);
 
-						//out(i*primal_n_e + j, k) = round(out(i*primal_n_e + j, k) *factor) / factor;
+						//out(i*primal_n_e_i + j, k) = round(out(i*primal_n_e_i + j, k) *factor) / factor;
 
-						//if (out(i*primal_n_e + j, k) >0 &&  out(i*primal_n_e + j, k) < 0.000001) out(i*primal_n_e + j, k) = 0;
-						//if (out(i*primal_n_e + j, k) < 0 && out(i*primal_n_e + j, k) > -0.000001) out(i*primal_n_e + j, k) = 0;
+						//if (out(i*primal_n_e_i + j, k) >0 &&  out(i*primal_n_e_i + j, k) < 0.000001) out(i*primal_n_e_i + j, k) = 0;
+						//if (out(i*primal_n_e_i + j, k) < 0 && out(i*primal_n_e_i + j, k) > -0.000001) out(i*primal_n_e_i + j, k) = 0;
 					}
 				}
 			}
@@ -963,14 +905,51 @@ namespace zSpace
 
 		}
 
-		void compute_forceDensities(int precisionFac = 3)
+		void getDual_IndependentSet(MatrixXd &A, FullPivLU<MatrixXd> &lu_decomp, vector<int> &independentSet, vector<int> &sequence)
+		{
+			MatrixXd image = lu_decomp.image(A);
+			//cout << "Here is a matrix whose columns form a basis of the column-space of A:\n"
+				//<< image << endl;
+
+			
+			for (int i = 0; i < A.cols(); i++)
+			{
+				bool exists = false;
+				int id = -1;
+
+				for (int j = 0; j < image.cols(); j++)
+				{
+					if ((A.col(i) - image.col(j)).isZero())
+					{
+						exists = true;
+
+						id = j;
+					}
+				}
+
+				sequence.push_back(id);
+				if (!exists) independentSet.push_back(i);				
+			}
+
+			printf("\n independent sets : ");
+			for (auto id : independentSet)
+			{
+				printf(" %i ", id);
+
+				//cout << "\n " << A.col(id);
+			}
+			printf("\n");
+		}
+
+		void getDual_ForceDensities(VectorXd &q, int precisionFac = 3)
 		{
 			double threshold = 1.0 / pow(10, precisionFac);
 
 			MatrixXd A;
 			get_EquilibriumMatrix(zForceDiagram, A);
 
-			cout << "\n A " << endl << A << endl;
+			//cout << "\n A " << endl << A << endl;		
+			
 
 			FullPivLU<MatrixXd> lu_decomp(A);
 
@@ -978,15 +957,177 @@ namespace zSpace
 			int rank = lu_decomp.rank();
 			cout << "\n A RANK:  " << rank << endl;
 
-			MatrixXd upper = lu_decomp.matrixLU().triangularView<Eigen::Upper>();
-			cout << "\n upper:  " << endl << upper << endl;
+			
 
+			MatrixXd upper = lu_decomp.matrixLU().triangularView<Eigen::Upper>();
+			//cout << "\n upper:  " << endl << upper << endl;
+
+			// compute sequence and independent edges
+			vector<int> sequence;
+			vector<int> independentEdges;
+			
+			getDual_IndependentSet(A, lu_decomp, independentEdges, sequence);			
+			
+			// compute B
 			MatrixXd kernel = lu_decomp.kernel();
 			cout << "Here is a matrix whose columns form a basis of the null-space of A:\n"
 				<< kernel << endl;
 
-
 			MatrixXd B(rank, kernel.cols());
+			int counter = 0;
+			for (int i = 0; i < sequence.size(); i++)
+			{
+				if (sequence[i] == -1) continue;
+
+				B.row(counter) = kernel.row(i);
+				counter++;
+			}
+
+			VectorXd zeta(kernel.cols());
+			for (int i = 0; i < kernel.cols(); i++) zeta(i) = 5.0;
+
+			VectorXd qr = (B * zeta) * 1;
+			
+
+			q = VectorXd(A.cols());
+
+			int zetaCounter = 0;
+			for (int i = 0; i < sequence.size(); i++)
+			{
+				if (sequence[i] == -1)
+				{
+					q(i) = zeta(zetaCounter);
+					zetaCounter++;
+				}
+				else q(i) = qr(sequence[i]);
+			}
+			
+		}
+
+		void getDual()
+		{
+			
+
+			VectorXd q;
+			getDual_ForceDensities(q);
+
+			bool negativeQ = false; 
+			for (int i = 0; i < q.cols(); i++) if (q(i) < 0) negativeQ = true;
+			printf("\n %s ", (negativeQ) ? "true" : "false");
+			
+			//cout << endl << "q:\n" << q << endl;
+
+			zSparseMatrix C_fc;
+			getPrimal_FaceVolumeMatrix(zForceDiagram, C_fc);
+			//cout << "\n C_fc :" << endl << C_fc << endl;
+
+
+			vector<zVector> positions;
+			vector<int> edgeconnects;
+
+			positions.assign(C_fc.cols(), zVector());
+
+			int verticesVisited = 0;;
+			
+			vector<bool> vertsVisited;
+			vertsVisited.assign(C_fc.cols(), false);
+
+			vector<bool> edgeVisited;
+			edgeVisited.assign(C_fc.cols(), false);
+			
+			vector<int> currentVertex = { 0 };
+
+			bool exit = false;
+
+			
+
+			// compute vertex positions
+			do
+			{
+				vector<int> temp;			
+			
+				for (int i = 0; i < currentVertex.size(); i++)
+				{
+					if (vertsVisited[currentVertex[i]]) continue;
+									
+					int vertexId = currentVertex[i];
+					
+					for (int edgeId = 0; edgeId < C_fc.rows(); edgeId++)
+					{					
+						
+						if (C_fc.coeff(edgeId, vertexId) == 1)
+						{
+							for (int k = 0; k < C_fc.cols(); k++)
+							{
+								if (k == vertexId) continue;
+
+								if (C_fc.coeff(edgeId, k) == -1)
+								{
+									if (!edgeVisited[edgeId])
+									{
+										edgeconnects.push_back(k);
+										edgeconnects.push_back(vertexId);
+
+										edgeVisited[edgeId] = true;
+									}
+																	
+
+									if (!vertsVisited[k] )
+									{
+										positions[k] = positions[vertexId] + primalFaceNormals[internalFaceIndex_primalFace[edgeId]] * q[edgeId] ;
+										temp.push_back(k);
+									}
+								}								
+							}
+						}
+
+
+						if (C_fc.coeff(edgeId, vertexId) == -1)
+						{
+							for (int k = 0; k < C_fc.cols(); k++)
+							{
+								if (k == vertexId) continue;
+
+								if (C_fc.coeff(edgeId, k) == 1)
+								{	
+
+									if (!edgeVisited[edgeId])
+									{
+										edgeconnects.push_back(vertexId);
+										edgeconnects.push_back(k);
+
+										edgeVisited[edgeId] = true;
+									}
+									
+									
+									if (!vertsVisited[k])
+									{
+										positions[k] = positions[vertexId] + primalFaceNormals[internalFaceIndex_primalFace[edgeId]] * q[edgeId] * -1;
+
+										temp.push_back(k);
+									}
+									
+								}
+							}
+						}
+					}
+
+					vertsVisited[currentVertex[i]] = true;
+					verticesVisited++;
+				} 
+
+				currentVertex.clear();
+				if (temp.size() == 0 ) exit = true;
+
+				currentVertex = temp;
+
+
+			} while (verticesVisited != C_fc.cols() && !exit);			
+			
+
+			fnForm.create(positions, edgeconnects);
+
+			
 
 		}
 
