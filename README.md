@@ -35,6 +35,11 @@ Thanks a lot!
 - [**Spectra**](https://github.com/yixuan/spectra) for large scale eigen value problems. It is an open source project licensed under
 [MPL2](https://www.mozilla.org/MPL/2.0/).
 
+- [**Armadillo**](http://arma.sourceforge.net/) for matricies and related methods. It is an open source project licensed under
+[Apache License 2.0](https://opensource.org/licenses/Apache-2.0).
+
+- [**Alglib**](http://http://www.alglib.net/) free edition for linear programming optimisation methods.
+
 - [**JSON for Modern C++**](https://github.com/nlohmann/json) to create a JSON file. It is an open source project licensed under
 [MIT License](https://opensource.org/licenses/MIT).
 
