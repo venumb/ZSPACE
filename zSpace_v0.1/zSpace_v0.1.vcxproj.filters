@@ -13,291 +13,210 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\API">
-      <UniqueIdentifier>{09c52269-bb97-4bbb-8a35-f6ae18705b7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Object">
-      <UniqueIdentifier>{0fbccf63-2f51-4dfe-920e-66c48afd8fa7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Toolsets">
-      <UniqueIdentifier>{5fafa59e-d163-4acc-bcf1-6097d9ea1253}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Viewer">
-      <UniqueIdentifier>{8672f86c-696d-44ad-ae68-ef06c0ad9d10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Functionsets">
-      <UniqueIdentifier>{73e8728b-99d1-4c07-baae-02a57224d69b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK">
-      <UniqueIdentifier>{7b2d1c54-ebb4-4210-819f-55b949bcaae2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Utilities">
-      <UniqueIdentifier>{b755aa57-9802-42bd-be17-ca87fe5dfe48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Geometry">
-      <UniqueIdentifier>{15d60748-29c8-439b-9bab-2da2cda9fc31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Dynamics">
-      <UniqueIdentifier>{c53849cc-42bc-45a0-a123-5bb49f0d5f34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Display">
-      <UniqueIdentifier>{9b64b6b0-46ff-45bc-aeb6-5214eaa1c4d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Data">
-      <UniqueIdentifier>{6f2366cd-364c-45f4-88c8-74b4abe71e59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Core">
-      <UniqueIdentifier>{ec87ab1b-e316-4e2e-828f-1048a0c874ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\FRAMEWORK\Field">
-      <UniqueIdentifier>{42270686-7741-41cb-acfb-aa0584c4474a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\APP">
-      <UniqueIdentifier>{17ed4b77-4564-421c-842a-050b89c9c960}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\APP\Include">
-      <UniqueIdentifier>{7de56bb5-7d03-434f-b695-38dd47b35e72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\APP\Include\tools">
-      <UniqueIdentifier>{d0698b98-b7b4-4ff8-951b-b28f6450f9f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Toolsets\statics">
-      <UniqueIdentifier>{c3172f2b-fe6f-457e-9827-0aa1f7ffc670}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Toolsets\Data">
+    <Filter Include="Header Files\Data">
       <UniqueIdentifier>{fb1cb5aa-bd21-4e6a-bb9a-2cb82d8272f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\API\Toolsets\PathNetworks">
-      <UniqueIdentifier>{4cc5e7fe-d200-4c63-8be1-b74402a40a9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Toolsets\Streams">
-      <UniqueIdentifier>{167d8c45-e7a1-4535-920a-256126af02b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\API\Toolsets\Geometry">
+    <Filter Include="Header Files\Geometry">
       <UniqueIdentifier>{734460e2-4bec-4f38-8220-ce287d43d6c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\API\Toolsets\DigiFab">
+    <Filter Include="Header Files\PathNetworks">
+      <UniqueIdentifier>{4cc5e7fe-d200-4c63-8be1-b74402a40a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Streamlines">
+      <UniqueIdentifier>{167d8c45-e7a1-4535-920a-256126af02b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Depends">
+      <UniqueIdentifier>{6656313f-8926-489a-9d92-998cbf387a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Depends\Alglib">
+      <UniqueIdentifier>{73433eee-e1b7-4f05-9c3e-32e0239c63d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DigiFab">
+      <UniqueIdentifier>{b2005bf0-0b7c-4e58-bf99-30ae489589bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DigiFab">
       <UniqueIdentifier>{2f462b92-fc84-4e0c-9559-d6fc0f48d7de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\API\Iterators">
-      <UniqueIdentifier>{fb301d5c-a95f-4cd2-8eef-3bbc09993dbc}</UniqueIdentifier>
+    <Filter Include="Header Files\Statics">
+      <UniqueIdentifier>{c3172f2b-fe6f-457e-9827-0aa1f7ffc670}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Statics">
+      <UniqueIdentifier>{5303844a-7a6e-4bc6-b26e-b53a34015503}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PathNetworks">
+      <UniqueIdentifier>{0996eae9-f824-4333-8163-e7a23f02326f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{6096f4d0-262c-48a9-a945-dc85d759746b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{ea0606fa-7a28-4cab-8300-82b39ff54ee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Streamlines">
+      <UniqueIdentifier>{64d52869-aa5e-4471-80b8-9a40ac396e90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="zSpace.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="..\headers\zToolsets\data\zTsKMeans.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\data\zTsOSM.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\digifab\zTsRobot.h">
+      <Filter>Header Files\DigiFab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\geometry\zTsRemesh.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\geometry\zTsSpectral.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\geometry\zTsVariableExtrude.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\pathNetworks\zTsShortestPath.h">
+      <Filter>Header Files\PathNetworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\pathNetworks\zTsSlimeMould.h">
+      <Filter>Header Files\PathNetworks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\statics\zTsPolytopal.h">
+      <Filter>Header Files\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\statics\zTsSpatialStructure.h">
+      <Filter>Header Files\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\statics\zTsTopOpt.h">
+      <Filter>Header Files\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\statics\zTsVault.h">
+      <Filter>Header Files\Statics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\headers\zToolsets\streamlines\zTsStreams2D.h">
+      <Filter>Header Files\Streamlines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\alglibinternal.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\alglibmisc.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\ap.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\dataanalysis.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\diffequations.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\fasttransforms.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\integration.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\interpolation.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\linalg.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\optimization.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\solvers.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\specialfunctions.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\statistics.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\depends\alglib\cpp\src\stdafx.h">
+      <Filter>Depends\Alglib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\headers\framework\core\zColor.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zDefinitions.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zEnumerators.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zMatrix.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zVector.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\data\zDatabase.h">
-      <Filter>Header Files\FRAMEWORK\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\display\zObjBuffer.h">
-      <Filter>Header Files\FRAMEWORK\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\dynamics\zParticle.h">
-      <Filter>Header Files\FRAMEWORK\Dynamics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\geometry\zGraph.h">
-      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\geometry\zMesh.h">
-      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\geometry\zPointCloud.h">
-      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\field\zField3D.h">
-      <Filter>Header Files\FRAMEWORK\Field</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\utilities\zUtilsBMP.h">
-      <Filter>Header Files\FRAMEWORK\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\utilities\zUtilsCore.h">
-      <Filter>Header Files\FRAMEWORK\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\utilities\zUtilsDisplay.h">
-      <Filter>Header Files\FRAMEWORK\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\utilities\zUtilsJson.h">
-      <Filter>Header Files\FRAMEWORK\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFn.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnGraph.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnGraphDynamics.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnMesh.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnMeshDynamics.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnParticle.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnPointCloud.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjGraph.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjMesh.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjParticle.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjPointCloud.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\viewer\zModel.h">
-      <Filter>Header Files\API\Viewer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\zFnSets.h">
-      <Filter>Header Files\APP\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\zObjects.h">
-      <Filter>Header Files\APP\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\zToolsets.h">
-      <Filter>Header Files\APP\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\zViewer.h">
-      <Filter>Header Files\APP\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zTsData.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zTsGeometry.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zTsStatics.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zTsPathNetworks.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zTsStreamLines.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObj.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjMeshField.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnMeshField.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\field\zField2D.h">
-      <Filter>Header Files\FRAMEWORK\Field</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjPointField.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsVault.h">
-      <Filter>Header Files\API\Toolsets\statics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsPolytopal.h">
-      <Filter>Header Files\API\Toolsets\statics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsSpatialStructure.h">
-      <Filter>Header Files\API\Toolsets\statics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsKMeans.h">
-      <Filter>Header Files\API\Toolsets\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsOSM.h">
-      <Filter>Header Files\API\Toolsets\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsShortestPath.h">
-      <Filter>Header Files\API\Toolsets\PathNetworks</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsSlimeMould.h">
-      <Filter>Header Files\API\Toolsets\PathNetworks</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsStreams2D.h">
-      <Filter>Header Files\API\Toolsets\Streams</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsRemesh.h">
-      <Filter>Header Files\API\Toolsets\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsVariableExtrude.h">
-      <Filter>Header Files\API\Toolsets\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsRobot.h">
-      <Filter>Header Files\API\Toolsets\DigiFab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zDomain.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\utilities\zUtilsPointerMethods.h">
-      <Filter>Header Files\FRAMEWORK\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsTopOpt.h">
-      <Filter>Header Files\API\Toolsets\statics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zTransformationMatrix.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\app\include\Tools\zTsDigitalFabrication.h">
-      <Filter>Header Files\APP\Include\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\toolsets\zTsSpectral.h">
-      <Filter>Header Files\API\Toolsets\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\core\zQuaternion.h">
-      <Filter>Header Files\FRAMEWORK\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\geometry\zGeometryTypes.h">
-      <Filter>Header Files\FRAMEWORK\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\iterators\zIt.h">
-      <Filter>Header Files\API\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\iterators\zItMesh.h">
-      <Filter>Header Files\API\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\iterators\zItGraph.h">
-      <Filter>Header Files\API\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnPointField.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\iterators\zItPointCloud.h">
-      <Filter>Header Files\API\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\iterators\zItMeshField.h">
-      <Filter>Header Files\API\Iterators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\object\zObjSpatialBin.h">
-      <Filter>Header Files\API\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\framework\field\zBin.h">
-      <Filter>Header Files\FRAMEWORK\Field</Filter>
-    </ClInclude>
-    <ClInclude Include="..\headers\api\functionsets\zFnSpatialBin.h">
-      <Filter>Header Files\API\Functionsets</Filter>
-    </ClInclude>
+    <ClCompile Include="..\source\zToolsets\statics\zTsPolytopal.cpp">
+      <Filter>Source Files\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\alglibinternal.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\alglibmisc.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\ap.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\dataanalysis.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\diffequations.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\fasttransforms.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\integration.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\interpolation.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\linalg.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\optimization.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\solvers.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\specialfunctions.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\depends\alglib\cpp\src\statistics.cpp">
+      <Filter>Depends\Alglib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\statics\zTsVault.cpp">
+      <Filter>Source Files\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\statics\zTsTopOpt.cpp">
+      <Filter>Source Files\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\digiFab\zTsRobot.cpp">
+      <Filter>Source Files\DigiFab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\statics\zTsSpatialStructure.cpp">
+      <Filter>Source Files\Statics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\pathNetworks\zTsShortestPath.cpp">
+      <Filter>Source Files\PathNetworks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\pathNetworks\zTsSlimeMould.cpp">
+      <Filter>Source Files\PathNetworks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\geometry\zTsSpectral.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\geometry\zTsVariableExtrude.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\geometry\zTsRemesh.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\data\zTsKMeans.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\data\zTsOSM.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\zToolsets\streamlines\zTsStreams2D.cpp">
+      <Filter>Source Files\Streamlines</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
