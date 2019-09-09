@@ -6,6 +6,8 @@
 
 **ZSPACE** is a C++  library collection of geometry data-structures, algorithms and city data visualization framework. It is implemented as a header-only C++ library, whose dependencies, are header-only or static libraries. Hence **ZSPACE** can be easily embedded in C++ projects. 
 
+Optionally the library may also be pre-compiled into a statically  or dynamically linked library, for faster compile times.
+
 - [Citing](#Citing)
 - [License](#license)
 - [Third party dependcencies](#used-third-party-dependencies)
