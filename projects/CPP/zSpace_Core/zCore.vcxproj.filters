@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{da239caa-6be7-49e2-86de-b39b58b0b698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Base">
+      <UniqueIdentifier>{606b06b5-4715-4454-b7ee-31df7b814a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry">
+      <UniqueIdentifier>{7362ed95-663d-446a-9bb5-3bf48fa2e575}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{6af3d87d-242d-4827-88c2-af77e6bf0bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{9b225211-5299-460a-bbb2-9b45a08f7d55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utiilities">
+      <UniqueIdentifier>{00461252-c717-4bd7-a369-ce16fed4a5dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Display">
+      <UniqueIdentifier>{7c828a21-5889-491a-aeeb-53c27cb48961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Display">
+      <UniqueIdentifier>{c417850b-c458-4cea-a978-faa3a38d5b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Field">
+      <UniqueIdentifier>{b7c678ec-2f66-4166-a479-7ef399477c14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Field">
+      <UniqueIdentifier>{628c9012-184d-446e-b7fd-fea201a3eb0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{729a9944-da51-4c85-aa2e-89e621e2b89d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{3e8848e7-b38f-47e0-899f-60bf4572fbb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dynamics">
+      <UniqueIdentifier>{85236298-e858-4085-b24c-db1819577c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dynamics">
+      <UniqueIdentifier>{0fb7afa9-3a99-49fe-971b-27267367be1b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zBinaryTree.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zColor.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zDefinitions.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zDomain.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zEnumerators.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zExtern.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zInline.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zMatrix.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zQuaternion.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zTransformationMatrix.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zTypeDef.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zVector.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\data\zDatabase.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\display\zObjBuffer.h">
+      <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\dynamics\zParticle.h">
+      <Filter>Header Files\Dynamics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\field\zBin.h">
+      <Filter>Header Files\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\field\zField2D.h">
+      <Filter>Header Files\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\field\zField3D.h">
+      <Filter>Header Files\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zGraph.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zHEGeomTypes.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zMesh.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zPointCloud.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsBMP.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsCore.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsDisplay.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsJson.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsPointerMethods.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\coreHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zColor.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zDomain.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zMatrix.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zQuaternion.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zTransformationMatrix.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zVector.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\data\zDatabase.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\display\zObjBuffer.cpp">
+      <Filter>Source Files\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\dynamics\zParticle.cpp">
+      <Filter>Source Files\Dynamics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\field\zBin.cpp">
+      <Filter>Source Files\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\field\zField2D.cpp">
+      <Filter>Source Files\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\field\zField3D.cpp">
+      <Filter>Source Files\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\geometry\zGraph.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\geometry\zHEGeomTypes.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\geometry\zMesh.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\geometry\zPointCloud.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\utilities\zUtilsBMP.cpp">
+      <Filter>Source Files\Utiilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\utilities\zUtilsCore.cpp">
+      <Filter>Source Files\Utiilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\utilities\zUtilsDisplay.cpp">
+      <Filter>Source Files\Utiilities</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

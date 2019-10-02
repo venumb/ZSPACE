@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{6a027b4f-b1ea-4150-a639-499f728a8f57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\functionSets">
+      <UniqueIdentifier>{a1bd6afc-ec45-4f2c-9c31-349604662c24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\interOp">
+      <UniqueIdentifier>{0164b54a-6e28-400d-80a9-42b709ca1582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\functionSets">
+      <UniqueIdentifier>{8134d1e5-c701-4151-9314-8ebd6a0cdd59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interOp">
+      <UniqueIdentifier>{54ccb108-72fd-48d7-90bb-fef30854d32f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{427664bd-9d9a-45c4-9213-ca401158a6b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{4fefddb5-8413-4b7a-9c58-dca2d935699c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\core\zRhinoCore.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\functionSets\zMayaFnGraph.h">
+      <Filter>Header Files\functionSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\functionSets\zMayaFnMesh.h">
+      <Filter>Header Files\functionSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\functionSets\zRhinoFnGraph.h">
+      <Filter>Header Files\functionSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\functionSets\zRhinoFnMesh.h">
+      <Filter>Header Files\functionSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\include\zMayaInclude.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\include\zRhinoInclude.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\interOp\zIOMesh.h">
+      <Filter>Header Files\interOp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\interOp\zIOMeshSurface.h">
+      <Filter>Header Files\interOp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\interOp\zIONurbsCurve.h">
+      <Filter>Header Files\interOp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\interOp\zIONurbsSurface.h">
+      <Filter>Header Files\interOp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\core\zRhinoCore.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\functionSets\zMayaFnGraph.cpp">
+      <Filter>Source Files\functionSets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\functionSets\zMayaFnMesh.cpp">
+      <Filter>Source Files\functionSets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\functionSets\zRhinoFnGraph.cpp">
+      <Filter>Source Files\functionSets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\functionSets\zRhinoFnMesh.cpp">
+      <Filter>Source Files\functionSets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\interOp\zIOMesh.cpp">
+      <Filter>Source Files\interOp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\interOp\zIOMeshSurface.cpp">
+      <Filter>Source Files\interOp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\interOp\zIONurbsCurve.cpp">
+      <Filter>Source Files\interOp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\interOp\zIONurbsSurface.cpp">
+      <Filter>Source Files\interOp</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
