@@ -62,7 +62,7 @@ namespace zSpace
 	{
 		sceneObjects.push_back(&obj);
 
-		obj.setUtils(displayUtils, coreUtils);
+		obj.setUtils(displayUtils);
 
 
 	}
@@ -73,7 +73,7 @@ namespace zSpace
 		{
 			sceneObjects.push_back(&objs[i]);
 
-			objs[i].setUtils(displayUtils, coreUtils);
+			objs[i].setUtils(displayUtils);
 		}
 
 

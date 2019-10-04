@@ -826,6 +826,8 @@ namespace zSpace
 
 	//---- MATRIX  METHODS USING ARMADILLO
 
+#if defined(NOTUSING_CLR) 
+
 	ZSPACE_INLINE arma::mat zUtilsCore::rref(arma::mat A, double tol)
 	{
 		int rows = A.n_rows;
@@ -894,6 +896,8 @@ namespace zSpace
 		arma::vec arma_B = arma::vec(eigen_A.data(), eigen_A.rows(), false, false);
 		return arma_B;
 	}
+
+#endif
 
 	//---- FACTORY METHODS GEOMETRY
 
@@ -1112,6 +1116,8 @@ namespace zSpace
 
 	//---- PRIVATE MATRIX  METHODS
 
+#if defined(NOTUSING_CLR) 
+
 	ZSPACE_INLINE void zUtilsCore::rref_max(mat &A, int &r, int &c, double &m, int &pivot)
 	{
 		m = -10000000;
@@ -1178,5 +1184,7 @@ namespace zSpace
 			rowCounter++;
 		}
 	}
+
+#endif
 
 }

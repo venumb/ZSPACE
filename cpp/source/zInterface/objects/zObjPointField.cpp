@@ -33,11 +33,13 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
+
 	template<typename T>
 	ZSPACE_INLINE void zObjPointField<T>::draw()
 	{
 		zObjPointCloud::draw();
 	}
+
 
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)

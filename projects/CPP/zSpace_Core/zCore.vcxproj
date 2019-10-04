@@ -39,6 +39,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <UseIntelMKL>No</UseIntelMKL>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -95,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir)/cpp;$(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY ; USING_ARMA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -114,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\cpp\Depends\Armadillo;$(SolutionDir);$(SolutionDir)\cpp\Depends;$(SolutionDir)\cpp;$(SolutionDir)\cpp\Depends\alglib\cpp\src</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;NOTUSING_CLR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

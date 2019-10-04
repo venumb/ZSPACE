@@ -77,9 +77,6 @@ namespace zSpace
 		//--------------------------
 
 		/*! \brief display utilities object	*/
-		zUtilsCore coreUtils;
-
-		/*! \brief display utilities object	*/
 		zUtilsDisplay displayUtils;
 
 		/*! \brief container of scene objects	*/

@@ -38,6 +38,13 @@ namespace zSpace
 	}
 
 	//---- OVERRIDE METHODS
+	
+	ZSPACE_INLINE void zObjPointCloud::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		coreUtils.getBounds(pCloud.vertexPositions, minBB, maxBB);
+	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 	ZSPACE_INLINE void zObjPointCloud::draw()
 	{
@@ -53,10 +60,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zObjPointCloud::getBounds(zPoint &minBB, zPoint &maxBB)
-	{
-		coreUtils->getBounds(pCloud.vertexPositions, minBB, maxBB);
-	}
+
 
 	//---- DISPLAY METHODS
 
@@ -84,5 +88,7 @@ namespace zSpace
 		pCloud.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(&pCloud.vertexPositions[0], _dummynormals, pCloud.vertexPositions.size());
 		pCloud.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(&pCloud.vertexColors[0], pCloud.vertexColors.size());
 	}
+
+#endif // !ZSPACE_UNREAL_INTEROP
 
 }

@@ -47,10 +47,13 @@ namespace zSpace
 		showObjectTransform = _showObjectTransform;
 	}
 
-	ZSPACE_INLINE void zObj::setUtils(zUtilsDisplay &_displayUtils, zUtilsCore &_coreUtils)
+#ifndef ZSPACE_UNREAL_INTEROP
+
+	ZSPACE_INLINE void zObj::setUtils(zUtilsDisplay &_displayUtils)
 	{
-		displayUtils = &_displayUtils;
-		coreUtils = &_coreUtils;
+		displayUtils = &_displayUtils;		
 	}
+
+#endif // !ZSPACE_UNREAL_INTEROP
 
 }

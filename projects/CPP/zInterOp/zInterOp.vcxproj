@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/; $(MayaDir)/include;$(RhinoDir)/inc/</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ZSPACE_MAYA_INTEROP; ZSPACE_RHINO_INTEROP;ZSPACE_STATIC_LIBRARY; NDEBUG;WIN64;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZSPACE_MAYA_INTEROP; ZSPACE_RHINO_INTEROP;ZSPACE_STATIC_LIBRARY; NDEBUG;WIN64;_UNICODE;UNICODE; USING_ARMA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

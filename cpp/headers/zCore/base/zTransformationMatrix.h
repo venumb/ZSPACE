@@ -80,7 +80,7 @@ namespace zSpace
 		/*!	\brief stores translation as a vector  */
 		zDouble3 translation;
 
-		/*!	\brief stores pivot as a vector  */
+		/*!	\brief stores pivot as a vector  */ 
 		zDouble3 pivot;
 
 		

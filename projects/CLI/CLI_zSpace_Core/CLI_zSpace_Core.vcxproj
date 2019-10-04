@@ -91,12 +91,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG ;ZSPACE_DYNAMIC_LIBRARY ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG ;ZSPACE_STATIC_LIBRARY; USING_CLR ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories> $(SolutionDir)/cpp;  $(SolutionDir)/cli; $(SolutionDir);</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>zSpace_Core.lib; </AdditionalDependencies>
+      <AdditionalDependencies>$(NoInherit);zSpace_Core.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\cpp\compiled\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -160,7 +160,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\projects\zSpace_Core\zCore.vcxproj">
+    <ProjectReference Include="..\..\CPP\zSpace_Core\zCore.vcxproj">
       <Project>{f9ac6df0-6bf4-467f-891d-1886084332fe}</Project>
     </ProjectReference>
   </ItemGroup>

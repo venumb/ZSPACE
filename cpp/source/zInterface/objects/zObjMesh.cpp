@@ -114,6 +114,13 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
+	ZSPACE_INLINE void zObjMesh::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		coreUtils.getBounds(mesh.vertexPositions, minBB, maxBB);
+	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
+	   
 	ZSPACE_INLINE void zObjMesh::draw()
 	{
 		if (showObject)
@@ -132,11 +139,6 @@ namespace zSpace
 			displayUtils->drawTransform(transformationMatrix);
 		}
 
-	}
-
-	ZSPACE_INLINE void zObjMesh::getBounds(zPoint &minBB, zPoint &maxBB)
-	{
-		coreUtils->getBounds(mesh.vertexPositions, minBB, maxBB);
 	}
 
 	//---- DISPLAY METHODS
@@ -361,4 +363,7 @@ namespace zSpace
 
 
 	}
+
+#endif // !ZSPACE_UNREAL_INTEROP
+
 }

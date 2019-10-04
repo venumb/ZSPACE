@@ -67,6 +67,13 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
+	ZSPACE_INLINE void zObjGraph::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		coreUtils.getBounds(graph.vertexPositions, minBB, maxBB);
+	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
+	   
 	ZSPACE_INLINE void zObjGraph::draw()
 	{
 		if (showObject)
@@ -78,11 +85,6 @@ namespace zSpace
 		{
 			displayUtils->drawTransform(transformationMatrix);
 		}
-	}
-
-	ZSPACE_INLINE void zObjGraph::getBounds(zPoint &minBB, zPoint &maxBB)
-	{
-		coreUtils->getBounds(graph.vertexPositions, minBB, maxBB);
 	}
 
 	//---- DISPLAY METHODS
@@ -157,4 +159,5 @@ namespace zSpace
 		graph.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(&graph.vertexColors[0], graph.vertexColors.size());
 	}
 
+#endif // !ZSPACE_UNREAL_INTEROP
 }

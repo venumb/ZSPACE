@@ -28,10 +28,12 @@ using namespace std;
 #include<depends/Eigen/Sparse>
 using namespace Eigen;
 
-#include <depends/Armadillo/armadillo>
-using namespace arma;
 
 
+#ifndef USING_CLR
+	#include <depends/Armadillo/armadillo>
+	using namespace arma;
+#endif
 
 namespace zSpace
 { 

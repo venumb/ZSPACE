@@ -758,6 +758,8 @@ namespace zSpace
 		//---- MATRIX  METHODS USING ARMADILLO
 		//--------------------------
 
+#ifndef USING_CLR
+
 		/*! \brief This method returns the reduced row echelon form of the input matrix. Works with Armadillo matrix.
 		*
 		*	\details based on https://searchcode.com/codesearch/view/20327709/
@@ -807,6 +809,8 @@ namespace zSpace
 		*	\since version 0.0.3
 		*/
 		arma::vec eigenToArma(VectorXd &eigen_A);
+
+#endif
 
 		//--------------------------
 		//---- FACTORY METHODS GEOMETRY
@@ -896,6 +900,8 @@ namespace zSpace
 
 	private:
 
+#ifndef USING_CLR
+
 		/*! \brief This utility method for reduced row echelon form, returns the max value and the pivot in the input column. Works with Armadillo matrix.
 		*
 		*	\details based on https://searchcode.com/codesearch/view/20327709/
@@ -938,6 +944,8 @@ namespace zSpace
 		*	\since version 0.0.3
 		*/
 		void rref_eliminateColumn(mat &A, int &r, int &c);
+
+#endif
 
 	};	
 	

@@ -38,6 +38,14 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
+	ZSPACE_INLINE void zObjSpatialBin::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		minBB = field.minBB;
+		maxBB = field.maxBB;
+	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	ZSPACE_INLINE void zObjSpatialBin::draw()
 	{
 
@@ -55,12 +63,6 @@ namespace zSpace
 		{
 			displayUtils->drawTransform(transformationMatrix);
 		}
-	}
-
-	ZSPACE_INLINE void zObjSpatialBin::getBounds(zPoint &minBB, zPoint &maxBB)
-	{
-		minBB = field.minBB;
-		maxBB = field.maxBB;
 	}
 
 	//---- DISPLAY METHODS
@@ -88,4 +90,7 @@ namespace zSpace
 		glLineWidth(1);
 		displayUtils->drawCube(field.minBB, field.maxBB, zColor(0, 1, 0, 1));
 	}
+
+#endif //!ZSPACE_UNREAL_INTEROP
+
 }

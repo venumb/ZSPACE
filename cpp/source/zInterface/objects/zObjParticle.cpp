@@ -41,6 +41,8 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
+#ifndef ZSPACE_OPENGL
+
 	ZSPACE_INLINE void zObjParticle::draw()
 	{
 		if (showObject)
@@ -66,4 +68,6 @@ namespace zSpace
 		displayUtils->drawLine(p, p1, zColor(0, 1, 0, 1), 1.0);
 
 	}
+
+#endif // !ZSPACE_OPENGL
 }

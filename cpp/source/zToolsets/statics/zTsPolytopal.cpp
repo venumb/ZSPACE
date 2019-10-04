@@ -618,7 +618,7 @@ namespace zSpace
 	ZSPACE_INLINE void zTsPolytopal::getDual(double threshold, bool includeBoundary , double boundaryEdgelength)
 	{
 		VectorXd q;
-		getDual_ForceDensities_RREF(q);
+		getDual_ForceDensities_LPA(q);
 		cout << "\n q: " << endl << q << endl;
 
 		bool negativeQ = false;
@@ -2099,28 +2099,6 @@ namespace zSpace
 		return true;
 	}
 
-	ZSPACE_INLINE void zTsPolytopal::getDual_ForceDensities_MPI(VectorXd &q, double threshold )
-	{
-
-		MatrixXd A;
-		get_EquilibriumMatrix(zForceDiagram, A);
-		//cout << "\n A " << endl << A << endl;	
-
-
-		mat A_arma = coreUtils.eigenToArma(A);;
-		mat A_arma_Inv = arma::pinv(A_arma, threshold);
-
-		cout << "\n Rank : " << arma::rank(A_arma, threshold) << endl;
-
-		mat I_Arma = eye(A.cols(), A.cols());
-		arma::vec Xi_Arma = ones(A.cols());
-
-		arma::vec q_arma = (I_Arma - (A_arma_Inv *A_arma)) * Xi_Arma;
-		q = coreUtils.armaToEigen(q_arma);
-
-		cout << "\n AQ norm: " << endl << (A * q).norm() << endl;
-	}
-
 	ZSPACE_INLINE void zTsPolytopal::getDual_ForceDensities_LPA(VectorXd &q)
 	{
 		MatrixXd A;
@@ -2223,6 +2201,30 @@ namespace zSpace
 		q = VectorXd(A.cols());
 
 		for (int i = 0; i < Q.length(); i++) q(i) = Q(i);
+		cout << "\n AQ norm: " << endl << (A * q).norm() << endl;
+	}
+
+#ifndef USING_CLR
+	
+	ZSPACE_INLINE void zTsPolytopal::getDual_ForceDensities_MPI(VectorXd &q, double threshold)
+	{
+
+		MatrixXd A;
+		get_EquilibriumMatrix(zForceDiagram, A);
+		//cout << "\n A " << endl << A << endl;	
+
+
+		mat A_arma = coreUtils.eigenToArma(A);;
+		mat A_arma_Inv = arma::pinv(A_arma, threshold);
+
+		cout << "\n Rank : " << arma::rank(A_arma, threshold) << endl;
+
+		mat I_Arma = eye(A.cols(), A.cols());
+		arma::vec Xi_Arma = ones(A.cols());
+
+		arma::vec q_arma = (I_Arma - (A_arma_Inv *A_arma)) * Xi_Arma;
+		q = coreUtils.armaToEigen(q_arma);
+
 		cout << "\n AQ norm: " << endl << (A * q).norm() << endl;
 	}
 
@@ -2331,6 +2333,8 @@ namespace zSpace
 
 
 	}
+
+#endif
 
 	ZSPACE_INLINE double zTsPolytopal::getDual_Loadpath(VectorXd &q)
 	{

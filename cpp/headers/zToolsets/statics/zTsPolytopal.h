@@ -477,14 +477,6 @@ namespace zSpace
 		*/
 		bool get_EquilibriumMatrix(zDiagramType type, MatrixXd &out);
 
-		/*! \brief This method gets the force densities using the Moore–Penrose inverse method.
-		*
-		*	\param		[out]	q							- output vector of force densities.
-		*	\param		[in]	threshold					- input threshold value to determine when singular values are to be considered nonzero.
-		*	\since version 0.0.3
-		*/		
-		void getDual_ForceDensities_MPI(VectorXd &q, double threshold = 0.5);
-
 		/*! \brief This method gets the force densities using the Linear Programing Approach method.
 		*
 		*	\details based on http://www.alglib.net/translator/man/manual.cpp.html#unit_minbleic
@@ -492,6 +484,15 @@ namespace zSpace
 		*	\since version 0.0.3
 		*/
 		void getDual_ForceDensities_LPA(VectorXd &q);
+
+#ifndef USING_CLR
+		/*! \brief This method gets the force densities using the Moore–Penrose inverse method.
+		*
+		*	\param		[out]	q							- output vector of force densities.
+		*	\param		[in]	threshold					- input threshold value to determine when singular values are to be considered nonzero.
+		*	\since version 0.0.3
+		*/		
+		void getDual_ForceDensities_MPI(VectorXd &q, double threshold = 0.5);
 
 		/*! \brief This method gets the force densities using the Reduced Row Echelon Form method.
 		*
@@ -513,6 +514,7 @@ namespace zSpace
 		*	\since version 0.0.3
 		*/		
 		void get_BMatrix(mat &A, double threshold, int &rank, mat &B, zBoolArray &indEdges);
+#endif
 
 		/*! \brief This method gets the load path value for the input force densities.
 		*

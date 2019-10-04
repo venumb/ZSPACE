@@ -16,8 +16,11 @@
 #pragma once
 
 #include <headers/zCore/utilities/zUtilsCore.h>
-#include <headers/zCore/utilities/zUtilsDisplay.h>
 #include <headers/zCore/utilities/zUtilsJson.h>
+
+#ifndef ZSPACE_UNREAL_INTEROP
+#include <headers/zCore/utilities/zUtilsDisplay.h>
+#endif // !ZSPACE_UNREAL_INTEROP
 
 namespace zSpace
 {
@@ -44,12 +47,14 @@ namespace zSpace
 	{
 	protected:
 		
+#ifndef ZSPACE_UNREAL_INTEROP
 		/*! \brief pointer to display utilities object	*/
 		zUtilsDisplay *displayUtils;
+#endif
+	
+		/*! \brief core utilities object	*/
+		zUtilsCore coreUtils;
 
-		/*! \brief pointer to core utilities object	*/
-		zUtilsCore *coreUtils;
-		
 		/*! \brief boolean for displaying the object		*/
 		bool showObject;
 
@@ -120,14 +125,16 @@ namespace zSpace
 		*/
 		void setShowTransform(bool _showObjectTransform);
 
+#ifndef ZSPACE_UNREAL_INTEROP
 		/*! \brief This method sets display utils.
 		*
 		*	\param		[in]	_displayUtils			- input display utils.
 		*	\param		[in]	_coreUtils				- input core utils.
 		*	\since version 0.0.2
 		*/
-		void setUtils(zUtilsDisplay &_displayUtils, zUtilsCore &_coreUtils);
+		void setUtils(zUtilsDisplay &_displayUtils);
 
+#endif // !ZSPACE_UNREAL_INTEROP
 		
 
 	};
