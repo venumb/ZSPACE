@@ -1511,6 +1511,8 @@ namespace zSpace
 				int eGlobalFaceId = -1;
 				int eLocalFaceId = -1;
 
+				printf("\n %i  f: %i ", volId, fnForces[volId].numPolygons() );
+
 				for (int i = 0; i < fnForces[volId].numPolygons(); i++)
 				{
 					string hashKey_f = (to_string(volId) + "," + to_string(i));
@@ -1539,12 +1541,14 @@ namespace zSpace
 					zVector fNorm = f.getNormal();
 					fNorm.normalize();
 
+					printf("\n Working. %i ", cFaces.size());
+
 					for (auto cF : cFaces)
 					{
 
 						string hashKey_f = (to_string(volId) + "," + to_string(cF.getId()));
 						std::unordered_map<std::string, int>::const_iterator gotFace = volumeFace_PrimalFace.find(hashKey_f);
-
+						
 						if (gotFace != volumeFace_PrimalFace.end())
 						{
 							if (!GFP_SSP_Face[gotFace->second])
@@ -1559,7 +1563,10 @@ namespace zSpace
 
 								n *= -1;
 								pNormals.push_back(n.rotateAboutAxis(perp, 90.0));
+
+								
 							}
+							
 						}						
 
 					}
@@ -1575,6 +1582,8 @@ namespace zSpace
 	{
 		zVector3DArray planes;		
 		getBisectorPlanes(planes);
+
+		printf("\n Working. %i ", planes.size());
 
 		zInt2DArray edges;
 		for (zItGraphEdge e(*formObj); !e.end(); e++)
@@ -1596,6 +1605,9 @@ namespace zSpace
 			{
 				vector<zDoubleArray>pNorms;
 
+
+				printf(" %i | ", planes[i][j].size());
+
 				for (int k = 0; k < planes[i][j].size(); k++)
 				{
 					zDoubleArray norm;
@@ -1604,7 +1616,7 @@ namespace zSpace
 					norm.push_back(planes[i][j][k].y);
 					norm.push_back(planes[i][j][k].z);
 
-					//printf(" %1.2f %1.2f %1.2f | ", planes[i][j][k].x, planes[i][j][k].y, planes[i][j][k].z);
+					printf(" %1.2f %1.2f %1.2f | ", planes[i][j][k].x, planes[i][j][k].y, planes[i][j][k].z);
 
 					pNorms.push_back(norm);
 				}

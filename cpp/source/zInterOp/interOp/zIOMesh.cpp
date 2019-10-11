@@ -29,10 +29,10 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zIOMesh::toZSpaceMesh(MObject &maya_meshObj, zObjMesh &zspace_meshObj)
 	{
-		MFn::Type fn = MFn::kInvalid;
+		/*MFn::Type fn = MFn::kInvalid;
 		maya_meshObj.hasFn(fn);
 
-		if (fn != MFn::kMesh) return false;
+		if (fn != MFn::kMesh) return false;*/
 
 		zMayaFnMesh tempFn(zspace_meshObj);
 		tempFn.fromMayaMesh(maya_meshObj);

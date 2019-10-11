@@ -807,8 +807,11 @@ namespace zSpace
 
 	ZSPACE_INLINE void zItMeshFace::deactivate()
 	{
-		meshObj->mesh.fHandles[iter->getId()] = zFaceHandle();
-		iter->reset();
+		if (iter != meshObj->mesh.faces.end())
+		{			
+			meshObj->mesh.fHandles[iter->getId()] = zFaceHandle();
+			iter->reset();
+		}
 
 	}
 
@@ -896,17 +899,22 @@ namespace zSpace
 		zItMeshHalfEdgeArray cHEdges;
 		getHalfEdges(cHEdges);
 
+		
 
 		for (auto &he : cHEdges)
 		{
 			zItMeshFaceArray eFaces;
 			he.getFaces(eFaces);
 
+			printf("\n eFaces %i", eFaces.size());
+
 			for (int k = 0; k < eFaces.size(); k++)
 			{
 				if (eFaces[k].getId() != getId()) faces.push_back(eFaces[k]);
 			}
 		}
+
+		printf("\n %i  e %i %i", getId(), cHEdges.size(), faces.size());
 	}
 
 	ZSPACE_INLINE void zItMeshFace::getConnectedFaces(zIntArray& faceIndicies)

@@ -1114,6 +1114,39 @@ namespace zSpace
 
 	}
 
+	//---- BMP MATRIX  METHODS
+
+	ZSPACE_INLINE void zUtilsCore::matrixBMP(string path, MatrixXd &mat)
+	{
+		int resX = mat.rows();
+		int resY = mat.cols();
+
+		zUtilsBMP bmp(resX, resY);
+		uint32_t channels = bmp.bmp_info_header.bit_count / 8;
+
+		for (uint32_t x = 0; x < resX; ++x)
+		{
+			for (uint32_t y = 0; y < resY; ++y)
+			{
+				// blue
+				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = mat(x, y) * 255;
+
+				// green
+				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = mat(x, y) * 255;
+
+				// red
+				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = mat(x, y) * 255;
+
+				// alpha
+				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 1 * 255;
+			}
+		}
+
+		bmp.write(path.c_str());
+
+	}
+
+
 	//---- PRIVATE MATRIX  METHODS
 
 #if defined(NOTUSING_CLR) 

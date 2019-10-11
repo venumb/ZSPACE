@@ -46,6 +46,10 @@ namespace zSpace
 	/** @}*/
 	class ZSPACE_MAYA zMayaFnMesh : public zFnMesh
 	{
+	private:
+
+		zDoubleArray creaseEdgeData;
+		zIntArray creaseEdgeIndex;
 
 	public:
 
@@ -75,6 +79,18 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		~zMayaFnMesh();
+
+		//--------------------------
+		//---- OVERRIDE METHODS
+		//--------------------------
+
+		zFnType getType() override;
+
+		void from(string path, zFileTpye type, bool staticGeom = false) override;
+
+		void to(string path, zFileTpye type) override;
+
+		void clear() override;
 
 		//--------------------------
 		//---- INTEROP METHODS
@@ -108,6 +124,15 @@ namespace zSpace
 		*	\since version 0.0.4			
 		*/
 		void updateMayaOutmesh(MDataBlock & data, MObject & outMesh);
+
+		//--------------------------
+		//---- INTEROP METHODS
+		//--------------------------
+	private:
+
+		void setCreaseDataJSON(string outfilename);
+
+		void getCreaseDataJSON(string infilename);
 	};
 
 }

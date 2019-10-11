@@ -26,6 +26,7 @@
 #include <headers/zCore/base/zTypeDef.h>
 
 #include<headers/zCore/utilities/zUtilsPointerMethods.h>
+#include<headers/zCore/utilities/zUtilsBMP.h>
 
 #include <string.h>
 #include <vector>
@@ -892,6 +893,19 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		zColor blendColor(double inputValue, zDomainDouble inDomain, zDomainColor outDomain, zColorType type);
+
+		//--------------------------
+		//---- BMP  METHODS
+		//--------------------------
+
+		/*! \brief This method exports the input matrix as a BMP file.
+		*
+		*	\param		[in]	path			- input file path.
+		*	\param		[in]	mat				- input matrix.
+		*	\since version 0.0.4
+		*/
+		void matrixBMP(string path, MatrixXd &mat);
+
 
 
 		//--------------------------

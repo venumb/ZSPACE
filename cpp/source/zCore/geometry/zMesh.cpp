@@ -40,10 +40,10 @@ namespace zSpace
 
 		int num_edges = computeNumEdges(polyCounts, polyConnects);
 
-		vertices.reserve(_positions.size() + 1);
-		faces.reserve(polyCounts.size() + 1);
-		edges.reserve(num_edges + 1);
-		halfEdges.reserve(num_edges * 2 + 2);
+		vertices.reserve(_positions.size() /*+ 1*/);
+		faces.reserve(polyCounts.size() /*+ 1*/);
+		edges.reserve(num_edges/* + 1*/);
+		halfEdges.reserve(num_edges * 2 /*+ 2*/);
 
 
 
@@ -613,14 +613,13 @@ namespace zSpace
 			faces.clear();
 			faces.reserve(newSize);
 
-
 			// reassign pointers
 			int n_f = 0;
 			for (auto &f : fHandles)
 			{
 				zItFace newF = faces.insert(faces.end(), zFace());
 				newF->setId(n_f);
-
+				
 				if (f.he != -1)newF->setHalfEdge(&halfEdges[f.he]);
 
 

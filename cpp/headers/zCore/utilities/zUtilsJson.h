@@ -64,6 +64,8 @@ namespace zSpace
 		/*!	\brief container of face attribute data - normals, colors.*/
 		vector<zDoubleArray> faceAttributes;
 		
+		/*!	\brief container of edge attribute data - crease*/
+		zDoubleArray edgeCreaseData;
 		
 	};
 

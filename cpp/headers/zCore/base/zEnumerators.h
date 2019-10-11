@@ -169,6 +169,12 @@ namespace zSpace
 	*/
 	enum zSpectralVertexType { zRegular = 240, zMinima, zMaxima, zSaddle };
 
+	/*! \enum	zConnectivityType
+	*	\brief	connectivty matrix types.
+	*	\since	version 0.0.4
+	*/
+	enum zConnectivityType { zVertexVertex = 250, zVertexEdge, zFacexVertex, zFaceEdge	};
+
 	/** @}*/
 
 	/** @}*/

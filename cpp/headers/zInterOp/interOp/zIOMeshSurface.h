@@ -108,7 +108,7 @@ namespace zSpace
 		*	\param		[out]	rhino_surface			- out container of rhino nurbs surface.
 		*	\since version 0.0.4
 		*/
-		void toRhinoSurface(int subdivs , ON_ClassArray<ON_NurbsSurface> &rhino_surface);
+		void toRhinoSurface(int subdivs, ON_ClassArray<ON_NurbsCurve> &rhino_nurbsCurve, ON_ClassArray<ON_NurbsSurface> &rhino_surface);
 
 		//--------------------------
 		//---- PROTECTED METHODS

@@ -43,13 +43,13 @@ namespace zSpace
 
 	//---- INTEROP METHODS
 
-	ZSPACE_INLINE void zIOMeshSurface::toRhinoSurface(int subdivs, ON_ClassArray<ON_NurbsSurface>& rhino_surface)
+	ZSPACE_INLINE void zIOMeshSurface::toRhinoSurface(int subdivs, ON_ClassArray<ON_NurbsCurve> &rhino_nurbsCurve, ON_ClassArray<ON_NurbsSurface>& rhino_surface)
 	{
-		int stride = (subdivs == 0) ? 1 : pow(2, subdivs);
+		int stride = 1 /*(subdivs == 0) ? 1 : pow(2, subdivs)*/;
 		if(!inputQuadMesh && subdivs == 4) stride = pow(2, 3);
 
 		// mesh fn
-		MFnMesh maya_FnMesh(*maya_meshObj);
+		MFnMesh maya_FnMesh(*maya_meshObj);	
 		MStatus stat;
 
 		int nV_lowPoly = maya_FnMesh.numVertices();
@@ -66,14 +66,14 @@ namespace zSpace
 
 		maya_FnMesh.generateSmoothMesh(maya_SmoothMeshObj, &smoothOptions, &stat);
 
+
 		//Smooth zspace mesh
 		zIOMesh meshIO;
 		zObjMesh zspace_SmoothMeshObj;
 		meshIO.toZSpaceMesh(maya_SmoothMeshObj, zspace_SmoothMeshObj);
 
 		// low poly half edge -> nurbs curve
-		ON_ClassArray<ON_NurbsCurve> he_nurbsCurve;
-		he_nurbsCurve.SetCapacity(zspace_FnMesh.numHalfEdges());
+		rhino_nurbsCurve.SetCapacity(zspace_FnMesh.numHalfEdges());
 
 		zBoolArray halfEdgeVisited;
 		halfEdgeVisited.assign(zspace_FnMesh.numHalfEdges(), false);
@@ -82,11 +82,13 @@ namespace zSpace
 		{
 			if (v.getId() >= nV_lowPoly) break;
 
+			
 			zItMeshHalfEdgeArray connectedHE;
 			v.getConnectedHalfEdges(connectedHE);
 
 			for (auto &he : connectedHE)
-			{			
+			{				
+
 				zItMeshVertexArray cVs;
 				getVertsforCurve(he, nV_lowPoly, cVs);
 
@@ -97,7 +99,7 @@ namespace zSpace
 				int he_lowPoly = -1;
 				bool chk  = zspace_FnMesh.halfEdgeExists(v0, v1, he_lowPoly);
 
-				if (!chk && !halfEdgeVisited[he_lowPoly])
+				if (chk && !halfEdgeVisited[he_lowPoly])
 				{
 					// points
 					ON_3dPointArray pts;
@@ -111,8 +113,10 @@ namespace zSpace
 					int dimension = 3;			
 					int order = (pts.Count() <= 4) ? pts.Count() : 4;	
 
-					he_nurbsCurve[he_lowPoly].CreateClampedUniformNurbs(dimension, order, pts.Count(), pts);
-					halfEdgeVisited[he_lowPoly] = true;
+					rhino_nurbsCurve[he_lowPoly].CreateClampedUniformNurbs(dimension, order, pts.Count(), pts);
+					halfEdgeVisited[he_lowPoly] = true;	
+
+					printf("\n %i %i  ", rhino_nurbsCurve[he_lowPoly].CVCount(), pts.Count());
 				}
 
 			}
@@ -120,31 +124,32 @@ namespace zSpace
 
 		//  Nurbs surfaces
 		//rhino_surface.SetCapacity(nF_lowPoly);
-
-		for (zItMeshFace f(zspace_SmoothMeshObj); !f.end(); f++)
+		
+		for (zItMeshFace f(*zspace_meshObj); !f.end(); f++)
 		{
 			zIntArray heIndicies;
 			f.getHalfEdges(heIndicies);
 
 			const ON_Curve* c[4];
 
-			c[0] = &he_nurbsCurve[heIndicies[0]];
-			c[1] = &he_nurbsCurve[heIndicies[1]];
-			c[2] = &he_nurbsCurve[heIndicies[2]];
-			c[3] = &he_nurbsCurve[heIndicies[3]];
+			c[0] = &rhino_nurbsCurve[heIndicies[0]];
+			c[1] = &rhino_nurbsCurve[heIndicies[1]];
+			c[2] = &rhino_nurbsCurve[heIndicies[2]];
+			c[3] = &rhino_nurbsCurve[heIndicies[3]];
 
 			ON_Brep* brep = RhinoCreateEdgeSrf(4, c);
 
 			if (nullptr != brep)
 			{
-				std::cout << "Brep with " << brep->m_F.Count() << " faces created" << std::endl;
+				//std::cout << "Brep with " << brep->m_F.Count() << " faces created" << std::endl;
 				for (int i = 0; i < brep->m_F.Count(); i++) rhino_surface.Append(*brep->m_F[0].NurbsSurface());
 				delete brep; // Don't leak...
 			}
 
-			delete[] c; // Don't leak...
+			//delete[] c; // Don't leak...
 		}
 
+		printf("\n %i rhinoSurfaces created. ", rhino_surface.Count());
 		
 	}
 
