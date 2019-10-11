@@ -128,7 +128,7 @@ namespace zSpace
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zToolsets/geometry/zTsSpectral.cpp>
+#include<source/zToolsets/geometry/zTsVariableExtrude.cpp>
 #endif
 
 #endif
