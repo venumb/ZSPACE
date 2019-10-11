@@ -33,7 +33,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zTsMeshImage
+	/*! \class zTsMesh2Pix
 	*	\brief A function set for images holden mesh connectivity data.
 	*	\since version 0.0.4
 	*/
@@ -42,7 +42,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class ZSPACE_TOOLS zTsMeshImage
+	class ZSPACE_TOOLS zTsMesh2Pix
 	{
 	protected:
 		//--------------------------
@@ -71,14 +71,14 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zTsMeshImage();
+		zTsMesh2Pix();
 
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_meshObj			- input mesh object.
 		*	\since version 0.0.4
 		*/
-		zTsMeshImage(zObjMesh &_meshObj);
+		zTsMesh2Pix(zObjMesh &_meshObj);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -88,7 +88,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zTsMeshImage();
+		~zTsMesh2Pix();
 
 		/*! \brief This method writes an image to the defined path representing the mesh connecticity.
 		*
@@ -103,17 +103,18 @@ namespace zSpace
 		*
 		
 		*	\param		[in]	path						- path to write the image file to.
-		*	\param		[in]	connectivityType			- connectivity type (zVertexVertex, zVertexEdge, zFacexVertex, zFaceEdge)
+		*	\param		[in]	vertexData					- data vector wich schould be assigned to each vertex in the red channel
 		*	\since version 0.0.4
 		*/
-		void toBMP(string path, vector<double> vertexData);
+		void toBMP(string path, vector<int> vertexData);
+
 	};
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zToolsets/geometry/zTsMeshImage.cpp>
+#include<source/zToolsets/geometry/zTsMesh2Pix.cpp>
 #endif
 
 #endif

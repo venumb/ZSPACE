@@ -11,7 +11,7 @@
 //
 
 
-#include<headers/zToolsets/geometry/zTsMeshImage.h>
+#include<headers/zToolsets/geometry/zTsMesh2Pix.h>
 
 
 namespace zSpace
@@ -19,9 +19,9 @@ namespace zSpace
 
 	//---- CONSTRUCTOR
 
-	ZSPACE_INLINE zTsMeshImage::zTsMeshImage() {}
+	ZSPACE_INLINE zTsMesh2Pix::zTsMesh2Pix() {}
 
-	ZSPACE_INLINE zTsMeshImage::zTsMeshImage(zObjMesh &_meshObj)
+	ZSPACE_INLINE zTsMesh2Pix::zTsMesh2Pix(zObjMesh &_meshObj)
 	{
 		meshObj = &_meshObj;
 		fnMesh = zFnMesh(_meshObj);
@@ -29,9 +29,9 @@ namespace zSpace
 
 	//---- DESTRUCTOR
 
-	ZSPACE_INLINE zTsMeshImage::~zTsMeshImage() {}
+	ZSPACE_INLINE zTsMesh2Pix::~zTsMesh2Pix() {}
 
-	ZSPACE_INLINE void zTsMeshImage::toBMP(string path, zConnectivityType connectivityType)
+	ZSPACE_INLINE void zTsMesh2Pix::toBMP(string path, zConnectivityType connectivityType)
 	{
 		if (connectivityType == zVertexVertex)
 		{
@@ -54,7 +54,7 @@ namespace zSpace
 				for (int k = 0; k < cEdges.size(); k++)
 				{
 					int i = cEdges[k].getVertex().getId();
-					vertToVert.insert(j, i) = coreUtils.ofMap<double>(cEdges[k].getLength(), eLengthMin, eLengthMax, 0.0, 1.0);
+					vertToVert.insert(j, i) = coreUtils.ofMap<double>(cEdges[k].getLength(), eLengthMin, eLengthMax, 0.5, 1.0);
 				}
 			}
 			
@@ -131,7 +131,7 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zConnectivityType type");
 	}
 
-	ZSPACE_INLINE void zTsMeshImage::toBMP(string path, vector<double> vertexData)
+	ZSPACE_INLINE void zTsMesh2Pix::toBMP(string path, vector<int> vertexData)
 	{
 		if (vertexData.size() == fnMesh.numVertices())
 		{
@@ -139,15 +139,10 @@ namespace zSpace
 			int n_v = fnMesh.numVertices();
 			zSparseMatrix vertToVertData(n_v, n_v);
 
+			for (int i = 0; i < n_v; i++)			
+					vertToVertData.insert(i, i) = vertexData[i];
 
-			double vertexDataMin = coreUtils.zMin(vertexData);
-			double vertexDataMax = coreUtils.zMax(vertexData);
-			
-			for (int i = 0; i < n_v; i++)
-			{
-				vertToVertData.insert(i, i) = coreUtils.ofMap<double>(vertexData[i], vertexDataMin, vertexDataMax, 0, 1);			
-			}
-			cout << vertToVertData;
+			//cout << vertToVertData;
 
 			// write BMP
 			string fileName = "meshImage_zVertexVertexData.bmp";
@@ -164,13 +159,22 @@ namespace zSpace
 				for (uint32_t y = 0; y < resY; ++y)
 				{
 					// blue
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 0;
+					if(vertToVertData.coeff(x, y) == 0)
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 255;
+					else
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 0;
 
 					// green
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 0;
+					if (vertToVertData.coeff(x, y) == 1)
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 255;
+					else
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 0;
 
 					// red
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = vertToVertData.coeff(x, y) * 255;
+					if (vertToVertData.coeff(x, y) == 2)
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = 255;
+					else
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = 0;
 
 					// alpha
 					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
@@ -181,6 +185,7 @@ namespace zSpace
 		}
 
 		else throw std::invalid_argument(" error: invalid size of input vertexData vector");
+
 	}
 
 }

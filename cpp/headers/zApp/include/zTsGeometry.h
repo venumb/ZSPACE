@@ -10,4 +10,4 @@
 
 #include <headers/zToolsets/geometry/zTsSpectral.h>
 
-#include <headers/zToolsets/geometry/zTsMeshImage.h>
+#include <headers/zToolsets/geometry/zTsMesh2Pix.h>

@@ -138,7 +138,7 @@
     <ClInclude Include="..\..\..\cpp\depends\alglib\cpp\src\stdafx.h">
       <Filter>Depends\Alglib</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsMeshImage.h">
+    <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsMesh2Pix.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
@@ -221,7 +221,7 @@
     <ClCompile Include="..\..\..\cpp\depends\alglib\cpp\src\statistics.cpp">
       <Filter>Depends\Alglib</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsMeshImage.cpp">
+    <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsMesh2Pix.cpp">
       <Filter>Source Files\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
