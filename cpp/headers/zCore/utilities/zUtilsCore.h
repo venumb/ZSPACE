@@ -25,7 +25,10 @@
 #include <headers/zCore/base/zDomain.h>
 #include <headers/zCore/base/zTypeDef.h>
 
+
 #include<headers/zCore/utilities/zUtilsPointerMethods.h>
+#include<headers/zCore/utilities/zUtilsBMP.h>
+
 
 #include <string.h>
 #include <vector>
@@ -893,6 +896,14 @@ namespace zSpace
 		*/
 		zColor blendColor(double inputValue, zDomainDouble inDomain, zDomainColor outDomain, zColorType type);
 
+		/*! \brief This method writes a BMP from the input matrix.
+		*
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\param		[in]	mat				- input matrix.
+		*	\param		[in]	fileSuffix		- input of a suffix.
+		*	\since version 0.0.4
+		*/
+		void matrixBMP(vector<MatrixXd> &matrices, string path);
 
 		//--------------------------
 		//---- PRIVATE MATRIX  METHODS

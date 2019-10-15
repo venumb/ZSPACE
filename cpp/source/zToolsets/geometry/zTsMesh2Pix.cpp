@@ -31,13 +31,13 @@ namespace zSpace
 
 	ZSPACE_INLINE zTsMesh2Pix::~zTsMesh2Pix() {}
 
-	ZSPACE_INLINE void zTsMesh2Pix::toBMP(string path, zConnectivityType connectivityType)
+	ZSPACE_INLINE void zTsMesh2Pix::toBMP(zConnectivityType connectivityType, string path)
 	{
 		if (connectivityType == zVertexVertex)
 		{
 			// get conectivity matrix
 			int n_v = fnMesh.numVertices();
-			zSparseMatrix vertToVert(n_v, n_v);
+			MatrixXd vertToVertMat(n_v, n_v);
 
 			zDoubleArray eLength;
 			fnMesh.getEdgeLengths(eLength);
@@ -54,63 +54,33 @@ namespace zSpace
 				for (int k = 0; k < cEdges.size(); k++)
 				{
 					int i = cEdges[k].getVertex().getId();
-					vertToVert.insert(j, i) = coreUtils.ofMap<double>(cEdges[k].getLength(), eLengthMin, eLengthMax, 0.5, 1.0);
+					vertToVertMat(j, i) = coreUtils.ofMap<double>(cEdges[k].getLength(), eLengthMin, eLengthMax, 0.5, 1.0);
 				}
 			}
 			
-
 			// get vertex normals diagonal matrix
-			zVectorArray vNormals;
-			fnMesh.getVertexNormals(vNormals);
-					
-			vector<double> vNormalXs;
-			for (int i = 0; i < vNormals.size(); i++) 
-				vNormalXs.push_back(coreUtils.ofMap<double>(vNormals[i].x, -1, 1, 0, 1));
-			zMatrix<double> vNormalXMat(n_v, n_v);
-			vNormalXMat.setDiagonal(vNormalXs);
+			zVectorArray norms;
+			fnMesh.getVertexNormals(norms);
+			zUtilsCore core;
 
-			vector<double> vNormalYs;
-			for (int i = 0; i < vNormals.size(); i++) 
-				vNormalYs.push_back(coreUtils.ofMap<double>(vNormals[i].y, -1, 1, 0, 1));
-			zMatrix<double> vNormalYMat(n_v, n_v);
-			vNormalYMat.setDiagonal(vNormalYs);
+			MatrixXd normsX(n_v, n_v);
+			MatrixXd normsY(n_v, n_v);
+			MatrixXd normsZ(n_v, n_v);
 
-			vector<double> vNormalZs;
-			for (int i = 0; i < vNormals.size(); i++) 
-				vNormalZs.push_back(coreUtils.ofMap<double>(vNormals[i].z, -1, 1, 0, 1));
-			zMatrix<double> vNormalZMat(n_v, n_v);
-			vNormalZMat.setDiagonal(vNormalZs);
-
-
-			// write BMP
-			string fileName = "meshImage_zVertexVertex.bmp";
-			string outPath = path + "/" + fileName;
-
-			int resX = n_v;
-			int resY = n_v;
-
-			zUtilsBMP bmp(resX, resY);
-			uint32_t channels = bmp.bmp_info_header.bit_count / 8;
-			
-			for (uint32_t x = 0; x < resX; ++x)
+			for (int i = 0; i < norms.size(); i++)
 			{
-				for (uint32_t y = 0; y < resY; ++y)
-				{
-					// blue
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = vNormalXMat(x, y) * 255;
-
-					// green
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = vNormalYMat(x, y) * 255;
-
-					// red
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = vNormalZMat(x, y) * 255;
-
-					// alpha
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = vertToVert.coeff(x, y) * 255;
-				}
+				normsX(i, i) = core.ofMap(norms[i].x, -1.0, 1.0, 0.0, 1.0);
+				normsY(i, i) = core.ofMap(norms[i].y, -1.0, 1.0, 0.0, 1.0);
+				normsZ(i, i) = core.ofMap(norms[i].z, -1.0, 1.0, 0.0, 1.0);
 			}
 
-			bmp.write(outPath.c_str());
+			vector<MatrixXd> colOfMat;
+			colOfMat.push_back(normsX);
+			colOfMat.push_back(normsY);
+			colOfMat.push_back(normsZ);
+			colOfMat.push_back(vertToVertMat);
+
+			coreUtils.matrixBMP(colOfMat, path);
 		}
 
 		else if (connectivityType == zVertexEdge)
@@ -131,61 +101,78 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zConnectivityType type");
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::toBMP(string path, vector<int> vertexData)
+	ZSPACE_INLINE void zTsMesh2Pix::toVertexDataBMP(vector<int> vertexData, string path)
 	{
 		if (vertexData.size() == fnMesh.numVertices())
 		{
-			// get data matrix
-			int n_v = fnMesh.numVertices();
-			zSparseMatrix vertToVertData(n_v, n_v);
+			// create sparseMatrix from support vector
+			MatrixXd supportMatR(fnMesh.numVertices(), fnMesh.numVertices());
+			MatrixXd supportMatG(fnMesh.numVertices(), fnMesh.numVertices());
+			MatrixXd supportMatB(fnMesh.numVertices(), fnMesh.numVertices());
+			supportMatB.setOnes();
 
-			for (int i = 0; i < n_v; i++)			
-					vertToVertData.insert(i, i) = vertexData[i];
+			for (int i = 0; i < fnMesh.numVertices(); i++)		
+				for (int j = 0; j < fnMesh.numVertices(); j++)			
+					if (i == j)
+					{
+						if (vertexData[i] == 1)
+							supportMatG(i, j) = 1;
+						if (vertexData[i] == 2)
+							supportMatR(i, j) = 1;
+						supportMatB(i, j) = 0;
+					}
 
-			//cout << vertToVertData;
+			vector<MatrixXd> colOfMat;
+			colOfMat.push_back(supportMatR);
+			colOfMat.push_back(supportMatG);
+			colOfMat.push_back(supportMatB);
 
-			// write BMP
-			string fileName = "meshImage_zVertexVertexData.bmp";
-			string outPath = path + "/" + fileName;
+			coreUtils.matrixBMP(colOfMat, path);
+		}
+		else
+			throw std::invalid_argument( "error: invalid size of input matrix.");
 
-			int resX = n_v;
-			int resY = n_v;
+		cout << "\nmeshToPix: success!";
+	}
 
-			zUtilsBMP bmp(resX, resY);
-			uint32_t channels = bmp.bmp_info_header.bit_count / 8;
+	ZSPACE_INLINE void zTsMesh2Pix::checkVertexSupport(zObjMesh &_objMesh, double angle_threshold, vector<int> &support)
+	{
+		support.assign(_objMesh.mesh.n_v, -1);
 
-			for (uint32_t x = 0; x < resX; ++x)
+		zFnMesh fnMesh(_objMesh);
+
+		zVector* positions = fnMesh.getRawVertexPositions();
+
+		for (zItMeshVertex vIt(_objMesh); !vIt.end(); vIt++)
+		{
+			zIntArray cVerts;
+			vIt.getConnectedVertices(cVerts);
+
+			int lowestId;
+			double val = 10e10;
+			for (int i = 0; i < cVerts.size(); i++)
 			{
-				for (uint32_t y = 0; y < resY; ++y)
+				double zVal = positions[cVerts[i]].z;
+
+				if (zVal < val)
 				{
-					// blue
-					if(vertToVertData.coeff(x, y) == 0)
-						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 255;
-					else
-						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 0;
-
-					// green
-					if (vertToVertData.coeff(x, y) == 1)
-						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 255;
-					else
-						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 0;
-
-					// red
-					if (vertToVertData.coeff(x, y) == 2)
-						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = 255;
-					else
-						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = 0;
-
-					// alpha
-					bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
+					lowestId = cVerts[i];
+					val = zVal;
 				}
 			}
 
-			bmp.write(outPath.c_str());
+			zVector lowestV = positions[lowestId];
+
+			zVector vec = vIt.getPosition() - lowestV;
+			zVector unitz = zVector(0, 0, 1);
+
+			double ang = vec.angle(unitz);
+
+			if (vIt.getPosition().z > 0)
+				(ang > (angle_threshold)) ? support[vIt.getId()] = 2 : support[vIt.getId()] = 1;
+			else
+				support[vIt.getId()] = 1;
 		}
-
-		else throw std::invalid_argument(" error: invalid size of input vertexData vector");
-
 	}
 
 }

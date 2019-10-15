@@ -93,21 +93,24 @@ namespace zSpace
 		/*! \brief This method writes an image to the defined path representing the mesh connecticity.
 		*
 		
-		*	\param		[in]	path						- path to write the image file to.
-		*	\param		[in]	connectivityType			- connectivity type (zVertexVertex, zVertexEdge, zFacexVertex, zFaceEdge)
+		*	\param		[in]	connectivityType	- connectivity type (zVertexVertex, zVertexEdge, zFacexVertex, zFaceEdge)
+		*	\param		[in]	path				- path to write the image file to.
+		*	\param		[in]	fileSuffix			- input of a suffix.
 		*	\since version 0.0.4
 		*/
-		void toBMP(string path, zConnectivityType connectivityType);
+		void toBMP(zConnectivityType connectivityType, string path);
 
 		/*! \brief This method writes an image to the defined path with additional vertex data from a vector.
 		*
 		
-		*	\param		[in]	path						- path to write the image file to.
-		*	\param		[in]	vertexData					- data vector wich schould be assigned to each vertex in the red channel
+		*	\param		[in]	vertexData		- data vector wich schould be assigned to each vertex in the red channel
+		*	\param		[in]	path			- path to write the image file to.
+		*	\param		[in]	fileSuffix		- input of a suffix.
 		*	\since version 0.0.4
 		*/
-		void toBMP(string path, vector<int> vertexData);
+		void toVertexDataBMP(vector<int> vertexData, string path);
 
+		void checkVertexSupport(zObjMesh &_objMesh, double angle_threshold, vector<int> &support);
 	};
 }
 
