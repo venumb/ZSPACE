@@ -33,7 +33,7 @@ namespace zSpace
 		}
 
 		bmp_info_header.width = width;
-		bmp_info_header.height = height;
+		bmp_info_header.height = height * -1;
 		if (has_alpha)
 		{
 			bmp_info_header.size = sizeof(BMPInfoHeader) + sizeof(BMPColorHeader);

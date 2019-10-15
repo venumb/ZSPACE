@@ -1114,36 +1114,117 @@ namespace zSpace
 
 	}
 
-	//---- BMP MATRIX  METHODS
-
-	ZSPACE_INLINE void zUtilsCore::matrixBMP(string path, MatrixXd &mat)
+  //---- BMP MATRIX  METHODS
+	ZSPACE_INLINE void zUtilsCore::matrixBMP(vector<MatrixXd> &matrices, string path)
 	{
-		int resX = mat.rows();
-		int resY = mat.cols();
+		int resX = matrices[0].rows();
+		int resY = matrices[0].cols();
 
-		zUtilsBMP bmp(resX, resY);
+    zUtilsBMP bmp(resX, resY);
 		uint32_t channels = bmp.bmp_info_header.bit_count / 8;
 
-		for (uint32_t x = 0; x < resX; ++x)
+		switch (matrices.size())
 		{
-			for (uint32_t y = 0; y < resY; ++y)
-			{
-				// blue
-				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = mat(x, y) * 255;
+			case 1 :
+				for (uint32_t x = 0; x < resX; ++x)
+				{
+					for (uint32_t y = 0; y < resY; ++y)
+					{
+						// blue
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 0;
 
-				// green
-				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = mat(x, y) * 255;
+						// green
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 0;
 
-				// red
-				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = mat(x, y) * 255;
+						// red
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = matrices[0].coeff(x, y) * 255;
 
-				// alpha
-				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 1 * 255;
-			}
+						// alpha
+						bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
+					}
+				}
+				break;
+
+			case 2 :
+				if ((matrices[1].rows() == resX) && (matrices[1].cols() == resY))
+				{
+					for (uint32_t x = 0; x < resX; ++x)
+					{
+						for (uint32_t y = 0; y < resY; ++y)
+						{
+							// blue
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = 0;
+
+							// green
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = matrices[1].coeff(x, y) * 255;
+
+							// red
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = matrices[0].coeff(x, y) * 255;
+
+							// alpha
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
+						}
+					}
+					break;
+				}
+				else 
+					throw std::invalid_argument(" error: matrix sizes are not equal.");
+
+			case 3 :
+				if ((matrices[1].rows() == resX) && (matrices[1].cols() == resY) && (matrices[2].rows() == resX) && (matrices[2].cols() == resY))
+				{
+					for (uint32_t x = 0; x < resX; ++x)
+					{
+						for (uint32_t y = 0; y < resY; ++y)
+						{
+							// blue
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = matrices[2].coeff(x, y) * 255;
+
+							// green
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = matrices[1].coeff(x, y) * 255;
+
+							// red
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = matrices[0].coeff(x, y) * 255;
+
+							// alpha
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
+						}
+					}
+					break;
+				}
+				else
+					throw std::invalid_argument(" error: matrix sizes are not equal.");
+
+			case 4:
+				if ((matrices[1].rows() == resX) && (matrices[1].cols() == resY) && (matrices[2].rows() == resX) && (matrices[2].cols() == resY) && (matrices[3].rows() == resX) && (matrices[3].cols() == resY))
+				{
+					for (uint32_t x = 0; x < resX; ++x)
+					{
+						for (uint32_t y = 0; y < resY; ++y)
+						{
+							// blue
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = matrices[2].coeff(x, y) * 255;
+
+							// green
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = matrices[1].coeff(x, y) * 255;
+
+							// red
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = matrices[0].coeff(x, y) * 255;
+
+							// alpha
+							bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = matrices[3].coeff(x, y) * 255;
+						}
+					}
+					break;
+				}
+				else
+					throw std::invalid_argument(" error: matrix sizes are not equal.");
+
+			default:
+				throw std::invalid_argument(" error: vector size of matrices is invalid.");
 		}
 
 		bmp.write(path.c_str());
-
 	}
 
 
