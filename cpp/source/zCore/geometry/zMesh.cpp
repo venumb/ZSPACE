@@ -573,16 +573,18 @@ namespace zSpace
 
 
 			printf("\n mesh half edges resized. ");
-
 		}
 
 		else if (type == zEdgeData)
 		{
 
+		
+
 			edges.clear();
 			edges.reserve(newSize);
 
 			// reassign pointers
+
 			int n_e = 0;
 			for (auto &e : eHandles)
 			{
@@ -601,15 +603,13 @@ namespace zSpace
 				if (heHandles[i].e != -1) halfEdges[i].setEdge(&edges[heHandles[i].e]);
 			}
 
-
-
-			printf("\n mesh edges resized. ");
-
+			printf("\n mesh edges resized. ");	
 		}
 
 		// Mesh Face
 		else if (type == zFaceData)
 		{
+
 			faces.clear();
 			faces.reserve(newSize);
 

@@ -808,7 +808,7 @@ namespace zSpace
 	ZSPACE_INLINE void zItMeshFace::deactivate()
 	{
 		if (iter != meshObj->mesh.faces.end())
-		{			
+		{		
 			meshObj->mesh.fHandles[iter->getId()] = zFaceHandle();
 			iter->reset();
 		}
