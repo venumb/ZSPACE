@@ -21,142 +21,251 @@ namespace zSpace
 
 	ZSPACE_INLINE zTsMesh2Pix::zTsMesh2Pix() {}
 
-	ZSPACE_INLINE zTsMesh2Pix::zTsMesh2Pix(zObjMesh &_meshObj)
+	ZSPACE_INLINE zTsMesh2Pix::zTsMesh2Pix(zObjMesh &_meshObj, int _maxVerts, int _maxEdges, int _maxFaces)
 	{
 		meshObj = &_meshObj;
 		fnMesh = zFnMesh(_meshObj);
+
+		maxVertices = _maxVerts;
+		maxEdges = _maxEdges;
+		maxFaces = _maxFaces;
+
 	}
 
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zTsMesh2Pix::~zTsMesh2Pix() {}
 
-	ZSPACE_INLINE void zTsMesh2Pix::toBMP(zConnectivityType connectivityType, string path)
+	//---- GENERATE DATA METHODS
+	
+	ZSPACE_INLINE void zTsMesh2Pix::printSupport2Pix(string directory, double angle_threshold, bool perturbPositions, zVector perturbVal)
 	{
-		if (connectivityType == zVertexVertex)
+		vector<MatrixXd> outMat_A;
+		vector<MatrixXd> outMat_B;
+
+		if (!perturbPositions)
 		{
-			// get conectivity matrix
-			int n_v = fnMesh.numVertices();
-			MatrixXd vertToVertMat(n_v, n_v);
+			outMat_A.clear();
 
-			zDoubleArray eLength;
-			fnMesh.getEdgeLengths(eLength);
-			double eLengthMin = coreUtils.zMin(eLength);
-			double eLengthMax = coreUtils.zMax(eLength);
+			// get Matrix from vertex normals
+			zDomainDouble outDomain_A(0.0, 1.0);
+			getMatrixFromNormals(zVertexVertex, outDomain_A, outMat_A);
 
-			for (zItMeshVertex v(*meshObj); !v.end(); v++)
+			// get edge length data 
+			zDoubleArray heLength;
+			zIntPairArray hedgeVertexPair;
+			zDomainDouble outDomain(0.0, 0.9);
+
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 			{
-				vector<zItMeshHalfEdge> cEdges;
-				v.getConnectedHalfEdges(cEdges);
+				heLength.push_back(he.getLength());
 
-				int j = v.getId();
+				zIntPair vertPair;
+				vertPair.first = he.getStartVertex().getId();
+				vertPair.second = he.getVertex().getId();
 
-				for (int k = 0; k < cEdges.size(); k++)
-				{
-					int i = cEdges[k].getVertex().getId();
-					vertToVertMat(j, i) = coreUtils.ofMap<double>(cEdges[k].getLength(), eLengthMin, eLengthMax, 0.5, 1.0);
-				}
+				hedgeVertexPair.push_back(vertPair);
 			}
-			
+
+			getMatrixFromContainer(zVertexVertex, heLength, hedgeVertexPair, outDomain, outMat_A);
+
+			string path1 = directory + "train/image_0_A.bmp";
+			coreUtils.matrixBMP(outMat_A, path1);
+
+
+			// support matrix 
+			outMat_B.clear();
+
+			zDomainDouble outDomain_B(0.0, 0.9);
+
+			zBoolArray supports;
+			getVertexSupport(angle_threshold, supports);
+
+			getMatrixFromContainer(zVertexVertex, supports, outDomain_B, outMat_B);
+
+			string path2 = directory + "train/image_0_B.bmp";
+			coreUtils.matrixBMP(outMat_B, path2);
+		}
+		
+		else
+		{
+
+		}
+
+	}
+	
+	//---- PRIVATE GET METHODS
+
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromNormals(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &normMat)
+	{
+		if (type == zVertexData)
+		{		
+
 			// get vertex normals diagonal matrix
 			zVectorArray norms;
 			fnMesh.getVertexNormals(norms);
-			zUtilsCore core;
+			getMatrixFromContainer(type, norms, outDomain, normMat);
+			
+		}
+
+		else if (type == zFaceData)
+		{
+
+			// get face normals diagonal matrix
+			zVectorArray norms;
+			fnMesh.getFaceNormals(norms);		
+
+			getMatrixFromContainer(type, norms, outDomain, normMat);
+		}
+
+		else throw std::invalid_argument(" error: invalid zConnectivityType");
+	}
+	
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
+	{
+		if (type == zVertexData)
+		{
+			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
 			MatrixXd normsX(n_v, n_v);
 			MatrixXd normsY(n_v, n_v);
 			MatrixXd normsZ(n_v, n_v);
 
-			for (int i = 0; i < norms.size(); i++)
+			for (int i = 0; i < data.size(); i++)
 			{
-				normsX(i, i) = core.ofMap(norms[i].x, -1.0, 1.0, 0.0, 1.0);
-				normsY(i, i) = core.ofMap(norms[i].y, -1.0, 1.0, 0.0, 1.0);
-				normsZ(i, i) = core.ofMap(norms[i].z, -1.0, 1.0, 0.0, 1.0);
+				normsX(i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, 0.0, 1.0);
+				normsY(i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, 0.0, 1.0);
+				normsZ(i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, 0.0, 1.0);
 			}
 
-			vector<MatrixXd> colOfMat;
-			colOfMat.push_back(normsX);
-			colOfMat.push_back(normsY);
-			colOfMat.push_back(normsZ);
-			colOfMat.push_back(vertToVertMat);
 
-			coreUtils.matrixBMP(colOfMat, path);
+			outMat.push_back(normsX);
+			outMat.push_back(normsY);
+			outMat.push_back(normsZ);
 		}
 
-		else if (connectivityType == zVertexEdge)
+		else if (type == zFaceData)
 		{
-			throw std::invalid_argument(" error: zVertexEdge connectivity is not implemented yet");
+			int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
+
+			MatrixXd normsX(n_f, n_f);
+			MatrixXd normsY(n_f, n_f);
+			MatrixXd normsZ(n_f, n_f);
+
+			for (int i = 0; i < data.size(); i++)
+			{
+				normsX(i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
+				normsY(i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
+				normsZ(i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);
+			}
+
+
+			outMat.push_back(normsX);
+			outMat.push_back(normsY);
+			outMat.push_back(normsZ);
 		}
 
-		else if (connectivityType == zFaceVertex)
-		{
-			throw std::invalid_argument(" error: zFaceVertex connectivity is not implemented yet");
-		}
+		else throw std::invalid_argument(" error: invalid zConnectivityType");
 
-		else if (connectivityType == zFaceEdge)
-		{
-			throw std::invalid_argument(" error: zFaceEdge connectivity is not implemented yet");
-		}
-
-		else throw std::invalid_argument(" error: invalid zConnectivityType type");
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::toVertexDataBMP(vector<int> vertexData, string path)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
-		if (vertexData.size() == fnMesh.numVertices())
+		if (type == zVertexData)
 		{
-			// create sparseMatrix from support vector
-			MatrixXd supportMatR(fnMesh.numVertices(), fnMesh.numVertices());
-			MatrixXd supportMatG(fnMesh.numVertices(), fnMesh.numVertices());
-			MatrixXd supportMatB(fnMesh.numVertices(), fnMesh.numVertices());
-			supportMatB.setOnes();
+			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
-			for (int i = 0; i < fnMesh.numVertices(); i++)		
-				for (int j = 0; j < fnMesh.numVertices(); j++)			
-					if (i == j)
-					{
-						if (vertexData[i] == 1)
-							supportMatG(i, j) = 1;
-						if (vertexData[i] == 2)
-							supportMatR(i, j) = 1;
-						supportMatB(i, j) = 0;
-					}
+			MatrixXd dataX(n_v, n_v);
+			MatrixXd dataY(n_v, n_v);
+			MatrixXd dataZ(n_v, n_v);
 
-			vector<MatrixXd> colOfMat;
-			colOfMat.push_back(supportMatR);
-			colOfMat.push_back(supportMatG);
-			colOfMat.push_back(supportMatB);
+			dataZ.setOnes();
 
-			coreUtils.matrixBMP(colOfMat, path);
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				if (data[i]) dataX(i, i) = 1.0;
+				else  dataY(i, i) = 1.0;
+
+				dataZ(i, i) = 0.0;
+			}
+
 		}
-		else
-			throw std::invalid_argument( "error: invalid size of input matrix.");
 
-		cout << "\nmeshToPix: success!";
+		else if (type == zFaceData)
+		{
+			int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
+		}
+
+		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::checkVertexSupport(zObjMesh &_objMesh, double angle_threshold, vector<int> &support)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zDoubleArray &data, zIntPairArray &dataPair, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
-		support.assign(_objMesh.mesh.n_v, -1);
-
-		zFnMesh fnMesh(_objMesh);
-
-		zVector* positions = fnMesh.getRawVertexPositions();
-
-		for (zItMeshVertex vIt(_objMesh); !vIt.end(); vIt++)
+		if (type == zVertexData)
 		{
+			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
+
+			MatrixXd temp(n_v, n_v);
+
+			zDomainDouble inDomain;
+
+			inDomain.min = coreUtils.zMin(data);
+			inDomain.max = coreUtils.zMax(data);
+
+			for (int k = 0; k < dataPair.size(); k++)
+			{
+				int  i = dataPair[k].first;
+				int  j = dataPair[k].second;
+
+				temp(i, j) = coreUtils.ofMap(data[k], inDomain, outDomain);
+			}		
+			
+		}
+
+		else throw std::invalid_argument(" error: invalid zConnectivityType");
+	}
+	
+	//---- PRIVATE COMPUTE METHODS
+
+	ZSPACE_INLINE void zTsMesh2Pix::getVertexSupport(double angle_threshold, zBoolArray &support)
+	{
+		int numVerts_lowPoly = fnMesh.numVertices();
+		
+		support.assign(numVerts_lowPoly, false);
+
+		// get Duplicate
+		zObjMesh smoothMesh;
+		fnMesh.getDuplicate(smoothMesh);
+		
+		// get smooth mesh
+
+		zFnMesh fnSmoothMesh(smoothMesh);
+		fnSmoothMesh.smoothMesh(3);
+		
+		// get bounds
+		zVector minBB, maxBB;
+		fnSmoothMesh.getBounds(minBB, maxBB);
+
+		// compute nearest lowest vertex
+		zVector* positions = fnSmoothMesh.getRawVertexPositions();
+
+		for (zItMeshVertex vIt(*meshObj); !vIt.end(); vIt++)
+		{
+
+			if (vIt.getId() >= numVerts_lowPoly) continue;
+
 			zIntArray cVerts;
 			vIt.getConnectedVertices(cVerts);
 
 			int lowestId;
 			double val = 10e10;
-			for (int i = 0; i < cVerts.size(); i++)
+			for (auto vId : cVerts)
 			{
-				double zVal = positions[cVerts[i]].z;
+				double zVal = positions[vId].z;
 
 				if (zVal < val)
 				{
-					lowestId = cVerts[i];
+					lowestId = vId;
 					val = zVal;
 				}
 			}
@@ -168,10 +277,11 @@ namespace zSpace
 
 			double ang = vec.angle(unitz);
 
-			if (vIt.getPosition().z > 0)
-				(ang > (angle_threshold)) ? support[vIt.getId()] = 2 : support[vIt.getId()] = 1;
-			else
-				support[vIt.getId()] = 1;
+			// compute support
+
+			if (positions[vIt.getId()].z > maxBB.z)
+				(ang > (angle_threshold)) ? support[vIt.getId()] = true : support[vIt.getId()] = false;
+	
 		}
 	}
 

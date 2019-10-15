@@ -52,6 +52,11 @@ namespace zSpace
 		if (type == zCSV) toCSV(path);
 	}
 
+	ZSPACE_INLINE void zFnPointCloud::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		pointsObj->getBounds(minBB, maxBB);
+	}
+
 	ZSPACE_INLINE void zFnPointCloud::clear()
 	{
 		pointsObj->pCloud.clear();

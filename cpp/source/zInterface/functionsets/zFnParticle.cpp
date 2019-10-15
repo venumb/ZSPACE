@@ -54,6 +54,11 @@ namespace zSpace
 		
 	}
 
+	ZSPACE_INLINE void zFnParticle::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		
+	}
+
 	ZSPACE_INLINE void zFnParticle::clear()
 	{
 

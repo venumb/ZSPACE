@@ -127,6 +127,14 @@ namespace zSpace
 
 		/*! \brief This method clears the dynamic and array memory the object holds.
 		*
+		*	\param [out]		minBB			- output minimum bounding box.
+		*	\param [out]		maxBB			- output maximum bounding box.
+		*	\since version 0.0.2
+		*/
+		void getBounds(zPoint &minBB, zPoint &maxBB);
+
+		/*! \brief This method clears the dynamic and array memory the object holds.
+		*
 		*	\since version 0.0.2
 		*/
 		void clear();

@@ -75,6 +75,11 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zFileTpye type");
 	}
 
+	ZSPACE_INLINE void zFnGraph::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		graphObj->getBounds(minBB, maxBB);
+	}
+
 	ZSPACE_INLINE void zFnGraph::clear()
 	{
 		graphObj->graph.clear();

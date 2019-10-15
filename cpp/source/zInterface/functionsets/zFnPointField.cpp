@@ -51,6 +51,13 @@ namespace zSpace
 	}
 
 	template<typename T>
+	ZSPACE_INLINE void zFnPointField<T>::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		minBB = fieldObj->field.minBB;
+		maxBB = fieldObj->field.maxBB;
+	}
+
+	template<typename T>
 	ZSPACE_INLINE void zFnPointField<T>::clear()
 	{
 

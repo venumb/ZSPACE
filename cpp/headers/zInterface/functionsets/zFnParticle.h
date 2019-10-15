@@ -87,6 +87,8 @@ namespace zSpace
 
 		void to(string path, zFileTpye type) override;
 
+		void getBounds(zPoint &minBB, zPoint &maxBB) override;
+
 		void clear() override;
 
 		//--------------------------

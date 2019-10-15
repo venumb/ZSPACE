@@ -59,6 +59,11 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zFileTpye type");
 	}
 
+	ZSPACE_INLINE void zFnMeshDynamics::getBounds(zPoint &minBB, zPoint &maxBB)
+	{
+		meshObj->getBounds(minBB, maxBB);
+	}
+
 	ZSPACE_INLINE void zFnMeshDynamics::clear()
 	{
 

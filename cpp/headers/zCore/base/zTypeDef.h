@@ -162,6 +162,13 @@ namespace zSpace
 	*/
 	typedef vector<zScalar> zScalarArray;
 
+	/*! \typedef zIntPairArray
+	*	\brief A vector of integer pairs.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<pair<int, int>> zIntPairArray;
+
 	/** @}*/
 
 	/*! \typedef zPoint
@@ -173,6 +180,21 @@ namespace zSpace
 
 
 	/** @}*/
+
+	/** \addtogroup Pair
+	*	\brief  The pair typedef of the library.
+	*  @{
+	*/
+
+	/*! \typedef zIntPair
+	*	\brief A pair of integers.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef pair<int, int> zIntPair;
+	
+	/** @}*/
+
 	/** @}*/
 	/** @}*/	
 
