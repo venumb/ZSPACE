@@ -173,7 +173,8 @@ namespace zSpace
 	*	\brief	connectivty matrix types.
 	*	\since	version 0.0.4
 	*/
-	enum zConnectivityType { zVertexVertex = 250, zVertexEdge, zFaceVertex, zFaceEdge };
+  enum zConnectivityType { zVertexVertex = 250, zVertexEdge, zFaceVertex, zFaceEdge };
+
 
 	/** @}*/
 

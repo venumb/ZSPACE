@@ -2421,7 +2421,7 @@ namespace zSpace
 				heS_next = heS.getNext();
 				heS_prev = heS.getPrev();
 
-				printf("\n working!");
+				//printf("\n working!");
 			}
 
 			zItMeshHalfEdge newHeS = newHe.getSym();
@@ -2641,10 +2641,6 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::subdivideMesh(int numDivisions)
 	{
-		// remove inactive elements
-		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
-		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
-		if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
 
 		for (int j = 0; j < numDivisions; j++)
 		{
@@ -2655,10 +2651,12 @@ namespace zSpace
 			int numOriginalHalfEdges = numHalfEdges();
 
 			int numOrginalEdges = numEdges();
-			zItMeshEdge e(*meshObj);
+			
 
-			for (int i = 0; i < numOrginalEdges; i++, e++)
+			for (int i = 0; i < numOrginalEdges; i++)
 			{
+				zItMeshEdge e(*meshObj,i);
+
 				if (e.isActive()) splitEdge(e);
 			}
 
@@ -2667,12 +2665,15 @@ namespace zSpace
 			vector<zVector> fCenters;
 			getCenters(zFaceData, fCenters);
 
+			
 
 			// add faces
 			int numOriginalfaces = numPolygons();
-			zItMeshFace f(*meshObj);
-			for (int i = 0; i < numOriginalfaces; i++, f++)
+			
+			for (int i = 0; i < numOriginalfaces; i++)
 			{
+				zItMeshFace f(*meshObj, i);
+
 				if (!f.isActive()) continue;
 
 				vector<zItMeshHalfEdge> fEdges;
@@ -2704,89 +2705,24 @@ namespace zSpace
 					newFVerts.push_back(fEdges[k].getPrev().getVertex().getId());
 
 					zItMeshFace newF;
+				
 					bool chk = addPolygon(newFVerts, newF);
 
-					printf("\n %s ", (chk) ? "true" : "false");
+					//printf("\n %s ", (chk) ? "true" : "false");
 				}
 
 			}
 
 
-			// remove inactive elements
-			//if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
-			//if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
-			//if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
-
-			/*for (zItMeshVertex v(*meshObj) ;!v.end(); v++)
+			// update half edge handles. 
+			for (int i = 0; i < meshObj->mesh.heHandles.size(); i++)
 			{
-				printf("\n  %i ", v.getId());
-				printf("    %i ", v.getHalfEdge().getId());
+				if(meshObj->mesh.heHandles[i].f != -1) meshObj->mesh.heHandles[i].f -= numOriginalfaces;
 			}
+					
 
-			printf("\n \n");
-			for (zItMeshEdge e(*meshObj); !e.end(); e++)
-			{
-				printf("\n  %i ", e.getId());
-				printf("    %i ", e.getHalfEdge(0).getId());
-				printf("    %i ", e.getHalfEdge(1).getId());
-			}
-
-			printf("\n \n");
-			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
-			{
-				printf("\n  %i ", he.getId());
-				printf("    %i ", he.getSym().getId());
-				printf("    %i ", he.getPrev().getId());
-				printf("    %i ", he.getNext().getId());
-				printf("    %i ", he.getVertex().getId());
-				printf("    %i ", he.getEdge().getId());
-				if (!he.onBoundary()) printf("    %i ", he.getFace().getId());
-				else printf("    %i ", -1);
-			}
-
-			printf("\n \n");
-			for (zItMeshFace f(*meshObj); !f.end(); f++)
-			{
-				printf("\n  %i ", f.getId());
-				printf("    %i ", f.getHalfEdge().getId());
-			}*/
-
-			for (auto &v : meshObj->mesh.vHandles)
-			{
-				printf("\n  %i ", v.id);
-				printf("    %i ", v.he);
-			}
-
-			printf("\n \n");
-			for (auto &e : meshObj->mesh.eHandles)
-			{
-				printf("\n  %i ", e.id);
-				printf("    %i ", e.he0);
-				printf("    %i ", e.he1);
-			}
-
-			printf("\n \n");
-			for (auto &he : meshObj->mesh.heHandles)
-			{
-				printf("\n  %i ", he.id);
-
-				printf("    %i ", he.p);
-				printf("    %i ", he.n);
-				printf("    %i ", he.v);
-				printf("    %i ", he.e);
-				printf("    %i ", he.f);
-
-			}
-
-			printf("\n \n");
-			for (auto &f : meshObj->mesh.fHandles)
-			{
-				printf("\n  %i ", f.id);
-				printf("    %i ", f.he);
-			}
-
-
-
+			// remove inactive faces
+			garbageCollection(zFaceData);
 
 
 			computeMeshNormals();
@@ -2797,41 +2733,44 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::smoothMesh(int numDivisions, bool smoothCorner)
 	{
-		// remove inactive elements
-		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
-		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
-		if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
+		vector<zVector> fCenters;
+		vector<zVector> tempECenters;
+		vector<zVector> eCenters;
 
 		for (int j = 0; j < numDivisions; j++)
 		{
 
 
 			// get face centers
-			vector<zVector> fCenters;
+			fCenters.clear();
 			getCenters(zFaceData, fCenters);
 
 			// get edge centers
-			vector<zVector> tempECenters;
-			vector<zVector> eCenters;
+		
+			tempECenters.clear();
+
+			eCenters.clear();
 			getCenters(zEdgeData, eCenters);
 
 			tempECenters = eCenters;
 
-			zVector* vPositions = getRawVertexPositions();
+			zVector* vPositions = 	getRawVertexPositions();
+
+			int numOriginalVertices = numVertices();
+			int numOriginalEdges = numEdges();
 
 			// compute new smooth positions of the edge centers
-			for (zItMeshEdge e(*meshObj); !e.end(); e++)
+			for (int i =0; i< numOriginalEdges; i++)
 			{
 
-				zVector newPos;
+				zItMeshEdge e(*meshObj, i);
 
 				if (e.onBoundary()) continue;
 
-				int eId = e.getId();
+				zVector newPos;			
 
 				vector<int> eVerts;
 				e.getVertices(eVerts);
-
 				for (auto &vId : eVerts) newPos += vPositions[vId];
 
 
@@ -2841,12 +2780,15 @@ namespace zSpace
 
 				newPos /= (eFaces.size() + eVerts.size());
 
-				eCenters[eId] = newPos;
+				eCenters[i] = newPos;
 			}
 
 			// compute new smooth positions for the original vertices
-			for (zItMeshVertex v(*meshObj); !v.end(); v++)
+			for (int i = 0; i < numOriginalVertices; i++)
 			{
+
+				zItMeshVertex v(*meshObj, i);
+
 				if (v.onBoundary())
 				{
 					vector<zItMeshEdge> cEdges;
@@ -2854,7 +2796,7 @@ namespace zSpace
 
 					if (!smoothCorner && cEdges.size() == 2) continue;
 
-					zVector P = vPositions[v.getId()];
+					zVector P = vPositions[i];
 					int n = 1;
 
 					zVector R;
@@ -2867,7 +2809,7 @@ namespace zSpace
 						}
 					}
 
-					vPositions[v.getId()] = (P + R) / n;
+					vPositions[i] = (P + R) / n;
 
 				}
 				else
@@ -2886,28 +2828,27 @@ namespace zSpace
 					for (auto &fId : cFaces) F += fCenters[fId];
 					F /= cFaces.size();
 
-					zVector P = vPositions[v.getId()];
+					zVector P = vPositions[i];
 					int n = cFaces.size();
 
-					vPositions[v.getId()] = (F + (R * 2) + (P * (n - 3))) / n;
+					vPositions[i] = (F + (R * 2) + (P * (n - 3))) / n;
 				}
 
 
 			}
 
 
-			int numOriginalVertices = numVertices();
+			
 
 			// split edges at center
-			int numOriginalEdges = numEdges();
-
-			zItMeshEdge e(*meshObj);
-			for (int i = 0; i < numOriginalEdges; i++, e++)
+			
+			for (int i = 0; i < numOriginalEdges; i++)
 			{
+				zItMeshEdge e(*meshObj,i);
 				if (e.isActive())
-				{
+				{			
 					zItMeshVertex newVert = splitEdge(e);
-					newVert.setPosition(eCenters[newVert.getId()]);
+					newVert.setPosition(eCenters[i]);
 				}
 			}
 
@@ -2916,9 +2857,11 @@ namespace zSpace
 			// add faces
 			int numOriginalFaces = numPolygons();
 
-			zItMeshFace f(*meshObj);
-			for (int i = 0; i < numOriginalFaces; i++, f++)
+			
+			for (int i = 0; i < numOriginalFaces; i++)
 			{
+				zItMeshFace f(*meshObj, i);
+
 				if (!f.isActive()) continue;
 
 				vector<zItMeshHalfEdge> fEdges;
@@ -2957,14 +2900,18 @@ namespace zSpace
 
 			}
 
+			// update half edge handles. 
+			for (int i = 0; i < meshObj->mesh.heHandles.size(); i++)
+			{
+				if (meshObj->mesh.heHandles[i].f != -1) meshObj->mesh.heHandles[i].f -= numOriginalFaces;
+			}
+
+			// remove inactive faces
+			garbageCollection(zFaceData);
+
 			computeMeshNormals();
 
-		}
-
-		// remove inactive elements
-		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
-		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
-		if (numPolygons() != meshObj->mesh.faces.size()) garbageCollection(zFaceData);
+		}	
 
 
 	}
@@ -3826,10 +3773,45 @@ namespace zSpace
 		//  Vertex		
 		if (type == zVertexData)
 		{
-			vector<zVertexHandle>::iterator v = meshObj->mesh.vHandles.begin();
+			bool reindex = false;
+
+			for (int i = 0; i < meshObj->mesh.vHandles.size(); i++)
+			{
+				bool active = (meshObj->mesh.vHandles[i].id == -1) ? false : true;
+
+				if (!active)
+				{
+					reindex = true;
+					while (meshObj->mesh.vHandles[i].id == -1)
+					{
+						meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + i);
+
+						meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() + i);
+
+						meshObj->mesh.vHandles.erase(meshObj->mesh.vHandles.begin() + i);
+
+						meshObj->mesh.n_v--;
+
+					}
+				}
+
+
+			}
+
+			for (int i = 0; i < meshObj->mesh.vHandles.size(); i++) meshObj->mesh.vHandles[i].id = i;
+
+			meshObj->mesh.resizeArray(zVertexData, numVertices());
+
+			printf("\n removed inactive vertices. ");
+
+
+			/*vector<zVertexHandle>::iterator v = meshObj->mesh.vHandles.begin();
 
 			while (v != meshObj->mesh.vHandles.end())
 			{
+
+				
+
 				bool active = (v->id == -1) ? false : true;
 
 				if (!active)
@@ -3850,7 +3832,7 @@ namespace zSpace
 
 			meshObj->mesh.resizeArray(zVertexData, numVertices());
 
-			printf("\n removed inactive vertices. ");
+			printf("\n removed inactive vertices. ");*/
 
 		}
 
@@ -3901,26 +3883,37 @@ namespace zSpace
 		// Mesh Face
 		else if (type == zFaceData)
 		{
-			vector<zFaceHandle>::iterator f = meshObj->mesh.fHandles.begin();
+			
+			bool reindex = false;
 
-			while (f != meshObj->mesh.fHandles.end())
+			for (int i = 0; i < meshObj->mesh.fHandles.size(); i++)
 			{
-				bool active = (f->id == -1) ? false : true;
+				bool active = (meshObj->mesh.fHandles[i].id == -1) ? false : true;
 
 				if (!active)
 				{
+					reindex = true;
+					while (meshObj->mesh.fHandles[i].id == -1)
+					{
+						meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + i);
 
-					meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + f->id);
+						meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() +i);
 
-					meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() + f->id);
+						meshObj->mesh.fHandles.erase(meshObj->mesh.fHandles.begin() + i);
 
-					meshObj->mesh.fHandles.erase(f++);
-
-					meshObj->mesh.n_v--;
+						meshObj->mesh.n_f--;		
+						
+					}
 				}
-			}
+				
 
-			meshObj->mesh.resizeArray(zFaceData, numPolygons());
+			}		
+
+	
+			for (int i = 0; i < meshObj->mesh.fHandles.size(); i++) meshObj->mesh.fHandles[i].id = i;
+		
+
+			meshObj->mesh.resizeArray(zFaceData, meshObj->mesh.fHandles.size());
 
 			printf("\n removed inactive faces. ");
 		}

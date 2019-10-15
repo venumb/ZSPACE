@@ -29,6 +29,38 @@ namespace zSpace
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zMayaFnMesh::~zMayaFnMesh() {}
+	
+	//---- OVERRIDE METHODS
+
+	ZSPACE_INLINE zFnType zMayaFnMesh::getType()
+	{
+		return zMeshFn;
+	}
+
+	ZSPACE_INLINE void zMayaFnMesh::from(string path, zFileTpye type, bool staticGeom)
+	{
+
+		zFnMesh::from(path, type, staticGeom);
+
+		
+	}
+
+	ZSPACE_INLINE void zMayaFnMesh::to(string path, zFileTpye type)
+	{
+		zFnMesh::to(path, type);
+
+		// add crease data
+		if (type == zJSON)
+		{
+
+		}
+	}
+
+	ZSPACE_INLINE void zMayaFnMesh::clear()
+	{
+
+		meshObj->mesh.clear();
+	}
 
 	//---- INTEROP METHODS
 
@@ -161,6 +193,94 @@ namespace zSpace
 		MDataHandle h_outMesh = data.outputValue(outMesh, &stat);
 		h_outMesh.set(o_outMesh);
 		h_outMesh.setClean();
+	}
+
+	//---- PRIVATE METHODS
+
+	ZSPACE_INLINE void zMayaFnMesh::setCreaseDataJSON(string outfilename)
+	{
+
+		// remove inactive elements
+		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
+		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
+		if (numPolygons() != meshObj->mesh.faces.size())garbageCollection(zFaceData);
+
+		// CREATE JSON FILE
+		zUtilsJsonHE meshJSON;
+		json j;
+
+		// Vertices
+		for (zItMeshVertex v(*meshObj); !v.end(); v++)
+		{
+			if (v.getHalfEdge().isActive()) meshJSON.vertices.push_back(v.getHalfEdge().getId());
+			else meshJSON.vertices.push_back(-1);
+
+		}
+
+		//Edge Crease	
+		meshJSON.edgeCreaseData.assign(numEdges(), 0.0);
+
+		for (int i =0; i< creaseEdgeIndex.size(); i++)
+		{
+			meshJSON.edgeCreaseData[creaseEdgeIndex[i]] = creaseEdgeData[i];			
+		}
+
+		// Json file 
+		j["EdgeCreaseData"] = meshJSON.edgeCreaseData;		
+
+		// EXPORT	
+		ofstream myfile;
+		myfile.open(outfilename.c_str());
+
+		if (myfile.fail())
+		{
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+			return;
+		}
+
+		//myfile.precision(16);
+		myfile << j.dump();
+		myfile.close();
+
+	}
+
+	ZSPACE_INLINE void zMayaFnMesh::getCreaseDataJSON(string infilename)
+	{
+
+		json j;
+		zUtilsJsonHE meshJSON;
+
+
+		ifstream in_myfile;
+		in_myfile.open(infilename.c_str());
+
+		int lineCnt = 0;
+
+		if (in_myfile.fail())
+		{
+			cout << " error in opening file  " << infilename.c_str() << endl;
+			
+		}
+
+		in_myfile >> j;
+		in_myfile.close();
+
+		// READ Data from JSON
+
+		// Vertices
+		meshJSON.edgeCreaseData.clear();
+		meshJSON.edgeCreaseData = (j["EdgeCreaseData"].get<vector<double>>());
+
+		creaseEdgeData.clear();
+		creaseEdgeIndex.clear();
+
+		for (int i = 0; i < meshJSON.edgeCreaseData.size(); i++)
+		{
+			if (meshJSON.edgeCreaseData[i] != 0)
+			{
+				creaseEdgeIndex.push_back(i);
+			}
+		}
 	}
 
 }

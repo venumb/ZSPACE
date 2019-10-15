@@ -1114,12 +1114,13 @@ namespace zSpace
 
 	}
 
+  //---- BMP MATRIX  METHODS
 	ZSPACE_INLINE void zUtilsCore::matrixBMP(vector<MatrixXd> &matrices, string path)
 	{
 		int resX = matrices[0].rows();
 		int resY = matrices[0].cols();
 
-		zUtilsBMP bmp(resX, resY);
+    zUtilsBMP bmp(resX, resY);
 		uint32_t channels = bmp.bmp_info_header.bit_count / 8;
 
 		switch (matrices.size())
@@ -1225,6 +1226,7 @@ namespace zSpace
 
 		bmp.write(path.c_str());
 	}
+
 
 	//---- PRIVATE MATRIX  METHODS
 
