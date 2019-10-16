@@ -772,7 +772,8 @@ namespace zSpace
 
 		/*! \brief This method applies Catmull-Clark subdivision to the mesh.
 		*
-		*	\details Based on https://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface and https://rosettacode.org/wiki/Catmull%E2%80%93Clark_subdivision_surface.
+		*	\details Based on https://en.wikipedia.org/wiki/Catmull%E2%80%93Clark_subdivision_surface and https://rosettacode.org/wiki/Catmull%E2%80%93Clark_subdivision_surface. 
+			https://graphics.pixar.com/library/Geri/paper.pdf., http://www.multires.caltech.edu/pubs/fastsubd.pdf
 		*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
 		*	\param		[in]	smoothCorner	- corner vertex( only 2 Connected Edges) is also smothed if true.
 		*	\since version 0.0.2

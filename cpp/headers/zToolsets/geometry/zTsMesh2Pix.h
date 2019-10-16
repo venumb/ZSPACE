@@ -113,10 +113,11 @@ namespace zSpace
 		*	\param		[in]	perturbPositions	- generates data by perturbing verrtice if true.
 		*	\since version 0.0.4
 		*/
-		void printSupport2Pix(string directory, double angle_threshold, bool perturbPositions = false, zVector perturbVal = zVector(1,1,1));
+		void printSupport2Pix(string directory, string filename, double angle_threshold, bool perturbPositions = false, zVector perturbVal = zVector(1,1,1));
 			   
 
 	private:
+
 
 		//--------------------------
 		//---- PRIVATE GET METHODS
@@ -147,7 +148,6 @@ namespace zSpace
 		*/
 		void getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat);
 
-
 		/*! \brief This method gets a matrix from the input container and matix type.
 		*
 		*	\param		[in]	type			- input  zConnectivityType.
@@ -159,10 +159,9 @@ namespace zSpace
 		*/
 		void getMatrixFromContainer(zConnectivityType type, zDoubleArray &data, zIntPairArray &dataPair,   zDomainDouble &outDomain, vector<MatrixXd> &outMat);
 
-		//--------------------------
-		//---- PRIVATE COMPUTE METHODS
-		//--------------------------
 		void getVertexSupport(double angle_threshold, zBoolArray &support);
+
+		void getCombinedMatrix(vector<MatrixXd> &mat1, vector<MatrixXd> &mat2, vector<MatrixXd> &out);
 	};
 }
 

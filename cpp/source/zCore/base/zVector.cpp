@@ -377,4 +377,12 @@ namespace zSpace
 		return out;
 	}
 
+	//---- STREAM OPERATORS
+
+	ZSPACE_INLINE ostream & operator<<(ostream & os, const zVector & vec)
+	{
+		os << "\n" <<vec.x << ',' << vec.y << ',' << vec.z;
+		return os;
+	}
+
 }

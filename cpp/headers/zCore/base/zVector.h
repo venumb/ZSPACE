@@ -95,7 +95,7 @@ namespace  zSpace
 
 		//--------------------------
 		//---- OPERATORS
-		//--------------------------
+		//--------------------------	
 
 		/*! \brief This operator checks for equality of two zVectors.
 		*
@@ -369,6 +369,18 @@ namespace  zSpace
 		*/
 		zVector rotateAboutAxis(zVector axisVec, double angle = 0);
 
+
+		//--------------------------
+		//---- STREAM OPERATORS
+		//--------------------------
+
+		/*! \brief This method outputs the vector component values to the stream.
+		*
+		*	\param		[in]		os				- output stream.
+		*	\param		[in]		zVector			- vector to be streamed.
+		*	\since version 0.0.1
+		*/
+		friend ostream& operator<<(ostream& os, const zVector& vec);
 	};
 }
 

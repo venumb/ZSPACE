@@ -1675,11 +1675,12 @@ namespace zSpace
 		out.mesh.create(positions, polyCounts, polyConnects);
 
 
-		out.mesh.vertexColors = meshObj->mesh.vertexColors;
-		out.mesh.edgeColors = meshObj->mesh.edgeColors;
-		out.mesh.faceColors = meshObj->mesh.faceColors;
+		zFnMesh tempFn(out);
 
-
+		tempFn.computeMeshNormals();
+		tempFn.setVertexColors(meshObj->mesh.vertexColors, false);
+		tempFn.setEdgeColors(meshObj->mesh.edgeColors, false);
+		tempFn.setFaceColors(meshObj->mesh.faceColors, false);
 	}
 
 	ZSPACE_INLINE int zFnMesh::getVBOVertexIndex()
@@ -2802,9 +2803,10 @@ namespace zSpace
 					if (!smoothCorner && cEdges.size() == 2) continue;
 
 					zVector P = vPositions[i];
-					int n = 1;
+					//int n = 1; // rosetta , not matching with maya
+					int n = 0;
 
-					zVector R;
+					zVector R(0,0,0);
 					for (auto &e : cEdges)
 					{
 						if (e.onBoundary())
@@ -2814,7 +2816,10 @@ namespace zSpace
 						}
 					}
 
-					vPositions[i] = (P + R) / n;
+					// rosetta , not matching with maya
+					//vPositions[i] = (P + R) / n; 
+
+					vPositions[i] = (P / n) + (R / (n*n));				
 
 				}
 				else

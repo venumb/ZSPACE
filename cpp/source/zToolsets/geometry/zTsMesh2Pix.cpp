@@ -38,17 +38,19 @@ namespace zSpace
 
 	//---- GENERATE DATA METHODS
 	
-	ZSPACE_INLINE void zTsMesh2Pix::printSupport2Pix(string directory, double angle_threshold, bool perturbPositions, zVector perturbVal)
+	ZSPACE_INLINE void zTsMesh2Pix::printSupport2Pix(string directory, string filename, double angle_threshold, bool perturbPositions, zVector perturbVal)
 	{
 		vector<MatrixXd> outMat_A;
 		vector<MatrixXd> outMat_B;
+
+		vector<MatrixXd> outMat;
 
 		if (!perturbPositions)
 		{
 			outMat_A.clear();
 
 			// get Matrix from vertex normals
-			zDomainDouble outDomain_A(0.0, 1.0);
+			zDomainDouble outDomain_A(0.0, 0.9);
 			getMatrixFromNormals(zVertexVertex, outDomain_A, outMat_A);
 
 			// get edge length data 
@@ -67,15 +69,7 @@ namespace zSpace
 				hedgeVertexPair.push_back(vertPair);
 			}
 
-			
-
-
 			getMatrixFromContainer(zVertexVertex, heLength, hedgeVertexPair, outDomain, outMat_A);
-
-			string path1 = directory + "train/image_0_A.bmp";
-			coreUtils.matrixBMP(outMat_A, path1);
-
-
 
 			// support matrix 
 			outMat_B.clear();
@@ -87,12 +81,59 @@ namespace zSpace
 
 			getMatrixFromContainer(zVertexVertex, supports, outDomain_B, outMat_B);
 
-			string path2 = directory + "train/image_0_B.bmp";
-			coreUtils.matrixBMP(outMat_B, path2);
+			// combine matrix
+			getCombinedMatrix(outMat_B, outMat_A, outMat);
+			string path3 = directory + "/train/" + filename + ".bmp";
+			coreUtils.matrixBMP(outMat, path3);
 		}
 		
 		else
 		{
+			// to generate different random number every time the program runs
+			srand(time(NULL));
+
+			vector<double> randNumberX;
+			vector<double> randNumberY;
+			vector<double> randNumberZ;
+
+			int numIters = 5;
+
+			for (int i = 0; i < numIters * fnMesh.numVertices(); i++)
+			{
+				double x = coreUtils.randomNumber_double(perturbVal.x * -1, perturbVal.x);
+				double y = coreUtils.randomNumber_double(perturbVal.y * -1, perturbVal.y);
+				double z = coreUtils.randomNumber_double(perturbVal.z * -1, perturbVal.z);
+
+				randNumberX.push_back(x);
+				randNumberY.push_back(y);
+				randNumberZ.push_back(z);
+			}
+
+
+			for (int j = 0; j < numIters; j++)
+			{
+				zPointArray originalPoints;
+				fnMesh.getVertexPositions(originalPoints);
+
+				// translate vertices
+				zPoint* vertPos = fnMesh.getRawVertexPositions();
+
+				for (int i = 0; i < fnMesh.numVertices(); i++)
+				{
+					int id = j * fnMesh.numVertices() + i;
+
+					vertPos[i] += zVector(randNumberX[id], randNumberY[id], 0);
+				}
+
+				fnMesh.computeMeshNormals();
+
+				// export
+				string tmp_fileName = filename + "_" + to_string(j);
+				printSupport2Pix(directory, tmp_fileName, angle_threshold, false);
+
+				// reset mesh positions				
+				fnMesh.setVertexPositions(originalPoints);
+			}
 
 		}
 
@@ -183,26 +224,29 @@ namespace zSpace
 		{
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
-			MatrixXd dataX(n_v, n_v);
-			MatrixXd dataY(n_v, n_v);
-			MatrixXd dataZ(n_v, n_v);
+			MatrixXd dataR(n_v, n_v);
+			MatrixXd dataG(n_v, n_v);
+			MatrixXd dataB(n_v, n_v);
+			MatrixXd dataA(n_v, n_v);
 
-			dataX.setZero();
-			dataY.setZero();
-			dataZ.setOnes();
+			dataR.setZero();
+			dataG.setZero();
+			dataB.setOnes();
+			dataA.setOnes();
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
-				if (data[i]) dataX(i, i) = 1.0;
-				else  dataY(i, i) = 1.0;
+				if (data[i]) dataR(i, i) = 1.0;
+				else  dataG(i, i) = 1.0;
 
-				dataZ(i, i) = 0.0;
+				dataB(i, i) = 0.0;
 			}
 
 
-			outMat.push_back(dataX);
-			outMat.push_back(dataY);
-			outMat.push_back(dataZ);
+			outMat.push_back(dataR);
+			outMat.push_back(dataG);
+			outMat.push_back(dataB);
+			outMat.push_back(dataA);
 		}
 
 		//else if (type == zFaceData)
@@ -243,8 +287,6 @@ namespace zSpace
 
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
-	
-	//---- PRIVATE COMPUTE METHODS
 
 	ZSPACE_INLINE void zTsMesh2Pix::getVertexSupport(double angle_threshold, zBoolArray &support)
 	{
@@ -259,7 +301,7 @@ namespace zSpace
 		// get smooth mesh
 
 		zFnMesh fnSmoothMesh(smoothMesh);
-		//fnSmoothMesh.smoothMesh(3);
+		fnSmoothMesh.smoothMesh(3);
 		
 		// get bounds
 		zVector minBB, maxBB;
@@ -302,6 +344,29 @@ namespace zSpace
 					(ang > (angle_threshold)) ? support[vIt.getId()] = true : support[vIt.getId()] = false;
 
 		}
+	}
+
+	ZSPACE_INLINE void zTsMesh2Pix::getCombinedMatrix(vector<MatrixXd>& mat1, vector<MatrixXd>& mat2, vector<MatrixXd>& out)
+	{
+		if (mat1.size() == 0) throw std::invalid_argument(" error: mat1 container size is 0. ");
+		if (mat2.size() == 0) throw std::invalid_argument(" error: mat2 container size is 0. ");
+		if (mat1.size() != mat2.size()) throw std::invalid_argument(" error: sizes of the matrix container dont match. ");
+		if (mat1[0].cols() != mat2[0].cols() ) throw std::invalid_argument(" error: rows of the matrix dont match. ");
+
+		int nRows = mat1[0].rows() + mat2[0].rows();
+		int nCols = mat1[0].cols()  ;
+
+		out.clear();
+
+		for (int i = 0; i < mat1.size(); i++)
+		{
+			MatrixXd temp(nRows, nCols);
+
+			temp << mat1[i], mat2[i];
+
+			out.push_back(temp);
+		}
+
 	}
 
 }
