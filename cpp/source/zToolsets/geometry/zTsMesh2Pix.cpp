@@ -67,10 +67,14 @@ namespace zSpace
 				hedgeVertexPair.push_back(vertPair);
 			}
 
+			
+
+
 			getMatrixFromContainer(zVertexVertex, heLength, hedgeVertexPair, outDomain, outMat_A);
 
 			string path1 = directory + "train/image_0_A.bmp";
 			coreUtils.matrixBMP(outMat_A, path1);
+
 
 
 			// support matrix 
@@ -98,7 +102,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromNormals(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &normMat)
 	{
-		if (type == zVertexData)
+		if (type == zVertexVertex)
 		{		
 
 			// get vertex normals diagonal matrix
@@ -108,22 +112,22 @@ namespace zSpace
 			
 		}
 
-		else if (type == zFaceData)
-		{
+		//else if (type == zFaceData)
+		//{
 
-			// get face normals diagonal matrix
-			zVectorArray norms;
-			fnMesh.getFaceNormals(norms);		
+		//	// get face normals diagonal matrix
+		//	zVectorArray norms;
+		//	fnMesh.getFaceNormals(norms);		
 
-			getMatrixFromContainer(type, norms, outDomain, normMat);
-		}
+		//	getMatrixFromContainer(type, norms, outDomain, normMat);
+		//}
 
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 	
 	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
-		if (type == zVertexData)
+		if (type == zVertexVertex)
 		{
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
@@ -131,11 +135,15 @@ namespace zSpace
 			MatrixXd normsY(n_v, n_v);
 			MatrixXd normsZ(n_v, n_v);
 
+			normsX.setZero();
+			normsY.setZero();
+			normsZ.setZero();
+
 			for (int i = 0; i < data.size(); i++)
 			{
-				normsX(i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, 0.0, 1.0);
-				normsY(i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, 0.0, 1.0);
-				normsZ(i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, 0.0, 1.0);
+				normsX(i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
+				normsY(i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
+				normsZ(i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);
 			}
 
 
@@ -144,7 +152,7 @@ namespace zSpace
 			outMat.push_back(normsZ);
 		}
 
-		else if (type == zFaceData)
+		/*else if (type == zFaceData)
 		{
 			int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
 
@@ -163,7 +171,7 @@ namespace zSpace
 			outMat.push_back(normsX);
 			outMat.push_back(normsY);
 			outMat.push_back(normsZ);
-		}
+		}*/
 
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 
@@ -171,7 +179,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
-		if (type == zVertexData)
+		if (type == zVertexVertex)
 		{
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
@@ -179,6 +187,8 @@ namespace zSpace
 			MatrixXd dataY(n_v, n_v);
 			MatrixXd dataZ(n_v, n_v);
 
+			dataX.setZero();
+			dataY.setZero();
 			dataZ.setOnes();
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
@@ -189,28 +199,35 @@ namespace zSpace
 				dataZ(i, i) = 0.0;
 			}
 
+
+			outMat.push_back(dataX);
+			outMat.push_back(dataY);
+			outMat.push_back(dataZ);
 		}
 
-		else if (type == zFaceData)
-		{
-			int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
-		}
+		//else if (type == zFaceData)
+		//{
+		//	int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
+		//}
 
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 
 	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zDoubleArray &data, zIntPairArray &dataPair, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
-		if (type == zVertexData)
+		if (type == zVertexVertex)
 		{
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
 			MatrixXd temp(n_v, n_v);
+			temp.setZero();
 
 			zDomainDouble inDomain;
 
 			inDomain.min = coreUtils.zMin(data);
 			inDomain.max = coreUtils.zMax(data);
+
+			if (inDomain.min == inDomain.max) inDomain.min = 0.0;
 
 			for (int k = 0; k < dataPair.size(); k++)
 			{
@@ -218,7 +235,9 @@ namespace zSpace
 				int  j = dataPair[k].second;
 
 				temp(i, j) = coreUtils.ofMap(data[k], inDomain, outDomain);
-			}		
+			}	
+
+			outMat.push_back(temp);
 			
 		}
 
@@ -240,7 +259,7 @@ namespace zSpace
 		// get smooth mesh
 
 		zFnMesh fnSmoothMesh(smoothMesh);
-		fnSmoothMesh.smoothMesh(3);
+		//fnSmoothMesh.smoothMesh(3);
 		
 		// get bounds
 		zVector minBB, maxBB;
@@ -278,10 +297,10 @@ namespace zSpace
 			double ang = vec.angle(unitz);
 
 			// compute support
+			
+			if (positions[vIt.getId()].z > minBB.z)
+					(ang > (angle_threshold)) ? support[vIt.getId()] = true : support[vIt.getId()] = false;
 
-			if (positions[vIt.getId()].z > maxBB.z)
-				(ang > (angle_threshold)) ? support[vIt.getId()] = true : support[vIt.getId()] = false;
-	
 		}
 	}
 

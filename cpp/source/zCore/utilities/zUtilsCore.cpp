@@ -377,7 +377,7 @@ namespace zSpace
 		{
 			if (inPoints[i].x < minBB.x) minBB.x = inPoints[i].x;
 			if (inPoints[i].y < minBB.y) minBB.y = inPoints[i].y;
-			if (inPoints[i].y < minBB.z) minBB.z = inPoints[i].z;
+			if (inPoints[i].z < minBB.z) minBB.z = inPoints[i].z;
 
 			if (inPoints[i].x > maxBB.x) maxBB.x = inPoints[i].x;
 			if (inPoints[i].y > maxBB.y) maxBB.y = inPoints[i].y;
@@ -1121,7 +1121,11 @@ namespace zSpace
 
 		bool checkMatchSize = true;
 
-		if (matrices.size() == 0) return;
+		if (matrices.size() == 0)
+		{
+			throw std::invalid_argument(" error: matrix empty.");
+			return;
+		}
 
 		int resX = matrices[0].rows();
 		int resY = matrices[0].cols();
@@ -1156,7 +1160,7 @@ namespace zSpace
 				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 0;
 
 				// alpha
-				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 1;
+				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
 
 				// red
 				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = 0;
