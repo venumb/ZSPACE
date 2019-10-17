@@ -55,6 +55,9 @@
     <Filter Include="Source Files\Dynamics">
       <UniqueIdentifier>{0fb7afa9-3a99-49fe-971b-27267367be1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Depends">
+      <UniqueIdentifier>{b071c706-7d01-487f-a748-8d7f323fa0da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cpp\headers\zCore\base\zBinaryTree.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zCore\coreHeader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\depends\tooJPEG\toojpeg.h">
+      <Filter>Depends</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zCore\base\zColor.cpp">
@@ -199,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\source\zCore\utilities\zUtilsDisplay.cpp">
       <Filter>Source Files\Utiilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\depends\tooJPEG\toojpeg.cpp">
+      <Filter>Depends</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,6 +12,27 @@
 
 #include<headers/zCore/utilities/zUtilsCore.h>
 
+#ifndef ZSPACE_UTILS_CORE_JPEG
+#define ZSPACE_UTILS_CORE_JPEG
+
+
+
+namespace zSpace
+{
+	//--- USED for JPEG export methods to be defined outside of class.
+
+	std::ofstream jpegFile;
+
+	// write a single byte compressed by tooJpeg
+	ZSPACE_INLINE 	void jpegWrite(unsigned char byte)
+	{
+		jpegFile << byte;
+	}
+
+}
+
+#endif
+
 namespace zSpace
 {
 
@@ -1145,10 +1166,12 @@ namespace zSpace
 			return;
 		}
 
-		zUtilsBMP bmp(resX, resY);
+		bool alpha = ((matrices.size() == 4)) ? true : false;
+
+		zUtilsBMP bmp(resX, resY, alpha);
 		uint32_t channels = bmp.bmp_info_header.bit_count / 8;
 
-	
+
 		for (uint32_t x = 0; x < resX; ++x)
 		{
 			for (uint32_t y = 0; y < resY; ++y)
@@ -1160,7 +1183,7 @@ namespace zSpace
 				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 1] = 0;
 
 				// alpha
-				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
+				if (matrices.size() == 4) bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = 0;
 
 				// red
 				bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 2] = 0;
@@ -1171,12 +1194,82 @@ namespace zSpace
 
 				if (matrices.size() >= 3) bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 0] = matrices[2].coeff(x, y) * 255;
 
-				if (matrices.size() >= 4) bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = matrices[3].coeff(x, y) * 255;
+				if (matrices.size() == 4) bmp.data[channels * (y * bmp.bmp_info_header.width + x) + 3] = matrices[3].coeff(x, y) * 255;
 
 			}
 		}
 
 		bmp.write(path.c_str());
+	}
+
+	ZSPACE_INLINE void zUtilsCore::matrixJPEG(vector<MatrixXd> &matrices, string path)
+	{
+
+		bool checkMatchSize = true;
+
+		if (matrices.size() == 0)
+		{
+			throw std::invalid_argument(" error: matrix empty.");
+			return;
+		}
+
+		int resX = matrices[0].rows();
+		int resY = matrices[0].cols();
+
+		for (int i = 1; i < matrices.size(); i++)
+		{
+			if (matrices[i].rows() != resX || matrices[i].cols() != resY)
+			{
+				checkMatchSize = false;
+				break;
+			}
+		}
+
+		if (!checkMatchSize)
+		{
+			throw std::invalid_argument(" error: matrix sizes are not equal.");
+			return;
+		}
+
+
+		const auto width = resX;
+		const auto height = resY;
+
+		// RGB: one byte each for red, green, blue
+		const auto bytesPerPixel = 3;
+
+		jpegFile = ofstream (path.c_str(), std::ios_base::out | std::ios_base::binary);
+
+		// allocate memory
+		auto image = new unsigned char[width * height * bytesPerPixel];
+		
+		for (auto y = 0; y < height; y++)
+			for (auto x = 0; x < width; x++)
+			{
+				// memory location of current pixel
+				auto offset = (y * width + x) * bytesPerPixel;
+				
+
+				image[offset] = 0;
+				image[offset + 1] = 0;
+				image[offset + 2] = 0;
+
+				if (matrices.size() >= 1) image[offset] = matrices[0].coeff(x, y) * 255;
+
+				if (matrices.size() >= 2) image[offset + 1] = matrices[1].coeff(x, y) * 255;
+
+				if (matrices.size() >= 3) image[offset + 2] = matrices[2].coeff(x, y) * 255;				
+			}
+
+		// start JPEG compression
+		// optional parameters:
+		const bool isRGB = true;  // true = RGB image, else false = grayscale
+		const auto quality = 100;    // compression quality: 0 = worst, 100 = best, 80 to 90 are most often used
+		const bool downsample = false; // false = save as YCbCr444 JPEG (better quality), true = YCbCr420 (smaller file)
+		const char* comment = "zSpace JPEG image"; // arbitrary JPEG comment
+		auto ok = TooJpeg::writeJpeg(jpegWrite, image, width, height, isRGB, quality, downsample, comment);
+		delete[] image;	
+
 	}
 
 

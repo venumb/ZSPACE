@@ -30,3 +30,4 @@ inline bool compare_time_creation(fs::path& first, const fs::path& second)
 
 	return (timeFirst < timeSec);
 }
+

@@ -47,16 +47,17 @@ namespace zSpace
 
 		if (!perturbPositions)
 		{
-			outMat_A.clear();
+			outMat_A.clear();		
+
 
 			// get Matrix from vertex normals
-			zDomainDouble outDomain_A(0.0, 0.9);
+			zDomainDouble outDomain_A(0.05, 0.45);
 			getMatrixFromNormals(zVertexVertex, outDomain_A, outMat_A);
 
 			// get edge length data 
 			zDoubleArray heLength;
 			zIntPairArray hedgeVertexPair;
-			zDomainDouble outDomain(0.0, 0.9);
+			zDomainDouble outDomain(0.5, 0.9);
 
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 			{
@@ -69,7 +70,7 @@ namespace zSpace
 				hedgeVertexPair.push_back(vertPair);
 			}
 
-			getMatrixFromContainer(zVertexVertex, heLength, hedgeVertexPair, outDomain, outMat_A);
+			getMatrixFromContainer(zVertexVertex, fnMesh.numVertices(), heLength, hedgeVertexPair, outDomain, outMat_A);
 
 			// support matrix 
 			outMat_B.clear();
@@ -153,16 +154,6 @@ namespace zSpace
 			
 		}
 
-		//else if (type == zFaceData)
-		//{
-
-		//	// get face normals diagonal matrix
-		//	zVectorArray norms;
-		//	fnMesh.getFaceNormals(norms);		
-
-		//	getMatrixFromContainer(type, norms, outDomain, normMat);
-		//}
-
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 	
@@ -172,47 +163,33 @@ namespace zSpace
 		{
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
-			MatrixXd normsX(n_v, n_v);
-			MatrixXd normsY(n_v, n_v);
-			MatrixXd normsZ(n_v, n_v);
+			if (outMat.size() == 0)
+			{			
 
-			normsX.setZero();
-			normsY.setZero();
-			normsZ.setZero();
+				MatrixXd R(n_v, n_v);
+				MatrixXd G(n_v, n_v);
+				MatrixXd B(n_v, n_v);
 
-			for (int i = 0; i < data.size(); i++)
-			{
-				normsX(i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
-				normsY(i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
-				normsZ(i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);
+				R.setConstant(0.95);
+				G.setConstant(0.95);
+				B.setConstant(0.95);
+
+				outMat.push_back(R);
+				outMat.push_back(G);
+				outMat.push_back(B);
 			}
 
 
-			outMat.push_back(normsX);
-			outMat.push_back(normsY);
-			outMat.push_back(normsZ);
+			for (int i = 0; i < data.size(); i++)
+			{
+				outMat[0](i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
+				outMat[1](i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
+				outMat[2](i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);				
+			}
+
+			
 		}
-
-		/*else if (type == zFaceData)
-		{
-			int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
-
-			MatrixXd normsX(n_f, n_f);
-			MatrixXd normsY(n_f, n_f);
-			MatrixXd normsZ(n_f, n_f);
-
-			for (int i = 0; i < data.size(); i++)
-			{
-				normsX(i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
-				normsY(i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
-				normsZ(i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);
-			}
-
-
-			outMat.push_back(normsX);
-			outMat.push_back(normsY);
-			outMat.push_back(normsZ);
-		}*/
+				
 
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 
@@ -222,49 +199,85 @@ namespace zSpace
 	{
 		if (type == zVertexVertex)
 		{
-			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
+			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();		
 
-			MatrixXd dataR(n_v, n_v);
-			MatrixXd dataG(n_v, n_v);
-			MatrixXd dataB(n_v, n_v);
-			MatrixXd dataA(n_v, n_v);
-
-			dataR.setZero();
-			dataG.setZero();
-			dataB.setOnes();
-			dataA.setOnes();
-
-			for (int i = 0; i < fnMesh.numVertices(); i++)
+			if (outMat.size() == 0)
 			{
-				if (data[i]) dataR(i, i) = 1.0;
-				else  dataG(i, i) = 1.0;
+				MatrixXd R(n_v, n_v);
+				MatrixXd G(n_v, n_v);
+				MatrixXd B(n_v, n_v);
 
-				dataB(i, i) = 0.0;
+				R.setConstant(0.95);
+				G.setConstant(0.95);
+				B.setConstant(0.95);
+
+				outMat.push_back(R);
+				outMat.push_back(G);
+				outMat.push_back(B);
 			}
 
 
-			outMat.push_back(dataR);
-			outMat.push_back(dataG);
-			outMat.push_back(dataB);
-			outMat.push_back(dataA);
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				for (int j = 0; j < fnMesh.numVertices(); j++)
+				{
+					if (i == j)
+					{
+						if (data[i])
+						{							
+							outMat[0](i, j) = 1.0;
+							outMat[1](i, j) = 0.0;
+							outMat[2](i, j) = 0.0;
+						}
+
+						else
+						{
+							outMat[0](i, j) = 0.0;
+							outMat[1](i, j) = 1.0;
+							outMat[2](i, j) = 0.0;
+						}
+					}
+					
+					else
+					{
+						outMat[0](i, j) = 0.0;
+						outMat[1](i, j) = 0.0;
+						outMat[2](i, j) = 1.0;
+					}
+				}
+				
+								
+			}
+
+			
 		}
 
-		//else if (type == zFaceData)
-		//{
-		//	int n_f = (maxFaces != -1) ? maxFaces : fnMesh.numPolygons();
-		//}
+		
 
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zDoubleArray &data, zIntPairArray &dataPair, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, int numVerts, zDoubleArray &data, zIntPairArray &dataPair, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
 		if (type == zVertexVertex)
 		{
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
-			MatrixXd temp(n_v, n_v);
-			temp.setZero();
+			if (outMat.size() == 0)
+			{
+				MatrixXd R(n_v, n_v);
+				MatrixXd G(n_v, n_v);
+				MatrixXd B(n_v, n_v);
+
+				R.setConstant(0.95);
+				G.setConstant(0.95);
+				B.setConstant(0.95);
+
+				outMat.push_back(R);
+				outMat.push_back(G);
+				outMat.push_back(B);
+			}
+				
 
 			zDomainDouble inDomain;
 
@@ -273,15 +286,30 @@ namespace zSpace
 
 			if (inDomain.min == inDomain.max) inDomain.min = 0.0;
 
+			for (int i = 0; i < numVerts; i++)
+			{
+				for (int j = 0; j < numVerts; j++)
+				{
+					if (i != j)
+					{
+						outMat[0](i, j) = 0.00;
+						outMat[1](i, j) = 0.00;
+						outMat[2](i, j) = 0.00;
+					}
+				}
+			}
+
 			for (int k = 0; k < dataPair.size(); k++)
 			{
 				int  i = dataPair[k].first;
 				int  j = dataPair[k].second;
 
-				temp(i, j) = coreUtils.ofMap(data[k], inDomain, outDomain);
+				outMat[0](i, j) = coreUtils.ofMap(data[k], inDomain, outDomain);
+				outMat[1](i, j) = outMat[0](i, j);
+				outMat[2](i, j) = outMat[0](i, j);
 			}	
 
-			outMat.push_back(temp);
+			
 			
 		}
 
@@ -343,6 +371,7 @@ namespace zSpace
 			if (positions[vIt.getId()].z > minBB.z)
 					(ang > (angle_threshold)) ? support[vIt.getId()] = true : support[vIt.getId()] = false;
 
+			printf("\n %1.2f %1.2f ", angle_threshold, ang);
 		}
 	}
 

@@ -157,7 +157,7 @@ namespace zSpace
 		*	\param		[out]	outMat			- output matrix.
 		*	\since version 0.0.4
 		*/
-		void getMatrixFromContainer(zConnectivityType type, zDoubleArray &data, zIntPairArray &dataPair,   zDomainDouble &outDomain, vector<MatrixXd> &outMat);
+		void getMatrixFromContainer(zConnectivityType type, int numVerts, zDoubleArray &data, zIntPairArray &dataPair,   zDomainDouble &outDomain, vector<MatrixXd> &outMat);
 
 		void getVertexSupport(double angle_threshold, zBoolArray &support);
 
