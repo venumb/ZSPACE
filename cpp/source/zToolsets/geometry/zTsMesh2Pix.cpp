@@ -38,7 +38,7 @@ namespace zSpace
 
 	//---- GENERATE DATA METHODS
 	
-	ZSPACE_INLINE void zTsMesh2Pix::printSupport2Pix(string directory, string filename, double angle_threshold, bool perturbPositions, zVector perturbVal)
+	ZSPACE_INLINE void zTsMesh2Pix::printSupport2Pix(string directory, string filename, double angle_threshold, bool train, int numIters, bool perturbPositions, zVector perturbVal)
 	{
 		vector<MatrixXd> outMat_A;
 		vector<MatrixXd> outMat_B;
@@ -47,7 +47,7 @@ namespace zSpace
 
 		if (!perturbPositions)
 		{
-			outMat_A.clear();		
+			outMat_A.clear();
 
 
 			// get Matrix from vertex normals
@@ -83,11 +83,13 @@ namespace zSpace
 			getMatrixFromContainer(zVertexVertex, supports, outDomain_B, outMat_B);
 
 			// combine matrix
+
 			getCombinedMatrix(outMat_B, outMat_A, outMat);
-			string path3 = directory + "/train/" + filename + ".bmp";
-			coreUtils.matrixBMP(outMat, path3);
+			string path3 = (train) ? directory + "/train/" + filename + ".png" : directory + "/test/" + filename + ".png";
+			coreUtils.matrixPNG(outMat, path3);
+			
 		}
-		
+
 		else
 		{
 			// to generate different random number every time the program runs
@@ -96,9 +98,7 @@ namespace zSpace
 			vector<double> randNumberX;
 			vector<double> randNumberY;
 			vector<double> randNumberZ;
-
-			int numIters = 5;
-
+						
 			for (int i = 0; i < numIters * fnMesh.numVertices(); i++)
 			{
 				double x = coreUtils.randomNumber_double(perturbVal.x * -1, perturbVal.x);
@@ -110,6 +110,20 @@ namespace zSpace
 				randNumberZ.push_back(z);
 			}
 
+
+			// make folders
+			string trainDir = directory + "/train/";
+			string testDir = directory + "/test/";
+			
+
+			int numTrainFiles = 0;
+			numTrainFiles = coreUtils.getNumfiles_Type(trainDir, zPNG);
+
+			int numTestFiles = 0;
+			numTestFiles = coreUtils.getNumfiles_Type(testDir, zPNG);
+
+			if (numTrainFiles == 0) _mkdir(trainDir.c_str());
+			if (numTestFiles == 0) _mkdir(testDir.c_str());
 
 			for (int j = 0; j < numIters; j++)
 			{
@@ -129,14 +143,19 @@ namespace zSpace
 				fnMesh.computeMeshNormals();
 
 				// export
-				string tmp_fileName = filename + "_" + to_string(j);
-				printSupport2Pix(directory, tmp_fileName, angle_threshold, false);
+
+				bool train = ((j + 1) > floor((float) numIters* 0.8)) ? false : true;
+				int id = (train) ? numTrainFiles++ : numTestFiles++;					
+
+				string tmp_fileName = (train) ? filename + "_train_" + to_string(id) : filename + "_test_" + to_string(id);
+				printSupport2Pix(directory, tmp_fileName, angle_threshold, train);
 
 				// reset mesh positions				
 				fnMesh.setVertexPositions(originalPoints);
 			}
 
 		}
+
 
 	}
 	
@@ -184,7 +203,9 @@ namespace zSpace
 			{
 				outMat[0](i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
 				outMat[1](i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
-				outMat[2](i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);				
+				outMat[2](i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);	
+
+				//printf("\n %i : %1.2f %1.2f %1.2f ",i, outMat[0](i, i) * 255, outMat[1](i, i) * 255, outMat[2](i, i) * 255);
 			}
 
 			
@@ -370,8 +391,7 @@ namespace zSpace
 			
 			if (positions[vIt.getId()].z > minBB.z)
 					(ang > (angle_threshold)) ? support[vIt.getId()] = true : support[vIt.getId()] = false;
-
-			printf("\n %1.2f %1.2f ", angle_threshold, ang);
+						
 		}
 	}
 

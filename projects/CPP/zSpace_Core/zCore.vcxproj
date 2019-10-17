@@ -152,6 +152,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\cpp\depends\lodePNG\lodepng.cpp" />
     <ClCompile Include="..\..\..\cpp\depends\tooJPEG\toojpeg.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zCore\base\zColor.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zCore\base\zDomain.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="..\..\..\cpp\source\zCore\utilities\zUtilsDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\cpp\depends\lodePNG\lodepng.h" />
     <ClInclude Include="..\..\..\cpp\depends\tooJPEG\toojpeg.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\base\zBinaryTree.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\base\zColor.h" />

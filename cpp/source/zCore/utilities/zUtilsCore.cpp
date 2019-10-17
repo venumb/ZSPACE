@@ -65,6 +65,8 @@ namespace zSpace
 		if (type == zTXT) extension = ".txt";
 		if (type == zCSV) extension = ".csv";
 		if (type == zBMP) extension = ".bmp";
+		if (type == zPNG) extension = ".png";
+		if (type == zJPEG) extension = ".jpeg";
 
 
 		for (const auto & entry : fs::directory_iterator(dirPath))
@@ -1272,6 +1274,78 @@ namespace zSpace
 
 	}
 
+	ZSPACE_INLINE void zUtilsCore::matrixPNG(vector<MatrixXd> &matrices, string path)
+	{
+
+		bool checkMatchSize = true;
+
+		if (matrices.size() == 0)
+		{
+			throw std::invalid_argument(" error: matrix empty.");
+			return;
+		}
+
+		int resX = matrices[0].rows();
+		int resY = matrices[0].cols();
+
+		for (int i = 1; i < matrices.size(); i++)
+		{
+			if (matrices[i].rows() != resX || matrices[i].cols() != resY)
+			{
+				checkMatchSize = false;
+				break;
+			}
+		}
+
+		if (!checkMatchSize)
+		{
+			throw std::invalid_argument(" error: matrix sizes are not equal.");
+			return;
+		}
+
+		bool alpha = ((matrices.size() == 4)) ? true : false;
+
+		unsigned width = resX, height = resY;
+
+		std::vector<unsigned char> image;
+		image.resize(width * height * 4);
+
+		for (unsigned x = 0; x < resX; ++x)
+		{
+			for (unsigned y = 0; y < resY; ++y)
+			{
+				image[4 * width * y + 4 * x + 0] = 0;
+				image[4 * width * y + 4 * x + 1] = 0;
+				image[4 * width * y + 4 * x + 2] = 0;
+				image[4 * width * y + 4 * x + 3] = 255;
+
+
+				if (matrices.size() >= 1) image[4 * width * y + 4 * x + 0] = matrices[0].coeff(x, y) * 255;
+
+				if (matrices.size() >= 2) image[4 * width * y + 4 * x + 1] = matrices[1].coeff(x, y) * 255;
+
+				if (matrices.size() >= 3) image[4 * width * y + 4 * x + 2] = matrices[2].coeff(x, y) * 255;
+
+				if (matrices.size() == 4) image[4 * width * y + 4 * x + 3] = matrices[3].coeff(x, y) * 255;
+
+			}
+		}
+
+		writePNG(path.c_str(), image, width, height);
+	}
+	
+	//---- PRIVATE IMAGE METHODS
+
+	ZSPACE_INLINE void zUtilsCore::writePNG(const char* filename, std::vector<unsigned char>& image, unsigned width, unsigned height)
+	{
+		std::vector<unsigned char> png;
+
+		unsigned error = lodepng::encode(png, image, width, height);
+		if (!error) lodepng::save_file(png, filename);
+
+		//if there's an error, display it
+		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+	}
 
 	//---- PRIVATE MATRIX  METHODS
 

@@ -31,6 +31,7 @@
 #include<headers/zCore/utilities/zUtilsBMP.h>
 
 #include <depends/tooJPEG/toojpeg.h>
+#include <depends/lodePNG/lodepng.h>
 
 #include <string.h>
 #include <vector>
@@ -898,6 +899,10 @@ namespace zSpace
 		*/
 		zColor blendColor(double inputValue, zDomainDouble inDomain, zDomainColor outDomain, zColorType type);
 
+		//--------------------------
+		//---- IMAGE  METHODS
+		//--------------------------
+
 		/*! \brief This method writes a BMP from the input matrix.
 		*
 		*	\param		[in]	mat				- input container of matrices.
@@ -905,7 +910,6 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void matrixBMP(vector<MatrixXd> &matrices, string path);
-
 
 		/*! \brief This method writes a JPEG from the input matrix.
 		*
@@ -915,11 +919,35 @@ namespace zSpace
 		*/
 		void matrixJPEG(vector<MatrixXd> &matrices, string path);
 
+		/*! \brief This method writes a PNG from the input matrix.
+		*
+		*	\param		[in]	mat				- input container of matrices.
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\since version 0.0.4
+		*/
+		void matrixPNG(vector<MatrixXd> &matrices, string path);
+	
+
+	private:
+
+		//--------------------------
+		//---- PRIVATE IMAGE  METHODS
+		//--------------------------
+
+		/*! \brief This method encodes from raw pixels to an in-memory PNG file first, then write it to disk to PNG format.
+		*
+		*	\details based on example in https://github.com/lvandeve/lodepng 
+		*	\param		[in]	filename		- input filename.
+		*	\param		[in]	image			- input image pixel data.
+		*	\param		[in]	width			- input image width.
+		*	\param		[in]	height			- input image height.
+		*	\since version 0.0.4
+		*/
+		void writePNG(const char* filename, std::vector<unsigned char>& image, unsigned width, unsigned height);
+
 		//--------------------------
 		//---- PRIVATE MATRIX  METHODS
 		//--------------------------
-
-	private:
 
 #ifndef USING_CLR
 
