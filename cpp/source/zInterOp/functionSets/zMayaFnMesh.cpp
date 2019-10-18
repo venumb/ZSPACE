@@ -180,7 +180,7 @@ namespace zSpace
 		
 	}
 
-	ZSPACE_INLINE void zMayaFnMesh::updateMayaOutmesh(MDataBlock & data, MObject & outMesh)
+	ZSPACE_INLINE void zMayaFnMesh::updateMayaOutmesh(MDataBlock & data, MObject & outMesh, bool updateVertexColor, bool updateFaceColor)
 	{
 		MStatus stat;
 
@@ -189,6 +189,43 @@ namespace zSpace
 		MFnMesh fn_operateMesh(o_outMesh, &stat);
 
 		toMayaMesh( o_outMesh);
+
+		if (updateVertexColor || updateFaceColor)
+		{
+			if (updateVertexColor)
+			{
+				zColor* vCols = getRawVertexColors();
+
+				MColorArray cols;
+				MIntArray vList;
+
+				for (int i = 0; i < numVertices(); i++)
+				{
+					cols.append(MColor(vCols[i].r, vCols[i].g, vCols[i].b));
+					vList.append(i);
+				}
+
+				fn_operateMesh.setVertexColors(cols, vList);				
+			}
+
+			if (updateFaceColor)
+			{
+				zColor* fCols = getRawFaceColors();
+
+				MColorArray cols;
+				MIntArray fList;
+
+				for (int i = 0; i < numPolygons(); i++)
+				{
+					cols.append(MColor(fCols[i].r, fCols[i].g, fCols[i].b));
+					fList.append(i);
+				}
+
+				fn_operateMesh.setFaceColors(cols, fList);
+			}
+
+			fn_operateMesh.updateSurface();
+		}
 
 		MDataHandle h_outMesh = data.outputValue(outMesh, &stat);
 		h_outMesh.set(o_outMesh);

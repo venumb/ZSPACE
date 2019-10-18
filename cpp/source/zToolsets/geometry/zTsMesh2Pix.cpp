@@ -38,12 +38,26 @@ namespace zSpace
 
 	//---- GENERATE DATA METHODS
 	
-	ZSPACE_INLINE void zTsMesh2Pix::printSupport2Pix(string directory, string filename, double angle_threshold, bool train, int numIters, bool perturbPositions, zVector perturbVal)
+	ZSPACE_INLINE void zTsMesh2Pix::generatePrintSupport2Pix(string directory, string filename, double angle_threshold, bool train, int numIters, bool perturbPositions, zVector perturbVal)
 	{
 		vector<MatrixXd> outMat_A;
 		vector<MatrixXd> outMat_B;
 
 		vector<MatrixXd> outMat;
+
+		// make folders
+		string trainDir = directory + "/train/";
+		string testDir = directory + "/test/";
+
+
+		int numTrainFiles = 0;
+		numTrainFiles = coreUtils.getNumfiles_Type(trainDir, zPNG);
+
+		int numTestFiles = 0;
+		numTestFiles = coreUtils.getNumfiles_Type(testDir, zPNG);
+
+		if (numTrainFiles == 0) _mkdir(trainDir.c_str());
+		if (numTestFiles == 0) _mkdir(testDir.c_str());
 
 		if (!perturbPositions)
 		{
@@ -86,7 +100,7 @@ namespace zSpace
 
 			getCombinedMatrix(outMat_B, outMat_A, outMat);
 			string path3 = (train) ? directory + "/train/" + filename + ".png" : directory + "/test/" + filename + ".png";
-			coreUtils.matrixPNG(outMat, path3);
+			coreUtils.matrixToPNG(outMat, path3);
 			
 		}
 
@@ -108,22 +122,7 @@ namespace zSpace
 				randNumberX.push_back(x);
 				randNumberY.push_back(y);
 				randNumberZ.push_back(z);
-			}
-
-
-			// make folders
-			string trainDir = directory + "/train/";
-			string testDir = directory + "/test/";
-			
-
-			int numTrainFiles = 0;
-			numTrainFiles = coreUtils.getNumfiles_Type(trainDir, zPNG);
-
-			int numTestFiles = 0;
-			numTestFiles = coreUtils.getNumfiles_Type(testDir, zPNG);
-
-			if (numTrainFiles == 0) _mkdir(trainDir.c_str());
-			if (numTestFiles == 0) _mkdir(testDir.c_str());
+			}			
 
 			for (int j = 0; j < numIters; j++)
 			{
@@ -148,7 +147,7 @@ namespace zSpace
 				int id = (train) ? numTrainFiles++ : numTestFiles++;					
 
 				string tmp_fileName = (train) ? filename + "_train_" + to_string(id) : filename + "_test_" + to_string(id);
-				printSupport2Pix(directory, tmp_fileName, angle_threshold, train);
+				generatePrintSupport2Pix(directory, tmp_fileName, angle_threshold, train);
 
 				// reset mesh positions				
 				fnMesh.setVertexPositions(originalPoints);
@@ -159,6 +158,92 @@ namespace zSpace
 
 	}
 	
+	ZSPACE_INLINE void zTsMesh2Pix::predictPrintSupport2Pix(string directory, string filename, bool genPix)
+	{
+		vector<MatrixXd> outMat;	
+
+		// generate prediction image
+		if (genPix)
+		{
+			string predictDir = directory + "/predict/";
+			int numPredictFiles = 0;
+			numPredictFiles = coreUtils.getNumfiles_Type(predictDir, zPNG);
+			if (numPredictFiles == 0) _mkdir(predictDir.c_str());
+
+			vector<MatrixXd> outMat_A;
+			vector<MatrixXd> outMat_B;
+
+			outMat_A.clear();
+
+			// get Matrix from vertex normals
+			zDomainDouble outDomain_A(0.05, 0.45);
+			getMatrixFromNormals(zVertexVertex, outDomain_A, outMat_A);
+
+			// get edge length data 
+			zDoubleArray heLength;
+			zIntPairArray hedgeVertexPair;
+			zDomainDouble outDomain(0.5, 0.9);
+
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
+			{
+				heLength.push_back(he.getLength());
+
+				zIntPair vertPair;
+				vertPair.first = he.getStartVertex().getId();
+				vertPair.second = he.getVertex().getId();
+
+				hedgeVertexPair.push_back(vertPair);
+			}
+
+			getMatrixFromContainer(zVertexVertex, fnMesh.numVertices(), heLength, hedgeVertexPair, outDomain, outMat_A);
+
+			// support matrix 
+			outMat_B.clear();
+
+			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
+
+			MatrixXd R(n_v, n_v);
+			MatrixXd G(n_v, n_v);
+			MatrixXd B(n_v, n_v);
+
+			R.setConstant(0.95);
+			G.setConstant(0.95);
+			B.setConstant(0.95);
+
+			outMat_B.push_back(R);
+			outMat_B.push_back(G);
+			outMat_B.push_back(B);
+
+
+			// combine matrix
+
+			getCombinedMatrix(outMat_B, outMat_A, outMat);
+			string path3 = directory + "/predict/" + filename + ".png";
+			coreUtils.matrixToPNG(outMat, path3);
+			
+		}
+
+		else
+		{
+			string predictFile = directory + filename + ".png";
+			coreUtils.matrixFromPNG(outMat, predictFile);
+
+			// color vertex color
+			zColor * vCols = fnMesh.getRawVertexColors();
+			
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				vCols[i].r = outMat[0](i, i);
+				vCols[i].g = outMat[1](i, i);
+				vCols[i].b = outMat[2](i, i);
+				vCols[i].a = outMat[3](i, i);
+			}
+		}
+
+		
+
+	}
+
 	//---- PRIVATE GET METHODS
 
 	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromNormals(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &normMat)

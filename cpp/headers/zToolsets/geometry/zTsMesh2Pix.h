@@ -113,8 +113,13 @@ namespace zSpace
 		*	\param		[in]	perturbPositions	- generates data by perturbing verrtice if true.
 		*	\since version 0.0.4
 		*/
-		void printSupport2Pix(string directory, string filename, double angle_threshold, bool train = true, int numIters = 0, bool perturbPositions = false, zVector perturbVal = zVector(1,1,1));
-			   
+		void generatePrintSupport2Pix(string directory, string filename, double angle_threshold, bool train = true, int numIters = 0, bool perturbPositions = false, zVector perturbVal = zVector(1,1,1));
+
+		//--------------------------
+		//---- PREDICT DATA METHODS
+		//--------------------------
+
+		void predictPrintSupport2Pix(string directory, string filename, bool genPix);
 
 	private:
 

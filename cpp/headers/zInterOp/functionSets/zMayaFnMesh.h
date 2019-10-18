@@ -123,7 +123,7 @@ namespace zSpace
 		*	\param	[out]		outMesh		- output maya object.
 		*	\since version 0.0.4			
 		*/
-		void updateMayaOutmesh(MDataBlock & data, MObject & outMesh);
+		void updateMayaOutmesh(MDataBlock & data, MObject & outMesh, bool updateVertexColor = false, bool updateFaceColor = false );
 
 		//--------------------------
 		//---- INTEROP METHODS

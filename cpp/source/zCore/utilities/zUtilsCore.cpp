@@ -1139,7 +1139,7 @@ namespace zSpace
 
 	//---- BMP MATRIX  METHODS
 
-	ZSPACE_INLINE void zUtilsCore::matrixBMP(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixToBMP(vector<MatrixXd> &matrices, string path)
 	{
 
 		bool checkMatchSize = true;
@@ -1204,7 +1204,7 @@ namespace zSpace
 		bmp.write(path.c_str());
 	}
 
-	ZSPACE_INLINE void zUtilsCore::matrixJPEG(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixToJPEG(vector<MatrixXd> &matrices, string path)
 	{
 
 		bool checkMatchSize = true;
@@ -1274,7 +1274,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zUtilsCore::matrixPNG(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixToPNG(vector<MatrixXd> &matrices, string path)
 	{
 
 		bool checkMatchSize = true;
@@ -1334,6 +1334,49 @@ namespace zSpace
 		writePNG(path.c_str(), image, width, height);
 	}
 	
+	ZSPACE_INLINE void zUtilsCore::matrixFromPNG(vector<MatrixXd> &matrices, string path)
+	{
+		unsigned width, height;
+		std::vector<unsigned char> image;
+
+		readPNG(path.c_str(), image, width, height);
+
+		int resX = width;
+		int resY = height; 
+
+		// create matrices 
+
+		MatrixXd R(resX, resY);
+		MatrixXd G(resX, resY);
+		MatrixXd B(resX, resY);
+		MatrixXd A(resX, resY);
+
+		for (int x = 0; x < resX; ++x)
+		{
+			for (int y = 0; y < resY; ++y)
+			{
+				R(x, y) = image[4 * width * y + 4 * x + 0];
+				R(x, y) = ofMap(R(x, y), 0.0, 255.0, 0.0, 1.0);
+
+				G(x, y) = image[4 * width * y + 4 * x + 1];
+				G(x, y) = ofMap(G(x, y), 0.0, 255.0, 0.0, 1.0);
+
+				B(x, y) = image[4 * width * y + 4 * x + 2];
+				B(x, y) = ofMap(B(x, y), 0.0, 255.0, 0.0, 1.0);
+
+				A(x, y) = image[4 * width * y + 4 * x + 3];
+				A(x, y) = ofMap(A(x, y), 0.0, 255.0, 0.0, 1.0);
+			}
+		}
+
+		matrices.push_back(R);
+		matrices.push_back(G);
+		matrices.push_back(B);
+		matrices.push_back(A);
+
+	}
+
+
 	//---- PRIVATE IMAGE METHODS
 
 	ZSPACE_INLINE void zUtilsCore::writePNG(const char* filename, std::vector<unsigned char>& image, unsigned width, unsigned height)
@@ -1345,6 +1388,20 @@ namespace zSpace
 
 		//if there's an error, display it
 		if (error) std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+	}
+
+	ZSPACE_INLINE void zUtilsCore::readPNG(const char* filename, std::vector<unsigned char>& image, unsigned& width, unsigned& height)
+	{
+		std::vector<unsigned char> png;
+		
+		//load and decode
+		unsigned error = lodepng::load_file(png, filename);
+		if (!error) error = lodepng::decode(image, width, height, png);
+
+		//if there's an error, display it
+		if (error) std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+
+		//the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA..., use it as texture, draw it, ..
 	}
 
 	//---- PRIVATE MATRIX  METHODS

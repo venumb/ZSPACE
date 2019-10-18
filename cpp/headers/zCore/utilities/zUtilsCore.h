@@ -909,7 +909,7 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixBMP(vector<MatrixXd> &matrices, string path);
+		void matrixToBMP(vector<MatrixXd> &matrices, string path);
 
 		/*! \brief This method writes a JPEG from the input matrix.
 		*
@@ -917,7 +917,7 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixJPEG(vector<MatrixXd> &matrices, string path);
+		void matrixToJPEG(vector<MatrixXd> &matrices, string path);
 
 		/*! \brief This method writes a PNG from the input matrix.
 		*
@@ -925,8 +925,15 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixPNG(vector<MatrixXd> &matrices, string path);
+		void matrixToPNG(vector<MatrixXd> &matrices, string path);
 	
+		/*! \brief This method read a PNG values to the output matrix.
+		*
+		*	\param		[out]	mat				- input container of matrices.
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\since version 0.0.4
+		*/
+		void matrixFromPNG(vector<MatrixXd> &matrices, string path);
 
 	private:
 
@@ -944,6 +951,8 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void writePNG(const char* filename, std::vector<unsigned char>& image, unsigned width, unsigned height);
+
+		void readPNG(const char* filename, std::vector<unsigned char>& image, unsigned& width, unsigned& height);
 
 		//--------------------------
 		//---- PRIVATE MATRIX  METHODS
