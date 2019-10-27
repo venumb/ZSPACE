@@ -21,7 +21,7 @@ namespace zSpace
 {
 	//--- USED for JPEG export methods to be defined outside of class.
 
-	std::ofstream jpegFile;
+	ZSPACE_EXTERN std::ofstream jpegFile;
 
 	// write a single byte compressed by tooJpeg
 	ZSPACE_INLINE 	void jpegWrite(unsigned char byte)

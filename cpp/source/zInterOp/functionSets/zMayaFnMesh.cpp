@@ -186,9 +186,10 @@ namespace zSpace
 
 		MFnMeshData dataCreator_mesh;
 		MObject o_outMesh = dataCreator_mesh.create(&stat);
-		MFnMesh fn_operateMesh(o_outMesh, &stat);
-
+		
 		toMayaMesh( o_outMesh);
+
+		MFnMesh fn_operateMesh(o_outMesh, &stat);
 
 		if (updateVertexColor || updateFaceColor)
 		{

@@ -18,7 +18,7 @@
 #include <headers/zInterface/functionsets/zFnMesh.h>
 
 #include<headers/zCore/utilities/zUtilsBMP.h>
-
+#include<headers/zToolsets/statics/zTsVault.h>
 
 namespace zSpace
 {
@@ -54,7 +54,9 @@ namespace zSpace
 
 		/*!	\brief pointer to form Object  */
 		zObjMesh *meshObj;
-				
+			
+		/*!	\brief pointer to form Object  */
+		zObjMesh *predictedObj;
 
 	public:
 		//--------------------------
@@ -63,6 +65,8 @@ namespace zSpace
 
 		/*!	\brief form function set  */
 		zFnMesh fnMesh;
+
+		zFnMesh fnPredictedMesh;
 
 		/*!	\brief maximum number of vertices for the data set  */
 		int maxVertices;
@@ -92,6 +96,8 @@ namespace zSpace
 		*/
 		zTsMesh2Pix(zObjMesh &_meshObj, int _maxVerts = -1 ,int _maxEdges = -1, int _maxFaces = -1);
 
+		zTsMesh2Pix(zObjMesh &_meshObj, zObjMesh &_predictedObj, int _maxVerts = -1, int _maxEdges = -1, int _maxFaces = -1);
+
 		//--------------------------
 		//---- DESTRUCTOR
 		//--------------------------
@@ -115,14 +121,23 @@ namespace zSpace
 		*/
 		void generatePrintSupport2Pix(string directory, string filename, double angle_threshold, bool train = true, int numIters = 0, bool perturbPositions = false, zVector perturbVal = zVector(1,1,1));
 
+		bool generateFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool train = true, int numIters = 0, bool perturbPositions = false, zDomainDouble maxDensityDomain = zDomainDouble(0.1, 1.0));
+
 		//--------------------------
 		//---- PREDICT DATA METHODS
 		//--------------------------
 
 		void predictPrintSupport2Pix(string directory, string filename, bool genPix);
 
-	private:
+		void predictFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool genPix);
 
+		//--------------------------
+		//---- UTILITY METHODS
+		//--------------------------
+
+		void scaleToBounds(double maxSide);
+
+	private:		
 
 		//--------------------------
 		//---- PRIVATE GET METHODS
@@ -130,11 +145,19 @@ namespace zSpace
 
 		/*! \brief This method gets a container of matrices from the normals of a mesh.
 		*
-		*	\param		[in]	type			- input  zConnectivityType, Works with zVertexData and zFaceData.
+		*	\param		[in]	type			- input  zConnectivityType
 		*	\param		[out]	normMat			- output container of matrices.
 		*	\since version 0.0.4
 		*/
 		void getMatrixFromNormals(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &normMat);
+
+		/*! \brief This method gets a container of matrices from the positions of a mesh.
+		*
+		*	\param		[in]	type			- input  zConnectivityType, 
+		*	\param		[out]	normMat			- output container of matrices.
+		*	\since version 0.0.4
+		*/
+		void getMatrixFromPositions(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &posMat);
 
 		/*! \brief This method gets a container of matrices from the normals of a mesh.
 		*
