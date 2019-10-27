@@ -173,7 +173,7 @@ namespace zSpace
 		else throw std::invalid_argument(" invalid file type.");
 	}
 
-	ZSPACE_INLINE void zTsRobot::createRobotJointMeshesfromFile(string directory, zFileTpye type)
+	ZSPACE_INLINE void zTsRobot::createRobotJointMeshesfromFile(string directory, zFileTpye type, bool endeffector)
 	{
 		fnMeshJoints.clear();
 
@@ -185,8 +185,6 @@ namespace zSpace
 				string path = directory;
 				path.append("/r_base.json");
 				fnMeshJoints[0].from(path, type, true);
-
-
 			}
 
 			// import joints
@@ -197,16 +195,14 @@ namespace zSpace
 				path.append(to_string(i));
 				path.append(".json");
 				fnMeshJoints[i].from(path, type, true);
-
 			}
 
-			// import EE
-			for (int i = 0; i < 1; i++)
+			if (endeffector)
 			{
+				// import EE
 				string path = directory;
 				path.append("/r_EE.json");
-				fnMeshJoints[7].from(path, type, false);
-
+				fnMeshJoints[7].from(path, type, false);			
 			}
 
 			setJointMeshColor(zVector(0, 0, 1));
@@ -221,8 +217,6 @@ namespace zSpace
 				string path = directory;
 				path.append("/r_base.obj");
 				fnMeshJoints[0].from(path, type, true);
-
-
 			}
 
 			// import joints
@@ -233,25 +227,44 @@ namespace zSpace
 				path.append(to_string(i));
 				path.append(".obj");
 				fnMeshJoints[i].from(path, type, true);
-
 			}
 
-			//// import EE
-			for (int i = 0; i < 1; i++)
+			if (endeffector)
 			{
+				//// import EE
 				string path = directory;
 				path.append("/r_EE.obj");
-				fnMeshJoints[7].from(path, type);
-
+				fnMeshJoints[7].from(path, type);				
 			}
 
-			setJointMeshColor(zVector(0, 0, -1));
+			setJointMeshColor(zVector(0, 0, 1));
 
 		}
 
 		else throw std::invalid_argument(" error: invalid zFileTpye type");
 
 
+	}
+
+	ZSPACE_INLINE void zTsRobot::createEndEffectorMeshfromFile(string directory, zFileTpye type)
+	{
+		if (type == zJSON)
+		{
+			string path = directory;
+			path.append("/r_EE.json");
+			fnMeshJoints[7].from(path, type, false);
+					
+			setJointMeshColor(zVector(0, 0, 1));
+		}
+
+		if (type == zOBJ)
+		{
+			string path = directory;
+			path.append("/r_EE.obj");
+			fnMeshJoints[7].from(path, type, false);
+		
+			setJointMeshColor(zVector(0, 0, 1));
+		}
 	}
 
 	ZSPACE_INLINE void zTsRobot::createTargetsfromFile(string infilename, zFileTpye type)
@@ -296,8 +309,8 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsRobot::setEndEffector(zTransform &EE)
 	{
-		zTransform temp = coreUtils.toLocalMatrix(EE);
-		robot_endEffector_matrix = temp.transpose();
+		//zTransform temp = coreUtils.toLocalMatrix(EE);
+		robot_endEffector_matrix = EE.transpose();
 	}
 
 	//----KINMATICS METHODS
@@ -484,19 +497,19 @@ namespace zSpace
 
 		for (int i = 0; i < DOF; i++)
 		{
-			//if (robot_gCode.size() > 0 && i == 3)
-			//{
-			//	int numGPoints = robot_gCode.size() - 1;
-			//	bool prevRot = (robot_gCode[numGPoints].rotations[i].rotation >= 0) ? true : false;
+			if (robot_gCode.size() > 0 && i == 3)
+			{
+				int numGPoints = robot_gCode.size() - 1;
+				bool prevRot = (robot_gCode[numGPoints].rotations[i].rotation >= 0) ? true : false;
 
-			//	bool currentRot = (jointRotations[i].rotation >= 0) ? true : false;
+				bool currentRot = (jointRotations[i].rotation >= 0) ? true : false;
 
-			//	if (prevRot != currentRot)
-			//	{
-			//		if (prevRot) jointRotations[i].rotation += 360;
-			//		else jointRotations[i].rotation -= 360;
-			//	}
-			//}
+				if (prevRot != currentRot)
+				{
+					if (prevRot) jointRotations[i].rotation += 360;
+					else jointRotations[i].rotation -= 360;
+				}
+			}
 
 			inGCode.rotations.push_back(jointRotations[i]);
 
@@ -843,10 +856,8 @@ namespace zSpace
 		//	if (!robot_gCode[i].targetReached)
 		//	{
 		//		cout << " some or all points out of range" << endl;
-
 		//		cout << "--------------------------- EXPORT GCODE ----------------- " << endl;
 		//		cout << "Ensure you have inspected robot reach at all points previously " << endl;
-		//		cout << "un-reachable points revert to previous reach-able points" << endl;
 
 		//		return;
 		//	}
