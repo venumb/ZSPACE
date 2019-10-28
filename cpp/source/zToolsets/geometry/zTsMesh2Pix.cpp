@@ -32,6 +32,20 @@ namespace zSpace
 
 	}
 
+	ZSPACE_INLINE zTsMesh2Pix::zTsMesh2Pix(zObjMesh &_meshObj, zObjMesh &_predictedObj, int _maxVerts, int _maxEdges, int _maxFaces)
+	{
+		meshObj = &_meshObj;
+		fnMesh = zFnMesh(_meshObj);
+
+		predictedObj = &_predictedObj;
+		fnPredictedMesh = zFnMesh(_predictedObj);
+
+		maxVertices = _maxVerts;
+		maxEdges = _maxEdges;
+		maxFaces = _maxFaces;
+
+	}
+
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zTsMesh2Pix::~zTsMesh2Pix() {}
@@ -158,6 +172,190 @@ namespace zSpace
 
 	}
 	
+	ZSPACE_INLINE bool zTsMesh2Pix::generateFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool train, int numIters, bool perturbPositions, zDomainDouble maxDensityDomain)
+	{
+		bool out = true;
+
+		vector<MatrixXd> outMat_A;
+		vector<MatrixXd> outMat_B;
+
+		vector<MatrixXd> outMat;
+
+		// make folders
+		string trainDir = directory + "/train/";
+		string testDir = directory + "/test/";
+
+
+		int numTrainFiles = 0;
+		//numTrainFiles = coreUtils.getNumfiles_Type(trainDir, zPNG);
+
+		int numTestFiles = 0;
+		//numTestFiles = coreUtils.getNumfiles_Type(testDir, zPNG);
+
+		if (numTrainFiles == 0) _mkdir(trainDir.c_str());
+		if (numTestFiles == 0) _mkdir(testDir.c_str());
+
+		printf("\n %s ", filename.c_str());
+
+		if (!perturbPositions)
+		{
+			// get Matrix from vertex positions
+			zDomainDouble outDomain_A(0.05, 0.45);
+			getMatrixFromPositions(zVertexVertex, outDomain_A, outMat_A);
+
+			// get edge length data
+			zDoubleArray heDensities;
+			zIntPairArray hedgeVertexPair;
+			zDomainDouble outDomain_A1(0.5, 0.9);
+
+			zBoolArray supports;
+			supports.assign(fnMesh.numVertices(), false);
+
+			for (auto vId : fixedConstrained) supports[vId] = true;
+
+			zDomainDouble outDensityDomain(0.0, 1.0);
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
+			{
+				zIntPair vertPair;
+				vertPair.first = he.getStartVertex().getId();
+				vertPair.second = he.getVertex().getId();
+
+				hedgeVertexPair.push_back(vertPair);
+
+				if (supports[he.getVertex().getId()] && supports[he.getStartVertex().getId()]) heDensities.push_back(-1);
+				else
+				{
+					zDomainDouble densDomain(0.1, 20.0);
+					double val = coreUtils.ofMap(forceDensities[he.getEdge().getId()], densDomain, outDensityDomain);
+									
+					heDensities.push_back(val);
+				}
+			}
+
+			getMatrixFromContainer(zVertexVertex, fnMesh.numVertices(), heDensities, hedgeVertexPair, outDomain_A1, outMat_A);
+
+			
+			// FDM matrix 
+			outMat_B.clear();
+
+			zTsMeshVault myVault(*meshObj);
+
+			myVault.setConstraints(zResultDiagram, fixedConstrained);
+			myVault.setForceDensities(forceDensities);
+			myVault.setVertexMass(0.1);
+
+
+			myVault.forceDensityMethod();
+
+			// check bounds
+			zVector minBB, maxBB;
+			fnMesh.getBounds(minBB, maxBB);
+
+			zVector dims = coreUtils.getDimsFromBounds(minBB, maxBB);
+			out = (dims.x <= 2.0 && dims.y <= 2.0 && dims.z <= 2.0);
+			if (!out)
+			{
+				printf("\n out of bounds ");
+				return out;
+			}
+
+			zDomainDouble outDomain_B(0.05, 0.45);
+			getMatrixFromPositions(zVertexVertex, outDomain_B, outMat_B);
+
+			zDoubleArray dummyData;
+			zIntPairArray dummyPair;
+			zDomainDouble outDomain_B1(0.5, 0.9);
+
+			getMatrixFromContainer(zVertexVertex, fnMesh.numVertices(), dummyData, dummyPair, outDomain_B1, outMat_B);
+
+			// combine matrix
+			getCombinedMatrix(outMat_B, outMat_A, outMat);
+			string path_img = (train) ? directory + "/train/" + filename + ".png" : directory + "/test/" + filename + ".png";
+			coreUtils.matrixToPNG(outMat, path_img);
+
+			string path_obj = (train) ? directory + "/train/" + filename + ".obj" : directory + "/test/" + filename + ".obj";
+			fnMesh.to(path_obj, zOBJ);
+			
+		}
+		else
+		{
+			// to generate different random number every time the program runs
+			/*srand(time(NULL));
+
+			vector<double> randNumber;
+	
+			for (int i = 0; i < numIters * fnMesh.numVertices(); i++)
+			{
+				double x = coreUtils.randomNumber_double(perturbVal.min, perturbVal.max);
+						randNumber.push_back(x);
+			
+			}*/
+
+			double minIncrements = (maxDensityDomain.min - densityDomain.min) / (numIters - 1);
+			double maxIncrements = (maxDensityDomain.max - densityDomain.max) / (numIters - 1);
+
+			for (int j = 0; j < numIters; j++)
+			{
+				zPointArray originalPoints;
+				fnMesh.getVertexPositions(originalPoints);
+
+
+				//// translate vertices
+				//zPoint* vertPos = fnMesh.getRawVertexPositions();
+				//zVector* vertNorm = fnMesh.getRawVertexNormals();
+
+				//for (int i = 0; i < fixedConstrained.size(); i++)
+				//{
+				//	int id = j * fnMesh.numVertices() + fixedConstrained[i];
+				//	vertPos[fixedConstrained[i]] += vertNorm[fixedConstrained[i]] * randNumber[id];
+				//}
+
+				//fnMesh.computeMeshNormals();
+
+
+				// compute density domain and forcedensities
+				zDomainDouble tempDomain;
+
+				tempDomain.min = densityDomain.min + j * minIncrements;
+				tempDomain.max = densityDomain.max + j * maxIncrements;			
+				zDoubleArray densities;
+
+				for (auto fd : forceDensities)
+				{
+					double tmpFD = coreUtils.ofMap(fd, densityDomain, tempDomain);
+					densities.push_back(tmpFD);
+				}
+
+				// export
+
+				bool train = ((j + 1) > floor((float)numIters* 0.8)) ? false : true;
+				int id = (train) ? numTrainFiles++ : numTestFiles++;
+
+				string tmp_fileName = (train) ? filename + "_train_" + to_string(id) : filename + "_test_" + to_string(id);
+				bool chk = generateFDM2Pix(directory, tmp_fileName,fixedConstrained, densities, tempDomain,train);
+
+				if (!chk)
+				{
+					if (train && numTrainFiles!= 0)numTrainFiles--;
+					if (train && numTestFiles != 0)numTestFiles--;
+				}
+
+				// reset mesh positions				
+				fnMesh.setVertexPositions(originalPoints);
+
+			}
+			
+		}
+
+
+		return out;
+		
+
+	}
+
+
+	//---- PREDICT DATA METHODS
+
 	ZSPACE_INLINE void zTsMesh2Pix::predictPrintSupport2Pix(string directory, string filename, bool genPix)
 	{
 		vector<MatrixXd> outMat;	
@@ -225,7 +423,7 @@ namespace zSpace
 
 		else
 		{
-			string predictFile = directory + filename + ".png";
+			string predictFile = directory + "/" + filename + ".png";
 			coreUtils.matrixFromPNG(outMat, predictFile);
 
 			// color vertex color
@@ -241,6 +439,142 @@ namespace zSpace
 		}
 
 		
+
+	}
+
+	ZSPACE_INLINE void zTsMesh2Pix::predictFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool genPix)
+	{
+		vector<MatrixXd> outMat;
+
+		// generate prediction image
+		if (genPix)
+		{
+			string predictDir = directory + "/predict/";
+			int numPredictFiles = 0;
+			numPredictFiles = coreUtils.getNumfiles_Type(predictDir, zPNG);
+			if (numPredictFiles == 0) _mkdir(predictDir.c_str());
+
+			vector<MatrixXd> outMat_A;
+			vector<MatrixXd> outMat_B;
+
+			outMat_A.clear();
+
+			// get Matrix from vertex positions
+			zDomainDouble outDomain_A(0.05, 0.45);
+			getMatrixFromPositions(zVertexVertex, outDomain_A, outMat_A);
+
+			// get edge length data
+			zDoubleArray heDensities;
+			zIntPairArray hedgeVertexPair;
+			zDomainDouble outDomain_A1(0.5, 0.9);
+
+			zBoolArray supports;
+			supports.assign(fnMesh.numVertices(), false);
+
+			for (auto vId : fixedConstrained) supports[vId] = true;
+
+			zDomainDouble outDensityDomain(0.0, 1.0);
+			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
+			{
+				zIntPair vertPair;
+				vertPair.first = he.getStartVertex().getId();
+				vertPair.second = he.getVertex().getId();
+
+				hedgeVertexPair.push_back(vertPair);
+
+				if (supports[he.getVertex().getId()] && supports[he.getStartVertex().getId()]) heDensities.push_back(-1);
+				else
+				{
+					zDomainDouble densDomain(0.1, 20.0);
+					double val = coreUtils.ofMap(forceDensities[he.getEdge().getId()], densDomain, outDensityDomain);
+
+					heDensities.push_back(val);
+				}
+			}
+
+			getMatrixFromContainer(zVertexVertex, fnMesh.numVertices(), heDensities, hedgeVertexPair, outDomain_A1, outMat_A);
+
+			// FDM matrix 
+			zTsMeshVault myVault(*meshObj);
+
+			myVault.setConstraints(zResultDiagram, fixedConstrained);
+			myVault.setForceDensities(forceDensities);
+			myVault.setVertexMass(0.1);
+			myVault.forceDensityMethod();
+
+
+			// empty matrix 
+			outMat_B.clear();
+
+			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
+
+			MatrixXd R(n_v, n_v);
+			MatrixXd G(n_v, n_v);
+			MatrixXd B(n_v, n_v);
+
+			R.setConstant(0.95);
+			G.setConstant(0.95);
+			B.setConstant(0.95);
+
+			outMat_B.push_back(R);
+			outMat_B.push_back(G);
+			outMat_B.push_back(B);
+
+
+			// combine matrix
+
+			getCombinedMatrix(outMat_B, outMat_A, outMat);
+			string path3 = directory + "/predict/" + filename + ".png";
+			coreUtils.matrixToPNG(outMat, path3);
+
+		}
+
+		else
+		{
+			string predictFile = directory + "/" + filename + ".png";
+			coreUtils.matrixFromPNG(outMat, predictFile);
+
+			// color vertex color
+			zPoint * vPositions = fnPredictedMesh.getRawVertexPositions();
+
+			zDomainDouble outDomain(0.05, 0.45);
+			zDomainDouble inDomain(-1.0, 1.0);
+
+			for (int i = 0; i < fnMesh.numVertices(); i++)
+			{
+				vPositions[i].x = coreUtils.ofMap(outMat[0](i, i), outDomain, inDomain);
+				vPositions[i].y = coreUtils.ofMap(outMat[1](i, i), outDomain, inDomain);
+				vPositions[i].z = coreUtils.ofMap(outMat[2](i, i), outDomain, inDomain);
+			}
+
+			zDoubleArray deviations;
+
+			
+		}
+
+	}
+
+	//---- UTILITY METHODS
+
+	ZSPACE_INLINE void zTsMesh2Pix::scaleToBounds(double maxSide)
+	{
+		zVector minBB, maxBB;
+		fnMesh.getBounds(minBB, maxBB);
+
+		zVector dims = coreUtils.getDimsFromBounds(minBB, maxBB);
+
+		double dimMax = (dims.x > dims.y) ? dims.x : dims.y;
+		dimMax = (dimMax > dims.z) ? dimMax : dims.z;
+
+		double scaleFac = maxSide / dimMax;		
+
+		fnMesh.setPivot(minBB);
+		zDouble3 scale = { scaleFac ,scaleFac ,scaleFac };
+		fnMesh.setScale(scale);
+
+		zVector trans = zVector(-1, -1, -1) - minBB;
+		fnMesh.setTranslation(trans);
+				
 
 	}
 
@@ -261,6 +595,55 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 	
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromPositions(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &posMat)
+	{
+		if (type == zVertexVertex)
+		{
+
+			// get vertex positions diagonal matrix
+			zVectorArray positions;
+			fnMesh.getVertexPositions(positions);		
+
+			// get bounds
+			zVector minBB, maxBB;
+			fnMesh.getBounds(minBB, maxBB);
+
+			//zDomainDouble inDomain(minBB.x, maxBB.x);
+
+			//zVector temp = (maxBB + minBB) * 0.5;;
+			zVector tempDir = zVector(-1,-1,-1) - minBB;
+
+			/*if (minBB.y < inDomain.min) inDomain.min = minBB.y;
+			if (minBB.z < inDomain.min) inDomain.min = minBB.z;
+
+			if (maxBB.y > inDomain.max) inDomain.max = maxBB.y;
+			if (maxBB.z > inDomain.max) inDomain.max = maxBB.z;
+
+			printf("\n minBB %1.2f %1.2f %1.2f ", minBB.x, minBB.y, minBB.z);
+			printf("\n maxBB %1.2f %1.2f %1.2f ", maxBB.x, maxBB.y, maxBB.z);
+			printf("\n domain %1.2f %1.2f ", inDomain.min, inDomain.max);
+
+			zDomainDouble mapDomain(-1.0, 1.0);*/
+			for (auto &pos : positions)
+			{
+				pos += tempDir;
+
+				
+
+				/*pos.x = coreUtils.ofMap(pos.x, inDomain, mapDomain);
+				pos.y = coreUtils.ofMap(pos.y, inDomain, mapDomain);
+				pos.z = coreUtils.ofMap(pos.z, inDomain, mapDomain);*/
+			}
+
+			//printf("\n %0: %1.2f %1.2f %1.2f ", positions[0].x, positions[0].y, positions[0].z);
+
+			getMatrixFromContainer(type, positions, outDomain, posMat);
+
+		}
+
+		else throw std::invalid_argument(" error: invalid zConnectivityType");
+	}
+
 	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
 	{
 		if (type == zVertexVertex)
@@ -385,12 +768,7 @@ namespace zSpace
 			}
 				
 
-			zDomainDouble inDomain;
-
-			inDomain.min = coreUtils.zMin(data);
-			inDomain.max = coreUtils.zMax(data);
-
-			if (inDomain.min == inDomain.max) inDomain.min = 0.0;
+			
 
 			for (int i = 0; i < numVerts; i++)
 			{
@@ -404,6 +782,15 @@ namespace zSpace
 					}
 				}
 			}
+
+			if (data.size() == 0) return;
+
+			zDomainDouble inDomain ( -1.0, 1.0);
+
+			/*inDomain.min = coreUtils.zMin(data);
+			inDomain.max = coreUtils.zMax(data);
+
+			if (inDomain.min == inDomain.max) inDomain.min = 0.0;*/
 
 			for (int k = 0; k < dataPair.size(); k++)
 			{
