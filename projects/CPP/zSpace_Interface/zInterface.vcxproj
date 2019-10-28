@@ -207,8 +207,6 @@
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjPointCloud.h" />
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjPointField.h" />
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjSpatialBin.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zInterface\unreal\zObjColumn.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zInterface\unreal\zObjSlab.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zInterface\functionsets\zFn.cpp" />
@@ -236,8 +234,6 @@
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjPointCloud.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjPointField.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjSpatialBin.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zInterface\unreal\zObjColumn.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zInterface\unreal\zObjSlab.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
