@@ -20,7 +20,7 @@ namespace zSpace
 
 	ZSPACE_INLINE zFnMesh::zFnMesh()
 	{
-		fnType = zFnType::zMeshFn;
+		fnType = zFnType::zMeshFn; 
 		meshObj = nullptr;
 	}
 
@@ -65,7 +65,7 @@ namespace zSpace
 		if (type == zOBJ) toOBJ(path);
 		else if (type == zJSON) toJSON(path);
 
-		else throw std::invalid_argument(" error: invalid zFileTpye type");
+		else throw std::invalid_argument(" error: invalid zFileType type");
 	}
 
 	ZSPACE_INLINE void zFnMesh::getBounds(zPoint &minBB, zPoint &maxBB)
@@ -596,6 +596,18 @@ namespace zSpace
 
 
 					}
+
+
+					//  https://stackoverflow.com/questions/27326636/calculate-normal-vector-of-a-polygon-newells-method
+					/*for (int j = 0; j < fVerts.size(); j++) 
+					{
+						int k = (j + 1) % (fVerts.size());
+						fNorm.x += (points[j].y - points[k].y) * (points[j].z + points[k].z);
+						fNorm.y += (points[j].z - points[k].z) * (points[j].x + points[k].x);
+						fNorm.z += (points[j].x - points[k].x) * (points[j].y + points[k].y);						
+					}*/
+					
+
 
 				}
 				else
@@ -3176,11 +3188,11 @@ namespace zSpace
 		}
 
 		// vertex nornmals
-		for (auto &vNorm : meshObj->mesh.vertexNormals)
+		/*for (auto &vNorm : meshObj->mesh.vertexNormals)
 		{
 			myfile << "\n vn " << vNorm.x << " " << vNorm.y << " " << vNorm.z;
 
-		}
+		}*/
 
 		myfile << "\n";
 

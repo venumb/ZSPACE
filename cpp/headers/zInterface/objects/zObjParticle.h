@@ -94,7 +94,9 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 
+#ifndef ZSPACE_UNREAL_INTEROP
 		void draw() override;
+#endif
 
 		//--------------------------
 		//---- DISPLAY METHODS

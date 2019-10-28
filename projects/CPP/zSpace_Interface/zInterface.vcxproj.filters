@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Objects">
       <UniqueIdentifier>{e9d04875-39e3-45e8-b03c-cd2f82cbc2d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects">
-      <UniqueIdentifier>{fa8e67d1-db4a-43dd-97f7-0b9b298903f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Iterators">
       <UniqueIdentifier>{06a49545-23b9-4f29-a8b2-669d92767516}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,15 @@
     </Filter>
     <Filter Include="Source Files\Model">
       <UniqueIdentifier>{ce03a49f-cefc-4995-a883-feeab9cd9da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Unreal">
+      <UniqueIdentifier>{99506d44-8262-4bd5-9271-8621da305c34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Unreal">
+      <UniqueIdentifier>{55e67ac8-698f-4d39-929f-85e86ae1e508}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{fa8e67d1-db4a-43dd-97f7-0b9b298903f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +120,12 @@
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjSpatialBin.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterface\unreal\zObjColumn.h">
+      <Filter>Header Files\Unreal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterface\unreal\zObjSlab.h">
+      <Filter>Header Files\Unreal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zInterface\functionsets\zFn.cpp">
@@ -190,6 +202,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjSpatialBin.cpp">
       <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterface\unreal\zObjColumn.cpp">
+      <Filter>Source Files\Unreal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterface\unreal\zObjSlab.cpp">
+      <Filter>Source Files\Unreal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,6 +13,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Unreal|x64">
+      <Configuration>Release_Unreal</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -33,6 +37,14 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseIntelMKL>Parallel</UseIntelMKL>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unreal|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -67,6 +79,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unreal|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -77,6 +92,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>$(TargetExt)</TargetExt>
     <OutDir>$(SolutionDir)cpp\compiled\lib</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unreal|x64'">
+    <TargetExt>$(TargetExt)</TargetExt>
+    <OutDir>$(SolutionDir)cpp\compiled\UnrealLib</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <TargetExt>$(TargetExt)</TargetExt>
@@ -96,6 +115,22 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY;USING_ARMA; %(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unreal|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY;ZSPACE_UNREAL_INTEROP; %(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -172,6 +207,8 @@
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjPointCloud.h" />
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjPointField.h" />
     <ClInclude Include="..\..\..\cpp\headers\zInterface\objects\zObjSpatialBin.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zInterface\unreal\zObjColumn.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zInterface\unreal\zObjSlab.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zInterface\functionsets\zFn.cpp" />
@@ -199,6 +236,8 @@
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjPointCloud.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjPointField.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zInterface\objects\zObjSpatialBin.cpp" />
+    <ClCompile Include="..\..\..\cpp\source\zInterface\unreal\zObjColumn.cpp" />
+    <ClCompile Include="..\..\..\cpp\source\zInterface\unreal\zObjSlab.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
