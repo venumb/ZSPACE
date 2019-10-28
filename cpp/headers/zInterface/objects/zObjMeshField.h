@@ -80,7 +80,9 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 
+#ifndef ZSPACE_UNREAL_INTEROP
 		void draw() override;
+#endif
 			
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 

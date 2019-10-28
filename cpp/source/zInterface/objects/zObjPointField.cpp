@@ -21,7 +21,9 @@ namespace zSpace
 	template<typename T>
 	ZSPACE_INLINE zObjPointField<T>::zObjPointField()
 	{
+#ifndef ZSPACE_UNREAL_INTEROP
 		displayUtils = nullptr;
+#endif
 
 		showVertices = false;
 	}
@@ -33,13 +35,14 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
-
+#ifndef ZSPACE_UNREAL_INTEROP
 	template<typename T>
 	ZSPACE_INLINE void zObjPointField<T>::draw()
 	{
 		zObjPointCloud::draw();
 	}
 
+#endif
 
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
