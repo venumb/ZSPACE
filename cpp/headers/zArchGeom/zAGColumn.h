@@ -63,10 +63,22 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief core utilities Object  */
-		zUtilsCore coreUtils;
-
 	public:
+		//--------------------------
+		//---- PUBLIC ATTRIBUTES
+		//--------------------------
+		float nodeHeight = 100;
+		float nodeDepth = 80;
+		float beamA_Height = 50;
+		float beamB_Height = 30;
+
+		zVector a, b, c;
+
+		zVector position, x, y, z;
+
+		vector<zVector> pointArray;
+		vector<int> polyCount;
+		vector<int> polyConnect;
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
@@ -77,6 +89,36 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
 
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
+		/*! \brief Default constructor.
+		*
+		*	\since version 0.0.2
+		*/
+		zAgColumn();
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
+		*
+		*	\since version 0.0.2
+		*/
+		~zAgColumn();
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+		/*! \brief This method sets show vertices, edges and face booleans.
+		*
+		*	\param		[in]	_showForces					- input show forces booelan.
+		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\since version 0.0.2
+		*/
+		void CreateRHWC_Column_A(zVector &x_, zVector &y_, zVector &z_, float height_);
 
 	};
 
