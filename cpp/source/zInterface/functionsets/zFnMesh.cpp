@@ -2938,11 +2938,10 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE zObjMesh zFnMesh::extrudeMesh(float extrudeThickness, bool thicknessTris)
+	ZSPACE_INLINE void zFnMesh::extrudeMesh(float extrudeThickness,zObjMesh &out, bool thicknessTris)
 	{
 		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
-
-		zObjMesh out;
+		
 
 		vector<zVector> positions;
 		vector<int> polyCounts;
@@ -3017,9 +3016,11 @@ namespace zSpace
 			}
 		}
 
-		out.mesh.create(positions, polyCounts, polyConnects);
+		zFnMesh tempFn(out);
 
-		return out;
+		tempFn.clear();
+		tempFn.create(positions, polyCounts, polyConnects);		
+		
 	}
 
 	//---- TRANSFORM METHODS OVERRIDES

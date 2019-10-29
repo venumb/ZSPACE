@@ -10,8 +10,8 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_COLUMN_H
-#define ZSPACE_AG_COLUMN_H
+#ifndef ZSPACE_HC_STRUCTURE_H
+#define ZSPACE_HC_STRUCTURE_H
 
 #pragma once
 
@@ -21,6 +21,10 @@
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
+#include <headers/zHousing/base/zHcEnumerators.h>
+#include <headers/zArchGeom/zAgTypedef.h>
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -29,34 +33,16 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zToolsets
-	*	\brief Collection of toolsets for applications.
-	*  @{
-	*/
 
-	/** \addtogroup zTsStatics
-	*	\brief tool sets for graphic statics.
-	*  @{
-	*/
-
-	/** \addtogroup z3DGS
-	*	\brief tool sets for 3D graphic statics.
-	*  @{
-	*/
-
-	/*! \class zTsPolytopal
-	*	\brief A toolset for 3D graphics and poytopal meshes.
-	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf) and Freeform Developable Spatial Structures (https://www.ingentaconnect.com/content/iass/piass/2016/00002016/00000003/art00010 )
-	*	\since version 0.0.2
+	/*! \class zHcStructure
+	*	\brief A toolset for deploying structural elements on housing units
+	*	\since version 0.0.4
 	*/
 
 	/** @}*/
 
-	/** @}*/
 
-	/** @}*/
-
-	class ZSPACE_AG zAgColumn
+	class ZSPACE_AG zHcStructure
 	{
 	protected:
 		//--------------------------
@@ -67,27 +53,31 @@ namespace zSpace
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
-		float nodeHeight = 100;
-		float nodeDepth = 80;
-		float beamA_Height = 50;
-		float beamB_Height = 30;
-
-		zVector a, b, c;
-
-		zVector position, x, y, z;
-
-		vector<zVector> pointArray;
-		vector<int> polyCount;
-		vector<int> polyConnect;
-		//--------------------------
-		//---- PUBLIC ATTRIBUTES
-		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
+		zObjMesh* inMeshObj;
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
+
+		/*!	\brief column array per cell set  */
+		zColumnArray columnArray;
+
+		/*!	\brief slabs array per cell set  */
+		zSlabArray slabArray;
+
+		/*!	\brief store edge attributes: primary (true) secondary (false)  */
+		zBoolArray edgeAttributes;
+
+		/*!	\brief structure height float default: 300cm */
+		float height = 3;
+
+
+		/*!	\brief pointer to output mesh Object  */
+		zObjMesh outMeshObj;
+
+		/*!	\brief output mesh function set  */
+		zFnMesh fnOutMesh;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -96,7 +86,13 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zAgColumn();
+		zHcStructure();
+
+			/*! \brief Overloaded constructor.
+		*
+		*	\since version 0.0.4
+		*/
+		zHcStructure(zObjMesh &_inMeshObj, zPointArray &faceVertexPositions);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -106,29 +102,28 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zAgColumn();
+		~zHcStructure();
 
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
+		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*
-		*	\param		[in]	_showForces					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\param		[in]	_vertexpositions_					- ordered set of vertices up and down.
 		*	\since version 0.0.4
 		*/
-		void CreateColumn(zVector &x_, zVector &y_, zVector &z_, float height_);
+		void CreateSpatialCell(zPointArray &vertexPositions_);
 
 	};
 
-
+	
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgColumn.cpp>
+#include<source/zHousing/architecture/zHcStructure.cpp>
 #endif
 
 #endif

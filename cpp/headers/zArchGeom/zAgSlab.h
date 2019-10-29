@@ -10,8 +10,8 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_COLUMN_H
-#define ZSPACE_AG_COLUMN_H
+#ifndef ZSPACE_AG_SLAB_H
+#define ZSPACE_AG_SLAB_H
 
 #pragma once
 
@@ -20,6 +20,7 @@
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
+#include "zAgColumn.h";
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -56,7 +57,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class ZSPACE_AG zAgColumn
+	class ZSPACE_AG zAgSlab
 	{
 	protected:
 		//--------------------------
@@ -67,21 +68,12 @@ namespace zSpace
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
-		float nodeHeight = 100;
-		float nodeDepth = 80;
-		float beamA_Height = 50;
-		float beamB_Height = 30;
 
-		zVector a, b, c;
+		/*!	\brief attribute to position of the Object in World Space */
+		zVector position;
 
-		zVector position, x, y, z;
-
-		vector<zVector> pointArray;
-		vector<int> polyCount;
-		vector<int> polyConnect;
-		//--------------------------
-		//---- PUBLIC ATTRIBUTES
-		//--------------------------
+		/*!	\brief pointer to the column this object is parented to */
+		zAgColumn* parentColumn;
 
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh *inMeshObj;
@@ -94,9 +86,9 @@ namespace zSpace
 		//--------------------------
 		/*! \brief Default constructor.
 		*
-		*	\since version 0.0.4
+		*	\since version 0.0.2
 		*/
-		zAgColumn();
+		zAgSlab();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -104,9 +96,9 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.4
+		*	\since version 0.0.2
 		*/
-		~zAgColumn();
+		~zAgSlab();
 
 		//--------------------------
 		//---- SET METHODS
@@ -114,11 +106,11 @@ namespace zSpace
 
 		/*! \brief This method sets show vertices, edges and face booleans.
 		*
-		*	\param		[in]	_showForces					- input show forces booelan.
+		*	\param		[in]	_position					- input show forces booelan.
 		*	\param		[in]	_forceScale					- input scale of forces.
-		*	\since version 0.0.4
+		*	\since version 0.0.2
 		*/
-		void CreateColumn(zVector &x_, zVector &y_, zVector &z_, float height_);
+		void CreateSlab(zVector &position_, zAgColumn* column_);
 
 	};
 
@@ -128,7 +120,7 @@ namespace zSpace
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgColumn.cpp>
+#include<source/zArchGeom/zAgSlab.cpp>
 #endif
 
 #endif

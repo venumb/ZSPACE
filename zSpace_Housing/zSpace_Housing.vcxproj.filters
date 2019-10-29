@@ -13,5 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{fe169044-57da-4d64-84b4-e22775f95a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Architecture">
+      <UniqueIdentifier>{16cf8270-692f-42a9-bb13-feaf5c5180e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Architecture">
+      <UniqueIdentifier>{89a004a9-d48f-4de2-bec4-05aefcc3f871}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\cpp\headers\zHousing\zHcEnumerators.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\headers\zHousing\base\zHcTypeDef.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcStructure.h">
+      <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcUnit.h">
+      <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcStructure.cpp">
+      <Filter>Source Files\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcUnit.cpp">
+      <Filter>Source Files\Architecture</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

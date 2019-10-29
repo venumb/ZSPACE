@@ -193,8 +193,8 @@ Global
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Make|x64.Build.0 = Release|x64
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Make|x86.ActiveCfg = Release|Win32
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Make|x86.Build.0 = Release|Win32
-		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x64.ActiveCfg = Release|x64
-		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x64.Build.0 = Release|x64
+		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x64.ActiveCfg = Release_Unreal|x64
+		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x64.Build.0 = Release_Unreal|x64
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x86.ActiveCfg = Release|Win32
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x86.Build.0 = Release|Win32
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release|x64.ActiveCfg = Release|x64

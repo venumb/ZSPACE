@@ -10,8 +10,8 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_COLUMN_H
-#define ZSPACE_AG_COLUMN_H
+#ifndef ZSPACE_HC_UNIT_H
+#define ZSPACE_HC_UNIT_H
 
 #pragma once
 
@@ -21,6 +21,9 @@
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
+#include <headers/zHousing/base/zHcEnumerators.h>
+#include <headers/zHousing/base/zHcTypeDef.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -29,34 +32,15 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zToolsets
-	*	\brief Collection of toolsets for applications.
-	*  @{
-	*/
 
-	/** \addtogroup zTsStatics
-	*	\brief tool sets for graphic statics.
-	*  @{
-	*/
-
-	/** \addtogroup z3DGS
-	*	\brief tool sets for 3D graphic statics.
-	*  @{
-	*/
-
-	/*! \class zTsPolytopal
-	*	\brief A toolset for 3D graphics and poytopal meshes.
-	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf) and Freeform Developable Spatial Structures (https://www.ingentaconnect.com/content/iass/piass/2016/00002016/00000003/art00010 )
-	*	\since version 0.0.2
+	/*! \class zHcUnit
+	*	\brief A toolset for housing units configuration
+	*	\since version 0.0.4
 	*/
 
 	/** @}*/
 
-	/** @}*/
-
-	/** @}*/
-
-	class ZSPACE_AG zAgColumn
+	class ZSPACE_AG zHcUnit
 	{
 	protected:
 		//--------------------------
@@ -67,21 +51,6 @@ namespace zSpace
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
-		float nodeHeight = 100;
-		float nodeDepth = 80;
-		float beamA_Height = 50;
-		float beamB_Height = 30;
-
-		zVector a, b, c;
-
-		zVector position, x, y, z;
-
-		vector<zVector> pointArray;
-		vector<int> polyCount;
-		vector<int> polyConnect;
-		//--------------------------
-		//---- PUBLIC ATTRIBUTES
-		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh *inMeshObj;
@@ -89,6 +58,15 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
 
+		/*!	\brief house layout option */
+		zLayoutType layoutType;
+
+		/*!	\brief structure units/cells array */
+		zStructureArray structureUnits;
+
+		/*!	\brief pointer container to structure Object  */
+		zObjMeshPointerArray structureObjs;
+		
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
@@ -96,7 +74,14 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zAgColumn();
+		zHcUnit();
+
+
+		/*! \brief Default constructor.
+		*
+		*	\since version 0.0.4
+		*/
+		zHcUnit(zObjMesh& inMeshObj_, zObjMeshArray &_strcutureObjs);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -106,19 +91,25 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zAgColumn();
+		~zHcUnit();
 
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
+		/*! \brief This method creates internal layout.
 		*
-		*	\param		[in]	_showForces					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\param		[in]	_layoutType					- input desired layout option
 		*	\since version 0.0.4
 		*/
-		void CreateColumn(zVector &x_, zVector &y_, zVector &z_, float height_);
+		bool createStructuralUnits();
+
+		/*! \brief This method creates internal layout.
+		*
+		*	\param		[in]	_layoutType					- input desired layout option
+		*	\since version 0.0.4
+		*/
+		void createLayoutPlan(zLayoutType layout_);
 
 	};
 
@@ -128,7 +119,7 @@ namespace zSpace
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgColumn.cpp>
+#include<source/zHousing/architecture/zHcUnit.cpp>
 #endif
 
 #endif

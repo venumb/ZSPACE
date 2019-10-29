@@ -36,9 +36,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgColumn.cpp" />
+    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgSlab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgColumn.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgSlab.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgTypedef.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -187,7 +190,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;NOTUSING_CLR;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY;ZSPACE_UNREAL_INTEROP%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

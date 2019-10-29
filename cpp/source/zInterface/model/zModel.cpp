@@ -65,8 +65,6 @@ namespace zSpace
 		sceneObjects.push_back(&obj);
 
 		obj.setUtils(displayUtils);
-
-
 	}
 
 	ZSPACE_INLINE void zModel::addObjects(vector<zObj> &objs)

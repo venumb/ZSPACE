@@ -787,7 +787,7 @@ namespace zSpace
 		*	\retrun				zMesh				- extruded mesh.
 		*	\since version 0.0.2
 		*/
-		zObjMesh extrudeMesh(float extrudeThickness, bool thicknessTris = false);
+		void extrudeMesh(float extrudeThickness, zObjMesh &outMesh, bool thicknessTris = false);
 			   		 	  	  		
 		//--------------------------
 		//---- TRANSFORM METHODS OVERRIDES

@@ -25,7 +25,7 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	void zAgColumn::CreateRHWC_Column_A(zVector &primary, zVector &secondary, zVector &z_, float height_)
+	void zAgColumn::CreateColumn(zVector &primary, zVector &secondary, zVector &z_, float height_)
 	{
 		zVector xP = primary;
 		zVector yS = secondary;

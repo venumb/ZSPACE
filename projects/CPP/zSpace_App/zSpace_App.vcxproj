@@ -23,7 +23,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zArchGeom.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zFnSets.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zHousing.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zInterOp.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zObjects.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zRhino.h" />
@@ -33,7 +35,6 @@
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zTsPathNetworks.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zTsStatics.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zTsStreamLines.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zUEContent.h" />
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zViewer.h" />
   </ItemGroup>
   <ItemGroup>
