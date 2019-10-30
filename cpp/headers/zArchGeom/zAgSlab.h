@@ -30,25 +30,10 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zToolsets
-	*	\brief Collection of toolsets for applications.
-	*  @{
-	*/
 
-	/** \addtogroup zTsStatics
-	*	\brief tool sets for graphic statics.
-	*  @{
-	*/
-
-	/** \addtogroup z3DGS
-	*	\brief tool sets for 3D graphic statics.
-	*  @{
-	*/
-
-	/*! \class zTsPolytopal
-	*	\brief A toolset for 3D graphics and poytopal meshes.
-	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf) and Freeform Developable Spatial Structures (https://www.ingentaconnect.com/content/iass/piass/2016/00002016/00000003/art00010 )
-	*	\since version 0.0.2
+	/*! \class zAgSlab
+	*	\brief A toolset for creating slabs in housing units
+	*	\since version 0.0.4
 	*/
 
 	/** @}*/
@@ -69,9 +54,6 @@ namespace zSpace
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief attribute to position of the Object in World Space */
-		zVector position;
-
 		/*!	\brief pointer to the column this object is parented to */
 		zAgColumn* parentColumn;
 
@@ -86,9 +68,19 @@ namespace zSpace
 		//--------------------------
 		/*! \brief Default constructor.
 		*
-		*	\since version 0.0.2
+		*	\since version 0.0.4
 		*/
 		zAgSlab();
+
+		/*! \brief overload constructor.
+		*
+		*	\param		[in]	_position					- input show forces booelan.
+		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\param		[in]	_position					- input show forces booelan.
+		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\since version 0.0.4
+		*/
+		zAgSlab(zObjMesh&_inMeshObj, zVector& xCenter, zVector& yCenter, zVector& center, zAgColumn&_parenColumn);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -96,7 +88,7 @@ namespace zSpace
 
 		/*! \brief Default destructor.
 		*
-		*	\since version 0.0.2
+		*	\since version 0.0.4
 		*/
 		~zAgSlab();
 
@@ -104,13 +96,7 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
-		*
-		*	\param		[in]	_position					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
-		*	\since version 0.0.2
-		*/
-		void CreateSlab(zVector &position_, zAgColumn* column_);
+
 
 	};
 

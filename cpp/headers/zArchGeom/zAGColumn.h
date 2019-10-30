@@ -29,32 +29,12 @@ using namespace std;
 
 namespace zSpace
 {
-	/** \addtogroup zToolsets
-	*	\brief Collection of toolsets for applications.
-	*  @{
+
+	/*! \class zAgColumn
+	*	\brief A toolset for creating columns in housing units
+	*	\since version 0.0.4
 	*/
 
-	/** \addtogroup zTsStatics
-	*	\brief tool sets for graphic statics.
-	*  @{
-	*/
-
-	/** \addtogroup z3DGS
-	*	\brief tool sets for 3D graphic statics.
-	*  @{
-	*/
-
-	/*! \class zTsPolytopal
-	*	\brief A toolset for 3D graphics and poytopal meshes.
-	*	\details Based on 3D Graphic Statics (http://block.arch.ethz.ch/brg/files/2015_cad_akbarzadeh_On_the_equilibrium_of_funicular_polyhedral_frames_1425369507.pdf) and Freeform Developable Spatial Structures (https://www.ingentaconnect.com/content/iass/piass/2016/00002016/00000003/art00010 )
-	*	\since version 0.0.2
-	*/
-
-	/** @}*/
-
-	/** @}*/
-
-	/** @}*/
 
 	class ZSPACE_AG zAgColumn
 	{
@@ -67,21 +47,12 @@ namespace zSpace
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
-		float nodeHeight = 100;
-		float nodeDepth = 80;
-		float beamA_Height = 50;
-		float beamB_Height = 30;
+		float nodeHeight = 1;
+		float nodeDepth = 0.8;
+		float beamA_Height = 0.5;
+		float beamB_Height = 0.3;
 
-		zVector a, b, c;
-
-		zVector position, x, y, z;
-
-		vector<zVector> pointArray;
-		vector<int> polyCount;
-		vector<int> polyConnect;
-		//--------------------------
-		//---- PUBLIC ATTRIBUTES
-		//--------------------------
+		zVector position, a, b, c;
 
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh *inMeshObj;
@@ -98,6 +69,13 @@ namespace zSpace
 		*/
 		zAgColumn();
 
+		/*! \brief overloaded constructor.
+		*	
+		*	\param		[in]	_showForces					- input show forces booelan.
+		*	\since version 0.0.4
+		*/
+		zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVector& x, zVector& y, zVector& z, float height_);
+
 		//--------------------------
 		//---- DESTRUCTOR
 		//--------------------------
@@ -112,13 +90,6 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
-		*
-		*	\param		[in]	_showForces					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
-		*	\since version 0.0.4
-		*/
-		void CreateColumn(zVector &x_, zVector &y_, zVector &z_, float height_);
 
 	};
 

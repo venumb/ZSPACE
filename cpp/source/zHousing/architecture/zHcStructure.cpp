@@ -21,13 +21,27 @@ namespace zSpace
 	ZSPACE_INLINE zHcStructure::zHcStructure() {}
 
 
-	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inMeshObj, zPointArray &faceVertexPositions)
+	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zBoolArray&_cellEdgesAttributes)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(_inMeshObj);	
+		columnObjs = _columnObjs;
+		slabObjs = _slabObjs;
 
-		CreateSpatialCell(faceVertexPositions);
-			
+		cellEdgesAttributes = _cellEdgesAttributes;
+
+		createStructureCell(faceVertexPositions);
+		setCellFacesAttibutes();
+		createColumns();
+		createSlabs();
+
+	/*	for (bool b : cellEdgesAttributes)
+		{
+			printf("\n %i", b);
+		}*/
+
+		//printf("\n number of slabObjs: %i", _slabObjs.size());
+
 	}
 
 	//---- DESTRUCTOR
@@ -37,7 +51,7 @@ namespace zSpace
 	//---- SET METHODS
 	   	 
 
-	void zHcStructure::CreateSpatialCell(zPointArray &vPositions)
+	void zHcStructure::createStructureCell(zPointArray &vPositions)
 	{
 		zIntArray polyConnect;
 		zIntArray polyCount;
@@ -54,75 +68,110 @@ namespace zSpace
 		zFnMesh tempFn(tempObj);
 
 		tempFn.create(vPositions, polyCount, polyConnect);
-		tempFn.extrudeMesh(height, *inMeshObj, false);
+		tempFn.extrudeMesh(-height, *inMeshObj, false);
+	}
 
-		//zIntArray polyconnect;
-		//zIntArray polyCount;
+	void zHcStructure::setCellFacesAttibutes()
+	{
+		for (zItMeshFace f(*inMeshObj);  !f.end(); f++)
+		{
+			if (f.getId() == 0) cellFaceArray.push_back(zCellFace::zRoof);
+			else if (f.getId() == 1) cellFaceArray.push_back(zCellFace::zFloor);
+			else cellFaceArray.push_back(zCellFace::zExtWall);
+		}
+	}
 
-		//for (int i = 0; i < vertexPositions_.size() / 2; i++)
-		//{
-		//	if ((i + 1) < vertexPositions_.size() / 2)
-		//	{
-		//		polyconnect.push_back(i);
-		//		polyconnect.push_back(i + vertexPositions_.size() / 2);
-		//		polyconnect.push_back(i + (vertexPositions_.size() / 2) + 1);
-		//		polyconnect.push_back(i + 1);
-		//	}
-		//	else if ((i + 1) == vertexPositions_.size() / 2)
-		//	{
-		//		polyconnect.push_back(i);
-		//		polyconnect.push_back(i + vertexPositions_.size() / 2);
-		//		polyconnect.push_back(vertexPositions_.size());
-		//		polyconnect.push_back(0);
-		//	}
-		//}
+	bool zHcStructure::createColumns()
+	{
+		if (!inMeshObj) return false;
 
-		////create top faces
-		//for (int i = 0; i < vertexPositions_.size()/2; i++)
-		//{
-		//	polyconnect.push_back(i);
-		//}
+		zFnMesh tempfnMesh(*inMeshObj);
 
-		////create bottom faces
-		//for (int i = 0; i < vertexPositions_.size() / 2; i++)
-		//{
-		//	polyconnect.push_back(i + vertexPositions_.size() / 2);
-		//}
+		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		{
+			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
+			{
+				zIntArray heIndices;
+				f.getHalfEdges(heIndices);
+				
+				int heCount = 0;
+				for (int i : heIndices)
+				{
+					zItMeshHalfEdge he(*inMeshObj, i);
+					
+					//set column position
+					zVector columnPos = he.getStartVertex().getPosition();
 
-		////set wrapper faces poly count
-		//for (int i = 0; i < vertexPositions_.size() / 2; i++)
-		//{
-		//	polyCount.push_back(4);
-		//}
+					//set direction according to edge attributes
+					zVector x, y;
+					if (cellEdgesAttributes[heCount])
+					{
+						x = he.getVector();
+						y = he.getPrev().getVector() * -1;
+					}
+					else
+					{
+						y = he.getVector();
+						x = he.getPrev().getVector()* -1;
+					}
 
-		//polyCount.push_back(vertexPositions_.size() / 2); //bottom face poly count
-		//polyCount.push_back(vertexPositions_.size() / 2); //top face poly count
+					zVector z = zVector(0, 0, -1);
 
-		//printf("v number: %i /n", vertexPositions_.size());
-		//printf("polyCount size: %i /n", polyCount.size());
-		//printf("polyConnect size: %i /n", polyconnect.size());
+					zAgColumn tempColumn = zAgColumn(*columnObjs[heCount], columnPos, x, y, z, height);
+					columnArray.push_back(tempColumn);
 
-		//zVector x, y, z;
-		//vector<zVector> testpointArray;
-		//vector<int> testpolyCount;
-		//vector<int> testpolyConnect;
+					heCount++;
+				}
+			}
+		}
+		
+		return true;
+	}
 
-		//x = zVector(0, 0, 0);
-		//y = zVector(0, 10, 0);
-		//z = zVector(10, 0, 0);
+	bool zHcStructure::createSlabs()
+	{
+		if (!inMeshObj || columnArray.size() == 0) return false;
 
-		//testpointArray.push_back(x);
-		//testpointArray.push_back(y);
-		//testpointArray.push_back(z);
+		zFnMesh tempfnMesh(*inMeshObj);
 
-		//testpolyConnect.push_back(0);
-		//testpolyConnect.push_back(1);
-		//testpolyConnect.push_back(2);
+		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		{
+			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
+			{
+				zIntArray heIndices;
+				f.getHalfEdges(heIndices);
 
-		//testpolyCount.push_back(3);
+				int heCount = 0;
+				for (int i : heIndices)
+				{
+					zItMeshHalfEdge he(*inMeshObj, i);
 
-		//
-		//fnInMesh.create(testpointArray, testpolyCount, testpolyConnect);
+					//set slab center
+					zVector center = f.getCenter();
+
+					//set xCenter and yCenter according to edge attributes
+					zVector xCenter, yCenter;
+					if (cellEdgesAttributes[heCount])
+					{
+						xCenter = he.getCenter();
+						yCenter = he.getPrev().getCenter();
+					}
+					else
+					{
+						yCenter = he.getCenter();
+						xCenter = he.getPrev().getCenter();
+					}
+
+					zAgSlab tempSlab = zAgSlab(*slabObjs[heCount], xCenter, yCenter, center, columnArray[heCount]);
+					slabArray.push_back(tempSlab);
+
+					heCount++;
+				}
+			}
+		}
+
+
+		return true;
 	}
 
 	

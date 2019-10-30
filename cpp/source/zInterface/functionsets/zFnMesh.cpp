@@ -2409,7 +2409,7 @@ namespace zSpace
 
 		// check if vertex exists if not add new vertex
 		zItMeshVertex newVertex;
-		addVertex(newVertPos, true, newVertex);
+		addVertex(newVertPos, false, newVertex);
 
 
 
@@ -2430,6 +2430,8 @@ namespace zSpace
 			// recompute iterators if resize is true
 			if (edgesResize)
 			{
+				edge = zItMeshEdge(*meshObj, edge.getId());
+
 				he = edge.getHalfEdge(0);
 				heS = edge.getHalfEdge(1);
 

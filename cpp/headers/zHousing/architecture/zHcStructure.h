@@ -66,18 +66,27 @@ namespace zSpace
 		/*!	\brief slabs array per cell set  */
 		zSlabArray slabArray;
 
-		/*!	\brief store edge attributes: primary (true) secondary (false)  */
-		zBoolArray edgeAttributes;
-
 		/*!	\brief structure height float default: 300cm */
 		float height = 3;
-
 
 		/*!	\brief pointer to output mesh Object  */
 		zObjMesh outMeshObj;
 
 		/*!	\brief output mesh function set  */
 		zFnMesh fnOutMesh;
+
+		/*!	\brief pointer container to structure Object  */
+		zObjMeshPointerArray columnObjs;
+
+		/*!	\brief pointer container to structure Object  */
+		zObjMeshPointerArray slabObjs;
+
+		/*! \brief container to top edges attributes */
+		zBoolArray cellEdgesAttributes;
+
+		/*! \brief container to cell faces attributes */
+		vector <zCellFace> cellFaceArray;
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -92,7 +101,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zObjMesh &_inMeshObj, zPointArray &faceVertexPositions);
+		zHcStructure(zObjMesh &_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zBoolArray&_cellEdgesAttributes);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -113,7 +122,25 @@ namespace zSpace
 		*	\param		[in]	_vertexpositions_					- ordered set of vertices up and down.
 		*	\since version 0.0.4
 		*/
-		void CreateSpatialCell(zPointArray &vertexPositions_);
+		void createStructureCell(zPointArray &vertexPositions_);
+
+		/*! \brief This method creates a spatial cell in which the architectural elements live in
+		*
+		*	\since version 0.0.4
+		*/
+		void setCellFacesAttibutes();
+
+		/*! \brief This method creates the columns that live in this structure cell object
+		*
+		*	\since version 0.0.4
+		*/
+		bool createColumns();
+
+		/*! \brief This method creates the slabs that live in this structure cell object
+		*
+		*	\since version 0.0.4
+		*/
+		bool createSlabs();
 
 	};
 

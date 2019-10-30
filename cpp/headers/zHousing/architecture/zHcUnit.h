@@ -66,6 +66,9 @@ namespace zSpace
 
 		/*!	\brief pointer container to structure Object  */
 		zObjMeshPointerArray structureObjs;
+
+		/*!	\brief store edge attributes: primary (true) secondary (false)  */
+		zBoolArray edgeAttributes;
 		
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -81,7 +84,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcUnit(zObjMesh& inMeshObj_, zObjMeshArray &_strcutureObjs);
+		zHcUnit(zObjMesh& inMeshObj_, zObjMeshArray &_strcutureObjs, zObjMeshArray &_columnObjs, zObjMeshArray &_slabObjs);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -102,7 +105,14 @@ namespace zSpace
 		*	\param		[in]	_layoutType					- input desired layout option
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits();
+		bool createStructuralUnits(zObjMeshArray &_columnObjs, zObjMeshArray &_slabObjs);
+
+		/*! \brief This method creates internal layout.
+	*
+	*	\param		[in]	_layoutType					- input desired layout option
+	*	\since version 0.0.4
+	*/
+		void setEdgesAttributes();
 
 		/*! \brief This method creates internal layout.
 		*

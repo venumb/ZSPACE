@@ -15,6 +15,7 @@
 
 #pragma once
 #include <headers/zHousing/architecture/zHcStructure.h>
+#include <headers/zHousing/base/zHcEnumerators.h>
 
 
 namespace zSpace
@@ -30,9 +31,14 @@ namespace zSpace
 	*
 	*	\since version 0.0.4
 	*/
-	typedef vector <zHcStructure > zStructureArray;
+	typedef vector <zHcStructure> zStructureArray;
 
-
+	/*! \typedef zCellFace
+*	\brief A vector of zCellFace.
+*
+*	\since version 0.0.4
+*/
+	typedef vector <zCellFace> zCellFaceArray;
 	
 	/** @}*/
 

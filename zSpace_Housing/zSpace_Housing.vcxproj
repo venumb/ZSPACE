@@ -37,8 +37,8 @@
   <ItemGroup>
     <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcStructure.h" />
     <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcUnit.h" />
+    <ClInclude Include="..\cpp\headers\zHousing\base\zHcEnumerators.h" />
     <ClInclude Include="..\cpp\headers\zHousing\base\zHcTypeDef.h" />
-    <ClInclude Include="..\cpp\headers\zHousing\zHcEnumerators.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\source\zHousing\architecture\zHcStructure.cpp" />

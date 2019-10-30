@@ -25,9 +25,45 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	void zAgSlab::CreateSlab(zVector &position_, zAgColumn* column_)
+
+
+	zAgSlab::zAgSlab(zObjMesh & _inMeshObj, zVector & xCenter, zVector & yCenter, zVector & center, zAgColumn &_parentColumn)
 	{
-		
+		inMeshObj = &_inMeshObj;
+		fnInMesh = zFnMesh(*inMeshObj);
+		parentColumn = &_parentColumn;
+
+		zPointArray pointArray;
+		zIntArray polyConnect;
+		zIntArray polyCount;
+
+		if (!parentColumn) return;
+
+		pointArray.push_back(parentColumn->b);
+		pointArray.push_back(parentColumn->a);
+		pointArray.push_back(yCenter);
+		pointArray.push_back(center);
+
+		pointArray.push_back(parentColumn->b);
+		pointArray.push_back(center);
+		pointArray.push_back(xCenter);
+		pointArray.push_back(parentColumn->c);
+
+		polyCount.push_back(4);
+		polyCount.push_back(4);
+
+		polyConnect.push_back(0);
+		polyConnect.push_back(1);
+		polyConnect.push_back(2);
+		polyConnect.push_back(3);
+
+		polyConnect.push_back(4);
+		polyConnect.push_back(5);
+		polyConnect.push_back(6);
+		polyConnect.push_back(7);
+
+		fnInMesh.create(pointArray, polyCount, polyConnect);
+		fnInMesh.smoothMesh(2, false);
 	}
 
 }

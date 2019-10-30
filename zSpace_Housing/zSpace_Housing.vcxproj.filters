@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\headers\zHousing\zHcEnumerators.h">
-      <Filter>Header Files\Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\headers\zHousing\base\zHcTypeDef.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
@@ -35,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcUnit.h">
       <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\headers\zHousing\base\zHcEnumerators.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

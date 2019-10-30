@@ -42,7 +42,11 @@ namespace zSpace
 	*/	
 	enum zFunctionType { zPublic, zStudio, zLoft, zLandscape, zTType, zLType };
 
-
+	/*! \enum	zCellFace
+*	\brief	Architectural attribute per face of a structural cell
+*	\since	version 0.0.4
+*/
+	enum zCellFace { zFloor, zRoof, zExtWall, zIntWall };
 
 
 
