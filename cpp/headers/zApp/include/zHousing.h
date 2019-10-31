@@ -4,6 +4,9 @@
 //---- zHousing
 //--------------------------
 
+
+#include <headers/zHousing/architecture/zHcAggregation.h>
+
 #include <headers/zHousing/architecture/zHcStructure.h>
 
 #include <headers/zHousing/architecture/zHcUnit.h>

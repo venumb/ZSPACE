@@ -14,6 +14,7 @@
 #define ZSPACE_HC_TYPEDEF
 
 #pragma once
+
 #include <headers/zHousing/architecture/zHcStructure.h>
 #include <headers/zHousing/base/zHcEnumerators.h>
 
@@ -25,6 +26,13 @@ namespace zSpace
 	*	\brief  The type defintions of the library.
 	*  @{
 	*/
+
+	/*! \typedef zUnitArray
+*	\brief A vector of zHcUnit.
+*
+*	\since version 0.0.4
+*/
+	//typedef vector <zHcUnit> zUnitArray;
 
 	/*! \typedef zStructurearray
 	*	\brief A vector of zHcStructure.

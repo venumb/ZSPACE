@@ -61,6 +61,12 @@ namespace zSpace
 		/*!	\brief house layout option */
 		zLayoutType layoutType;
 
+		/*!	\brief house function option */
+		zFunctionType funcType;
+
+		/*!	\brief house structure option */
+		zStructureType structureType;
+
 		/*!	\brief structure units/cells array */
 		zStructureArray structureUnits;
 
@@ -69,6 +75,9 @@ namespace zSpace
 
 		/*!	\brief store edge attributes: primary (true) secondary (false)  */
 		zBoolArray edgeAttributes;
+
+		/*!	\brief store boundary attributes */
+		zBoolArray eBoundaryAttributes;
 		
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -84,7 +93,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcUnit(zObjMesh& inMeshObj_, zObjMeshArray &_strcutureObjs, zObjMeshArray &_columnObjs, zObjMeshArray &_slabObjs);
+		zHcUnit(zObjMesh& inMeshObj_, zObjMeshPointerArray &_strcutureObjs, zObjMeshPointerArray &_columnObjs, zObjMeshPointerArray &_slabObjs, zObjMeshPointerArray &_wallObjs, zObjMeshPointerArray &_facadeObjs, zFunctionType&_funcType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -100,16 +109,16 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method creates internal layout.
+		/*! \brief This method creates structural units zHcStructure.
 		*
-		*	\param		[in]	_layoutType					- input desired layout option
+		*	\param		[in]	_columnObjs 				- input pointer of column mesh obj
+		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits(zObjMeshArray &_columnObjs, zObjMeshArray &_slabObjs);
+		bool createStructuralUnits(zObjMeshPointerArray &_columnObjs, zObjMeshPointerArray &_slabObjs, zObjMeshPointerArray &_wallObjs, zObjMeshPointerArray &_facadeObjs);
 
 		/*! \brief This method creates internal layout.
 	*
-	*	\param		[in]	_layoutType					- input desired layout option
 	*	\since version 0.0.4
 	*/
 		void setEdgesAttributes();

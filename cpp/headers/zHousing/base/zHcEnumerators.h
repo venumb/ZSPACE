@@ -46,7 +46,7 @@ namespace zSpace
 *	\brief	Architectural attribute per face of a structural cell
 *	\since	version 0.0.4
 */
-	enum zCellFace { zFloor, zRoof, zExtWall, zIntWall };
+	enum zCellFace { zFloor, zRoof, zFacade, zIntWall };
 
 
 

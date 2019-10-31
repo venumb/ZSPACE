@@ -36,12 +36,18 @@
     <ClInclude Include="..\cpp\headers\zHousing\base\zHcEnumerators.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcAggregation.h">
+      <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\source\zHousing\architecture\zHcStructure.cpp">
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\source\zHousing\architecture\zHcUnit.cpp">
+      <Filter>Source Files\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcAggregation.cpp">
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
   </ItemGroup>

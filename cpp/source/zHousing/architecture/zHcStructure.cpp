@@ -12,6 +12,8 @@
 
 
 #include<headers/zHousing/architecture/zHcStructure.h>
+#include <headers/zHousing/architecture/zHcUnit.h>
+
 
 
 namespace zSpace
@@ -21,27 +23,33 @@ namespace zSpace
 	ZSPACE_INLINE zHcStructure::zHcStructure() {}
 
 
-	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zBoolArray&_cellEdgesAttributes)
+		/*! \brief container to cell faces attributes */
+	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zObjMeshPointerArray&_wallObjs, zObjMeshPointerArray&_facadeObjs, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(_inMeshObj);	
+
 		columnObjs = _columnObjs;
 		slabObjs = _slabObjs;
+		wallObjs = _wallObjs;
+		facadeObjs = _facadeObjs;
 
 		cellEdgesAttributes = _cellEdgesAttributes;
+		cellBoundaryAttributes = _cellBoundaryAttributes;
 
 		createStructureCell(faceVertexPositions);
 		setCellFacesAttibutes();
-		createColumns();
-		createSlabs();
 
-	/*	for (bool b : cellEdgesAttributes)
+		if (_funcType == zFunctionType::zPublic)
 		{
-			printf("\n %i", b);
-		}*/
-
-		//printf("\n number of slabObjs: %i", _slabObjs.size());
-
+			createColumns();
+			createSlabs();
+		}
+		else
+		{
+			createWalls();
+			createFacades();
+		}
 	}
 
 	//---- DESTRUCTOR
@@ -77,7 +85,13 @@ namespace zSpace
 		{
 			if (f.getId() == 0) cellFaceArray.push_back(zCellFace::zRoof);
 			else if (f.getId() == 1) cellFaceArray.push_back(zCellFace::zFloor);
-			else cellFaceArray.push_back(zCellFace::zExtWall);
+			else break;
+		}
+
+		for (int i = 0; i < cellBoundaryAttributes.size(); i++)
+		{
+			if (cellBoundaryAttributes[i] == true) cellFaceArray.push_back(zCellFace::zFacade);
+			else cellFaceArray.push_back(zCellFace::zIntWall);
 		}
 	}
 
@@ -167,8 +181,40 @@ namespace zSpace
 
 					heCount++;
 				}
+
 			}
 		}
+
+
+		return true;
+	}
+
+	bool zHcStructure::createWalls()
+	{
+		if (!inMeshObj) return false;
+
+		int count = 0;
+		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		{
+			if (cellFaceArray[f.getId()] == zCellFace::zIntWall)
+			{
+				zPointArray vCorners;
+				f.getVertexPositions(vCorners);
+
+				zAgWall tempWall = zAgWall(*wallObjs[count], vCorners);
+
+				count++;
+			}
+		}
+
+		printf("\n num of walls placed: %i", count);
+
+		return true;
+	}
+
+	bool zHcStructure::createFacades()
+	{
+		if (!inMeshObj) return false;
 
 
 		return true;

@@ -66,6 +66,12 @@ namespace zSpace
 		/*!	\brief slabs array per cell set  */
 		zSlabArray slabArray;
 
+		/*!	\brief slabs array per cell set  */
+		zWallArray wallArray;
+
+		/*!	\brief slabs array per cell set  */
+		zFacadeArray facadeArray;
+
 		/*!	\brief structure height float default: 300cm */
 		float height = 3;
 
@@ -75,17 +81,29 @@ namespace zSpace
 		/*!	\brief output mesh function set  */
 		zFnMesh fnOutMesh;
 
-		/*!	\brief pointer container to structure Object  */
+		/*!	\brief pointer container of columns pointers  */
 		zObjMeshPointerArray columnObjs;
 
-		/*!	\brief pointer container to structure Object  */
+		/*!	\brief pointer container of slabs pointers  */
 		zObjMeshPointerArray slabObjs;
+
+		/*!	\brief pointer container of walls pointers  */
+		zObjMeshPointerArray wallObjs;
+
+		/*!	\brief pointer container of facade pointers  */
+		zObjMeshPointerArray facadeObjs;
 
 		/*! \brief container to top edges attributes */
 		zBoolArray cellEdgesAttributes;
 
+		/*! \brief container to edge boundary attributes */
+		zBoolArray cellBoundaryAttributes;
+
 		/*! \brief container to cell faces attributes */
 		vector <zCellFace> cellFaceArray;
+
+		/*! \brief pointer to housing unit that this cell is attached to*/
+		//class zHcUnit* parentUnit;
 
 
 		//--------------------------
@@ -101,7 +119,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zObjMesh &_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zBoolArray&_cellEdgesAttributes);
+		zHcStructure(zObjMesh &_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zObjMeshPointerArray&_wallObjs, zObjMeshPointerArray&_facadeObjs, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -141,6 +159,18 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		bool createSlabs();
+
+		/*! \brief This method creates the walls that live in this structure cell object
+	*
+	*	\since version 0.0.4
+	*/
+		bool createWalls();
+
+		/*! \brief This method creates the facades that live in this structure cell object
+	*
+	*	\since version 0.0.4
+	*/
+		bool createFacades();
 
 	};
 

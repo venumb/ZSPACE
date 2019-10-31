@@ -16,6 +16,9 @@
 #pragma once
 #include <headers/zArchGeom/zAgColumn.h>
 #include <headers/zArchGeom/zAgSlab.h>
+#include <headers/zArchGeom/zAgWall.h>
+#include <headers/zArchGeom/zAgFacade.h>
+
 
 namespace zSpace
 {
@@ -33,12 +36,25 @@ namespace zSpace
 	typedef vector<zAgColumn> zColumnArray;
 
 	/*! \typedef zSlabArray
-	*	\brief A vector of zAgSlabs.
+	*	\brief A vector of zAgSlab.
 	*
 	*	\since version 0.0.4
 	*/
 	typedef vector<zAgSlab> zSlabArray;
 
+	/*! \typedef zSlabArray
+	*	\brief A vector of zAgWall.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgWall> zWallArray;
+
+	/*! \typedef zfacadeArray
+	*	\brief A vector of zAgFacade.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgFacade> zFacadeArray;
 
 	/** @}*/
 
