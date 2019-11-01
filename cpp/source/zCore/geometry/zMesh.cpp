@@ -294,7 +294,7 @@ namespace zSpace
 		zIntArray fEdge;
 
 		int currentNumEdges = n_he;
-
+	
 
 		for (int i = 0; i < fVertices.size(); i++)
 		{
@@ -302,8 +302,7 @@ namespace zSpace
 			int eID;
 			bool chkEdge = halfEdgeExists(fVertices[i], fVertices[(i + 1) % fVertices.size()], eID);
 
-
-
+		
 			if (chkEdge)
 			{
 				fEdge.push_back(eID);

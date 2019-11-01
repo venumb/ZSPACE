@@ -107,11 +107,16 @@ namespace zSpace
 		/*!	\brief pointer to form Object  */
 		zObjGraph *formObj;
 
+		/*!	\brief pointer to form mesh Object  */
+		zObjMesh *formMeshObj;
+
 		/*!	\brief pointer container to force Object  */
 		zObjMeshPointerArray forceObjs;
 
 		/*!	\brief form function set  */
 		zFnGraph fnForm;
+
+		zFnMesh fnMeshForm;
 
 		/*!	\brief container of force function set  */
 		vector<zFnMesh> fnForces;
@@ -180,6 +185,7 @@ namespace zSpace
 		zBoolArray GFP_SSP_Vertex;
 
 		vector<zIntArray> primalVertex_ConnectedPrimalFaces;
+		vector<zIntArray> primalEdge_ConnectedPrimalFaces;
 		zIntArray Y_vertex;
 		
 		zPointArray userSection_points;
@@ -205,6 +211,16 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		zTsPolytopal(zObjGraph &_formObj, zObjMeshArray &_forceObjs, zObjMeshArray  &_polytopalObjs);
+
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	_formObj			- input form graph object.
+		*	\param		[in]	_formObj			- input form graph object.
+		*	\param		[in]	_forceObjs			- input container of force objects.
+		*	\param		[in]	_polytopalObjs		- input container of polytopal objects.
+		*	\since version 0.0.2
+		*/
+		zTsPolytopal(zObjGraph &_formObj, zObjMesh &_formMeshObj, zObjMeshArray &_forceObjs, zObjMeshArray  &_polytopalObjs);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -235,7 +251,17 @@ namespace zSpace
 		*	\param		[in]	boundaryEdgelength			- length of external force vectors included  as edges of the graph.
 		*	\since version 0.0.2
 		*/
-		void createFormFromForce( zColor edgeCol = zColor(0.75, 0.5, 0, 1), bool includeBoundary = false , double boundaryEdgelength = 1.0);
+		void createFormMeshFromForce(zColor edgeCol = zColor(0.75, 0.5, 0, 1), bool includeBoundary = false, double boundaryEdgelength = 1.0);
+
+
+		/*! \brief This method creates the center line graph based on the input volume meshes.
+		*
+		*	\param		[in]	edgeCol						- input edge color for the form.
+		*	\param		[in]	includeBoundary				- external force vectors included  as edges of the graph if true.
+		*	\param		[in]	boundaryEdgelength			- length of external force vectors included  as edges of the graph.
+		*	\since version 0.0.2
+		*/
+		void createFormGraphFromForce( zColor edgeCol = zColor(0.75, 0.5, 0, 1), bool includeBoundary = false , double boundaryEdgelength = 1.0);
 
 		/*! \brief This method creates the polytopal mesh from the force volume meshes and form graph.
 		*

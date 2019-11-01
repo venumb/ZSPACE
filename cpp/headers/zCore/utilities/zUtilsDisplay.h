@@ -17,6 +17,7 @@
 
 
 #include<headers/zCore/display/zObjBuffer.h>
+#include <depends/freeglut/freeglut_std.h>
 
 namespace zSpace
 {
@@ -75,6 +76,10 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		~zUtilsDisplay();
+
+
+		void drawTextAtPoint(string s, zPoint &pt);
+		
 
 		//--------------------------
 		//---- IMMEDIATE MODE DISPLAY

@@ -312,6 +312,14 @@ namespace zSpace
 		*/
 		void makeStatic();
 
+		/*! \brief This method makes a convex hull from the input points.
+		*
+		*	\details Based on https://github.com/karimnaaji/3d-quickhull
+		*	\param		[in] pts	- array of points
+		*	\since version 0.0.4
+		*/
+		void makeConvexHull(zPointArray &pts);
+
 		//--------------------------
 		//--- SET METHODS 
 		//--------------------------

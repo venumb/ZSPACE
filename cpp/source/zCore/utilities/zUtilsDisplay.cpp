@@ -13,6 +13,9 @@
 
 #include<headers/zCore/utilities/zUtilsDisplay.h>
 
+
+
+
 namespace zSpace
 {
 	//---- CONSTRUCTOR
@@ -27,6 +30,15 @@ namespace zSpace
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zUtilsDisplay::~zUtilsDisplay() {}
+
+	ZSPACE_INLINE void zUtilsDisplay::drawTextAtPoint(string s, zPoint &pt)
+	{
+		unsigned int i;
+		glRasterPos3f(pt.x, pt.y, pt.z);
+
+		for (i = 0; i < s.length(); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+	}
 
 	//---- IMMEDIATE MODE DISPLAY
 

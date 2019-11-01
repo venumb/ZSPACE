@@ -32,6 +32,7 @@
 
 #include <depends/tooJPEG/toojpeg.h>
 #include <depends/lodePNG/lodepng.h>
+#include <depends/quickhull/quickhull.h>
 
 #include <string.h>
 #include <vector>

@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\data\zTsKMeans.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\data\zTsOSM.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\digifab\zTsRobot.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsGraphPolyhedra.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsMesh2Pix.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsRemesh.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsSpectral.h" />
@@ -69,6 +70,7 @@
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsKMeans.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsOSM.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\digiFab\zTsRobot.cpp" />
+    <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsGraphPolyhedra.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsMesh2Pix.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsRemesh.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsSpectral.cpp" />

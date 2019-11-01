@@ -160,11 +160,15 @@ namespace zSpace
 	{
 		vector<int> fVerts;
 
+		printf(" \n  fverts: ");
+
 		for (auto &v : fVertices)
 		{
 			zItMeshVertex vId;
 			addVertex(v, true, vId);
 			fVerts.push_back(vId.getId());
+
+			printf(" %i ", vId.getId());
 		}
 
 		return addPolygon(fVerts, face);
@@ -666,6 +670,37 @@ namespace zSpace
 	ZSPACE_INLINE void zFnMesh::makeStatic()
 	{
 		setStaticContainers();
+	}
+
+	ZSPACE_INLINE void zFnMesh::makeConvexHull(zPointArray &_pts)
+	{
+		int num = _pts.size();
+		qh_vertex_t *vertices = new qh_vertex_t[num];
+
+		for (int i = 0; i < num; ++i)
+		{
+			vertices[i].x = _pts[i].x;
+			vertices[i].y = _pts[i].y;
+			vertices[i].z = _pts[i].z;
+		}
+
+		qh_mesh_t mesh = qh_quickhull3d(vertices, num);
+
+		zItMeshFace f(*meshObj);
+		clear();
+
+		zPointArray pts;
+		for (int i = 0; i < mesh.nvertices; i += 3)
+		{
+			pts.clear();
+
+			pts.push_back(zVector(mesh.vertices[i + 0].x, mesh.vertices[i + 0].y, mesh.vertices[i + 0].z));
+			pts.push_back(zVector(mesh.vertices[i + 1].x, mesh.vertices[i + 1].y, mesh.vertices[i + 1].z));
+			pts.push_back(zVector(mesh.vertices[i + 2].x, mesh.vertices[i + 2].y, mesh.vertices[i + 2].z));
+			addPolygon(pts, f);
+		}
+
+		computeMeshNormals();
 	}
 
 	//--- SET METHODS 

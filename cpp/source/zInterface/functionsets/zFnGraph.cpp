@@ -150,6 +150,16 @@ namespace zSpace
 		return graphObj->graph.halfEdgeExists(v1, v2, outHalfEdge);
 	}
 
+	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge)
+	{
+		int id;
+		bool chk = graphObj->graph.halfEdgeExists(v1, v2, id);
+		
+		if (chk) outHalfEdge = zItGraphHalfEdge(*graphObj, id);
+
+		return chk;
+	}
+
 	//--- COMPUTE METHODS 
 
 	ZSPACE_INLINE void zFnGraph::computeEdgeColorfromVertexColor()

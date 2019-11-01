@@ -42,6 +42,12 @@ namespace zSpace
 
 		zFnMesh::from(path, type, staticGeom);
 
+		// add crease data
+		if (type == zJSON)
+		{
+			//getCreaseDataJSON(path);
+		}
+
 		
 	}
 
@@ -52,7 +58,7 @@ namespace zSpace
 		// add crease data
 		if (type == zJSON)
 		{
-
+			//setCreaseDataJSON(path);
 		}
 	}
 
