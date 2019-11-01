@@ -20,23 +20,15 @@ namespace zSpace
 
 	ZSPACE_INLINE zHcUnit::zHcUnit(){}
 
-	ZSPACE_INLINE zHcUnit::zHcUnit(zObjMesh&_inMeshObj, zObjMeshPointerArray &_strcutureObjs, zObjMeshPointerArray &_columnObjs, zObjMeshPointerArray &_slabObjs, zObjMeshPointerArray &_wallObjs, zObjMeshPointerArray &_facadeObjs, zFunctionType&_funcType)
+	ZSPACE_INLINE zHcUnit::zHcUnit(zModel&_model, zObjMesh&_inMeshObj, zFunctionType&_funcType)
 	{
+		model = &_model;
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(_inMeshObj);
 		funcType = _funcType;
 
-		for (int i = 0; i < _strcutureObjs.size(); i++)
-		{
-			structureObjs.push_back(_strcutureObjs[i]);			
-		}
-		
 		setEdgesAttributes();
-		createStructuralUnits(_columnObjs, _slabObjs, _wallObjs, _facadeObjs);
-	/*	printf("\n numer of edges in obj: %i", fnInMesh.numEdges());
-		printf("\n edgesattrib size: %i", edgeAttributes.size());
-		printf("\n boundary attrib size: %i", eBoundaryAttributes.size());*/
-
+		createStructuralUnits();
 	}
 
 	//---- DESTRUCTOR
@@ -45,7 +37,7 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	bool zHcUnit::createStructuralUnits(zObjMeshPointerArray &_columnObjs, zObjMeshPointerArray &_slabObjs, zObjMeshPointerArray &_wallObjs, zObjMeshPointerArray &_facadeObjs)
+	bool zHcUnit::createStructuralUnits()
 	{
 		bool success = false;
 		if (!inMeshObj) return success;
@@ -56,20 +48,6 @@ namespace zSpace
 			int  id = f.getId();
 			zPointArray vPositions;
 			f.getVertexPositions(vPositions);
-
-			//set new container of corresponding column and slab obj according to vertices num
-			zObjMeshPointerArray tempColumnObjs;
-			zObjMeshPointerArray tempSlabObjs;
-			zObjMeshPointerArray tempWallObjs;
-			zObjMeshPointerArray tempFacadeObjs;
-
-			for (int i = 0; i < vPositions.size(); i++)
-			{
-				tempColumnObjs.push_back(_columnObjs[id * vPositions.size() + i]);
-				tempSlabObjs.push_back(_slabObjs[id * vPositions.size() + i]);
-				tempWallObjs.push_back(_wallObjs[id * vPositions.size() + i]);
-				tempFacadeObjs.push_back(_facadeObjs[id * vPositions.size() + i]);
-			}
 
 			//set cell edges attributes
 			zBoolArray cellBoundaryAttributes;
@@ -83,10 +61,8 @@ namespace zSpace
 				cellBoundaryAttributes.push_back(eBoundaryAttributes[edgeIndex]);
 			}
 
-			//printf("\n number of slabObjs: %i", tempSlabObjs.size());
-
 			//create and initialise a structure obj and add it to container
-			zHcStructure tempStructure(*structureObjs[id], vPositions, tempColumnObjs, tempSlabObjs, tempWallObjs, tempFacadeObjs, cellEdgeAttributes, cellBoundaryAttributes, funcType);
+			zHcStructure* tempStructure = new zHcStructure(*model, vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType);
 			structureUnits.push_back(tempStructure);
 		}
 

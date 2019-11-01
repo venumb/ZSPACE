@@ -56,6 +56,34 @@ namespace zSpace
 	*/
 	typedef vector<zAgFacade> zFacadeArray;
 
+	/*! \typedef zColumnsPointerArray
+	*	\brief A vector of zAgColumn Pointer.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgColumn*> zColumnPointerArray;
+
+	/*! \typedef zSlabPointerArray
+	*	\brief A vector of zAgSlab Pointer.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgSlab*> zSlabPointerArray;
+
+	/*! \typedef zSlabPointerArray
+	*	\brief A vector of zAgWall Pointer.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgWall*> zWallPointerArray;
+
+	/*! \typedef zfacadePointerArray
+	*	\brief A vector of zAgFacade Pointer.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgFacade*> zFacadePointerArray;
+
 	/** @}*/
 
 	/** @}*/

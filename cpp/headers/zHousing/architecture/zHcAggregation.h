@@ -20,6 +20,8 @@
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 
+#include <headers/zInterface/model/zModel.h>
+
 #include <headers/zHousing/architecture/zHcUnit.h>
 #include <headers/zHousing/base/zHcEnumerators.h>
 //#include <headers/zHousing/base/zHcTypeDef.h>
@@ -49,37 +51,28 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief pointer to display model  */
+		zModel *model;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief input mesh Object  */
-		zObjMeshPointerArray inMeshObjs;
+		zObjMeshArray inMeshObjs;
 
 		/*!	\brief input mesh function set  */
 		vector<zFnMesh> fnInMeshArray;
 
 		/*!	\brief 2D container of structure obj meshes  */
-		vector<zObjMeshPointerArray> structureObjs;
-
-		/*!	\brief 2D container of columns obj meshes  */
-		vector<zObjMeshPointerArray> columnObjs;
-
-		/*!	\brief 2D container of slabs obj meshes  */
-		vector<zObjMeshPointerArray> slabObjs;
-
-		/*!	\brief 2D container of slabs obj meshes  */
-		vector<zObjMeshPointerArray> wallObjs;
-
-		/*!	\brief 2D container of slabs obj meshes  */
-		vector<zObjMeshPointerArray> facadeObjs;
+		zObjMeshArray testObjs;
 
 		/*!	\brief container of housing units pointer  */
 		vector<zHcUnit*> unitArray;
 
-		
-
+		/*!	\brief interface manager, handles an input path directory*/
+		zUtilsCore core;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -95,7 +88,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcAggregation(zObjMeshArray&_inMeshObs, vector<zObjMeshArray> &_strcutureObjs, vector<zObjMeshArray> &_columnObjs, vector<zObjMeshArray> &_slabObjs, vector<zObjMeshArray> &_wallObjs, vector<zObjMeshArray> &_facadeObjs);
+		zHcAggregation(zModel &_model);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -111,14 +104,27 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-				/*! \brief This method creates housing units.
+		/*! \brief This method creates housing units.
 		*
 		*	\param		[in]	_index				- input housing unit index
 		*	\since version 0.0.4
 		*/
-		void setupHousingUnits(int index);
+		void createHousingUnits();
+
+		/*! \brief This method creates housing units from an imported mesh.
+		*
+		*	\param		[in]	_path				- directory of files
+		*	\param		[in]	_type				- file type
+		*	\since version 0.0.4
+		*/
+		void importMeshFromDirectory(string&_path, zFileTpye type);
 
 
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
+
+		void drawHousing();
 	};
 
 

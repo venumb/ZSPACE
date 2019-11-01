@@ -41,6 +41,14 @@ namespace zSpace
 	*/
 	typedef vector <zHcStructure> zStructureArray;
 
+	/*! \typedef zStructurePointerArray
+	*	\brief A vector of zHcStructure pointers.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector <zHcStructure*> zStructurePointerArray;
+
+
 	/*! \typedef zCellFace
 *	\brief A vector of zCellFace.
 *

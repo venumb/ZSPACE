@@ -36,9 +36,54 @@ namespace zSpace
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
+		for (auto& v : _vertexCorners)
+		{
+			pointArray.push_back(v);
+		}
 
-		fnInMesh.create(pointArray, polyCount, polyConnect);
-		fnInMesh.smoothMesh(2, false);
+		for (int i = 0; i < _vertexCorners.size(); i++)
+		{
+			polyConnect.insert(polyConnect.begin(), i);
+		}
+
+		polyCount.push_back(_vertexCorners.size());
+
+		zObjMesh initFace;
+		zFnMesh fnInit (initFace);
+		
+		fnInit.create(pointArray, polyCount, polyConnect);
+		fnInit.extrudeBoundaryEdge(1.0, *inMeshObj, false);
+
+		zVector backCenter;
+		zPointArray tempVPositions;
+		zPointArray backCorners;
+
+		fnInMesh.getVertexPositions(tempVPositions);
+
+		for (int i = tempVPositions.size() / 2; i < tempVPositions.size(); i++)
+		{
+			backCorners.push_back(tempVPositions[i]);
+			backCenter += tempVPositions[i];
+		}
+
+		backCenter /= backCorners.size();
+
+		for (auto& v : backCorners)
+		{
+			zVector dir = backCenter - v;
+			dir.normalize();
+			dir *= 0.6;
+			v += dir;
+		}
+
+		for (int i = tempVPositions.size() / 2; i < tempVPositions.size(); i++)
+		{
+			tempVPositions[i] = backCorners[i - (tempVPositions.size() / 2)];
+		}
+
+		fnInMesh.setVertexPositions(tempVPositions);
+		fnInMesh.extrudeMesh(0.05, *inMeshObj, false);
+
 	}
 
 }

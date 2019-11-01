@@ -19,7 +19,8 @@
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
-#include <headers/zInterface/functionsets/zFnParticle.h>
+
+#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
 #include <headers/zHousing/base/zHcTypeDef.h>
@@ -47,6 +48,9 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief pointer to display model  */
+		zModel *model;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
@@ -68,10 +72,7 @@ namespace zSpace
 		zStructureType structureType;
 
 		/*!	\brief structure units/cells array */
-		zStructureArray structureUnits;
-
-		/*!	\brief pointer container to structure Object  */
-		zObjMeshPointerArray structureObjs;
+		zStructurePointerArray structureUnits;
 
 		/*!	\brief store edge attributes: primary (true) secondary (false)  */
 		zBoolArray edgeAttributes;
@@ -93,7 +94,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcUnit(zObjMesh& inMeshObj_, zObjMeshPointerArray &_strcutureObjs, zObjMeshPointerArray &_columnObjs, zObjMeshPointerArray &_slabObjs, zObjMeshPointerArray &_wallObjs, zObjMeshPointerArray &_facadeObjs, zFunctionType&_funcType);
+		zHcUnit(zModel&_model, zObjMesh& inMeshObj_, zFunctionType&_funcType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -115,7 +116,7 @@ namespace zSpace
 		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits(zObjMeshPointerArray &_columnObjs, zObjMeshPointerArray &_slabObjs, zObjMeshPointerArray &_wallObjs, zObjMeshPointerArray &_facadeObjs);
+		bool createStructuralUnits();
 
 		/*! \brief This method creates internal layout.
 	*

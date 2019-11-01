@@ -19,7 +19,8 @@
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
-#include <headers/zInterface/functionsets/zFnParticle.h>
+
+#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
 #include <headers/zArchGeom/zAgTypedef.h>
@@ -49,16 +50,21 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		bool displayColumns = true;
+
+		/*!	\brief pointer to display model  */
+		zModel *model;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to input mesh Object  */
-		zObjMesh* inMeshObj;
+		/*!	\brief mesh Object  */
+		zObjMesh* cellObj;
 
 		/*!	\brief input mesh function set  */
-		zFnMesh fnInMesh;
+		zFnMesh fnCell;
 
 		/*!	\brief column array per cell set  */
 		zColumnArray columnArray;
@@ -105,6 +111,7 @@ namespace zSpace
 		/*! \brief pointer to housing unit that this cell is attached to*/
 		//class zHcUnit* parentUnit;
 
+		
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -119,7 +126,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zObjMesh &_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zObjMeshPointerArray&_wallObjs, zObjMeshPointerArray&_facadeObjs, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType);
+		zHcStructure(zModel&_model, zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -132,7 +139,7 @@ namespace zSpace
 		~zHcStructure();
 
 		//--------------------------
-		//---- SET METHODS
+		//---- CREATE METHODS
 		//--------------------------
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
@@ -161,16 +168,28 @@ namespace zSpace
 		bool createSlabs();
 
 		/*! \brief This method creates the walls that live in this structure cell object
-	*
-	*	\since version 0.0.4
-	*/
+		*
+		*	\since version 0.0.4
+		*/
 		bool createWalls();
 
 		/*! \brief This method creates the facades that live in this structure cell object
-	*
-	*	\since version 0.0.4
-	*/
+		*
+		*	\since version 0.0.4
+		*/
 		bool createFacades();
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+
+		/*! \brief This method sets show vertices boolean.
+		*
+		*	\param		[in]	_showVerts				- input show vertices booelan.
+		*	\since version 0.0.2
+		*/
+		void setShowColumns(bool _showCols);
 
 	};
 

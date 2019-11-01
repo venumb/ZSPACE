@@ -24,15 +24,29 @@ namespace zSpace
 
 
 		/*! \brief container to cell faces attributes */
-	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inMeshObj, zPointArray &faceVertexPositions, zObjMeshPointerArray&_columnObjs, zObjMeshPointerArray&_slabObjs, zObjMeshPointerArray&_wallObjs, zObjMeshPointerArray&_facadeObjs, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType)
+	ZSPACE_INLINE zHcStructure::zHcStructure(zModel&_model, zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType)
 	{
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(_inMeshObj);	
+		model = &_model;
+		cellObj = new zObjMesh();
+		fnCell = zFnMesh(*cellObj);	
 
-		columnObjs = _columnObjs;
-		slabObjs = _slabObjs;
-		wallObjs = _wallObjs;
-		facadeObjs = _facadeObjs;
+
+		for (int i = 0; i < faceVertexPositions.size(); i++)
+		{
+			zObjMesh* tempColumn = new zObjMesh();
+			zObjMesh* tempSlab = new zObjMesh();
+			zObjMesh* tempWall = new zObjMesh();
+			zObjMesh* tempFacade = new zObjMesh();
+
+			columnObjs.push_back(tempColumn);
+			slabObjs.push_back(tempSlab);
+			wallObjs.push_back(tempWall);
+			facadeObjs.push_back(tempFacade);
+		}
+		//columnObjs.assign(faceVertexPositions.size(), new zObjMesh());
+		//slabObjs.assign(faceVertexPositions.size(), zObjMesh());
+		//wallObjs.assign(faceVertexPositions.size(), zObjMesh());
+		//facadeObjs.assign(faceVertexPositions.size(), zObjMesh());
 
 		cellEdgesAttributes = _cellEdgesAttributes;
 		cellBoundaryAttributes = _cellBoundaryAttributes;
@@ -50,16 +64,50 @@ namespace zSpace
 			createWalls();
 			createFacades();
 		}
+
+		
+		printf("\n column container : %i", columnObjs.size());
+		model->addObject(*cellObj);
+		cellObj->setShowElements(false, true, false);
+
+		for (auto& c : columnObjs)
+		{
+			zFnMesh temp(*c);
+			printf("\n num of polys in column: %i", temp.numPolygons());
+			model->addObject(*c);
+			c->setShowElements(false, true, true);
+		}
+		for (auto& s : slabObjs)
+		{
+			model->addObject(*s);
+			s->setShowElements(false, true, true);
+		}
+		for (auto& w : wallObjs)
+		{
+			zFnMesh check = zFnMesh(*w);
+			if (check.numPolygons() == 0) continue;
+
+			model->addObject(*w);
+			w->setShowElements(false, true, false);
+		}
+		for (auto& f : facadeObjs)
+		{
+			zFnMesh check = zFnMesh(*f);
+			if (check.numPolygons() == 0) continue;
+
+			model->addObject(*f);
+			f->setShowElements(false, true, true);
+		}
 	}
 
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zHcStructure::~zHcStructure() {}
 
-	//---- SET METHODS
+	//---- CREATE METHODS
 	   	 
 
-	void zHcStructure::createStructureCell(zPointArray &vPositions)
+	ZSPACE_INLINE void zHcStructure::createStructureCell(zPointArray &vPositions)
 	{
 		zIntArray polyConnect;
 		zIntArray polyCount;
@@ -76,12 +124,12 @@ namespace zSpace
 		zFnMesh tempFn(tempObj);
 
 		tempFn.create(vPositions, polyCount, polyConnect);
-		tempFn.extrudeMesh(-height, *inMeshObj, false);
+		tempFn.extrudeMesh(-height, *cellObj, false);
 	}
 
-	void zHcStructure::setCellFacesAttibutes()
+	ZSPACE_INLINE void zHcStructure::setCellFacesAttibutes()
 	{
-		for (zItMeshFace f(*inMeshObj);  !f.end(); f++)
+		for (zItMeshFace f(*cellObj);  !f.end(); f++)
 		{
 			if (f.getId() == 0) cellFaceArray.push_back(zCellFace::zRoof);
 			else if (f.getId() == 1) cellFaceArray.push_back(zCellFace::zFloor);
@@ -90,18 +138,14 @@ namespace zSpace
 
 		for (int i = 0; i < cellBoundaryAttributes.size(); i++)
 		{
-			if (cellBoundaryAttributes[i] == true) cellFaceArray.push_back(zCellFace::zFacade);
+			if (cellBoundaryAttributes[i] == true && cellEdgesAttributes[i] == true) cellFaceArray.push_back(zCellFace::zFacade);
 			else cellFaceArray.push_back(zCellFace::zIntWall);
 		}
 	}
 
-	bool zHcStructure::createColumns()
+	ZSPACE_INLINE bool zHcStructure::createColumns()
 	{
-		if (!inMeshObj) return false;
-
-		zFnMesh tempfnMesh(*inMeshObj);
-
-		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		for (zItMeshFace f(*cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
 			{
@@ -111,7 +155,7 @@ namespace zSpace
 				int heCount = 0;
 				for (int i : heIndices)
 				{
-					zItMeshHalfEdge he(*inMeshObj, i);
+					zItMeshHalfEdge he(*cellObj, i);
 					
 					//set column position
 					zVector columnPos = he.getStartVertex().getPosition();
@@ -142,13 +186,11 @@ namespace zSpace
 		return true;
 	}
 
-	bool zHcStructure::createSlabs()
+	ZSPACE_INLINE bool zHcStructure::createSlabs()
 	{
-		if (!inMeshObj || columnArray.size() == 0) return false;
+		if (columnArray.size() == 0) return false;
 
-		zFnMesh tempfnMesh(*inMeshObj);
-
-		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		for (zItMeshFace f(*cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
 			{
@@ -158,7 +200,7 @@ namespace zSpace
 				int heCount = 0;
 				for (int i : heIndices)
 				{
-					zItMeshHalfEdge he(*inMeshObj, i);
+					zItMeshHalfEdge he(*cellObj, i);
 
 					//set slab center
 					zVector center = f.getCenter();
@@ -189,12 +231,10 @@ namespace zSpace
 		return true;
 	}
 
-	bool zHcStructure::createWalls()
+	ZSPACE_INLINE bool zHcStructure::createWalls()
 	{
-		if (!inMeshObj) return false;
-
 		int count = 0;
-		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		for (zItMeshFace f(*cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zIntWall)
 			{
@@ -212,14 +252,32 @@ namespace zSpace
 		return true;
 	}
 
-	bool zHcStructure::createFacades()
+	ZSPACE_INLINE bool zHcStructure::createFacades()
 	{
-		if (!inMeshObj) return false;
+		int count = 0;
+		for (zItMeshFace f(*cellObj); !f.end(); f++)
+		{
+			if (cellFaceArray[f.getId()] == zCellFace::zFacade)
+			{
+				zPointArray vCorners;
+				f.getVertexPositions(vCorners);
 
+				zAgFacade tempWall = zAgFacade(*facadeObjs[count], vCorners);
+
+				count++;
+			}
+		}
+
+		printf("\n num of walls placed: %i", count);
 
 		return true;
 	}
 
-	
+	//---- SET METHODS
+
+	ZSPACE_INLINE void zHcStructure::setShowColumns(bool _showCols)
+	{
+		//for (auto &m : columnObjs) m.setShowObject(_showCols);
+	}
 
 }

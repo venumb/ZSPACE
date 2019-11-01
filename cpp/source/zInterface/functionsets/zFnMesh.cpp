@@ -3025,6 +3025,69 @@ namespace zSpace
 		
 	}
 
+	ZSPACE_INLINE void zFnMesh::extrudeBoundaryEdge(float extrudeThickness, zObjMesh &out, bool thicknessTris)
+	{
+		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
+
+
+		vector<zVector> positions;
+		vector<int> polyCounts;
+		vector<int> polyConnects;
+
+
+		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(meshObj->mesh.vertexPositions[i]);
+		}
+
+		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(meshObj->mesh.vertexPositions[i] + (meshObj->mesh.vertexNormals[i] * extrudeThickness));
+		}	
+
+
+		for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
+		{
+			if (he.onBoundary())
+			{
+				vector<int> eVerts;
+				he.getVertices(eVerts);
+
+				if (thicknessTris)
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1]);
+
+					polyCounts.push_back(3);
+					polyCounts.push_back(3);
+				}
+				else
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + meshObj->mesh.vertexPositions.size());
+
+
+					polyCounts.push_back(4);
+				}
+
+
+			}
+		}
+
+		zFnMesh tempFn(out);
+
+		tempFn.clear();
+		tempFn.create(positions, polyCounts, polyConnects);
+
+	}
+
 	//---- TRANSFORM METHODS OVERRIDES
 
 	ZSPACE_INLINE void zFnMesh::setTransform(zTransform &inTransform, bool decompose, bool updatePositions)
