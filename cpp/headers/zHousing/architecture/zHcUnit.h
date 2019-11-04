@@ -15,12 +15,12 @@
 
 #pragma once
 
+#include <headers/zInterface/model/zModel.h>
+
 #include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
-
-#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
 #include <headers/zHousing/base/zHcTypeDef.h>
@@ -56,11 +56,12 @@ namespace zSpace
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
+
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
+		zObjMesh *inUnitMeshObj;
 
 		/*!	\brief input mesh function set  */
-		zFnMesh fnInMesh;
+		zFnMesh fnUnitMesh;
 
 		/*!	\brief house layout option */
 		zLayoutType layoutType;
@@ -94,7 +95,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcUnit(zModel&_model, zObjMesh& inMeshObj_, zFunctionType&_funcType);
+		zHcUnit(zObjMesh& inMeshObj_, zFunctionType&_funcType, zStructureType&_structureType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -106,23 +107,30 @@ namespace zSpace
 		*/
 		~zHcUnit();
 
+
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method creates structural units zHcStructure.
+		/*! \brief This method sets the edges attributes: primary or secundary and boundary conditions
 		*
-		*	\param		[in]	_columnObjs 				- input pointer of column mesh obj
-		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits();
-
-		/*! \brief This method creates internal layout.
-	*
-	*	\since version 0.0.4
-	*/
 		void setEdgesAttributes();
+
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setUnitDisplayModel(zModel&_model);
+#endif
+
+		//--------------------------
+		//---- CREATE METHODS
+		//--------------------------
 
 		/*! \brief This method creates internal layout.
 		*
@@ -131,6 +139,14 @@ namespace zSpace
 		*/
 		void createLayoutPlan(zLayoutType layout_);
 
+
+		/*! \brief This method creates structural units zHcStructure.
+		*
+		*	\param		[in]	_columnObjs 				- input pointer of column mesh obj
+		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
+		*	\since version 0.0.4
+		*/
+		bool createStructuralUnits(zStructureType&_structureType);
 	};
 
 

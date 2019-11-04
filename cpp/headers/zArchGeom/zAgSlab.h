@@ -49,6 +49,8 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		zStructureType structureType;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
@@ -62,6 +64,8 @@ namespace zSpace
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
+
+		zVector xCenter, yCenter, center;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -80,7 +84,7 @@ namespace zSpace
 		*	\param		[in]	_forceScale					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgSlab(zObjMesh&_inMeshObj, zVector& xCenter, zVector& yCenter, zVector& center, zAgColumn&_parenColumn);
+		zAgSlab(zObjMesh&_inMeshObj, zVector&_xCenter, zVector&_yCenter, zVector&_center, zAgColumn&_parenColumn);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -93,10 +97,27 @@ namespace zSpace
 		~zAgSlab();
 
 		//--------------------------
-		//---- SET METHODS
+		//---- CREATE METHODS
 		//--------------------------
 
+		/*! \brief This method creates slabs by a structural type
+		*
+		*	\param		[in]	_structureType					- input set structure type
+		*	\since version 0.0.4
+		*/
+		void createSlabByType(zStructureType&_structureType);
 
+		/*! \brief This method creates a robotic hotwire cut slab
+		*
+		*	\since version 0.0.4
+		*/
+		void createRhwcSlab();
+
+		/*! \brief This method creates a timber slab
+		*
+		*	\since version 0.0.4
+		*/
+		void createTimberSlab();
 
 	};
 

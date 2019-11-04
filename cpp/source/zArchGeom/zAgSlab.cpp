@@ -27,12 +27,26 @@ namespace zSpace
 
 
 
-	zAgSlab::zAgSlab(zObjMesh & _inMeshObj, zVector & xCenter, zVector & yCenter, zVector & center, zAgColumn &_parentColumn)
+	zAgSlab::zAgSlab(zObjMesh & _inMeshObj, zVector&_xCenter, zVector&_yCenter, zVector&_center, zAgColumn &_parentColumn)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);
 		parentColumn = &_parentColumn;
+		center = _center;
+		xCenter = _xCenter;
+		yCenter = _yCenter;
+	}
 
+	void zAgSlab::createSlabByType(zStructureType & _structureType)
+	{
+		structureType = _structureType;
+
+		if (structureType == zStructureType::zRHWC) createRhwcSlab();
+		else if (structureType == zStructureType::zDigitalTimber) createTimberSlab();
+	}
+
+	void zAgSlab::createRhwcSlab()
+	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
@@ -101,6 +115,39 @@ namespace zSpace
 
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		fnInMesh.smoothMesh(2, false);
+	}
+
+	void zAgSlab::createTimberSlab()
+	{
+		zPointArray pointArray;
+		zIntArray polyConnect;
+		zIntArray polyCount;
+
+		pointArray.push_back(parentColumn->position);
+		pointArray.push_back(xCenter);
+		pointArray.push_back(center);
+		pointArray.push_back(yCenter);
+
+		zVector cross = (parentColumn->position - xCenter) ^ (parentColumn->position - yCenter);
+		if (cross.z > 0)
+		{
+			polyConnect.push_back(0);
+			polyConnect.push_back(1);
+			polyConnect.push_back(2);
+			polyConnect.push_back(3);
+		}
+		else
+		{
+			polyConnect.push_back(3);
+			polyConnect.push_back(2);
+			polyConnect.push_back(1);
+			polyConnect.push_back(0);
+		}
+
+		polyCount.push_back(4);
+
+		fnInMesh.create(pointArray, polyCount, polyConnect);
+		fnInMesh.extrudeMesh(-0.1, *inMeshObj, false);
 	}
 
 }

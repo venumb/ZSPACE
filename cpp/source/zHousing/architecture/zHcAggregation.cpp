@@ -19,10 +19,6 @@ namespace zSpace
 
 	ZSPACE_INLINE zHcAggregation::zHcAggregation(){}
 
-	ZSPACE_INLINE zHcAggregation::zHcAggregation(zModel &_model)
-	{
-		model = &_model;		
-	}
 
 	//---- DESTRUCTOR
 
@@ -31,7 +27,7 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zHcAggregation::createHousingUnits()
+	ZSPACE_INLINE void zHcAggregation::createHousingUnits(zStructureType&_structureType)
 	{
 		for (int i = 0; i < inMeshObjs.size(); i++)
 		{
@@ -42,7 +38,7 @@ namespace zSpace
 			else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0) funcType = zFunctionType::zLandscape;
 			else funcType = zFunctionType::zPublic;
 
-			zHcUnit* tempHcUnit = new zHcUnit(*model, inMeshObjs[i], funcType);
+			zHcUnit* tempHcUnit = new zHcUnit(inMeshObjs[i], funcType, _structureType);
 			unitArray.push_back(tempHcUnit);
 		}
 	}
@@ -61,15 +57,22 @@ namespace zSpace
 			fnInMeshArray.push_back(tempFnMesh);
 		}
 
-		for (auto& o : inMeshObjs)
-		{
-			model->addObject(o);
-			o.setShowElements(true, true, false);
-		}
+	
 	}
 
 	//---- DISPLAY METHODS
 
+	ZSPACE_INLINE void zHcAggregation::setDisplayModel(zModel&_model)
+	{
+		model = &_model;
+
+		if (unitArray.size() == 0) return;
+
+		for (auto& unit : unitArray)
+		{
+			unit->setUnitDisplayModel(_model);
+		}
+	}
 
 	ZSPACE_INLINE void zHcAggregation::drawHousing()
 	{

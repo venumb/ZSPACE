@@ -20,15 +20,14 @@ namespace zSpace
 
 	ZSPACE_INLINE zHcUnit::zHcUnit(){}
 
-	ZSPACE_INLINE zHcUnit::zHcUnit(zModel&_model, zObjMesh&_inMeshObj, zFunctionType&_funcType)
+	ZSPACE_INLINE zHcUnit::zHcUnit(zObjMesh&_inMeshObj, zFunctionType&_funcType, zStructureType&_structureType)
 	{
-		model = &_model;
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(_inMeshObj);
+		inUnitMeshObj = &_inMeshObj;
+		fnUnitMesh = zFnMesh(_inMeshObj);
 		funcType = _funcType;
 
 		setEdgesAttributes();
-		createStructuralUnits();
+		createStructuralUnits(_structureType);
 	}
 
 	//---- DESTRUCTOR
@@ -37,13 +36,13 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	bool zHcUnit::createStructuralUnits()
+	bool zHcUnit::createStructuralUnits(zStructureType&_structureType)
 	{
 		bool success = false;
-		if (!inMeshObj) return success;
+		if (!inUnitMeshObj) return success;
 
 		//create structure obj per face
-		for (zItMeshFace f(*inMeshObj); !f.end(); f++)
+		for (zItMeshFace f(*inUnitMeshObj); !f.end(); f++)
 		{
 			int  id = f.getId();
 			zPointArray vPositions;
@@ -56,13 +55,13 @@ namespace zSpace
 			f.getHalfEdges(heIndices);
 			for (int heInt : heIndices)
 			{
-				int edgeIndex = inMeshObj->mesh.halfEdges[heInt].getEdge()->getId();
+				int edgeIndex = inUnitMeshObj->mesh.halfEdges[heInt].getEdge()->getId();
 				cellEdgeAttributes.push_back(edgeAttributes[edgeIndex]);
 				cellBoundaryAttributes.push_back(eBoundaryAttributes[edgeIndex]);
 			}
 
 			//create and initialise a structure obj and add it to container
-			zHcStructure* tempStructure = new zHcStructure(*model, vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType);
+			zHcStructure* tempStructure = new zHcStructure(vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType, _structureType);
 			structureUnits.push_back(tempStructure);
 		}
 
@@ -72,9 +71,9 @@ namespace zSpace
 
 	void zHcUnit::setEdgesAttributes()
 	{
-		if (!inMeshObj) return;
+		if (!inUnitMeshObj) return;
 
-		for (zItMeshEdge e(*inMeshObj); !e.end(); e++)
+		for (zItMeshEdge e(*inUnitMeshObj); !e.end(); e++)
 		{
 			zItMeshHalfEdge he = e.getHalfEdge(0);
 			zItMeshFace f = he.getFace();
@@ -92,6 +91,20 @@ namespace zSpace
 
 			if (e.onBoundary()) eBoundaryAttributes.push_back(true);
 			else eBoundaryAttributes.push_back(false);
+		}
+	}
+
+	void zHcUnit::setUnitDisplayModel(zModel&_model)
+	{
+		model = &_model;
+		model->addObject(*inUnitMeshObj);
+		inUnitMeshObj->setShowElements(true, true, false);
+
+		if (structureUnits.size() == 0) return;
+
+		for (auto& structure : structureUnits)
+		{
+			structure->setStructureDisplayModel(_model);
 		}
 	}
 

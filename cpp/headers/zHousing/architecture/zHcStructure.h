@@ -15,12 +15,13 @@
 
 #pragma once
 
+#include <headers/zInterface/model/zModel.h>
+
 #include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 
-#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
 #include <headers/zArchGeom/zAgTypedef.h>
@@ -50,15 +51,21 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
-		bool displayColumns = true;
-
 		/*!	\brief pointer to display model  */
 		zModel *model;
+
+		/*!	\brief structure type (i.e. rhwc, timber)  */
+		zStructureType structureType;
+
+		/*!	\brief structure type (i.e. rhwc, timber)  */
+		zFunctionType functionType;
+
 
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
+
 
 		/*!	\brief mesh Object  */
 		zObjMesh* cellObj;
@@ -122,11 +129,11 @@ namespace zSpace
 		*/
 		zHcStructure();
 
-			/*! \brief Overloaded constructor.
+		/*! \brief Overloaded constructor.
 		*
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zModel&_model, zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType);
+		zHcStructure(zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType, zStructureType&_structureType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -138,6 +145,18 @@ namespace zSpace
 		*/
 		~zHcStructure();
 
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+		/*! \brief This method creates a spatial cell in which the architectural elements live in
+		*
+		*	\since version 0.0.4
+		*/
+		void setCellFacesAttibutes();
+
+
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
@@ -147,13 +166,15 @@ namespace zSpace
 		*	\param		[in]	_vertexpositions_					- ordered set of vertices up and down.
 		*	\since version 0.0.4
 		*/
-		void createStructureCell(zPointArray &vertexPositions_);
+		void createStructuralCell(zPointArray &vertexPositions_);
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
-		*
-		*	\since version 0.0.4
-		*/
-		void setCellFacesAttibutes();
+	*
+	*	\param		[in]	_structuretype					- structural type 
+	*	\since version 0.0.4
+	*/
+		void createStructureByType(zStructureType&_structureType);
+
 
 		/*! \brief This method creates the columns that live in this structure cell object
 		*
@@ -180,16 +201,27 @@ namespace zSpace
 		bool createFacades();
 
 		//--------------------------
-		//---- SET METHODS
+		//---- DISPLAY METHODS
 		//--------------------------
 
-
-		/*! \brief This method sets show vertices boolean.
+		/*! \brief This method creates the facades that live in this structure cell object
 		*
-		*	\param		[in]	_showVerts				- input show vertices booelan.
+		*	\param		[in]	_showColumns					- display column objs
+		*	\param		[in]	_showSlabs						- display slab objs
+		*	\param		[in]	_showWalls					- display wall objs
+		*	\param		[in]	_showFacade					- display facade objs
+		*	\since version 0.0.4
+		*/
+		void displayStructure(bool showColumns, bool showSlabs, bool showWalls, bool showFacade);
+
+#ifndef ZSPACE_UNREAL_INTEROP
+		/*! \brief This method sets the model display not for Unreal.
+		*
+		*	\param		[in]	_model				- pointer to display model
 		*	\since version 0.0.2
 		*/
-		void setShowColumns(bool _showCols);
+		void setStructureDisplayModel(zModel&_model);
+#endif
 
 	};
 

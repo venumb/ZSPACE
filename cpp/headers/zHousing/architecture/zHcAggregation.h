@@ -15,12 +15,11 @@
 
 #pragma once
 
+#include <headers/zInterface/model/zModel.h>
 #include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
-
-#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zHousing/architecture/zHcUnit.h>
 #include <headers/zHousing/base/zHcEnumerators.h>
@@ -43,7 +42,7 @@ namespace zSpace
 	*/
 
 	/** @}*/
-
+	
 	class ZSPACE_AG zHcAggregation
 	{
 	protected:
@@ -84,12 +83,6 @@ namespace zSpace
 		zHcAggregation();
 
 
-		/*! \brief overload constructor.
-		*
-		*	\since version 0.0.4
-		*/
-		zHcAggregation(zModel &_model);
-
 		//--------------------------
 		//---- DESTRUCTOR
 		//--------------------------
@@ -104,12 +97,26 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method creates housing units.
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		/*! \brief This method sets the display model not for Unreal.
 		*
 		*	\param		[in]	_index				- input housing unit index
 		*	\since version 0.0.4
 		*/
-		void createHousingUnits();
+		void setDisplayModel(zModel&_model);
+#endif
+
+		//--------------------------
+		//---- CREATE METHODS
+		//--------------------------
+
+		/*! \brief This method creates housing units.
+		*
+		*	\param		[in]	_structureType				- input structure type
+		*	\since version 0.0.4
+		*/
+		void createHousingUnits(zStructureType&_structureType);
 
 		/*! \brief This method creates housing units from an imported mesh.
 		*
