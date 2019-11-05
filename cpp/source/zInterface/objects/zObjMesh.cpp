@@ -128,7 +128,7 @@ namespace zSpace
 	{
 		if (showObject)
 		{
-			drawMesh();
+			drawMesh();		
 
 			if (showDihedralEdges) drawMesh_DihedralEdges();
 

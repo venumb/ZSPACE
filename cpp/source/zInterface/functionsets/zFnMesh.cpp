@@ -2427,6 +2427,8 @@ namespace zSpace
 			zItMeshHalfEdge newHe;
 			bool edgesResize = addEdges(v1, v2, false, newHe);
 
+			int newHeId = newHe.getId();
+
 			// recompute iterators if resize is true
 			if (edgesResize)
 			{
@@ -2440,6 +2442,8 @@ namespace zSpace
 
 				heS_next = heS.getNext();
 				heS_prev = heS.getPrev();
+
+				newHe = zItMeshHalfEdge(*meshObj, newHeId);
 
 				//printf("\n working!");
 			}
@@ -3890,7 +3894,7 @@ namespace zSpace
 
 			meshObj->mesh.resizeArray(zVertexData, numVertices());
 
-			printf("\n removed inactive vertices. ");
+			//printf("\n removed inactive vertices. ");
 
 
 			/*vector<zVertexHandle>::iterator v = meshObj->mesh.vHandles.begin();
@@ -3960,7 +3964,7 @@ namespace zSpace
 				}
 			}
 
-			printf("\n removed inactive edges and had edges. ");
+			//printf("\n removed inactive edges and half edges. ");
 
 			meshObj->mesh.resizeArray(zHalfEdgeData, numHalfEdges());
 
@@ -4003,7 +4007,7 @@ namespace zSpace
 
 			meshObj->mesh.resizeArray(zFaceData, meshObj->mesh.fHandles.size());
 
-			printf("\n removed inactive faces. ");
+			//printf("\n removed inactive faces. ");
 		}
 
 		else throw std::invalid_argument(" error: invalid zHEData type");

@@ -27,7 +27,7 @@ namespace zSpace
 
 
 
-	zAgSlab::zAgSlab(zObjMesh & _inMeshObj, zVector&_xCenter, zVector&_yCenter, zVector&_center, zAgColumn &_parentColumn)
+	zAgSlab::zAgSlab(zObjMesh & _inMeshObj, zVector&_xCenter, zVector&_yCenter, zVector&_center, zAgColumn&_parentColumn)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);

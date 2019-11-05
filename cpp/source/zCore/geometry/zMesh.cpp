@@ -521,7 +521,7 @@ namespace zSpace
 				if (heHandles[i].v != -1) halfEdges[i].setVertex(&vertices[heHandles[i].v]);
 			}
 
-			printf("\n mesh vertices resized. ");
+			//printf("\n mesh vertices resized. ");
 
 		}
 
@@ -570,7 +570,7 @@ namespace zSpace
 
 
 
-			printf("\n mesh half edges resized. ");
+			//printf("\n mesh half edges resized. ");
 		}
 
 		else if (type == zEdgeData)
@@ -601,7 +601,7 @@ namespace zSpace
 				if (heHandles[i].e != -1) halfEdges[i].setEdge(&edges[heHandles[i].e]);
 			}
 
-			printf("\n mesh edges resized. ");	
+			//printf("\n mesh edges resized. ");	
 		}
 
 		// Mesh Face
@@ -631,7 +631,7 @@ namespace zSpace
 			}
 
 
-			printf("\n mesh faces resized. ");
+			//printf("\n mesh faces resized. ");
 		}
 
 		else throw std::invalid_argument(" error: invalid zHEData type");

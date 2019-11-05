@@ -26,31 +26,24 @@ namespace zSpace
 		/*! \brief container to cell faces attributes */
 	ZSPACE_INLINE zHcStructure::zHcStructure(zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType, zStructureType&_structureType)
 	{
-		cellObj = new zObjMesh();
-		fnCell = zFnMesh(*cellObj);	
+		//cellObj = new zObjMesh();
+		fnCell = zFnMesh(cellObj);	
 		structureType = _structureType;
 		functionType = _funcType;
 
-		for (int i = 0; i < faceVertexPositions.size(); i++)
-		{
-			zObjMesh* tempColumn = new zObjMesh();
-			zObjMesh* tempSlab = new zObjMesh();
-			zObjMesh* tempWall = new zObjMesh();
-			zObjMesh* tempFacade = new zObjMesh();
-
-			columnObjs.push_back(tempColumn);
-			slabObjs.push_back(tempSlab);
-			wallObjs.push_back(tempWall);
-			facadeObjs.push_back(tempFacade);
-		}
+		columnObjs.assign(faceVertexPositions.size(), zObjMesh());
+		slabObjs.assign(faceVertexPositions.size(), zObjMesh());
+		wallObjs.assign(faceVertexPositions.size(), zObjMesh());
+		facadeObjs.assign(faceVertexPositions.size(),zObjMesh());
 
 		cellEdgesAttributes = _cellEdgesAttributes;
 		cellBoundaryAttributes = _cellBoundaryAttributes;
 
-		createStructuralCell(faceVertexPositions);
-		setCellFacesAttibutes();
+		//createStructuralCell(faceVertexPositions);
+		//setCellFacesAttibutes();
 
-		createStructureByType(structureType);
+		//createStructureByType(structureType);
+		
 	}
 
 	//---- DESTRUCTOR
@@ -77,7 +70,10 @@ namespace zSpace
 		zFnMesh tempFn(tempObj);
 
 		tempFn.create(vPositions, polyCount, polyConnect);
-		tempFn.extrudeMesh(-height, *cellObj, false);
+		tempFn.extrudeMesh(-height, cellObj, false);
+
+
+		setCellFacesAttibutes();
 	}
 
 	void zHcStructure::createStructureByType(zStructureType & _structureType)
@@ -96,9 +92,23 @@ namespace zSpace
 		}
 	}
 
+	void zHcStructure::updateStructureType(zStructureType & _structureType)
+	{
+		if (columnArray.size() == 0) return;
+		if (slabArray.size() == 0) return;
+		//if (wallArray.size() == 0) return;
+		//if (facadeArray.size() == 0) return;
+
+		structureType = _structureType;
+
+		for (auto& column : columnArray) column.createColumnByType(structureType);
+		for (auto& slab : slabArray) slab.createSlabByType(structureType);
+
+	}
+
 	ZSPACE_INLINE void zHcStructure::setCellFacesAttibutes()
 	{
-		for (zItMeshFace f(*cellObj);  !f.end(); f++)
+		for (zItMeshFace f(cellObj);  !f.end(); f++)
 		{
 			if (f.getId() == 0) cellFaceArray.push_back(zCellFace::zRoof);
 			else if (f.getId() == 1) cellFaceArray.push_back(zCellFace::zFloor);
@@ -114,18 +124,20 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zHcStructure::createColumns()
 	{
-		for (zItMeshFace f(*cellObj); !f.end(); f++)
+		for (zItMeshFace f(cellObj); !f.end(); f++)
 		{
+			
+
 			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
 			{
-				zIntArray heIndices;
-				f.getHalfEdges(heIndices);
+				
+				zItMeshHalfEdgeArray hEdges;
+				f.getHalfEdges(hEdges);
 				
 				int heCount = 0;
-				for (int i : heIndices)
+				for (auto he : hEdges)
 				{
-					zItMeshHalfEdge he(*cellObj, i);
-					
+									
 					//set column position
 					zVector columnPos = he.getStartVertex().getPosition();
 
@@ -144,9 +156,8 @@ namespace zSpace
 
 					zVector z = zVector(0, 0, -1);
 
-					zAgColumn tempColumn = zAgColumn(*columnObjs[heCount], columnPos, x, y, z, height);
+					zAgColumn tempColumn (columnObjs[heCount], columnPos, x, y, z, height);
 					tempColumn.createColumnByType(structureType);
-
 					columnArray.push_back(tempColumn);
 
 					heCount++;
@@ -159,20 +170,21 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zHcStructure::createSlabs()
 	{
-		if (columnArray.size() == 0) return false;
+		if (columnArray.size() == 0)
+		{			
+			return false;
+		}
 
-		for (zItMeshFace f(*cellObj); !f.end(); f++)
+		for (zItMeshFace f(cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
-			{
-				zIntArray heIndices;
-				f.getHalfEdges(heIndices);
+			{				
+				zItMeshHalfEdgeArray hEdges;
+				f.getHalfEdges(hEdges);
 
 				int heCount = 0;
-				for (int i : heIndices)
+				for (auto &he : hEdges)
 				{
-					zItMeshHalfEdge he(*cellObj, i);
-
 					//set slab center
 					zVector center = f.getCenter();
 
@@ -189,17 +201,15 @@ namespace zSpace
 						xCenter = he.getPrev().getCenter();
 					}
 
-					zAgSlab tempSlab = zAgSlab(*slabObjs[heCount], xCenter, yCenter, center, columnArray[heCount]);
+					zAgSlab tempSlab(slabObjs[heCount], xCenter, yCenter, center, columnArray[heCount]);
 					tempSlab.createSlabByType(structureType);
 					
 					slabArray.push_back(tempSlab);
 
 					heCount++;
 				}
-
 			}
 		}
-
 
 		return true;
 	}
@@ -207,14 +217,14 @@ namespace zSpace
 	ZSPACE_INLINE bool zHcStructure::createWalls()
 	{
 		int count = 0;
-		for (zItMeshFace f(*cellObj); !f.end(); f++)
+		for (zItMeshFace f(cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zIntWall)
 			{
 				zPointArray vCorners;
 				f.getVertexPositions(vCorners);
 
-				zAgWall tempWall = zAgWall(*wallObjs[count], vCorners);
+				zAgWall tempWall = zAgWall(wallObjs[count], vCorners);
 				wallArray.push_back(tempWall);
 
 				count++;
@@ -229,14 +239,14 @@ namespace zSpace
 	ZSPACE_INLINE bool zHcStructure::createFacades()
 	{
 		int count = 0;
-		for (zItMeshFace f(*cellObj); !f.end(); f++)
+		for (zItMeshFace f(cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zFacade)
 			{
 				zPointArray vCorners;
 				f.getVertexPositions(vCorners);
 
-				zAgFacade tempFacade = zAgFacade(*facadeObjs[count], vCorners);
+				zAgFacade tempFacade = zAgFacade(facadeObjs[count], vCorners);
 				facadeArray.push_back(tempFacade);
 				count++;
 			}
@@ -247,42 +257,63 @@ namespace zSpace
 		return true;
 	}
 
-	//---- SET METHODS
 
-	ZSPACE_INLINE void zHcStructure::displayStructure(bool showColumns, bool showSlabs, bool showWalls, bool showFacade)
-	{
-		for (auto &c : columnObjs) c->setShowObject(showColumns);
-		for (auto &s : slabObjs) s->setShowObject(showSlabs);
-		for (auto &w : wallObjs) w->setShowObject(showWalls);
-		for (auto &f : facadeObjs) f->setShowObject(showFacade);
-	}
+
+	//---- SET METHODS
 
 	ZSPACE_INLINE void zHcStructure::setStructureDisplayModel(zModel & _model)
 	{
 		model = &_model;
-		model->addObject(*cellObj);
-		cellObj->setShowElements(false, true, false);
+		//model->addObject(cellObj);
+		cellObj.setShowElements(false, true, false);
 
 		for (auto& c : columnObjs)
 		{
-			model->addObject(*c);
-			c->setShowElements(false, true, true);
+			model->addObject(c);
+			c.setShowElements(true, true, false);			
+			
 		}
 		for (auto& s : slabObjs)
 		{
-			model->addObject(*s);
-			s->setShowElements(false, true, true);
+			model->addObject(s);
+			s.setShowElements(false, true, true);
 		}
 		for (auto& w : wallObjs)
 		{
-			model->addObject(*w);
-			w->setShowElements(false, true, false);
+			model->addObject(w);
+			w.setShowElements(false, true, false);
 		}
 		for (auto& f : facadeObjs)
 		{
-			model->addObject(*f);
-			f->setShowElements(false, true, true);
+			model->addObject(f);
+			f.setShowElements(false, true, true);
 		}
+	}
+
+
+	//---- DISPLAY METHODS
+
+	ZSPACE_INLINE void zHcStructure::displayColumns(bool showColumns)
+	{
+		for (auto &c : columnObjs)
+		{
+			c.setShowObject(showColumns);				
+		}
+	}
+
+	ZSPACE_INLINE void zHcStructure::displaySlabs(bool showSlabs)
+	{
+		for (auto &s : slabObjs) s.setShowObject(showSlabs);
+	}
+
+	ZSPACE_INLINE void zHcStructure::displayWalls(bool showWalls)
+	{
+		for (auto &w : wallObjs) w.setShowObject(showWalls);
+	}
+
+	ZSPACE_INLINE void zHcStructure::displayFacade(bool showFacade)
+	{
+		for (auto &f : facadeObjs) f.setShowObject(showFacade);
 	}
 
 }

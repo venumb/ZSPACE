@@ -59,16 +59,13 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief input mesh Object  */
-		zObjMeshArray inMeshObjs;
+		zObjMeshArray unitObjs;
 
 		/*!	\brief input mesh function set  */
-		vector<zFnMesh> fnInMeshArray;
-
-		/*!	\brief 2D container of structure obj meshes  */
-		zObjMeshArray testObjs;
+		vector<zFnMesh> fnUnitMeshArray;
 
 		/*!	\brief container of housing units pointer  */
-		vector<zHcUnit*> unitArray;
+		vector<zHcUnit> unitArray;
 
 		/*!	\brief interface manager, handles an input path directory*/
 		zUtilsCore core;
@@ -131,7 +128,33 @@ namespace zSpace
 		//---- DISPLAY METHODS
 		//--------------------------
 
-		void drawHousing();
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	showColumn				- display boolean
+		*	\since version 0.0.4
+		*/
+		void showColumns(bool showColumn);
+
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	showSlab				- display boolean
+		*	\since version 0.0.4
+		*/
+		void showSlabs(bool showSlab);
+
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	showWall				- display boolean
+		*	\since version 0.0.4
+		*/
+		void showWalls(bool showWall);
+
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	showFacade				- display boolean
+		*	\since version 0.0.4
+		*/
+		void showFacade(bool showFacade);
 	};
 
 

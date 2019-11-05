@@ -73,7 +73,7 @@ namespace zSpace
 		zStructureType structureType;
 
 		/*!	\brief structure units/cells array */
-		zStructurePointerArray structureUnits;
+		zStructureArray structureUnits;
 
 		/*!	\brief store edge attributes: primary (true) secondary (false)  */
 		zBoolArray edgeAttributes;

@@ -29,18 +29,30 @@ namespace zSpace
 
 	ZSPACE_INLINE void zHcAggregation::createHousingUnits(zStructureType&_structureType)
 	{
-		for (int i = 0; i < inMeshObjs.size(); i++)
+		unitArray.assign(unitObjs.size(), zHcUnit());
+
+	
+
+		for (int i = 0; i < unitObjs.size(); i++)
 		{
 			zFunctionType funcType;
 
-			zItMeshVertex v(inMeshObjs[i]);
-			if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0) funcType = zFunctionType::zPublic;
+			zItMeshVertex v(unitObjs[i]);
+			if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)	funcType = zFunctionType::zPublic;		
 			else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0) funcType = zFunctionType::zLandscape;
 			else funcType = zFunctionType::zPublic;
 
-			zHcUnit* tempHcUnit = new zHcUnit(inMeshObjs[i], funcType, _structureType);
-			unitArray.push_back(tempHcUnit);
+			//zHcUnit tempHcUnit = zHcUnit(inMeshObjs[i], funcType, _structureType);
+			//unitArray.push_back(tempHcUnit);
+
+			unitArray[i] = zHcUnit(unitObjs[i], funcType, _structureType);
+
+			unitArray[i].createStructuralUnits(_structureType);
+
 		}
+
+		
+
 	}
 
 	ZSPACE_INLINE void zHcAggregation::importMeshFromDirectory(string & _path, zFileTpye type)
@@ -48,17 +60,19 @@ namespace zSpace
 		zStringArray pathsArray;
 		core.getFilesFromDirectory(pathsArray, _path, zJSON);
 
-		inMeshObjs.assign(pathsArray.size(), zObjMesh());
+		unitObjs.assign(pathsArray.size(), zObjMesh());
+		fnUnitMeshArray.assign(pathsArray.size(), zFnMesh());
 
 		for (int i = 0; i < pathsArray.size(); i++)
 		{
-			zFnMesh tempFnMesh = zFnMesh(inMeshObjs[i]);
-			tempFnMesh.from(pathsArray[i], zJSON);
-			fnInMeshArray.push_back(tempFnMesh);
-		}
-
-	
+			fnUnitMeshArray[i] = zFnMesh(unitObjs[i]);
+			fnUnitMeshArray[i].from(pathsArray[i], zJSON);			
+		}	
 	}
+
+	//---- UPDATE METHODS
+
+
 
 	//---- DISPLAY METHODS
 
@@ -68,14 +82,56 @@ namespace zSpace
 
 		if (unitArray.size() == 0) return;
 
+		for (auto& u : unitObjs)
+		{
+			model->addObject(u);
+			u.setShowElements(true, true, false);
+
+		}
+
 		for (auto& unit : unitArray)
 		{
-			unit->setUnitDisplayModel(_model);
+			unit.setUnitDisplayModel(_model);
+
+		}
+
+
+	}
+
+	ZSPACE_INLINE void zHcAggregation::showColumns(bool showColumn)
+	{
+		for (auto& hc : unitArray)
+		{
+			for (auto& s : hc.structureUnits)
+			{
+				
+					s.displayColumns(showColumn);			
+				
+			}
 		}
 	}
 
-	ZSPACE_INLINE void zHcAggregation::drawHousing()
+	ZSPACE_INLINE void zHcAggregation::showSlabs(bool showSlab)
 	{
-		
+		for (auto& hc : unitArray)
+		{
+			for (auto& s : hc.structureUnits) s.displaySlabs(showSlab);
+		}
+	}
+
+	ZSPACE_INLINE void zHcAggregation::showWalls(bool showWall)
+	{
+		for (auto& hc : unitArray)
+		{
+			for (auto& s : hc.structureUnits) s.displayWalls(showWall);
+		}
+	}
+
+	ZSPACE_INLINE void zHcAggregation::showFacade(bool showFacade)
+	{
+		for (auto& hc : unitArray)
+		{
+			for (auto& s : hc.structureUnits) s.displayFacade(showFacade);
+		}
 	}
 }

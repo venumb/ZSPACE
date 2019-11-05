@@ -68,7 +68,7 @@ namespace zSpace
 
 
 		/*!	\brief mesh Object  */
-		zObjMesh* cellObj;
+		zObjMesh cellObj;
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnCell;
@@ -95,16 +95,16 @@ namespace zSpace
 		zFnMesh fnOutMesh;
 
 		/*!	\brief pointer container of columns pointers  */
-		zObjMeshPointerArray columnObjs;
+		zObjMeshArray columnObjs;
 
 		/*!	\brief pointer container of slabs pointers  */
-		zObjMeshPointerArray slabObjs;
+		zObjMeshArray slabObjs;
 
 		/*!	\brief pointer container of walls pointers  */
-		zObjMeshPointerArray wallObjs;
+		zObjMeshArray wallObjs;
 
 		/*!	\brief pointer container of facade pointers  */
-		zObjMeshPointerArray facadeObjs;
+		zObjMeshArray facadeObjs;
 
 		/*! \brief container to top edges attributes */
 		zBoolArray cellEdgesAttributes;
@@ -169,11 +169,18 @@ namespace zSpace
 		void createStructuralCell(zPointArray &vertexPositions_);
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
-	*
-	*	\param		[in]	_structuretype					- structural type 
-	*	\since version 0.0.4
-	*/
+		*
+		*	\param		[in]	_structuretype					- structural type 
+		*	\since version 0.0.4
+		*/
 		void createStructureByType(zStructureType&_structureType);
+
+		/*! \brief This method creates a spatial cell in which the architectural elements live in
+		*
+		*	\param		[in]	_structuretype					- structural type
+		*	\since version 0.0.4
+		*/
+		void updateStructureType(zStructureType&_structureType);
 
 
 		/*! \brief This method creates the columns that live in this structure cell object
@@ -207,12 +214,31 @@ namespace zSpace
 		/*! \brief This method creates the facades that live in this structure cell object
 		*
 		*	\param		[in]	_showColumns					- display column objs
+		*	\since version 0.0.4
+		*/
+		void displayColumns(bool showColumns);
+
+		/*! \brief This method creates the facades that live in this structure cell object
+		*
 		*	\param		[in]	_showSlabs						- display slab objs
+		*	\since version 0.0.4
+		*/
+		void displaySlabs(bool showSlabs);
+
+		/*! \brief This method creates the facades that live in this structure cell object
+		*
 		*	\param		[in]	_showWalls					- display wall objs
+		*	\since version 0.0.4
+		*/
+		void displayWalls( bool showWalls);
+
+		/*! \brief This method creates the facades that live in this structure cell object
+		*
 		*	\param		[in]	_showFacade					- display facade objs
 		*	\since version 0.0.4
 		*/
-		void displayStructure(bool showColumns, bool showSlabs, bool showWalls, bool showFacade);
+		void displayFacade( bool showFacade);
+
 
 #ifndef ZSPACE_UNREAL_INTEROP
 		/*! \brief This method sets the model display not for Unreal.

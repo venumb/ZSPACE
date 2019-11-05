@@ -137,6 +137,17 @@ namespace zSpace
 #endif // !ZSPACE_UNREAL_INTEROP
 		
 
+		//--------------------------
+		//---- GET METHODS
+		//--------------------------
+
+		/*! \brief This method gets show object boolean.
+		*
+		*	\return			boolean				-  show object boolean.
+		*	\since version 0.0.2
+		*/
+		bool getShowObject();
+
 	};
 
 	/** \addtogroup zCore

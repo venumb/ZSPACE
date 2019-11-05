@@ -25,6 +25,8 @@ namespace zSpace
 		fnInMesh = zFnMesh(*inMeshObj);
 		position = _position;
 
+		
+
 		_x.normalize();
 		_y.normalize();
 		_z.normalize();
@@ -34,6 +36,7 @@ namespace zSpace
 		z = _z;
 
 		height = _height;
+		
 	}
 
 	//---- DESTRUCTOR
@@ -207,9 +210,7 @@ namespace zSpace
 		polyCount.push_back(4);
 
 #pragma endregion
-
-		printf("\n point arra_y: %i ", pointArray.size());
-
+		
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		fnInMesh.smoothMesh(2, false);
 

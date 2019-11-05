@@ -83,8 +83,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zModel::draw()
 	{
+				
 		for (auto obj : sceneObjects)
-		{
+		{	
 			obj->draw();
 		}
 

@@ -27,7 +27,7 @@ namespace zSpace
 		funcType = _funcType;
 
 		setEdgesAttributes();
-		createStructuralUnits(_structureType);
+		//createStructuralUnits(_structureType);
 	}
 
 	//---- DESTRUCTOR
@@ -40,6 +40,8 @@ namespace zSpace
 	{
 		bool success = false;
 		if (!inUnitMeshObj) return success;
+
+		structureUnits.assign(fnUnitMesh.numPolygons(), zHcStructure());	
 
 		//create structure obj per face
 		for (zItMeshFace f(*inUnitMeshObj); !f.end(); f++)
@@ -61,9 +63,18 @@ namespace zSpace
 			}
 
 			//create and initialise a structure obj and add it to container
-			zHcStructure* tempStructure = new zHcStructure(vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType, _structureType);
-			structureUnits.push_back(tempStructure);
+			//zHcStructure tempStructure = zHcStructure(vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType, _structureType);
+			//structureUnits.push_back(tempStructure);
+
+			structureUnits[f.getId()] = zHcStructure(vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType, _structureType);
+
+			structureUnits[f.getId()].createStructuralCell(vPositions);		
+
+			structureUnits[f.getId()].createStructureByType(_structureType);
+
 		}
+		
+		
 
 		success = true;
 		return success;
@@ -96,15 +107,13 @@ namespace zSpace
 
 	void zHcUnit::setUnitDisplayModel(zModel&_model)
 	{
-		model = &_model;
-		model->addObject(*inUnitMeshObj);
-		inUnitMeshObj->setShowElements(true, true, false);
+		model = &_model;	
 
 		if (structureUnits.size() == 0) return;
 
 		for (auto& structure : structureUnits)
 		{
-			structure->setStructureDisplayModel(_model);
+			structure.setStructureDisplayModel(_model);
 		}
 	}
 

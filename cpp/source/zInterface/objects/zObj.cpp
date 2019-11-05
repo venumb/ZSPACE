@@ -56,4 +56,11 @@ namespace zSpace
 
 #endif // !ZSPACE_UNREAL_INTEROP
 
+	//---- GET METHODS
+
+	ZSPACE_INLINE bool zObj::getShowObject()
+	{
+		return showObject;
+	}
+
 }
