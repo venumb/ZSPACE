@@ -39,16 +39,14 @@ namespace zSpace
 
 			zItMeshVertex v(unitObjs[i]);
 			if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)	funcType = zFunctionType::zPublic;		
-			else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0) funcType = zFunctionType::zLandscape;
+			else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0) funcType = zFunctionType::zFlat;
+			else if (v.getColor().r == 0 && v.getColor().g == 0 && v.getColor().b == 1) funcType = zFunctionType::zLandscape;
+			else if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 1) funcType = zFunctionType::zVertical;
 			else funcType = zFunctionType::zPublic;
 
-			//zHcUnit tempHcUnit = zHcUnit(inMeshObjs[i], funcType, _structureType);
-			//unitArray.push_back(tempHcUnit);
-
 			unitArray[i] = zHcUnit(unitObjs[i], funcType, _structureType);
-
 			unitArray[i].createStructuralUnits(_structureType);
-
+			//unitArray[i].createLayoutByType(zLayoutType::zStudio, );
 		}
 
 		
@@ -72,7 +70,21 @@ namespace zSpace
 
 	//---- UPDATE METHODS
 
+	void zHcAggregation::updateStructureType(zStructureType & _structureType)
+	{
+		for (auto& hc : unitArray)
+		{
+			for (auto& s : hc.structureUnits)
+			{
+				s.updateStructure(_structureType);
+			}
+		}
+	}
 
+	void zHcAggregation::updateLayout(int unitId, zLayoutType & _layoutType, bool flip)
+	{
+		unitArray[unitId].createLayoutByType(_layoutType, flip);
+	}
 
 	//---- DISPLAY METHODS
 
@@ -94,9 +106,8 @@ namespace zSpace
 			unit.setUnitDisplayModel(_model);
 
 		}
-
-
 	}
+
 
 	ZSPACE_INLINE void zHcAggregation::showColumns(bool showColumn)
 	{
@@ -132,6 +143,13 @@ namespace zSpace
 		for (auto& hc : unitArray)
 		{
 			for (auto& s : hc.structureUnits) s.displayFacade(showFacade);
+		}
+	}
+	ZSPACE_INLINE  void zHcAggregation::showLayout(bool showLayout)
+	{
+		for (auto& hc : unitArray)
+		{
+			hc.displayLayout(showLayout);
 		}
 	}
 }

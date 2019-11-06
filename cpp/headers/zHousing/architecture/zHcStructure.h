@@ -180,7 +180,7 @@ namespace zSpace
 		*	\param		[in]	_structuretype					- structural type
 		*	\since version 0.0.4
 		*/
-		void updateStructureType(zStructureType&_structureType);
+		void updateStructure(zStructureType&_structureType);
 
 
 		/*! \brief This method creates the columns that live in this structure cell object

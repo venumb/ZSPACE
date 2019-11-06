@@ -92,7 +92,7 @@ namespace zSpace
 		}
 	}
 
-	void zHcStructure::updateStructureType(zStructureType & _structureType)
+	void zHcStructure::updateStructure(zStructureType & _structureType)
 	{
 		if (columnArray.size() == 0) return;
 		if (slabArray.size() == 0) return;
@@ -270,7 +270,7 @@ namespace zSpace
 		for (auto& c : columnObjs)
 		{
 			model->addObject(c);
-			c.setShowElements(true, true, false);			
+			c.setShowElements(false, true, true);			
 			
 		}
 		for (auto& s : slabObjs)
@@ -281,7 +281,7 @@ namespace zSpace
 		for (auto& w : wallObjs)
 		{
 			model->addObject(w);
-			w.setShowElements(false, true, false);
+			w.setShowElements(false, true, true);
 		}
 		for (auto& f : facadeObjs)
 		{

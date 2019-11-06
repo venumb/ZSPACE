@@ -125,6 +125,24 @@ namespace zSpace
 
 
 		//--------------------------
+		//---- UPDATE METHODS
+		//--------------------------
+
+		/*! \brief This method updates the structure of the units
+		*
+		*	\param		[in]	_structureType				- input structure type
+		*	\since version 0.0.4
+		*/
+		void updateStructureType(zStructureType&_structureType);
+
+		/*! \brief This method updates the structure of the units
+		*
+		*	\param		[in]	_structureType				- input structure type
+		*	\since version 0.0.4
+		*/
+		void updateLayout(int unitId, zLayoutType&_layoutType, bool flip);
+
+		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
 
@@ -155,6 +173,13 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void showFacade(bool showFacade);
+
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	showFacade				- display boolean
+		*	\since version 0.0.4
+		*/
+		void showLayout (bool showLayout);
 	};
 
 

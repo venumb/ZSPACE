@@ -63,6 +63,9 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnUnitMesh;
 
+		/*!	\brief pointer to input mesh Object  */
+		zObjMeshArray layoutMeshObjs;
+
 		/*!	\brief house layout option */
 		zLayoutType layoutType;
 
@@ -116,7 +119,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void setEdgesAttributes();
+		void setCellAttributes();
 
 
 #ifndef ZSPACE_UNREAL_INTEROP
@@ -137,7 +140,19 @@ namespace zSpace
 		*	\param		[in]	_layoutType					- input desired layout option
 		*	\since version 0.0.4
 		*/
-		void createLayoutPlan(zLayoutType layout_);
+		void createLayoutByType(zLayoutType&_layout, bool flip);
+
+		/*! \brief This method creates internal studio layout.
+		*
+		*	\since version 0.0.4
+		*/
+		void createStudioLayout(bool flip = false);
+
+		/*! \brief This method creates internal one bed layout.
+		*
+		*	\since version 0.0.4
+		*/
+		void createOneBedLayout(bool flip = false);
 
 
 		/*! \brief This method creates structural units zHcStructure.
@@ -147,9 +162,21 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		bool createStructuralUnits(zStructureType&_structureType);
+
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method creates the facades that live in this structure cell object
+		*
+		*	\param		[in]	_showColumns					- display column objs
+		*	\since version 0.0.4
+		*/
+		void displayLayout(bool showlayout);
+
+
+
 	};
-
-
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)

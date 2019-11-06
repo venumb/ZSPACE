@@ -28,7 +28,7 @@ namespace zSpace
 	*	\brief	Housing Layout options for users to choose from
 	*	\since	version 0.0.4
 	*/	
-	enum zLayoutType { zOpenPlan, zPrivate};
+	enum zLayoutType { zOpenPlan, zStudio, zOneBed, zTwoBed, zLoft};
 
 	/*! \enum	zStructureType
 	*	\brief	Manufacturing Technology associated with the construction / Tectonics
@@ -40,14 +40,19 @@ namespace zSpace
 	*	\brief	Programmatic use of the housing unit configurator
 	*	\since	version 0.0.4
 	*/	
-	enum zFunctionType { zPublic, zStudio, zLoft, zLandscape, zTType, zLType };
+	enum zFunctionType { zPublic, zFlat, zVertical, zLandscape, zTType, zLType };
 
 	/*! \enum	zCellFace
-*	\brief	Architectural attribute per face of a structural cell
-*	\since	version 0.0.4
-*/
+	*	\brief	Architectural attribute per face of a structural cell
+	*	\since	version 0.0.4
+	*/
 	enum zCellFace { zFloor, zRoof, zFacade, zIntWall };
 
+	/*! \enum	zCellNodes
+	*	\brief	Architectural attribute per node/top vertex of a structural cell
+	*	\since	version 0.0.4
+	*/
+	enum zCellNode { zCorner, zEdge, zInterior};
 
 
 
