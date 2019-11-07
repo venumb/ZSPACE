@@ -76,7 +76,7 @@ namespace zSpace
 		{
 			for (auto& s : hc.structureUnits)
 			{
-				s.updateStructure(_structureType);
+				s.updateArchComponents(_structureType);
 			}
 		}
 	}

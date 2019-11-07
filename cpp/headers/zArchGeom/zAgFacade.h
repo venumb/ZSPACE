@@ -21,6 +21,9 @@
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
+#include <headers/zHousing/base/zHcEnumerators.h>
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -59,6 +62,13 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
 
+		/*!	\brief input vertex corners */
+		zPointArray vertexCorners;
+
+		/*!	\brief id of the parent's face its parented to */
+		int faceId;
+
+
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
@@ -74,7 +84,7 @@ namespace zSpace
 		*	\param		[in]	_vertexcorners				- input vertex corners.
 		*	\since version 0.0.4
 		*/
-		zAgFacade(zObjMesh&_inMeshObj, zPointArray&_vertexCorners);
+		zAgFacade(zObjMesh&_inMeshObj, zPointArray&_vertexCorners, int _faceId);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -87,13 +97,18 @@ namespace zSpace
 		~zAgFacade();
 
 		//--------------------------
-		//---- SET METHODS
+		//---- CREATE METHODS
 		//--------------------------
 
+		void createFacadeByType(zStructureType&_structureType);
 
+		//--------------------------
+		//---- UPDATE METHODS
+		//--------------------------
+
+		void updateFacade(zPointArray&_vertexCorners);
 
 	};
-
 
 }
 

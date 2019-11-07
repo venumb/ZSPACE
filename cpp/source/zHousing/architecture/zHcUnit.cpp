@@ -64,8 +64,10 @@ namespace zSpace
 				cellBoundaryAttributes.push_back(eBoundaryAttributes[edgeIndex]);
 			}
 
+			structureHeight.push_back(3.0);
+
 			//create and initialise a structure obj and add it to container
-			structureUnits[f.getId()] = zHcStructure(vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType, _structureType);
+			structureUnits[f.getId()] = zHcStructure(vPositions, cellEdgeAttributes, cellBoundaryAttributes, funcType, _structureType, structureHeight[id]);
 			structureUnits[f.getId()].createStructuralCell(vPositions);
 			structureUnits[f.getId()].createStructureByType(_structureType);
 		}
@@ -75,7 +77,7 @@ namespace zSpace
 	}
 
 
-	void zHcUnit::setCellAttributes()
+	ZSPACE_INLINE void zHcUnit::setCellAttributes()
 	{
 		if (!inUnitMeshObj) return;
 
@@ -100,7 +102,7 @@ namespace zSpace
 		}
 	}
 
-	void zHcUnit::setUnitDisplayModel(zModel&_model)
+	ZSPACE_INLINE void zHcUnit::setUnitDisplayModel(zModel&_model)
 	{
 		model = &_model;
 
@@ -118,25 +120,44 @@ namespace zSpace
 		}
 	}
 
-	void zHcUnit::createLayoutByType(zLayoutType&_layout, bool flip)
+	ZSPACE_INLINE void zHcUnit::createLayoutByType(zLayoutType&_layout, bool flip)
 	{
 		layoutType = _layout;
 
 		if (layoutType == zLayoutType::zStudio) createStudioLayout(flip);
 		else if (layoutType == zLayoutType::zOneBed) createOneBedLayout(flip);
-
+		else if (layoutType == zLayoutType::zTwoBed) createTwoBedLayout(flip);
+		else if (layoutType == zLayoutType::zLoft) createLoftLayout(flip);
+		
+		updateStructureUnits();
 	}
 
-	void zHcUnit::displayLayout(bool showlayout)
+	ZSPACE_INLINE void zHcUnit::updateStructureUnits()
 	{
-		for (auto &l : layoutMeshObjs)
+
+		for (zItMeshFace f(*inUnitMeshObj); !f.end(); f++)
 		{
-			l.setShowObject(showlayout);
+			int  id = f.getId();
+			zPointArray vPositions;
+			f.getVertexPositions(vPositions);
+
+			//set cell edges attributes
+			zBoolArray cellEdgeAttributes;
+			zIntArray heIndices;
+			f.getHalfEdges(heIndices);
+			for (int heInt : heIndices)
+			{
+				int edgeIndex = inUnitMeshObj->mesh.halfEdges[heInt].getEdge()->getId();
+				cellEdgeAttributes.push_back(edgeAttributes[edgeIndex]);
+			}
+
+			structureUnits[id].updateStructure(vPositions, cellEdgeAttributes, structureHeight[id]);
 		}
 	}
 
-	/////////////////
-	void zHcUnit::createStudioLayout(bool flip)
+	////////////////////////lsyout creation
+
+	ZSPACE_INLINE void zHcUnit::createStudioLayout(bool flip)
 	{
 		zObjMesh unitMeshTemp = *inUnitMeshObj;
 		zFnMesh fnUnitTemp(unitMeshTemp);
@@ -269,9 +290,8 @@ namespace zSpace
 		}
 	}
 
-	////////////////////////
 
-	void zHcUnit::createOneBedLayout(bool flip)
+	ZSPACE_INLINE void zHcUnit::createOneBedLayout(bool flip)
 	{
 		zObjMesh unitMeshTemp = *inUnitMeshObj;
 		zFnMesh fnUnitTemp(unitMeshTemp);
@@ -426,6 +446,712 @@ namespace zSpace
 			layoutTemp3.extrudeMesh(3, layoutMeshObjs[3], false);
 			layoutTemp3.setVertexColor(zColor(0, 1, 1, 1), true);
 
+		}
+
+		if (funcType == zFunctionType::zLandscape)
+		{
+			zItMeshEdge e0, e1, e2, e0f, e1f, e2f;
+			for (zItMeshEdge e(unitMeshTemp); !e.end(); e++)
+			{
+				if (e.onBoundary() && e.getHalfEdge(0).getNext().getEdge().onBoundary() && edgeAttributes[e.getId()] == 1)//TODO update with facade / entrance check attribute
+				{
+					e0 = e;
+					e1 = e.getHalfEdge(0).getNext().getNext().getEdge();
+					e2 = e1.getHalfEdge(0).getNext().getNext().getEdge();
+
+					e0f = e.getHalfEdge(0).getPrev().getSym().getPrev().getEdge();
+					e1f = e1.getHalfEdge(0).getPrev().getSym().getPrev().getEdge();
+					e2f = e2.getHalfEdge(0).getNext().getSym().getNext().getEdge();
+				}
+			}
+
+			zPointArray e0Vs, e1Vs, e2Vs, e0fVs, e1fVs, e2fVs;
+			e0.getVertexPositions(e0Vs);
+			e1.getVertexPositions(e1Vs);
+			e2.getVertexPositions(e2Vs);
+			e0f.getVertexPositions(e0fVs);
+			e1f.getVertexPositions(e1fVs);
+			e2f.getVertexPositions(e2fVs);
+
+			zVector newV0, newV1;
+
+			if (flip)
+			{
+				newV0 = fnUnitTemp.splitEdge(e0f, 0.75).getPosition();
+				newV1 = fnUnitTemp.splitEdge(e1f, 0.75).getPosition();
+			}
+			else
+			{
+				newV0 = fnUnitTemp.splitEdge(e0, 0.25).getPosition();
+				newV1 = fnUnitTemp.splitEdge(e1, 0.25).getPosition();
+			}
+
+			//////////1st volumne
+
+			polyCount.push_back(4);
+
+			if (flip)
+			{
+				pointArray.push_back(e2Vs[0]);
+				pointArray.push_back(e2Vs[1]);
+				pointArray.push_back(e0Vs[0]);
+				pointArray.push_back(e0Vs[1]);
+			}
+			else
+			{
+				pointArray.push_back(e2fVs[0]);
+				pointArray.push_back(e2fVs[1]);
+				pointArray.push_back(e0fVs[0]);
+				pointArray.push_back(e0fVs[1]);
+			}
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp0(layoutMeshObjs[0]);
+
+			layoutTemp0.create(pointArray, polyCount, polyConnect);
+			layoutTemp0.extrudeMesh(3, layoutMeshObjs[0], false);
+			layoutTemp0.setVertexColor(zColor(0, 1, 1, 1), true);
+
+			//////////2nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			if (flip)
+			{
+				pointArray.push_back(e2fVs[0]);
+				pointArray.push_back(e2fVs[1]);
+				pointArray.push_back(e1fVs[0]);
+				pointArray.push_back(e1fVs[1]);
+			}
+			else
+			{
+				pointArray.push_back(e2Vs[0]);
+				pointArray.push_back(e2Vs[1]);
+				pointArray.push_back(e1Vs[0]);
+				pointArray.push_back(e1Vs[1]);
+			}
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp1(layoutMeshObjs[1]);
+
+			layoutTemp1.create(pointArray, polyCount, polyConnect);
+			layoutTemp1.extrudeMesh(3, layoutMeshObjs[1], false);
+			layoutTemp1.setVertexColor(zColor(1, 0, 1, 1), true);
+
+			//////////3nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			if (flip)
+			{
+				pointArray.push_back(newV0);
+				pointArray.push_back(e0fVs[1]);
+				pointArray.push_back(e1fVs[1]);
+				pointArray.push_back(newV1);
+			}
+			else
+			{
+				pointArray.push_back(e0Vs[0]);
+				pointArray.push_back(newV0);
+				pointArray.push_back(newV1);
+				pointArray.push_back(e1Vs[0]);
+			}
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp2(layoutMeshObjs[2]);
+
+			layoutTemp2.create(pointArray, polyCount, polyConnect);
+			layoutTemp2.extrudeMesh(3, layoutMeshObjs[2], false);
+			layoutTemp2.setVertexColor(zColor(0, 1, 0, 1), true);
+
+			////////4rd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+
+			if (flip)
+			{
+				pointArray.push_back(e0fVs[0]);
+				pointArray.push_back(newV0);
+				pointArray.push_back(newV1);
+				pointArray.push_back(e1fVs[0]);
+
+			}
+			else
+			{
+				pointArray.push_back(newV0);
+				pointArray.push_back(e0Vs[1]);
+				pointArray.push_back(e1Vs[1]);
+				pointArray.push_back(newV1);
+
+			}
+
+			polyCount.push_back(4);
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp3(layoutMeshObjs[3]);
+
+			layoutTemp3.create(pointArray, polyCount, polyConnect);
+			layoutTemp3.extrudeMesh(3, layoutMeshObjs[3], false);
+			layoutTemp3.setVertexColor(zColor(1, 1, 0, 1), true);
+
+		}
+
+		
+	}
+
+	ZSPACE_INLINE void zHcUnit::createTwoBedLayout(bool flip)
+	{
+		zObjMesh unitMeshTemp = *inUnitMeshObj;
+		zFnMesh fnUnitTemp(unitMeshTemp);
+
+		zPointArray pointArray;
+		zIntArray polyCount;
+		zIntArray polyConnect;
+
+		if (funcType == zFunctionType::zLandscape)
+		{
+			zItMeshEdge e0, e1, e2, e0f, e1f, e2f;
+			for (zItMeshEdge e(unitMeshTemp); !e.end(); e++)
+			{
+				if (e.onBoundary() && e.getHalfEdge(0).getNext().getEdge().onBoundary() && edgeAttributes[e.getId()] == 1)//TODO update with facade / entrance check attribute
+				{
+					e0 = e;
+					e1 = e.getHalfEdge(0).getNext().getNext().getEdge();
+					e2 = e1.getHalfEdge(0).getNext().getNext().getEdge();
+
+					e0f = e.getHalfEdge(0).getPrev().getSym().getPrev().getEdge();
+					e1f = e1.getHalfEdge(0).getPrev().getSym().getPrev().getEdge();
+					e2f = e2.getHalfEdge(0).getNext().getSym().getNext().getEdge();
+				}
+			}
+
+			zPointArray e0Vs, e1Vs, e2Vs, e0fVs, e1fVs, e2fVs;
+			e0.getVertexPositions(e0Vs);
+			e1.getVertexPositions(e1Vs);
+			e2.getVertexPositions(e2Vs);
+			e0f.getVertexPositions(e0fVs);
+			e1f.getVertexPositions(e1fVs);
+			e2f.getVertexPositions(e2fVs);
+
+			zVector newV0, newV1;
+			zItMeshEdge e0p, e0n, e0fp, e0fn;
+
+			e0p = e0.getHalfEdge(0).getPrev().getEdge();
+			e0n = e0.getHalfEdge(0).getNext().getEdge();
+			e0fp = e0f.getHalfEdge(0).getPrev().getEdge();
+			e0fn = e0f.getHalfEdge(0).getNext().getEdge();
+
+			if (flip)
+			{
+				newV0 = fnUnitTemp.splitEdge(e0fp, 0.33).getPosition();
+				newV1 = fnUnitTemp.splitEdge(e0fn, 0.33).getPosition();
+			}
+			else
+			{
+				newV0 = fnUnitTemp.splitEdge(e0p, 0.33).getPosition();
+				newV1 = fnUnitTemp.splitEdge(e0n, 0.66).getPosition();
+			}
+
+			//////////1st volumne
+
+			polyCount.push_back(4);
+
+			if (flip)
+			{
+				pointArray.push_back(e2Vs[0]);
+				pointArray.push_back(e2Vs[1]);
+				pointArray.push_back(e0Vs[0]);
+				pointArray.push_back(e0Vs[1]);
+			}
+			else
+			{
+				pointArray.push_back(e2fVs[0]);
+				pointArray.push_back(e2fVs[1]);
+				pointArray.push_back(e0fVs[0]);
+				pointArray.push_back(e0fVs[1]);
+			}
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp0(layoutMeshObjs[0]);
+
+			layoutTemp0.create(pointArray, polyCount, polyConnect);
+			layoutTemp0.extrudeMesh(3, layoutMeshObjs[0], false);
+			layoutTemp0.setVertexColor(zColor(0, 1, 1, 1), true);
+
+			//////////2nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			if (flip)
+			{
+				pointArray.push_back(e2fVs[0]);
+				pointArray.push_back(e2fVs[1]);
+				pointArray.push_back(e1fVs[0]);
+				pointArray.push_back(e1fVs[1]);
+			}
+			else
+			{
+				pointArray.push_back(e2Vs[0]);
+				pointArray.push_back(e2Vs[1]);
+				pointArray.push_back(e1Vs[0]);
+				pointArray.push_back(e1Vs[1]);
+			}
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp1(layoutMeshObjs[1]);
+
+			layoutTemp1.create(pointArray, polyCount, polyConnect);
+			layoutTemp1.extrudeMesh(3, layoutMeshObjs[1], false);
+			layoutTemp1.setVertexColor(zColor(1, 0, 1, 1), true);
+
+			//////////3nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			if (flip)
+			{
+				pointArray.push_back(e1fVs[0]);
+				pointArray.push_back(newV1);
+				pointArray.push_back(newV0);
+				pointArray.push_back(e1fVs[1]);
+
+			}
+			else
+			{
+				pointArray.push_back(e1Vs[0]);
+				pointArray.push_back(newV1);
+				pointArray.push_back(newV0);
+				pointArray.push_back(e1Vs[1]);
+			}
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp2(layoutMeshObjs[2]);
+
+			layoutTemp2.create(pointArray, polyCount, polyConnect);
+			layoutTemp2.extrudeMesh(3, layoutMeshObjs[2], false);
+			layoutTemp2.setVertexColor(zColor(0, 1, 0, 1), true);
+
+			//////////4rd volume
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+
+			if (flip)
+			{
+				pointArray.push_back(newV1);
+				pointArray.push_back(e0fVs[0]);
+				pointArray.push_back(e0fVs[1]);
+				pointArray.push_back(newV0);
+
+			}
+			else
+			{
+				pointArray.push_back(e0Vs[1]);
+				pointArray.push_back(newV0);
+				pointArray.push_back(newV1);
+				pointArray.push_back(e0Vs[0]);
+
+			}
+
+			polyCount.push_back(4);
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp3(layoutMeshObjs[3]);
+
+			layoutTemp3.create(pointArray, polyCount, polyConnect);
+			layoutTemp3.extrudeMesh(3, layoutMeshObjs[3], false);
+			layoutTemp3.setVertexColor(zColor(1, 0, 1, 1), true);
+
+		}
+
+		if (funcType == zFunctionType::zVertical)
+		{
+			zItMeshEdge upe0, upe1, upe2, upe0n, upe1n, upe2n;
+			zItMeshEdge entranceUp, entranceDown;
+
+			bool checkFirst = false;
+			for (zItMeshEdge e(unitMeshTemp); !e.end(); e++)
+			{
+				if (e.onBoundary() && !e.getHalfEdge(0).getNext().getNext().getEdge().onBoundary()) //TODO update with facade / entrance check attribute
+				{
+					if (!checkFirst)
+					{
+						entranceUp = e;
+						checkFirst = true;
+					}
+					else
+					{
+						if (e.getCenter().z > entranceUp.getCenter().z) entranceUp = e;
+					}
+				}
+			}
+
+			upe0 = entranceUp;
+			upe1 = entranceUp.getHalfEdge(0).getNext().getNext().getEdge();
+			upe2 = upe1.getHalfEdge(1).getNext().getNext().getEdge();
+			upe1n = upe1.getHalfEdge(1).getNext().getEdge();
+			upe2n = upe2.getHalfEdge(0).getNext().getEdge();
+
+
+			zPointArray e0Vs, e1Vs, e2Vs, e0nVs, e1nVs, e2nVs;
+			upe0.getVertexPositions(e0Vs);
+			upe1.getVertexPositions(e1Vs);
+			upe2.getVertexPositions(e2Vs);
+
+			zVector newV0, newV1, newV2, newV3, newV4;
+
+			newV0 = fnUnitTemp.splitEdge(upe1n, 0.33).getPosition();
+			newV1 = fnUnitTemp.splitEdge(upe2n, 0.66).getPosition();
+
+			/*if (flip)
+			{
+				newV2 = fnUnitTemp.splitEdge(e1n, 0.25).getPosition();
+				zVector dir = newV2 - e1nVs[0];
+				newV3 = newV0 + dir;
+				newV4 = e0nVs[0] + dir;
+			}
+			else
+			{
+				newV2 = fnUnitTemp.splitEdge(e1n, 0.75).getPosition();
+				zVector dir = newV2 - e1nVs[1];
+				newV3 = newV1 + dir;
+				newV4 = e0nVs[1] + dir;
+			}*/
+
+			//////////1st volumne
+
+			polyCount.push_back(4);
+
+			pointArray.push_back(e1Vs[0]);
+			pointArray.push_back(e1Vs[1]);
+			pointArray.push_back(e0Vs[0]);
+			pointArray.push_back(e0Vs[1]);
+
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp0(layoutMeshObjs[0]);
+
+			layoutTemp0.create(pointArray, polyCount, polyConnect);
+			layoutTemp0.extrudeMesh(3, layoutMeshObjs[0], false);
+			layoutTemp0.setVertexColor(zColor(1, 0, 1, 1), true);
+
+			////////////2nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			pointArray.push_back(e1Vs[1]);
+			pointArray.push_back(e1Vs[0]);
+			pointArray.push_back(newV1);
+			pointArray.push_back(newV0);
+
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp1(layoutMeshObjs[1]);
+
+			layoutTemp1.create(pointArray, polyCount, polyConnect);
+			layoutTemp1.extrudeMesh(3, layoutMeshObjs[1], false);
+			layoutTemp1.setVertexColor(zColor(0, 1, 0, 1), true);
+
+			////////////3nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			pointArray.push_back(newV0);
+			pointArray.push_back(newV1);
+			pointArray.push_back(e2Vs[0]);
+			pointArray.push_back(e2Vs[1]);
+
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp2(layoutMeshObjs[2]);
+
+			layoutTemp2.create(pointArray, polyCount, polyConnect);
+			layoutTemp2.extrudeMesh(3, layoutMeshObjs[2], false);
+			layoutTemp2.setVertexColor(zColor(1, 0, 1, 1), true);
+
+			//////////4rd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			zVector te1 = e0Vs[1] + zVector(0, 0, -3);
+			zVector te0 = e0Vs[0] + zVector(0, 0, -3);
+			zVector n1 = newV1 + zVector(0, 0, -3);
+			zVector n0 = newV0 + zVector(0, 0, -3);
+
+			pointArray.push_back(te0);
+
+			pointArray.push_back(te1);
+			pointArray.push_back(n1);
+			pointArray.push_back(n0);
+
+			polyCount.push_back(4);
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp3(layoutMeshObjs[3]);
+
+			layoutTemp3.create(pointArray, polyCount, polyConnect);
+			layoutTemp3.extrudeMesh(3, layoutMeshObjs[3], false);
+			layoutTemp3.setVertexColor(zColor(0, 1, 1, 1), true);
+
+			//////////5th volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			te1 = e2Vs[1] + zVector(0, 0, -3);
+			te0 = e2Vs[0] + zVector(0, 0, -3);
+			n0 = newV0 + zVector(0, 0, -3);
+			n1 = newV1 + zVector(0, 0, -3);
+
+			pointArray.push_back(n0);
+			pointArray.push_back(n1);
+			pointArray.push_back(te0);
+			pointArray.push_back(te1);
+
+
+			polyCount.push_back(4);
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp4(layoutMeshObjs[4]);
+
+			layoutTemp4.create(pointArray, polyCount, polyConnect);
+			layoutTemp4.extrudeMesh(3, layoutMeshObjs[4], false);
+			layoutTemp4.setVertexColor(zColor(0, 1, 0, 1), true);
+
+			structureHeight[2] = 3.0f;
+			structureHeight[0] = 3.0f;
+
+
+		}
+	}
+
+
+	ZSPACE_INLINE void zHcUnit::createLoftLayout(bool flip)
+	{
+		zObjMesh unitMeshTemp = *inUnitMeshObj;
+		zFnMesh fnUnitTemp(unitMeshTemp);
+
+		zPointArray pointArray;
+		zIntArray polyCount;
+		zIntArray polyConnect;
+
+		if (funcType == zFunctionType::zVertical)
+		{
+			zItMeshEdge upe0, upe1, upe2, upe0n, upe1n, upe2n;
+			zItMeshEdge entranceUp, entranceDown;
+
+			bool checkFirst = false;
+			for (zItMeshEdge e(unitMeshTemp); !e.end(); e++)
+			{
+				if (e.onBoundary() && !e.getHalfEdge(0).getNext().getNext().getEdge().onBoundary()) //TODO update with facade / entrance check attribute
+				{
+					if (!checkFirst)
+					{
+						entranceUp = e;
+						checkFirst = true;
+					}
+					else 
+					{
+						if (e.getCenter().z > entranceUp.getCenter().z) entranceUp = e;
+					}
+				}
+			}
+			
+			upe0 = entranceUp;
+			upe1 = entranceUp.getHalfEdge(0).getNext().getNext().getEdge();
+			upe2 = upe1.getHalfEdge(1).getNext().getNext().getEdge();
+			upe1n = upe1.getHalfEdge(1).getNext().getEdge();
+			upe2n = upe2.getHalfEdge(0).getNext().getEdge();
+			
+
+			zPointArray e0Vs, e1Vs, e2Vs, e0nVs, e1nVs, e2nVs;
+			upe0.getVertexPositions(e0Vs);
+			upe1.getVertexPositions(e1Vs);
+			upe2.getVertexPositions(e2Vs);
+
+			zVector newV0, newV1, newV2, newV3, newV4;
+
+			newV0 = fnUnitTemp.splitEdge(upe1n, 0.66).getPosition();
+			newV1 = fnUnitTemp.splitEdge(upe2n, 0.33).getPosition();
+
+			/*if (flip)
+			{
+				newV2 = fnUnitTemp.splitEdge(e1n, 0.25).getPosition();
+				zVector dir = newV2 - e1nVs[0];
+				newV3 = newV0 + dir;
+				newV4 = e0nVs[0] + dir;
+			}
+			else
+			{
+				newV2 = fnUnitTemp.splitEdge(e1n, 0.75).getPosition();
+				zVector dir = newV2 - e1nVs[1];
+				newV3 = newV1 + dir;
+				newV4 = e0nVs[1] + dir;
+			}*/
+
+			//////////1st volumne
+
+			polyCount.push_back(4);
+
+			pointArray.push_back(e1Vs[0]);
+			pointArray.push_back(e1Vs[1]);
+			pointArray.push_back(e0Vs[0]);
+			pointArray.push_back(e0Vs[1]);
+
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp0(layoutMeshObjs[0]);
+
+			layoutTemp0.create(pointArray, polyCount, polyConnect);
+			layoutTemp0.extrudeMesh(6, layoutMeshObjs[0], false);
+			layoutTemp0.setVertexColor(zColor(0, 1, 1, 1), true);
+
+			////////////2nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			pointArray.push_back(e1Vs[1]);
+			pointArray.push_back(e1Vs[0]);
+			pointArray.push_back(newV1);
+			pointArray.push_back(newV0);
+
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp1(layoutMeshObjs[1]);
+
+			layoutTemp1.create(pointArray, polyCount, polyConnect);
+			layoutTemp1.extrudeMesh(3, layoutMeshObjs[1], false);
+			layoutTemp1.setVertexColor(zColor(1, 0, 1, 1), true);
+
+			////////////3nd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			polyCount.push_back(4);
+
+			pointArray.push_back(newV0);
+			pointArray.push_back(newV1);
+			pointArray.push_back(e2Vs[0]);
+			pointArray.push_back(e2Vs[1]);
+
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp2(layoutMeshObjs[2]);
+
+			layoutTemp2.create(pointArray, polyCount, polyConnect);
+			layoutTemp2.extrudeMesh(3, layoutMeshObjs[2], false);
+			layoutTemp2.setVertexColor(zColor(0, 1, 0, 1), true);
+
+			//////////4rd volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			zVector te1 = e1Vs[1] + zVector(0, 0, -3);
+			zVector te0 = e1Vs[0] + zVector(0, 0, -3);
+			zVector n0 = newV0+ zVector(0, 0, -3);
+			zVector n1 = newV1 + zVector(0, 0, -3);
+
+			pointArray.push_back(te1);
+			pointArray.push_back(te0);
+			pointArray.push_back(n1);
+			pointArray.push_back(n0);
+
+			polyCount.push_back(4);
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp3(layoutMeshObjs[3]);
+
+			layoutTemp3.create(pointArray, polyCount, polyConnect);
+			layoutTemp3.extrudeMesh(3, layoutMeshObjs[3], false);
+			layoutTemp3.setVertexColor(zColor(0, 1, 1, 1), true);
+
+			//////////5th volumne
+			pointArray.clear();
+			polyCount.clear();
+			polyConnect.clear();
+
+			te1 = e2Vs[1] + zVector(0, 0, -3);
+			te0 = e2Vs[0] + zVector(0, 0, -3);
+			n0 = newV0 + zVector(0, 0, -3);
+			n1 = newV1 + zVector(0, 0, -3);
+
+			pointArray.push_back(n0);
+			pointArray.push_back(n1);
+			pointArray.push_back(te0);
+			pointArray.push_back(te1);
+
+
+			polyCount.push_back(4);
+
+			for (int i = 0; i < pointArray.size(); i++) polyConnect.push_back(i);
+
+			zFnMesh layoutTemp4(layoutMeshObjs[4]);
+
+			layoutTemp4.create(pointArray, polyCount, polyConnect);
+			layoutTemp4.extrudeMesh(3, layoutMeshObjs[4], false);
+			layoutTemp4.setVertexColor(zColor(1, 1, 0, 1), true);
+
+
+			/////sets the new cell heights 
+			//TODO update to more efficient method removing faces
+
+			structureHeight[2] = 6.0f;
+			structureHeight[0] = 0.0f;
+
+
+
+		}
+	}
+
+	////////////////////////display methods
+
+	ZSPACE_INLINE void zHcUnit::displayLayout(bool showlayout)
+	{
+		for (auto &l : layoutMeshObjs)
+		{
+			l.setShowObject(showlayout);
 		}
 	}
 }

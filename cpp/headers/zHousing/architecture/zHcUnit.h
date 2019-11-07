@@ -83,6 +83,8 @@ namespace zSpace
 
 		/*!	\brief store boundary attributes */
 		zBoolArray eBoundaryAttributes;
+
+		zFloatArray structureHeight;
 		
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -135,6 +137,15 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
+
+		/*! \brief This method creates structural units zHcStructure.
+		*
+		*	\param		[in]	_columnObjs 				- input pointer of column mesh obj
+		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
+		*	\since version 0.0.4
+		*/
+		bool createStructuralUnits(zStructureType&_structureType);
+
 		/*! \brief This method creates internal layout.
 		*
 		*	\param		[in]	_layoutType					- input desired layout option
@@ -154,14 +165,30 @@ namespace zSpace
 		*/
 		void createOneBedLayout(bool flip = false);
 
-
-		/*! \brief This method creates structural units zHcStructure.
+		/*! \brief This method creates internal one bed layout.
 		*
-		*	\param		[in]	_columnObjs 				- input pointer of column mesh obj
-		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits(zStructureType&_structureType);
+		void createTwoBedLayout(bool flip = false);
+
+		/*! \brief This method creates internal one bed layout.
+		*
+		*	\since version 0.0.4
+		*/
+		void createLoftLayout(bool flip = false);
+
+		//--------------------------
+		//---- UPDATE METHODS
+		//--------------------------
+
+		/*! \brief This method updates the structure cell in this unit.
+		*
+		*	\param		[in]	_celledgesAttributes					- sets the edges attributes
+		*	\param		[in]	_cellBoundartAttributes					- sets the boundary attributes
+		*	\param		[in]	_height									- sets the height of the cell
+		*	\since version 0.0.4
+		*/
+		void updateStructureUnits();
 
 		//--------------------------
 		//---- DISPLAY METHODS

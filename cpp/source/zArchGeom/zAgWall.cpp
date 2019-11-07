@@ -26,25 +26,34 @@ namespace zSpace
 	//---- SET METHODS
 
 
-
-	zAgWall::zAgWall(zObjMesh & _inMeshObj, zPointArray&_vertexCorners)
+	zAgWall::zAgWall(zObjMesh & _inMeshObj, zPointArray&_vertexCorners, int _faceId)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);
+		vertexCorners = _vertexCorners;
+		faceId = _faceId;
+	}
 
+	void zAgWall::createWallByType(zStructureType & _structureType)
+	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (int i = 0; i < _vertexCorners.size(); i++)
+		for (int i = 0; i < vertexCorners.size(); i++)
 		{
-			pointArray.push_back(_vertexCorners[i]);
+			pointArray.push_back(vertexCorners[i]);
 			polyConnect.push_back(i);
 		}
-		polyCount.push_back(_vertexCorners.size());
+		polyCount.push_back(vertexCorners.size());
 
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		fnInMesh.smoothMesh(2, false);
+	}
+
+	void zAgWall::updateWall(zPointArray & _vertexCorners)
+	{
+		vertexCorners = _vertexCorners;
 	}
 
 }

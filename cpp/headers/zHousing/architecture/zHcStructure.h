@@ -116,7 +116,7 @@ namespace zSpace
 		vector <zCellFace> cellFaceArray;
 
 		/*! \brief pointer to housing unit that this cell is attached to*/
-		//class zHcUnit* parentUnit;
+		zPointArray faceVertexPositions;
 
 		
 
@@ -133,7 +133,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType, zStructureType&_structureType);
+		zHcStructure(zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType, zStructureType&_structureType, float _height);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -163,7 +163,7 @@ namespace zSpace
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*
-		*	\param		[in]	_vertexpositions_					- ordered set of vertices up and down.
+		*	\param		[in]	_vertexpositions_				- ordered set of vertices up and down.
 		*	\since version 0.0.4
 		*/
 		void createStructuralCell(zPointArray &vertexPositions_);
@@ -175,12 +175,20 @@ namespace zSpace
 		*/
 		void createStructureByType(zStructureType&_structureType);
 
+		/*! \brief This method updates a spatial cell 
+		*
+		*	\param		[in]	_cellEdgesAttributes			- cell edges attributes
+		*	\param		[in]	_height							- cell height
+		*	\since version 0.0.4
+		*/
+		void updateStructure(zPointArray &vPositions, zBoolArray&_cellEdgesAttributes, float _height);
+
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*
 		*	\param		[in]	_structuretype					- structural type
 		*	\since version 0.0.4
 		*/
-		void updateStructure(zStructureType&_structureType);
+		void updateArchComponents(zStructureType&_structureType);
 
 
 		/*! \brief This method creates the columns that live in this structure cell object

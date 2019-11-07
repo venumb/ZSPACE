@@ -27,30 +27,36 @@ namespace zSpace
 
 
 
-	zAgFacade::zAgFacade(zObjMesh & _inMeshObj, zPointArray&_vertexCorners)
+	zAgFacade::zAgFacade(zObjMesh & _inMeshObj, zPointArray&_vertexCorners, int _faceId)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);
+		faceId = _faceId;
+		vertexCorners = _vertexCorners;
 
+	}
+
+	void zAgFacade::createFacadeByType(zStructureType & _structureType)
+	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (auto& v : _vertexCorners)
+		for (auto& v : vertexCorners)
 		{
 			pointArray.push_back(v);
 		}
 
-		for (int i = 0; i < _vertexCorners.size(); i++)
+		for (int i = 0; i < vertexCorners.size(); i++)
 		{
 			polyConnect.insert(polyConnect.begin(), i);
 		}
 
-		polyCount.push_back(_vertexCorners.size());
+		polyCount.push_back(vertexCorners.size());
 
 		zObjMesh initFace;
-		zFnMesh fnInit (initFace);
-		
+		zFnMesh fnInit(initFace);
+
 		fnInit.create(pointArray, polyCount, polyConnect);
 		fnInit.extrudeBoundaryEdge(1.0, *inMeshObj, false);
 
@@ -83,7 +89,12 @@ namespace zSpace
 
 		fnInMesh.setVertexPositions(tempVPositions);
 		fnInMesh.extrudeMesh(0.05, *inMeshObj, false);
+		//fnInMesh.smoothMesh(2, false);
+	}
 
+	void zAgFacade::updateFacade(zPointArray & _vertexCorners)
+	{
+		vertexCorners = _vertexCorners;
 	}
 
 }
