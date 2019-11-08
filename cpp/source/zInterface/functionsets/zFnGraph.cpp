@@ -687,6 +687,79 @@ namespace zSpace
 
 	}
 
+	ZSPACE_INLINE void zFnGraph::getGraphEccentricityCenter(zItGraphVertexArray & outV)
+	{
+		const int N = numVertices();	// number of nodes in graph
+		const int INF = 99999;
+		MatrixXi d(N,N);				// distances between nodes
+		VectorXi e(N);					// eccentricity of nodes
+		set<int> c;						// center of graph
+		int rad = INF;					// radius of graph
+		int diam = 0;					// diamater of graph
+
+		zIntArray boundaryVerts;
+		for (zItGraphVertex v(*graphObj); !v.end(); v++)
+			if (v.checkValency(1)) boundaryVerts.push_back(v.getId());
+		
+		d.setConstant(INF);
+		e.setZero();
+
+		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
+		{
+			d(he.getStartVertex().getId(), he.getVertex().getId()) = 1;
+			d(he.getStartVertex().getId(), he.getStartVertex().getId()) = 0;
+		}
+
+		// Floyd-Warshall's algorithm
+		for (int k = 0; k < N; k++)
+			for (int j = 0; j < N; j++)
+				for (int i = 0; i < N; i++)
+					d(i,j) = coreUtils.zMin(d(i, j), d(i, k) + d(k, j));
+
+		// Counting values of eccentricity
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				e(i) = coreUtils.zMax(e(i), d(i,j));
+
+		for (int i = 0; i < N; i++) 
+		{
+			rad = coreUtils.zMin(rad, e(i));
+			diam = coreUtils.zMax(diam, e(i));
+		}
+
+
+		for (int i = 0; i < N; i++) 
+			if (e[i] == rad) 		
+				c.insert(i);
+
+
+		zItGraphVertex v(*graphObj);
+		int maxScore = 0;
+
+		printf("\n cen:");
+		for (auto id : c)
+		{
+			zItGraphVertex v1(*graphObj, id);
+			outV.push_back(v1);
+
+			double score = 0;
+
+			for (int j = 0; j < boundaryVerts.size(); j++)
+				score += d(v1.getId(), boundaryVerts[j]);
+
+			if (score > maxScore)
+			{
+				maxScore = score;
+				v = v1;
+			}
+
+			printf("  %i ", v1.getId());
+		}
+
+		
+		//outV.push_back(v);
+	}
+
 	//---- TOPOLOGY MODIFIER METHODS
 
 	ZSPACE_INLINE int zFnGraph::splitEdge(int index, double edgeFactor)
@@ -1226,7 +1299,7 @@ namespace zSpace
 
 			if (graphJSON.vertices[n_v] != -1)
 			{
-				zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]);;
+				zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]); //////maybe that is empty
 				v.setHalfEdge(e);
 
 				graphObj->graph.vHandles[n_v].he = graphJSON.vertices[n_v];
@@ -1313,6 +1386,25 @@ namespace zSpace
 
 		graphObj->graph.setNumEdges(n_e);
 
+
+		for (zItGraphVertex he(*graphObj); !he.end(); he++)
+		{
+
+			cout << "\n " << he.getId();
+			cout << "\t " << he.getHalfEdge().getId();
+			
+
+		}
+
+		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
+		{
+
+			cout << "\n " << he.getId();
+			cout << "\t " << he.getPrev().getId();
+			cout << " \t" << he.getNext().getId();
+			cout << " \t" << he.getVertex().getId();
+			
+		}
 
 
 		// Vertex Attributes

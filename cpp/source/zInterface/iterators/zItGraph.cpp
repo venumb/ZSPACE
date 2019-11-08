@@ -176,6 +176,75 @@ namespace zSpace
 		return out;
 	}
 
+	ZSPACE_INLINE void zItGraphVertex::getBSF(zItGraphVertexArray& bsf)
+	{
+		int verticesVisitedCounter = 0;
+
+		zBoolArray vertsVisited;
+		vertsVisited.assign(graphObj->graph.n_v, false);
+
+		zItGraphVertexArray currentVertex = { zItGraphVertex(*graphObj, getId()) };
+		bool exit = false;
+
+		bsf.push_back(currentVertex[0]);
+
+		do
+		{
+			zItGraphVertexArray  temp;
+			temp.clear();
+
+			for (auto currentV : currentVertex)
+			{
+
+				if (vertsVisited[currentV.getId()]) continue;
+
+				zItGraphVertexArray cVerts;
+				currentV.getConnectedVertices(cVerts);
+
+				for (auto v : cVerts)
+				{
+					if (!vertsVisited[v.getId()])
+					{
+						bool checkRepeat = false;
+						for (auto tmpV : temp)
+						{
+							if (tmpV == v)
+							{
+								checkRepeat = true;
+								break;
+							}
+						}
+
+						if (!checkRepeat) temp.push_back(v);
+					}
+				}
+
+				vertsVisited[currentV.getId()] = true;
+				verticesVisitedCounter++;
+			}
+
+			currentVertex.clear();
+			if (temp.size() == 0) exit = true;
+
+			currentVertex = temp;
+
+			for (auto v : temp)
+			{
+				bsf.push_back(v);
+			}
+
+		} while (verticesVisitedCounter != graphObj->graph.n_v && !exit);
+	}
+
+	ZSPACE_INLINE void zItGraphVertex::getBSF(zIntArray& bsf)
+	{
+		zItGraphVertexArray itBSF;
+		getBSF(itBSF);
+
+		for (auto it : itBSF)
+			bsf.push_back(it.getId());		
+	}
+
 	ZSPACE_INLINE bool zItGraphVertex::checkValency(int valence)
 	{
 		bool out = false;

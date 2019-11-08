@@ -388,7 +388,15 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getGraphMesh(zObjMesh &out, double width = 0.5, zVector graphNormal = zVector(0, 0, 1));
-				
+
+		/*! \brief This method computes the graph eccentricity.
+		*
+		*	\details based on https://codeforces.com/blog/entry/17974
+		*	\param		[out]	zItGraphVertexArray		- array of eccentric graph centers
+		*	\since version 0.0.4
+		*/
+		void getGraphEccentricityCenter(zItGraphVertexArray &outV);
+
 		//--------------------------
 		//---- TOPOLOGY MODIFIER METHODS
 		//--------------------------

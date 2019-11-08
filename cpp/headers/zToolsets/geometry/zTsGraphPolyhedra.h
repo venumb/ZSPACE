@@ -50,35 +50,59 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
+		/*!	\brief DISCRIPTION  */
+		zUtilsDisplay display;
+
+		/*!	\brief DISCRIPTION  */
+		vector<zIntArray> graphEdge_DualCellFace;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to graph Object  */ //DOES THIS NEED TO BE A POINTER?
+		/*!	\brief pointer to graph Object  */
 		zObjGraph *graphObj;
-
-		
 
 		/*!	\brief form function set  */
 		zFnGraph fnGraph;
 
+		/*!	\brief DISCRIPTION  */
 		zObjMeshArray conHullsCol;
 
+		/*!	\brief DISCRIPTION  */
 		zObjMeshArray graphMeshCol;
 
+		/*!	\brief DISCRIPTION  */
 		zObjMeshArray dualMeshCol;
 
+		/*!	\brief DISCRIPTION  */
 		zObjGraphArray dualGraphCol;
 
-		vector<zIntArray> graphEdge_DualCellFace;
+		/*!	\brief DISCRIPTION  */
+		zIntArray internalVertexIds;
 
-		int n_nodes = 0;
+		/*!	\brief DISCRIPTION  */
+		int firstInternalVertexId;
 
-		zPointArray tmpP;
+		/*!	\brief DISCRIPTION  */
+		int n_nodes;
 
-		
+		/*!	\brief DISCRIPTION  */
+		zPointArray cellCenters;
 
+		bool drawDualMeshFaces;
+
+		vector<zPointArray> dualFaceCenter;
+
+		//TMP
+		int snap = 0;
+		zVectorArray tmp1;
+		zVectorArray tmp2;
+
+
+
+	
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
@@ -110,56 +134,111 @@ namespace zSpace
 
 
 		//--------------------------
-		//---- UTILITY METHODS
+		//---- CREATE METHODS
 		//--------------------------
-		void createGraphMesh();
 
-		void getCellCenter();
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void create();
 
-		void getContainedFace();
 
+		//--------------------------
+		//---- DRAW METHODS
+		//--------------------------
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void drawGraph(bool drawIds = false);
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
 		void drawConvexHulls();
 
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
 		void drawGraphMeshes();
 
-		void drawDual();
 
-	private:		
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void drawDual(bool drawDualMeshFaces = true, bool drawIds = false);
+
+
+	private:
+
 		//--------------------------
-		//---- ALGEBRAIC METHOD UTILITIES
+		//---- PRIVATE CREATE METHODS
 		//--------------------------
 
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
 		void createDualMesh(zPointArray &positions, int numEdges, zSparseMatrix &C_ev, zSparseMatrix &C_fc, zObjMesh &dualMesh);
 
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
 		void createDualGraph(zPointArray &positions, int numEdges, zSparseMatrix &C_fc, zObjGraph &dualGraph);
 
-		/*! \brief This method gets the edge-vertex connectivity matrix of the primal. It corresponds to the face-cell connectivity matrix of the dual.
+
+		/*! \brief DISCRIPTION
 		*
-		*	\param		[in]	type						- input type of primal - zForceDiagram / zFormDiagram.
-		*	\param		[out]	out							- output connectivity matrix.
-		*	\return				bool						- true if the matrix is computed.
-		*	\since version 0.0.3
+		*	\since version 0.0.4
 		*/
-		bool getPrimal_EdgeVertexMatrix(zObjMesh inMesh,  zSparseMatrix &out);
+		void getCellCenter(zItGraphVertex &graphVertIt); //not implemented yet
 
 
-		/*! \brief This method gets the edge-face connectivity matrix of the primal. It corresponds to the face-edge connectivity matrix of the dual.
+		/*! \brief DISCRIPTION
 		*
-		*	\param		[in]	type						- input type of primal - zForceDiagram / zFormDiagram.
-		*	\param		[out]	out							- output connectivity matrix.
-		*	\return				bool						- true if the matrix is computed.
-		*	\since version 0.0.3
+		*	\since version 0.0.4
 		*/
-		bool getPrimal_EdgeFaceMatrix(zDiagramType type, zSparseMatrix &out);
+		void getContainedFace(); // not impolemented yet
 
-		/*! \brief This method gets the face-cell connectivity matrix of the primal. It corresponds to the edge-vertex connectivity matrix of the dual.
+
+		//--------------------------
+		//---- PRIVATE UTILITY METHODS
+		//--------------------------
+
+		/*! \brief DISCRIPTION
 		*
-		*	\param		[in]	type						- input type of primal - zForceDiagram / zFormDiagram.
-		*	\param		[out]	out							- output connectivity matrix.
-		*	\return				bool						- true if the matrix is computed.
-		*	\since version 0.0.3
+		*	\since version 0.0.4
 		*/
-		bool getPrimal_FaceCellMatrix(zDiagramType type, zSparseMatrix &out);
+		void getInternalVertex();
+
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void cyclicSort(zIntArray &unsorted, zPoint &cen,zPointArray &pts, zVector refDir, zVector normal);
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void snapDualCells(zItGraphVertexArray &bsf, zItGraphVertexArray &gCenters);
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void drawDualFaceConnectivity();
+
+
 	};
 }
 

@@ -716,15 +716,21 @@ namespace zSpace
 		//---- MATRIX METHODS USING EIGEN
 		//--------------------------
 
-
 		/*! \brief This method return a 4X4 matrix of the best fit plane for the given points using Principal Component Analysis.  Works with Eigen matrix.
 		*
 		*	\param		[in]	points		- input points.
-		*	\return 			zMatrixd	- Best fit plane as a 4X4 matrix.
-		*	\since version 0.0.2
+		*	\return 			zPlane		- Best fit plane as a 4X4 matrix, with XYZO stored in columns 0,1,2,3 respectively.
+		*	\since version 0.0.4
 		*/
-		zMatrixd getBestFitPlane(zPointArray& points);
+		zPlane getBestFitPlane(zPointArray& points);
 
+		/*! \brief This methods computes the projected points on the in input plane.
+		*
+		*	\param		[in]	points		- input points.
+		*	\param		[out]	points		- projected points.
+		*	\since version 0.0.4
+		*/
+		void getProjectedPoints_BestFitPlane(zPointArray& points, zPointArray &projectPoints);
 
 		/*! \brief This method computes the bounding box for the given points using PCA.  Works with Eigen matrix.
 		*

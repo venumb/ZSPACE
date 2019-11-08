@@ -160,15 +160,11 @@ namespace zSpace
 	{
 		vector<int> fVerts;
 
-		printf(" \n  fverts: ");
-
 		for (auto &v : fVertices)
 		{
 			zItMeshVertex vId;
 			addVertex(v, true, vId);
 			fVerts.push_back(vId.getId());
-
-			printf(" %i ", vId.getId());
 		}
 
 		return addPolygon(fVerts, face);

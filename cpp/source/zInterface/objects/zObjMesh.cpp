@@ -122,7 +122,7 @@ namespace zSpace
 #ifndef ZSPACE_UNREAL_INTEROP
 	   
 	ZSPACE_INLINE void zObjMesh::draw()
-	{
+	{	
 		if (showObject)
 		{
 			drawMesh();
@@ -274,13 +274,13 @@ namespace zSpace
 		for (auto &f : mesh.faces)
 		{
 			int i = f.getId();
-
+			
 			if (f.isActive())
 			{
 				zVector p1 = faceCenters[i];
 				zVector p2 = p1 + (mesh.faceNormals[i] * normalScale);
 
-				displayUtils->drawLine(p1, p2, zColor(0, 1, 0, 1));
+				displayUtils->drawLine(p1, p2, zColor(0, 1, 0, 1));				
 			}
 
 		}

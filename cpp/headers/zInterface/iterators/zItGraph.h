@@ -209,6 +209,22 @@ namespace zSpace
 		*/
 		int getValence();
 
+		/*! \brief This method returns a container holding the BSF if the input ItGraph.
+		*
+		*	\param		[in]	index	- index to start from.
+		*	\param		[out]	bsf		- container holding the BSF zItGraphVertex.
+		*	\since version 0.0.4
+		*/
+		void getBSF(zItGraphVertexArray& bsf);
+
+		/*! \brief This method returns a container holding the BSF if the input ItGraph.
+		*
+		*	\param		[in]	index	- index to start from.
+		*	\param		[out]	bsf		- container holding the BSF IDs.
+		*	\since version 0.0.4
+		*/
+		void getBSF(zIntArray& bsf);
+
 		/*!	\brief This method determines if vertex valency is equal to the input valence number.
 		*
 		*	\param		[in]	valence	- input valence value.

@@ -83,6 +83,9 @@
     <ClCompile Include="..\..\..\cpp\source\zToolsets\statics\zTsVault.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\streamlines\zTsStreams2D.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AC6C11FF-1F49-4025-87EC-F25C219971F4}</ProjectGuid>

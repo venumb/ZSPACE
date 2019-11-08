@@ -72,6 +72,9 @@ namespace zSpace
 		}
 
 		// update pointers
+		zVector sortReference(1, 0, 0);
+		zVector graphNormal(0, 0, 1);
+
 		for (int i = 0; i < _positions.size(); i++)
 		{
 			if (cEdgesperVert[i].temp_connectedEdges.size() > 0)
@@ -80,7 +83,9 @@ namespace zSpace
 				zVector cen = vertexPositions[i];
 				vector<int> sorted_cEdges;				
 
-				cyclic_sortEdges(cEdgesperVert[i].temp_connectedEdges, cen, cEdgesperVert[i].temp_connectedEdges[0], sorted_cEdges);
+				//cyclic_sortEdges(cEdgesperVert[i].temp_connectedEdges, cen, cEdgesperVert[i].temp_connectedEdges[0], sorted_cEdges);
+				
+				cyclic_sortEdges(cEdgesperVert[i].temp_connectedEdges, cen, sortReference, graphNormal, sorted_cEdges);
 
 				if (sorted_cEdges.size() > 0)
 				{
@@ -445,13 +450,13 @@ namespace zSpace
 
 
 
-		zMatrixd bestPlane = coreUtils.getBestFitPlane(points);
-		zVector norm = coreUtils.fromMatrixColumn(bestPlane, 2);
+		zTransform bestPlane = coreUtils.getBestFitPlane(points);
+		zVector norm(bestPlane(0, 2), bestPlane(1, 2), bestPlane(2, 2));
 
 		// iterate through edges in list, get angle to horz, sort;
 
-		zVector horz = coreUtils.fromMatrixColumn(bestPlane, 0);;
-		zVector upVec = coreUtils.fromMatrixColumn(bestPlane, 2);;
+		zVector horz(bestPlane(0, 0), bestPlane(1, 0), bestPlane(2, 0));// = coreUtils.fromMatrixColumn(bestPlane, 0);;
+		zVector upVec(bestPlane(0, 2), bestPlane(1, 2), bestPlane(2, 2));// = coreUtils.fromMatrixColumn(bestPlane, 2);; 
 
 		zVector cross = upVec ^ horz;
 
