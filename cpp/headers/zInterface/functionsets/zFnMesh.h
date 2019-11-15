@@ -725,12 +725,12 @@ namespace zSpace
 
 		/*! \brief This method collapses an edge into a vertex.
 		*
-		*	\param		[in]	index					- index of the edge to be collapsed.
+		*	\param		[in]	edge					- iterator of edge to be collapsed.
 		*	\param		[in]	edgeFactor				- position factor of the remaining vertex after collapse on the original egde. Needs to be between 0.0 and 1.0.
-		*	\param		[in]	removeInactiveElems	- inactive elements in the list would be removed if true.
+		*	\param		[in]	removeInactiveElems		- inactive elements in the list would be removed if true.
 		*	\since version 0.0.2
 		*/
-		void collapseEdge(int index, double edgeFactor = 0.5, bool removeInactiveElems = true);
+		void collapseEdge(zItMeshEdge &edge, double edgeFactor = 0.5, bool removeInactiveElems = true);
 
 		/*! \brief This method splits an edge and inserts a vertex along the edge at the input factor.
 		*
@@ -748,12 +748,12 @@ namespace zSpace
 		*/
 		int detachEdge(int index);
 
-		/*! \brief This method flips the edge shared bettwen two rainglua faces.
+		/*! \brief This method flips the edge shared bettwen two triangular faces.
 		*
-		*	\param		[in]	edgeList	- indicies of the edges to be collapsed.
+		*	\param		[in]	edge			- iterator of edge.
 		*	\since version 0.0.2
 		*/
-		void flipTriangleEdge(int &index);
+		void flipTriangleEdge(zItMeshEdge &edge);
 
 		/*! \brief This method splits a set of edges and faces of a mesh in a continuous manner.
 		*
@@ -768,7 +768,7 @@ namespace zSpace
 		*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
 		*	\since version 0.0.2
 		*/
-		void subdivideMesh(int numDivisions);
+		void subdivide(int numDivisions);
 
 		/*! \brief This method applies Catmull-Clark subdivision to the mesh.
 		*
@@ -787,7 +787,7 @@ namespace zSpace
 		*	\retrun				zMesh				- extruded mesh.
 		*	\since version 0.0.2
 		*/
-		zObjMesh extrudeMesh(float extrudeThickness, bool thicknessTris = false);
+		zObjMesh extrude(float extrudeThickness, bool thicknessTris = false);
 			   		 	  	  		
 		//--------------------------
 		//---- TRANSFORM METHODS OVERRIDES
@@ -864,14 +864,14 @@ namespace zSpace
 
 		/*! \brief This method adds input half edge and corresponding symmety edge from the halfEdgesMap.
 		*
-		*	\param		[in]	zItMeshHalfEdge			- half edge iterator.
+		*	\param		[in]	he			- half edge iterator.
 		*	\since version 0.0.2
 		*/
 		void addToHalfEdgesMap(zItMeshHalfEdge &he);
 
 		/*! \brief This method removes input half edge and corresponding symmety edge from the halfEdgesMap.
 		*
-		*	\param		[in]	zItMeshHalfEdge			- half edge iterator.
+		*	\param		[in]	he			- half edge iterator.
 		*	\since version 0.0.2
 		*/
 		void removeFromHalfEdgesMap(zItMeshHalfEdge &he);

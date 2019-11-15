@@ -445,13 +445,13 @@ namespace zSpace
 
 
 
-		zMatrixd bestPlane = coreUtils.getBestFitPlane(points);
-		zVector norm = coreUtils.fromMatrixColumn(bestPlane, 2);
+		zTransform bestPlane = coreUtils.getBestFitPlane(points);
+		zVector norm(bestPlane(0, 2), bestPlane(1, 2), bestPlane(2, 2));
 
 		// iterate through edges in list, get angle to horz, sort;
 
-		zVector horz = coreUtils.fromMatrixColumn(bestPlane, 0);;
-		zVector upVec = coreUtils.fromMatrixColumn(bestPlane, 2);;
+		zVector horz(bestPlane(0, 0), bestPlane(1, 0), bestPlane(2, 0));// = coreUtils.fromMatrixColumn(bestPlane, 0);;
+		zVector upVec(bestPlane(0, 2), bestPlane(1, 2), bestPlane(2, 2));// = coreUtils.fromMatrixColumn(bestPlane, 2);;
 
 		zVector cross = upVec ^ horz;
 

@@ -699,12 +699,13 @@ namespace zSpace
 	}
 
 
-	//---- MATRIX METHODS USING EIGEN
+	//---- MATRIX METHODS USING EIGEN / ARMA
 
-	ZSPACE_INLINE zMatrixd zUtilsCore::getBestFitPlane(zPointArray& points)
+	ZSPACE_INLINE zPlane zUtilsCore::getBestFitPlane(zPointArray& points)
 	{
 
-		zMatrixd out;
+		zPlane out;
+		out.setIdentity();
 
 		// compute average point
 		zVector averagePt;
@@ -717,8 +718,52 @@ namespace zSpace
 
 		averagePt /= points.size();
 
+		arma::mat X_arma(points.size(), 3);
+		for (int i = 0; i < points.size(); i++)
+		{
+			X_arma(i, 0) = points[i].x - averagePt.x;
+			X_arma(i, 1) = points[i].y - averagePt.y;
+			X_arma(i, 2) = points[i].z - averagePt.z;
+
+		}
+		
+		mat U;
+		arma::vec s;
+		mat V;
+		svd(U, s, V, X_arma);		
+
+		// x
+		out(0, 0) = V(0, 0); 	out(1, 0) = V(1, 0);	out(2, 0) = V(2, 0);
+
+		// y
+		out(0, 1) = V(0, 1); 	out(1, 1) = V(1, 1);	out(2, 1) = V(2, 1);
+		
+		// z
+		out(0, 2) = V(0, 2);	out(1, 2) = V(1, 2);	out(2, 2) = V(2, 2);
+
+		// o
+		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
+
+	
+		MatrixXd X_eigen(points.size(), 3);
+		for (int i = 0; i < points.size(); i++)
+		{
+			X_eigen(i, 0) = points[i].x - averagePt.x;
+			X_eigen(i, 1) = points[i].y - averagePt.y;
+			X_eigen(i, 2) = points[i].z - averagePt.z;
+
+		}
+
+		//Matrix3f covarianceMat;
+		////X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
+
+		//BDCSVD<Matrix3d> svd;
+		//svd.compute(X_eigen);
+	
+		//cout << "\n eigen \n " << svd.computeV();
+
 		// compute covariance matrix 
-		SelfAdjointEigenSolver<Matrix3f> eigensolver;
+		/*SelfAdjointEigenSolver<Matrix3f> eigensolver;
 		Matrix3f covarianceMat;
 
 		for (int i = 0; i < 3; i++)
@@ -748,22 +793,22 @@ namespace zSpace
 		vector<double> X = { eigensolver.eigenvectors().col(2)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
 		vector<double> Y = { eigensolver.eigenvectors().col(1)(0), eigensolver.eigenvectors().col(1)(1), eigensolver.eigenvectors().col(1)(2), 1 };
 		vector<double> Z = { eigensolver.eigenvectors().col(0)(0), eigensolver.eigenvectors().col(0)(1), eigensolver.eigenvectors().col(0)(2), 1 };
-		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };
+		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };*/
 
-		out.setCol(0, X);
+		/*out.setCol(0, X);
 		out.setCol(1, Y);
 		out.setCol(2, Z);
-		out.setCol(3, O);
+		out.setCol(3, O);*/
 
 		return out;
 	}
 
 	ZSPACE_INLINE void zUtilsCore::boundingboxPCA(zPointArray points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
 	{
-		zMatrixd bPlane_Mat = getBestFitPlane(points);
+		zPlane bPlane_Mat = getBestFitPlane(points);
 
 		// translate points to local frame
-		zMatrixd bPlane_Mat_local = toLocalMatrix(bPlane_Mat);
+		zTransform bPlane_Mat_local = toLocalMatrix(bPlane_Mat);
 
 		for (int i = 0; i < points.size(); i++)
 		{
@@ -777,7 +822,7 @@ namespace zSpace
 
 
 		// translate points to world frame
-		zMatrixd bPlane_Mat_world = toWorldMatrix(bPlane_Mat);
+		zTransform bPlane_Mat_world = toWorldMatrix(bPlane_Mat);
 
 		for (int i = 0; i < points.size(); i++)
 		{
