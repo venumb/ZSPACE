@@ -67,11 +67,14 @@ namespace zSpace
 		//--------------------------
 
 
-		/*!	\brief mesh Object  */
-		zObjMesh cellObj;
+		/*!	\brief pointer to mesh Object  */
+		zObjMesh* inStructObj;
 
 		/*!	\brief input mesh function set  */
-		zFnMesh fnCell;
+		zFnMesh fnStruct;
+
+		/*!	\brief mesh Object array */
+		zObjMeshArray cellObjs;
 
 		/*!	\brief column array per cell set  */
 		zColumnArray columnArray;
@@ -85,8 +88,8 @@ namespace zSpace
 		/*!	\brief slabs array per cell set  */
 		zFacadeArray facadeArray;
 
-		/*!	\brief structure height float default: 300cm */
-		float height = 3;
+		/*!	\brief structure height float array ( per face ) */
+		zFloatArray heightArray;
 
 		/*!	\brief pointer to output mesh Object  */
 		zObjMesh outMeshObj;
@@ -107,16 +110,14 @@ namespace zSpace
 		zObjMeshArray facadeObjs;
 
 		/*! \brief container to top edges attributes */
-		zBoolArray cellEdgesAttributes;
+		zBoolArray edgesAttributes;
 
 		/*! \brief container to edge boundary attributes */
-		zBoolArray cellBoundaryAttributes;
+		zBoolArray boundaryAttributes;
 
 		/*! \brief container to cell faces attributes */
 		vector <zCellFace> cellFaceArray;
 
-		/*! \brief pointer to housing unit that this cell is attached to*/
-		zPointArray faceVertexPositions;
 
 		
 
@@ -133,7 +134,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zPointArray &faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType, zStructureType&_structureType, float _height);
+		zHcStructure(zObjMesh&_inStructObj, zFunctionType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -166,7 +167,7 @@ namespace zSpace
 		*	\param		[in]	_vertexpositions_				- ordered set of vertices up and down.
 		*	\since version 0.0.4
 		*/
-		void createStructuralCell(zPointArray &vertexPositions_);
+		void createStructuralCell();
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*
@@ -177,11 +178,10 @@ namespace zSpace
 
 		/*! \brief This method updates a spatial cell 
 		*
-		*	\param		[in]	_cellEdgesAttributes			- cell edges attributes
 		*	\param		[in]	_height							- cell height
 		*	\since version 0.0.4
 		*/
-		void updateStructure(zPointArray &vPositions, zBoolArray&_cellEdgesAttributes, float _height);
+		void updateStructure(zFloatArray _heightArray);
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*

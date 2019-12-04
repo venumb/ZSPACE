@@ -202,7 +202,6 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zFnMesh::vertexExists(zPoint pos, zItMeshVertex &outVertex, int precisionfactor)
 	{
-
 		int id;
 		bool chk = meshObj->mesh.vertexExists(pos, id, precisionfactor);
 

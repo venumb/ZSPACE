@@ -24,29 +24,46 @@ namespace zSpace
 
 
 		/*! \brief container to cell faces attributes */
-	ZSPACE_INLINE zHcStructure::zHcStructure(zPointArray &_faceVertexPositions, zBoolArray&_cellEdgesAttributes, zBoolArray&_cellBoundaryAttributes, zFunctionType&_funcType, zStructureType&_structureType, float _height)
+	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inStructObj, zFunctionType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes)
 	{
-		//cellObj = new zObjMesh();
-		fnCell = zFnMesh(cellObj);	
+		inStructObj = &_inStructObj;
+		fnStruct = zFnMesh(*inStructObj);	
 		structureType = _structureType;
 		functionType = _funcType;
-		faceVertexPositions = _faceVertexPositions;
 
-		height = _height;
+		heightArray = _heightArray;
 
-		columnObjs.assign(faceVertexPositions.size(), zObjMesh());
-		slabObjs.assign(faceVertexPositions.size(), zObjMesh());
-		wallObjs.assign(faceVertexPositions.size(), zObjMesh());
-		facadeObjs.assign(faceVertexPositions.size(),zObjMesh());
+		int columnNum = 0;
+		int slabNum = 0;
+		int wallNum = 0;
+		int facadeNum = 0;
 
-		cellEdgesAttributes = _cellEdgesAttributes;
-		cellBoundaryAttributes = _cellBoundaryAttributes;
+	
 
-		//createStructuralCell(faceVertexPositions);
-		//setCellFacesAttibutes();
+		for (zItMeshVertex v(*inStructObj); !v.end(); v++)
+		{
+			if (!v.onBoundary() && v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)
+			{
+				columnNum++;
+				slabNum++;
+			}
+		}
 
-		//createStructureByType(structureType);
-		
+
+		for (zItMeshFace f(*inStructObj); !f.end(); f++)
+		{
+			if (f.getColor().r == 1 && f.getColor().g == 1 && f.getColor().b == 1) facadeNum++;
+			else if (f.getColor().r == 0 && f.getColor().g == 0 && f.getColor().b == 0)wallNum++;
+		}
+		//printf("\n wall numn: %i", wallNum);
+		//printf("\n facde numn: %i", facadeNum);
+
+		cellObjs.assign(fnStruct.numPolygons(), zObjMesh());
+		columnObjs.assign(columnNum, zObjMesh());
+		slabObjs.assign(slabNum, zObjMesh());
+		wallObjs.assign(wallNum, zObjMesh());
+		facadeObjs.assign(facadeNum, zObjMesh());
+
 	}
 
 	//---- DESTRUCTOR
@@ -56,26 +73,34 @@ namespace zSpace
 	//---- CREATE METHODS
 	   	 
 
-	ZSPACE_INLINE void zHcStructure::createStructuralCell(zPointArray &vPositions)
+	ZSPACE_INLINE void zHcStructure::createStructuralCell()
 	{
-		zIntArray polyConnect;
-		zIntArray polyCount;
+		//int cellCount = 0;
+		//for (zItMeshFace f(*inStructObj); !f.end(); f++)
+		//{
+		//	zPointArray pointArray;
+		//	zIntArray polyConnect;
+		//	zIntArray polyCount;
 
-		int vPositionsCount = vPositions.size();
-		polyCount.push_back(vPositions.size());
+		//	polyCount.push_back(f.getNumVertices());
+		//	f.getVertexPositions(pointArray);
 
-		for (int i = 0; i < vPositions.size(); i++)
-		{
-			polyConnect.push_back(i);
-		}
+		//	for (int i = 0; i < f.getNumVertices(); i++)
+		//	{
+		//		polyConnect.push_back(i);
+		//	}
 
-		zObjMesh tempObj;
-		zFnMesh tempFn(tempObj);
+		//	zObjMesh tempObj;
+		//	zFnMesh tempFn(tempObj);
 
-		tempFn.create(vPositions, polyCount, polyConnect);
-		tempFn.extrudeMesh(-height, cellObj, false);
+		//	tempFn.create(pointArray, polyCount, polyConnect);
+		//	tempFn.extrudeMesh(- heightArray[cellCount], cellObjs[cellCount], false);
 
-		setCellFacesAttibutes();
+		//	setCellFacesAttibutes(); ////CHECK!!!!!!!
+		//	cellCount++;
+		//}
+
+		
 	}
 
 	ZSPACE_INLINE void zHcStructure::createStructureByType(zStructureType & _structureType)
@@ -94,115 +119,134 @@ namespace zSpace
 		}
 	}
 
-	ZSPACE_INLINE void zHcStructure::updateStructure(zPointArray &vPositions, zBoolArray & _cellEdgesAttributes, float _height)
+	ZSPACE_INLINE void zHcStructure::updateStructure (zFloatArray _heightArray)
 	{
-		if (_height == 0)
-		{
-			for (auto&c : columnObjs) c = zObjMesh();
-			for (auto&s : slabObjs) s = zObjMesh();
-			for (auto&w : wallObjs) w = zObjMesh();
-			for (auto&f : facadeObjs) f = zObjMesh();
+		//if (_height == 0)
+		//{
+		//	for (auto&c : columnObjs) c = zObjMesh();
+		//	for (auto&s : slabObjs) s = zObjMesh();
+		//	for (auto&w : wallObjs) w = zObjMesh();
+		//	for (auto&f : facadeObjs) f = zObjMesh();
 
-		}
-		else
-		{
-			cellEdgesAttributes = _cellEdgesAttributes;
-			height = _height;
+		//}
+		/*else
+		{*/
+			heightArray = _heightArray;
 
-			createStructuralCell(vPositions);
+			createStructuralCell();
 			updateArchComponents(structureType);
-		}
+		//}
 	}
 
 	ZSPACE_INLINE void zHcStructure::updateArchComponents(zStructureType & _structureType)
 	{
-		printf("\n array size: %i, %i, %i, %i", columnArray.size(), slabArray.size(), wallArray.size(), facadeArray.size());
 
-		structureType = _structureType;
+		//structureType = _structureType;
 
-		for (auto& column : columnArray) column.createColumnByType(structureType);
-		for (auto& slab : slabArray) slab.createSlabByType(structureType);
-		for (auto& wall : wallArray) wall.createWallByType(structureType);
+		//for (auto& column : columnArray) column.createColumnByType(structureType);
+		//for (auto& slab : slabArray) slab.createSlabByType(structureType);
+		//for (auto& wall : wallArray) wall.createWallByType(structureType);
 
 
-		for (auto& facade : facadeArray)
-		{
-			zItMeshFace f(cellObj, facade.faceId);
-			zPointArray vCorners;
-			f.getVertexPositions(vCorners);
+		//for (auto& facade : facadeArray)
+		//{
+		//	zItMeshFace f(cellObj, facade.faceId);
+		//	zPointArray vCorners;
+		//	f.getVertexPositions(vCorners);
 
-			facade.updateFacade(vCorners);
-			facade.createFacadeByType(structureType);
-		}
+		//	facade.updateFacade(vCorners);
+		//	facade.createFacadeByType(structureType);
+		//}
 
-		for (auto& wall : wallArray)
-		{
-			zItMeshFace f(cellObj, wall.faceId);
-			zPointArray vCorners;
-			f.getVertexPositions(vCorners);
+		//for (auto& wall : wallArray)
+		//{
+		//	zItMeshFace f(cellObj, wall.faceId);
+		//	zPointArray vCorners;
+		//	f.getVertexPositions(vCorners);
 
-			wall.updateWall(vCorners);
-			wall.createWallByType(structureType);
-		}
+		//	wall.updateWall(vCorners);
+		//	wall.createWallByType(structureType);
+		//}
 	
 	}
 
 	ZSPACE_INLINE void zHcStructure::setCellFacesAttibutes()
 	{
-		for (zItMeshFace f(cellObj);  !f.end(); f++)
+	/*	for (zItMeshFace f(*inStructObj);  !f.end(); f++)
 		{
-			if (f.getId() == 0) cellFaceArray.push_back(zCellFace::zRoof);
-			else if (f.getId() == 1) cellFaceArray.push_back(zCellFace::zFloor);
-			else break;
+			if (f.getColor().r > 0.5 && f.getColor().g > 0.5 && f.getColor().b > 0.5)
+			{
+				cellFaceArray.push_back(zCellFace::zIntWall);
+			}
+			else if (f.getColor().r == 0 && f.getColor().g == 0 && f.getColor().b == 0)
+			{
+				cellFaceArray.push_back(zCellFace::zIntWall);
+			}
 		}
 
 		for (int i = 0; i < cellBoundaryAttributes.size(); i++)
 		{
 			if (cellBoundaryAttributes[i] == true && cellEdgesAttributes[i] == true) cellFaceArray.push_back(zCellFace::zFacade);
 			else cellFaceArray.push_back(zCellFace::zIntWall);
-		}
+		}*/
+
 	}
 
 	ZSPACE_INLINE bool zHcStructure::createColumns()
 	{
-		for (zItMeshFace f(cellObj); !f.end(); f++)
+		int cellCount = 0;
+		for (zItMeshVertex v(*inStructObj); !v.end(); v++)
 		{
-			
-
-			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
+			if (!v.onBoundary() && v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)
 			{
-				
-				zItMeshHalfEdgeArray hEdges;
-				f.getHalfEdges(hEdges);
-				
-				int heCount = 0;
-				for (auto he : hEdges)
+
+				//set vector axis for column
+				zVectorArray axis;
+				//set axis attibutes primary or secondary direction
+				zBoolArray axisAttributes;
+				//set neighbour faces valencies
+				zIntArray valenceArray;
+
+				zItMeshHalfEdgeArray heArray;
+				v.getConnectedHalfEdges(heArray);
+
+				for (zItMeshHalfEdge he : heArray)
 				{
-									
-					//set column position
-					zVector columnPos = he.getStartVertex().getPosition();
+					//he.getEdge().getId() % 2 == 0 ? axisAttributes.push_back(true) : axisAttributes.push_back(false);
 
-					//set direction according to edge attributes
-					zVector x, y;
-					if (cellEdgesAttributes[heCount])
-					{
-						x = he.getVector();
-						y = he.getPrev().getVector() * -1;
-					}
-					else
-					{
-						y = he.getVector();
-						x = he.getPrev().getVector()* -1;
-					}
-
-					zVector z = zVector(0, 0, -1);
-
-					zAgColumn tempColumn (columnObjs[heCount], columnPos, x, y, z, height);
-					tempColumn.createColumnByType(structureType);
-					columnArray.push_back(tempColumn);
-
-					heCount++;
+					int nextValence = he.getNext().getVertex().getValence();
+					valenceArray.push_back(nextValence);
+					
+					axis.push_back(he.getVector());
 				}
+				
+				if (v.getHalfEdge().getId() % 2 == 0)
+				{
+					axisAttributes.push_back(true);
+					axisAttributes.push_back(false);
+					axisAttributes.push_back(true);
+					axisAttributes.push_back(false);
+				}
+
+				else
+				{
+					axisAttributes.push_back(false);
+					axisAttributes.push_back(true);
+					axisAttributes.push_back(false);
+					axisAttributes.push_back(true);
+				}
+
+
+				/////
+				zVector z = zVector(0, 0, -1);
+				zVector pos = v.getPosition();
+
+				/////
+				zAgColumn tempColumn (columnObjs[cellCount], pos, axis, axisAttributes, valenceArray, 3.0f);
+				tempColumn.createColumnByType(structureType);
+				columnArray.push_back(tempColumn);
+
+				cellCount++;
 			}
 		}
 		
@@ -211,46 +255,78 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zHcStructure::createSlabs()
 	{
-		if (columnArray.size() == 0)
-		{			
-			return false;
-		}
-
-		for (zItMeshFace f(cellObj); !f.end(); f++)
+		int heCount = 0;
+		for (zItMeshVertex v(*inStructObj); !v.end(); v++)
 		{
-			if (cellFaceArray[f.getId()] == zCellFace::zRoof)
-			{				
-				zItMeshHalfEdgeArray hEdges;
-				f.getHalfEdges(hEdges);
+			if (!v.onBoundary() && v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)
+			{
+	
+				zVectorArray centerarray;//set center array
+				zVectorArray axis;//set mid points axis array
+				zBoolArray axisAttributes;//set axis attributes primary or secondary
 
-				int heCount = 0;
-				for (auto &he : hEdges)
+				zItMeshHalfEdgeArray heArray;
+				v.getConnectedHalfEdges(heArray);
+
+				for (zItMeshHalfEdge he : heArray)
 				{
-					//set slab center
-					zVector center = f.getCenter();
+					//he.getEdge().getId() % 2 == 0 ? axisAttributes.push_back(true) : axisAttributes.push_back(false);
 
-					//set xCenter and yCenter according to edge attributes
-					zVector xCenter, yCenter;
-					if (cellEdgesAttributes[heCount])
+					int nextValence = he.getNext().getVertex().getValence();
+
+					if (nextValence == 2)
 					{
-						xCenter = he.getCenter();
-						yCenter = he.getPrev().getCenter();
+						centerarray.push_back(he.getNext().getVertex().getPosition());
+						axis.push_back(he.getVertex().getPosition());
+					}
+					else if (nextValence == 3)
+					{
+						if (he.getNext().getSym().onBoundary())
+						{
+							centerarray.push_back(he.getNext().getCenter());
+							axis.push_back(he.getVertex().getPosition());
+						}
+						else
+						{
+							centerarray.push_back(he.getNext().getNext().getCenter());
+							axis.push_back(he.getCenter());
+						}
 					}
 					else
 					{
-						yCenter = he.getCenter();
-						xCenter = he.getPrev().getCenter();
+						centerarray.push_back(he.getFace().getCenter());
+						axis.push_back(he.getCenter());
 					}
-
-					zAgSlab tempSlab(slabObjs[heCount], xCenter, yCenter, center, columnArray[heCount]);
-					tempSlab.createSlabByType(structureType);
 					
-					slabArray.push_back(tempSlab);
-
-					heCount++;
 				}
+
+
+				if (v.getHalfEdge().getId() % 2 == 0)
+				{
+					axisAttributes.push_back(true);
+					axisAttributes.push_back(false);
+					axisAttributes.push_back(true);
+					axisAttributes.push_back(false);
+				}
+
+				else
+				{
+					axisAttributes.push_back(false);
+					axisAttributes.push_back(true);
+					axisAttributes.push_back(false);
+					axisAttributes.push_back(true);
+				}
+
+				zAgSlab tempSlab(slabObjs[heCount], centerarray, axis, axisAttributes, columnArray[heCount]);
+				tempSlab.createSlabByType(structureType);
+
+				slabArray.push_back(tempSlab);
+
+				heCount++;
+
 			}
 		}
+		
 
 		return true;
 	}
@@ -258,9 +334,9 @@ namespace zSpace
 	ZSPACE_INLINE bool zHcStructure::createWalls()
 	{
 		int count = 0;
-		for (zItMeshFace f(cellObj); !f.end(); f++)
+		for (zItMeshFace f(*inStructObj); !f.end(); f++)
 		{
-			if (cellFaceArray[f.getId()] == zCellFace::zIntWall)
+			if (f.getColor().r == 0 && f.getColor().g == 0 && f.getColor().b == 0)
 			{
 				zPointArray vCorners;
 				f.getVertexPositions(vCorners);
@@ -273,14 +349,35 @@ namespace zSpace
 			}
 		}
 
-		printf("\n num of walls placed: %i", count);
-
+		//for (auto w : wallObjs)
+		//{
+		//	zFnMesh temp(w);
+		//	//temp.numPolygons();
+		//	//printf("\n poly num: %i", temp.numPolygons());
+		//}
 		return true;
 	}
 
 	ZSPACE_INLINE bool zHcStructure::createFacades()
 	{
+
 		int count = 0;
+		for (zItMeshFace f(*inStructObj); !f.end(); f++)
+		{
+			if (f.getColor().r == 1 && f.getColor().g == 1 && f.getColor().b == 1)
+			{
+				zPointArray vCorners;
+				f.getVertexPositions(vCorners);
+
+				zAgFacade tempFacade = zAgFacade(facadeObjs[count], vCorners, f.getId());
+				tempFacade.createFacadeByType(structureType);
+				facadeArray.push_back(tempFacade);
+
+				count++;
+			}
+		}
+
+	/*	int count = 0;
 		for (zItMeshFace f(cellObj); !f.end(); f++)
 		{
 			if (cellFaceArray[f.getId()] == zCellFace::zFacade)
@@ -295,7 +392,7 @@ namespace zSpace
 				count++;
 			}
 		}
-
+		*/
 
 		return true;
 	}
@@ -307,8 +404,12 @@ namespace zSpace
 	ZSPACE_INLINE void zHcStructure::setStructureDisplayModel(zModel & _model)
 	{
 		model = &_model;
-		model->addObject(cellObj);
-		cellObj.setShowElements(false, true, false);
+
+		for (auto& cell : cellObjs)
+		{
+			model->addObject(cell);
+			cell.setShowElements(false, true, false);
+		}
 
 		for (auto& c : columnObjs)
 		{

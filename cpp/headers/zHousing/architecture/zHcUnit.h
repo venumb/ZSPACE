@@ -66,6 +66,9 @@ namespace zSpace
 		/*!	\brief pointer to input mesh Object  */
 		zObjMeshArray layoutMeshObjs;
 
+		/*!	\brief input mesh function set  */
+		vector<zFnMesh> fnLayoutMeshArray;
+
 		/*!	\brief house layout option */
 		zLayoutType layoutType;
 
@@ -76,7 +79,7 @@ namespace zSpace
 		zStructureType structureType;
 
 		/*!	\brief structure units/cells array */
-		zStructureArray structureUnits;
+		zHcStructure structureUnit;
 
 		/*!	\brief store edge attributes: primary (true) secondary (false)  */
 		zBoolArray edgeAttributes;
@@ -84,7 +87,11 @@ namespace zSpace
 		/*!	\brief store boundary attributes */
 		zBoolArray eBoundaryAttributes;
 
+		/*!	\brief store structure height array */
 		zFloatArray structureHeight;
+
+		/*!	\brief interface manager, handles an input path directory*/
+		zUtilsCore core;
 		
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -151,31 +158,19 @@ namespace zSpace
 		*	\param		[in]	_layoutType					- input desired layout option
 		*	\since version 0.0.4
 		*/
-		void createLayoutByType(zLayoutType&_layout, bool flip);
+		void importLayoutFromPath(string&_path);
+
+		/*! \brief This method creates internal layout.
+		*
+		*	\param		[in]	_layoutType					- input desired layout option
+		*	\since version 0.0.4
+		*/
+		void setLayoutByType(zLayoutType&_layout);
 
 		/*! \brief This method creates internal studio layout.
 		*
 		*	\since version 0.0.4
 		*/
-		void createStudioLayout(bool flip = false);
-
-		/*! \brief This method creates internal one bed layout.
-		*
-		*	\since version 0.0.4
-		*/
-		void createOneBedLayout(bool flip = false);
-
-		/*! \brief This method creates internal one bed layout.
-		*
-		*	\since version 0.0.4
-		*/
-		void createTwoBedLayout(bool flip = false);
-
-		/*! \brief This method creates internal one bed layout.
-		*
-		*	\since version 0.0.4
-		*/
-		void createLoftLayout(bool flip = false);
 
 		//--------------------------
 		//---- UPDATE METHODS
@@ -199,7 +194,7 @@ namespace zSpace
 		*	\param		[in]	_showColumns					- display column objs
 		*	\since version 0.0.4
 		*/
-		void displayLayout(bool showlayout);
+		void displayLayout(int&_index, bool&_show);
 
 
 

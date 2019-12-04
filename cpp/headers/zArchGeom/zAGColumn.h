@@ -51,13 +51,26 @@ namespace zSpace
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 		float height;
+
 		float nodeHeight = 1;
+
 		float nodeDepth = 0.8;
+
 		float beamA_Height = 0.5;
+
 		float beamB_Height = 0.3;
 
 		zVector position, a, b, c;
+
+		zVectorArray axis;
+
+		zBoolArray axisAttributes;
+
+		zIntArray neighborValence;
+
 		zVector x, y, z;
+
+		vector<zVectorArray> snapSlabpoints;
 
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh *inMeshObj;
@@ -79,7 +92,7 @@ namespace zSpace
 		*	\param		[in]	_showForces					- input show forces booelan.
 		*	\since version 0.0.4
 		*/
-		zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVector &_x, zVector & _y, zVector & _z, float&_height);
+		zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, zIntArray&_neighborValence, float _height);
 
 		//--------------------------
 		//---- DESTRUCTOR

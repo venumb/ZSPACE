@@ -31,29 +31,51 @@ namespace zSpace
 	{
 		unitArray.assign(unitObjs.size(), zHcUnit());
 
-	
-
 		for (int i = 0; i < unitObjs.size(); i++)
 		{
 			zFunctionType funcType;
 
 			zItMeshVertex v(unitObjs[i]);
-			if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)	funcType = zFunctionType::zPublic;		
-			else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0) funcType = zFunctionType::zFlat;
-			else if (v.getColor().r == 0 && v.getColor().g == 0 && v.getColor().b == 1) funcType = zFunctionType::zLandscape;
-			else if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 1) funcType = zFunctionType::zVertical;
-			else funcType = zFunctionType::zPublic;
 
+			for (zItMeshVertex v(unitObjs[i]); !v.end(); v++)
+			{
+				if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)
+				{
+					funcType = zFunctionType::zPublic;
+					break;
+				}
+				else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0)
+				{
+					funcType = zFunctionType::zFlat;
+					break;
+
+				}
+				else if (v.getColor().r == 0 && v.getColor().g == 0 && v.getColor().b == 1)
+				{
+					funcType = zFunctionType::zLandscape;
+					break;
+				}
+				else if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 1)
+				{
+					funcType = zFunctionType::zVertical;
+					break;
+				}
+
+				else
+				{
+					funcType = zFunctionType::zPublic;
+				}
+			}
+			
 			unitArray[i] = zHcUnit(unitObjs[i], funcType, _structureType);
 			unitArray[i].createStructuralUnits(_structureType);
-			//unitArray[i].createLayoutByType(zLayoutType::zStudio, );
 		}
 
 		
 
 	}
 
-	ZSPACE_INLINE void zHcAggregation::importMeshFromDirectory(string & _path, zFileTpye type)
+	ZSPACE_INLINE void zHcAggregation::importMeshesFromDirectory(string&_path)
 	{
 		zStringArray pathsArray;
 		core.getFilesFromDirectory(pathsArray, _path, zJSON);
@@ -68,22 +90,45 @@ namespace zSpace
 		}	
 	}
 
+	void zHcAggregation::importLayoutMeshesFromDirectory(string & _pathFlat, string & _pathVertical, string & _pathLandscape)
+	{ 
+		int uId = 0;
+		for (auto &h : unitArray)
+		{
+			if (h.funcType == zFunctionType::zFlat)
+			{
+				printf("hey there flat %i ", uId);				
+				h.importLayoutFromPath(_pathFlat);
+			}
+			else if (h.funcType == zFunctionType::zLandscape)
+			{
+				printf("hey there landscape %i ", uId);				
+				h.importLayoutFromPath(_pathLandscape);
+			}
+			else if (h.funcType == zFunctionType::zVertical)
+			{
+				printf("hey there vertical %i ", uId);	
+				h.importLayoutFromPath(_pathVertical);
+			}
+
+			uId++;
+
+		}
+	}
+
 	//---- UPDATE METHODS
 
 	void zHcAggregation::updateStructureType(zStructureType & _structureType)
 	{
 		for (auto& hc : unitArray)
 		{
-			for (auto& s : hc.structureUnits)
-			{
-				s.updateArchComponents(_structureType);
-			}
+			hc.structureUnit.updateArchComponents(_structureType);
 		}
 	}
 
 	void zHcAggregation::updateLayout(int unitId, zLayoutType & _layoutType, bool flip)
 	{
-		unitArray[unitId].createLayoutByType(_layoutType, flip);
+		unitArray[unitId].setLayoutByType(_layoutType);
 	}
 
 	//---- DISPLAY METHODS
@@ -109,47 +154,42 @@ namespace zSpace
 	}
 
 
-	ZSPACE_INLINE void zHcAggregation::showColumns(bool showColumn)
+	ZSPACE_INLINE void zHcAggregation::showColumns(bool&_showColumn)
 	{
 		for (auto& hc : unitArray)
 		{
-			for (auto& s : hc.structureUnits)
-			{
-				
-					s.displayColumns(showColumn);			
-				
-			}
+			hc.structureUnit.displayColumns(_showColumn);			
 		}
 	}
 
-	ZSPACE_INLINE void zHcAggregation::showSlabs(bool showSlab)
+	ZSPACE_INLINE void zHcAggregation::showSlabs(bool&_showSlab)
 	{
 		for (auto& hc : unitArray)
 		{
-			for (auto& s : hc.structureUnits) s.displaySlabs(showSlab);
+			hc.structureUnit.displaySlabs(_showSlab);
 		}
 	}
 
-	ZSPACE_INLINE void zHcAggregation::showWalls(bool showWall)
+	ZSPACE_INLINE void zHcAggregation::showWalls(bool&_showWall)
 	{
 		for (auto& hc : unitArray)
 		{
-			for (auto& s : hc.structureUnits) s.displayWalls(showWall);
+			hc.structureUnit.displayWalls(_showWall);
 		}
 	}
 
-	ZSPACE_INLINE void zHcAggregation::showFacade(bool showFacade)
+	ZSPACE_INLINE void zHcAggregation::showFacade(bool&_showFacade)
 	{
 		for (auto& hc : unitArray)
 		{
-			for (auto& s : hc.structureUnits) s.displayFacade(showFacade);
+			hc.structureUnit.displayFacade(_showFacade);
 		}
 	}
-	ZSPACE_INLINE  void zHcAggregation::showLayout(bool showLayout)
+	ZSPACE_INLINE  void zHcAggregation::showLayout(int&_index, bool&_showLayout)
 	{
 		for (auto& hc : unitArray)
 		{
-			hc.displayLayout(showLayout);
+			hc.displayLayout(_index, _showLayout);
 		}
 	}
 }

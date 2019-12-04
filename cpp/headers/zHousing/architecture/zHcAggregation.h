@@ -121,7 +121,15 @@ namespace zSpace
 		*	\param		[in]	_type				- file type
 		*	\since version 0.0.4
 		*/
-		void importMeshFromDirectory(string&_path, zFileTpye type);
+		void importMeshesFromDirectory(string&_path);
+
+		/*! \brief This method creates layouts for housing units from  imported meshes.
+		*
+		*	\param		[in]	_path				- directory of files
+		*	\param		[in]	_type				- file type
+		*	\since version 0.0.4
+		*/
+		void importLayoutMeshesFromDirectory(string&_pathFlat, string&_pathVertical, string&_pathLandscape);
 
 
 		//--------------------------
@@ -151,35 +159,35 @@ namespace zSpace
 		*	\param		[in]	showColumn				- display boolean
 		*	\since version 0.0.4
 		*/
-		void showColumns(bool showColumn);
+		void showColumns(bool&_showColumn);
 
 		/*! \brief This method sets if columns should be showned
 		*
 		*	\param		[in]	showSlab				- display boolean
 		*	\since version 0.0.4
 		*/
-		void showSlabs(bool showSlab);
+		void showSlabs(bool&_showSlab);
 
 		/*! \brief This method sets if columns should be showned
 		*
 		*	\param		[in]	showWall				- display boolean
 		*	\since version 0.0.4
 		*/
-		void showWalls(bool showWall);
+		void showWalls(bool&_showWall);
 
 		/*! \brief This method sets if columns should be showned
 		*
 		*	\param		[in]	showFacade				- display boolean
 		*	\since version 0.0.4
 		*/
-		void showFacade(bool showFacade);
+		void showFacade(bool&_showFacade);
 
 		/*! \brief This method sets if columns should be showned
 		*
 		*	\param		[in]	showFacade				- display boolean
 		*	\since version 0.0.4
 		*/
-		void showLayout (bool showLayout);
+		void showLayout (int&_index, bool&_showLayout);
 	};
 
 
