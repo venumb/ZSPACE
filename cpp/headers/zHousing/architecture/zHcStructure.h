@@ -164,13 +164,6 @@ namespace zSpace
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*
-		*	\param		[in]	_vertexpositions_				- ordered set of vertices up and down.
-		*	\since version 0.0.4
-		*/
-		void createStructuralCell();
-
-		/*! \brief This method creates a spatial cell in which the architectural elements live in
-		*
 		*	\param		[in]	_structuretype					- structural type 
 		*	\since version 0.0.4
 		*/

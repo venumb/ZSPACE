@@ -27,14 +27,13 @@ namespace zSpace
 
 
 
-	zAgSlab::zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zBoolArray&_axisAttributes, zAgColumn&_parentColumn)
+	zAgSlab::zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);
 		parentColumn = &_parentColumn;
 		centerVecs = _centerVecs;
 		midPoints = _midPoints;
-		axisAttributes = _axisAttributes;
 	}
 
 	void zAgSlab::createSlabByType(zStructureType & _structureType)
@@ -123,118 +122,134 @@ namespace zSpace
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
+		int numPoints = 0;
 		for (int i = 0; i < centerVecs.size(); i++)
 		{
-
-			if (i + 1 < centerVecs.size())
+			if (parentColumn->boundaryArray[i] == zBoundary::zInterior && parentColumn->snapSlabpoints[i].size() > 0)
 			{
-				if (axisAttributes[i])
+				printf("\n slab snap points count: %i ", parentColumn->snapSlabpoints[i].size());
+
+				for (auto v : parentColumn->snapSlabpoints[i])
 				{
-					pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
-					pointArray.push_back(midPoints[i]);
-					pointArray.push_back(centerVecs[i]);
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-					pointArray.push_back(centerVecs[i]);
-					pointArray.push_back(midPoints[i + 1]);
-
-					polyConnect.push_back(0 + (7 * i));
-					polyConnect.push_back(1 + (7 * i));
-					polyConnect.push_back(2 + (7 * i));
-					polyConnect.push_back(3 + (7 * i));
-
-					polyConnect.push_back(4 + (7 * i));
-					polyConnect.push_back(5 + (7 * i));
-					polyConnect.push_back(6 + (7 * i));
-
-					polyCount.push_back(4);
-					polyCount.push_back(3);
+					v.z = parentColumn->position.z;
+					pointArray.push_back(v);
 				}
-				
-				else
+				/////
+				zPointArray newPoints;
+				newPoints.assign(4, zVector());
+
+				newPoints[0] = midPoints[i];
+				newPoints[1] = centerVecs[i];
+				newPoints[2] = newPoints[1];
+				newPoints[3] = midPoints[(i + 1) % midPoints.size()];
+
+				for (auto v : newPoints)
 				{
-					pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
-					pointArray.push_back(midPoints[i]);
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-					pointArray.push_back(midPoints[i]);
-					pointArray.push_back(centerVecs[i]);
-					pointArray.push_back(midPoints[i + 1]);
-
-					polyConnect.push_back(0 + (7 * i));
-					polyConnect.push_back(1 + (7 * i));
-					polyConnect.push_back(2 + (7 * i));
-
-					polyConnect.push_back(3 + (7 * i));
-					polyConnect.push_back(4 + (7 * i));
-					polyConnect.push_back(5 + (7 * i));
-					polyConnect.push_back(6 + (7 * i));
-
-					polyCount.push_back(3);
-					polyCount.push_back(4);
-
+					pointArray.push_back(v);
 				}
+
+
+				///////////////////////
+				//polyconnect and polycount quads
+				int pInContour = 4; // number in each contour
+				int layerCount = 0;
+
+				for (int j = 0; j < 2 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
+				{
+					/*if (layerCount == 1)
+					{
+						layerCount++;
+						continue;
+					}*/
+
+					for (int k = 0; k < pInContour - 1; k += 2) // loops though faces in a given j layer
+					{
+						int pc_size = polyConnect.size();
+						polyConnect.push_back((numPoints)+j + k);
+						polyConnect.push_back((numPoints)+j + k + pInContour);
+						polyConnect.push_back((numPoints)+j + k + pInContour + 1);
+						polyConnect.push_back((numPoints)+j + k + 1);
+
+						polyCount.push_back(4);
+					}
+					layerCount++;
+				}
+				numPoints = pointArray.size();
 			}
 
-			else
-			{
-				if (axisAttributes[i])
-				{
-					pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
-					pointArray.push_back(midPoints[i]);
-					pointArray.push_back(centerVecs[i]);
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-					pointArray.push_back(centerVecs[i]);
-					pointArray.push_back(midPoints[0]);
-
-					polyConnect.push_back(0 + (7 * i));
-					polyConnect.push_back(1 + (7 * i));
-					polyConnect.push_back(2 + (7 * i));
-					polyConnect.push_back(3 + (7 * i));
-
-					polyConnect.push_back(4 + (7 * i));
-					polyConnect.push_back(5 + (7 * i));
-					polyConnect.push_back(6 + (7 * i));
-
-					polyCount.push_back(4);
-					polyCount.push_back(3);
-				}
-
-				else
-				{
-					pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
-					pointArray.push_back(midPoints[i]);
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-
-					pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-					pointArray.push_back(midPoints[i]);
-					pointArray.push_back(centerVecs[i]);
-					pointArray.push_back(midPoints[0]);
-
-					polyConnect.push_back(0 + (7 * i));
-					polyConnect.push_back(1 + (7 * i));
-					polyConnect.push_back(2 + (7 * i));
-
-					polyConnect.push_back(3 + (7 * i));
-					polyConnect.push_back(4 + (7 * i));
-					polyConnect.push_back(5 + (7 * i));
-					polyConnect.push_back(6 + (7 * i));
-
-					polyCount.push_back(3);
-					polyCount.push_back(4);
-
-				}
-			}
-			
 			
 		}
 
-		fnInMesh.create(pointArray, polyCount, polyConnect);
-		fnInMesh.extrudeMesh(-0.1, *inMeshObj, false);
+		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
+		{
+			fnInMesh.create(pointArray, polyCount, polyConnect);
+			//fnInMesh.extrudeMesh(-0.1, *inMeshObj, false);
+		}
+		
 	}
 
+	//void zAgSlab::createTimberSlab()
+	//{
+	//	zPointArray pointArray;
+	//	zIntArray polyConnect;
+	//	zIntArray polyCount;
+
+	//	for (int i = 0; i < centerVecs.size(); i++)
+	//	{
+
+	//		if (parentColumn->axisAttributes[i])
+	/*{
+		pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
+		pointArray.push_back(midPoints[i]);
+		pointArray.push_back(centerVecs[i]);
+		pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
+
+		pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
+		pointArray.push_back(centerVecs[i]);
+		pointArray.push_back(midPoints[(i + 1) % centerVecs.size()]);
+
+		polyConnect.push_back(0 + (7 * i));
+		polyConnect.push_back(1 + (7 * i));
+		polyConnect.push_back(2 + (7 * i));
+		polyConnect.push_back(3 + (7 * i));
+
+		polyConnect.push_back(4 + (7 * i));
+		polyConnect.push_back(5 + (7 * i));
+		polyConnect.push_back(6 + (7 * i));
+
+		polyCount.push_back(4);
+		polyCount.push_back(3);
+	}
+
+			else
+			{
+			pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
+			pointArray.push_back(midPoints[i]);
+			pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
+
+			pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
+			pointArray.push_back(midPoints[i]);
+			pointArray.push_back(centerVecs[i]);
+			pointArray.push_back(midPoints[(i + 1) % centerVecs.size()]);
+
+			polyConnect.push_back(0 + (7 * i));
+			polyConnect.push_back(1 + (7 * i));
+			polyConnect.push_back(2 + (7 * i));
+
+			polyConnect.push_back(3 + (7 * i));
+			polyConnect.push_back(4 + (7 * i));
+			polyConnect.push_back(5 + (7 * i));
+			polyConnect.push_back(6 + (7 * i));
+
+			polyCount.push_back(3);
+			polyCount.push_back(4);
+
+			}*/
+
+
+	//	}
+
+	//	fnInMesh.create(pointArray, polyCount, polyConnect);
+	//	fnInMesh.extrudeMesh(-0.1, *inMeshObj, false);
+	//}
 }

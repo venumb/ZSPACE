@@ -46,7 +46,7 @@ namespace zSpace
 
 		//create and initialise a structure obj and add it to container
 		structureUnit = zHcStructure(*inUnitMeshObj, funcType, _structureType, heightArray, edgeAttributes, eBoundaryAttributes);
-		structureUnit.createStructuralCell();
+		//structureUnit.createStructuralCell();
 		structureUnit.createStructureByType(_structureType);
 
 		success = true;
@@ -152,7 +152,7 @@ namespace zSpace
 	{
 		for (int i = 0; i < layoutMeshObjs.size(); i++)
 		{
-			_index == i ? layoutMeshObjs[i].setShowObject(true) : layoutMeshObjs[i].setShowObject(false);
+			_index == i ? layoutMeshObjs[i].setShowObject(_show) : layoutMeshObjs[i].setShowObject(false);
 		}
 	}
 }

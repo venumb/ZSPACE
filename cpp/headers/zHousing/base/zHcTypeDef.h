@@ -55,6 +55,7 @@ namespace zSpace
 *	\since version 0.0.4
 */
 	typedef vector <zCellFace> zCellFaceArray;
+
 	
 	/** @}*/
 

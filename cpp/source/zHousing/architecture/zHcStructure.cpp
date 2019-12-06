@@ -73,35 +73,6 @@ namespace zSpace
 	//---- CREATE METHODS
 	   	 
 
-	ZSPACE_INLINE void zHcStructure::createStructuralCell()
-	{
-		//int cellCount = 0;
-		//for (zItMeshFace f(*inStructObj); !f.end(); f++)
-		//{
-		//	zPointArray pointArray;
-		//	zIntArray polyConnect;
-		//	zIntArray polyCount;
-
-		//	polyCount.push_back(f.getNumVertices());
-		//	f.getVertexPositions(pointArray);
-
-		//	for (int i = 0; i < f.getNumVertices(); i++)
-		//	{
-		//		polyConnect.push_back(i);
-		//	}
-
-		//	zObjMesh tempObj;
-		//	zFnMesh tempFn(tempObj);
-
-		//	tempFn.create(pointArray, polyCount, polyConnect);
-		//	tempFn.extrudeMesh(- heightArray[cellCount], cellObjs[cellCount], false);
-
-		//	setCellFacesAttibutes(); ////CHECK!!!!!!!
-		//	cellCount++;
-		//}
-
-		
-	}
 
 	ZSPACE_INLINE void zHcStructure::createStructureByType(zStructureType & _structureType)
 	{
@@ -133,7 +104,7 @@ namespace zSpace
 		{*/
 			heightArray = _heightArray;
 
-			createStructuralCell();
+			//createStructuralCell();
 			updateArchComponents(structureType);
 		//}
 	}
@@ -204,22 +175,24 @@ namespace zSpace
 				zVectorArray axis;
 				//set axis attibutes primary or secondary direction
 				zBoolArray axisAttributes;
-				//set neighbour faces valencies
-				zIntArray valenceArray;
+
+
+				vector<zBoundary> boundaryArray;
 
 				zItMeshHalfEdgeArray heArray;
 				v.getConnectedHalfEdges(heArray);
 
 				for (zItMeshHalfEdge he : heArray)
 				{
-					//he.getEdge().getId() % 2 == 0 ? axisAttributes.push_back(true) : axisAttributes.push_back(false);
-
 					int nextValence = he.getNext().getVertex().getValence();
-					valenceArray.push_back(nextValence);
-					
+					if (nextValence == 2) boundaryArray.push_back(zBoundary::zCorner);
+					else if (nextValence == 3) boundaryArray.push_back(zBoundary::zEdge);
+					else  boundaryArray.push_back(zBoundary::zInterior);
+
 					axis.push_back(he.getVector());
 				}
-				
+
+				//TODO Update
 				if (v.getHalfEdge().getId() % 2 == 0)
 				{
 					axisAttributes.push_back(true);
@@ -242,14 +215,14 @@ namespace zSpace
 				zVector pos = v.getPosition();
 
 				/////
-				zAgColumn tempColumn (columnObjs[cellCount], pos, axis, axisAttributes, valenceArray, 3.0f);
+				zAgColumn tempColumn (columnObjs[cellCount], pos, axis, axisAttributes, boundaryArray, 3.0f);
 				tempColumn.createColumnByType(structureType);
 				columnArray.push_back(tempColumn);
 
 				cellCount++;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -270,7 +243,6 @@ namespace zSpace
 
 				for (zItMeshHalfEdge he : heArray)
 				{
-					//he.getEdge().getId() % 2 == 0 ? axisAttributes.push_back(true) : axisAttributes.push_back(false);
 
 					int nextValence = he.getNext().getVertex().getValence();
 
@@ -301,23 +273,7 @@ namespace zSpace
 				}
 
 
-				if (v.getHalfEdge().getId() % 2 == 0)
-				{
-					axisAttributes.push_back(true);
-					axisAttributes.push_back(false);
-					axisAttributes.push_back(true);
-					axisAttributes.push_back(false);
-				}
-
-				else
-				{
-					axisAttributes.push_back(false);
-					axisAttributes.push_back(true);
-					axisAttributes.push_back(false);
-					axisAttributes.push_back(true);
-				}
-
-				zAgSlab tempSlab(slabObjs[heCount], centerarray, axis, axisAttributes, columnArray[heCount]);
+				zAgSlab tempSlab(slabObjs[heCount], centerarray, axis, columnArray[heCount]);
 				tempSlab.createSlabByType(structureType);
 
 				slabArray.push_back(tempSlab);
@@ -340,7 +296,7 @@ namespace zSpace
 			{
 				zPointArray vCorners;
 				f.getVertexPositions(vCorners);
-
+				
 				zAgWall tempWall = zAgWall(wallObjs[count], vCorners, f.getId());
 				tempWall.createWallByType(structureType);
 				wallArray.push_back(tempWall);
@@ -349,12 +305,6 @@ namespace zSpace
 			}
 		}
 
-		//for (auto w : wallObjs)
-		//{
-		//	zFnMesh temp(w);
-		//	//temp.numPolygons();
-		//	//printf("\n poly num: %i", temp.numPolygons());
-		//}
 		return true;
 	}
 
@@ -376,23 +326,6 @@ namespace zSpace
 				count++;
 			}
 		}
-
-	/*	int count = 0;
-		for (zItMeshFace f(cellObj); !f.end(); f++)
-		{
-			if (cellFaceArray[f.getId()] == zCellFace::zFacade)
-			{
-				zPointArray vCorners;
-				f.getVertexPositions(vCorners);
-
-				zAgFacade tempFacade = zAgFacade(facadeObjs[count], vCorners, f.getId());
-				tempFacade.createFacadeByType(structureType);
-				facadeArray.push_back(tempFacade);
-
-				count++;
-			}
-		}
-		*/
 
 		return true;
 	}
@@ -441,13 +374,19 @@ namespace zSpace
 	{
 		for (auto &c : columnObjs)
 		{
-			c.setShowObject(showColumns);				
+			c.setShowObject(showColumns);	
+			c.setShowVertices(true);
 		}
 	}
 
 	ZSPACE_INLINE void zHcStructure::displaySlabs(bool showSlabs)
 	{
-		for (auto &s : slabObjs) s.setShowObject(showSlabs);
+		for (auto &s : slabObjs)
+		{
+			s.setShowObject(showSlabs);
+			s.setShowVertices(true);
+
+		}
 	}
 
 	ZSPACE_INLINE void zHcStructure::displayWalls(bool showWalls)

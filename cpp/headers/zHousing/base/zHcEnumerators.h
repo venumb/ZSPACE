@@ -52,7 +52,7 @@ namespace zSpace
 	*	\brief	Architectural attribute per node/top vertex of a structural cell
 	*	\since	version 0.0.4
 	*/
-	enum zCellNode { zCorner, zEdge, zInterior};
+	enum zBoundary { zCorner, zEdge, zInterior};
 
 
 

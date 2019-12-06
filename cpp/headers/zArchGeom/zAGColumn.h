@@ -50,6 +50,14 @@ namespace zSpace
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
+
+		/*!	\brief pointer to input mesh Object  */
+		zObjMesh *inMeshObj;
+
+		/*!	\brief input mesh function set  */
+		zFnMesh fnInMesh;
+
+
 		float height;
 
 		float nodeHeight = 1;
@@ -66,17 +74,11 @@ namespace zSpace
 
 		zBoolArray axisAttributes;
 
-		zIntArray neighborValence;
-
 		zVector x, y, z;
 
 		vector<zVectorArray> snapSlabpoints;
 
-		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
-
-		/*!	\brief input mesh function set  */
-		zFnMesh fnInMesh;
+		vector<zBoundary> boundaryArray;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -92,7 +94,7 @@ namespace zSpace
 		*	\param		[in]	_showForces					- input show forces booelan.
 		*	\since version 0.0.4
 		*/
-		zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, zIntArray&_neighborValence, float _height);
+		zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height);
 
 		//--------------------------
 		//---- DESTRUCTOR

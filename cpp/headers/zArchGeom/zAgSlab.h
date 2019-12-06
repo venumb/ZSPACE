@@ -69,7 +69,7 @@ namespace zSpace
 			
 		zVectorArray midPoints;
 			
-		zBoolArray axisAttributes;
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -88,7 +88,7 @@ namespace zSpace
 		*	\param		[in]	_forceScale					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zBoolArray&_axisAttributes, zAgColumn&_parentColumn);
+		zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn);
 
 		//--------------------------
 		//---- DESTRUCTOR
