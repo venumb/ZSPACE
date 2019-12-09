@@ -65,6 +65,9 @@ namespace zSpace
 		/*!	\brief input vertex corners */
 		zPointArray vertexCorners;
 
+		/*!	\brief input direction of e4xtrusion */
+		zVectorArray extrudeDir;
+
 		/*!	\brief id of the parent's face its parented to */
 		int faceId;
 
@@ -84,7 +87,7 @@ namespace zSpace
 		*	\param		[in]	_vertexcorners				- input vertex corners.
 		*	\since version 0.0.4
 		*/
-		zAgFacade(zObjMesh&_inMeshObj, zPointArray&_vertexCorners, int _faceId);
+		zAgFacade(zObjMesh&_inMeshObj, zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -101,6 +104,10 @@ namespace zSpace
 		//--------------------------
 
 		void createFacadeByType(zStructureType&_structureType);
+
+		void createFacadeTimber();
+
+		void createFacadeConcrete();
 
 		//--------------------------
 		//---- UPDATE METHODS

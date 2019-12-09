@@ -104,28 +104,7 @@ namespace zSpace
 		updateStructureUnits();*/
 	}
 
-	ZSPACE_INLINE void zHcUnit::updateStructureUnits()
-	{
 
-		//for (zItMeshFace f(*inUnitMeshObj); !f.end(); f++)
-		//{
-		//	int  id = f.getId();
-		//	zPointArray vPositions;
-		//	f.getVertexPositions(vPositions);
-
-		//	//set cell edges attributes
-		//	zBoolArray cellEdgeAttributes;
-		//	zIntArray heIndices;
-		//	f.getHalfEdges(heIndices);
-		//	for (int heInt : heIndices)
-		//	{
-		//		int edgeIndex = inUnitMeshObj->mesh.halfEdges[heInt].getEdge()->getId();
-		//		cellEdgeAttributes.push_back(edgeAttributes[edgeIndex]);
-		//	}
-
-		//	structureUnits[id].updateStructure(structureHeight[id]);
-		//}
-	}
 
 	////////////////////////lsyout creation
 

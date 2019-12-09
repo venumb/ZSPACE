@@ -65,8 +65,10 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
 
+		/*!	\brief input center vectors for oposite corner */
 		zVectorArray centerVecs; 
 			
+		/*!	\brief input vector axis */
 		zVectorArray midPoints;
 			
 

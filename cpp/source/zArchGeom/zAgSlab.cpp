@@ -40,83 +40,11 @@ namespace zSpace
 	{
 		structureType = _structureType;
 
-		if (structureType == zStructureType::zRHWC) createTimberSlab(); //CHANGE FOR TEST
+		if (structureType == zStructureType::zRHWC) createRhwcSlab(); 
 		else if (structureType == zStructureType::zDigitalTimber) createTimberSlab();
 	}
 
 	void zAgSlab::createRhwcSlab()
-	{
-		//zPointArray pointArray;
-		//zIntArray polyConnect;
-		//zIntArray polyCount;
-
-		//if (!parentColumn) return;
-
-		//////////
-		//pointArray.push_back(parentColumn->b);
-		//pointArray.push_back(parentColumn->a);
-		//pointArray.push_back(yCenter);
-		//pointArray.push_back(center);
-
-		//pointArray.push_back(parentColumn->b);
-		//pointArray.push_back(center);
-		//pointArray.push_back(xCenter);
-		//pointArray.push_back(parentColumn->c);
-
-		//pointArray.push_back(parentColumn->a);
-		//pointArray.push_back(parentColumn->position);
-		//pointArray.push_back(yCenter);
-
-		//pointArray.push_back(parentColumn->position);
-		//pointArray.push_back(parentColumn->c);
-		//pointArray.push_back(xCenter);
-
-		//pointArray.push_back(parentColumn->position);
-		//pointArray.push_back(xCenter);
-		//pointArray.push_back(center);
-		//pointArray.push_back(yCenter);
-
-
-
-		///////////
-		//polyCount.push_back(4);
-		//polyCount.push_back(4);
-		//polyCount.push_back(3);
-		//polyCount.push_back(3);
-		//polyCount.push_back(4);
-
-
-
-		/////////////
-		//polyConnect.push_back(0);
-		//polyConnect.push_back(1);
-		//polyConnect.push_back(2);
-		//polyConnect.push_back(3);
-
-		//polyConnect.push_back(4);
-		//polyConnect.push_back(5);
-		//polyConnect.push_back(6);
-		//polyConnect.push_back(7);
-
-		//polyConnect.push_back(8);
-		//polyConnect.push_back(9);
-		//polyConnect.push_back(10);
-
-		//polyConnect.push_back(11);
-		//polyConnect.push_back(12);
-		//polyConnect.push_back(13);
-
-		//polyConnect.push_back(14);
-		//polyConnect.push_back(15);
-		//polyConnect.push_back(16);
-		//polyConnect.push_back(17);
-
-
-		//fnInMesh.create(pointArray, polyCount, polyConnect);
-		//fnInMesh.smoothMesh(2, false);
-	}
-
-	void zAgSlab::createTimberSlab()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -127,22 +55,36 @@ namespace zSpace
 		{
 			if (parentColumn->boundaryArray[i] == zBoundary::zInterior && parentColumn->snapSlabpoints[i].size() > 0)
 			{
-				printf("\n slab snap points count: %i ", parentColumn->snapSlabpoints[i].size());
-
 				for (auto v : parentColumn->snapSlabpoints[i])
 				{
 					v.z = parentColumn->position.z;
 					pointArray.push_back(v);
 				}
-				/////
+				/////new points 
 				zPointArray newPoints;
-				newPoints.assign(4, zVector());
+				newPoints.assign(16, zVector());
 
 				newPoints[0] = midPoints[i];
 				newPoints[1] = centerVecs[i];
 				newPoints[2] = newPoints[1];
 				newPoints[3] = midPoints[(i + 1) % midPoints.size()];
 
+				newPoints[4] = midPoints[i] + zVector(0, 0, -0.2);
+				newPoints[5] = centerVecs[i] + zVector(0, 0, -0.2);
+				newPoints[6] = newPoints[1] + zVector(0, 0, -0.2);
+				newPoints[7] = midPoints[(i + 1) % midPoints.size()] + zVector(0, 0, -0.2);
+
+				newPoints[8] = parentColumn->snapSlabpoints[i][4];
+				newPoints[9] = parentColumn->snapSlabpoints[i][5];
+				newPoints[10] = parentColumn->snapSlabpoints[i][6];
+				newPoints[11] = parentColumn->snapSlabpoints[i][7];
+
+				newPoints[12] = parentColumn->snapSlabpoints[i][0];
+				newPoints[13] = parentColumn->snapSlabpoints[i][1];
+				newPoints[14] = parentColumn->snapSlabpoints[i][2];
+				newPoints[15] = parentColumn->snapSlabpoints[i][3];
+
+				/////////add point to mesh
 				for (auto v : newPoints)
 				{
 					pointArray.push_back(v);
@@ -154,7 +96,7 @@ namespace zSpace
 				int pInContour = 4; // number in each contour
 				int layerCount = 0;
 
-				for (int j = 0; j < 2 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
+				for (int j = 0; j < 5 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
 				{
 					/*if (layerCount == 1)
 					{
@@ -177,79 +119,344 @@ namespace zSpace
 				numPoints = pointArray.size();
 			}
 
-			
+			if (parentColumn->boundaryArray[i] == zBoundary::zEdge && parentColumn->snapSlabpoints[i].size() > 0)
+			{
+				zVector x, y; //y is edge for facade
+
+				if (parentColumn->boundaryArray[(i + 1) % centerVecs.size()] == zBoundary::zInterior)
+				{
+					y = midPoints[i];
+					x = midPoints[(i + 1) % midPoints.size()];
+				}
+				else
+				{
+					x = midPoints[i];
+					y = midPoints[(i + 1) % midPoints.size()];
+				}
+
+				///////////////facade snap points
+				zPointArray facadeSnaps;
+				facadeSnaps.assign(6, zVector());
+
+				zVector inDir = y - centerVecs[i];
+				zVector outDir = centerVecs[i] - x;
+				outDir.normalize();
+
+				facadeSnaps[0] = centerVecs[i] + outDir * 0.3;
+				facadeSnaps[1] = centerVecs[i] + outDir * 0.15 + (inDir * 0.25);
+				facadeSnaps[2] = centerVecs[i] + (inDir * 0.5);
+				facadeSnaps[3] = centerVecs[i] + (outDir * 0.3) + (inDir * 0.9);
+				facadeSnaps[4] = y;
+				facadeSnaps[5] = y + (outDir * -1);
+
+				///////////////////////////////////////////
+				/////new points 
+				zPointArray slabPoints;
+				slabPoints.assign(48, zVector());
+
+				//
+				for (int j = 0; j < parentColumn->snapSlabpoints[i].size() / 2; j++)
+				{
+					zVector v = parentColumn->snapSlabpoints[i][j];
+					v.z = parentColumn->position.z;
+					slabPoints[j] = v;
+				}
+
+				zVector t = parentColumn->snapSlabpoints[i][10];
+				t.z = parentColumn->position.z;
+				slabPoints[10] = x;
+				slabPoints[11] = t;
+
+				slabPoints[12] = t;
+
+				slabPoints[13] = facadeSnaps[1];
+				slabPoints[14] = slabPoints[13];
+
+				slabPoints[15] = facadeSnaps[2];
+				slabPoints[16] = slabPoints[15];
+
+				slabPoints[17] = facadeSnaps[3];
+				slabPoints[18] = slabPoints[17];
+
+				slabPoints[19] = facadeSnaps[4];
+				slabPoints[20] = slabPoints[19];
+
+				slabPoints[21] = facadeSnaps[5];
+
+				slabPoints[22] = facadeSnaps[0];
+				slabPoints[23] = facadeSnaps[1];
+
+				int k = 0;
+				for (int j = parentColumn->snapSlabpoints[i].size() / 2; j < parentColumn->snapSlabpoints[i].size(); j++)
+				{
+					zVector v = parentColumn->snapSlabpoints[i][j];
+					slabPoints[k + 24] = v;
+					k++;
+				}
+
+				slabPoints[34] = facadeSnaps[0] - zVector(0, 0, 0.2);
+				slabPoints[35] = parentColumn->snapSlabpoints[i][11];
+
+				for (int j = 0; j < parentColumn->snapSlabpoints[i].size() / 2; j++)
+				{
+					zVector v = parentColumn->snapSlabpoints[i][j];
+					slabPoints[j + 36] = v;
+				}
+
+				t = parentColumn->snapSlabpoints[i][10];
+				slabPoints[46] = x - zVector(0, 0, 0.2);;
+				slabPoints[47] = t;
+
+				/////////////////////////////////////////////
+				/////////add point to mesh
+				for (auto v : slabPoints)
+				{
+					pointArray.push_back(v);
+				}
+
+				///////////////////////
+				//polyconnect and polycount quads
+				int pInContour = 12; // number in each contour
+				int layerCount = 0;
+
+				for (int j = 0; j < 3 * pInContour; j += pInContour) //jumps between layers (3 is total of layers:6 minus 1)
+				{
+					/*if (layerCount == 1)
+					{
+						layerCount++;
+						continue;
+					}*/
+
+					for (int k = 0; k < pInContour - 1; k += 2) // loops though faces in a given j layer
+					{
+						int pc_size = polyConnect.size();
+						polyConnect.push_back((numPoints)+j + k);
+						polyConnect.push_back((numPoints)+j + k + pInContour);
+						polyConnect.push_back((numPoints)+j + k + pInContour + 1);
+						polyConnect.push_back((numPoints)+j + k + 1);
+
+						polyCount.push_back(4);
+					}
+					layerCount++;
+				}
+				numPoints = pointArray.size();
+
+			}
 		}
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
 			fnInMesh.create(pointArray, polyCount, polyConnect);
-			//fnInMesh.extrudeMesh(-0.1, *inMeshObj, false);
+			//fnInMesh.smoothMesh(1, false);
+		}
+	}
+
+	void zAgSlab::createTimberSlab()
+	{
+		zPointArray pointArray;
+		zIntArray polyConnect;
+		zIntArray polyCount;
+
+		int numPoints = 0;
+		for (int i = 0; i < centerVecs.size(); i++)
+		{
+			if (parentColumn->boundaryArray[i] == zBoundary::zInterior && parentColumn->snapSlabpoints[i].size() > 0)
+			{
+				for (auto v : parentColumn->snapSlabpoints[i])
+				{
+					v.z = parentColumn->position.z;
+					pointArray.push_back(v);
+				}
+				/////new points 
+				zPointArray newPoints;
+				newPoints.assign(16, zVector());
+
+				newPoints[0] = midPoints[i];
+				newPoints[1] = centerVecs[i];
+				newPoints[2] = newPoints[1];
+				newPoints[3] = midPoints[(i + 1) % midPoints.size()];
+
+				newPoints[4] = midPoints[i] + zVector(0,0,-0.5);
+				newPoints[5] = centerVecs[i] + zVector(0, 0, -0.5);
+				newPoints[6] = newPoints[1] + zVector(0, 0, -0.5);
+				newPoints[7] = midPoints[(i + 1) % midPoints.size()] + zVector(0, 0, -0.5);
+
+				newPoints[8] = parentColumn->snapSlabpoints[i][4];
+				newPoints[9] = parentColumn->snapSlabpoints[i][5];
+				newPoints[10] = parentColumn->snapSlabpoints[i][6];
+				newPoints[11] = parentColumn->snapSlabpoints[i][7];
+
+				newPoints[12] = parentColumn->snapSlabpoints[i][0];
+				newPoints[13] = parentColumn->snapSlabpoints[i][1];
+				newPoints[14] = parentColumn->snapSlabpoints[i][2];
+				newPoints[15] = parentColumn->snapSlabpoints[i][3];
+
+				/////////add point to mesh
+				for (auto v : newPoints)
+				{
+					pointArray.push_back(v);
+				}
+
+
+				///////////////////////
+				//polyconnect and polycount quads
+				int pInContour = 4; // number in each contour
+				int layerCount = 0;
+
+				for (int j = 0; j < 5 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
+				{
+					/*if (layerCount == 1)
+					{
+						layerCount++;
+						continue;
+					}*/
+
+					for (int k = 0; k < pInContour - 1; k += 2) // loops though faces in a given j layer
+					{
+						int pc_size = polyConnect.size();
+						polyConnect.push_back((numPoints)+j + k);
+						polyConnect.push_back((numPoints)+j + k + pInContour);
+						polyConnect.push_back((numPoints)+j + k + pInContour + 1);
+						polyConnect.push_back((numPoints)+j + k + 1);
+
+						polyCount.push_back(4);
+					}
+					layerCount++;
+				}
+				numPoints = pointArray.size();
+			}
+
+			if (parentColumn->boundaryArray[i] == zBoundary::zEdge && parentColumn->snapSlabpoints[i].size() > 0)
+			{
+				zVector x, y; //y is edge for facade
+
+				if (parentColumn->boundaryArray[(i + 1) % centerVecs.size()] == zBoundary::zInterior)
+				{
+					y = midPoints[i];
+					x = midPoints[(i + 1) % midPoints.size()];
+				}
+				else
+				{
+					x = midPoints[i];
+					y = midPoints[(i + 1) % midPoints.size()];
+				}
+
+				///////////////facade snap points
+				zPointArray facadeSnaps;
+				facadeSnaps.assign(6, zVector());
+
+				zVector inDir = y - centerVecs[i];
+				zVector outDir = centerVecs[i] - x;
+				outDir.normalize();
+
+				facadeSnaps[0] = centerVecs[i] + outDir * 0.8;
+				facadeSnaps[1] = centerVecs[i] + (outDir * 0.7) + (inDir * 0.25);
+				facadeSnaps[2] = centerVecs[i] + (outDir * 0.6) + (inDir * 0.5);
+				facadeSnaps[3] = centerVecs[i] + (outDir * 0.5) + (inDir * 0.75);
+				facadeSnaps[4] = y;
+				facadeSnaps[5] = y + (outDir * -1);
+
+				///////////////////////////////////////////
+				/////new points 
+				zPointArray slabPoints;
+				slabPoints.assign(48, zVector());
+
+				//
+				for (int j = 0; j < parentColumn->snapSlabpoints[i].size()/2; j++)
+				{
+					zVector v = parentColumn->snapSlabpoints[i][j];
+					v.z = parentColumn->position.z;
+					slabPoints[j] = v;
+				}
+
+				zVector t = parentColumn->snapSlabpoints[i][10];
+				t.z = parentColumn->position.z;
+				slabPoints[10] = x;
+				slabPoints[11] = t;
+
+				slabPoints[12] = t;
+
+				slabPoints[13] = facadeSnaps[1];
+				slabPoints[14] = slabPoints[13];
+
+				slabPoints[15] = facadeSnaps[2];
+				slabPoints[16] = slabPoints[15];
+
+				slabPoints[17] = facadeSnaps[3];
+				slabPoints[18] = slabPoints[17];
+
+				slabPoints[19] = facadeSnaps[4];
+				slabPoints[20] = slabPoints[19];
+
+				slabPoints[21] = facadeSnaps[5];
+
+				slabPoints[22] = facadeSnaps[0];
+				slabPoints[23] = facadeSnaps[1];
+
+				int k = 0;
+				for (int j = parentColumn->snapSlabpoints[i].size() / 2; j < parentColumn->snapSlabpoints[i].size(); j++)
+				{
+					zVector v = parentColumn->snapSlabpoints[i][j];
+					slabPoints[k + 24] = v;
+					k++;
+				}
+
+				slabPoints[34] = facadeSnaps[0] - zVector(0, 0, 0.5);
+				slabPoints[35] = parentColumn->snapSlabpoints[i][11];
+
+				for (int j = 0; j < parentColumn->snapSlabpoints[i].size() / 2; j++)
+				{
+					zVector v = parentColumn->snapSlabpoints[i][j];
+					slabPoints[j + 36] = v;
+				}
+
+				t = parentColumn->snapSlabpoints[i][10];
+				slabPoints[46] = x - zVector(0, 0, 0.5);;
+				slabPoints[47] = t;
+
+				/////////////////////////////////////////////
+				/////////add point to mesh
+				for (auto v : slabPoints)
+				{
+					pointArray.push_back(v);
+				}
+
+				///////////////////////
+				//polyconnect and polycount quads
+				int pInContour = 12; // number in each contour
+				int layerCount = 0;
+
+				for (int j = 0; j < 3 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
+				{
+					/*if (layerCount == 1)
+					{
+						layerCount++;
+						continue;
+					}*/
+
+					for (int k = 0; k < pInContour - 1; k += 2) // loops though faces in a given j layer
+					{
+						int pc_size = polyConnect.size();
+						polyConnect.push_back((numPoints)+j + k);
+						polyConnect.push_back((numPoints)+j + k + pInContour);
+						polyConnect.push_back((numPoints)+j + k + pInContour + 1);
+						polyConnect.push_back((numPoints)+j + k + 1);
+
+						polyCount.push_back(4);
+					}
+					layerCount++;
+				}
+				numPoints = pointArray.size();
+
+			}
+		}
+
+		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
+		{
+			fnInMesh.create(pointArray, polyCount, polyConnect);
+			//fnInMesh.smoothMesh(1, false);
 		}
 		
 	}
 
-	//void zAgSlab::createTimberSlab()
-	//{
-	//	zPointArray pointArray;
-	//	zIntArray polyConnect;
-	//	zIntArray polyCount;
-
-	//	for (int i = 0; i < centerVecs.size(); i++)
-	//	{
-
-	//		if (parentColumn->axisAttributes[i])
-	/*{
-		pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
-		pointArray.push_back(midPoints[i]);
-		pointArray.push_back(centerVecs[i]);
-		pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-
-		pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-		pointArray.push_back(centerVecs[i]);
-		pointArray.push_back(midPoints[(i + 1) % centerVecs.size()]);
-
-		polyConnect.push_back(0 + (7 * i));
-		polyConnect.push_back(1 + (7 * i));
-		polyConnect.push_back(2 + (7 * i));
-		polyConnect.push_back(3 + (7 * i));
-
-		polyConnect.push_back(4 + (7 * i));
-		polyConnect.push_back(5 + (7 * i));
-		polyConnect.push_back(6 + (7 * i));
-
-		polyCount.push_back(4);
-		polyCount.push_back(3);
-	}
-
-			else
-			{
-			pointArray.push_back(parentColumn->snapSlabpoints[i][0]);
-			pointArray.push_back(midPoints[i]);
-			pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-
-			pointArray.push_back(parentColumn->snapSlabpoints[i][1]);
-			pointArray.push_back(midPoints[i]);
-			pointArray.push_back(centerVecs[i]);
-			pointArray.push_back(midPoints[(i + 1) % centerVecs.size()]);
-
-			polyConnect.push_back(0 + (7 * i));
-			polyConnect.push_back(1 + (7 * i));
-			polyConnect.push_back(2 + (7 * i));
-
-			polyConnect.push_back(3 + (7 * i));
-			polyConnect.push_back(4 + (7 * i));
-			polyConnect.push_back(5 + (7 * i));
-			polyConnect.push_back(6 + (7 * i));
-
-			polyCount.push_back(3);
-			polyCount.push_back(4);
-
-			}*/
-
-
-	//	}
-
-	//	fnInMesh.create(pointArray, polyCount, polyConnect);
-	//	fnInMesh.extrudeMesh(-0.1, *inMeshObj, false);
-	//}
 }

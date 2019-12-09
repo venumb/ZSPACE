@@ -176,14 +176,7 @@ namespace zSpace
 		//---- UPDATE METHODS
 		//--------------------------
 
-		/*! \brief This method updates the structure cell in this unit.
-		*
-		*	\param		[in]	_celledgesAttributes					- sets the edges attributes
-		*	\param		[in]	_cellBoundartAttributes					- sets the boundary attributes
-		*	\param		[in]	_height									- sets the height of the cell
-		*	\since version 0.0.4
-		*/
-		void updateStructureUnits();
+
 
 		//--------------------------
 		//---- DISPLAY METHODS

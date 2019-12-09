@@ -111,13 +111,12 @@ namespace zSpace
 
 	ZSPACE_INLINE void zHcStructure::updateArchComponents(zStructureType & _structureType)
 	{
+		structureType = _structureType;
 
-		//structureType = _structureType;
-
-		//for (auto& column : columnArray) column.createColumnByType(structureType);
-		//for (auto& slab : slabArray) slab.createSlabByType(structureType);
-		//for (auto& wall : wallArray) wall.createWallByType(structureType);
-
+		for (auto& column : columnArray) column.createColumnByType(structureType);
+		for (auto& slab : slabArray) slab.createSlabByType(structureType);
+		for (auto& wall : wallArray) wall.createWallByType(structureType);
+		for (auto& facade : facadeArray) facade.createFacadeByType(structureType);
 
 		//for (auto& facade : facadeArray)
 		//{
@@ -319,7 +318,56 @@ namespace zSpace
 				zPointArray vCorners;
 				f.getVertexPositions(vCorners);
 
-				zAgFacade tempFacade = zAgFacade(facadeObjs[count], vCorners, f.getId());
+				zVectorArray extrudeDir;
+
+				zItMeshVertexArray vInFace;
+				f.getVertices(vInFace);
+
+				//loop to get vertex not in face
+				for (auto vf : vInFace)
+				{
+					zItMeshHalfEdgeArray heArray;
+					vf.getConnectedHalfEdges(heArray);
+
+					for (auto he: heArray)
+					{
+						if (he.onBoundary())
+						{
+							if (he.getSym().getFace().getId() != f.getId())
+							{
+								zVector a = f.getNormal();
+								zVector b = he.getSym().getFace().getNormal();
+
+								if (fabs(a.angle(b)) > 15)
+								{
+									extrudeDir.push_back(he.getVertex().getPosition() - vf.getPosition());
+								}
+								else
+								{
+									extrudeDir.push_back(a * -1);
+								}
+							}
+							else
+							{
+								zVector a = f.getNormal();
+								zVector b = he.getPrev().getSym().getFace().getNormal();
+
+								if (fabs(a.angle(b)) > 15)
+								{
+									extrudeDir.push_back(he.getPrev().getSym().getVertex().getPosition() - vf.getPosition());
+								}
+								else
+								{
+									extrudeDir.push_back(a * -1);
+								}
+							}
+						}
+					}
+				}
+
+				printf("dir count : %i", extrudeDir.size());
+
+				zAgFacade tempFacade = zAgFacade(facadeObjs[count], vCorners, extrudeDir, f.getId());
 				tempFacade.createFacadeByType(structureType);
 				facadeArray.push_back(tempFacade);
 

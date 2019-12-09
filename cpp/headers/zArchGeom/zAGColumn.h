@@ -44,7 +44,12 @@ namespace zSpace
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
+
+		/*!	\brief input structure type */
 		zStructureType structureType;
+
+		/*!	\brief stores x and y directions */
+		zVector x, y, z;
 
 	public:
 		//--------------------------
@@ -57,28 +62,23 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
 
-
+		/*!	\brief input height  */
 		float height;
 
-		float nodeHeight = 1;
-
-		float nodeDepth = 0.8;
-
-		float beamA_Height = 0.5;
-
-		float beamB_Height = 0.3;
-
-		zVector position, a, b, c;
-
+		/*!	\brief input axis x and y */
 		zVectorArray axis;
 
+		/*!	\brief input avis attributes primary or secondary  */
 		zBoolArray axisAttributes;
 
-		zVector x, y, z;
-
+		/*!	\brief input mesh snap points for slab creation  */
 		vector<zVectorArray> snapSlabpoints;
 
+		/*!	\brief input array of neighbouring cell condition */
 		vector<zBoundary> boundaryArray;
+
+		/*!	\brief stores position point*/
+		zVector position;
 
 		//--------------------------
 		//---- CONSTRUCTOR
