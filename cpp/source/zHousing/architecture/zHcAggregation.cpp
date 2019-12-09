@@ -37,25 +37,26 @@ namespace zSpace
 
 			zItMeshVertex v(unitObjs[i]);
 
-			for (zItMeshVertex v(unitObjs[i]); !v.end(); v++)
+			for (zItMeshFace f(unitObjs[i]); !f.end(); f++)
 			{
-				if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 0)
+
+				if (f.getColor().r == 1 && f.getColor().g == 0 && f.getColor().b == 0)
 				{
 					funcType = zFunctionType::zPublic;
 					break;
 				}
-				else if (v.getColor().r == 0 && v.getColor().g == 1 && v.getColor().b == 0)
+				else if (f.getColor().r == 0 && f.getColor().g == 1 && f.getColor().b == 0)
 				{
 					funcType = zFunctionType::zFlat;
 					break;
 
 				}
-				else if (v.getColor().r == 0 && v.getColor().g == 0 && v.getColor().b == 1)
+				else if (f.getColor().r == 0 && f.getColor().g == 0 && f.getColor().b == 1)
 				{
 					funcType = zFunctionType::zLandscape;
 					break;
 				}
-				else if (v.getColor().r == 1 && v.getColor().g == 0 && v.getColor().b == 1)
+				else if (f.getColor().r == 1 && f.getColor().g == 0 && f.getColor().b == 1)
 				{
 					funcType = zFunctionType::zVertical;
 					break;
@@ -97,17 +98,14 @@ namespace zSpace
 		{
 			if (h.funcType == zFunctionType::zFlat)
 			{
-				printf("hey there flat %i ", uId);				
 				h.importLayoutFromPath(_pathFlat);
 			}
 			else if (h.funcType == zFunctionType::zLandscape)
-			{
-				printf("hey there landscape %i ", uId);				
+			{			
 				h.importLayoutFromPath(_pathLandscape);
 			}
 			else if (h.funcType == zFunctionType::zVertical)
 			{
-				printf("hey there vertical %i ", uId);	
 				h.importLayoutFromPath(_pathVertical);
 			}
 
@@ -143,7 +141,6 @@ namespace zSpace
 		{
 			model->addObject(u);
 			u.setShowElements(true, true, false);
-
 		}
 
 		for (auto& unit : unitArray)
@@ -183,6 +180,13 @@ namespace zSpace
 		for (auto& hc : unitArray)
 		{
 			hc.structureUnit.displayFacade(_showFacade);
+		}
+	}
+	ZSPACE_INLINE void zHcAggregation::showRoof(bool & _showRoof)
+	{
+		for (auto& hc : unitArray)
+		{
+			hc.structureUnit.displayRoof(_showRoof);
 		}
 	}
 	ZSPACE_INLINE  void zHcAggregation::showLayout(int&_index, bool&_showLayout)

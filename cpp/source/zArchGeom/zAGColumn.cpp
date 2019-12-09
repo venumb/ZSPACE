@@ -41,7 +41,7 @@ namespace zSpace
 	//---- CREATE METHODS
 
 
-	void zAgColumn::createColumnByType(zStructureType&_structureType)
+	ZSPACE_INLINE void zAgColumn::createColumnByType(zStructureType&_structureType)
 	{
 		structureType = _structureType;
 
@@ -49,7 +49,7 @@ namespace zSpace
 		else if (structureType == zStructureType::zDigitalTimber) createTimberColumn();
 	}
 
-	void zAgColumn::createRhwcColumn()
+	ZSPACE_INLINE void zAgColumn::createRhwcColumn()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -309,11 +309,11 @@ namespace zSpace
 		{
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//printf("\n %i %i %i ", fnInMesh.numVertices(), fnInMesh.numEdges(), fnInMesh.numPolygons());
-			fnInMesh.smoothMesh(1, false);
+			fnInMesh.smoothMesh(2, false);
 		}
 	}
 
-	void zAgColumn::createTimberColumn()
+	ZSPACE_INLINE void zAgColumn::createTimberColumn()
 	{
 
 		zPointArray pointArray;
@@ -471,12 +471,12 @@ namespace zSpace
 				snap[8] = snap[7];
 				snap[9] = x * 0.01  + position + zVector(0, 0, -0.2);
 
-				snap[10] = x * 0.3  + position + zVector(0, 0, -0.5);
-				snap[11] = x * 0.3  + y * 1.5  + position + zVector(0, 0, -0.5);
+				snap[10] = x * 0.4  + position + zVector(0, 0, -0.5);
+				snap[11] = x * 0.4  + y * 1.7  + position + zVector(0, 0, -0.5);
 				snap[12] = snap[11];
-				snap[13] = x * 0.2 + y * 1.5 + position + zVector(0, 0, -0.2);
+				snap[13] = x * 0.22 + y * 1.8 + position + zVector(0, 0, -0.2);
 				snap[14] = snap[13];
-				snap[15] = x * 0.1 + y * 1 + position + zVector(0, 0, -0.2);
+				snap[15] = x * 0.09 + y * 1.2 + position + zVector(0, 0, -0.2);
 				snap[16] = snap[15];
 				snap[17] = y * 0.5 + position + zVector(0, 0, -0.2);
 				snap[18] = snap[17];
@@ -576,7 +576,58 @@ namespace zSpace
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//printf("\n %i %i %i ", fnInMesh.numVertices(), fnInMesh.numEdges(), fnInMesh.numPolygons());
 			fnInMesh.smoothMesh(1, false);
+			createFrame();
 		}
+	}
+
+	void zAgColumn::createFrame()
+	{
+		zPointArray pointArray;
+		zIntArray polyConnect;
+		zIntArray polyCount;
+
+		for (zItMeshHalfEdge he(*inMeshObj); !he.end(); he++)
+		{
+			if (he.onBoundary()) continue;
+
+			zVector xd = he.getNext().getVector();
+			xd.normalize();
+			xd *= 0.05;
+
+			zVector yd = he.getFace().getNormal();
+			yd.normalize();
+			yd *= 0.05;
+
+			pointArray.push_back(he.getVertex().getPosition());
+			pointArray.push_back(he.getVertex().getPosition() + yd);
+			pointArray.push_back(he.getVertex().getPosition() + yd + xd);
+			pointArray.push_back(he.getVertex().getPosition() + xd);
+
+			pointArray.push_back(he.getPrev().getVertex().getPosition());
+			pointArray.push_back(he.getPrev().getVertex().getPosition() + yd);
+			pointArray.push_back(he.getPrev().getVertex().getPosition() + yd + xd);
+			pointArray.push_back(he.getPrev().getVertex().getPosition() + xd);
+		}
+
+		for (int i = 0; i < pointArray.size() - 8; i += 8)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				int s = polyConnect.size();
+				polyConnect.push_back(i + j);
+				polyConnect.push_back(i + ((j + 1) % 4));
+				polyConnect.push_back(i + ((j + 1) % 4) + 4);
+				polyConnect.push_back(i + j + 4);
+
+				//printf("\n polyconnect: %i %i %i %i", polyConnect[s], polyConnect[s + 1], polyConnect[s + 2], polyConnect[s + 3]);
+
+				polyCount.push_back(4);
+			}
+
+		}
+
+		fnInMesh.create(pointArray, polyCount, polyConnect);
+
 	}
 
 

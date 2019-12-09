@@ -73,29 +73,23 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnStruct;
 
-		/*!	\brief mesh Object array */
-		zObjMeshArray cellObjs;
-
 		/*!	\brief column array per cell set  */
 		zColumnArray columnArray;
 
 		/*!	\brief slabs array per cell set  */
 		zSlabArray slabArray;
 
-		/*!	\brief slabs array per cell set  */
+		/*!	\brief walls array per cell set  */
 		zWallArray wallArray;
 
-		/*!	\brief slabs array per cell set  */
+		/*!	\brief facade array per cell set  */
 		zFacadeArray facadeArray;
+
+		/*!	\brief roof array per cell set  */
+		zRoofArray roofArray;
 
 		/*!	\brief structure height float array ( per face ) */
 		zFloatArray heightArray;
-
-		/*!	\brief pointer to output mesh Object  */
-		zObjMesh outMeshObj;
-
-		/*!	\brief output mesh function set  */
-		zFnMesh fnOutMesh;
 
 		/*!	\brief pointer container of columns pointers  */
 		zObjMeshArray columnObjs;
@@ -109,17 +103,15 @@ namespace zSpace
 		/*!	\brief pointer container of facade pointers  */
 		zObjMeshArray facadeObjs;
 
+		/*!	\brief pointer container of roof pointers  */
+		zObjMeshArray roofObjs;
+
 		/*! \brief container to top edges attributes */
 		zBoolArray edgesAttributes;
 
 		/*! \brief container to edge boundary attributes */
 		zBoolArray boundaryAttributes;
 
-		/*! \brief container to cell faces attributes */
-		vector <zCellFace> cellFaceArray;
-
-
-		
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -208,6 +200,12 @@ namespace zSpace
 		*/
 		bool createFacades();
 
+		/*! \brief This method creates the roofs that live in this structure cell object
+		*
+		*	\since version 0.0.4
+		*/
+		bool createRoofs();
+
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
@@ -239,6 +237,13 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void displayFacade( bool showFacade);
+
+		/*! \brief This method creates the roof that live in this structure cell object
+		*
+		*	\param		[in]	_showFacade					- display facade objs
+		*	\since version 0.0.4
+		*/
+		void displayRoof(bool showRoof);
 
 
 #ifndef ZSPACE_UNREAL_INTEROP

@@ -129,6 +129,8 @@ namespace zSpace
 		*/
 		void createTimberColumn();
 
+		void createFrame();
+
 
 	};
 

@@ -37,6 +37,7 @@ namespace zSpace
 		int slabNum = 0;
 		int wallNum = 0;
 		int facadeNum = 0;
+		int roofNum = 0;
 
 	
 
@@ -52,18 +53,23 @@ namespace zSpace
 
 		for (zItMeshFace f(*inStructObj); !f.end(); f++)
 		{
+			//printf("\n color: %f", f.getColor().a);
+
 			if (f.getColor().r == 1 && f.getColor().g == 1 && f.getColor().b == 1) facadeNum++;
 			else if (f.getColor().r == 0 && f.getColor().g == 0 && f.getColor().b == 0)wallNum++;
+			else if ((f.getColor().r != f.getColor().g  || f.getColor().r != f.getColor().b) && f.getNormal().z > 0) roofNum++;
 		}
-		//printf("\n wall numn: %i", wallNum);
-		//printf("\n facde numn: %i", facadeNum);
 
-		cellObjs.assign(fnStruct.numPolygons(), zObjMesh());
+		//printf("\n wall numn: %i", wallNum);
+		printf("\n roof numn: %i", roofNum);
+
+
+
 		columnObjs.assign(columnNum, zObjMesh());
 		slabObjs.assign(slabNum, zObjMesh());
 		wallObjs.assign(wallNum, zObjMesh());
 		facadeObjs.assign(facadeNum, zObjMesh());
-
+		roofObjs.assign(roofNum, zObjMesh());
 	}
 
 	//---- DESTRUCTOR
@@ -87,6 +93,7 @@ namespace zSpace
 		{
 			createWalls();
 			createFacades();
+			createRoofs();
 		}
 	}
 
@@ -117,49 +124,7 @@ namespace zSpace
 		for (auto& slab : slabArray) slab.createSlabByType(structureType);
 		for (auto& wall : wallArray) wall.createWallByType(structureType);
 		for (auto& facade : facadeArray) facade.createFacadeByType(structureType);
-
-		//for (auto& facade : facadeArray)
-		//{
-		//	zItMeshFace f(cellObj, facade.faceId);
-		//	zPointArray vCorners;
-		//	f.getVertexPositions(vCorners);
-
-		//	facade.updateFacade(vCorners);
-		//	facade.createFacadeByType(structureType);
-		//}
-
-		//for (auto& wall : wallArray)
-		//{
-		//	zItMeshFace f(cellObj, wall.faceId);
-		//	zPointArray vCorners;
-		//	f.getVertexPositions(vCorners);
-
-		//	wall.updateWall(vCorners);
-		//	wall.createWallByType(structureType);
-		//}
-	
-	}
-
-	ZSPACE_INLINE void zHcStructure::setCellFacesAttibutes()
-	{
-	/*	for (zItMeshFace f(*inStructObj);  !f.end(); f++)
-		{
-			if (f.getColor().r > 0.5 && f.getColor().g > 0.5 && f.getColor().b > 0.5)
-			{
-				cellFaceArray.push_back(zCellFace::zIntWall);
-			}
-			else if (f.getColor().r == 0 && f.getColor().g == 0 && f.getColor().b == 0)
-			{
-				cellFaceArray.push_back(zCellFace::zIntWall);
-			}
-		}
-
-		for (int i = 0; i < cellBoundaryAttributes.size(); i++)
-		{
-			if (cellBoundaryAttributes[i] == true && cellEdgesAttributes[i] == true) cellFaceArray.push_back(zCellFace::zFacade);
-			else cellFaceArray.push_back(zCellFace::zIntWall);
-		}*/
-
+		for (auto& roof : roofArray) roof.createRoofByType(structureType);
 	}
 
 	ZSPACE_INLINE bool zHcStructure::createColumns()
@@ -331,45 +296,60 @@ namespace zSpace
 
 					for (auto he: heArray)
 					{
-						if (he.onBoundary())
-						{
-							if (he.getSym().getFace().getId() != f.getId())
-							{
-								zVector a = f.getNormal();
-								zVector b = he.getSym().getFace().getNormal();
 
-								if (fabs(a.angle(b)) > 15)
-								{
-									extrudeDir.push_back(he.getVertex().getPosition() - vf.getPosition());
-								}
-								else
-								{
-									extrudeDir.push_back(a * -1);
-								}
-							}
-							else
-							{
-								zVector a = f.getNormal();
-								zVector b = he.getPrev().getSym().getFace().getNormal();
-
-								if (fabs(a.angle(b)) > 15)
-								{
-									extrudeDir.push_back(he.getPrev().getSym().getVertex().getPosition() - vf.getPosition());
-								}
-								else
-								{
-									extrudeDir.push_back(a * -1);
-								}
-							}
-						}
+						zVector dir = he.getVector();
+						dir.normalize();
+						zVector n = f.getNormal();
+						if (fabs(n * dir) > 0.5) extrudeDir.push_back(dir);
 					}
 				}
 
-				printf("dir count : %i", extrudeDir.size());
+				//printf("dir count : %i", extrudeDir.size());
 
 				zAgFacade tempFacade = zAgFacade(facadeObjs[count], vCorners, extrudeDir, f.getId());
 				tempFacade.createFacadeByType(structureType);
 				facadeArray.push_back(tempFacade);
+
+				count++;
+			}
+		}
+
+		return true;
+	}
+
+	ZSPACE_INLINE bool zHcStructure::createRoofs()
+	{
+		int count = 0;
+		for (zItMeshFace f(*inStructObj); !f.end(); f++)
+		{
+			if ((f.getColor().r != f.getColor().g || f.getColor().r != f.getColor().b) && f.getNormal().z > 0)
+			{
+				zPointArray corners;
+				f.getVertexPositions(corners);
+				bool isFacade = false;
+
+				zItMeshHalfEdgeArray heArray;
+				f.getHalfEdges(heArray);
+
+				for (auto he : heArray)
+				{
+					if (he.getSym().onBoundary()) continue;
+					if (he.getSym().getFace().getColor().r == 1 && he.getSym().getFace().getColor().g == 1 && he.getSym().getFace().getColor().b == 1)
+					{
+						//jumping zigzAG
+						corners[0] = he.getPrev().getVertex().getPosition();
+						corners[1] = he.getNext().getNext().getVertex().getPosition();
+
+						corners[2] = he.getVertex().getPosition();
+						corners[3] = he.getNext().getVertex().getPosition();
+
+						isFacade = true;
+					}
+				}
+
+				zAgRoof tempRoof = zAgRoof(roofObjs[count], corners, isFacade);
+				tempRoof.createRoofByType(structureType);
+				roofArray.push_back(tempRoof);
 
 				count++;
 			}
@@ -385,12 +365,6 @@ namespace zSpace
 	ZSPACE_INLINE void zHcStructure::setStructureDisplayModel(zModel & _model)
 	{
 		model = &_model;
-
-		for (auto& cell : cellObjs)
-		{
-			model->addObject(cell);
-			cell.setShowElements(false, true, false);
-		}
 
 		for (auto& c : columnObjs)
 		{
@@ -413,6 +387,11 @@ namespace zSpace
 			model->addObject(f);
 			f.setShowElements(false, true, true);
 		}
+		for (auto& r : roofObjs)
+		{
+			model->addObject(r);
+			r.setShowElements(false, true, true);
+		}
 	}
 
 
@@ -423,7 +402,6 @@ namespace zSpace
 		for (auto &c : columnObjs)
 		{
 			c.setShowObject(showColumns);	
-			c.setShowVertices(true);
 		}
 	}
 
@@ -432,8 +410,6 @@ namespace zSpace
 		for (auto &s : slabObjs)
 		{
 			s.setShowObject(showSlabs);
-			s.setShowVertices(true);
-
 		}
 	}
 
@@ -445,6 +421,11 @@ namespace zSpace
 	ZSPACE_INLINE void zHcStructure::displayFacade(bool showFacade)
 	{
 		for (auto &f : facadeObjs) f.setShowObject(showFacade);
+	}
+
+	ZSPACE_INLINE void zHcStructure::displayRoof(bool showRoof)
+	{
+		for (auto &r : roofObjs) r.setShowObject(showRoof);
 	}
 
 }

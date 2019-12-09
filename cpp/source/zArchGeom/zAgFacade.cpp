@@ -27,7 +27,7 @@ namespace zSpace
 
 
 
-	zAgFacade::zAgFacade(zObjMesh & _inMeshObj, zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId)
+	ZSPACE_INLINE zAgFacade::zAgFacade(zObjMesh & _inMeshObj, zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);
@@ -36,7 +36,7 @@ namespace zSpace
 		extrudeDir = _extrudeDir;
 	}
 
-	void zAgFacade::createFacadeByType(zStructureType & _structureType)
+	ZSPACE_INLINE void zAgFacade::createFacadeByType(zStructureType & _structureType)
 	{
 		if (_structureType == zStructureType::zRHWC) createFacadeConcrete(); ////////UPDATE FOR TEST
 		else if (_structureType == zStructureType::zDigitalTimber) createFacadeTimber();
@@ -44,23 +44,11 @@ namespace zSpace
 
 	}
 
-	void zAgFacade::createFacadeTimber()
+	ZSPACE_INLINE void zAgFacade::createFacadeTimber()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
-
-
-		/*int i = 0;
-		for (auto dir : extrudeDir)
-		{
-			dir.normalize();
-			
-			pointArray.push_back(vertexCorners[i] + dir);
-			polyConnect.push_back(i);
-			i++;
-		}
-		polyCount.push_back(4);*/
 
 		zPointArray bottomCorners;
 		zVector center, centerBottom;
@@ -86,38 +74,42 @@ namespace zSpace
 		}
 		centerBottom /= bottomCorners.size();
 
-		//printf("boot: %i", bottomCorners.size());
-
 		///////////////////////////////////////////////
 
 		int numPoints = 0;
 		for (int i = 0; i < bottomCorners.size(); i++)
 		{
 			zPointArray facadePoints;
-			facadePoints.assign(15, zVector());
+			facadePoints.assign(30, zVector());
 
 			zVector outDir = extrudeDir[indices[i]];
 			outDir.normalize();
 			zVector inDir = bottomCorners[i] - centerBottom;
 
-			facadePoints[0] = centerBottom + outDir * -0.8;
-			facadePoints[1] = centerBottom + (outDir * -0.7) + (inDir * 0.25);
-			facadePoints[2] = centerBottom + (outDir * -0.6) + (inDir * 0.5);
-			facadePoints[3] = centerBottom + (outDir * -0.5) + (inDir * 0.75);
-			facadePoints[4] = bottomCorners[i];
+			facadePoints[0] = centerBottom + outDir * -1.1;
+			facadePoints[1] = centerBottom + (outDir * -1) + (inDir * 0.25);
+			facadePoints[2] = facadePoints[1];
+			facadePoints[3] = centerBottom + (outDir * -0.75) + (inDir * 0.6);
+			facadePoints[4] = facadePoints[3];
+			facadePoints[5] = centerBottom + (outDir * -0.2) + (inDir * 0.85);
+			facadePoints[6] = facadePoints[5];
+			facadePoints[7] = bottomCorners[i] + (outDir * 0.5);
+			facadePoints[8] = facadePoints[7];
+			facadePoints[9] = bottomCorners[i] + (outDir * 1);
 
 
-			for (int u = 0 ; u < 5; u++)
+			for (int u = 0 ; u < 10; u++)
 			{
-				facadePoints[u + 5] = facadePoints[u] + zVector(0, 0, 1);
+				facadePoints[u + 10] = facadePoints[u] + zVector(0, 0, 0.6);
 			}
-			facadePoints[7] += inDir * 0.1;
 
-			for (int u = 5; u < 10; u++)
+			facadePoints[13] += inDir * 0.15;
+			facadePoints[14] = facadePoints[13];
+
+			for (int u = 0; u < 10; u++)
 			{
-				facadePoints[u + 5] = facadePoints[u] + zVector(0, 0, 2);
+				facadePoints[u + 20] = facadePoints[u] + zVector(0, 0, 3);
 			}
-
 
 			for (auto v : facadePoints)
 			{
@@ -126,7 +118,7 @@ namespace zSpace
 
 			///////////////////////
 				//polyconnect and polycount quads
-			int pInContour = 5; // number in each contour
+			int pInContour = 10; // number in each contour
 			int layerCount = 0;
 
 			for (int j = 0; j < 2 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
@@ -137,7 +129,7 @@ namespace zSpace
 					continue;
 				}*/
 
-				for (int k = 0; k < pInContour - 1; k ++) // loops though faces in a given j layer
+				for (int k = 0; k < pInContour - 1; k +=2) // loops though faces in a given j layer
 				{
 					int pc_size = polyConnect.size();
 					polyConnect.push_back((numPoints)+j + k);
@@ -161,10 +153,11 @@ namespace zSpace
 		{
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//fnInMesh.smoothMesh(1, false);
+			createMullions();
 		}
 	}
 
-	void zAgFacade::createFacadeConcrete()
+	ZSPACE_INLINE void zAgFacade::createFacadeConcrete()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -202,7 +195,7 @@ namespace zSpace
 		for (int i = 0; i < bottomCorners.size(); i++)
 		{
 			zPointArray facadePoints;
-			facadePoints.assign(20, zVector());
+			facadePoints.assign(48, zVector());
 
 			zVector outDir = extrudeDir[indices[i]];
 			outDir.normalize();
@@ -210,27 +203,50 @@ namespace zSpace
 
 			facadePoints[0] = centerBottom + outDir + (inDir * 0.5);
 			facadePoints[1] = centerBottom + (inDir * 0.5);
-			facadePoints[2] = centerBottom + (outDir * -0.2) + (inDir * 0.9);
-			facadePoints[3] = bottomCorners[i];
-			facadePoints[4] = centerBottom + (outDir)+(inDir * 1);
+			facadePoints[2] = facadePoints[1];
+			facadePoints[3] = centerBottom + (outDir * -0.2) + (inDir * 0.9);
+			facadePoints[4] = facadePoints[3];
+			facadePoints[5] = bottomCorners[i];
+			facadePoints[6] = facadePoints[5];
+			facadePoints[7] = centerBottom + (outDir)+(inDir * 1);
 			
-			facadePoints[5] = centerBottom + outDir + (inDir * 0.9) + zVector(0,0,0.2);
-			facadePoints[6] = centerBottom + (inDir * 0.9) + zVector(0, 0, 0.2);
-			facadePoints[7] = centerBottom + (outDir * -0.1) + (inDir * 0.95) + zVector(0, 0, 0.2);
-			facadePoints[8] = bottomCorners[i] + zVector(0, 0, 0.2);
-			facadePoints[9] = centerBottom + (outDir) + (inDir * 1) + zVector(0, 0, 0.2);
+			facadePoints[8] = centerBottom + outDir + (inDir * 0.9) + zVector(0,0,0.4);
+			facadePoints[9] = centerBottom + (inDir * 0.9) + zVector(0, 0, 0.4);
+			facadePoints[10] = facadePoints[9];
+			facadePoints[11] = centerBottom + (outDir * -0.1) + (inDir * 0.95) + zVector(0, 0, 0.4);
+			facadePoints[12] = facadePoints[11];
+			facadePoints[13] = bottomCorners[i] + zVector(0, 0, 0.4);
+			facadePoints[14] = facadePoints[13];
+			facadePoints[15] = centerBottom + (outDir) + (inDir * 1) + zVector(0, 0, 0.4);
 
-			facadePoints[10] = centerBottom + outDir + (inDir * 0.9) + zVector(0, 0, 2.8);
-			facadePoints[11] = centerBottom + (inDir * 0.9) + zVector(0, 0, 2.8);
-			facadePoints[12] = centerBottom + (outDir * -0.1) + (inDir * 0.95) + zVector(0, 0, 2.95);
-			facadePoints[13] = bottomCorners[i] + zVector(0, 0, 3);
-			facadePoints[14] = centerBottom + (outDir)+(inDir * 1) + zVector(0, 0, 3); 
+			facadePoints[16] = centerBottom + outDir + (inDir * 0.9) + zVector(0, 0, 2.6);
+			facadePoints[17] = centerBottom + (inDir * 0.9) + zVector(0, 0, 2.6);
+			facadePoints[18] = facadePoints[17];
+			facadePoints[19] = centerBottom + (outDir * -0.1) + (inDir * 0.95) + zVector(0, 0, 2.6);
+			facadePoints[20] = facadePoints[19];
+			facadePoints[21] = bottomCorners[i] + zVector(0, 0, 2.6);
+			facadePoints[22] = facadePoints[21];
+			facadePoints[23] = centerBottom + (outDir)+(inDir * 1) + zVector(0, 0, 2.6);
 
-			facadePoints[15] = centerBottom + outDir + zVector(0, 0, 2.8);
-			facadePoints[16] = centerBottom + zVector(0, 0, 2.8);
-			facadePoints[17] = centerBottom + (outDir * -0.1) + zVector(0, 0, 2.95);
-			facadePoints[18] = centerBottom + zVector(0, 0, 3);
-			facadePoints[19] = centerBottom + outDir + zVector(0, 0, 3);
+			facadePoints[24] = centerBottom + outDir + (inDir * 0.5) + zVector(0, 0, 2.8);
+			facadePoints[25] = centerBottom + (inDir * 0.5) + zVector(0, 0, 2.8);
+			facadePoints[26] = facadePoints[25];
+			facadePoints[27] = centerBottom + (outDir * -0.1) + (inDir * 0.9) + zVector(0, 0, 2.95);
+			facadePoints[28] = facadePoints[27];
+			facadePoints[29] = bottomCorners[i] + zVector(0, 0, 3);
+			facadePoints[30] = facadePoints[29];
+			facadePoints[31] = centerBottom + (outDir)+(inDir * 1) + zVector(0, 0, 3); 
+
+			for (int u = 24; u < 32; u++) facadePoints[u + 8] = facadePoints[u];
+
+			facadePoints[40] = centerBottom + outDir + zVector(0, 0, 2.8);
+			facadePoints[41] = centerBottom + zVector(0, 0, 2.8);
+			facadePoints[42] = facadePoints[41];
+			facadePoints[43] = centerBottom + (outDir * -0.1) + zVector(0, 0, 2.95);
+			facadePoints[44] = facadePoints[43];
+			facadePoints[45] = centerBottom + zVector(0, 0, 3);
+			facadePoints[46] = facadePoints[45];
+			facadePoints[47] = centerBottom + outDir + zVector(0, 0, 3);
 			
 			for (auto v : facadePoints)
 			{
@@ -239,18 +255,18 @@ namespace zSpace
 
 			///////////////////////
 				//polyconnect and polycount quads
-			int pInContour = 5; // number in each contour
+			int pInContour = 8; // number in each contour
 			int layerCount = 0;
 
-			for (int j = 0; j < 3 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
+			for (int j = 0; j < 5 * pInContour; j += pInContour) //jumps between layers (5 is total of layers:6 minus 1)
 			{
-				/*if (layerCount == 1)
+				if (layerCount == 3)
 				{
 					layerCount++;
 					continue;
-				}*/
+				}
 
-				for (int k = 0; k < pInContour - 1; k++) // loops though faces in a given j layer
+				for (int k = 0; k < pInContour - 1; k+=2) // loops though faces in a given j layer
 				{
 					int pc_size = polyConnect.size();
 					polyConnect.push_back((numPoints)+j + k);
@@ -273,11 +289,60 @@ namespace zSpace
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
 			fnInMesh.create(pointArray, polyCount, polyConnect);
-			//fnInMesh.smoothMesh(1, false);
+			fnInMesh.smoothMesh(2, false);
 		}
 	}
 
-	void zAgFacade::updateFacade(zPointArray & _vertexCorners)
+	ZSPACE_INLINE void zAgFacade::createMullions()
+	{
+		zPointArray pointArray;
+		zIntArray polyConnect;
+		zIntArray polyCount;
+
+		for (zItMeshHalfEdge he(*inMeshObj); !he.end(); he++)
+		{
+			if (he.onBoundary()) continue;
+
+			zVector xd = he.getNext().getVector();
+			xd.normalize();
+			xd *= 0.05;
+
+			zVector yd = he.getFace().getNormal();
+			yd.normalize();
+			yd *= 0.05;
+
+			pointArray.push_back(he.getVertex().getPosition());
+			pointArray.push_back(he.getVertex().getPosition() + yd);
+			pointArray.push_back(he.getVertex().getPosition() + yd + xd);
+			pointArray.push_back(he.getVertex().getPosition() + xd);
+
+			pointArray.push_back(he.getPrev().getVertex().getPosition());
+			pointArray.push_back(he.getPrev().getVertex().getPosition() + yd);
+			pointArray.push_back(he.getPrev().getVertex().getPosition() + yd + xd);
+			pointArray.push_back(he.getPrev().getVertex().getPosition() + xd);
+		}
+
+		for (int i = 0; i < pointArray.size() - 8; i+=8)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				int s = polyConnect.size();
+				polyConnect.push_back(i + j);
+				polyConnect.push_back(i + ((j + 1) % 4));
+				polyConnect.push_back(i + ((j + 1) % 4) + 4);
+				polyConnect.push_back(i + j + 4);
+
+				//printf("\n polyconnect: %i %i %i %i", polyConnect[s], polyConnect[s + 1], polyConnect[s + 2], polyConnect[s + 3]);
+
+				polyCount.push_back(4);
+			}
+
+		}
+
+		fnInMesh.create(pointArray, polyCount, polyConnect);
+	}
+
+	ZSPACE_INLINE void zAgFacade::updateFacade(zPointArray & _vertexCorners)
 	{
 		vertexCorners = _vertexCorners;
 	}

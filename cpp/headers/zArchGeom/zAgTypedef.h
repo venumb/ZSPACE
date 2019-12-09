@@ -18,6 +18,7 @@
 #include <headers/zArchGeom/zAgSlab.h>
 #include <headers/zArchGeom/zAgWall.h>
 #include <headers/zArchGeom/zAgFacade.h>
+#include <headers/zArchGeom/zAgRoof.h>
 
 
 namespace zSpace
@@ -56,6 +57,13 @@ namespace zSpace
 	*/
 	typedef vector<zAgFacade> zFacadeArray;
 
+	/*! \typedef zRoofArray
+	*	\brief A vector of zAgRoof.
+	*
+	*	\since version 0.0.4
+	*/
+	typedef vector<zAgRoof> zRoofArray;
+
 	/*! \typedef zColumnsPointerArray
 	*	\brief A vector of zAgColumn Pointer.
 	*
@@ -83,6 +91,13 @@ namespace zSpace
 	*	\since version 0.0.4
 	*/
 	typedef vector<zAgFacade*> zFacadePointerArray;
+
+	/*! \typedef zroofPointerArray
+*	\brief A vector of zAgRoof Pointer.
+*
+*	\since version 0.0.4
+*/
+	typedef vector<zAgRoof*> zRoofPointerArray;
 
 	/** @}*/
 

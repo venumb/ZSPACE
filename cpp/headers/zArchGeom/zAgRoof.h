@@ -10,8 +10,8 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_FACADE_H
-#define ZSPACE_AG_FACADE_H
+#ifndef ZSPACE_AG_ROOF_H
+#define ZSPACE_AG_ROOF_H
 
 #pragma once
 
@@ -20,9 +20,7 @@
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
-
-#include <headers/zHousing/base/zHcEnumerators.h>
-
+#include "zAgFacade.h";
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,8 +31,8 @@ using namespace std;
 namespace zSpace
 {
 
-	/*! \class zAgFacade
-	*	\brief A toolset for creating facades in housing units
+	/*! \class zAgSlab
+	*	\brief A toolset for creating roofs in housing units
 	*	\since version 0.0.4
 	*/
 
@@ -44,12 +42,14 @@ namespace zSpace
 
 	/** @}*/
 
-	class ZSPACE_AG zAgFacade
+	class ZSPACE_AG zAgRoof
 	{
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
+
+		zStructureType structureType;
 
 	public:
 		//--------------------------
@@ -62,14 +62,11 @@ namespace zSpace
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
 
-		/*!	\brief input vertex corners */
-		zPointArray vertexCorners;
-
-		/*!	\brief input direction of e4xtrusion */
-		zVectorArray extrudeDir;
-
-		/*!	\brief id of the parent's face its parented to */
-		int faceId;
+		/*!	\brief input center vectors for oposite corner */
+		zPointArray corners; 
+			
+		/*!	\brief input boolean condition if is in facade */
+		bool isFacade;
 
 
 		//--------------------------
@@ -79,15 +76,17 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zAgFacade();
+		zAgRoof();
 
 		/*! \brief overload constructor.
 		*
-		*	\param		[in]	_inMeshObj					- input mesh object.
-		*	\param		[in]	_vertexcorners				- input vertex corners.
+		*	\param		[in]	_position					- input show forces booelan.
+		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\param		[in]	_position					- input show forces booelan.
+		*	\param		[in]	_forceScale					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgFacade(zObjMesh&_inMeshObj, zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId);
+		zAgRoof(zObjMesh&_inMeshObj, zPointArray&_corners, bool _isFacade);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -97,34 +96,40 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zAgFacade();
+		~zAgRoof();
 
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-		void createFacadeByType(zStructureType&_structureType);
+		/*! \brief This method creates slabs by a structural type
+		*
+		*	\param		[in]	_structureType					- input set structure type
+		*	\since version 0.0.4
+		*/
+		void createRoofByType(zStructureType&_structureType);
 
-		void createFacadeTimber();
+		/*! \brief This method creates a robotic hotwire cut slab
+		*
+		*	\since version 0.0.4
+		*/
+		void createRhwcRoof();
 
-		void createFacadeConcrete();
-
-		void createMullions();
-
-		//--------------------------
-		//---- UPDATE METHODS
-		//--------------------------
-
-		void updateFacade(zPointArray&_vertexCorners);
+		/*! \brief This method creates a timber slab
+		*
+		*	\since version 0.0.4
+		*/
+		void createTimberRoof();
 
 	};
+
 
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgFacade.cpp>
+#include<source/zArchGeom/zAgRoof.cpp>
 #endif
 
 #endif

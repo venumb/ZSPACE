@@ -27,7 +27,6 @@ namespace zSpace
 		funcType = _funcType;
 
 		setCellAttributes();
-
 	}
 
 	//---- DESTRUCTOR

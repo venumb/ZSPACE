@@ -187,6 +187,13 @@ namespace zSpace
 		*	\param		[in]	showFacade				- display boolean
 		*	\since version 0.0.4
 		*/
+		void showRoof(bool&_showRoof);
+
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	showFacade				- display boolean
+		*	\since version 0.0.4
+		*/
 		void showLayout (int&_index, bool&_showLayout);
 	};
 

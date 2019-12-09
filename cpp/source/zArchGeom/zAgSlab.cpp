@@ -27,7 +27,7 @@ namespace zSpace
 
 
 
-	zAgSlab::zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
+	ZSPACE_INLINE zAgSlab::zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
 	{
 		inMeshObj = &_inMeshObj;
 		fnInMesh = zFnMesh(*inMeshObj);
@@ -36,7 +36,7 @@ namespace zSpace
 		midPoints = _midPoints;
 	}
 
-	void zAgSlab::createSlabByType(zStructureType & _structureType)
+	ZSPACE_INLINE void zAgSlab::createSlabByType(zStructureType & _structureType)
 	{
 		structureType = _structureType;
 
@@ -44,7 +44,7 @@ namespace zSpace
 		else if (structureType == zStructureType::zDigitalTimber) createTimberSlab();
 	}
 
-	void zAgSlab::createRhwcSlab()
+	ZSPACE_INLINE void zAgSlab::createRhwcSlab()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -194,7 +194,7 @@ namespace zSpace
 					k++;
 				}
 
-				slabPoints[34] = facadeSnaps[0] - zVector(0, 0, 0.2);
+				slabPoints[34] = facadeSnaps[0] - zVector(0, 0, 0.1);
 				slabPoints[35] = parentColumn->snapSlabpoints[i][11];
 
 				for (int j = 0; j < parentColumn->snapSlabpoints[i].size() / 2; j++)
@@ -251,7 +251,7 @@ namespace zSpace
 		}
 	}
 
-	void zAgSlab::createTimberSlab()
+	ZSPACE_INLINE void zAgSlab::createTimberSlab()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -349,11 +349,11 @@ namespace zSpace
 				zVector outDir = centerVecs[i] - x;
 				outDir.normalize();
 
-				facadeSnaps[0] = centerVecs[i] + outDir * 0.8;
-				facadeSnaps[1] = centerVecs[i] + (outDir * 0.7) + (inDir * 0.25);
-				facadeSnaps[2] = centerVecs[i] + (outDir * 0.6) + (inDir * 0.5);
-				facadeSnaps[3] = centerVecs[i] + (outDir * 0.5) + (inDir * 0.75);
-				facadeSnaps[4] = y;
+				facadeSnaps[0] = centerVecs[i] + outDir * 1.1;
+				facadeSnaps[1] = centerVecs[i] + (outDir * 1) + (inDir * 0.25);
+				facadeSnaps[2] = centerVecs[i] + (outDir * 0.75) + (inDir * 0.6);
+				facadeSnaps[3] = centerVecs[i] + (outDir * 0.2) + (inDir * 0.85);
+				facadeSnaps[4] = y + (outDir * -0.5);
 				facadeSnaps[5] = y + (outDir * -1);
 
 				///////////////////////////////////////////
@@ -401,7 +401,7 @@ namespace zSpace
 					k++;
 				}
 
-				slabPoints[34] = facadeSnaps[0] - zVector(0, 0, 0.5);
+				slabPoints[34] = facadeSnaps[0] + outDir * -0.1 - zVector(0, 0, 0.5);
 				slabPoints[35] = parentColumn->snapSlabpoints[i][11];
 
 				for (int j = 0; j < parentColumn->snapSlabpoints[i].size() / 2; j++)

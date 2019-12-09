@@ -37,12 +37,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgColumn.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgFacade.cpp" />
+    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgRoof.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgSlab.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgWall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgColumn.h" />
     <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgFacade.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgRoof.h" />
     <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgSlab.h" />
     <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgTypedef.h" />
     <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgWall.h" />
