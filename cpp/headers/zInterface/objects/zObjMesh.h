@@ -231,9 +231,12 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 
+
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
+#ifndef ZSPACE_UNREAL_INTEROP
 		void draw() override;
+#endif
 
 		//--------------------------
 		//---- DISPLAY BUFFER METHODS

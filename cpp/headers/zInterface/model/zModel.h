@@ -16,6 +16,8 @@
 #pragma once
 #include <headers/zInterface/objects/zObj.h>
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 namespace zSpace
 {
 
@@ -37,7 +39,7 @@ namespace zSpace
 	/** @}*/
 
 	/** @}*/
-
+	
 	class ZSPACE_API zModel 
 	{
 	private:
@@ -180,6 +182,8 @@ namespace zSpace
 // All defined OK so do nothing
 #else
 #include<source/zInterface/model/zModel.cpp>
+#endif
+
 #endif
 
 #endif

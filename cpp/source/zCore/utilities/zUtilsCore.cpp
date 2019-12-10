@@ -721,10 +721,11 @@ namespace zSpace
 
 		}
 
+		
 		mat U;
 		arma::vec s;
 		mat V;
-		svd(U, s, V, X_arma);
+		svd(U, s, V, X_arma);		
 
 		// x
 		out(0, 0) = V(0, 0); 	out(1, 0) = V(1, 0);	out(2, 0) = V(2, 0);
@@ -738,7 +739,6 @@ namespace zSpace
 		// o
 		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
 
-
 		MatrixXd X_eigen(points.size(), 3);
 		for (int i = 0; i < points.size(); i++)
 		{
@@ -747,6 +747,10 @@ namespace zSpace
 			X_eigen(i, 2) = points[i].z - averagePt.z;
 
 		}
+
+
+		//Matrix3f covarianceMat;
+		////X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
 
 		//BDCSVD<Matrix3d> svd;
 		//svd.compute(X_eigen);

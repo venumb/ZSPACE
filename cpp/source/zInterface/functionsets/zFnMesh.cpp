@@ -20,7 +20,7 @@ namespace zSpace
 
 	ZSPACE_INLINE zFnMesh::zFnMesh()
 	{
-		fnType = zFnType::zMeshFn;
+		fnType = zFnType::zMeshFn; 
 		meshObj = nullptr;
 	}
 
@@ -64,7 +64,7 @@ namespace zSpace
 		if (type == zOBJ) toOBJ(path);
 		else if (type == zJSON) toJSON(path);
 
-		else throw std::invalid_argument(" error: invalid zFileTpye type");
+		else throw std::invalid_argument(" error: invalid zFileType type");
 	}
 
 	ZSPACE_INLINE void zFnMesh::getBounds(zPoint &minBB, zPoint &maxBB)
@@ -146,6 +146,8 @@ namespace zSpace
 		}
 
 		bool out = meshObj->mesh.addPolygon(fVertices);
+			
+		
 
 		face = zItMeshFace(*meshObj, numPolygons() - 1);
 
@@ -576,6 +578,18 @@ namespace zSpace
 					{
 						fNorm += (points[j] - fCen) ^ (points[(j + 1) % fVerts.size()] - fCen);
 					}
+
+
+					//  https://stackoverflow.com/questions/27326636/calculate-normal-vector-of-a-polygon-newells-method
+					/*for (int j = 0; j < fVerts.size(); j++) 
+					{
+						int k = (j + 1) % (fVerts.size());
+						fNorm.x += (points[j].y - points[k].y) * (points[j].z + points[k].z);
+						fNorm.y += (points[j].z - points[k].z) * (points[j].x + points[k].x);
+						fNorm.z += (points[j].x - points[k].x) * (points[j].y + points[k].y);						
+					}*/
+					
+
 
 				}
 				else
@@ -2080,12 +2094,12 @@ namespace zSpace
 
 	//---- TOPOLOGY MODIFIER METHODS
 
-	ZSPACE_INLINE void zFnMesh::collapseEdge(int index, double edgeFactor, bool removeInactiveElems )
+	ZSPACE_INLINE void zFnMesh::collapseEdge(zItMeshEdge &edge, double edgeFactor, bool removeInactiveElems )
 	{
 		//if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		//if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-		//int nFVerts = (onBoundary(index, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[index].getFace()->getFaceId());
+		//int nFVerts = (edge.onBoundary()) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[index].getFace()->getFaceId());
 
 		//int sEdge = meshObj->mesh.edges[index].getSym()->getEdgeId();
 		//int nFVerts_Sym = (onBoundary(sEdge, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[sEdge].getFace()->getFaceId());
@@ -2385,6 +2399,9 @@ namespace zSpace
 
 	ZSPACE_INLINE zItMeshVertex zFnMesh::splitEdge(zItMeshEdge &edge, double edgeFactor)
 	{
+
+		int edgeId = edge.getId();
+
 		zItMeshHalfEdge he = edge.getHalfEdge(0);
 		zItMeshHalfEdge heS = edge.getHalfEdge(1);
 
@@ -2404,7 +2421,7 @@ namespace zSpace
 
 		// check if vertex exists if not add new vertex
 		zItMeshVertex newVertex;
-		addVertex(newVertPos, true, newVertex);
+		addVertex(newVertPos, false, newVertex);
 
 		//printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
 
@@ -2420,9 +2437,13 @@ namespace zSpace
 			zItMeshHalfEdge newHe;
 			bool edgesResize = addEdges(v1, v2, false, newHe);
 
+			int newHeId = newHe.getId();
+
 			// recompute iterators if resize is true
 			if (edgesResize)
 			{
+				edge = zItMeshEdge(*meshObj, edgeId);
+
 				he = edge.getHalfEdge(0);
 				heS = edge.getHalfEdge(1);
 
@@ -2431,6 +2452,8 @@ namespace zSpace
 
 				heS_next = heS.getNext();
 				heS_prev = heS.getPrev();
+
+				newHe = zItMeshHalfEdge(*meshObj, newHeId);
 
 				//printf("\n working!");
 			}
@@ -2442,9 +2465,9 @@ namespace zSpace
 			he.getVertex().setHalfEdge(newHeS);
 
 			//// update pointers
-			he.setVertex(newVertex);		// current edge vertex pointer updated to new added vertex
+			he.setVertex(newVertex);		// current hedge vertex pointer updated to new added vertex
 
-			newHeS.setNext(heS); // new added edge next pointer to point to the next of current edge
+			newHeS.setNext(heS); // new added symmetry hedge next pointer to point to the symmetry of current hedge
 			newHeS.setPrev(heS_prev);
 
 			if (!heS.onBoundary())
@@ -2470,80 +2493,71 @@ namespace zSpace
 
 	ZSPACE_INLINE int zFnMesh::detachEdge(int index) { return 0; }
 
-	ZSPACE_INLINE void zFnMesh::flipTriangleEdge(int &index)
+	ZSPACE_INLINE void zFnMesh::flipTriangleEdge(zItMeshEdge &edge)
 	{
-		//if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-		//if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+		if(edge.onBoundary())
+		{
+			throw std::invalid_argument("\n Cannot flip boundary edge ");
+			return;
+		}
 
-		//zEdge* edgetoFlip = &meshObj->mesh.edges[index];
-		//zEdge* edgetoFlipSym = edgetoFlip->getSym();
+		if(edge.getHalfEdge(0).getFace().getNumVertices() != 3 || edge.getHalfEdge(1).getFace().getNumVertices() != 3)
+		{
+			throw std::invalid_argument("\n Cannot flip edge not shared by two Triangles. ");
+			return;
+		}
 
-		//if (!edgetoFlip->getFace() || !edgetoFlipSym->getFace())
-		//{
-		//	throw std::invalid_argument("\n Cannot flip boundary edge %i ");
-		//	return;
-		//}
+		zItMeshHalfEdge hEdgeToFlip = edge.getHalfEdge(0);
+		zItMeshHalfEdge hEdgeToFlipSym = edge.getHalfEdge(1);
 
-		//vector<int> edgetoFlip_fVerts;
-		//getVertices(edgetoFlip->getFace()->getFaceId(), zFaceData, edgetoFlip_fVerts);
+		zItMeshHalfEdge he_next = hEdgeToFlip.getNext();
+		zItMeshHalfEdge he_prev = hEdgeToFlip.getPrev();
 
-		//vector<int> edgetoFlipSym_fVerts;
-		//getVertices(edgetoFlipSym->getFace()->getFaceId(), zFaceData, edgetoFlipSym_fVerts);
-
-		//if (edgetoFlip_fVerts.size() != 3 || edgetoFlipSym_fVerts.size() != 3)
-		//{
-		//	throw std::invalid_argument("\n Cannot flip edge not shared by two Triangles.");
-		//	return;
-		//}
-
-		//zEdge* e_next = edgetoFlip->getNext();
-		//zEdge* e_prev = edgetoFlip->getPrev();
-
-		//zEdge* es_next = edgetoFlipSym->getNext();
-		//zEdge* es_prev = edgetoFlipSym->getPrev();
-
-		//// remove from verticesEdge map
-		//string removeHashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge.erase(removeHashKey);
-
-		//string removeHashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge.erase(removeHashKey1);
+		zItMeshHalfEdge heS_next = hEdgeToFlipSym.getNext();
+		zItMeshHalfEdge heS_prev = hEdgeToFlipSym.getPrev();
+		
+		//// remove fromhalfEdge map
+		removeFromHalfEdgesMap(hEdgeToFlip);
+		removeFromHalfEdgesMap(hEdgeToFlipSym);
 
 		//// update pointers
 
-		//if (edgetoFlip->getVertex()->getEdge() == edgetoFlipSym)edgetoFlip->getVertex()->setEdge(edgetoFlipSym->getPrev()->getSym());
-		//if (edgetoFlipSym->getVertex()->getEdge() == edgetoFlip) edgetoFlipSym->getVertex()->setEdge(edgetoFlip->getPrev()->getSym());
+		if (hEdgeToFlip.getVertex().getHalfEdge() == hEdgeToFlipSym)
+		{
+			zItMeshHalfEdge he = hEdgeToFlipSym.getPrev().getSym();
+			hEdgeToFlip.getVertex().setHalfEdge(he);
+		}
 
-		//edgetoFlip->setVertex(e_next->getVertex());
-		//edgetoFlipSym->setVertex(es_next->getVertex());
+		if (hEdgeToFlipSym.getVertex().getHalfEdge() == hEdgeToFlip)
+		{
+			zItMeshHalfEdge he = hEdgeToFlip.getPrev().getSym();
+			hEdgeToFlipSym.getVertex().setHalfEdge(he);
+		}   
 
+		hEdgeToFlip.setNext(he_prev);
+		hEdgeToFlip.setPrev(heS_next);		
 
+		hEdgeToFlipSym.setNext(heS_prev);
+		hEdgeToFlipSym.setPrev(he_next);		
 
-		//edgetoFlip->setNext(e_prev);
-		//edgetoFlip->setPrev(es_next);
+		he_prev.setNext(heS_next);
+		heS_prev.setNext(he_next);		
 
-		//edgetoFlipSym->setNext(es_prev);
-		//edgetoFlipSym->setPrev(e_next);
+		zItMeshFace f0 = hEdgeToFlip.getFace();
+		hEdgeToFlip.getNext().setFace(f0);
+		hEdgeToFlip.getPrev().setFace(f0);
 
-		//e_prev->setNext(es_next);
-		//es_prev->setNext(e_next);
+		zItMeshFace f1 = hEdgeToFlipSym.getFace();
+		hEdgeToFlipSym.getNext().setFace(f1);
+		hEdgeToFlipSym.getPrev().setFace(f1);
+				
+		hEdgeToFlip.getFace().setHalfEdge(hEdgeToFlip);
+		hEdgeToFlipSym.getFace().setHalfEdge(hEdgeToFlipSym);
 
-		//edgetoFlip->getNext()->setFace(edgetoFlip->getFace());
-		//edgetoFlip->getPrev()->setFace(edgetoFlip->getFace());
-
-		//edgetoFlipSym->getNext()->setFace(edgetoFlipSym->getFace());
-		//edgetoFlipSym->getPrev()->setFace(edgetoFlipSym->getFace());
-
-		//edgetoFlip->getFace()->setEdge(edgetoFlip);
-		//edgetoFlipSym->getFace()->setEdge(edgetoFlipSym);
-
-		//// update verticesEdge map
-
-		//string hashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge[hashKey] = edgetoFlipSym->getEdgeId();
-
-		//string hashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge[hashKey1] = edgetoFlip->getEdgeId();
+		// update verticesEdge map
+		addToHalfEdgesMap(hEdgeToFlip);
+		addToHalfEdgesMap(hEdgeToFlipSym);
+				
 	}
 
 	ZSPACE_INLINE void zFnMesh::splitFaces(vector<int> &edgeList, vector<double> &edgeFactor)
@@ -2646,7 +2660,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnMesh::subdivideMesh(int numDivisions)
+	ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 	{
 		for (int j = 0; j < numDivisions; j++)
 		{
@@ -2894,7 +2908,7 @@ namespace zSpace
 		}	
 	}
 
-	ZSPACE_INLINE zObjMesh zFnMesh::extrudeMesh(float extrudeThickness, bool thicknessTris)
+	ZSPACE_INLINE zObjMesh zFnMesh::extrude(float extrudeThickness, bool thicknessTris)
 	{
 		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
@@ -3125,10 +3139,11 @@ namespace zSpace
 		}
 
 		// vertex nornmals
-		for (auto &vNorm : meshObj->mesh.vertexNormals)
+		/*for (auto &vNorm : meshObj->mesh.vertexNormals)
 		{
 			myfile << "\n vn " << vNorm.x << " " << vNorm.y << " " << vNorm.z;
-		}
+		}*/
+
 
 		myfile << "\n";
 

@@ -19,7 +19,10 @@ namespace zSpace
 
 	ZSPACE_INLINE zObjMesh::zObjMesh()
 	{
+
+#ifndef ZSPACE_UNREAL_INTEROP
 		displayUtils = nullptr;
+#endif
 
 		displayVertices = false;
 		displayEdges = true;

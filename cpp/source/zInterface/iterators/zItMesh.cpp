@@ -675,7 +675,7 @@ namespace zSpace
 	}
 
 	ZSPACE_INLINE zItMeshHalfEdge zItMeshEdge::getHalfEdge(int _index)
-	{
+	{	
 		return zItMeshHalfEdge(*meshObj, iter->getHalfEdge(_index)->getId());
 	}
 
@@ -897,9 +897,7 @@ namespace zSpace
 	ZSPACE_INLINE void zItMeshFace::getConnectedFaces(zItMeshFaceArray& faces)
 	{
 		zItMeshHalfEdgeArray cHEdges;
-		getHalfEdges(cHEdges);
-
-		
+		getHalfEdges(cHEdges);		
 
 		for (auto &he : cHEdges)
 		{

@@ -44,10 +44,10 @@ namespace zSpace
 
 		// add crease data
 		if (type == zJSON)
+		{
 			getCreaseDataJSON(path);
-	
+		}
 
-		
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::to(string path, zFileTpye type)
@@ -56,8 +56,10 @@ namespace zSpace
 
 		// add crease data
 		if (type == zJSON)
+		{
 			setCreaseDataJSON(path);
-		
+		}
+
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::clear()
@@ -183,8 +185,6 @@ namespace zSpace
 			creaseEdgeData[i] = creaseData[i];
 			creaseEdgeIndex[i] = edgeIds[i];
 		}
-
-		
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::toMayaMesh(MObject &maya_meshObj)
@@ -217,6 +217,17 @@ namespace zSpace
 			
 		printf("\n Maya Mesh: %i %i %i ", maya_fnMesh.numVertices(), maya_fnMesh.numEdges(), maya_fnMesh.numPolygons());
 		
+		MUintArray  edgeIds;
+		MDoubleArray creaseData;
+
+		for (int i = 0; i < creaseEdgeIndex.size(); i++)
+		{
+			creaseData.append(creaseEdgeData[i]);
+			edgeIds.append(creaseEdgeIndex[i]);
+		}
+
+		maya_fnMesh.setCreaseEdges(edgeIds, creaseData);
+
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::updateMayaOutmesh(MDataBlock & data, MObject & outMesh, bool updateVertexColor, bool updateFaceColor)
@@ -282,21 +293,23 @@ namespace zSpace
 		if (numPolygons() != meshObj->mesh.faces.size())garbageCollection(zFaceData);
 
 		// read existing data in the json 
-		json j;
+		json j;		
 
-		ifstream in_myfile;
+    ifstream in_myfile;
 		in_myfile.open(outfilename.c_str());
 
 		int lineCnt = 0;
-
-		if (in_myfile.fail())		
+    
+		if (in_myfile.fail())
+		{
 			cout << " error in opening file  " << outfilename.c_str() << endl;
-		
+		}
+
 		in_myfile >> j;
 		in_myfile.close();
 
 		// CREATE JSON FILE
-		zUtilsJsonHE meshJSON;
+		zUtilsJsonHE meshJSON;		
 
 		// Vertices
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
@@ -325,7 +338,7 @@ namespace zSpace
 		{
 			cout << " error in opening file  " << outfilename.c_str() << endl;
 			return;
-		}
+		}		
 
 		//myfile.precision(16);
 		myfile << j.dump();
@@ -368,6 +381,7 @@ namespace zSpace
 			if (meshJSON.edgeCreaseData[i] != 0)
 			{
 				creaseEdgeIndex.push_back(i);
+				creaseEdgeData.push_back(meshJSON.edgeCreaseData[i]);
 			}
 		}
 	}

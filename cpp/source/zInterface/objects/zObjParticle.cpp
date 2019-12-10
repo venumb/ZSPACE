@@ -20,7 +20,9 @@ namespace zSpace
 
 	ZSPACE_INLINE zObjParticle::zObjParticle()
 	{
+#ifndef ZSPACE_UNREAL_INTEROP
 		displayUtils = nullptr;
+#endif
 
 		displayForces = false;
 
@@ -41,7 +43,8 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
-#ifndef ZSPACE_OPENGL
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 	ZSPACE_INLINE void zObjParticle::draw()
 	{
@@ -69,5 +72,5 @@ namespace zSpace
 
 	}
 
-#endif // !ZSPACE_OPENGL
+#endif 
 }

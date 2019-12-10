@@ -24,6 +24,7 @@
 #define ZSPACE_CORE __declspec(dllexport)
 #define ZSPACE_API  __declspec(dllexport)
 #define ZSPACE_TOOLS  __declspec(dllexport)
+#define ZSPACE_AG  __declspec(dllexport)
 #define ZSPACE_APP  __declspec(dllexport)
 #define ZSPACE_INTEROP  __declspec(dllexport)
 #define ZSPACE_MAYA  __declspec(dllexport)
@@ -31,7 +32,8 @@
 #else
 #define ZSPACE_CORE 
 #define ZSPACE_API 
-#define ZSPACE_TOOLS  
+#define ZSPACE_TOOLS
+#define ZSPACE_AG 
 #define ZSPACE_APP  
 #define ZSPACE_INTEROP 
 #define ZSPACE_MAYA  

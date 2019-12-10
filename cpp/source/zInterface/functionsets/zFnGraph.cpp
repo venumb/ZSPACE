@@ -120,6 +120,45 @@ namespace zSpace
 		if (staticGraph) setStaticContainers();
 	}
 
+	ZSPACE_INLINE bool zFnGraph::addVertex(zPoint &_pos, bool checkDuplicates, zItGraphVertex &vertex)
+	{
+		if (checkDuplicates)
+		{
+			int id;
+			bool chk = vertexExists(_pos, vertex);
+			if (chk)	return false;
+
+		}
+
+		bool out = graphObj->graph.addVertex(_pos);
+		vertex = zItGraphVertex(*graphObj, numVertices() - 1);
+
+		return out;
+	}
+
+	ZSPACE_INLINE bool zFnGraph::addEdges(int &v1, int &v2, bool checkDuplicates, zItGraphHalfEdge &halfEdge)
+	{
+		if (v1 < 0 && v1 >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+		if (v2 < 0 && v2 >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+
+		if (checkDuplicates)
+		{
+			int id;
+			bool chk = halfEdgeExists(v1, v2, id);
+			if (chk)
+			{
+				halfEdge = zItGraphHalfEdge(*graphObj, id);
+				return false;
+			}
+		}
+
+		bool out = graphObj->graph.addEdges(v1, v2);
+
+		halfEdge = zItGraphHalfEdge(*graphObj, numHalfEdges() - 2);
+
+		return out;
+	}
+
 	//--- TOPOLOGY QUERY METHODS 
 
 	ZSPACE_INLINE int zFnGraph::numVertices()
@@ -137,15 +176,30 @@ namespace zSpace
 		return graphObj->graph.n_he;
 	}
 
-	ZSPACE_INLINE bool zFnGraph::vertexExists(zPoint pos, int &outVertexId, int precisionfactor)
+	ZSPACE_INLINE bool zFnGraph::vertexExists(zPoint pos, zItGraphVertex &outVertex, int precisionfactor)
 	{
-		return graphObj->graph.vertexExists(pos, outVertexId, precisionfactor);
+
+		int id;
+		bool chk = graphObj->graph.vertexExists(pos, id, precisionfactor);
+
+		if (chk) outVertex = zItGraphVertex(*graphObj, id);
+
+		return chk;
 	}
 
-	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, int &outHalfEdge)
+	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, int &outHalfEdgeId)
 	{
+		return graphObj->graph.halfEdgeExists(v1, v2, outHalfEdgeId);
+	}
 
-		return graphObj->graph.halfEdgeExists(v1, v2, outHalfEdge);
+	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge)
+	{
+		int id;
+		bool chk = halfEdgeExists(v1, v2, id);
+
+		if (chk) outHalfEdge = zItGraphHalfEdge(*graphObj, id);
+
+		return chk;
 	}
 
 	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge)
@@ -760,105 +814,87 @@ namespace zSpace
 
 	//---- TOPOLOGY MODIFIER METHODS
 
-	ZSPACE_INLINE int zFnGraph::splitEdge(int index, double edgeFactor)
+	ZSPACE_INLINE zItGraphVertex zFnGraph::splitEdge(zItGraphEdge &edge, double edgeFactor)
 	{
-		//if (index >= numEdges()) throw std::invalid_argument(" error: index out of bounds.");
-		//zItEdge e = graphObj->graph.indexToEdge[index];
-		//if (!e->isActive()) throw std::invalid_argument(" error: index out of bounds.");
+		int edgeId = edge.getId();
 
-		//
-		//zItHalfEdge edgetoSplit = e->halfEdges[0];
-		//zItHalfEdge edgetoSplitSym = edgetoSplit->sym;
+		zItGraphHalfEdge he = edge.getHalfEdge(0);
+		zItGraphHalfEdge heS = edge.getHalfEdge(1);
 
-		//zItHalfEdge e_next = edgetoSplit->next;
-		//zItHalfEdge e_prev = edgetoSplit->prev;
+		zItGraphHalfEdge he_next = he.getNext();
+		zItGraphHalfEdge he_prev = he.getPrev();
 
-		//zItHalfEdge es_next = edgetoSplitSym->next;
-		//zItHalfEdge es_prev = edgetoSplitSym->prev;
+		zItGraphHalfEdge heS_next = heS.getNext();
+		zItGraphHalfEdge heS_prev = heS.getPrev();
 
 
-		//zVector edgeDir = getHalfEdgeVector(index);
-		//double  edgeLength = edgeDir.length();
-		//edgeDir.normalize();
+		zVector edgeDir = he.getVector();
+		double  edgeLength = edgeDir.length();
+		edgeDir.normalize();
 
+		zVector newVertPos = he.getStartVertex().getPosition() + edgeDir * edgeFactor * edgeLength;
 
-		//zVector v0 =	getVertexPosition( getSym(index)->v->index);
-		//zVector newVertPos = v0 + edgeDir * edgeFactor * edgeLength;
-		//		
+		int numOriginalVertices = numVertices();
 
+		// check if vertex exists if not add new vertex
+		zItGraphVertex newVertex;
+		addVertex(newVertPos, false, newVertex);
 
-		//// check if vertex exists if not add new vertex
-		//int VertId;
-		//bool vExists = vertexExists(newVertPos, VertId);
-		//if (!vExists)
-		//{
-		//	graphObj->graph.addVertex(newVertPos);
-		//	VertId =numVertices() - 1;
-		//}
+		if (newVertex.getId() >= numOriginalVertices)
+		{
+			// remove from halfEdge vertices map
+			removeFromHalfEdgesMap(he);
 
-		////printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
+			// add new edges
+			int v1 = newVertex.getId();
+			int v2 = he.getVertex().getId();
 
-		//if (!vExists)
-		//{
-		//	// remove from verticesEdge map
-		//	graphObj->graph.removeFromHalfEdgesMap(edgetoSplit->v->index, edgetoSplitSym->v->index);
+			bool v2_val1 = he.getVertex().checkValency(1);
 
-		//	// add new edges
-		//	int v1 = VertId;
-		//	int v2 = edgetoSplit->v->index;
-		//	graphObj->graph.addEdges(v1, v2);				
+			zItGraphHalfEdge newHe;
+			bool edgesResize = addEdges(v1, v2, false, newHe);
 
-		//	bool v2_val1 = checkVertexValency(v2, 1);
+			int newHeId = newHe.getId();
 
-		//	// update vertex pointers
-		//	zItVertex vIter1 = graphObj->graph.indexToVertex[v1];
-		//	zItVertex vIter2 = graphObj->graph.indexToVertex[v2];
+			// recompute iterators if resize is true
+			if (edgesResize)
+			{
+				edge = zItGraphEdge(*graphObj, edgeId);
 
-		//	zItHalfEdge he1 = graphObj->graph.indexToHalfEdge[numHalfEdges() - 2];
-		//	zItHalfEdge he2 = graphObj->graph.indexToHalfEdge[numHalfEdges() - 1];
+				he = edge.getHalfEdge(0);
+				heS = edge.getHalfEdge(1);
 
-		//	vIter1->e = he1;
-		//	vIter2->e = he2;
-		//	
+				he_next = he.getNext();
+				he_prev = he.getPrev();
 
-		//	//// update pointers
+				heS_next = heS.getNext();
+				heS_prev = heS.getPrev();
 
-		//	zItVertex vIter = graphObj->graph.indexToVertex[VertId];
-		//	edgetoSplit->v = vIter;				// current edge vertex pointer updated to new added vertex
+				newHe = zItGraphHalfEdge(*graphObj, newHeId);
+			}
 
-		//	he2->next = edgetoSplitSym;		// new added edge next pointer to point to the next of current edge
-		//	
-		//	if (!v2_val1)
-		//	{
-		//		he2->prev = es_prev;
-		//		es_prev->next = he2;
-		//	}
-		//	else
-		//	{
-		//		he2->prev = he1; 
-		//		he1->next = he2;
-		//	}
+			zItGraphHalfEdge newHeS = newHe.getSym();
 
-		//	he1->prev = edgetoSplit;
-		//	edgetoSplit->next = he1;
+			// update vertex pointers
+			newVertex.setHalfEdge(newHe);
+			he.getVertex().setHalfEdge(newHeS);
 
-		//	
-		//	if (!v2_val1)
-		//	{
-		//		he1->next = e_next;
-		//		e_next->prev = he1;					
-		//	}
+			//// update pointers
+			he.setVertex(newVertex);		// current hedge vertex pointer updated to new added vertex
 
+			newHeS.setNext(heS);			// new added symmetry hedge next pointer to point to the symmetry of current hedge
+			
+			if (!v2_val1) newHeS.setPrev(heS_prev);
+			else newHeS.setPrev(newHe);
+			
+			newHe.setPrev(he);				// new added  hedge prev pointer to point to the current hedge
+			if (!v2_val1) newHe.setNext(he_next);
 
-		//	// update verticesEdge map
-		//	graphObj->graph.addToHalfEdgesMap(edgetoSplitSym->v->index, edgetoSplit->v->index, edgetoSplit);
+			// update verticesEdge map
+			addToHalfEdgesMap(he);
+		}
 
-		//}
-
-		//
-		//return VertId;
-
-		return 0;
+		return newVertex;
 	}
 
 	//---- TRANSFORM METHODS OVERRIDES
@@ -1622,5 +1658,17 @@ namespace zSpace
 		}
 
 		graphObj->graph.setStaticEdgeVertices(edgeVerts);
+	}
+
+	//---- PRIVATE DEACTIVATE AND REMOVE METHODS
+
+	ZSPACE_INLINE void zFnGraph::addToHalfEdgesMap(zItGraphHalfEdge &he)
+	{
+		graphObj->graph.addToHalfEdgesMap(he.getStartVertex().getId(), he.getVertex().getId(), he.getId());
+	}
+
+	ZSPACE_INLINE void zFnGraph::removeFromHalfEdgesMap(zItGraphHalfEdge &he)
+	{
+		graphObj->graph.removeFromHalfEdgesMap(he.getStartVertex().getId(), he.getVertex().getId());
 	}
 }

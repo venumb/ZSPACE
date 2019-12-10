@@ -21,7 +21,9 @@ namespace zSpace
 	template<typename T>
 	ZSPACE_INLINE zObjMeshField<T>::zObjMeshField()
 	{
+#ifndef ZSPACE_UNREAL_INTEROP
 		displayUtils = nullptr;
+#endif
 
 		displayVertices = false;
 		displayEdges = true;
@@ -43,12 +45,15 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
+#ifndef ZSPACE_UNREAL_INTEROP
+	
 	template<typename T>
 	ZSPACE_INLINE void zObjMeshField<T>::draw()
 	{
 		zObjMesh::draw();
 	}
 
+#endif
 	template<typename T>
 	ZSPACE_INLINE void zObjMeshField<T>::getBounds(zPoint &minBB, zPoint &maxBB)
 	{

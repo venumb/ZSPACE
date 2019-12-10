@@ -560,6 +560,7 @@ namespace zSpace
 			{
 				if (eHandles[i].he0 != -1) edges[i].setHalfEdge(&halfEdges[eHandles[i].he0], 0);
 				if (eHandles[i].he1 != -1) edges[i].setHalfEdge(&halfEdges[eHandles[i].he1], 1);
+			
 			}
 
 			for (int i = 0; i < fHandles.size(); i++)
@@ -590,6 +591,7 @@ namespace zSpace
 
 				if (e.he0 != -1)newE->setHalfEdge(&halfEdges[e.he0], 0);
 				if (e.he1 != -1)newE->setHalfEdge(&halfEdges[e.he1], 1);
+				
 
 				n_e++;
 

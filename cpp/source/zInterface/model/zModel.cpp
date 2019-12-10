@@ -13,6 +13,7 @@
 
 #include<headers/zInterface/model/zModel.h>
 
+#ifndef ZSPACE_UNREAL_INTEROP
 namespace zSpace
 {
 
@@ -37,6 +38,7 @@ namespace zSpace
 
 	ZSPACE_INLINE zModel::zModel(int _buffersize)
 	{
+
 		displayUtils.bufferObj = zObjBuffer(_buffersize);
 
 		showBufPointColors = false;
@@ -122,3 +124,5 @@ namespace zSpace
 	}
 
 }
+
+#endif

@@ -14,12 +14,12 @@
 
 
 #include<headers/managed_zCore/managedObject/zManagedObj.h>
-#include<headers/zCore/coreHeader.h>
+#include<headers/zCore/zCore.h>
 
 using namespace System;
 
 
-namespace zSpaceCLI
+namespace zSpaceManaged
 {
 
 	public ref class zColor : public zManagedObj<zSpace::zColor>

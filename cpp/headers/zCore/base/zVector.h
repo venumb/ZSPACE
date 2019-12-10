@@ -187,7 +187,7 @@ namespace  zSpace
 
 		/*! \brief This operator is used for scalar division of a vector.
 		*
-		*	\param		[in]	val		- scalar value used to divide from the current vector.
+		*	\param		[in]	val		- scalar value used to divide the current vector.
 		*	\return				zVector	- resultant vector after the scalar division.
 		*	\since version 0.0.1
 		*/	

@@ -20,7 +20,10 @@ namespace zSpace
 
 	ZSPACE_INLINE zObjPointCloud::zObjPointCloud()
 	{
+
+#ifndef ZSPACE_UNREAL_INTEROP
 		displayUtils = nullptr;
+#endif
 
 		displayVertices = false;
 

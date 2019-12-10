@@ -20,7 +20,9 @@ namespace zSpace
 
 	ZSPACE_INLINE zObjSpatialBin::zObjSpatialBin()
 	{
+#ifndef ZSPACE_UNREAL_INTEROP
 		displayUtils = nullptr;
+#endif
 
 		displayBounds = false;
 	}

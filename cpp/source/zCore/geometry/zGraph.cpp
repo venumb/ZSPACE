@@ -456,7 +456,8 @@ namespace zSpace
 		// iterate through edges in list, get angle to horz, sort;
 
 		zVector horz(bestPlane(0, 0), bestPlane(1, 0), bestPlane(2, 0));// = coreUtils.fromMatrixColumn(bestPlane, 0);;
-		zVector upVec(bestPlane(0, 2), bestPlane(1, 2), bestPlane(2, 2));// = coreUtils.fromMatrixColumn(bestPlane, 2);; 
+
+    zVector upVec(bestPlane(0, 2), bestPlane(1, 2), bestPlane(2, 2));// = coreUtils.fromMatrixColumn(bestPlane, 2);; 
 
 		zVector cross = upVec ^ horz;
 

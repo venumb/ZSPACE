@@ -15,7 +15,7 @@
 using namespace System;
 using namespace System::Runtime::InteropServices;
 
-namespace zSpaceCLI 
+namespace zSpaceManaged 
 {
 
 	template<class T>

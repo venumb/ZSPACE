@@ -144,6 +144,28 @@ namespace zSpace
 		*/
 		void createFromMesh(zObjMesh &meshObj, bool excludeBoundary = false, bool staticGraph = false);
 
+		/*! \brief This method adds a vertex to the graph.
+		*
+		*	\param		[in]	_pos				- zPoint holding the position information of the vertex.
+		*	\param		[in]	checkDuplicates		- checks for duplicates if true.
+		*	\param		[out]	vertex				- vertex iterator of the new vertex or existing if it is a duplicate.
+		*	\return				bool				- true if the vertex container is resized.
+		*	\note	 The vertex pointers will need to be computed/ set.
+		*	\since version 0.0.2
+		*/
+		bool addVertex(zPoint &_pos, bool checkDuplicates, zItGraphVertex &vertex);
+
+		/*! \brief This method adds an edge and its symmetry edge to the graph.
+		*
+		*	\param		[in]	v1			- start vertex index of the edge.
+		*	\param		[in]	v2			- end vertex index of the edge.
+		*	\param		[out]	halfEdge	- hafedge iterator of the new halfedge or existing if it is a duplicate.
+		*	\return				bool		- true if the edges container is resized.
+		*	\note	 The half edge pointers will need to be computed/ set.
+		*	\since version 0.0.2
+		*/
+		bool addEdges(int &v1, int &v2, bool checkDuplicates, zItGraphHalfEdge &halfEdge);
+
 		//--------------------------
 		//--- TOPOLOGY QUERY METHODS 
 		//--------------------------
@@ -168,23 +190,33 @@ namespace zSpace
 
 		/*! \brief This method detemines if a vertex already exists at the input position
 		*
-		*	\param		[in]		pos			- position to be checked.
-		*	\param		[out]		outVertexId	- stores vertexId if the vertex exists else it is -1.
-		*	\param		[in]		precisionfactor	- input precision factor.
-		*	\return		[out]		bool		- true if vertex exists else false.
+		*	\param		[in]		pos					- position to be checked.
+		*	\param		[out]		outVertexId			- stores vertexId if the vertex exists else it is -1.
+		*	\param		[in]		precisionfactor		- input precision factor.
+		*	\return		[out]		bool				- true if vertex exists else false.
 		*	\since version 0.0.2
 		*/
-		bool vertexExists(zPoint pos, int &outVertexId, int precisionfactor = 6);
-	
+		bool vertexExists(zPoint pos, zItGraphVertex &outVertex, int precisionfactor = 6);
+
 		/*! \brief This method detemines if an edge already exists between input vertices.
 		*
-		*	\param		[in]	v1			- vertexId 1.
-		*	\param		[in]	v2			- vertexId 2.
-		*	\param		[out]	outHalfEdge	- stores halfedgeId if the vertex exists else it is -1.
-		*	\return		[out]	bool		- true if edge exists else false.
+		*	\param		[in]	v1					-  vertexId 1.
+		*	\param		[in]	v2					-  vertexId 2.
+		*	\param		[out]	outHalfEdgeId		-  half edge id.
+		*	\return		[out]	bool			-  true if edge exists else false.
 		*	\since version 0.0.2
 		*/
-		bool halfEdgeExists(int v1, int v2, int &outHalfEdge);
+		bool halfEdgeExists(int v1, int v2, int &outHalfEdgeId);
+
+		/*! \brief This method detemines if an edge already exists between input vertices.
+		*
+		*	\param		[in]	v1			-  vertexId 1.
+		*	\param		[in]	v2			-  vertexId 2.
+		*	\param		[out]	outEdgeId	-  half edge iterator if edge exists.
+		*	\return		[out]	bool		-  true if edge exists else false.
+		*	\since version 0.0.2
+		*/
+		bool halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge);
 		
 		/*! \brief This method detemines if an edge already exists between input vertices.
 	*
@@ -407,12 +439,12 @@ namespace zSpace
 		
 		/*! \brief This method splits an edge and inserts a vertex along the edge at the input factor.
 		*
-		*	\param		[in]	index			- index of the edge to be split.
+		*	\param		[in]	edge			- iterator of the edge to be split.
 		*	\param		[in]	edgeFactor		- factor in the range [0,1] that represent how far along each edge must the split be done.
-		*	\return				int				- index of the new vertex added after splitinng the edge.
+		*	\return				zItGraphVertex	- iterator of the new vertex added after splitinng the edge.
 		*	\since version 0.0.2
 		*/
-		int splitEdge(int index, double edgeFactor = 0.5);
+		zItGraphVertex splitEdge(zItGraphEdge &edge, double edgeFactor = 0.5);
 		
 		//--------------------------
 		//---- TRANSFORM METHODS OVERRIDES
@@ -507,6 +539,23 @@ namespace zSpace
 		*/
 		void setStaticContainers();
 
+		//--------------------------
+		//---- DEACTIVATE AND REMOVE METHODS
+		//--------------------------
+
+		/*! \brief This method adds input half edge and corresponding symmety edge from the halfEdgesMap.
+		*
+		*	\param		[in]	he			- half edge iterator.
+		*	\since version 0.0.2
+		*/
+		void addToHalfEdgesMap(zItGraphHalfEdge &he);
+
+		/*! \brief This method removes input half edge and corresponding symmety edge from the halfEdgesMap.
+		*
+		*	\param		[in]	he			- half edge iterator.
+		*	\since version 0.0.2
+		*/
+		void removeFromHalfEdgesMap(zItGraphHalfEdge &he);
 	};
 
 
