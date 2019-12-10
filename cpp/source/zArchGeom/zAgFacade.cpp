@@ -29,21 +29,13 @@ namespace zSpace
 
 	ZSPACE_INLINE zAgFacade::zAgFacade(zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId)
 	{
-		fnInMesh = zFnMesh(inMeshObj);
 		faceId = _faceId;
 		vertexCorners = _vertexCorners;
 		extrudeDir = _extrudeDir;
 	}
 
-	ZSPACE_INLINE void zAgFacade::createFacadeByType(zStructureType & _structureType)
-	{
-		if (_structureType == zStructureType::zRHWC) createFacadeConcrete(); ////////UPDATE FOR TEST
-		else if (_structureType == zStructureType::zDigitalTimber) createFacadeTimber();
 
-
-	}
-
-	ZSPACE_INLINE void zAgFacade::createFacadeTimber()
+	ZSPACE_INLINE void zAgFacade::createTimber()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -150,13 +142,14 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
+			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//fnInMesh.smoothMesh(1, false);
 			createMullions();
 		}
 	}
 
-	ZSPACE_INLINE void zAgFacade::createFacadeConcrete()
+	ZSPACE_INLINE void zAgFacade::createRhwc()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -287,8 +280,11 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
+			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			fnInMesh.smoothMesh(2, false);
+
+			fnInMesh.to("C:/Users/cesar.fragachan/Desktop/column.obj", zOBJ);
 		}
 	}
 
@@ -338,6 +334,7 @@ namespace zSpace
 
 		}
 
+		zFnMesh fnInMesh(inMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 	}
 
@@ -351,10 +348,8 @@ namespace zSpace
 		inMeshObj.setShowObject(showFacade);
 	}
 
-	ZSPACE_INLINE void zAgFacade::setFacadeDisplayModel(zModel & _model)
+	ZSPACE_INLINE void zAgFacade::addObjsToModel()
 	{
-		model = &_model;
-
 		model->addObject(inMeshObj);
 		inMeshObj.setShowElements(false, true, true);
 	}

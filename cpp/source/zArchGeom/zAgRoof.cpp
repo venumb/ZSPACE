@@ -25,29 +25,26 @@ namespace zSpace
 
 	//---- SET METHODS
 
-
-
-	ZSPACE_INLINE zAgRoof::zAgRoof(zPointArray&_corners, bool _isFacade)
+	ZSPACE_INLINE  zAgRoof::zAgRoof(zPointArray&_corners, bool _isFacade)
 	{
-		fnInMesh = zFnMesh(inMeshObj);
-		corners = _corners;
+		
+		corners = _corners;			
 		isFacade = _isFacade;
 
+		printf("\n corners constructor size: %i", corners.size());
 	}
 
-	ZSPACE_INLINE void zAgRoof::createRoofByType(zStructureType & _structureType)
-	{
-		structureType = _structureType;
 
-		if (structureType == zStructureType::zRHWC) createRhwcRoof(); 
-		else if (structureType == zStructureType::zDigitalTimber) createTimberRoof();
-	}
-
-	ZSPACE_INLINE void zAgRoof::createRhwcRoof()
+	ZSPACE_INLINE void zAgRoof::createRhwc()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
+
+		if (corners.size() == 0) return;
+
+		printf("\n corners rhwc size: %i", corners.size());
+
 
 		for (int i = 0; i < corners.size(); i++)
 		{
@@ -56,16 +53,22 @@ namespace zSpace
 		}
 
 		polyCount.push_back(4);
-
+		printf("\n polyconnect: %i %i %i", pointArray.size(), polyConnect.size(), polyCount.size());
+		zFnMesh fnInMesh(inMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 
 	}
 
-	ZSPACE_INLINE void zAgRoof::createTimberRoof()
+	ZSPACE_INLINE void zAgRoof::createTimber()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
+
+		if (corners.size() == 0) return;
+
+		printf("\n corners timber size: %i", corners.size());
+
 
 		if (!isFacade) 
 		{
@@ -142,6 +145,7 @@ namespace zSpace
 			}
 		}
 		
+		zFnMesh fnInMesh(inMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		fnInMesh.extrudeMesh(0.1, inMeshObj, false);
 	}
@@ -151,10 +155,8 @@ namespace zSpace
 		inMeshObj.setShowObject(showRoof);
 	}
 
-	ZSPACE_INLINE void zAgRoof::setRoofDisplayModel(zModel & _model)
+	ZSPACE_INLINE void zAgRoof::addObjsToModel()
 	{
-		model = &_model;
-
 		model->addObject(inMeshObj);
 		inMeshObj.setShowElements(false, true, true);
 	}

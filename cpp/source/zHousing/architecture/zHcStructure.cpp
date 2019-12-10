@@ -33,25 +33,6 @@ namespace zSpace
 
 		heightArray = _heightArray;
 
-		
-
-		printf("\n column array: %i", columnArray.size());
-
-	}
-
-	//---- DESTRUCTOR
-
-	ZSPACE_INLINE zHcStructure::~zHcStructure() {}
-
-	//---- CREATE METHODS
-	   	 
-
-
-	ZSPACE_INLINE void zHcStructure::createStructureByType(zStructureType & _structureType)
-	{
-		structureType = _structureType;
-
-
 		int columnNum = 0;
 		int slabNum = 0;
 		int wallNum = 0;
@@ -78,54 +59,58 @@ namespace zSpace
 			else if ((f.getColor().r != f.getColor().g || f.getColor().r != f.getColor().b) && f.getNormal().z > 0) roofNum++;
 		}
 
-		columnArray.reserve(columnNum);
+		columnArray.assign(columnNum, zAgColumn());
 		slabArray.assign(slabNum, zAgSlab());
 		wallArray.assign(wallNum, zAgWall());
 		facadeArray.assign(facadeNum, zAgFacade());
 		roofArray.assign(roofNum, zAgRoof());
 
 
+		printf("\n column array: %i", columnArray.size());
+
+	}
+
+	//---- DESTRUCTOR
+
+	ZSPACE_INLINE zHcStructure::~zHcStructure() {}
+
+	//---- CREATE METHODS
+	   	 
+
+
+	ZSPACE_INLINE void zHcStructure::createStructureByType(zStructureType & _structureType)
+	{
+		structureType = _structureType;
+
 		if (functionType == zFunctionType::zPublic)
 		{
 			createColumns();
-			//createSlabs();
+			createSlabs();
 		}
 		else
 		{
-			//createWalls();
-			//createFacades();
-			//createRoofs();
+			createWalls();
+			createFacades();
+			createRoofs();
 		}
-	}
-
-	ZSPACE_INLINE void zHcStructure::updateStructure (zFloatArray _heightArray)
-	{
-		//if (_height == 0)
-		//{
-		//	for (auto&c : columnObjs) c = zObjMesh();
-		//	for (auto&s : slabObjs) s = zObjMesh();
-		//	for (auto&w : wallObjs) w = zObjMesh();
-		//	for (auto&f : facadeObjs) f = zObjMesh();
-
-		//}
-		/*else
-		{*/
-			heightArray = _heightArray;
-
-			//createStructuralCell();
-			updateArchComponents(structureType);
-		//}
 	}
 
 	ZSPACE_INLINE void zHcStructure::updateArchComponents(zStructureType & _structureType)
 	{
 		structureType = _structureType;
 
-		//for (auto& column : columnArray) column.createColumnByType(structureType);
-		for (auto& slab : slabArray) slab.createSlabByType(structureType);
-		for (auto& wall : wallArray) wall.createWallByType(structureType);
-		for (auto& facade : facadeArray) facade.createFacadeByType(structureType);
-		for (auto& roof : roofArray) roof.createRoofByType(structureType);
+		if (functionType == zFunctionType::zPublic)
+		{
+			for (auto& column : columnArray) column.createByType(structureType);
+			for (auto& slab : slabArray) slab.createByType(structureType);
+		}
+		else
+		{
+			for (auto& wall : wallArray) wall.createByType(structureType);
+			for (auto& facade : facadeArray) facade.createByType(structureType);
+			for (auto& roof : roofArray) roof.createByType(structureType);
+		}
+		
 	}
 
 	ZSPACE_INLINE bool zHcStructure::createColumns()
@@ -181,13 +166,12 @@ namespace zSpace
 
 				/////
 				columnArray[count] = zAgColumn(pos, axis, axisAttributes, boundaryArray, 3.0f);
-				columnArray[count].createColumnByType(structureType);
+				columnArray[count].createByType(structureType);
 
 				count++;
 			}
 		}
 
-		printf("\n count column: %i", count);
 		return true;
 	}
 
@@ -238,7 +222,7 @@ namespace zSpace
 				}
 
 				slabArray[heCount] = zAgSlab(centerarray, axis, columnArray[heCount]);
-				slabArray[heCount].createSlabByType(structureType);
+				slabArray[heCount].createByType(structureType);
 
 				heCount++;
 
@@ -260,7 +244,7 @@ namespace zSpace
 				f.getVertexPositions(vCorners);
 				
 				wallArray[count] = zAgWall(vCorners, f.getId());
-				wallArray[count].createWallByType(structureType);
+				wallArray[count].createByType(structureType);
 
 				count++;
 			}
@@ -302,7 +286,7 @@ namespace zSpace
 				}
 
 				facadeArray[count] = zAgFacade(vCorners, extrudeDir, f.getId());
-				facadeArray[count].createFacadeByType(structureType);
+				facadeArray[count].createByType(structureType);
 
 				count++;
 			}
@@ -342,11 +326,13 @@ namespace zSpace
 				}
 
 				roofArray[count] = zAgRoof(corners, isFacade);
-				roofArray[count].createRoofByType(structureType);
+				roofArray[count].createByType(structureType);
 
 				count++;
 			}
 		}
+
+		
 
 		return true;
 	}
@@ -375,22 +361,35 @@ namespace zSpace
 	{
 		model = &_model;
 
-		printf("\n size mode: %i %i %i %i %i", 
-			columnArray.size(), 
-			slabArray.size(), 
-			wallArray.size(), 
-			facadeArray.size(), 
-			roofArray.size());
+		for (auto& c : columnArray)
+		{
+			c.setModel(_model);
+			c.addObjsToModel();
+		}
 
-		for (auto& c : columnArray)	c.setColumnDisplayModel(_model);	
+		for (auto& s : slabArray)
+		{
+			s.setModel(_model);
+			s.addObjsToModel();
+		}
 
-		for (auto& s : slabArray) s.setSlabDisplayModel(_model);
+		for (auto& w : wallArray)
+		{
+			w.setModel(_model);
+			w.addObjsToModel();
+		}
 
-		for (auto& w : wallArray) w.setWallDisplayModel(_model);
+		for (auto& f : facadeArray)
+		{
+			f.setModel(_model);
+			f.addObjsToModel();
+		}
 
-		for (auto& f : facadeArray) f.setFacadeDisplayModel(_model);
-
-		for (auto& r : roofArray) r.setRoofDisplayModel(_model);
+		for (auto& r : roofArray)
+		{
+			r.setModel(_model);
+			r.addObjsToModel();
+		}
 	}
 
 }

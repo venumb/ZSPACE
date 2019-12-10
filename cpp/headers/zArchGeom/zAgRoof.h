@@ -21,7 +21,8 @@
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
-#include "zAgFacade.h";
+
+#include <headers/zArchGeom/zAgObj.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -43,18 +44,12 @@ namespace zSpace
 
 	/** @}*/
 
-	class ZSPACE_AG zAgRoof
+	class ZSPACE_AG zAgRoof : public zAgObj
 	{
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
-
-		/*!	\brief structure type  */
-		zStructureType structureType;
-
-		/*!	\brief pointer to display model  */
-		zModel *model;
 
 	public:
 		//--------------------------
@@ -63,9 +58,6 @@ namespace zSpace
 
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh inMeshObj;
-
-		/*!	\brief input mesh function set  */
-		zFnMesh fnInMesh;
 
 		/*!	\brief input center vectors for oposite corner */
 		zPointArray corners; 
@@ -107,24 +99,18 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates slabs by a structural type
-		*
-		*	\param		[in]	_structureType					- input set structure type
-		*	\since version 0.0.4
-		*/
-		void createRoofByType(zStructureType&_structureType);
 
 		/*! \brief This method creates a robotic hotwire cut slab
 		*
 		*	\since version 0.0.4
 		*/
-		void createRhwcRoof();
+		void createRhwc() override;
 
 		/*! \brief This method creates a timber slab
 		*
 		*	\since version 0.0.4
 		*/
-		void createTimberRoof();
+		void createTimber() override;
 
 		//--------------------------
 		//---- DISPLAY METHODS
@@ -143,7 +129,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void setRoofDisplayModel(zModel&_model);
+		void addObjsToModel() override;
 #endif
 	};
 

@@ -29,21 +29,13 @@ namespace zSpace
 
 	ZSPACE_INLINE zAgSlab::zAgSlab(zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
 	{
-		fnInMesh = zFnMesh(inMeshObj);
 		parentColumn = &_parentColumn;
 		centerVecs = _centerVecs;
 		midPoints = _midPoints;
 	}
 
-	ZSPACE_INLINE void zAgSlab::createSlabByType(zStructureType & _structureType)
-	{
-		structureType = _structureType;
 
-		if (structureType == zStructureType::zRHWC) createRhwcSlab(); 
-		else if (structureType == zStructureType::zDigitalTimber) createTimberSlab();
-	}
-
-	ZSPACE_INLINE void zAgSlab::createRhwcSlab()
+	ZSPACE_INLINE void zAgSlab::createRhwc()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -245,12 +237,13 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
+			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//fnInMesh.smoothMesh(1, false);
 		}
 	}
 
-	ZSPACE_INLINE void zAgSlab::createTimberSlab()
+	ZSPACE_INLINE void zAgSlab::createTimber()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -452,6 +445,7 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
+			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//fnInMesh.smoothMesh(1, false);
 		}
@@ -463,10 +457,8 @@ namespace zSpace
 		inMeshObj.setShowObject(showSlab);
 	}
 
-	ZSPACE_INLINE void zAgSlab::setSlabDisplayModel(zModel & _model)
+	ZSPACE_INLINE void zAgSlab::addObjsToModel()
 	{
-		model = &_model;
-
 		model->addObject(inMeshObj);
 		inMeshObj.setShowElements(false, true, true);
 	}

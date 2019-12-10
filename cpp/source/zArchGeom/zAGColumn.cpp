@@ -17,12 +17,10 @@ namespace zSpace
 {
 	//---- CONSTRUCTOR
 
-	ZSPACE_INLINE zAgColumn::zAgColumn(){}
+	ZSPACE_INLINE zAgColumn::zAgColumn(){ }
 
 	ZSPACE_INLINE zAgColumn::zAgColumn( zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height)
 	{
-		fnInMesh = zFnMesh(inMeshObj);
-
 		position = _position;
 		axis = _axis;
 		axisAttributes = _axisAttributes;
@@ -40,15 +38,7 @@ namespace zSpace
 	//---- CREATE METHODS
 
 
-	ZSPACE_INLINE void zAgColumn::createColumnByType(zStructureType&_structureType)
-	{
-		structureType = _structureType;
-
-		if (structureType == zStructureType::zRHWC) createRhwcColumn(); 
-		else if (structureType == zStructureType::zDigitalTimber) createTimberColumn();
-	}
-
-	ZSPACE_INLINE void zAgColumn::createRhwcColumn()
+	ZSPACE_INLINE void zAgColumn::createRhwc()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -306,13 +296,14 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
+			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//printf("\n %i %i %i ", fnInMesh.numVertices(), fnInMesh.numEdges(), fnInMesh.numPolygons());
 			fnInMesh.smoothMesh(2, false);
 		}
 	}
 
-	ZSPACE_INLINE void zAgColumn::createTimberColumn()
+	ZSPACE_INLINE void zAgColumn::createTimber()
 	{
 
 		zPointArray pointArray;
@@ -572,9 +563,12 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
+			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
+
 			fnInMesh.smoothMesh(1, false);
 			createFrame();
+
 		}
 	}
 
@@ -619,9 +613,9 @@ namespace zSpace
 
 				polyCount.push_back(4);
 			}
-
 		}
 
+		zFnMesh fnInMesh(inMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 
 	}
@@ -631,13 +625,13 @@ namespace zSpace
 		inMeshObj.setShowObject(showColumn);
 	}
 
-	ZSPACE_INLINE void zAgColumn::setColumnDisplayModel(zModel & _model)
+	ZSPACE_INLINE void zAgColumn::addObjsToModel()
 	{
-		model = &_model;
-		//printf("mesh polys: %i", fnInMesh.numPolygons());
 		model->addObject(inMeshObj);
 		inMeshObj.setShowElements(false, true, true);
 	}
+
+
 
 
 }

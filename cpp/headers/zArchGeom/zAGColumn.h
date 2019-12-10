@@ -23,6 +23,7 @@
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
+#include <headers/zArchGeom/zAgObj.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -39,21 +40,16 @@ namespace zSpace
 	*/
 
 
-	class ZSPACE_AG zAgColumn
+	class ZSPACE_AG zAgColumn : public zAgObj
 	{
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief input structure type */
-		zStructureType structureType;
-
 		/*!	\brief stores x and y directions */
 		zVector x, y, z;
 
-		/*!	\brief pointer to display model  */
-		zModel *model;
 
 	public:
 		//--------------------------
@@ -62,9 +58,6 @@ namespace zSpace
 
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh inMeshObj;
-
-		/*!	\brief input mesh function set  */
-		zFnMesh fnInMesh;
 
 		/*!	\brief input height  */
 		float height;
@@ -114,24 +107,18 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates columns by a structural type
-		*
-		*	\param		[in]	_structureType					- input set structure type
-		*	\since version 0.0.4
-		*/
-		void createColumnByType(zStructureType&_structureType);
 
 		/*! \brief This method creates a robotic hotwire cut column
 		*
 		*	\since version 0.0.4
 		*/
-		void createRhwcColumn();
+		void createRhwc() override;
 
-		/*! \brief This method creates a robotic hotwire cut column
+		/*! \brief This method creates a Timber column
 		*
 		*	\since version 0.0.4
 		*/
-		void createTimberColumn();
+		void createTimber() override;
 
 
 		/*! \brief This method creates structural extrusions from wireframe mesh
@@ -150,15 +137,11 @@ namespace zSpace
 		*/
 		void displayColumn(bool showColumn);
 
-
-#ifndef ZSPACE_UNREAL_INTEROP
-
-		/*! \brief This method sets the zModel pointer.
+		/*! \brief This method displays the mesh associated with this obj
 		*
 		*	\since version 0.0.4
 		*/
-		void setColumnDisplayModel(zModel&_model);
-#endif
+		void addObjsToModel() override;
 
 	};
 

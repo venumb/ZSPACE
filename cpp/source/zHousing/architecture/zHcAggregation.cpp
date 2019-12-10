@@ -95,6 +95,7 @@ namespace zSpace
 
 	void zHcAggregation::importLayoutMeshesFromDirectory(string & _pathFlat, string & _pathVertical, string & _pathLandscape)
 	{ 
+
 		int uId = 0;
 		for (auto &h : unitArray)
 		{
@@ -136,14 +137,16 @@ namespace zSpace
 	ZSPACE_INLINE void zHcAggregation::setDisplayModel(zModel&_model)
 	{
 		model = &_model;
-		
+
 		if (unitArray.size() == 0) return;
+
 
 		for (auto& u : unitObjs)
 		{
 			model->addObject(u);
 			u.setShowElements(true, true, false);
 		}
+
 
 		for (auto& unit : unitArray)
 		{

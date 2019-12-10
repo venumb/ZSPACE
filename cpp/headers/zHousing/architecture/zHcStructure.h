@@ -128,12 +128,6 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method creates a spatial cell in which the architectural elements live in
-		*
-		*	\since version 0.0.4
-		*/
-		void setCellFacesAttibutes();
-
 
 		//--------------------------
 		//---- CREATE METHODS
@@ -146,12 +140,6 @@ namespace zSpace
 		*/
 		void createStructureByType(zStructureType&_structureType);
 
-		/*! \brief This method updates a spatial cell 
-		*
-		*	\param		[in]	_height							- cell height
-		*	\since version 0.0.4
-		*/
-		void updateStructure(zFloatArray _heightArray);
 
 		/*! \brief This method creates a spatial cell in which the architectural elements live in
 		*

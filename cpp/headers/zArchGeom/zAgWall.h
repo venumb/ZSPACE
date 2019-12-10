@@ -23,6 +23,7 @@
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
+#include <headers/zArchGeom/zAgObj.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -44,15 +45,12 @@ namespace zSpace
 
 	/** @}*/
 
-	class ZSPACE_AG zAgWall
+	class ZSPACE_AG zAgWall : public zAgObj
 	{
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
-
-		/*!	\brief pointer to display model  */
-		zModel *model;
 
 	public:
 		//--------------------------
@@ -62,11 +60,8 @@ namespace zSpace
 		/*!	\brief pointer to input mesh Object  */
 		zObjMesh inMeshObj;
 
-		/*!	\brief input mesh function set  */
-		zFnMesh fnInMesh;
-
 		/*!	\brief input vertex corners */
-		zPointArray vertexCorners;
+		zPointArray corners;
 
 		/*!	\brief id of the parent's face its parented to */
 		int faceId;
@@ -83,10 +78,10 @@ namespace zSpace
 		/*! \brief overload constructor.
 		*
 		*	\param		[in]	_inMeshObj					- input mesh object.
-		*	\param		[in]	_vertexcorners				- input vertex corners.
+		*	\param		[in]	_corners				- input vertex corners.
 		*	\since version 0.0.4
 		*/
-		zAgWall(zPointArray&_vertexCorners, int _faceId);
+		zAgWall(zPointArray&_corners, int _faceId);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -102,13 +97,16 @@ namespace zSpace
 		//---- CREATE METHODS
 		//--------------------------
 
-		void createWallByType(zStructureType&_structureType);
+		void createTimber() override;
+
+		void createRhwc() override;
+
 
 		//--------------------------
 		//---- UPDATE METHODS
 		//--------------------------
 
-		void updateWall(zPointArray&_vertexCorners);
+		void updateWall(zPointArray&_corners);
 
 
 		//--------------------------
@@ -128,7 +126,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void setWallDisplayModel(zModel&_model);
+		void addObjsToModel() override;
 #endif
 	};
 

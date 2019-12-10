@@ -26,33 +26,38 @@ namespace zSpace
 	//---- SET METHODS
 
 
-	ZSPACE_INLINE zAgWall::zAgWall(zPointArray&_vertexCorners, int _faceId)
+	ZSPACE_INLINE zAgWall::zAgWall(zPointArray&_corners, int _faceId)
 	{
-		fnInMesh = zFnMesh(inMeshObj);
-		vertexCorners = _vertexCorners;
+		corners = _corners;
 		faceId = _faceId;
 	}
 
-	ZSPACE_INLINE void zAgWall::createWallByType(zStructureType & _structureType)
+	ZSPACE_INLINE void zAgWall::createTimber()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (int i = 0; i < vertexCorners.size(); i++)
+		for (int i = 0; i < corners.size(); i++)
 		{
-			pointArray.push_back(vertexCorners[i]);
+			pointArray.push_back(corners[i]);
 			polyConnect.push_back(i);
 		}
-		polyCount.push_back(vertexCorners.size());
+		polyCount.push_back(corners.size());
 
+		zFnMesh fnInMesh(inMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		fnInMesh.smoothMesh(2, false);
 	}
 
-	ZSPACE_INLINE void zAgWall::updateWall(zPointArray & _vertexCorners)
+	ZSPACE_INLINE void zAgWall::createRhwc()
 	{
-		vertexCorners = _vertexCorners;
+		createTimber();
+	}
+
+	ZSPACE_INLINE void zAgWall::updateWall(zPointArray & _corners)
+	{
+		corners = _corners;
 	}
 
 	ZSPACE_INLINE void zAgWall::displayWall(bool showWall)
@@ -60,10 +65,8 @@ namespace zSpace
 		inMeshObj.setShowObject(showWall);
 	}
 
-	ZSPACE_INLINE void zAgWall::setWallDisplayModel(zModel & _model)
+	ZSPACE_INLINE void zAgWall::addObjsToModel()
 	{
-		model = &_model;
-
 		model->addObject(inMeshObj);
 		inMeshObj.setShowElements(false, true, true);
 	}

@@ -10,21 +10,19 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_FACADE_H
-#define ZSPACE_AG_FACADE_H
+#ifndef ZSPACE_AG_OBJ
+#define ZSPACE_AG_OBJ
 
 #pragma once
 
-#include <headers/zInterface/model/zModel.h>
 #include <headers/zCore/base/zExtern.h>
+#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
 #include <headers/zHousing/base/zHcEnumerators.h>
-
-#include <headers/zArchGeom/zAgObj.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,42 +33,26 @@ using namespace std;
 namespace zSpace
 {
 
-	/*! \class zAgFacade
-	*	\brief A toolset for creating facades in housing units
+	/*! \class zAgColumn
+	*	\brief A toolset for creating columns in housing units
 	*	\since version 0.0.4
 	*/
 
-	/** @}*/
 
-	/** @}*/
-
-	/** @}*/
-
-	class ZSPACE_AG zAgFacade : public zAgObj
+	class ZSPACE_AG zAgObj
 	{
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief input structure type */
+		zStructureType structureType;
+
+		/*!	\brief pointer to display model  */
+		zModel *model;
 
 	public:
-		//--------------------------
-		//---- PUBLIC ATTRIBUTES
-		//--------------------------
-
-		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inMeshObj;
-
-		/*!	\brief input vertex corners */
-		zPointArray vertexCorners;
-
-		/*!	\brief input direction of e4xtrusion */
-		zVectorArray extrudeDir;
-
-		/*!	\brief id of the parent's face its parented to */
-		int faceId;
-
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -79,15 +61,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zAgFacade();
-
-		/*! \brief overload constructor.
-		*
-		*	\param		[in]	_inMeshObj					- input mesh object.
-		*	\param		[in]	_vertexcorners				- input vertex corners.
-		*	\since version 0.0.4
-		*/
-		zAgFacade(zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId);
+		zAgObj();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -97,45 +71,35 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zAgFacade();
+		~zAgObj();
 
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates a robotic hotwire cut facade
+		/*! \brief This method creates columns by a structural type
+		*
+		*	\param		[in]	_structureType					- input set structure type
+		*	\since version 0.0.4
+		*/
+		void createByType(zStructureType&_structureType);
+
+		/*! \brief This method creates a robotic hotwire cut column
 		*
 		*	\since version 0.0.4
 		*/
-		void createTimber() override;
+		virtual void createRhwc();
 
-		/*! \brief This method creates a robotic hotwire cut facade
+		/*! \brief This method creates a timber cut arch geom
 		*
 		*	\since version 0.0.4
 		*/
-		void createRhwc() override;
+		virtual void createTimber();
 
-		/*! \brief This method creates mullions
-		*
-		*	\since version 0.0.4
-		*/
-		void createMullions();
 
 		//--------------------------
-		//---- UPDATE METHODS
+		//---- SET METHODS
 		//--------------------------
-
-		void updateFacade(zPointArray&_vertexCorners);
-
-		//--------------------------
-		//---- DISPLAY METHODS
-		//--------------------------
-
-		/*! \brief This method displays the mesh associated with this obj
-		*
-		*	\since version 0.0.4
-		*/
-		void displayFacade(bool showFacade);
 
 
 #ifndef ZSPACE_UNREAL_INTEROP
@@ -144,17 +108,22 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void addObjsToModel() override;
+		void setModel(zModel&_model);
+
+		/*! \brief This method adds objects to the model.
+		*
+		*	\since version 0.0.4
+		*/
+		virtual void addObjsToModel();
 #endif
 
 	};
-
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgFacade.cpp>
+#include<source/zArchGeom/zAgObj.cpp>
 #endif
 
 #endif
