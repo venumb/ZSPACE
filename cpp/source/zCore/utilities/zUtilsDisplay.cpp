@@ -7,14 +7,11 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 
 #include<headers/zCore/utilities/zUtilsDisplay.h>
-
-
-
 
 namespace zSpace
 {
@@ -36,15 +33,14 @@ namespace zSpace
 		unsigned int i;
 		glRasterPos3f(pt.x, pt.y, pt.z);
 
-		for (i = 0; i < s.length(); i++)
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+		//for (i = 0; i < s.length(); i++)
+			//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
 	}
 
 	//---- IMMEDIATE MODE DISPLAY
 
 	ZSPACE_INLINE void zUtilsDisplay::drawPoint(zPoint &pos, const zColor &col, const double &wt)
 	{
-
 		glColor3f(col.r, col.g, col.b);
 		glPointSize(wt);
 
@@ -53,14 +49,11 @@ namespace zSpace
 		glEnd();
 
 		glPointSize(1.0);
-
 		glColor3f(0, 0, 1);
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawPoints(zPoint *pos, zColor *col, double *wt, int size)
 	{
-
 		glBegin(GL_POINTS);
 		for (int i = 0; i < size; i++)
 		{
@@ -74,7 +67,6 @@ namespace zSpace
 		glPointSize(1.0);
 
 		glColor3f(0, 0, 1);
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawLine(zPoint &p0, zPoint &p1, const zColor &col , const double &wt)
@@ -89,7 +81,6 @@ namespace zSpace
 
 		glLineWidth(1.0);
 		glColor3f(0, 0, 1);
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawPolygon(zPointArray &pos, const zColor &col)
@@ -111,12 +102,10 @@ namespace zSpace
 			if (dispLines) drawLine(circlePts[i], circlePts[(i + 1) % circlePts.size()], col, wt);
 			else drawPoint(circlePts[i], col, wt);
 		}
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawRectangle(zVector &minBB, zVector &maxBB, const zColor &col, const double &wt)
 	{
-
 		zVector p0(minBB.x, minBB.y, minBB.z);
 		zVector p1(minBB.x, maxBB.y, minBB.z);
 		zVector p2(maxBB.x, maxBB.y, minBB.z);
@@ -127,12 +116,10 @@ namespace zSpace
 		drawLine(p1, p2, col, wt);
 		drawLine(p2, p3, col, wt);
 		drawLine(p3, p0, col, wt);
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawCube(zVector &minBB, zVector &maxBB, const zColor &col, const double &wt)
 	{
-
 		zVector p0(minBB.x, minBB.y, minBB.z);
 		zVector p1(minBB.x, maxBB.y, minBB.z);
 		zVector p2(maxBB.x, maxBB.y, minBB.z);
@@ -157,14 +144,12 @@ namespace zSpace
 		drawLine(p1, p5, col, wt);
 		drawLine(p2, p6, col, wt);
 		drawLine(p3, p7, col, wt);
-
 	}
 
 	//---- MESH / GRAPH
 
 	ZSPACE_INLINE void zUtilsDisplay::drawVertices(vector<zVertexHandle> &vHandles, zVector *pos, zColor *col, double *wt)
 	{
-
 		glBegin(GL_POINTS);
 		for (auto &v : vHandles)
 		{
@@ -179,14 +164,20 @@ namespace zSpace
 		glEnd();
 
 		glPointSize(1.0);
-
 		glColor3f(0, 0, 1);
+	}
 
+	ZSPACE_INLINE void zUtilsDisplay::drawVertexIds(int numVerts, zVector *pos, zColor &col)
+	{
+		glColor3f(col.r, col.g, col.b);
+		for (int i = 0; i < numVerts; i++)
+		{			
+			drawTextAtPoint(to_string(i), pos[i]);
+		}
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawEdges(vector<zEdgeHandle> &eHandles, vector<zIntArray> &edgeVerts, zVector *pos, zColor *col, double *wt)
 	{
-
 		for (auto &e : eHandles)
 		{
 			if (e.id == -1) continue;
@@ -206,15 +197,21 @@ namespace zSpace
 
 		}
 
-
 		glLineWidth(1.0);
 		glColor3f(0, 0, 1);
+	}
 
+	ZSPACE_INLINE void zUtilsDisplay::drawEdgeIds(int numEdges, zVector *pos, zColor &col)
+	{
+		glColor3f(col.r, col.g, col.b);
+		for (int i = 0; i < numEdges; i++)
+		{
+			drawTextAtPoint(to_string(i), pos[i]);
+		}
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawFaces(vector<zFaceHandle> &fHandles, vector<zIntArray> &faceVerts, zVector *pos, zColor *col)
 	{
-
 		for (auto &f : fHandles)
 		{
 			if (f.id == -1) continue;
@@ -233,17 +230,23 @@ namespace zSpace
 		}
 
 		glColor3f(0, 0, 1);
+	}
 
+	ZSPACE_INLINE void zUtilsDisplay::drawFaceIds(int numFaces, zVector *pos, zColor &col)
+	{
+		glColor3f(col.r, col.g, col.b);
+		for (int i = 0; i < numFaces; i++)
+		{
+			drawTextAtPoint(to_string(i), pos[i]);
+		}
 	}
 
 	//---- TRANSFORM
 	
 	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransformationMatrix &transform)
 	{
-
 		double* val = transform.asRawMatrix();
 		double* pivot = transform.getRawPivot();
-
 
 		glLineWidth(2.0);
 
@@ -268,12 +271,10 @@ namespace zSpace
 
 		glLineWidth(1.0);
 		glColor3f(0, 0, 0);
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransform &transform)
 	{
-
 		double* val = transform.data();
 
 		glLineWidth(2.0);
@@ -299,7 +300,6 @@ namespace zSpace
 
 		glLineWidth(1.0);
 		glColor3f(0, 0, 0);
-
 	}
 
 	//---- VBO DISPLAY
@@ -328,8 +328,6 @@ namespace zSpace
 		glDisableClientState(GL_NORMAL_ARRAY);
 
 		if (colors) glDisableClientState(GL_COLOR_ARRAY);
-
-
 	}
 
 	ZSPACE_INLINE void zUtilsDisplay::drawLinesFromBuffer(bool colors)
@@ -412,5 +410,4 @@ namespace zSpace
 
 		if (colors) glDisableClientState(GL_COLOR_ARRAY);
 	}
-
 }

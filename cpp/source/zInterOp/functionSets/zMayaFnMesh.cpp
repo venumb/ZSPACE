@@ -44,9 +44,8 @@ namespace zSpace
 
 		// add crease data
 		if (type == zJSON)
-		{
-			//getCreaseDataJSON(path);
-		}
+			getCreaseDataJSON(path);
+	
 
 		
 	}
@@ -57,9 +56,8 @@ namespace zSpace
 
 		// add crease data
 		if (type == zJSON)
-		{
-			//setCreaseDataJSON(path);
-		}
+			setCreaseDataJSON(path);
+		
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::clear()
@@ -73,7 +71,7 @@ namespace zSpace
 	ZSPACE_INLINE void zMayaFnMesh::fromMayaMesh(MObject &maya_meshObj)
 	{
 		MFnMesh maya_fnMesh(maya_meshObj);
-
+		
 		int numVertices = maya_fnMesh.numVertices();
 		//printf("\n numVertices:%i", numVertices);
 
@@ -111,6 +109,23 @@ namespace zSpace
 		vList.get(&polyConnects[0]);
 			   		
 		create(pos, polyCounts, polyConnects);
+
+		MUintArray  edgeIds;
+		MDoubleArray creaseData;
+		maya_fnMesh.getCreaseEdges(edgeIds, creaseData);
+
+		creaseEdgeData.clear();
+		creaseEdgeData.assign(creaseData.length(), 0.0);
+
+		creaseEdgeIndex.clear();
+		creaseEdgeIndex.assign(edgeIds.length(), -1);
+
+		for (int i = 0; i < edgeIds.length(); i++)
+		{
+			creaseEdgeData[i] = creaseData[i];
+			creaseEdgeIndex[i] = edgeIds[i];
+		}
+
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::fromMayaMesh(MDagPath & maya_dagpath)
@@ -152,6 +167,24 @@ namespace zSpace
 		}
 		
 		create(pos, polyCounts, polyConnects);
+
+		MUintArray  edgeIds;
+		MDoubleArray creaseData;
+		maya_fnMesh.getCreaseEdges(edgeIds, creaseData);
+
+		creaseEdgeData.clear();
+		creaseEdgeData.assign(creaseData.length(), 0.0);
+
+		creaseEdgeIndex.clear();
+		creaseEdgeIndex.assign(edgeIds.length(), -1);
+
+		for (int i = 0; i < edgeIds.length(); i++)
+		{
+			creaseEdgeData[i] = creaseData[i];
+			creaseEdgeIndex[i] = edgeIds[i];
+		}
+
+		
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::toMayaMesh(MObject &maya_meshObj)
@@ -243,15 +276,27 @@ namespace zSpace
 
 	ZSPACE_INLINE void zMayaFnMesh::setCreaseDataJSON(string outfilename)
 	{
-
 		// remove inactive elements
 		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
 		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
 		if (numPolygons() != meshObj->mesh.faces.size())garbageCollection(zFaceData);
 
+		// read existing data in the json 
+		json j;
+
+		ifstream in_myfile;
+		in_myfile.open(outfilename.c_str());
+
+		int lineCnt = 0;
+
+		if (in_myfile.fail())		
+			cout << " error in opening file  " << outfilename.c_str() << endl;
+		
+		in_myfile >> j;
+		in_myfile.close();
+
 		// CREATE JSON FILE
 		zUtilsJsonHE meshJSON;
-		json j;
 
 		// Vertices
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
@@ -266,7 +311,7 @@ namespace zSpace
 
 		for (int i =0; i< creaseEdgeIndex.size(); i++)
 		{
-			meshJSON.edgeCreaseData[creaseEdgeIndex[i]] = creaseEdgeData[i];			
+			meshJSON.edgeCreaseData[creaseEdgeIndex[i]] = creaseEdgeData[i];	
 		}
 
 		// Json file 

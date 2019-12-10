@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 #ifndef ZSPACE_OBJ_PARTICLE_H
@@ -46,7 +46,7 @@ namespace zSpace
 	private:
 
 		/*! \brief boolean for displaying the particle forces */
-		bool showForces;
+		bool displayForces;
 
 		/*! \brief force display scale */
 		double forceScale;
@@ -82,13 +82,13 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
+		/*! \brief This method sets display vertices, edges and face booleans.
 		*
-		*	\param		[in]	_showForces					- input show forces booelan.
+		*	\param		[in]	_displayForces					- input display forces booelan.
 		*	\param		[in]	_forceScale					- input scale of forces.
 		*	\since version 0.0.2
 		*/
-		void setShowElements(bool _showForces, double _forceScale);
+		void setDisplayElements(bool _displayForces, double _forceScale);
 
 		//--------------------------
 		//---- OVERRIDE METHODS
@@ -96,8 +96,9 @@ namespace zSpace
 
 		void draw() override;
 
+	protected:
 		//--------------------------
-		//---- DISPLAY METHODS
+		//---- PROTECTED DISPLAY METHODS
 		//--------------------------
 
 		/*! \brief This method displays the zMesh.

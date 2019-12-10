@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 #ifndef ZSPACE_OBJ_MESH_H
@@ -43,22 +43,22 @@ namespace zSpace
 	{
 	protected:
 		/*! \brief boolean for displaying the mesh vertices */
-		bool showVertices;
+		bool displayVertices;
 
 		/*! \brief boolean for displaying the mesh edges */
-		bool showEdges;
+		bool displayEdges;
 
 		/*! \brief boolean for displaying the mesh faces */
-		bool showFaces;
+		bool displayFaces;
 
 		/*! \brief boolean for displaying the mesh dihedral edges */
-		bool showDihedralEdges;
+		bool displayDihedralEdges;
 
 		/*! \brief boolean for displaying the mesh vertex normals */
-		bool showVertexNormals;
+		bool displayVertexNormals;
 
 		/*! \brief boolean for displaying the mesh face normals */
-		bool showFaceNormals;
+		bool displayFaceNormals;
 
 		/*! \brief container for storing dihderal angles */
 		zDoubleArray edge_dihedralAngles;
@@ -72,6 +72,13 @@ namespace zSpace
 		/*! \brief normals display scale */
 		double normalScale;
 
+		/*! \brief boolean for displaying the mesh ids */
+		bool displayVertexIds, displayEdgeIds, displayFaceIds;
+
+		/*! \brief container for storing edge centers */
+		zPointArray edgeCenters;
+
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
@@ -79,8 +86,6 @@ namespace zSpace
 
 		/*! \brief mesh */
 		zMesh mesh;
-
-	
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -106,61 +111,89 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
+		/*! \brief This method sets display vertices, edges and face booleans.
 		*
-		*	\param		[in]	_showVerts				- input show vertices booelan.
-		*	\param		[in]	_showEdges				- input show edges booelan.
-		*	\param		[in]	_showFaces				- input show faces booelan.
-		*	\since version 0.0.2
+		*	\param		[in]	_displayVerts				- input display vertices booelan.
+		*	\param		[in]	_displayEdges				- input display edges booelan.
+		*	\param		[in]	_displayFaces				- input display faces booelan.
+		*	\since version 0.0.4
 		*/
-		void setShowElements(bool _showVerts, bool _showEdges, bool _showFaces);
+		void setDisplayElements(bool _displayVerts, bool _displayEdges, bool _displayFaces);
 
-		/*! \brief This method sets show vertices boolean.
+		/*! \brief This method sets display vertexIds, edgeIds and faceIds booleans.
 		*
-		*	\param		[in]	_showVerts				- input show vertices booelan.
-		*	\since version 0.0.2
+		*	\param		[in]	_displayVertIds				- input display vertexIds booelan.
+		*	\param		[in]	_displayEdgeIds				- input display edgeIds booelan.
+		*	\param		[in]	_displayFaceIds				- input display faceIds booelan.
+		*	\since version 0.0.4
 		*/
-		void setShowVertices(bool _showVerts);
+		void setDisplayElementIds(bool _displayVertIds, bool _displayEdgeIds, bool _displayFaceIds);
 
-		/*! \brief This method sets show edges boolean.
+		/*! \brief This method sets display vertices boolean.
 		*
-		*	\param		[in]	_showEdges				- input show edges booelan.
-		*	\since version 0.0.2
+		*	\param		[in]	_displayVerts				- input display vertices booelan.
+		*	\since version 0.0.4
 		*/
-		void setShowEdges(bool _showEdges);
+		void setDisplayVertices(bool _displayVerts);
 
-		/*! \brief This method sets show faces boolean.
+		/*! \brief This method sets display edges boolean.
 		*
-		*	\param		[in]	_showFaces				- input show faces booelan.
-		*	\since version 0.0.2
+		*	\param		[in]	_displayEdges				- input display edges booelan.
+		*	\since version 0.0.4
 		*/
-		void setShowFaces(bool _showFaces);
+		void setDisplayEdges(bool _displayEdges);
 
-		/*! \brief This method sets show dihedral edges boolean.
+		/*! \brief This method sets display faces boolean.
 		*
-		*	\param		[in]	_showDihedralEdges			- input show faces booelan.
-		*	\param		[in]	_angles						- input container of edge dihedral angles.
+		*	\param		[in]	_displayFaces				- input display faces booelan.
+		*	\since version 0.0.4
+		*/
+		void setDisplayFaces(bool _displayFaces);
+
+		/*! \brief This method sets display dihedral edges boolean.
+		*
+		*	\param		[in]	_displayDihedralEdges			- input display faces booelan.
 		*	\param		[in]	_threshold					- input angle threshold.
-		*	\since version 0.0.2
+		*	\since version 0.0.4
 		*/
-		void setShowDihedralEdges(bool _showDihedralEdges, zDoubleArray &_angles, double _threshold);
+		void setDisplayDihedralEdges(bool _displayDihedralEdges, double _threshold); // compute in seperate method
 
-		/*! \brief This method sets show vertex normals boolean.
+		/*! \brief This method sets display vertex normals boolean.
 		*
-		*	\param		[in]	_showVertexNormal			- input show vertex normals booelan.
+		*	\param		[in]	_displayVertexNormal			- input display vertex normals booelan.
 		*	\param		[in]	_normalScale				- input scale of normals.
-		*	\since version 0.0.2
+		*	\since version 0.0.4
 		*/
-		void setShowVertexNormals(bool _showVertexNormal, double _normalScale);
+		void setDisplayVertexNormals(bool _displayVertexNormal, double _normalScale);
 
-		/*! \brief This method sets show face normals boolean.
+		/*! \brief This method sets display face normals boolean.
 		*
-		*	\param		[in]	_showFaceNormal				- input show face normals booelan.
-		*	\param		[in]	_faceCenters				- input container of face centers.
+		*	\param		[in]	_displayFaceNormal				- input display face normals booelan.
 		*	\param		[in]	_normalScale				- input scale of normals.
-		*	\since version 0.0.2
+		*	\since version 0.0.4
 		*/
-		void setShowFaceNormals(bool _showFaceNormal, vector<zVector> &_faceCenters, double _normalScale);
+		void setDisplayFaceNormals(bool _displayFaceNormal, double _normalScale);
+
+		/*! \brief This method sets face center container.
+		*
+		*	\param		[in]	_faceCenters				- input face centers container.
+		*	\since version 0.0.4
+		*/
+		void setFaceCenters(zPointArray &_faceCenters);
+
+		/*! \brief This method sets edge centers container.
+		*
+		*	\param		[in]	_edgeCenters				- input edge center conatiner.
+		*	\since version 0.0.4
+		*/
+		void setEdgeCenters(zPointArray &_edgeCenters);
+
+		/*! \brief This method sets dihedral angle container.
+		*
+		*	\param		[in]	_dihedralAngles				- input dihedral angle container.
+		*	\since version 0.0.4
+		*/
+		void setDihedralAngles(zDoubleArray &_edge_dihedralAngles);
 
 		//--------------------------
 		//---- GET METHODS
@@ -198,38 +231,9 @@ namespace zSpace
 		//---- OVERRIDE METHODS
 		//--------------------------
 
-		void draw() override;
-
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
-		//--------------------------
-		//---- DISPLAY METHODS
-		//--------------------------
-
-		/*! \brief This method displays the zMesh.
-		*
-		*	\since version 0.0.2
-		*/
-		void drawMesh();
-
-		/*! \brief This method displays the dihedral edges of a mesh above the input angle threshold.
-		*
-		*	\since version 0.0.2
-		*/
-		void drawMesh_DihedralEdges();
-
-		/*! \brief This method displays the vertex normals of a mesh.
-		*
-		*	\param		[in]	dispScale				- display scale of the normal.
-		*	\since version 0.0.2
-		*/
-		void drawMesh_VertexNormals();
-
-		/*! \brief This method displays the face normals of a mesh.
-		*
-		*	\since version 0.0.2
-		*/
-		void drawMesh_FaceNormals();
+		void draw() override;
 
 		//--------------------------
 		//---- DISPLAY BUFFER METHODS
@@ -244,6 +248,35 @@ namespace zSpace
 		*/
 		void appendToBuffer(zDoubleArray edge_dihedralAngles = zDoubleArray(), bool DihedralEdges = false, double angleThreshold = 45);
 
+		protected:
+		//--------------------------
+		//---- PROTECTED DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the zMesh.
+		*
+		*	\since version 0.0.4
+		*/
+		void drawMesh();
+
+		/*! \brief This method displays the dihedral edges of a mesh above the input angle threshold.
+		*
+		*	\since version 0.0.4
+		*/
+		void drawMesh_DihedralEdges();
+
+		/*! \brief This method displays the vertex normals of a mesh.
+		*
+		*	\param		[in]	dispScale				- display scale of the normal.
+		*	\since version 0.0.4
+		*/
+		void drawMesh_VertexNormals();
+
+		/*! \brief This method displays the face normals of a mesh.
+		*
+		*	\since version 0.0.4
+		*/
+		void drawMesh_FaceNormals();
 	};
 
 

@@ -56,6 +56,9 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
+		/*!	\brief display Object  */
+		zUtilsDisplay display;
+
 	public:
 
 		//--------------------------
@@ -135,10 +138,11 @@ namespace zSpace
 		/*! \brief This method creates a graph from a mesh.
 		*
 		*	\param		[in]	graphObj			- input mesh object.	
-		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
-		*	\since version 0.0.2
+		*	\param		[in]	staticGraph			- makes the graph fixed. Computes the static edge vertex positions if true.
+		*	\param		[in]	excludeBoundary		- excludes the boundary edge of the input mesh.
+		*	\since version 0.0.4
 		*/
-		void createFromMesh(zObjMesh &graphObj, bool staticGraph = false);
+		void createFromMesh(zObjMesh &meshObj, bool excludeBoundary = false, bool staticGraph = false);
 
 		//--------------------------
 		//--- TOPOLOGY QUERY METHODS 

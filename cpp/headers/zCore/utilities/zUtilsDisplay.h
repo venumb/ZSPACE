@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 #ifndef ZSPACE_UTILS_DISPLAY_H
@@ -17,7 +17,7 @@
 
 
 #include<headers/zCore/display/zObjBuffer.h>
-#include <depends/freeglut/freeglut_std.h>
+//#include <depends/freeglut/freeglut_std.h>
 
 namespace zSpace
 {
@@ -77,13 +77,16 @@ namespace zSpace
 		*/
 		~zUtilsDisplay();
 
-
-		void drawTextAtPoint(string s, zPoint &pt);
-		
-
 		//--------------------------
 		//---- IMMEDIATE MODE DISPLAY
 		//--------------------------
+
+		/*! \brief This method draws a point.
+		*	\param		 [in]		s			- string to be displayed.
+		*	\param		 [in]		pt			- location of text.
+		*	\since version 0.0.4
+		*/
+		void drawTextAtPoint(string s, zPoint &pt);
 
 		/*! \brief This method draws a point.
 		*	\param		 [in]		pos			- position of the point to be drawn.
@@ -94,7 +97,7 @@ namespace zSpace
 		void drawPoint(zPoint &pos, const zColor &col = zColor(1, 0, 0, 1), const double &wt = 1);
 
 		/*! \brief This method draws vertices of a graph or mesh.
-		*	\param		 [in]		pos			- container of positions  to be drawn.
+		*	\param		 [in]		pos			- container of positions to be drawn.
 		*	\param		 [in]		col			- container of colors.
 		*	\param		 [in]		wt			- container of weights.
 		*	\param		 [in]		size		- size of container.
@@ -153,12 +156,20 @@ namespace zSpace
 		
 		/*! \brief This method draws vertices of a graph or mesh.
 		*	\param		 [in]		vHandles	- vertex handle container.
-		*	\param		 [in]		pos			- container of positions  to be drawn.
+		*	\param		 [in]		pos			- container of positions to be drawn.
 		*	\param		 [in]		col			- container of colors.
 		*	\param		 [in]		wt			- container of weights.
 		*	\since version 0.0.1
 		*/
 		void drawVertices(vector<zVertexHandle> &vHandles, zVector *pos, zColor *col, double *wt);
+
+		/*! \brief This method draws vertexIds of a graph or mesh.
+		*	\param		 [in]		numVerts		- number of vertices.
+		*	\param		 [in]		*pos			- container of positions to be drawn.
+		*	\param		 [in]		&col			- container of colors.
+		*	\since version 0.0.4
+		*/
+		void drawVertexIds(int numVerts, zVector *pos, zColor &col);
 
 		/*! \brief This method draws edge of a graph or mesh.
 		*	\param		 [in]		eHandles	- edge handle container.
@@ -170,6 +181,14 @@ namespace zSpace
 		*/
 		void drawEdges(vector<zEdgeHandle> &eHandles, vector<zIntArray> &edgeVerts, zVector *pos, zColor *col, double *wt);
 
+		/*! \brief This method draws edgeIds of a graph or mesh.
+		*	\param		 [in]		numEdges		- number of edges.
+		*	\param		 [in]		*pos			- container of positions to be drawn.
+		*	\param		 [in]		&col			- container of colors.
+		*	\since version 0.0.4
+		*/
+		void drawEdgeIds(int numEdges, zPoint *pos, zColor &col);
+
 		/*! \brief This method draws polygons of a mesh.
 		*	\param		 [in]		eHandles	- edge handle container.
 		*	\param		 [in]		faceVerts	- container of vertices per polygon to be drawn.
@@ -178,6 +197,14 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		void drawFaces(vector<zFaceHandle> &fHandles, vector<zIntArray> &faceVerts, zVector *pos, zColor *col);
+
+		/*! \brief This method draws FaceIds of a graph or mesh.
+		*	\param		 [in]		numFaces		- number of faces.
+		*	\param		 [in]		*pos			- container of positions to be drawn.
+		*	\param		 [in]		&col			- container of colors.
+		*	\since version 0.0.4
+		*/
+		void drawFaceIds(int numFaces, zVector *pos, zColor &col);
 
 		//--------------------------
 		//---- TRANSFORM
@@ -226,10 +253,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		void drawQuadsFromBuffer(bool colors = true);
-
-	};
-
-	
+	};	
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)

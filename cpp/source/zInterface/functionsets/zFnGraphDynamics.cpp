@@ -15,7 +15,6 @@
 
 namespace zSpace
 {
-
 	//---- CONSTRUCTOR
 
 	ZSPACE_INLINE zFnGraphDynamics::zFnGraphDynamics()
@@ -196,5 +195,4 @@ namespace zSpace
 
 		graphObj->graph.setStaticEdgeVertices(edgeVerts);
 	}
-
 }

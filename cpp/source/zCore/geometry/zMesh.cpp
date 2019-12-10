@@ -40,7 +40,7 @@ namespace zSpace
 
 		int num_edges = computeNumEdges(polyCounts, polyConnects);
 
-    vertices.reserve(_positions.size() /*+ 1*/);
+		vertices.reserve(_positions.size() /*+ 1*/);
 		faces.reserve(polyCounts.size() /*+ 1*/);
 		edges.reserve(num_edges/* + 1*/);
 		halfEdges.reserve(num_edges * 2 /*+ 2*/);

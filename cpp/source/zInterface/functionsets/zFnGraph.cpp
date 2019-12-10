@@ -15,7 +15,6 @@
 
 namespace zSpace
 {
-
 	//---- CONSTRUCTOR
 
 	ZSPACE_INLINE zFnGraph::zFnGraph()
@@ -32,7 +31,6 @@ namespace zSpace
 
 		planarGraph = _planarGraph;
 		graphNormal = _graphNormal;
-
 	}
 
 	//---- DESTRUCTOR
@@ -107,17 +105,17 @@ namespace zSpace
 		if (staticGraph) setStaticContainers();
 	}
 
-	ZSPACE_INLINE void zFnGraph::createFromMesh(zObjMesh &graphObj, bool staticGraph)
+	ZSPACE_INLINE void zFnGraph::createFromMesh(zObjMesh &meshObj, bool excludeBoundary, bool staticGraph)
 	{
-		zFnMesh fnMesh(graphObj);
+		zFnMesh fnMesh(meshObj);
 
 		vector<int>edgeConnects;
 		vector<zVector> vertexPositions;
 
-		fnMesh.getEdgeData(edgeConnects);
-		fnMesh.getVertexPositions(vertexPositions);
+		fnMesh.getVertexPositions(vertexPositions, excludeBoundary);
+		fnMesh.getEdgeData(edgeConnects, excludeBoundary);
 
-		create(vertexPositions, edgeConnects);
+		create(vertexPositions, edgeConnects, staticGraph);
 
 		if (staticGraph) setStaticContainers();
 	}
@@ -736,7 +734,7 @@ namespace zSpace
 		zItGraphVertex v(*graphObj);
 		int maxScore = 0;
 
-		printf("\n cen:");
+		//printf("\n cen:");
 		for (auto id : c)
 		{
 			zItGraphVertex v1(*graphObj, id);
@@ -753,7 +751,7 @@ namespace zSpace
 				v = v1;
 			}
 
-			printf("  %i ", v1.getId());
+			//printf("  %i ", v1.getId());
 		}
 
 		
@@ -1158,15 +1156,12 @@ namespace zSpace
 		{
 			cout << " error in opening file  " << infilename.c_str() << endl;
 			return false;
-
 		}
 
 		while (!myfile.eof())
 		{
 			string str;
 			getline(myfile, str);
-
-
 
 			vector<string> perlineData = graphObj->graph.coreUtils.splitString(str, " ");
 
@@ -1204,16 +1199,14 @@ namespace zSpace
 
 								graphObj->graph.create(positions, edgeConnects, graphNormal, sortRef);
 							}
-							printf("\n graph: %i %i ", numVertices(), numEdges());
-
+							printf("\n graph: %i %i", numVertices(), numEdges());
 						}
 					}
+
 					hashCounter++;
 
 					positions.clear();
 					edgeConnects.clear();
-
-
 				}
 
 				// vertex
@@ -1238,12 +1231,8 @@ namespace zSpace
 					}
 
 				}
-
-
-
 			}
 		}
-
 
 		return true;
 	}
@@ -1274,23 +1263,23 @@ namespace zSpace
 		graphJSON.vertices.clear();
 		graphJSON.vertices = (j["Vertices"].get<vector<int>>());
 
-		//Edges
+		// Edges
 		graphJSON.halfedges.clear();
 		graphJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
 
 		graphObj->graph.edges.clear();
 
-		// update  graph
-
+		// update graph
 		graphObj->graph.clear();
 
 		graphObj->graph.vertices.assign(graphJSON.vertices.size(), zVertex());
 		graphObj->graph.halfEdges.assign(graphJSON.halfedges.size(), zHalfEdge());
-		graphObj->graph.edges.assign(floor(graphJSON.halfedges.size()*0.5), zEdge());
+		graphObj->graph.edges.assign(floor(graphJSON.halfedges.size() * 0.5), zEdge());
 
 		graphObj->graph.vHandles.assign(graphJSON.vertices.size(), zVertexHandle());
-		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size()*0.5), zEdgeHandle());
+		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size() * 0.5), zEdgeHandle());
 		graphObj->graph.heHandles.assign(graphJSON.halfedges.size(), zHalfEdgeHandle());
+
 
 		int n_v = 0;
 		for (zItGraphVertex v(*graphObj); !v.end(); v++)
@@ -1304,9 +1293,6 @@ namespace zSpace
 
 				graphObj->graph.vHandles[n_v].he = graphJSON.vertices[n_v];
 			}
-
-
-
 			n_v++;
 		}
 		graphObj->graph.setNumVertices(n_v);
@@ -1343,8 +1329,6 @@ namespace zSpace
 
 				graphObj->graph.heHandles[n_he].v = graphJSON.halfedges[n_he][2];
 			}
-
-
 
 			// symmetry half edges
 			if (n_he % 2 == 0)

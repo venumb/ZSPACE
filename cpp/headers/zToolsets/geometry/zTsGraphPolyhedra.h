@@ -17,6 +17,7 @@
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
+#include <headers/zInterface/model/zModel.h>
 
 namespace zSpace
 {
@@ -47,6 +48,12 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief pointer to graph Object  */
+		zObjGraph *graphObj;
+
+		/*!	\brief DISCRIPTION  */
+		zModel *model;
+
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
@@ -54,55 +61,34 @@ namespace zSpace
 		zUtilsDisplay display;
 
 		/*!	\brief DISCRIPTION  */
-		vector<zIntArray> graphEdge_DualCellFace;
+		zItGraphVertexArray sortedGraphVertices;
+
+		/*!	\brief DISCRIPTION  */
+		zObjMeshArray conHullCol;
+
+		/*!	\brief DISCRIPTION  */
+		zObjMeshArray dualMeshCol;
+
+		/*!	\brief DISCRIPTION  */
+		vector<zIntPairArray> c_graphEdge_dualCellFace;
+
+		/*!	\brief DISCRIPTION  */
+		vector<pair<zPoint, zPoint>> dualConnectivityLines;
+
+		/*!	\brief DISCRIPTION  */
+		zIntArray nodeId;
 
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to graph Object  */
-		zObjGraph *graphObj;
-
 		/*!	\brief form function set  */
 		zFnGraph fnGraph;
 
-		/*!	\brief DISCRIPTION  */
-		zObjMeshArray conHullsCol;
+		// TMP!!
+		int snapSteps = 0;
 
-		/*!	\brief DISCRIPTION  */
-		zObjMeshArray graphMeshCol;
-
-		/*!	\brief DISCRIPTION  */
-		zObjMeshArray dualMeshCol;
-
-		/*!	\brief DISCRIPTION  */
-		zObjGraphArray dualGraphCol;
-
-		/*!	\brief DISCRIPTION  */
-		zIntArray internalVertexIds;
-
-		/*!	\brief DISCRIPTION  */
-		int firstInternalVertexId;
-
-		/*!	\brief DISCRIPTION  */
-		int n_nodes;
-
-		/*!	\brief DISCRIPTION  */
-		zPointArray cellCenters;
-
-		bool drawDualMeshFaces;
-
-		vector<zPointArray> dualFaceCenter;
-
-		//TMP
-		int snap = 0;
-		zVectorArray tmp1;
-		zVectorArray tmp2;
-
-
-
-	
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
@@ -113,14 +99,12 @@ namespace zSpace
 		*/
 		zTsGraphPolyhedra();
 
-
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_graphObj			- input graph object.
 		*	\since version 0.0.4
 		*/
-		zTsGraphPolyhedra(zObjGraph &_graphObj);
-
+		zTsGraphPolyhedra(zObjGraph &_graphObj, zModel &_model);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -132,7 +116,6 @@ namespace zSpace
 		*/
 		~zTsGraphPolyhedra();
 
-
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
@@ -141,8 +124,19 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void create();
+		void createGraphFromFile(string &_path, zFileTpye _type, bool _staticGeom = false);
 
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void createGraphFromMesh(zObjMesh &_inMeshObj, zVector &_verticalForce);
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void create();
 
 		//--------------------------
 		//---- DRAW METHODS
@@ -152,31 +146,21 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void drawGraph(bool drawIds = false);
+		void setDisplayGraphElements(bool _drawGraph, bool _drawVertIds = false, bool _drawEdgeIds = false);
 
 		/*! \brief DISCRIPTION
 		*
 		*	\since version 0.0.4
 		*/
-		void drawConvexHulls();
-
-
-		/*! \brief DISCRIPTION
-		*
-		*	\since version 0.0.4
-		*/
-		void drawGraphMeshes();
-
+		void setDisplayHullElements(bool _drawConvexHulls, bool _drawFaces = true, bool _drawVertIds = false, bool _drawEdgeIds = false, bool _drawFaceIds = false);
 
 		/*! \brief DISCRIPTION
 		*
 		*	\since version 0.0.4
 		*/
-		void drawDual(bool drawDualMeshFaces = true, bool drawIds = false);
-
+		void setDisplayPolyhedraElements(bool _drawDualMesh, bool _drawFaces = true, bool _drawVertIds = false, bool _drawEdgeIds = false, bool _drawFaceIds = false);
 
 	private:
-
 		//--------------------------
 		//---- PRIVATE CREATE METHODS
 		//--------------------------
@@ -185,30 +169,8 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void createDualMesh(zPointArray &positions, int numEdges, zSparseMatrix &C_ev, zSparseMatrix &C_fc, zObjMesh &dualMesh);
-
-
-		/*! \brief DISCRIPTION
-		*
-		*	\since version 0.0.4
-		*/
-		void createDualGraph(zPointArray &positions, int numEdges, zSparseMatrix &C_fc, zObjGraph &dualGraph);
-
-
-		/*! \brief DISCRIPTION
-		*
-		*	\since version 0.0.4
-		*/
-		void getCellCenter(zItGraphVertex &graphVertIt); //not implemented yet
-
-
-		/*! \brief DISCRIPTION
-		*
-		*	\since version 0.0.4
-		*/
-		void getContainedFace(); // not impolemented yet
-
-
+		void createDualMesh(zItGraphVertex &_graphVertex);
+		   		 
 		//--------------------------
 		//---- PRIVATE UTILITY METHODS
 		//--------------------------
@@ -217,28 +179,25 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void getInternalVertex();
-
+		void sortGraphVertices(zItGraphVertexArray &_graphVertices);
 
 		/*! \brief DISCRIPTION
 		*
 		*	\since version 0.0.4
 		*/
-		void cyclicSort(zIntArray &unsorted, zPoint &cen,zPointArray &pts, zVector refDir, zVector normal);
+		void cleanConvexHull(zItGraphVertex &_vIt, int _maxPolygons, zPointArray &_hullPts);
+
+		/*! \brief DISCRIPTION
+		*
+		*	\since version 0.0.4
+		*/
+		void colorDualFaceConnectivity();
 
 		/*! \brief DISCRIPTION
 		*
 		*	\since version 0.0.4
 		*/
 		void snapDualCells(zItGraphVertexArray &bsf, zItGraphVertexArray &gCenters);
-
-		/*! \brief DISCRIPTION
-		*
-		*	\since version 0.0.4
-		*/
-		void drawDualFaceConnectivity();
-
-
 	};
 }
 

@@ -195,7 +195,6 @@ namespace zSpace
 
 			for (auto currentV : currentVertex)
 			{
-
 				if (vertsVisited[currentV.getId()]) continue;
 
 				zItGraphVertexArray cVerts;
@@ -203,22 +202,35 @@ namespace zSpace
 
 				for (auto v : cVerts)
 				{
+					bool checkRepeat = false;
+
 					if (!vertsVisited[v.getId()])
-					{
-						bool checkRepeat = false;
+					{						
 						for (auto tmpV : temp)
 						{
-							if (tmpV == v)
+							if (tmpV.getId() == v.getId())
 							{
 								checkRepeat = true;
 								break;
 							}
 						}
 
-						if (!checkRepeat) temp.push_back(v);
-					}
-				}
+						if (!checkRepeat)
+						{
+							// check for repeat in bsf
+							for (auto tmpV : bsf)
+							{
+								if (tmpV.getId() == v.getId())
+								{
+									checkRepeat = true;
+									break;
+								}
+							}
+						}
 
+						if (!checkRepeat) temp.push_back(v);				
+					}				
+				}
 				vertsVisited[currentV.getId()] = true;
 				verticesVisitedCounter++;
 			}
@@ -228,11 +240,8 @@ namespace zSpace
 
 			currentVertex = temp;
 
-			for (auto v : temp)
-			{
-				bsf.push_back(v);
-			}
-
+			for (auto v : temp) bsf.push_back(v);
+			
 		} while (verticesVisitedCounter != graphObj->graph.n_v && !exit);
 	}
 

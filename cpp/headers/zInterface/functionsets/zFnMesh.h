@@ -55,6 +55,8 @@ namespace zSpace
 		/*!	\brief pointer to a mesh object  */
 		zObjMesh *meshObj;
 
+		/*!	\brief display Object  */
+		zUtilsDisplay display;
 	public:
 		
 		//--------------------------
@@ -245,6 +247,14 @@ namespace zSpace
 		*/
 		double getEdgeCotangentWeight(zItMeshHalfEdge &he);
 		
+		/*!	\brief This method returns a boolean if the input point in inside the convex hull.
+		*
+		*	\param		[in]	pt		- point to check for.
+		*	\return				bool	- true if point is inside the convex hull.
+		*	\since version 0.0.4
+		*/
+		bool checkPointInConvexHull(zPoint &pt);
+
 		//--------------------------
 		//--- COMPUTE METHODS 
 		//--------------------------				
@@ -422,10 +432,11 @@ namespace zSpace
 
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
-		*	\param		[out]	pos				- positions  contatiner.
-		*	\since version 0.0.2
+		*	\param		[out]	pos						- positions  contatiner.
+		*	\param		[in]	exludeCornerVertices	- boolean to exclude corner vertices. Meaning vertices with valence 2.
+		*	\since version 0.0.4
 		*/
-		void getVertexPositions(zPointArray& pos);
+		void getVertexPositions(zPointArray& pos, bool exludeCornerVertices = false);
 
 		/*! \brief This method gets pointer to the internal vertex positions container.
 		*
@@ -504,7 +515,7 @@ namespace zSpace
 		*/
 		zColor* getRawFaceColors();
 
-		/*! \brief This method computes the center the mesh.
+		/*! \brief This method computes the center of the mesh.
 		*
 		*	\return		zPoint					- center .
 		*	\since version 0.0.2
@@ -606,8 +617,8 @@ namespace zSpace
 
 		/*! \brief This method computes the lengths of all the  edges of a the mesh.
 		*
-		*	\param		[out]	EdgeLengths		- vector of edge lengths.
-		*	\return				double				- total edge lengths.
+		*	\param		[out]	edgeLengths		- vector of edge lengths.
+		*	\return				double			- total edge lengths.
 		*	\since version 0.0.2
 		*/
 		double getEdgeLengths(zDoubleArray &edgeLengths);
@@ -623,7 +634,7 @@ namespace zSpace
 		*/
 		double getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zDoubleArray &vertexAreas);
 
-		/*! \brief This method computes the area of every face of the mesh. It works only for if the faces are planar.
+		/*! \brief This method computes the area of every face of the mesh. It works only if the faces are planar.
 		*
 		*	\details	Based on http://geomalgorithms.com/a01-_area.html.
 		*	\param		[out]	faceAreas		- vector of vertex Areas.
@@ -638,14 +649,15 @@ namespace zSpace
 		*	\param		[out]	polyCounts		- stores number of vertices per polygon.
 		*	\since version 0.0.2
 		*/
-		void getPolygonData(zIntArray(&polyConnects), zIntArray(&polyCounts));
+		void getPolygonData(zIntArray &polyConnects, zIntArray &polyCounts);
 
-		/*! \brief This method stores mesh edge connectivity information in the input containers
+		/*! \brief This method stores mesh edge connectivity information in the input containers.
 		*
-		*	\param		[out]	edgeConnects	- stores list of esdge connection with vertex ids for each edge.
-		*	\since version 0.0.2
+		*	\param		[out]	edgeConnects		- stores list of esdge connection with vertex ids for each edge.
+		*	\param		[in]	excludeBoundary		- excludes the boundary edge of the input mesh.
+		*	\since version 0.0.4
 		*/
-		void getEdgeData(zIntArray &edgeConnects);
+		void getEdgeData(zIntArray &edgeConnects, bool excludeBoundary = false);
 
 		/*! \brief This method creates a duplicate of the mesh.
 		*
@@ -725,7 +737,7 @@ namespace zSpace
 		*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 		*	\since version 0.0.2
 		*/
-		void deleteEdge( int index, bool removeInactiveElements = true);
+		void deleteEdge(zItMeshEdge &edge, bool removeInactiveElements = true);
 
 		//--------------------------
 		//---- TOPOLOGY MODIFIER METHODS

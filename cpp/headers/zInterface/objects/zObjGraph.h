@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 #ifndef ZSPACE_OBJ_GRAPH_H
@@ -46,10 +46,19 @@ namespace zSpace
 	{
 	private:
 		/*! \brief boolean for displaying the vertices */
-		bool showVertices;
+		bool displayVertices;
 
 		/*! \brief boolean for displaying the edges */
-		bool showEdges;
+		bool displayEdges;
+
+		/*! \brief boolean for displaying the edges */
+		bool displayVertexIds;
+
+		/*! \brief boolean for displaying the edges */
+		bool displayEdgeIds;
+
+		/*! \brief container for storing edge centers */
+		zPointArray edgeCenters;
 
 	public:
 		//--------------------------
@@ -58,7 +67,6 @@ namespace zSpace
 
 		/*! \brief graph */
 		zGraph graph;
-
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -84,27 +92,43 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices, edges and face booleans.
+		/*! \brief This method sets display vertices, edges and face booleans.
 		*
-		*	\param		[in]	_showVerts				- input show vertices booelan.
-		*	\param		[in]	_showEdges				- input show edges booelan.
+		*	\param		[in]	_showVerts				- input display vertices booelan.
+		*	\param		[in]	_showEdges				- input display edges booelan.
 		*	\since version 0.0.2
 		*/
-		void setShowElements(bool _showVerts, bool _showEdges);
+		void setDisplayElements(bool _displayVertices, bool _displayEdges);
 
-		/*! \brief This method sets show vertices boolean.
+		/*! \brief This method sets display vertices, edges and face booleans.
 		*
-		*	\param		[in]	_showVerts				- input show vertices booelan.
-		*	\since version 0.0.2
+		*	\param		[in]	_showVertIds				- input display vertex Ids booelan.
+		*	\param		[in]	_showEdgeIds				- input display edge Ids booelan.
+		*	\since version 0.0.4
 		*/
-		void setShowVertices(bool _showVerts);
+		void setDisplayElementIds(bool _displayVertexIds, bool _displayEdgeIds);
 
-		/*! \brief This method sets show edges boolean.
+		/*! \brief This method sets display vertices boolean.
 		*
-		*	\param		[in]	_showEdges				- input show edges booelan.
+		*	\param		[in]	_showVerts				- input display vertices booelan.
 		*	\since version 0.0.2
 		*/
-		void setShowEdges(bool _showEdges);
+		void setDisplayVertices(bool _displayVertices);
+
+
+		/*! \brief This method sets display edges boolean.
+		*
+		*	\param		[in]	_showEdges				- input display edges booelan.
+		*	\since version 0.0.2
+		*/
+		void setDisplayEdges(bool _displayEdges);
+
+		/*! \brief This method sets edge centers container.
+		*
+		*	\param		[in]	_edgeCenters				- input edge center conatiner.
+		*	\since version 0.0.4
+		*/
+		void setEdgeCenters(zPointArray &_edgeCenters);
 
 		//--------------------------
 		//---- GET METHODS
@@ -140,17 +164,6 @@ namespace zSpace
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
 		//--------------------------
-		//---- DISPLAY METHODS
-		//--------------------------
-
-		/*! \brief This method displays the zGraph.
-		*
-		*	\since version 0.0.2
-		*/
-		void drawGraph();
-
-
-		//--------------------------
 		//---- DISPLAY BUFFER METHODS
 		//--------------------------
 
@@ -160,6 +173,16 @@ namespace zSpace
 		*/
 		void appendToBuffer();
 
+	protected:
+		//--------------------------
+		//---- PROTECTED DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the zGraph.
+		*
+		*	\since version 0.0.2
+		*/
+		void drawGraph();
 	};
 
 	/** \addtogroup zCore
@@ -200,8 +223,6 @@ namespace zSpace
 	/** @}*/
 	/** @}*/
 	/** @}*/
-
-
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)

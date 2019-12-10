@@ -23,13 +23,13 @@ namespace zSpace
 	{
 		displayUtils = nullptr;
 
-		showVertices = false;
-		showEdges = true;
-		showFaces = true;
+		displayVertices = false;
+		displayEdges = true;
+		displayFaces = true;
 
-		showDihedralEdges = false;
-		showVertexNormals = false;
-		showFaceNormals = false;
+		displayDihedralEdges = false;
+		displayVertexNormals = false;
+		displayFaceNormals = false;
 
 		dihedralAngleThreshold = 45;
 

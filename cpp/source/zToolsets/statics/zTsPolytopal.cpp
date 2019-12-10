@@ -66,29 +66,6 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE zTsPolytopal::zTsPolytopal(zObjGraph &_formObj, zObjMesh &_formMeshObj, zObjMeshArray &_forceObjs, zObjMeshArray  &_polytopalObjs)
-	{
-		formObj = &_formObj;
-		fnForm = zFnGraph(_formObj);
-
-		formMeshObj = &_formMeshObj;
-		fnMeshForm = zFnMesh(_formMeshObj);
-
-		for (int i = 0; i < _forceObjs.size(); i++)
-		{
-			forceObjs.push_back(&_forceObjs[i]);
-			fnForces.push_back(_forceObjs[i]);
-		}
-
-		for (int i = 0; i < _polytopalObjs.size(); i++)
-		{
-			polytopalObjs.push_back(&_polytopalObjs[i]);
-			fnPolytopals.push_back(_polytopalObjs[i]);
-		}
-
-	}
-	
-
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zTsPolytopal::~zTsPolytopal() {}
@@ -106,6 +83,8 @@ namespace zSpace
 				{
 					fnForces[i].from(filePaths[i], type);
 					//fnForces[i].setFaceColor(zColor(1.0, 0.0, 0.0, 0.3));
+
+					cout <<endl  << filePaths[i];
 				}
 
 			}
@@ -123,94 +102,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTsPolytopal::createFormMeshFromForce(zColor edgeCol, bool includeBoundary, double boundaryEdgelength)
-	{
-		zPointArray positions;
-		zIntArray polyConnects;
-		zIntArray polyCounts;
-
-		vector< zIntArray > primalEdge_DualFace;
-
-		
-
-		zSparseMatrix C_dual_fe;
-		getPrimal_EdgeFaceMatrix(zForceDiagram, C_dual_fe);
-
-		createFormGraphFromForce(edgeCol, includeBoundary, boundaryEdgelength);
-		//getDual(0.8);
-
-
-		zIntPairArray existingHalfEdges;
-
-		fnForm.getVertexPositions(positions);
-
-		/*for (int j = 0; j < fnForces.size(); j++)
-		{
-			positions.push_back(fnForces[j].getCenter());
-		}*/
-
-		for (int i = 0; i < C_dual_fe.rows(); i++)
-		{
-			// get num eges per face
-			int n_ef = 0;
-			
-			zIntArray tempPolyConnect;
-			for (int j = 0; j < C_dual_fe.cols(); j++)
-			{
-				if (C_dual_fe.coeff(i, j) == 1)
-				{
-					zItGraphEdge gE(*formObj, j);
-
-					tempPolyConnect.push_back(gE.getHalfEdge(0).getVertex().getId());
-					n_ef++;
-				}
-				
-				if (C_dual_fe.coeff(i, j) == -1)
-				{
-					zItGraphEdge gE(*formObj, j);
-
-					tempPolyConnect.push_back(gE.getHalfEdge(1).getVertex().getId());
-					n_ef++;
-				}
-			}
-
-
-			// check if winding is correct
-			bool windingCorrect = true;
-			for (int i = 0; i < tempPolyConnect.size(); i++)
-			{
-				int next = tempPolyConnect[(i + 1) % tempPolyConnect.size()];
-				int cur = tempPolyConnect[i];
-				auto p = std::make_pair(cur, next);
-
-				if (std::find(existingHalfEdges.begin(), existingHalfEdges.end(), p) != existingHalfEdges.end())
-					windingCorrect = false;				
-			}
-
-			// reverse winding if not correct
-			if(!windingCorrect) reverse(tempPolyConnect.begin(), tempPolyConnect.end());
-
-			// added to existing edges
-			for (int i = 0; i < tempPolyConnect.size(); i++)
-			{
-				int next = tempPolyConnect[(i + 1) % tempPolyConnect.size()];
-				int cur = tempPolyConnect[i];
-				auto p = std::make_pair(cur, next);
-
-				existingHalfEdges.push_back(p);
-
-				polyConnects.push_back(cur);
-			}
-
-			
-			polyCounts.push_back(n_ef);
-		}
-
-		fnMeshForm.create(positions, polyCounts, polyConnects);
-
-	}
-
-	ZSPACE_INLINE void zTsPolytopal::createFormGraphFromForce(zColor edgeCol, bool includeBoundary, double boundaryEdgelength)
+	ZSPACE_INLINE void zTsPolytopal::createFormFromForce(zColor edgeCol, bool includeBoundary, double boundaryEdgelength)
 	{
 
 		zPointArray positions;
@@ -218,9 +110,11 @@ namespace zSpace
 
 		zSparseMatrix C_fc;
 		getPrimal_FaceCellMatrix(zForceDiagram, C_fc);
-		//cout << "\n C_fc :" << endl << C_fc << endl;
+		cout << "\n C_fc :" << endl << C_fc << endl;
 
-		
+		zSparseMatrix C_ef;
+		getPrimal_EdgeFaceMatrix(zForceDiagram, C_ef);
+		cout << "\n C_ef :" << endl << C_ef << endl;
 
 		for (int j = 0; j < fnForces.size(); j++)
 		{
@@ -280,6 +174,11 @@ namespace zSpace
 
 		fnForm.create(positions, edgeConnects);
 		fnForm.setEdgeColor(edgeCol);
+
+		for (zItGraphEdge e(*formObj); !e.end(); e++)
+		{
+			printf("\n %i | %i %i ", e.getId(), e.getHalfEdge(0).getVertex().getId(), e.getHalfEdge(1).getVertex().getId());
+		}
 	}
 
 	ZSPACE_INLINE void zTsPolytopal::createPolytopalsFromForce(double offset, double param , int subdivs )
@@ -690,42 +589,6 @@ namespace zSpace
 
 			}
 
-
-			// compute primal edge_connectedprimal faces
-			primalEdge_ConnectedPrimalFaces.clear();
-
-			primalEdge_ConnectedPrimalFaces.assign(primal_n_e, zIntArray());
-	
-			for (int i = 0; i < primalEdge_PrimalVertices.size(); i++)
-			{
-				if (GFP_SSP_Edge[i]) continue;
-
-				int v0 = primalEdge_PrimalVertices[i][0];
-				int v1 = primalEdge_PrimalVertices[i][1];
-
-				zIntArray cFaces_0 =  primalVertex_ConnectedPrimalFaces[v0];
-				zIntArray cFaces_1 = primalVertex_ConnectedPrimalFaces[v1];
-
-				for (int j = 0; j < cFaces_0.size(); j++)
-				{
-					bool exists = false;
-
-					for (int k = 0; k < cFaces_1.size(); k++)
-					{
-						if (cFaces_1[k] == cFaces_0[j])
-						{
-							exists = true;
-							break;
-						}
-					}
-
-					if (exists) primalEdge_ConnectedPrimalFaces[i].push_back(cFaces_0[j]);
-				}
-
-				printf("\n e %i : ", i);
-				for (auto id : primalEdge_ConnectedPrimalFaces[i]) printf(" %i ", id);
-			}
-
 			// compute internal vertex index
 			for (int i = 0; i < GFP_SSP_Vertex.size(); i++)
 			{
@@ -756,7 +619,9 @@ namespace zSpace
 
 			printf("\n primal Force:  primal_n_v %i, primal_n_v_i %i ,primal_n_e %i, primal_n_e_i %i , primal_n_f %i  primal_n_f_i %i", primal_n_v, primal_n_v_i, primal_n_e, primal_n_e_i, primal_n_f, primal_n_f_i);
 
-
+			zSparseMatrix C_ev;
+			getPrimal_EdgeVertexMatrix(zForceDiagram, C_ev);
+			cout << "\n C_ev :" << endl << C_ev << endl;
 		}
 
 		else throw std::invalid_argument(" invalid diagram type.");
@@ -766,7 +631,7 @@ namespace zSpace
 	ZSPACE_INLINE void zTsPolytopal::getDual(double threshold, bool includeBoundary , double boundaryEdgelength)
 	{
 		VectorXd q;
-		getDual_ForceDensities_MPI(q, threshold);
+		getDual_ForceDensities_LPA(q);
 		cout << "\n q: " << endl << q << endl;
 
 		bool negativeQ = false;

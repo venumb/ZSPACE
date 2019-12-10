@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 
@@ -23,7 +23,7 @@ namespace zSpace
 	{
 		displayUtils = nullptr;
 
-		showVertices = false;
+		displayVertices = false;
 	}
 
 	//---- DESTRUCTOR
