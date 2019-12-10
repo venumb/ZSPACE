@@ -237,6 +237,7 @@
     <ClInclude Include="..\..\..\cpp\headers\zCore\field\zField3D.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zGraph.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zHEGeomTypes.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zVolGeomTypes.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zMesh.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zPointCloud.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsBMP.h" />

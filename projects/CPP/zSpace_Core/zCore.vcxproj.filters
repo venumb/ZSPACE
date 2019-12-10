@@ -150,6 +150,9 @@
     <ClInclude Include="..\..\..\cpp\depends\lodePNG\lodepng.h">
       <Filter>Depends</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zVolGeomTypes.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zCore\base\zColor.cpp">

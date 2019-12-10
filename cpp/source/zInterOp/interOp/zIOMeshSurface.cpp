@@ -46,7 +46,7 @@ namespace zSpace
 	ZSPACE_INLINE void zIOMeshSurface::toRhinoSurface(int subdivs, ON_ClassArray<ON_NurbsCurve> &rhino_nurbsCurve, ON_ClassArray<ON_NurbsSurface>& rhino_surface)
 	{
 		int stride = 1 /*(subdivs == 0) ? 1 : pow(2, subdivs)*/;
-		if(!inputQuadMesh && subdivs == 4) stride = pow(2, 3);
+		//if(!inputQuadMesh && subdivs == 4) stride = pow(2, 3);
 
 		// mesh fn
 		MFnMesh maya_FnMesh(*maya_meshObj);	

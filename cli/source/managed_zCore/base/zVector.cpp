@@ -10,34 +10,34 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#include<headers/managed_zCore/base/zColor.h>
+#include<headers/managed_zCore/base/zVector.h>
 
 namespace zSpaceManaged
 {
 	//---- CONSTRUCTOR
 
-	zColor::zColor() : zManagedObj(new zSpace::zColor()) {}	
-
-	zColor::zColor(double _r, double _g, double _b, double _a) : zManagedObj(new zSpace::zColor(_r, _g, _b, _a)) {}	
-
-	zColor::zColor(double _h, double _s, double _v) : zManagedObj(new zSpace::zColor(_h, _s, _v)) {}
+	zVector::zVector() : zManagedObj(new zSpace::zVector()) {}
 	
+	zVector::zVector(double _x, double _y, double _z) : zManagedObj(new zSpace::zVector(_x, _y, _z)) {}
 
-	//---- METHODS
+	//---- OPERATOR
 
-	void zColor::toHSV()
-	{
-		m_zInstance->toHSV();
-	}
-
-	void zColor::toRGB()
-	{
-		m_zInstance->toRGB();
-	}
-
-	bool zColor::operator==(zColor c1)
+	bool zVector::operator==(zVector c1)
 	{
 		return m_zInstance->operator==(*c1.m_zInstance);
+	}
+
+	double zVector::operator[](int index)
+	{
+		m_zInstance->operator[](index);
+	}
+
+	zVector zVector::operator+(zVector c1)
+	{
+		zVector out;
+		out.m_zInstance =  &m_zInstance->operator+(*c1.m_zInstance);
+
+		return out;
 	}
 
 }

@@ -150,6 +150,8 @@ namespace zSpace
 		}
 
 		bool out = meshObj->mesh.addPolygon(fVertices);
+			
+		
 
 		face = zItMeshFace(*meshObj, numPolygons() - 1);
 

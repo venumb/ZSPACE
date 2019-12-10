@@ -473,15 +473,15 @@ namespace zSpace
 				//int symId = fnForm.getSymIndex(i);
 				//if (fnForm.onBoundary(i, zHalfEdgeData) || fnForm.onBoundary(symId, zHalfEdgeData))
 				//{
-				if (form_tensionEdges[i])
-				{
-					if (e_Form_vec*e_Force_vec > 0) eId = e_force.getSym().getId();
-				}
-				//for compression edge point to the edge in the same direction
-				else
-				{
-					if (e_Form_vec*e_Force_vec < 0) eId = e_force.getSym().getId();
-				}
+				//if (form_tensionEdges[i])
+				//{
+				//	if (e_Form_vec*e_Force_vec > 0) eId = e_force.getSym().getId();
+				//}
+				////for compression edge point to the edge in the same direction
+				//else
+				//{
+				//	if (e_Form_vec*e_Force_vec < 0) eId = e_force.getSym().getId();
+				//}
 				//}			
 
 
@@ -862,7 +862,7 @@ namespace zSpace
 
 			if (formVWeights.size() == 0) setVertexWeights(zDiagramType::zFormDiagram);
 			if (forceVWeights.size() == 0) setVertexWeights(zDiagramType::zForceDiagram);
-
+			
 			computeTargets = !computeTargets;
 		}
 
@@ -879,7 +879,7 @@ namespace zSpace
 		}
 
 		// check deviations
-		zDomainDouble dev;
+		zDomainDouble dev;		
 		bool out = checkHorizontalParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 		if (out)
@@ -1065,6 +1065,8 @@ namespace zSpace
 
 			computeForceDensitities = false;
 		}
+
+		printf("\n forceDensities : %i ", forceDensities.size());
 
 		zHEData type = zVertexData;
 
@@ -2613,7 +2615,7 @@ namespace zSpace
 		vector<double> deviations;
 		deviation.min = 10000;
 		deviation.max = -10000;
-
+		
 		for (zItMeshHalfEdge e_form(*formObj); !e_form.end(); e_form++)
 		{
 
@@ -2658,9 +2660,10 @@ namespace zSpace
 				deviations.push_back(-1);
 			}
 		}
+		
 
 		if (printInfo)
-		{
+		{			
 			printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, deviation.min, deviation.max);
 		}
 
