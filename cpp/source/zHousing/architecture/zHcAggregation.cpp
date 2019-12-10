@@ -17,7 +17,7 @@ namespace zSpace
 {
 	//---- CONSTRUCTORS
 
-	ZSPACE_INLINE zHcAggregation::zHcAggregation(){}
+	ZSPACE_INLINE zHcAggregation::zHcAggregation() { }
 
 
 	//---- DESTRUCTOR
@@ -89,6 +89,8 @@ namespace zSpace
 			fnUnitMeshArray[i] = zFnMesh(unitObjs[i]);
 			fnUnitMeshArray[i].from(pathsArray[i], zJSON);			
 		}	
+
+		
 	}
 
 	void zHcAggregation::importLayoutMeshesFromDirectory(string & _pathFlat, string & _pathVertical, string & _pathLandscape)
@@ -110,7 +112,7 @@ namespace zSpace
 			}
 
 			uId++;
-
+			
 		}
 	}
 
@@ -134,7 +136,7 @@ namespace zSpace
 	ZSPACE_INLINE void zHcAggregation::setDisplayModel(zModel&_model)
 	{
 		model = &_model;
-
+		
 		if (unitArray.size() == 0) return;
 
 		for (auto& u : unitObjs)
@@ -151,44 +153,14 @@ namespace zSpace
 	}
 
 
-	ZSPACE_INLINE void zHcAggregation::showColumns(bool&_showColumn)
+	ZSPACE_INLINE void zHcAggregation::showArchGeom(bool&_showColumn, bool&_showSlab, bool&_showWall, bool&_showFacade, bool&_showRoof)
 	{
 		for (auto& hc : unitArray)
 		{
-			hc.structureUnit.displayColumns(_showColumn);			
+			hc.structureUnit.displayArchComponents(_showColumn, _showSlab, _showWall, _showFacade, _showRoof);			
 		}
 	}
 
-	ZSPACE_INLINE void zHcAggregation::showSlabs(bool&_showSlab)
-	{
-		for (auto& hc : unitArray)
-		{
-			hc.structureUnit.displaySlabs(_showSlab);
-		}
-	}
-
-	ZSPACE_INLINE void zHcAggregation::showWalls(bool&_showWall)
-	{
-		for (auto& hc : unitArray)
-		{
-			hc.structureUnit.displayWalls(_showWall);
-		}
-	}
-
-	ZSPACE_INLINE void zHcAggregation::showFacade(bool&_showFacade)
-	{
-		for (auto& hc : unitArray)
-		{
-			hc.structureUnit.displayFacade(_showFacade);
-		}
-	}
-	ZSPACE_INLINE void zHcAggregation::showRoof(bool & _showRoof)
-	{
-		for (auto& hc : unitArray)
-		{
-			hc.structureUnit.displayRoof(_showRoof);
-		}
-	}
 	ZSPACE_INLINE  void zHcAggregation::showLayout(int&_index, bool&_showLayout)
 	{
 		for (auto& hc : unitArray)

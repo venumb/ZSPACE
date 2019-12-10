@@ -154,40 +154,17 @@ namespace zSpace
 		//---- DISPLAY METHODS
 		//--------------------------
 
-		/*! \brief This method sets if columns should be showned
+		/*! \brief This method sets the display of the arch geom elements
 		*
 		*	\param		[in]	showColumn				- display boolean
-		*	\since version 0.0.4
-		*/
-		void showColumns(bool&_showColumn);
-
-		/*! \brief This method sets if columns should be showned
-		*
 		*	\param		[in]	showSlab				- display boolean
-		*	\since version 0.0.4
-		*/
-		void showSlabs(bool&_showSlab);
-
-		/*! \brief This method sets if columns should be showned
-		*
 		*	\param		[in]	showWall				- display boolean
-		*	\since version 0.0.4
-		*/
-		void showWalls(bool&_showWall);
-
-		/*! \brief This method sets if columns should be showned
-		*
 		*	\param		[in]	showFacade				- display boolean
+		*	\param		[in]	showRoof				- display boolean
 		*	\since version 0.0.4
 		*/
-		void showFacade(bool&_showFacade);
+		void showArchGeom(bool&_showColumn, bool&_showSlab, bool&_showWall, bool&_showFacade, bool&_showRoof);
 
-		/*! \brief This method sets if columns should be showned
-		*
-		*	\param		[in]	showFacade				- display boolean
-		*	\since version 0.0.4
-		*/
-		void showRoof(bool&_showRoof);
 
 		/*! \brief This method sets if columns should be showned
 		*

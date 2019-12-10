@@ -26,15 +26,14 @@ namespace zSpace
 	//---- SET METHODS
 
 
-	zAgWall::zAgWall(zObjMesh & _inMeshObj, zPointArray&_vertexCorners, int _faceId)
+	ZSPACE_INLINE zAgWall::zAgWall(zPointArray&_vertexCorners, int _faceId)
 	{
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(*inMeshObj);
+		fnInMesh = zFnMesh(inMeshObj);
 		vertexCorners = _vertexCorners;
 		faceId = _faceId;
 	}
 
-	void zAgWall::createWallByType(zStructureType & _structureType)
+	ZSPACE_INLINE void zAgWall::createWallByType(zStructureType & _structureType)
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
@@ -51,9 +50,22 @@ namespace zSpace
 		fnInMesh.smoothMesh(2, false);
 	}
 
-	void zAgWall::updateWall(zPointArray & _vertexCorners)
+	ZSPACE_INLINE void zAgWall::updateWall(zPointArray & _vertexCorners)
 	{
 		vertexCorners = _vertexCorners;
+	}
+
+	ZSPACE_INLINE void zAgWall::displayWall(bool showWall)
+	{
+		inMeshObj.setShowObject(showWall);
+	}
+
+	ZSPACE_INLINE void zAgWall::setWallDisplayModel(zModel & _model)
+	{
+		model = &_model;
+
+		model->addObject(inMeshObj);
+		inMeshObj.setShowElements(false, true, true);
 	}
 
 }

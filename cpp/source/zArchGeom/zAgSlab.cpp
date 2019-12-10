@@ -27,10 +27,9 @@ namespace zSpace
 
 
 
-	ZSPACE_INLINE zAgSlab::zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
+	ZSPACE_INLINE zAgSlab::zAgSlab(zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
 	{
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(*inMeshObj);
+		fnInMesh = zFnMesh(inMeshObj);
 		parentColumn = &_parentColumn;
 		centerVecs = _centerVecs;
 		midPoints = _midPoints;
@@ -457,6 +456,19 @@ namespace zSpace
 			//fnInMesh.smoothMesh(1, false);
 		}
 		
+	}
+
+	ZSPACE_INLINE void zAgSlab::displaySlab(bool showSlab)
+	{
+		inMeshObj.setShowObject(showSlab);
+	}
+
+	ZSPACE_INLINE void zAgSlab::setSlabDisplayModel(zModel & _model)
+	{
+		model = &_model;
+
+		model->addObject(inMeshObj);
+		inMeshObj.setShowElements(false, true, true);
 	}
 
 }

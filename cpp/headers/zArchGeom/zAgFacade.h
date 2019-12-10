@@ -15,6 +15,7 @@
 
 #pragma once
 
+#include <headers/zInterface/model/zModel.h>
 #include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
@@ -51,13 +52,16 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief pointer to display model  */
+		zModel *model;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
+		zObjMesh inMeshObj;
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
@@ -87,7 +91,7 @@ namespace zSpace
 		*	\param		[in]	_vertexcorners				- input vertex corners.
 		*	\since version 0.0.4
 		*/
-		zAgFacade(zObjMesh&_inMeshObj, zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId);
+		zAgFacade(zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -116,6 +120,26 @@ namespace zSpace
 		//--------------------------
 
 		void updateFacade(zPointArray&_vertexCorners);
+
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the mesh associated with this obj
+		*
+		*	\since version 0.0.4
+		*/
+		void displayFacade(bool showFacade);
+
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setFacadeDisplayModel(zModel&_model);
+#endif
 
 	};
 

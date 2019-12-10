@@ -15,6 +15,7 @@
 
 #pragma once
 
+#include <headers/zInterface/model/zModel.h>
 #include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
@@ -49,7 +50,11 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
+		/*!	\brief structure type  */
 		zStructureType structureType;
+
+		/*!	\brief pointer to display model  */
+		zModel *model;
 
 	public:
 		//--------------------------
@@ -57,7 +62,7 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
+		zObjMesh inMeshObj;
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
@@ -86,7 +91,7 @@ namespace zSpace
 		*	\param		[in]	_forceScale					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgRoof(zObjMesh&_inMeshObj, zPointArray&_corners, bool _isFacade);
+		zAgRoof(zPointArray&_corners, bool _isFacade);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -121,6 +126,25 @@ namespace zSpace
 		*/
 		void createTimberRoof();
 
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the mesh associated with this obj
+		*
+		*	\since version 0.0.4
+		*/
+		void displayRoof(bool showRoof);
+
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setRoofDisplayModel(zModel&_model);
+#endif
 	};
 
 

@@ -91,21 +91,6 @@ namespace zSpace
 		/*!	\brief structure height float array ( per face ) */
 		zFloatArray heightArray;
 
-		/*!	\brief pointer container of columns pointers  */
-		zObjMeshArray columnObjs;
-
-		/*!	\brief pointer container of slabs pointers  */
-		zObjMeshArray slabObjs;
-
-		/*!	\brief pointer container of walls pointers  */
-		zObjMeshArray wallObjs;
-
-		/*!	\brief pointer container of facade pointers  */
-		zObjMeshArray facadeObjs;
-
-		/*!	\brief pointer container of roof pointers  */
-		zObjMeshArray roofObjs;
-
 		/*! \brief container to top edges attributes */
 		zBoolArray edgesAttributes;
 
@@ -210,40 +195,12 @@ namespace zSpace
 		//---- DISPLAY METHODS
 		//--------------------------
 
-		/*! \brief This method creates the facades that live in this structure cell object
-		*
-		*	\param		[in]	_showColumns					- display column objs
-		*	\since version 0.0.4
-		*/
-		void displayColumns(bool showColumns);
-
-		/*! \brief This method creates the facades that live in this structure cell object
-		*
-		*	\param		[in]	_showSlabs						- display slab objs
-		*	\since version 0.0.4
-		*/
-		void displaySlabs(bool showSlabs);
-
-		/*! \brief This method creates the facades that live in this structure cell object
-		*
-		*	\param		[in]	_showWalls					- display wall objs
-		*	\since version 0.0.4
-		*/
-		void displayWalls( bool showWalls);
-
-		/*! \brief This method creates the facades that live in this structure cell object
-		*
-		*	\param		[in]	_showFacade					- display facade objs
-		*	\since version 0.0.4
-		*/
-		void displayFacade( bool showFacade);
-
 		/*! \brief This method creates the roof that live in this structure cell object
 		*
 		*	\param		[in]	_showFacade					- display facade objs
 		*	\since version 0.0.4
 		*/
-		void displayRoof(bool showRoof);
+		void displayArchComponents(bool showColumn, bool showSlabs, bool showWalls, bool showFacade, bool showRoof);
 
 
 #ifndef ZSPACE_UNREAL_INTEROP

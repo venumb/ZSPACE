@@ -27,10 +27,9 @@ namespace zSpace
 
 
 
-	ZSPACE_INLINE zAgRoof::zAgRoof(zObjMesh&_inMeshObj, zPointArray&_corners, bool _isFacade)
+	ZSPACE_INLINE zAgRoof::zAgRoof(zPointArray&_corners, bool _isFacade)
 	{
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(*inMeshObj);
+		fnInMesh = zFnMesh(inMeshObj);
 		corners = _corners;
 		isFacade = _isFacade;
 
@@ -144,7 +143,20 @@ namespace zSpace
 		}
 		
 		fnInMesh.create(pointArray, polyCount, polyConnect);
-		fnInMesh.extrudeMesh(0.1, *inMeshObj, false);
+		fnInMesh.extrudeMesh(0.1, inMeshObj, false);
+	}
+
+	ZSPACE_INLINE void zAgRoof::displayRoof(bool showRoof)
+	{
+		inMeshObj.setShowObject(showRoof);
+	}
+
+	ZSPACE_INLINE void zAgRoof::setRoofDisplayModel(zModel & _model)
+	{
+		model = &_model;
+
+		model->addObject(inMeshObj);
+		inMeshObj.setShowElements(false, true, true);
 	}
 
 }

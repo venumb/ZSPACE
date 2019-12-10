@@ -16,6 +16,7 @@
 #pragma once
 
 #include <headers/zCore/base/zExtern.h>
+#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
@@ -51,13 +52,16 @@ namespace zSpace
 		/*!	\brief stores x and y directions */
 		zVector x, y, z;
 
+		/*!	\brief pointer to display model  */
+		zModel *model;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
+		zObjMesh inMeshObj;
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
@@ -94,7 +98,7 @@ namespace zSpace
 		*	\param		[in]	_showForces					- input show forces booelan.
 		*	\since version 0.0.4
 		*/
-		zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height);
+		zAgColumn(zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -129,8 +133,32 @@ namespace zSpace
 		*/
 		void createTimberColumn();
 
+
+		/*! \brief This method creates structural extrusions from wireframe mesh
+		*
+		*	\since version 0.0.4
+		*/
 		void createFrame();
 
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the mesh associated with this obj
+		*
+		*	\since version 0.0.4
+		*/
+		void displayColumn(bool showColumn);
+
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setColumnDisplayModel(zModel&_model);
+#endif
 
 	};
 

@@ -16,6 +16,7 @@
 #pragma once
 
 #include <headers/zCore/base/zExtern.h>
+#include <headers/zInterface/model/zModel.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
@@ -51,6 +52,9 @@ namespace zSpace
 
 		zStructureType structureType;
 
+		/*!	\brief pointer to display model  */
+		zModel *model;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
@@ -60,7 +64,7 @@ namespace zSpace
 		zAgColumn* parentColumn;
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh *inMeshObj;
+		zObjMesh inMeshObj;
 
 		/*!	\brief input mesh function set  */
 		zFnMesh fnInMesh;
@@ -90,7 +94,7 @@ namespace zSpace
 		*	\param		[in]	_forceScale					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgSlab(zObjMesh&_inMeshObj, zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn);
+		zAgSlab(zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -124,6 +128,26 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void createTimberSlab();
+
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the mesh associated with this obj
+		*
+		*	\since version 0.0.4
+		*/
+		void displaySlab(bool showSlab);
+
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setSlabDisplayModel(zModel&_model);
+#endif
 
 	};
 

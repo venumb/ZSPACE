@@ -19,10 +19,9 @@ namespace zSpace
 
 	ZSPACE_INLINE zAgColumn::zAgColumn(){}
 
-	ZSPACE_INLINE zAgColumn::zAgColumn(zObjMesh&_inMeshObj, zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height)
+	ZSPACE_INLINE zAgColumn::zAgColumn( zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height)
 	{
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(*inMeshObj);
+		fnInMesh = zFnMesh(inMeshObj);
 
 		position = _position;
 		axis = _axis;
@@ -574,19 +573,18 @@ namespace zSpace
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
 			fnInMesh.create(pointArray, polyCount, polyConnect);
-			//printf("\n %i %i %i ", fnInMesh.numVertices(), fnInMesh.numEdges(), fnInMesh.numPolygons());
 			fnInMesh.smoothMesh(1, false);
 			createFrame();
 		}
 	}
 
-	void zAgColumn::createFrame()
+	ZSPACE_INLINE void zAgColumn::createFrame()
 	{
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (zItMeshHalfEdge he(*inMeshObj); !he.end(); he++)
+		for (zItMeshHalfEdge he(inMeshObj); !he.end(); he++)
 		{
 			if (he.onBoundary()) continue;
 
@@ -619,8 +617,6 @@ namespace zSpace
 				polyConnect.push_back(i + ((j + 1) % 4) + 4);
 				polyConnect.push_back(i + j + 4);
 
-				//printf("\n polyconnect: %i %i %i %i", polyConnect[s], polyConnect[s + 1], polyConnect[s + 2], polyConnect[s + 3]);
-
 				polyCount.push_back(4);
 			}
 
@@ -628,6 +624,19 @@ namespace zSpace
 
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 
+	}
+
+	ZSPACE_INLINE void zAgColumn::displayColumn(bool showColumn)
+	{
+		inMeshObj.setShowObject(showColumn);
+	}
+
+	ZSPACE_INLINE void zAgColumn::setColumnDisplayModel(zModel & _model)
+	{
+		model = &_model;
+		//printf("mesh polys: %i", fnInMesh.numPolygons());
+		model->addObject(inMeshObj);
+		inMeshObj.setShowElements(false, true, true);
 	}
 
 

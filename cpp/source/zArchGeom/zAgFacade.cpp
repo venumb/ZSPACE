@@ -27,10 +27,9 @@ namespace zSpace
 
 
 
-	ZSPACE_INLINE zAgFacade::zAgFacade(zObjMesh & _inMeshObj, zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId)
+	ZSPACE_INLINE zAgFacade::zAgFacade(zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId)
 	{
-		inMeshObj = &_inMeshObj;
-		fnInMesh = zFnMesh(*inMeshObj);
+		fnInMesh = zFnMesh(inMeshObj);
 		faceId = _faceId;
 		vertexCorners = _vertexCorners;
 		extrudeDir = _extrudeDir;
@@ -299,7 +298,7 @@ namespace zSpace
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (zItMeshHalfEdge he(*inMeshObj); !he.end(); he++)
+		for (zItMeshHalfEdge he(inMeshObj); !he.end(); he++)
 		{
 			if (he.onBoundary()) continue;
 
@@ -345,6 +344,19 @@ namespace zSpace
 	ZSPACE_INLINE void zAgFacade::updateFacade(zPointArray & _vertexCorners)
 	{
 		vertexCorners = _vertexCorners;
+	}
+
+	ZSPACE_INLINE void zAgFacade::displayFacade(bool showFacade)
+	{
+		inMeshObj.setShowObject(showFacade);
+	}
+
+	ZSPACE_INLINE void zAgFacade::setFacadeDisplayModel(zModel & _model)
+	{
+		model = &_model;
+
+		model->addObject(inMeshObj);
+		inMeshObj.setShowElements(false, true, true);
 	}
 
 }
