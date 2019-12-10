@@ -46,3 +46,9 @@ Thanks a lot!
 [MIT License](https://opensource.org/licenses/MIT).
 
 - [**SQLITE**](https://www.sqlite.org/index.html) for SQL database engine. It is an open source project dedicated to the [public domain](https://en.wikipedia.org/wiki/Public_domain).
+
+- [**LodePNG**](https://lodev.org/lodepng) for creating PNG images. It is a project licensed under 
+[ZLIB License](https://zlib.net/zlib_license.html).
+
+- [**TooJPEG**](https://create.stephan-brumme.com/toojpeg/) for creating JPEG images. It is a project licensed under 
+[ZLIB License](https://zlib.net/zlib_license.html).
