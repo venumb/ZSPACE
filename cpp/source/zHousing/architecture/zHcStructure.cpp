@@ -339,6 +339,8 @@ namespace zSpace
 
 
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	//---- SET METHODS
 
 	ZSPACE_INLINE void zHcStructure::displayArchComponents(bool showColumn, bool showSlabs, bool showWalls, bool showFacade, bool showRoof)
@@ -356,7 +358,6 @@ namespace zSpace
 	}
 
 	//---- DISPLAY METHODS
-
 	ZSPACE_INLINE void zHcStructure::setStructureDisplayModel(zModel & _model)
 	{
 		model = &_model;
@@ -391,5 +392,6 @@ namespace zSpace
 			r.addObjsToModel();
 		}
 	}
+#endif
 
 }

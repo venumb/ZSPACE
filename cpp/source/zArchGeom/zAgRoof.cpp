@@ -150,6 +150,8 @@ namespace zSpace
 		fnInMesh.extrudeMesh(0.1, inMeshObj, false);
 	}
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	ZSPACE_INLINE void zAgRoof::displayRoof(bool showRoof)
 	{
 		inMeshObj.setShowObject(showRoof);
@@ -161,4 +163,5 @@ namespace zSpace
 		inMeshObj.setShowElements(false, true, true);
 	}
 
+#endif
 }

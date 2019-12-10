@@ -39,11 +39,13 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgObj::createTimber(){}
 
-	ZSPACE_INLINE void zAgObj::addObjsToModel(){}
-
+#ifndef ZSPACE_UNREAL_INTEROP
+	   
 	ZSPACE_INLINE void zAgObj::setModel(zModel & _model)
 	{
 		model = &_model;
 	}
+
+#endif
 
 }

@@ -49,8 +49,11 @@ namespace zSpace
 		/*!	\brief input structure type */
 		zStructureType structureType;
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 		/*!	\brief pointer to display model  */
 		zModel *model;
+#endif
 
 	public:
 
@@ -114,7 +117,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		virtual void addObjsToModel();
+		virtual void addObjsToModel() = 0;
 #endif
 
 	};

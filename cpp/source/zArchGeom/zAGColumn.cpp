@@ -620,6 +620,8 @@ namespace zSpace
 
 	}
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	ZSPACE_INLINE void zAgColumn::displayColumn(bool showColumn)
 	{
 		inMeshObj.setShowObject(showColumn);
@@ -631,7 +633,7 @@ namespace zSpace
 		inMeshObj.setShowElements(false, true, true);
 	}
 
-
+#endif
 
 
 }

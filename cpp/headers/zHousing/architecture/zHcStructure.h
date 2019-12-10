@@ -51,8 +51,11 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to display model  */
+#ifndef ZSPACE_UNREAL_INTEROP
+
+/*!	\brief pointer to display model  */
 		zModel *model;
+#endif
 
 		/*!	\brief structure type (i.e. rhwc, timber)  */
 		zStructureType structureType;
@@ -182,6 +185,7 @@ namespace zSpace
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
+#ifndef ZSPACE_UNREAL_INTEROP
 
 		/*! \brief This method creates the roof that live in this structure cell object
 		*
@@ -190,8 +194,6 @@ namespace zSpace
 		*/
 		void displayArchComponents(bool showColumn, bool showSlabs, bool showWalls, bool showFacade, bool showRoof);
 
-
-#ifndef ZSPACE_UNREAL_INTEROP
 		/*! \brief This method sets the model display not for Unreal.
 		*
 		*	\param		[in]	_model				- pointer to display model

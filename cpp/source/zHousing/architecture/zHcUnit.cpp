@@ -78,6 +78,8 @@ namespace zSpace
 		}
 	}
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	ZSPACE_INLINE void zHcUnit::setUnitDisplayModel(zModel&_model)
 	{
 		model = &_model;
@@ -90,6 +92,8 @@ namespace zSpace
 			layout.setShowElements(false, true, true);
 		}
 	}
+
+#endif
 
 	ZSPACE_INLINE void zHcUnit::setLayoutByType(zLayoutType&_layout)
 	{

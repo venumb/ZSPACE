@@ -50,9 +50,6 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to display model  */
-		zModel *model;
-
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
@@ -93,17 +90,7 @@ namespace zSpace
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
-
-#ifndef ZSPACE_UNREAL_INTEROP
-
-		/*! \brief This method sets the display model not for Unreal.
-		*
-		*	\param		[in]	_index				- input housing unit index
-		*	\since version 0.0.4
-		*/
-		void setDisplayModel(zModel&_model);
-#endif
-
+			   
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
@@ -150,6 +137,21 @@ namespace zSpace
 		*/
 		void updateLayout(int unitId, zLayoutType&_layoutType, bool flip);
 
+		
+
+#ifndef ZSPACE_UNREAL_INTEROP
+
+		//--------------------------
+		//---- DISPLAY SET METHODS
+		//--------------------------
+
+		/*! \brief This method sets the display model not for Unreal.
+		*
+		*	\param		[in]	_index				- input housing unit index
+		*	\since version 0.0.4
+		*/
+		void setDisplayModel(zModel&_model);
+
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
@@ -172,6 +174,16 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void showLayout (int&_index, bool&_showLayout);
+
+		protected:
+			//--------------------------
+			//---- PROTECTED DISPLAY ATTRIBUTES
+			//--------------------------
+
+			/*!	\brief pointer to display model  */
+			zModel *model;
+#endif
+
 	};
 
 

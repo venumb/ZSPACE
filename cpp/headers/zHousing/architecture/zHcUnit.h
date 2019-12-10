@@ -48,8 +48,11 @@ namespace zSpace
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to display model  */
+#ifndef ZSPACE_UNREAL_INTEROP
+
+/*!	\brief pointer to display model  */
 		zModel *model;
+#endif
 
 	public:
 		//--------------------------

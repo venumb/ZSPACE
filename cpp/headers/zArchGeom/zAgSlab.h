@@ -23,7 +23,7 @@
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
 #include <headers/zArchGeom/zAgObj.h>
-#include <headers/zArchGeom/zAgColumn.h>;
+#include <headers/zArchGeom/zAgColumn.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -136,6 +136,7 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void addObjsToModel() override;
+
 #endif
 
 	};

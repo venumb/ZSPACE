@@ -338,10 +338,13 @@ namespace zSpace
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 	}
 
+
 	ZSPACE_INLINE void zAgFacade::updateFacade(zPointArray & _vertexCorners)
 	{
 		vertexCorners = _vertexCorners;
 	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 	ZSPACE_INLINE void zAgFacade::displayFacade(bool showFacade)
 	{
@@ -354,4 +357,7 @@ namespace zSpace
 		inMeshObj.setShowElements(false, true, true);
 	}
 
+#endif
+
 }
+

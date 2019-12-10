@@ -60,6 +60,8 @@ namespace zSpace
 		corners = _corners;
 	}
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	ZSPACE_INLINE void zAgWall::displayWall(bool showWall)
 	{
 		inMeshObj.setShowObject(showWall);
@@ -71,4 +73,5 @@ namespace zSpace
 		inMeshObj.setShowElements(false, true, true);
 	}
 
+#endif
 }

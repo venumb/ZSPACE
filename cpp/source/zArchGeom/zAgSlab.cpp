@@ -452,6 +452,8 @@ namespace zSpace
 		
 	}
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 	ZSPACE_INLINE void zAgSlab::displaySlab(bool showSlab)
 	{
 		inMeshObj.setShowObject(showSlab);
@@ -462,5 +464,7 @@ namespace zSpace
 		model->addObject(inMeshObj);
 		inMeshObj.setShowElements(false, true, true);
 	}
+
+#endif
 
 }

@@ -93,7 +93,7 @@ namespace zSpace
 		
 	}
 
-	void zHcAggregation::importLayoutMeshesFromDirectory(string & _pathFlat, string & _pathVertical, string & _pathLandscape)
+	ZSPACE_INLINE void zHcAggregation::importLayoutMeshesFromDirectory(string & _pathFlat, string & _pathVertical, string & _pathLandscape)
 	{ 
 
 		int uId = 0;
@@ -119,7 +119,7 @@ namespace zSpace
 
 	//---- UPDATE METHODS
 
-	void zHcAggregation::updateStructureType(zStructureType & _structureType)
+	ZSPACE_INLINE void zHcAggregation::updateStructureType(zStructureType & _structureType)
 	{
 		for (auto& hc : unitArray)
 		{
@@ -132,7 +132,10 @@ namespace zSpace
 		unitArray[unitId].setLayoutByType(_layoutType);
 	}
 
-	//---- DISPLAY METHODS
+	
+#ifndef ZSPACE_UNREAL_INTEROP
+
+	//---- DISPLAY SET METHODS
 
 	ZSPACE_INLINE void zHcAggregation::setDisplayModel(zModel&_model)
 	{
@@ -155,6 +158,7 @@ namespace zSpace
 		}
 	}
 
+	//---- DISPLAY SET METHODS
 
 	ZSPACE_INLINE void zHcAggregation::showArchGeom(bool&_showColumn, bool&_showSlab, bool&_showWall, bool&_showFacade, bool&_showRoof)
 	{
@@ -171,4 +175,6 @@ namespace zSpace
 			hc.displayLayout(_index, _showLayout);
 		}
 	}
+
+#endif
 }

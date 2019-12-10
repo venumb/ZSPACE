@@ -137,15 +137,16 @@ namespace zSpace
 		*/
 		void displayColumn(bool showColumn);
 
+#ifndef ZSPACE_UNREAL_INTEROP
+
 		/*! \brief This method displays the mesh associated with this obj
 		*
 		*	\since version 0.0.4
 		*/
 		void addObjsToModel() override;
+#endif
 
 	};
-
-
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
