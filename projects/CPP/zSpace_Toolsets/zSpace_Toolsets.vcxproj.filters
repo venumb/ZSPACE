@@ -141,6 +141,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsMesh2Pix.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsGraphPolyhedra.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsKMeans.cpp">
@@ -224,5 +227,11 @@
     <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsMesh2Pix.cpp">
       <Filter>Source Files\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsGraphPolyhedra.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -56,6 +56,9 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
+		/*!	\brief display Object  */
+		zUtilsDisplay display;
+
 	public:
 
 		//--------------------------
@@ -135,10 +138,11 @@ namespace zSpace
 		/*! \brief This method creates a graph from a mesh.
 		*
 		*	\param		[in]	graphObj			- input mesh object.	
-		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
-		*	\since version 0.0.2
+		*	\param		[in]	staticGraph			- makes the graph fixed. Computes the static edge vertex positions if true.
+		*	\param		[in]	excludeBoundary		- excludes the boundary edge of the input mesh.
+		*	\since version 0.0.4
 		*/
-		void createFromMesh(zObjMesh &graphObj, bool staticGraph = false);
+		void createFromMesh(zObjMesh &meshObj, bool excludeBoundary = false, bool staticGraph = false);
 
 		/*! \brief This method adds a vertex to the graph.
 		*
@@ -214,6 +218,15 @@ namespace zSpace
 		*/
 		bool halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge);
 		
+		/*! \brief This method detemines if an edge already exists between input vertices.
+	*
+	*	\param		[in]	v1			- vertexId 1.
+	*	\param		[in]	v2			- vertexId 2.
+	*	\param		[out]	outHalfEdge	- stores halfedge iterator if the vertex exists else it is -1.
+	*	\return		[out]	bool		- true if edge exists else false.
+	*	\since version 0.0.2
+	*/
+		bool halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge);
 
 		//--------------------------
 		//--- COMPUTE METHODS 
@@ -411,7 +424,15 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getGraphMesh(zObjMesh &out, double width = 0.5, zVector graphNormal = zVector(0, 0, 1));
-				
+
+		/*! \brief This method computes the graph eccentricity.
+		*
+		*	\details based on https://codeforces.com/blog/entry/17974
+		*	\param		[out]	zItGraphVertexArray		- array of eccentric graph centers
+		*	\since version 0.0.4
+		*/
+		void getGraphEccentricityCenter(zItGraphVertexArray &outV);
+
 		//--------------------------
 		//---- TOPOLOGY MODIFIER METHODS
 		//--------------------------

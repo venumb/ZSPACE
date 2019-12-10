@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 #ifndef ZSPACE_OBJ_POINTCLOUD_H
@@ -45,7 +45,7 @@ namespace zSpace
 	protected:
 
 		/*! \brief boolean for displaying the vertices */
-		bool showVertices;
+		bool displayVertices;
 
 	public:
 		//--------------------------
@@ -78,12 +78,12 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show vertices booleans.
+		/*! \brief This method sets display vertices booleans.
 		*
-		*	\param		[in]	_showVerts				- input show vertices boolean.
+		*	\param		[in]	_displayVerts				- input display vertices boolean.
 		*	\since version 0.0.2
 		*/
-		void setShowElements(bool _showVerts);
+		void setDisplayElements(bool _displayVerts);
 
 		//--------------------------
 		//---- OVERRIDE METHODS
@@ -96,16 +96,6 @@ namespace zSpace
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
 		//--------------------------
-		//---- DISPLAY METHODS
-		//--------------------------
-
-		/*! \brief This method displays the point cloud.
-		*
-		*	\since version 0.0.2
-		*/
-		void drawPointCloud();
-
-		//--------------------------
 		//---- DISPLAY BUFFER METHODS
 		//--------------------------
 
@@ -115,6 +105,16 @@ namespace zSpace
 		*/
 		void appendToBuffer();
 
+	protected:
+		//--------------------------
+		//---- PROTECTED DISPLAY METHODS
+		//--------------------------
+
+		/*! \brief This method displays the point cloud.
+		*
+		*	\since version 0.0.2
+		*/
+		void drawPointCloud();
 	};
 
 

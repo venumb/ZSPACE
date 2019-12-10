@@ -47,7 +47,7 @@ namespace zSpace
 		{
 			getCreaseDataJSON(path);
 		}
-		
+
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::to(string path, zFileTpye type)
@@ -59,6 +59,7 @@ namespace zSpace
 		{
 			setCreaseDataJSON(path);
 		}
+
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::clear()
@@ -72,7 +73,7 @@ namespace zSpace
 	ZSPACE_INLINE void zMayaFnMesh::fromMayaMesh(MObject &maya_meshObj)
 	{
 		MFnMesh maya_fnMesh(maya_meshObj);
-
+		
 		int numVertices = maya_fnMesh.numVertices();
 		//printf("\n numVertices:%i", numVertices);
 
@@ -111,11 +112,9 @@ namespace zSpace
 			   		
 		create(pos, polyCounts, polyConnects);
 
-		
 		MUintArray  edgeIds;
 		MDoubleArray creaseData;
 		maya_fnMesh.getCreaseEdges(edgeIds, creaseData);
-
 
 		creaseEdgeData.clear();
 		creaseEdgeData.assign(creaseData.length(), 0.0);
@@ -128,6 +127,7 @@ namespace zSpace
 			creaseEdgeData[i] = creaseData[i];
 			creaseEdgeIndex[i] = edgeIds[i];
 		}
+
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::fromMayaMesh(MDagPath & maya_dagpath)
@@ -173,7 +173,6 @@ namespace zSpace
 		MUintArray  edgeIds;
 		MDoubleArray creaseData;
 		maya_fnMesh.getCreaseEdges(edgeIds, creaseData);
-
 
 		creaseEdgeData.clear();
 		creaseEdgeData.assign(creaseData.length(), 0.0);
@@ -288,7 +287,6 @@ namespace zSpace
 
 	ZSPACE_INLINE void zMayaFnMesh::setCreaseDataJSON(string outfilename)
 	{
-
 		// remove inactive elements
 		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
 		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
@@ -297,11 +295,11 @@ namespace zSpace
 		// read existing data in the json 
 		json j;		
 
-		ifstream in_myfile;
+    ifstream in_myfile;
 		in_myfile.open(outfilename.c_str());
 
 		int lineCnt = 0;
-
+    
 		if (in_myfile.fail())
 		{
 			cout << " error in opening file  " << outfilename.c_str() << endl;
@@ -326,7 +324,7 @@ namespace zSpace
 
 		for (int i =0; i< creaseEdgeIndex.size(); i++)
 		{
-			meshJSON.edgeCreaseData[creaseEdgeIndex[i]] = creaseEdgeData[i];			
+			meshJSON.edgeCreaseData[creaseEdgeIndex[i]] = creaseEdgeData[i];	
 		}
 
 		// Json file 

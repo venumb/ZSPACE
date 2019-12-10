@@ -24,7 +24,7 @@ namespace zSpace
 		displayUtils = nullptr;
 #endif
 
-		showBounds = false;
+		displayBounds = false;
 	}
 
 	//---- DESTRUCTOR
@@ -33,9 +33,9 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zObjSpatialBin::setShowBounds(bool _showBounds)
+	ZSPACE_INLINE void zObjSpatialBin::setDisplayBounds(bool _displayBounds)
 	{
-		showBounds = _showBounds;
+		displayBounds = _displayBounds;
 	}
 
 	//---- OVERRIDE METHODS
@@ -51,23 +51,23 @@ namespace zSpace
 	ZSPACE_INLINE void zObjSpatialBin::draw()
 	{
 
-		if (showObject)
+		if (displayObject)
 		{
 			drawBins();
 		}
 
-		if (showBounds)
+		if (displayBounds)
 		{
 			drawBounds();
 		}
 
-		if (showObjectTransform)
+		if (displayObjectTransform)
 		{
 			displayUtils->drawTransform(transformationMatrix);
 		}
 	}
 
-	//---- DISPLAY METHODS
+	//---- PROTECTED DISPLAY METHODS
 
 	ZSPACE_INLINE void zObjSpatialBin::drawBins()
 	{

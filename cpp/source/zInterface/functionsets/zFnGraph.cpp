@@ -15,7 +15,6 @@
 
 namespace zSpace
 {
-
 	//---- CONSTRUCTOR
 
 	ZSPACE_INLINE zFnGraph::zFnGraph()
@@ -32,7 +31,6 @@ namespace zSpace
 
 		planarGraph = _planarGraph;
 		graphNormal = _graphNormal;
-
 	}
 
 	//---- DESTRUCTOR
@@ -107,17 +105,17 @@ namespace zSpace
 		if (staticGraph) setStaticContainers();
 	}
 
-	ZSPACE_INLINE void zFnGraph::createFromMesh(zObjMesh &graphObj, bool staticGraph)
+	ZSPACE_INLINE void zFnGraph::createFromMesh(zObjMesh &meshObj, bool excludeBoundary, bool staticGraph)
 	{
-		zFnMesh fnMesh(graphObj);
+		zFnMesh fnMesh(meshObj);
 
 		vector<int>edgeConnects;
 		vector<zVector> vertexPositions;
 
-		fnMesh.getEdgeData(edgeConnects);
-		fnMesh.getVertexPositions(vertexPositions);
+		fnMesh.getVertexPositions(vertexPositions, excludeBoundary);
+		fnMesh.getEdgeData(edgeConnects, excludeBoundary);
 
-		create(vertexPositions, edgeConnects);
+		create(vertexPositions, edgeConnects, staticGraph);
 
 		if (staticGraph) setStaticContainers();
 	}
@@ -199,6 +197,16 @@ namespace zSpace
 		int id;
 		bool chk = halfEdgeExists(v1, v2, id);
 
+		if (chk) outHalfEdge = zItGraphHalfEdge(*graphObj, id);
+
+		return chk;
+	}
+
+	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge)
+	{
+		int id;
+		bool chk = graphObj->graph.halfEdgeExists(v1, v2, id);
+		
 		if (chk) outHalfEdge = zItGraphHalfEdge(*graphObj, id);
 
 		return chk;
@@ -731,6 +739,79 @@ namespace zSpace
 
 	}
 
+	ZSPACE_INLINE void zFnGraph::getGraphEccentricityCenter(zItGraphVertexArray & outV)
+	{
+		const int N = numVertices();	// number of nodes in graph
+		const int INF = 99999;
+		MatrixXi d(N,N);				// distances between nodes
+		VectorXi e(N);					// eccentricity of nodes
+		set<int> c;						// center of graph
+		int rad = INF;					// radius of graph
+		int diam = 0;					// diamater of graph
+
+		zIntArray boundaryVerts;
+		for (zItGraphVertex v(*graphObj); !v.end(); v++)
+			if (v.checkValency(1)) boundaryVerts.push_back(v.getId());
+		
+		d.setConstant(INF);
+		e.setZero();
+
+		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
+		{
+			d(he.getStartVertex().getId(), he.getVertex().getId()) = 1;
+			d(he.getStartVertex().getId(), he.getStartVertex().getId()) = 0;
+		}
+
+		// Floyd-Warshall's algorithm
+		for (int k = 0; k < N; k++)
+			for (int j = 0; j < N; j++)
+				for (int i = 0; i < N; i++)
+					d(i,j) = coreUtils.zMin(d(i, j), d(i, k) + d(k, j));
+
+		// Counting values of eccentricity
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				e(i) = coreUtils.zMax(e(i), d(i,j));
+
+		for (int i = 0; i < N; i++) 
+		{
+			rad = coreUtils.zMin(rad, e(i));
+			diam = coreUtils.zMax(diam, e(i));
+		}
+
+
+		for (int i = 0; i < N; i++) 
+			if (e[i] == rad) 		
+				c.insert(i);
+
+
+		zItGraphVertex v(*graphObj);
+		int maxScore = 0;
+
+		//printf("\n cen:");
+		for (auto id : c)
+		{
+			zItGraphVertex v1(*graphObj, id);
+			outV.push_back(v1);
+
+			double score = 0;
+
+			for (int j = 0; j < boundaryVerts.size(); j++)
+				score += d(v1.getId(), boundaryVerts[j]);
+
+			if (score > maxScore)
+			{
+				maxScore = score;
+				v = v1;
+			}
+
+			//printf("  %i ", v1.getId());
+		}
+
+		
+		//outV.push_back(v);
+	}
+
 	//---- TOPOLOGY MODIFIER METHODS
 
 	ZSPACE_INLINE zItGraphVertex zFnGraph::splitEdge(zItGraphEdge &edge, double edgeFactor)
@@ -1111,15 +1192,12 @@ namespace zSpace
 		{
 			cout << " error in opening file  " << infilename.c_str() << endl;
 			return false;
-
 		}
 
 		while (!myfile.eof())
 		{
 			string str;
 			getline(myfile, str);
-
-
 
 			vector<string> perlineData = graphObj->graph.coreUtils.splitString(str, " ");
 
@@ -1157,16 +1235,14 @@ namespace zSpace
 
 								graphObj->graph.create(positions, edgeConnects, graphNormal, sortRef);
 							}
-							printf("\n graph: %i %i ", numVertices(), numEdges());
-
+							printf("\n graph: %i %i", numVertices(), numEdges());
 						}
 					}
+
 					hashCounter++;
 
 					positions.clear();
 					edgeConnects.clear();
-
-
 				}
 
 				// vertex
@@ -1191,12 +1267,8 @@ namespace zSpace
 					}
 
 				}
-
-
-
 			}
 		}
-
 
 		return true;
 	}
@@ -1227,23 +1299,23 @@ namespace zSpace
 		graphJSON.vertices.clear();
 		graphJSON.vertices = (j["Vertices"].get<vector<int>>());
 
-		//Edges
+		// Edges
 		graphJSON.halfedges.clear();
 		graphJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
 
 		graphObj->graph.edges.clear();
 
-		// update  graph
-
+		// update graph
 		graphObj->graph.clear();
 
 		graphObj->graph.vertices.assign(graphJSON.vertices.size(), zVertex());
 		graphObj->graph.halfEdges.assign(graphJSON.halfedges.size(), zHalfEdge());
-		graphObj->graph.edges.assign(floor(graphJSON.halfedges.size()*0.5), zEdge());
+		graphObj->graph.edges.assign(floor(graphJSON.halfedges.size() * 0.5), zEdge());
 
 		graphObj->graph.vHandles.assign(graphJSON.vertices.size(), zVertexHandle());
-		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size()*0.5), zEdgeHandle());
+		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size() * 0.5), zEdgeHandle());
 		graphObj->graph.heHandles.assign(graphJSON.halfedges.size(), zHalfEdgeHandle());
+
 
 		int n_v = 0;
 		for (zItGraphVertex v(*graphObj); !v.end(); v++)
@@ -1252,14 +1324,11 @@ namespace zSpace
 
 			if (graphJSON.vertices[n_v] != -1)
 			{
-				zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]);;
+				zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]); //////maybe that is empty
 				v.setHalfEdge(e);
 
 				graphObj->graph.vHandles[n_v].he = graphJSON.vertices[n_v];
 			}
-
-
-
 			n_v++;
 		}
 		graphObj->graph.setNumVertices(n_v);
@@ -1296,8 +1365,6 @@ namespace zSpace
 
 				graphObj->graph.heHandles[n_he].v = graphJSON.halfedges[n_he][2];
 			}
-
-
 
 			// symmetry half edges
 			if (n_he % 2 == 0)
@@ -1339,6 +1406,25 @@ namespace zSpace
 
 		graphObj->graph.setNumEdges(n_e);
 
+
+		for (zItGraphVertex he(*graphObj); !he.end(); he++)
+		{
+
+			cout << "\n " << he.getId();
+			cout << "\t " << he.getHalfEdge().getId();
+			
+
+		}
+
+		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
+		{
+
+			cout << "\n " << he.getId();
+			cout << "\t " << he.getPrev().getId();
+			cout << " \t" << he.getNext().getId();
+			cout << " \t" << he.getVertex().getId();
+			
+		}
 
 
 		// Vertex Attributes

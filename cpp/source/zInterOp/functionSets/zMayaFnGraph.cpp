@@ -39,7 +39,7 @@ namespace zSpace
 
 		unordered_map <string, int> positionVertex;
 
-		//printf("\n o_inCurves %i ", o_inCurves.length());
+		//printf("\n o_inCurves %i ", maya_curves.length());
 
 		for (int i = 0; i < maya_curves.length(); i++)
 		{
@@ -132,9 +132,9 @@ namespace zSpace
 
 		}
 
-		//printf("\n %i %i ", pos.size(), edgeConnects.size());
+		//printf("\n %i %i ", pos.size(), edgeConnects.size());	
 		create(pos, edgeConnects);
-		
+
 
 	}
 

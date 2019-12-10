@@ -963,6 +963,15 @@ namespace zSpace
 		*/
 		bool isActive();
 
+		/*! \brief This method returns a boolean if the input point is in the half space.
+		*
+		*	\details	beased on https://www.codeproject.com/Articles/1065730/Point-Inside-Convex-Polygon-in-Cplusplus
+		*	\return		bool				- true if point is in the half space.
+		*	\param		[in]	pt			- point to check for.
+		*	\since version 0.0.4
+		*/
+		bool checkPointInHalfSpace(zPoint &pt);
+
 		//--------------------------
 		//---- OPERATOR METHODS
 		//--------------------------

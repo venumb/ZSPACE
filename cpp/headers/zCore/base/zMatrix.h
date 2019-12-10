@@ -19,6 +19,9 @@
 
 #include <stdexcept>
 #include <vector>
+#include <queue>
+#include <tuple>
+
 using namespace std;
 
 #include<depends/Eigen/Core>

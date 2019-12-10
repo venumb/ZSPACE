@@ -83,6 +83,8 @@ namespace zSpace
 				{
 					fnForces[i].from(filePaths[i], type);
 					//fnForces[i].setFaceColor(zColor(1.0, 0.0, 0.0, 0.3));
+
+					cout <<endl  << filePaths[i];
 				}
 
 			}
@@ -108,7 +110,11 @@ namespace zSpace
 
 		zSparseMatrix C_fc;
 		getPrimal_FaceCellMatrix(zForceDiagram, C_fc);
-		//cout << "\n C_fc :" << endl << C_fc << endl;
+		cout << "\n C_fc :" << endl << C_fc << endl;
+
+		zSparseMatrix C_ef;
+		getPrimal_EdgeFaceMatrix(zForceDiagram, C_ef);
+		cout << "\n C_ef :" << endl << C_ef << endl;
 
 		for (int j = 0; j < fnForces.size(); j++)
 		{
@@ -168,6 +174,11 @@ namespace zSpace
 
 		fnForm.create(positions, edgeConnects);
 		fnForm.setEdgeColor(edgeCol);
+
+		for (zItGraphEdge e(*formObj); !e.end(); e++)
+		{
+			printf("\n %i | %i %i ", e.getId(), e.getHalfEdge(0).getVertex().getId(), e.getHalfEdge(1).getVertex().getId());
+		}
 	}
 
 	ZSPACE_INLINE void zTsPolytopal::createPolytopalsFromForce(double offset, double param , int subdivs )
@@ -608,7 +619,9 @@ namespace zSpace
 
 			printf("\n primal Force:  primal_n_v %i, primal_n_v_i %i ,primal_n_e %i, primal_n_e_i %i , primal_n_f %i  primal_n_f_i %i", primal_n_v, primal_n_v_i, primal_n_e, primal_n_e_i, primal_n_f, primal_n_f_i);
 
-
+			zSparseMatrix C_ev;
+			getPrimal_EdgeVertexMatrix(zForceDiagram, C_ev);
+			cout << "\n C_ev :" << endl << C_ev << endl;
 		}
 
 		else throw std::invalid_argument(" invalid diagram type.");

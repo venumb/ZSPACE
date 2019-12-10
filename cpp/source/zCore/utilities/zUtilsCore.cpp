@@ -569,23 +569,18 @@ namespace zSpace
 
 		double denom = (planeNorm * (p21));
 
-		//printf("\n denom: %1.2f " , denom);
-
 		if (denom != 0)
 		{
 			double u = (planeNorm * (p31)) / denom;
 
-			//printf("\n u : %1.2f ", u);
+			if (u >= 0 && u <= 1) out = true;
+							
+			double lenP21 = p21.length();
+			p21.normalize();
 
-			if (u >= 0 && u <= 1)
-			{
-				out = true;
-				double lenP21 = p21.length();
-				p21.normalize();
-
-				intersectionPt = (p21 * lenP21 * u);
-				intersectionPt += p1;
-			}
+			intersectionPt = (p21 * (lenP21 * u));
+			intersectionPt += p1;
+		
 		}
 
 
@@ -698,7 +693,6 @@ namespace zSpace
 		return out;
 	}
 
-
 	//---- MATRIX METHODS USING EIGEN / ARMA
 
 	ZSPACE_INLINE zPlane zUtilsCore::getBestFitPlane(zPointArray& points)
@@ -726,6 +720,7 @@ namespace zSpace
 			X_arma(i, 2) = points[i].z - averagePt.z;
 
 		}
+
 		
 		mat U;
 		arma::vec s;
@@ -737,14 +732,13 @@ namespace zSpace
 
 		// y
 		out(0, 1) = V(0, 1); 	out(1, 1) = V(1, 1);	out(2, 1) = V(2, 1);
-		
+
 		// z
 		out(0, 2) = V(0, 2);	out(1, 2) = V(1, 2);	out(2, 2) = V(2, 2);
 
 		// o
 		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
 
-	
 		MatrixXd X_eigen(points.size(), 3);
 		for (int i = 0; i < points.size(); i++)
 		{
@@ -754,12 +748,13 @@ namespace zSpace
 
 		}
 
+
 		//Matrix3f covarianceMat;
 		////X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
 
 		//BDCSVD<Matrix3d> svd;
 		//svd.compute(X_eigen);
-	
+
 		//cout << "\n eigen \n " << svd.computeV();
 
 		// compute covariance matrix 
@@ -775,17 +770,17 @@ namespace zSpace
 				for (int k = 0; k < points.size(); k++)
 				{
 					val += (points[k][i] - averagePt[i]) * (points[k][j] - averagePt[j]);
-				}			
+				}
 
 				if (val == INFINITY) val = 0.00;
 
 				if (val > EPS) val /= (points.size() - 1);
-				else val = 0.00;			
+				else val = 0.00;
 
 				covarianceMat(i, j) = val;
 			}
 
-		}		
+		}
 
 		eigensolver.compute(covarianceMat);
 		if (eigensolver.info() != Success) abort();
@@ -801,6 +796,26 @@ namespace zSpace
 		out.setCol(3, O);*/
 
 		return out;
+	}
+
+	ZSPACE_INLINE void zUtilsCore::getProjectedPoints_BestFitPlane(zPointArray & points, zPointArray &projectPoints)
+	{
+		zPlane plane;
+		plane = getBestFitPlane(points);
+
+		// project points on plane
+		zVector planeNormal = zVector(plane(0, 2), plane(1, 2), plane(2, 2));
+		zVector planeOrigin = zVector(plane(0, 3), plane(1, 3), plane(2, 3));
+
+		projectPoints.clear();
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			zPoint tmp;
+			zPoint B = points[i] + planeNormal;
+			bool chkProjected = line_PlaneIntersection(points[i],B , planeNormal, planeOrigin, tmp);
+			projectPoints.push_back(tmp);
+		}
 	}
 
 	ZSPACE_INLINE void zUtilsCore::boundingboxPCA(zPointArray points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
