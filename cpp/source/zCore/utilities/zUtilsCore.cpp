@@ -909,7 +909,7 @@ namespace zSpace
 
 	//---- MATRIX  METHODS USING ARMADILLO
 
-#if defined(NOTUSING_CLR) 
+#ifndef USING_CLR 
 
 	ZSPACE_INLINE arma::mat zUtilsCore::rref(arma::mat A, double tol)
 	{
@@ -1466,7 +1466,7 @@ namespace zSpace
 
 	//---- PRIVATE MATRIX  METHODS
 
-#if defined(NOTUSING_CLR) 
+#ifndef USING_CLR
 
 	ZSPACE_INLINE void zUtilsCore::rref_max(mat &A, int &r, int &c, double &m, int &pivot)
 	{

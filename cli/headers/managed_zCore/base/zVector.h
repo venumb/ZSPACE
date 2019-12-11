@@ -53,7 +53,12 @@ namespace zSpaceManaged
 		///	<param name="_y"> y component of the zVector.</param>
 		///	<param name="_z"> z component of the zVector.</param>
 		///	</summary>		
-		zVector(double _x, double _y, double _z);		
+		zVector(double _x, double _y, double _z);	
+
+		/// <summary>
+		/// Copy Constructor.
+		/// </summary>
+		zVector(const zVector ^ &v1);
 
 		//--------------------------
 		//---- OPERATORS
@@ -64,7 +69,7 @@ namespace zSpaceManaged
 		///	<param name= "v1"> zVector against which the equality is checked.</param>
 		///	<returns> true if vectors are equal.</param>
 		///	</summary>	
-		bool operator==(zVector c1);
+		bool operator==(zVector ^ v1);
 
 		/// <summary>
 		///	This method returns the component value at the input index of the current zVector.
@@ -78,56 +83,56 @@ namespace zSpaceManaged
 		///	<param name= "v1"> zVector which is added to the current vector.</param>
 		///	<returns> resultant vector after the addition..</param>
 		///	</summary>
-		zVector operator+(const zVector v1);
+		static zVector^ operator+(const zVector ^v1,const zVector ^v2);
 
 		/// <summary>
 		///	This operator is used for vector subtraction.
 		///	<param name= "v1"> zVector which is subtracted from the current vector.</param>
 		///	<returns> resultant vector after the subtraction.</param>
 		///	</summary>
-		zVector operator -(const zVector v1);
+		static zVector^ operator-(const zVector ^v1, const zVector ^v2);
 
 		/// <summary>
 		///	This operator is used for vector dot product.
 		///	<param name= "v1"> zVector which is used for the dot product with the current vector.</param>
 		///	<returns> resultant value after the dot product.</param>
 		///	</summary>
-		double operator *(const zVector v1);
+		static double operator*(const zVector ^v1,const zVector ^v2);
 
 		/// <summary>
 		///	This operator is used for vector cross procduct.
 		///	<param name= "v1"> zVector which is used for the cross product with the current vector.</param>
 		///	<returns> resultant vector after the cross product.</param>
 		///	</summary>
-		zVector operator ^(const zVector v1);
+		static zVector^ operator^(const zVector ^v1, const zVector ^v2);
 
 		/// <summary>
 		///	This operator is used for scalar addition of a vector.
 		///	<param name= "val"> scalar value to be added to the current vector.</param>
 		///	<returns> resultant vector after the scalar addition.</param>
 		///	</summary>
-		zVector operator +(double val);
+		static zVector^ operator+(const zVector ^v1, double val);
 
 		/// <summary>
 		///	This operator is used for scalar subtraction of a vector.
 		///	<param name= "val"> scalar value to be subtracted from the current vector.</param>
 		///	<returns> resultant vector after the scalar subtraction.</param>
 		///	</summary>
-		zVector operator -(double val);
+		static zVector^ operator-(const zVector ^v1, double val);
 
 		/// <summary>
 		///	This operator is used for scalar muliplication of a vector.
 		///	<param name= "val"> scalar value to be multiplied with the current vector.</param>
 		///	<returns> resultant vector after the scalar multiplication.</param>
 		///	</summary>
-		zVector operator *(double val);
+		static zVector^ operator*(const zVector ^v1, double val);
 
 		/// <summary>
 		///	This operator is used for scalar division of a vector.
 		///	<param name= "val"> scalar value used to divide the current vector.</param>
 		///	<returns> resultant vector after the scalar division.</param>
 		///	</summary>
-		zVector operator /(double val);
+		static zVector^ operator/(const zVector ^v1, double val);
 
 		//--------------------------
 		//---- PROPERTY

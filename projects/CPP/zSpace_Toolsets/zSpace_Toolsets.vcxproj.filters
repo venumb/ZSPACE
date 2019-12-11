@@ -55,6 +55,9 @@
     <Filter Include="Source Files\Streamlines">
       <UniqueIdentifier>{64d52869-aa5e-4471-80b8-9a40ac396e90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Depends\QuickHull">
+      <UniqueIdentifier>{a422da4e-4b69-4cbb-96a3-8a5cc2cb3990}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\data\zTsKMeans.h">

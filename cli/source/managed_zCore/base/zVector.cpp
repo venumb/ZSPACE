@@ -20,22 +20,81 @@ namespace zSpaceManaged
 	
 	zVector::zVector(double _x, double _y, double _z) : zManagedObj(new zSpace::zVector(_x, _y, _z)) {}
 
+	zVector::zVector(const zVector ^& v1) : zManagedObj(new zSpace::zVector())
+	{
+		m_zInstance = v1->m_zInstance;			
+	}
+
+
 	//---- OPERATOR
 
-	bool zVector::operator==(zVector c1)
+	bool zVector::operator==(zVector ^v1)
 	{
-		return m_zInstance->operator==(*c1.m_zInstance);
+		return m_zInstance->operator==(*v1->m_zInstance);
 	}
 
-	double zVector::operator[](int index)
+	double zVector:: operator[](int index)
 	{
-		m_zInstance->operator[](index);
+		return m_zInstance->operator[](index);
 	}
 
-	zVector zVector::operator+(zVector c1)
+	zVector^ zVector::operator+(const zVector ^v1, const zVector ^v2)
 	{
-		zVector out;
-		out.m_zInstance =  &m_zInstance->operator+(*c1.m_zInstance);
+		zVector^ out = gcnew zVector();
+		out->m_zInstance =  &v1->m_zInstance->operator+(*v2->m_zInstance);		
+
+		return out/*gcnew zVector(out->x, out->y, out->z)*/;
+	}
+
+	zVector^ zVector::operator-(const zVector ^v1, const zVector ^v2)
+	{
+		zVector^ out = gcnew zVector();
+		out->m_zInstance = &v1->m_zInstance->operator-(*v2->m_zInstance);
+
+		return out;
+	}
+
+	double zVector::operator*(const zVector ^v1, const zVector ^v2)
+	{
+		return v1->m_zInstance->operator*(*v2->m_zInstance);
+	}
+
+	zVector^ zVector::operator^(const zVector ^v1, const zVector ^v2)
+	{
+		zVector^ out = gcnew zVector();
+		out->m_zInstance = &v1->m_zInstance->operator^(*v2->m_zInstance);
+
+		return out;
+	}
+
+	zVector^ zVector::operator+(const zVector ^v1, double val)
+	{
+		zVector^ out = gcnew zVector();
+		out->m_zInstance = &v1->m_zInstance->operator+(val);
+
+		return out;
+	}
+
+	zVector^ zVector::operator-(const zVector ^v1, double val)
+	{
+		zVector^ out = gcnew zVector();
+		out->m_zInstance = &v1->m_zInstance->operator-(val);
+
+		return out;
+	}
+
+	zVector^ zVector::operator*(const zVector ^v1, double val)
+	{
+		zVector^ out = gcnew zVector();
+		out->m_zInstance = &v1->m_zInstance->operator*(val);
+
+		return out;
+	}
+
+	zVector^ zVector::operator/(const zVector ^v1, double val)
+	{
+		zVector^ out = gcnew zVector();
+		out->m_zInstance = &v1->m_zInstance->operator/(val);
 
 		return out;
 	}

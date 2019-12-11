@@ -32,6 +32,11 @@ namespace zSpaceManaged
 
 		zColor(double _h, double _s, double _v);
 
+		/// <summary>
+		/// Copy Constructor.
+		/// </summary>
+		zColor(const zColor ^ &c1);
+
 		void toHSV();
 
 		void toRGB();
@@ -77,6 +82,20 @@ namespace zSpaceManaged
 			void set(double value)
 			{
 				m_zInstance->b = value;
+			}
+		}
+
+		property double a
+		{
+		public:
+			double get()
+			{
+				return m_zInstance->a;
+			}
+
+			void set(double value)
+			{
+				m_zInstance->a = value;
 			}
 		}
 

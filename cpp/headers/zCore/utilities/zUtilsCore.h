@@ -32,7 +32,12 @@
 
 #include <depends/tooJPEG/toojpeg.h>
 #include <depends/lodePNG/lodepng.h>
+
+#ifndef QUICKHULL_H
+#define QUICKHULL_IMPLEMENTATION
+#define _CRT_SECURE_NO_WARNINGS
 #include <depends/quickhull/quickhull.h>
+#endif //QUICKHULL_H
 
 #include <string.h>
 #include <vector>

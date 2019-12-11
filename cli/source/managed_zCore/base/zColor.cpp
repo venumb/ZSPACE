@@ -22,6 +22,10 @@ namespace zSpaceManaged
 
 	zColor::zColor(double _h, double _s, double _v) : zManagedObj(new zSpace::zColor(_h, _s, _v)) {}
 	
+	zColor::zColor(const zColor ^& c1) : zManagedObj(new zSpace::zColor())
+	{
+		m_zInstance = c1->m_zInstance;
+	}
 
 	//---- METHODS
 

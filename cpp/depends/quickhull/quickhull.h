@@ -86,6 +86,7 @@ void qh_free_mesh(qh_mesh_t mesh);
 
 #endif // QUICKHULL_H
 
+
 #ifdef QUICKHULL_IMPLEMENTATION
 
 #include <math.h>   // sqrt & fabs
@@ -173,7 +174,7 @@ typedef struct qh_context {
     #endif
 } qh_context_t;
 
-void qh__find_6eps(qh_vertex_t* vertices, unsigned int nvertices, qh_index_t* eps)
+inline void qh__find_6eps(qh_vertex_t* vertices, unsigned int nvertices, qh_index_t* eps)
 {
     qh_vertex_t* ptr = vertices;
 
@@ -219,7 +220,7 @@ void qh__find_6eps(qh_vertex_t* vertices, unsigned int nvertices, qh_index_t* ep
     }
 }
 
-float qh__vertex_segment_length2(qh_vertex_t* p, qh_vertex_t* a, qh_vertex_t* b)
+inline float qh__vertex_segment_length2(qh_vertex_t* p, qh_vertex_t* a, qh_vertex_t* b)
 {
     float dx = b->x - a->x;
     float dy = b->y - a->y;
@@ -254,50 +255,50 @@ float qh__vertex_segment_length2(qh_vertex_t* p, qh_vertex_t* a, qh_vertex_t* b)
     return dx * dx + dy * dy + dz * dz;
 }
 
-void qh__vec3_sub(qh_vec3_t* a, qh_vec3_t* b)
+inline void qh__vec3_sub(qh_vec3_t* a, qh_vec3_t* b)
 {
     a->x -= b->x;
     a->y -= b->y;
     a->z -= b->z;
 }
 
-void qh__vec3_add(qh_vec3_t* a, qh_vec3_t* b)
+inline void qh__vec3_add(qh_vec3_t* a, qh_vec3_t* b)
 {
     a->x += b->x;
     a->y += b->y;
     a->z += b->z;
 }
 
-void qh__vec3_multiply(qh_vec3_t* a, float v)
+inline void qh__vec3_multiply(qh_vec3_t* a, float v)
 {
     a->x *= v;
     a->y *= v;
     a->z *= v;
 }
 
-int qh__vertex_equals_epsilon(qh_vertex_t* a, qh_vertex_t* b, float epsilon)
+inline int qh__vertex_equals_epsilon(qh_vertex_t* a, qh_vertex_t* b, float epsilon)
 {
     return fabs(a->x - b->x) <= epsilon &&
            fabs(a->y - b->y) <= epsilon &&
            fabs(a->z - b->z) <= epsilon;
 }
 
-float qh__vec3_length2(qh_vec3_t* v)
+inline float qh__vec3_length2(qh_vec3_t* v)
 {
     return v->x * v->x + v->y * v->y + v->z * v->z;
 }
 
-float qh__vec3_dot(qh_vec3_t* v1, qh_vec3_t* v2)
+inline float qh__vec3_dot(qh_vec3_t* v1, qh_vec3_t* v2)
 {
     return v1->x * v2->x + v1->y * v2->y + v1->z * v2->z;
 }
 
-void qh__vec3_normalize(qh_vec3_t* v)
+inline void qh__vec3_normalize(qh_vec3_t* v)
 {
     qh__vec3_multiply(v, 1.f / sqrt(qh__vec3_length2(v)));
 }
 
-void qh__find_2dps_6eps(qh_vertex_t* vertices, qh_index_t* eps, int* ii, int* jj)
+inline void qh__find_2dps_6eps(qh_vertex_t* vertices, qh_index_t* eps, int* ii, int* jj)
 {
     int i, j;
     float max = -QH_FLT_MAX;
@@ -324,7 +325,7 @@ void qh__find_2dps_6eps(qh_vertex_t* vertices, qh_index_t* eps, int* ii, int* jj
     }
 }
 
-qh_vec3_t qh__vec3_cross(qh_vec3_t* v1, qh_vec3_t* v2)
+inline qh_vec3_t qh__vec3_cross(qh_vec3_t* v1, qh_vec3_t* v2)
 {
     qh_vec3_t cross;
 
@@ -335,7 +336,7 @@ qh_vec3_t qh__vec3_cross(qh_vec3_t* v1, qh_vec3_t* v2)
     return cross;
 }
 
-qh_vertex_t qh__face_centroid(qh_index_t vertices[3], qh_context_t* context)
+inline qh_vertex_t qh__face_centroid(qh_index_t vertices[3], qh_context_t* context)
 {
     qh_vertex_t centroid;
     int i;
@@ -350,12 +351,12 @@ qh_vertex_t qh__face_centroid(qh_index_t vertices[3], qh_context_t* context)
     return centroid;
 }
 
-float qh__dist_point_plane(qh_vertex_t* v, qh_vec3_t* normal, float sdist)
+inline float qh__dist_point_plane(qh_vertex_t* v, qh_vec3_t* normal, float sdist)
 {
     return fabs(qh__vec3_dot(v, normal) - sdist);
 }
 
-void qh__init_half_edge(qh_half_edge_t* half_edge) {
+inline void qh__init_half_edge(qh_half_edge_t* half_edge) {
     half_edge->adjacent_face = -1;
     half_edge->he = -1;
     half_edge->next_he = -1;
@@ -364,7 +365,7 @@ void qh__init_half_edge(qh_half_edge_t* half_edge) {
     half_edge->previous_he = -1;
 }
 
-qh_half_edge_t* qh__next_edge(qh_context_t* context)
+inline qh_half_edge_t* qh__next_edge(qh_context_t* context)
 {
     qh_half_edge_t* edge = context->edges + context->nedges;
 
@@ -378,7 +379,7 @@ qh_half_edge_t* qh__next_edge(qh_context_t* context)
     return edge;
 }
 
-qh_face_t* qh__next_face(qh_context_t* context)
+inline qh_face_t* qh__next_face(qh_context_t* context)
 {
     qh_face_t* face = context->faces + context->nfaces;
 
@@ -392,7 +393,7 @@ qh_face_t* qh__next_face(qh_context_t* context)
     return face;
 }
 
-qh_vec3_t qh__edge_vec3(qh_half_edge_t* edge, qh_context_t* context)
+inline qh_vec3_t qh__edge_vec3(qh_half_edge_t* edge, qh_context_t* context)
 {
     qh_half_edge_t prevhe = context->edges[edge->previous_he];
     qh_vec3_t v0, v1;
@@ -406,7 +407,7 @@ qh_vec3_t qh__edge_vec3(qh_half_edge_t* edge, qh_context_t* context)
     return v1;
 }
 
-void qh__face_init(qh_face_t* face, qh_index_t vertices[3], qh_context_t* context)
+inline void qh__face_init(qh_face_t* face, qh_index_t vertices[3], qh_context_t* context)
 {
     qh_half_edge_t* e0 = qh__next_edge(context);
     qh_half_edge_t* e1 = qh__next_edge(context);
@@ -450,7 +451,7 @@ void qh__face_init(qh_face_t* face, qh_index_t vertices[3], qh_context_t* contex
     face->visitededges = 0;
 }
 
-void qh__tetrahedron_basis(qh_context_t* context, qh_index_t vertices[3])
+inline void qh__tetrahedron_basis(qh_context_t* context, qh_index_t vertices[3])
 {
     qh_index_t eps[6];
     int i, j, k, l;
@@ -481,13 +482,13 @@ void qh__tetrahedron_basis(qh_context_t* context, qh_index_t vertices[3])
     vertices[2] = eps[l];
 }
 
-void qh__push_stack(qh_index_stack_t* stack, qh_index_t index)
+inline void qh__push_stack(qh_index_stack_t* stack, qh_index_t index)
 {
     stack->begin[stack->size] = index;
     stack->size++;
 }
 
-qh_index_t qh__pop_stack(qh_index_stack_t* stack)
+inline qh_index_t qh__pop_stack(qh_index_stack_t* stack)
 {
     qh_index_t top = -1;
 
@@ -499,7 +500,7 @@ qh_index_t qh__pop_stack(qh_index_stack_t* stack)
     return top;
 }
 
-qh_index_t qh__furthest_point_from_plane(qh_context_t* context,
+inline qh_index_t qh__furthest_point_from_plane(qh_context_t* context,
     qh_index_t* indices,
     int nindices,
     qh_vec3_t* normal,
@@ -521,7 +522,7 @@ qh_index_t qh__furthest_point_from_plane(qh_context_t* context,
     return j;
 }
 
-int qh__face_can_see_vertex(qh_face_t* face, qh_vertex_t* v)
+inline int qh__face_can_see_vertex(qh_face_t* face, qh_vertex_t* v)
 {
     qh_vec3_t tov = *v;
 
@@ -529,7 +530,7 @@ int qh__face_can_see_vertex(qh_face_t* face, qh_vertex_t* v)
     return qh__vec3_dot(&tov, &face->normal) > 0;
 }
 
-int qh__face_can_see_vertex_epsilon(qh_context_t* context, qh_face_t* face, qh_vertex_t* v, float epsilon)
+inline int qh__face_can_see_vertex_epsilon(qh_context_t* context, qh_face_t* face, qh_vertex_t* v, float epsilon)
 {
     float dot;
     qh_vec3_t tov = *v;
@@ -556,7 +557,7 @@ int qh__face_can_see_vertex_epsilon(qh_context_t* context, qh_face_t* face, qh_v
     return 0;
 }
 
-static inline void qh__assert_half_edge(qh_half_edge_t* edge, qh_context_t* context)
+inline static inline void qh__assert_half_edge(qh_half_edge_t* edge, qh_context_t* context)
 {
     QH_ASSERT(edge->opposite_he != -1);
     QH_ASSERT(edge->he != -1);
@@ -567,7 +568,7 @@ static inline void qh__assert_half_edge(qh_half_edge_t* edge, qh_context_t* cont
     QH_ASSERT(context->edges[edge->opposite_he].to_vertex != edge->to_vertex);
 }
 
-static inline void qh__assert_face(qh_face_t* face, qh_context_t* context)
+inline static inline void qh__assert_face(qh_face_t* face, qh_context_t* context)
 {
     int i;
 
@@ -598,7 +599,7 @@ void qh__log_face(qh_context_t* context, qh_face_t const* face) {
 
 #endif
 
-int qh__test_hull(qh_context_t* context, float epsilon, int testiset)
+inline int qh__test_hull(qh_context_t* context, float epsilon, int testiset)
 {
     unsigned int i, j, k;
 
@@ -657,9 +658,9 @@ int qh__test_hull(qh_context_t* context, float epsilon, int testiset)
 }
 
 #ifdef QUICKHULL_DEBUG
-void qh__build_hull(qh_context_t* context, float epsilon, unsigned int step, unsigned int* failurestep)
+inline void qh__build_hull(qh_context_t* context, float epsilon, unsigned int step, unsigned int* failurestep)
 #else
-void qh__build_hull(qh_context_t* context, float epsilon)
+inline void qh__build_hull(qh_context_t* context, float epsilon)
 #endif
 {
     qh_index_t topface = qh__pop_stack(&context->facestack);
@@ -960,9 +961,9 @@ void qh__build_hull(qh_context_t* context, float epsilon)
     }
 }
 
-void qh_mesh_export(qh_mesh_t const* mesh, char const* filename)
+inline  void qh_mesh_export(qh_mesh_t const* mesh, char const* filename)
 {
-    FILE* objfile = fopen(filename, "wt");
+   /* FILE* objfile = fopen(filename, "wt");
     fprintf(objfile, "o\n");
 
     for (int i = 0; i < mesh->nvertices; ++i) {
@@ -982,10 +983,10 @@ void qh_mesh_export(qh_mesh_t const* mesh, char const* filename)
             mesh->indices[i+2] + 1, mesh->normalindices[j] + 1);
     }
 
-    fclose(objfile);
+    fclose(objfile);*/
 }
 
-qh_face_t* qh__build_tetrahedron(qh_context_t* context, float epsilon)
+inline qh_face_t* qh__build_tetrahedron(qh_context_t* context, float epsilon)
 {
     int i, j;
     qh_index_t vertices[3];
@@ -1139,7 +1140,7 @@ qh_face_t* qh__build_tetrahedron(qh_context_t* context, float epsilon)
     return faces;
 }
 
-void qh__remove_vertex_duplicates(qh_context_t* context, float epsilon)
+inline void qh__remove_vertex_duplicates(qh_context_t* context, float epsilon)
 {
     int i, j, k;
     for (i = 0; i < context->nvertices; ++i) {
@@ -1160,7 +1161,7 @@ void qh__remove_vertex_duplicates(qh_context_t* context, float epsilon)
     }
 }
 
-void qh__init_context(qh_context_t* context, qh_vertex_t const* vertices, unsigned int nvertices)
+inline void qh__init_context(qh_context_t* context, qh_vertex_t const* vertices, unsigned int nvertices)
 {
     // TODO:
     // size_t nedges = 3 * nvertices - 6;
@@ -1193,7 +1194,7 @@ void qh__init_context(qh_context_t* context, qh_vertex_t const* vertices, unsign
     #endif
 }
 
-void qh__free_context(qh_context_t* context)
+inline void qh__free_context(qh_context_t* context)
 {
     int i;
 
@@ -1216,7 +1217,7 @@ void qh__free_context(qh_context_t* context)
     QH_FREE(context->valid);
 }
 
-void qh_free_mesh(qh_mesh_t mesh)
+inline void qh_free_mesh(qh_mesh_t mesh)
 {
     QH_FREE(mesh.vertices);
     QH_FREE(mesh.indices);
@@ -1224,7 +1225,7 @@ void qh_free_mesh(qh_mesh_t mesh)
     QH_FREE(mesh.normals);
 }
 
-float qh__compute_epsilon(qh_vertex_t const* vertices, unsigned int nvertices)
+inline float qh__compute_epsilon(qh_vertex_t const* vertices, unsigned int nvertices)
 {
     float epsilon;
     unsigned int i;
@@ -1249,7 +1250,7 @@ float qh__compute_epsilon(qh_vertex_t const* vertices, unsigned int nvertices)
     return epsilon;
 }
 
-qh_mesh_t qh_quickhull3d(qh_vertex_t const* vertices, unsigned int nvertices)
+inline qh_mesh_t qh_quickhull3d(qh_vertex_t const* vertices, unsigned int nvertices)
 {
     qh_mesh_t m;
     qh_context_t context;
