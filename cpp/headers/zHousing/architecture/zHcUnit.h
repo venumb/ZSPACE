@@ -154,7 +154,7 @@ namespace zSpace
 		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits(zStructureType&_structureType);
+		bool createStructuralUnits(zStructureType _structureType);
 
 		/*! \brief This method creates internal layout.
 		*

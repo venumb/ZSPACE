@@ -100,7 +100,7 @@ namespace zSpace
 		*	\param		[in]	_structureType				- input structure type
 		*	\since version 0.0.4
 		*/
-		void createHousingUnits(zStructureType&_structureType);
+		void createHousingUnits(zStructureType _structureType);
 
 		/*! \brief This method creates housing units from an imported mesh.
 		*
@@ -128,7 +128,7 @@ namespace zSpace
 		*	\param		[in]	_structureType				- input structure type
 		*	\since version 0.0.4
 		*/
-		void updateStructureType(zStructureType&_structureType);
+		void updateStructureType(zStructureType _structureType);
 
 		/*! \brief This method updates the structure of the units
 		*

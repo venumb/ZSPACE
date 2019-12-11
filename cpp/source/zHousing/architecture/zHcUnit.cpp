@@ -35,7 +35,7 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	bool zHcUnit::createStructuralUnits(zStructureType&_structureType)
+	bool zHcUnit::createStructuralUnits(zStructureType _structureType)
 	{
 		bool success = false;
 		if (!inUnitMeshObj) return success;

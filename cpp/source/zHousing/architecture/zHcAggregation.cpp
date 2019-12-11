@@ -27,7 +27,7 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zHcAggregation::createHousingUnits(zStructureType&_structureType)
+	ZSPACE_INLINE void zHcAggregation::createHousingUnits(zStructureType _structureType)
 	{
 		unitArray.assign(unitObjs.size(), zHcUnit());
 
@@ -119,7 +119,7 @@ namespace zSpace
 
 	//---- UPDATE METHODS
 
-	ZSPACE_INLINE void zHcAggregation::updateStructureType(zStructureType & _structureType)
+	ZSPACE_INLINE void zHcAggregation::updateStructureType(zStructureType _structureType)
 	{
 		for (auto& hc : unitArray)
 		{

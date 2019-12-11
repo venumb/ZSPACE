@@ -37,6 +37,8 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgRoof::createRhwc()
 	{
+		if (isFacade) return;
+
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
