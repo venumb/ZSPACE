@@ -93,7 +93,7 @@ namespace zSpace
 		
 	}
 
-	ZSPACE_INLINE void zHcAggregation::importLayoutMeshesFromDirectory(string & _pathFlat, string & _pathVertical, string & _pathLandscape)
+	ZSPACE_INLINE void zHcAggregation::importLayoutMeshesFromDirectory(vector<string>_pathFlats, vector<string>_pathVerticals, vector<string>_pathLandscapes)
 	{ 
 
 		int uId = 0;
@@ -101,19 +101,18 @@ namespace zSpace
 		{
 			if (h.funcType == zFunctionType::zFlat)
 			{
-				h.importLayoutFromPath(_pathFlat);
-			}
-			else if (h.funcType == zFunctionType::zLandscape)
-			{			
-				h.importLayoutFromPath(_pathLandscape);
+				h.importLayoutsFromPath(_pathFlats);
 			}
 			else if (h.funcType == zFunctionType::zVertical)
 			{
-				h.importLayoutFromPath(_pathVertical);
+				h.importLayoutsFromPath(_pathVerticals);
+			}
+			else if (h.funcType == zFunctionType::zLandscape)
+			{			
+				h.importLayoutsFromPath(_pathLandscapes);
 			}
 
 			uId++;
-			
 		}
 	}
 

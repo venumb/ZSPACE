@@ -67,10 +67,7 @@ namespace zSpace
 		zFnMesh fnUnitMesh;
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMeshArray layoutMeshObjs;
-
-		/*!	\brief input mesh function set  */
-		vector<zFnMesh> fnLayoutMeshArray;
+		vector<zObjMeshArray> layoutMeshObjs;
 
 		/*!	\brief house layout option */
 		zLayoutType layoutType;
@@ -161,7 +158,7 @@ namespace zSpace
 		*	\param		[in]	_layoutType					- input desired layout option
 		*	\since version 0.0.4
 		*/
-		void importLayoutFromPath(string&_path);
+		void importLayoutsFromPath(vector<string>_paths);
 
 		/*! \brief This method creates internal layout.
 		*

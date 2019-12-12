@@ -86,10 +86,13 @@ namespace zSpace
 
 		structureUnit.setStructureDisplayModel(_model);
 
-		for (auto& layout : layoutMeshObjs)
+		for (int i = 0; i < layoutMeshObjs.size(); i++)
 		{
-			model->addObject(layout);
-			layout.setShowElements(false, true, true);
+			for (int j = 0; j < layoutMeshObjs[i].size(); j++)
+			{
+				model->addObject(layoutMeshObjs[i][j]);
+				layoutMeshObjs[i][j].setShowElements(false, true, true);
+			}
 		}
 	}
 
@@ -111,21 +114,26 @@ namespace zSpace
 
 	////////////////////////lsyout creation
 
-	ZSPACE_INLINE void zHcUnit::importLayoutFromPath(string & _path)
+	ZSPACE_INLINE void zHcUnit::importLayoutsFromPath(vector<string>_paths)
 	{
 
-		zStringArray pathsArray;
-		core.getFilesFromDirectory(pathsArray, _path, zJSON);
+		layoutMeshObjs.assign(_paths.size(), vector<zObjMesh>());
 
-		layoutMeshObjs.assign(pathsArray.size(), zObjMesh());
-		fnLayoutMeshArray.assign(pathsArray.size(), zFnMesh());
-
-		for (int i = 0; i < pathsArray.size(); i++)
+		int count = 0;
+		for (auto p : _paths)
 		{
-			fnLayoutMeshArray[i] = zFnMesh(layoutMeshObjs[i]);
-			fnLayoutMeshArray[i].from(pathsArray[i], zJSON);
-		}
+			zStringArray pathsArray;
+			core.getFilesFromDirectory(pathsArray, p, zJSON);
+			layoutMeshObjs[count].assign(pathsArray.size(), zObjMesh());
 
+			for (int i = 0; i < pathsArray.size(); i++)
+			{
+				zFnMesh fnTemp(layoutMeshObjs[count][i]);
+				fnTemp.from(pathsArray[i], zJSON);
+			}
+			count++;
+		}
+		
 	}
 
 	////////////////////////display methods
@@ -134,7 +142,11 @@ namespace zSpace
 	{
 		for (int i = 0; i < layoutMeshObjs.size(); i++)
 		{
-			_index == i ? layoutMeshObjs[i].setShowObject(_show) : layoutMeshObjs[i].setShowObject(false);
+			for (int j = 0; j < layoutMeshObjs[i].size(); j++)
+			{
+				_index == i ? layoutMeshObjs[i][j].setShowObject(_show) : layoutMeshObjs[i][j].setShowObject(false);
+
+			}
 		}
 	}
 }

@@ -116,7 +116,7 @@ namespace zSpace
 		*	\param		[in]	_type				- file type
 		*	\since version 0.0.4
 		*/
-		void importLayoutMeshesFromDirectory(string&_pathFlat, string&_pathVertical, string&_pathLandscape);
+		void importLayoutMeshesFromDirectory(vector<string>_pathFlats, vector<string>_pathVerticals, vector<string>_pathLandscapes);
 
 
 		//--------------------------
