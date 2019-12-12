@@ -87,10 +87,9 @@ namespace zSpace
 		for (int i = 0; i < pathsArray.size(); i++)
 		{
 			fnUnitMeshArray[i] = zFnMesh(unitObjs[i]);
-			fnUnitMeshArray[i].from(pathsArray[i], zJSON);			
+			fnUnitMeshArray[i].from(pathsArray[i], zJSON);
+			//fnUnitMeshArray[i].triangulate();
 		}	
-
-		
 	}
 
 	ZSPACE_INLINE void zHcAggregation::importLayoutMeshesFromDirectory(vector<string>_pathFlats, vector<string>_pathVerticals, vector<string>_pathLandscapes)

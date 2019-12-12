@@ -149,6 +149,7 @@ namespace zSpace
 		
 		zFnMesh fnInMesh(inMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
+		//fnInMesh.triangulate();
 		fnInMesh.extrudeMesh(0.1, inMeshObj, false);
 	}
 

@@ -447,6 +447,7 @@ namespace zSpace
 		{
 			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
+			//fnInMesh.triangulate();
 			//fnInMesh.smoothMesh(1, false);
 		}
 		

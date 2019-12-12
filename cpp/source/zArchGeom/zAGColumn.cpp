@@ -566,7 +566,7 @@ namespace zSpace
 			zFnMesh fnInMesh(inMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 
-			fnInMesh.smoothMesh(1, false);
+			fnInMesh.smoothMesh(2, false);
 			createFrame();
 
 		}
@@ -580,7 +580,7 @@ namespace zSpace
 
 		for (zItMeshHalfEdge he(inMeshObj); !he.end(); he++)
 		{
-			if (he.onBoundary()) continue;
+			if (he.onBoundary() || !he.getSym().onBoundary()) continue;
 
 			zVector xd = he.getNext().getVector();
 			xd.normalize();
@@ -588,7 +588,7 @@ namespace zSpace
 
 			zVector yd = he.getFace().getNormal();
 			yd.normalize();
-			yd *= 0.05;
+			yd *= 0.1;
 
 			pointArray.push_back(he.getVertex().getPosition());
 			pointArray.push_back(he.getVertex().getPosition() + yd);

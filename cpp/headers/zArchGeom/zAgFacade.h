@@ -60,7 +60,7 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inMeshObj;
+		zObjMeshArray facadeObjs;
 
 		/*!	\brief input vertex corners */
 		zPointArray vertexCorners;
@@ -113,13 +113,50 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
+		void createTimberMullions(zObjMesh&_timberMullions);
+
+		/*! \brief This method creates a robotic hotwire cut facade
+		*
+		*	\since version 0.0.4
+		*/
+		void createTimberGlass(zObjMesh&_timberGlass);
+
+		/*! \brief This method creates a robotic hotwire cut facade
+		*
+		*	\since version 0.0.4
+		*/
+		void createTimberPanels(zObjMesh&_timberPanels);
+
+
+		/*! \brief This method creates a robotic hotwire cut facade
+		*
+		*	\since version 0.0.4
+		*/
 		void createRhwc() override;
+
+		/*! \brief This method creates a robotic hotwire cut facade
+		*
+		*	\since version 0.0.4
+		*/
+		void createRwhcMullions(zObjMesh&_RwhcMullions);
+
+		/*! \brief This method creates a robotic hotwire cut facade
+		*
+		*	\since version 0.0.4
+		*/
+		void createRwhcGlass(zObjMesh&_RwhcGlass);
+
+		/*! \brief This method creates a robotic hotwire cut facade
+		*
+		*	\since version 0.0.4
+		*/
+		void createRwhcPanels(zObjMesh&_RwhcPanels);
 
 		/*! \brief This method creates mullions
 		*
 		*	\since version 0.0.4
 		*/
-		void createMullions();
+		void createMullions(zObjMesh&_Mullions);
 
 		//--------------------------
 		//---- UPDATE METHODS
