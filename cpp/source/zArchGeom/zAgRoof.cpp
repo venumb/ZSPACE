@@ -26,8 +26,7 @@ namespace zSpace
 	//---- SET METHODS
 
 	ZSPACE_INLINE  zAgRoof::zAgRoof(zPointArray&_corners, bool _isFacade)
-	{
-		
+	{	
 		corners = _corners;			
 		isFacade = _isFacade;
 
@@ -37,27 +36,38 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgRoof::createRhwc()
 	{
-		if (isFacade) return;
+		
 
 		zPointArray pointArray;
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		if (corners.size() == 0) return;
-
-		printf("\n corners rhwc size: %i", corners.size());
-
-
-		for (int i = 0; i < corners.size(); i++)
+		if (isFacade)
 		{
-			pointArray.push_back(corners[i]);
-			polyConnect.push_back(i);
+			zFnMesh fnInMesh(inMeshObj);
+			fnInMesh.create(pointArray, polyCount, polyConnect);
+		}
+		else
+		{
+			printf("\n corners rhwc size: %i", corners.size());
+
+			if (corners.size() == 0) return;
+
+
+
+			for (int i = 0; i < corners.size(); i++)
+			{
+				pointArray.push_back(corners[i]);
+				polyConnect.push_back(i);
+			}
+
+			polyCount.push_back(4);
+			printf("\n polyconnect: %i %i %i", pointArray.size(), polyConnect.size(), polyCount.size());
+			zFnMesh fnInMesh(inMeshObj);
+			fnInMesh.create(pointArray, polyCount, polyConnect);
 		}
 
-		polyCount.push_back(4);
-		printf("\n polyconnect: %i %i %i", pointArray.size(), polyConnect.size(), polyCount.size());
-		zFnMesh fnInMesh(inMeshObj);
-		fnInMesh.create(pointArray, polyCount, polyConnect);
+		
 
 	}
 

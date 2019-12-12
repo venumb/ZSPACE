@@ -28,7 +28,7 @@ namespace zSpace
 
 		z = zVector(0, 0, -1);
 
-		height = _height;
+		height = 4.5f; //TODO update with variable passed
 	}
 
 	//---- DESTRUCTOR
@@ -121,10 +121,10 @@ namespace zSpace
 				bottomPoints[10] = (x * 0.020 * xSpan) + (y * 0.020 * ySpan) + zVector(0, 0, -1.85) + position; //center
 				/////
 
-				bottomPoints[12] = x * 0.015 * xSpan + zVector(0, 0, -3.0) + position;
-				bottomPoints[15] = y * 0.015 * ySpan + zVector(0, 0, -3) + position;
-				bottomPoints[14] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -3) + position; //center
-				bottomPoints[13] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -3) + position; //center
+				bottomPoints[12] = x * 0.015 * xSpan + zVector(0, 0, -height) + position;
+				bottomPoints[15] = y * 0.015 * ySpan + zVector(0, 0, -height) + position;
+				bottomPoints[14] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -height) + position; //center
+				bottomPoints[13] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -height) + position; //center
 				/////////////////////////////////////////////////////
 
 				for (auto v : bottomPoints)
@@ -249,16 +249,16 @@ namespace zSpace
 				bottomPoints[28] = bottomPoints[27];
 				bottomPoints[29] = position + zVector(0, 0, -1.85);
 
-				bottomPoints[30] = x * 0.02  + position + zVector(0, 0, -3);
-				bottomPoints[31] = x * 0.02 + y * 0.1  + position + zVector(0, 0, -3);
+				bottomPoints[30] = x * 0.02  + position + zVector(0, 0, -height);
+				bottomPoints[31] = x * 0.02 + y * 0.1  + position + zVector(0, 0, -height);
 				bottomPoints[32] = bottomPoints[31];
-				bottomPoints[33] = x * 0.02 + y * 0.2  + position + zVector(0, 0, -3);
+				bottomPoints[33] = x * 0.02 + y * 0.2  + position + zVector(0, 0, -height);
 				bottomPoints[34] = bottomPoints[33];
-				bottomPoints[35] = x * 0.01 + y * 0.2 + position + zVector(0, 0, -3);
+				bottomPoints[35] = x * 0.01 + y * 0.2 + position + zVector(0, 0, -height);
 				bottomPoints[36] = bottomPoints[35];
-				bottomPoints[37] = y * 0.2 + position + zVector(0, 0, -3);
+				bottomPoints[37] = y * 0.2 + position + zVector(0, 0, -height);
 				bottomPoints[38] = bottomPoints[37];
-				bottomPoints[39] = position + zVector(0, 0, -3);
+				bottomPoints[39] = position + zVector(0, 0, -height);
 
 				for (auto v : bottomPoints)
 				{
@@ -387,10 +387,10 @@ namespace zSpace
 				bottomPoints[10] = (x * 0.020 * xSpan) + (y * 0.020 * ySpan) + zVector(0, 0, -1.85) + position; //center
 				/////
 
-				bottomPoints[12] = x * 0.015 * xSpan + zVector(0, 0, -3.0) + position;
-				bottomPoints[15] = y * 0.015 * ySpan + zVector(0, 0, -3) + position;
-				bottomPoints[14] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -3) + position; //center
-				bottomPoints[13] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -3) + position; //center
+				bottomPoints[12] = x * 0.015 * xSpan + zVector(0, 0, -height) + position;
+				bottomPoints[15] = y * 0.015 * ySpan + zVector(0, 0, -height) + position;
+				bottomPoints[14] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -height) + position; //center
+				bottomPoints[13] = (x * 0.015 * xSpan) + (y * 0.015 * ySpan) + zVector(0, 0, -height) + position; //center
 				/////////////////////////////////////////////////////
 
 				for (auto v : bottomPoints)
@@ -516,16 +516,16 @@ namespace zSpace
 				bottomPoints[28] = bottomPoints[27];
 				bottomPoints[29] = position + zVector(0, 0, -1.85);
 
-				bottomPoints[30] = x * 0.02 + position + zVector(0, 0, -3);
-				bottomPoints[31] = x * 0.02 + y * 0.1 + position + zVector(0, 0, -3);
+				bottomPoints[30] = x * 0.02 + position + zVector(0, 0, -height);
+				bottomPoints[31] = x * 0.02 + y * 0.1 + position + zVector(0, 0, -height);
 				bottomPoints[32] = bottomPoints[31];
-				bottomPoints[33] = x * 0.015 + y * 0.1 + position + zVector(0, 0, -3);
+				bottomPoints[33] = x * 0.015 + y * 0.1 + position + zVector(0, 0, -height);
 				bottomPoints[34] = bottomPoints[33];
-				bottomPoints[35] = x * 0.01 + y * 0.1 + position + zVector(0, 0, -3);
+				bottomPoints[35] = x * 0.01 + y * 0.1 + position + zVector(0, 0, -height);
 				bottomPoints[36] = bottomPoints[35];
-				bottomPoints[37] = y * 0.08 + position + zVector(0, 0, -3);
+				bottomPoints[37] = y * 0.08 + position + zVector(0, 0, -height);
 				bottomPoints[38] = bottomPoints[37];
-				bottomPoints[39] = position + zVector(0, 0, -3);
+				bottomPoints[39] = position + zVector(0, 0, -height);
 
 				for (auto v : bottomPoints)
 				{
