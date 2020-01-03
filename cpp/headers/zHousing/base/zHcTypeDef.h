@@ -22,17 +22,10 @@
 namespace zSpace
 {
 
-	/** \addtogroup zTypeDefs
-	*	\brief  The type defintions of the library.
+	/** \addtogroup zHcTypeDefs
+	*	\brief  The type defintions of the housing library.
 	*  @{
 	*/
-
-	/*! \typedef zUnitArray
-*	\brief A vector of zHcUnit.
-*
-*	\since version 0.0.4
-*/
-	//typedef vector <zHcUnit> zUnitArray;
 
 	/*! \typedef zStructurearray
 	*	\brief A vector of zHcStructure.
@@ -50,17 +43,11 @@ namespace zSpace
 
 
 	/*! \typedef zCellFace
-*	\brief A vector of zCellFace.
-*
-*	\since version 0.0.4
-*/
+	*	\brief A vector of zCellFace.
+	*
+	*	\since version 0.0.4
+	*/
 	typedef vector <zCellFace> zCellFaceArray;
-
-	
-	/** @}*/
-
-	/** @}*/
-	/** @}*/	
 
 }
 

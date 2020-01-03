@@ -10,11 +10,7 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-
 #include<headers/zHousing/architecture/zHcStructure.h>
-//#include <headers/zHousing/architecture/zHcUnit.h>
-
-
 
 namespace zSpace
 {
@@ -22,8 +18,6 @@ namespace zSpace
 
 	ZSPACE_INLINE zHcStructure::zHcStructure() {}
 
-
-		/*! \brief container to cell faces attributes */
 	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inStructObj, zFunctionType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes)
 	{
 		inStructObj = &_inStructObj;
@@ -75,8 +69,6 @@ namespace zSpace
 	ZSPACE_INLINE zHcStructure::~zHcStructure() {}
 
 	//---- CREATE METHODS
-	   	 
-
 
 	ZSPACE_INLINE void zHcStructure::createStructureByType(zStructureType & _structureType)
 	{
@@ -93,24 +85,6 @@ namespace zSpace
 			createFacades();
 			createRoofs();
 		}
-	}
-
-	ZSPACE_INLINE void zHcStructure::updateArchComponents(zStructureType & _structureType)
-	{
-		structureType = _structureType;
-
-		if (functionType == zFunctionType::zPublic)
-		{
-			for (auto& column : columnArray) column.createByType(structureType);
-			for (auto& slab : slabArray) slab.createByType(structureType);
-		}
-		else
-		{
-			for (auto& wall : wallArray) wall.createByType(structureType);
-			for (auto& facade : facadeArray) facade.createByType(structureType);
-			for (auto& roof : roofArray) roof.createByType(structureType);
-		}
-		
 	}
 
 	ZSPACE_INLINE bool zHcStructure::createColumns()
@@ -337,7 +311,25 @@ namespace zSpace
 		return true;
 	}
 
+	//---- UPDATE METHODS
 
+	ZSPACE_INLINE void zHcStructure::updateArchComponents(zStructureType & _structureType)
+	{
+		structureType = _structureType;
+
+		if (functionType == zFunctionType::zPublic)
+		{
+			for (auto& column : columnArray) column.createByType(structureType);
+			for (auto& slab : slabArray) slab.createByType(structureType);
+		}
+		else
+		{
+			for (auto& wall : wallArray) wall.createByType(structureType);
+			for (auto& facade : facadeArray) facade.createByType(structureType);
+			for (auto& roof : roofArray) roof.createByType(structureType);
+		}
+
+	}
 
 #ifndef ZSPACE_UNREAL_INTEROP
 

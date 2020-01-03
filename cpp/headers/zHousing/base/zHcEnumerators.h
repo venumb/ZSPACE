@@ -54,13 +54,6 @@ namespace zSpace
 	*/
 	enum zBoundary { zCorner, zEdge, zInterior};
 
-
-
-	/** @}*/
-
-	/** @}*/
-
-	/** @}*/
 }
 
 #endif

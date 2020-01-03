@@ -17,15 +17,11 @@
 
 #include <headers/zInterface/model/zModel.h>
 #include <headers/zCore/base/zExtern.h>
-
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 
 #include <headers/zHousing/architecture/zHcUnit.h>
 #include <headers/zHousing/base/zHcEnumerators.h>
-//#include <headers/zHousing/base/zHcTypeDef.h>
-//#include <headers/zApp/include/zHousing.h>
-//#include <headers/zApp/include/zArchGeom.h>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -45,23 +41,19 @@ namespace zSpace
 	
 	class ZSPACE_AG zHcAggregation
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
 
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief input mesh Object  */
+		/*!	\brief array of unit Objects  */
 		zObjMeshArray unitObjs;
 
-		/*!	\brief input mesh function set  */
+		/*!	\brief unit meshes function set  */
 		vector<zFnMesh> fnUnitMeshArray;
 
-		/*!	\brief container of housing units pointer  */
+		/*!	\brief container of housing units  */
 		vector<zHcUnit> unitArray;
 
 		/*!	\brief interface manager, handles an input path directory*/
@@ -87,33 +79,34 @@ namespace zSpace
 		*/
 		~zHcAggregation();
 
-		//--------------------------
-		//---- SET METHODS
-		//--------------------------
-			   
+  
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
 		/*! \brief This method creates housing units.
 		*
-		*	\param		[in]	_structureType				- input structure type
+		*	\param		[in]	_structureType		- input structure type
 		*	\since version 0.0.4
 		*/
 		void createHousingUnits(zStructureType _structureType);
 
+		//--------------------------
+		//---- IMPORT METHODS
+		//--------------------------
+
 		/*! \brief This method creates housing units from an imported mesh.
 		*
 		*	\param		[in]	_path				- directory of files
-		*	\param		[in]	_type				- file type
 		*	\since version 0.0.4
 		*/
 		void importMeshesFromDirectory(string&_path);
 
 		/*! \brief This method creates layouts for housing units from  imported meshes.
 		*
-		*	\param		[in]	_path				- directory of files
-		*	\param		[in]	_type				- file type
+		*	\param		[in]	_pathFlats			- directory of files for flat layout
+		*	\param		[in]	_pathVerticals		- directory of files for vertical layout
+		*	\param		[in]	_pathLandscapes		- directory of files for landscape layout
 		*	\since version 0.0.4
 		*/
 		void importLayoutMeshesFromDirectory(vector<string>_pathFlats, vector<string>_pathVerticals, vector<string>_pathLandscapes);
@@ -125,14 +118,16 @@ namespace zSpace
 
 		/*! \brief This method updates the structure of the units
 		*
-		*	\param		[in]	_structureType				- input structure type
+		*	\param		[in]	_structureType		- input structure type
 		*	\since version 0.0.4
 		*/
 		void updateStructureType(zStructureType _structureType);
 
 		/*! \brief This method updates the structure of the units
 		*
-		*	\param		[in]	_structureType				- input structure type
+		*	\param		[in]	unitId				- unit to update
+		*	\param		[in]	_layoutType			- input structure type
+		*	\param		[in]	flip				- toggle mirrored layout
 		*	\since version 0.0.4
 		*/
 		void updateLayout(int unitId, zLayoutType&_layoutType, bool flip);
@@ -158,11 +153,11 @@ namespace zSpace
 
 		/*! \brief This method sets the display of the arch geom elements
 		*
-		*	\param		[in]	showColumn				- display boolean
-		*	\param		[in]	showSlab				- display boolean
-		*	\param		[in]	showWall				- display boolean
-		*	\param		[in]	showFacade				- display boolean
-		*	\param		[in]	showRoof				- display boolean
+		*	\param		[in]	showColumn				- display column
+		*	\param		[in]	showSlab				- display slab
+		*	\param		[in]	showWall				- display wall
+		*	\param		[in]	showFacade				- display facade
+		*	\param		[in]	showRoof				- display roof
 		*	\since version 0.0.4
 		*/
 		void showArchGeom(bool&_showColumn, bool&_showSlab, bool&_showWall, bool&_showFacade, bool&_showRoof);
@@ -170,7 +165,8 @@ namespace zSpace
 
 		/*! \brief This method sets if columns should be showned
 		*
-		*	\param		[in]	showFacade				- display boolean
+		*	\param		[in]	_index					- display indexed unit
+		*	\param		[in]	_showLauyout			- display layout
 		*	\since version 0.0.4
 		*/
 		void showLayout (int&_index, bool&_showLayout);
@@ -185,8 +181,6 @@ namespace zSpace
 #endif
 
 	};
-
-
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)

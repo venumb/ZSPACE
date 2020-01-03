@@ -78,7 +78,7 @@ namespace zSpace
 		/*!	\brief house structure option */
 		zStructureType structureType;
 
-		/*!	\brief structure units/cells array */
+		/*!	\brief structure unit */
 		zHcStructure structureUnit;
 
 		/*!	\brief store edge attributes: primary (true) secondary (false)  */
@@ -105,9 +105,12 @@ namespace zSpace
 
 		/*! \brief Default constructor.
 		*
+		*	\param		[in]	_inMeshObj 					- input mesh
+		*	\param		[in]	_structureType 				- input desired function type
+		*	\param		[in]	_structureType 				- input desired structure type
 		*	\since version 0.0.4
 		*/
-		zHcUnit(zObjMesh& inMeshObj_, zFunctionType&_funcType, zStructureType&_structureType);
+		zHcUnit(zObjMesh&_inMeshObj, zFunctionType&_funcType, zStructureType&_structureType);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -130,28 +133,27 @@ namespace zSpace
 		*/
 		void setCellAttributes();
 
-
-#ifndef ZSPACE_UNREAL_INTEROP
-
-		/*! \brief This method sets the zModel pointer.
+		/*! \brief This method sets the layout by specified type.
 		*
+		*	\param		[in]	_layoutType					- input desired layout option
 		*	\since version 0.0.4
 		*/
-		void setUnitDisplayModel(zModel&_model);
-#endif
+		void setLayoutByType(zLayoutType&_layout);
 
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-
 		/*! \brief This method creates structural units zHcStructure.
 		*
-		*	\param		[in]	_columnObjs 				- input pointer of column mesh obj
-		*	\param		[in]	_slabObjs					- input pointer of slab mesh obj
+		*	\param		[in]	_structureType 				- input desired structure type
 		*	\since version 0.0.4
 		*/
 		bool createStructuralUnits(zStructureType _structureType);
+
+		//--------------------------
+		//---- IMPORT METHODS
+		//--------------------------
 
 		/*! \brief This method creates internal layout.
 		*
@@ -160,27 +162,11 @@ namespace zSpace
 		*/
 		void importLayoutsFromPath(vector<string>_paths);
 
-		/*! \brief This method creates internal layout.
-		*
-		*	\param		[in]	_layoutType					- input desired layout option
-		*	\since version 0.0.4
-		*/
-		void setLayoutByType(zLayoutType&_layout);
-
-		/*! \brief This method creates internal studio layout.
-		*
-		*	\since version 0.0.4
-		*/
-
-		//--------------------------
-		//---- UPDATE METHODS
-		//--------------------------
-
-
-
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 		/*! \brief This method creates the facades that live in this structure cell object
 		*
@@ -189,8 +175,13 @@ namespace zSpace
 		*/
 		void displayLayout(int&_index, bool&_show);
 
-
-
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setUnitDisplayModel(zModel&_model);
+#endif
+		
 	};
 }
 

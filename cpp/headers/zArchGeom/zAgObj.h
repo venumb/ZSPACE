@@ -87,7 +87,7 @@ namespace zSpace
 		*/
 		void createByType(zStructureType&_structureType);
 
-		/*! \brief This method creates a robotic hotwire cut column
+		/*! \brief This method creates a robotic hotwire cut arch geom
 		*
 		*	\since version 0.0.4
 		*/

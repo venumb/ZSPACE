@@ -48,24 +48,19 @@ namespace zSpace
 
 	class ZSPACE_AG zAgFacade : public zAgObj
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
-
 
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to input mesh Object  */
+		/*!	\brief facade mesh Object array */
 		zObjMeshArray facadeObjs;
 
 		/*!	\brief input vertex corners */
 		zPointArray vertexCorners;
 
-		/*!	\brief input direction of e4xtrusion */
+		/*!	\brief input direction of extrusion */
 		zVectorArray extrudeDir;
 
 		/*!	\brief id of the parent's face its parented to */
@@ -83,8 +78,9 @@ namespace zSpace
 
 		/*! \brief overload constructor.
 		*
-		*	\param		[in]	_inMeshObj					- input mesh object.
-		*	\param		[in]	_vertexcorners				- input vertex corners.
+		*	\param		[in]	_vertexcorners			- input vertex corners.
+		*	\param		[in]	_extrudeDir				- input extrude direction.
+		*	\param		[in]	_vertexcorners			- input face id of parent mesh.
 		*	\since version 0.0.4
 		*/
 		zAgFacade(zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId);

@@ -99,11 +99,6 @@ namespace zSpace
 */
 	typedef vector<zAgRoof*> zRoofPointerArray;
 
-	/** @}*/
-
-	/** @}*/
-	/** @}*/
-
 }
 
 

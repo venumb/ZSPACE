@@ -25,7 +25,7 @@ namespace zSpace
 	ZSPACE_INLINE zHcAggregation::~zHcAggregation() {}
 
 
-	//---- SET METHODS
+	//---- CREATE METHODS
 
 	ZSPACE_INLINE void zHcAggregation::createHousingUnits(zStructureType _structureType)
 	{
@@ -39,7 +39,6 @@ namespace zSpace
 
 			for (zItMeshFace f(unitObjs[i]); !f.end(); f++)
 			{
-
 				if (f.getColor().r == 1 && f.getColor().g == 0 && f.getColor().b == 0)
 				{
 					funcType = zFunctionType::zPublic;
@@ -75,6 +74,8 @@ namespace zSpace
 		
 
 	}
+
+	//---- IMPORT METHODS
 
 	ZSPACE_INLINE void zHcAggregation::importMeshesFromDirectory(string&_path)
 	{
@@ -125,7 +126,7 @@ namespace zSpace
 		}
 	}
 
-	void zHcAggregation::updateLayout(int unitId, zLayoutType & _layoutType, bool flip)
+	ZSPACE_INLINE void zHcAggregation::updateLayout(int unitId, zLayoutType & _layoutType, bool flip)
 	{
 		unitArray[unitId].setLayoutByType(_layoutType);
 	}

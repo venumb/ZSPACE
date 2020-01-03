@@ -38,20 +38,10 @@ namespace zSpace
 	*	\brief A toolset for creating slabs in housing units
 	*	\since version 0.0.4
 	*/
-
-	/** @}*/
-
-	/** @}*/
-
 	/** @}*/
 
 	class ZSPACE_AG zAgSlab : public zAgObj
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
-
 
 	public:
 		//--------------------------
@@ -61,16 +51,14 @@ namespace zSpace
 		/*!	\brief pointer to the column this object is parented to */
 		zAgColumn* parentColumn;
 
-		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inMeshObj;
+		/*!	\brief slab mesh Object  */
+		zObjMesh slabMeshObj;
 
 		/*!	\brief input center vectors for oposite corner */
 		zVectorArray centerVecs; 
 			
 		/*!	\brief input vector axis */
 		zVectorArray midPoints;
-			
-
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -83,10 +71,9 @@ namespace zSpace
 
 		/*! \brief overload constructor.
 		*
-		*	\param		[in]	_position					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
-		*	\param		[in]	_position					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\param		[in]	_centerVecs					- input corners corresponding to centers of slab.
+		*	\param		[in]	_midPoints					- input corners corresponding to midpoint of bay.
+		*	\param		[in]	_parentColumn				- pointer to parent column.
 		*	\since version 0.0.4
 		*/
 		zAgSlab(zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn);
@@ -104,7 +91,6 @@ namespace zSpace
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
-
 
 		/*! \brief This method creates a robotic hotwire cut slab
 		*

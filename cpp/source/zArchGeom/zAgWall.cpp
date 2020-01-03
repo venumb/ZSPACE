@@ -19,18 +19,17 @@ namespace zSpace
 
 	ZSPACE_INLINE zAgWall::zAgWall(){}
 
+	ZSPACE_INLINE zAgWall::zAgWall(zPointArray&_vertexCorners, int _faceId)
+	{
+		vertexCorners = _vertexCorners;
+		faceId = _faceId;
+	}
+
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zAgWall::~zAgWall() {}
 
-	//---- SET METHODS
-
-
-	ZSPACE_INLINE zAgWall::zAgWall(zPointArray&_corners, int _faceId)
-	{
-		corners = _corners;
-		faceId = _faceId;
-	}
+	//---- CREATE METHODS
 
 	ZSPACE_INLINE void zAgWall::createTimber()
 	{
@@ -38,14 +37,14 @@ namespace zSpace
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (int i = 0; i < corners.size(); i++)
+		for (int i = 0; i < vertexCorners.size(); i++)
 		{
-			pointArray.push_back(corners[i]);
+			pointArray.push_back(vertexCorners[i]);
 			polyConnect.push_back(i);
 		}
-		polyCount.push_back(corners.size());
+		polyCount.push_back(vertexCorners.size());
 
-		zFnMesh fnInMesh(inMeshObj);
+		zFnMesh fnInMesh(wallMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		fnInMesh.smoothMesh(2, false);
 	}
@@ -55,22 +54,26 @@ namespace zSpace
 		createTimber();
 	}
 
-	ZSPACE_INLINE void zAgWall::updateWall(zPointArray & _corners)
+	//---- UPDATE METHODS
+
+	ZSPACE_INLINE void zAgWall::updateWall(zPointArray & _vertexCorners)
 	{
-		corners = _corners;
+		vertexCorners = _vertexCorners;
+	}
+
+	//---- DISPLAY METHODS
+
+	ZSPACE_INLINE void zAgWall::displayWall(bool showWall)
+	{
+		wallMeshObj.setShowObject(showWall);
 	}
 
 #ifndef ZSPACE_UNREAL_INTEROP
 
-	ZSPACE_INLINE void zAgWall::displayWall(bool showWall)
-	{
-		inMeshObj.setShowObject(showWall);
-	}
-
 	ZSPACE_INLINE void zAgWall::addObjsToModel()
 	{
-		model->addObject(inMeshObj);
-		inMeshObj.setShowElements(false, true, true);
+		model->addObject(wallMeshObj);
+		wallMeshObj.setShowElements(false, true, true);
 	}
 
 #endif

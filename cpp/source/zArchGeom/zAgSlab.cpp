@@ -19,14 +19,6 @@ namespace zSpace
 
 	ZSPACE_INLINE zAgSlab::zAgSlab(){}
 
-	//---- DESTRUCTOR
-
-	ZSPACE_INLINE zAgSlab::~zAgSlab() {}
-
-	//---- SET METHODS
-
-
-
 	ZSPACE_INLINE zAgSlab::zAgSlab(zVectorArray&_centerVecs, zVectorArray&_midPoints, zAgColumn&_parentColumn)
 	{
 		parentColumn = &_parentColumn;
@@ -34,6 +26,11 @@ namespace zSpace
 		midPoints = _midPoints;
 	}
 
+	//---- DESTRUCTOR
+
+	ZSPACE_INLINE zAgSlab::~zAgSlab() {}
+
+	//---- CREATE METHODS
 
 	ZSPACE_INLINE void zAgSlab::createRhwc()
 	{
@@ -237,7 +234,7 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
-			zFnMesh fnInMesh(inMeshObj);
+			zFnMesh fnInMesh(slabMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//fnInMesh.smoothMesh(1, false);
 		}
@@ -445,7 +442,7 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
-			zFnMesh fnInMesh(inMeshObj);
+			zFnMesh fnInMesh(slabMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//fnInMesh.triangulate();
 			//fnInMesh.smoothMesh(1, false);
@@ -453,17 +450,19 @@ namespace zSpace
 		
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+	//---- DISPLAY METHODS
 
 	ZSPACE_INLINE void zAgSlab::displaySlab(bool showSlab)
 	{
-		inMeshObj.setShowObject(showSlab);
+		slabMeshObj.setShowObject(showSlab);
 	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 	ZSPACE_INLINE void zAgSlab::addObjsToModel()
 	{
-		model->addObject(inMeshObj);
-		inMeshObj.setShowElements(false, true, true);
+		model->addObject(slabMeshObj);
+		slabMeshObj.setShowElements(false, true, true);
 	}
 
 #endif

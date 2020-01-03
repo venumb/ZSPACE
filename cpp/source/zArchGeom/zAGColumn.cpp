@@ -37,7 +37,6 @@ namespace zSpace
 
 	//---- CREATE METHODS
 
-
 	ZSPACE_INLINE void zAgColumn::createRhwc()
 	{
 		zPointArray pointArray;
@@ -296,7 +295,7 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
-			zFnMesh fnInMesh(inMeshObj);
+			zFnMesh fnInMesh(columnMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 			//printf("\n %i %i %i ", fnInMesh.numVertices(), fnInMesh.numEdges(), fnInMesh.numPolygons());
 			fnInMesh.smoothMesh(2, false);
@@ -563,7 +562,7 @@ namespace zSpace
 
 		if (pointArray.size() != 0 && polyConnect.size() != 0 && polyCount.size() != 0)
 		{
-			zFnMesh fnInMesh(inMeshObj);
+			zFnMesh fnInMesh(columnMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 
 			fnInMesh.smoothMesh(2, false);
@@ -578,7 +577,7 @@ namespace zSpace
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		for (zItMeshHalfEdge he(inMeshObj); !he.end(); he++)
+		for (zItMeshHalfEdge he(columnMeshObj); !he.end(); he++)
 		{
 			if (he.onBoundary() || !he.getSym().onBoundary()) continue;
 
@@ -615,22 +614,23 @@ namespace zSpace
 			}
 		}
 
-		zFnMesh fnInMesh(inMeshObj);
+		zFnMesh fnInMesh(columnMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
-
+	//---- DISPLAY METHODS
 	ZSPACE_INLINE void zAgColumn::displayColumn(bool showColumn)
 	{
-		inMeshObj.setShowObject(showColumn);
+		columnMeshObj.setShowObject(showColumn);
 	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 	ZSPACE_INLINE void zAgColumn::addObjsToModel()
 	{
-		model->addObject(inMeshObj);
-		inMeshObj.setShowElements(false, true, true);
+		model->addObject(columnMeshObj);
+		columnMeshObj.setShowElements(false, true, true);
 	}
 
 #endif

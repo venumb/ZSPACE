@@ -23,14 +23,6 @@ namespace zSpace
 
 	}
 
-	//---- DESTRUCTOR
-
-	ZSPACE_INLINE zAgFacade::~zAgFacade() {}
-
-	//---- SET METHODS
-
-
-
 	ZSPACE_INLINE zAgFacade::zAgFacade(zPointArray&_vertexCorners, zVectorArray&_extrudeDir, int _faceId)
 	{
 		faceId = _faceId;
@@ -38,9 +30,13 @@ namespace zSpace
 		extrudeDir = _extrudeDir;
 
 		facadeObjs.assign(3, zObjMesh());
-
 	}
 
+	//---- DESTRUCTOR
+
+	ZSPACE_INLINE zAgFacade::~zAgFacade() {}
+
+	//---- CREATE METHODS
 
 	ZSPACE_INLINE void zAgFacade::createTimber()
 	{
@@ -833,18 +829,21 @@ namespace zSpace
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 	}
 
+	//---- UPDATE METHODS
 
 	ZSPACE_INLINE void zAgFacade::updateFacade(zPointArray & _vertexCorners)
 	{
 		vertexCorners = _vertexCorners;
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+	//---- DISPLAY METHODS
 
 	ZSPACE_INLINE void zAgFacade::displayFacade(bool showFacade)
 	{
-		for(auto& f : facadeObjs) f.setShowObject(showFacade);
+		for (auto& f : facadeObjs) f.setShowObject(showFacade);
 	}
+
+#ifndef ZSPACE_UNREAL_INTEROP
 
 	ZSPACE_INLINE void zAgFacade::addObjsToModel()
 	{
@@ -852,8 +851,7 @@ namespace zSpace
 		{
 			model->addObject(f);
 			f.setShowElements(false, true, true);
-		}
-	
+		}	
 	}
 
 #endif

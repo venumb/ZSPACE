@@ -16,16 +16,12 @@
 #pragma once
 
 #include <headers/zInterface/model/zModel.h>
-
 #include <headers/zCore/base/zExtern.h>
-
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 
-
 #include <headers/zHousing/base/zHcEnumerators.h>
 #include <headers/zArchGeom/zAgTypedef.h>
-
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -40,9 +36,7 @@ namespace zSpace
 	*	\brief A toolset for deploying structural elements on housing units
 	*	\since version 0.0.4
 	*/
-
 	/** @}*/
-
 
 	class ZSPACE_AG zHcStructure
 	{
@@ -60,7 +54,7 @@ namespace zSpace
 		/*!	\brief structure type (i.e. rhwc, timber)  */
 		zStructureType structureType;
 
-		/*!	\brief structure type (i.e. rhwc, timber)  */
+		/*!	\brief function type  */
 		zFunctionType functionType;
 
 
@@ -68,7 +62,6 @@ namespace zSpace
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
-
 
 		/*!	\brief pointer to mesh Object  */
 		zObjMesh* inStructObj;
@@ -112,6 +105,12 @@ namespace zSpace
 
 		/*! \brief Overloaded constructor.
 		*
+		*	\param		[in]	_inStructObj			- input structure mesh
+		*	\param		[in]	_funcType				- function type
+		*	\param		[in]	_structureType			- structure type
+		*	\param		[in]	_heightArray			- height per unit array
+		*	\param		[in]	_edgesAttibutes			- edge attributes array
+		*	\param		[in]	_boundaryAttributes		- boundary attributes array
 		*	\since version 0.0.4
 		*/
 		zHcStructure(zObjMesh&_inStructObj, zFunctionType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes);
@@ -128,29 +127,15 @@ namespace zSpace
 
 
 		//--------------------------
-		//---- SET METHODS
-		//--------------------------
-
-
-		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates a spatial cell in which the architectural elements live in
+		/*! \brief This method creates a the structural elements nested in the input mesh
 		*
-		*	\param		[in]	_structuretype					- structural type 
+		*	\param		[in]	_structuretype			- structural type 
 		*	\since version 0.0.4
 		*/
 		void createStructureByType(zStructureType&_structureType);
-
-
-		/*! \brief This method creates a spatial cell in which the architectural elements live in
-		*
-		*	\param		[in]	_structuretype					- structural type
-		*	\since version 0.0.4
-		*/
-		void updateArchComponents(zStructureType&_structureType);
-
 
 		/*! \brief This method creates the columns that live in this structure cell object
 		*
@@ -183,13 +168,25 @@ namespace zSpace
 		bool createRoofs();
 
 		//--------------------------
+		//---- UPDATE METHODS
+		//--------------------------
+
+		/*! \brief This method updates the structural/arch elements by type
+		*
+		*	\param		[in]	_structuretype			- structural type
+		*	\since version 0.0.4
+		*/
+		void updateArchComponents(zStructureType&_structureType);
+
+		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
+
 #ifndef ZSPACE_UNREAL_INTEROP
 
 		/*! \brief This method creates the roof that live in this structure cell object
 		*
-		*	\param		[in]	_showFacade					- display facade objs
+		*	\param		[in]	_showFacade			- display facade objs
 		*	\since version 0.0.4
 		*/
 		void displayArchComponents(bool showColumn, bool showSlabs, bool showWalls, bool showFacade, bool showRoof);

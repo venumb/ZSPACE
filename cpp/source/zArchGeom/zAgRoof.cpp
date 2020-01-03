@@ -19,20 +19,17 @@ namespace zSpace
 
 	ZSPACE_INLINE zAgRoof::zAgRoof(){}
 
+	ZSPACE_INLINE  zAgRoof::zAgRoof(zPointArray&_vertexCorners, bool _isFacade)
+	{
+		vertexCorners = _vertexCorners;
+		isFacade = _isFacade;
+	}
+
 	//---- DESTRUCTOR
 
 	ZSPACE_INLINE zAgRoof::~zAgRoof() {}
 
-	//---- SET METHODS
-
-	ZSPACE_INLINE  zAgRoof::zAgRoof(zPointArray&_corners, bool _isFacade)
-	{	
-		corners = _corners;			
-		isFacade = _isFacade;
-
-		printf("\n corners constructor size: %i", corners.size());
-	}
-
+	//---- CREATE METHODS
 
 	ZSPACE_INLINE void zAgRoof::createRhwc()
 	{
@@ -44,31 +41,24 @@ namespace zSpace
 
 		if (isFacade)
 		{
-			zFnMesh fnInMesh(inMeshObj);
+			zFnMesh fnInMesh(roofMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 		}
 		else
 		{
-			printf("\n corners rhwc size: %i", corners.size());
+			if (vertexCorners.size() == 0) return;
 
-			if (corners.size() == 0) return;
-
-
-
-			for (int i = 0; i < corners.size(); i++)
+			for (int i = 0; i < vertexCorners.size(); i++)
 			{
-				pointArray.push_back(corners[i]);
+				pointArray.push_back(vertexCorners[i]);
 				polyConnect.push_back(i);
 			}
 
 			polyCount.push_back(4);
-			printf("\n polyconnect: %i %i %i", pointArray.size(), polyConnect.size(), polyCount.size());
-			zFnMesh fnInMesh(inMeshObj);
+
+			zFnMesh fnInMesh(roofMeshObj);
 			fnInMesh.create(pointArray, polyCount, polyConnect);
 		}
-
-		
-
 	}
 
 	ZSPACE_INLINE void zAgRoof::createTimber()
@@ -77,16 +67,13 @@ namespace zSpace
 		zIntArray polyConnect;
 		zIntArray polyCount;
 
-		if (corners.size() == 0) return;
-
-		printf("\n corners timber size: %i", corners.size());
-
+		if (vertexCorners.size() == 0) return;
 
 		if (!isFacade) 
 		{
-			for (int i = 0; i < corners.size(); i++)
+			for (int i = 0; i < vertexCorners.size(); i++)
 			{
-				pointArray.push_back(corners[i]);
+				pointArray.push_back(vertexCorners[i]);
 				polyConnect.push_back(i);
 			}
 
@@ -95,13 +82,13 @@ namespace zSpace
 
 		else
 		{
-			zVector center = (corners[0] + corners[2]) / 2;
-			zVector outDir = corners[1] - corners[0];
+			zVector center = (vertexCorners[0] + vertexCorners[2]) / 2;
+			zVector outDir = vertexCorners[1] - vertexCorners[0];
 
 			int numPoints = 0;
-			for (int i = 0;  i < corners.size(); i+=2)
+			for (int i = 0;  i < vertexCorners.size(); i+=2)
 			{
-				zVector inDir = corners[i] - center;
+				zVector inDir = vertexCorners[i] - center;
 
 				zPointArray facadePoints;
 				zPointArray roofPoints;
@@ -114,7 +101,7 @@ namespace zSpace
 				facadePoints[4] = facadePoints[3];
 				facadePoints[5] = center + (outDir * -0.2) + (inDir * 0.85);
 				facadePoints[6] = facadePoints[5];
-				facadePoints[7] = corners[i] + (outDir * 0.5);
+				facadePoints[7] = vertexCorners[i] + (outDir * 0.5);
 				facadePoints[8] = facadePoints[7];
 
 				roofPoints.push_back(center + outDir);
@@ -125,7 +112,7 @@ namespace zSpace
 					roofPoints.push_back(facadePoints[j]);
 				}
 
-				roofPoints.push_back(corners[i] + outDir);
+				roofPoints.push_back(vertexCorners[i] + outDir);
 
 
 
@@ -157,23 +144,25 @@ namespace zSpace
 			}
 		}
 		
-		zFnMesh fnInMesh(inMeshObj);
+		zFnMesh fnInMesh(roofMeshObj);
 		fnInMesh.create(pointArray, polyCount, polyConnect);
 		//fnInMesh.triangulate();
-		fnInMesh.extrudeMesh(0.1, inMeshObj, false);
+		fnInMesh.extrudeMesh(0.1, roofMeshObj, false);
+	}
+
+	//---- DISPLAY METHODS
+
+	ZSPACE_INLINE void zAgRoof::displayRoof(bool showRoof)
+	{
+		roofMeshObj.setShowObject(showRoof);
 	}
 
 #ifndef ZSPACE_UNREAL_INTEROP
 
-	ZSPACE_INLINE void zAgRoof::displayRoof(bool showRoof)
-	{
-		inMeshObj.setShowObject(showRoof);
-	}
-
 	ZSPACE_INLINE void zAgRoof::addObjsToModel()
 	{
-		model->addObject(inMeshObj);
-		inMeshObj.setShowElements(false, true, true);
+		model->addObject(roofMeshObj);
+		roofMeshObj.setShowElements(false, true, true);
 	}
 
 #endif

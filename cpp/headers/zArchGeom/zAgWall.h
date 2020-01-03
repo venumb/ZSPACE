@@ -41,16 +41,9 @@ namespace zSpace
 
 	/** @}*/
 
-	/** @}*/
-
-	/** @}*/
 
 	class ZSPACE_AG zAgWall : public zAgObj
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
 
 	public:
 		//--------------------------
@@ -58,10 +51,10 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inMeshObj;
+		zObjMesh wallMeshObj;
 
 		/*!	\brief input vertex corners */
-		zPointArray corners;
+		zPointArray vertexCorners;
 
 		/*!	\brief id of the parent's face its parented to */
 		int faceId;
@@ -77,11 +70,11 @@ namespace zSpace
 
 		/*! \brief overload constructor.
 		*
-		*	\param		[in]	_inMeshObj					- input mesh object.
-		*	\param		[in]	_corners				- input vertex corners.
+		*	\param		[in]	_inMeshObj				- input mesh object.
+		*	\param		[in]	_vertexCorners			- input vertex corners.
 		*	\since version 0.0.4
 		*/
-		zAgWall(zPointArray&_corners, int _faceId);
+		zAgWall(zPointArray&_vertexCorners, int _faceId);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -110,13 +103,13 @@ namespace zSpace
 
 
 		//--------------------------
-//---- DISPLAY METHODS
-//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------
 
-/*! \brief This method displays the mesh associated with this obj
-*
-*	\since version 0.0.4
-*/
+		/*! \brief This method displays the mesh associated with this obj
+		*
+		*	\since version 0.0.4
+		*/
 		void displayWall(bool showWall);
 
 

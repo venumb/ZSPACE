@@ -56,8 +56,8 @@ namespace zSpace
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inMeshObj;
+		/*!	\brief pointer to column mesh Object  */
+		zObjMesh columnMeshObj;
 
 		/*!	\brief input height  */
 		float height;
@@ -88,7 +88,11 @@ namespace zSpace
 
 		/*! \brief overloaded constructor.
 		*	
-		*	\param		[in]	_showForces					- input show forces booelan.
+		*	\param		[in]	_position					- world position.
+		*	\param		[in]	_showForces					- array of axis vectors.
+		*	\param		[in]	_showForces					- array of axis attributes.
+		*	\param		[in]	_showForces					- array on boundary attributes.
+		*	\param		[in]	_showForces					- input height.
 		*	\since version 0.0.4
 		*/
 		zAgColumn(zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height);
@@ -106,7 +110,6 @@ namespace zSpace
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
-
 
 		/*! \brief This method creates a robotic hotwire cut column
 		*

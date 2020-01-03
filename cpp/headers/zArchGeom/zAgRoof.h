@@ -37,34 +37,23 @@ namespace zSpace
 	*	\brief A toolset for creating roofs in housing units
 	*	\since version 0.0.4
 	*/
-
-	/** @}*/
-
-	/** @}*/
-
 	/** @}*/
 
 	class ZSPACE_AG zAgRoof : public zAgObj
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
-
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inMeshObj;
+		/*!	\brief roof mesh Object  */
+		zObjMesh roofMeshObj;
 
 		/*!	\brief input center vectors for oposite corner */
-		zPointArray corners; 
+		zPointArray vertexCorners; 
 			
 		/*!	\brief input boolean condition if is in facade */
 		bool isFacade;
-
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -77,13 +66,11 @@ namespace zSpace
 
 		/*! \brief overload constructor.
 		*
-		*	\param		[in]	_position					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
-		*	\param		[in]	_position					- input show forces booelan.
-		*	\param		[in]	_forceScale					- input scale of forces.
+		*	\param		[in]	_vertexCorners				- input vertex corners.
+		*	\param		[in]	_isFacade					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgRoof(zPointArray&_corners, bool _isFacade);
+		zAgRoof(zPointArray&_vertexCorners, bool _isFacade);
 
 		//--------------------------
 		//---- DESTRUCTOR
