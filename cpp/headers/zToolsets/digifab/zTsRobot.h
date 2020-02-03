@@ -380,14 +380,6 @@ namespace zSpace
 		*/
 		void createRobotJointMeshesfromFile(string directory, zFileTpye type, bool endeffector = false);
 
-		/*! \brief This method creates the endeffector mesh from the input file.
-		*
-		*	\param [in]		directory		- input file directory path.
-		*	\param [in]		type			- type of file to be imported.
-		*	\since version 0.0.2
-		*/
-		void createEndEffectorMeshfromFile(string directory, zFileTpye type);
-
 		/*! \brief This method creates the robot targets from the input file.
 		*
 		*	\param [in]		directory		- input file directory path.
