@@ -696,6 +696,22 @@ namespace zSpace
 		int getVBOVertexColorIndex();
 
 		//--------------------------
+		//---- CONTOUR METHODS
+		//--------------------------	
+
+		/*! \brief This method creates a isoband mesh from the input field mesh at the given field threshold.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
+		*	\param	[out]	coutourMeshObj	- isoband mesh.
+		*	\param	[in]	inThresholdLow	- field threshold domain minimum.
+		*	\param	[in]	inThresholdHigh	- field threshold domain maximum.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.
+		*	\since version 0.0.2
+		*	\warning	works only with vertex color gradients Red to Black.
+		*/
+		void getIsobandMesh(zObjMesh &coutourMeshObj, double inThresholdLow = 0.2, double inThresholdHigh = 0.5);
+
+		//--------------------------
 		//---- TRI-MESH MODIFIER METHODS
 		//--------------------------		
 
@@ -816,9 +832,9 @@ namespace zSpace
 		
 		void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override;
 				
-		void setScale(zDouble3 &scale) override;
+		void setScale(zDouble4 &scale) override;
 				
-		void setRotation(zDouble3 &rotation, bool appendRotations = false) override;
+		void setRotation(zDouble4 &rotation, bool appendRotations = false) override;
 		
 		void setTranslation(zVector &translation, bool appendTranslations = false) override;
 		
@@ -866,6 +882,44 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		bool fromJSON(string infilename);
+
+		//--------------------------
+		//---- PROTECTED CONTOUR METHODS
+		//--------------------------
+
+		/*! \brief This method gets the isoline case based on the input vertex ternary values.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
+		*	\param	[in]	vertexTernary	- vertex ternary values.
+		*	\return			int				- case type.
+		*	\since version 0.0.2
+		*/
+		int getIsobandCase(int vertexTernary[4]);
+
+		/*! \brief This method return the contour position  given 2 input positions at the input field threshold.
+		*
+		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	vertex_lower	- lower threshold position.
+		*	\param	[in]	vertex_higher	- higher threshold position.
+		*	\param	[in]	thresholdLow	- field threshold domain minimum.
+		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
+		*	\since version 0.0.2
+		*/
+		zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh);
+
+		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
+		*
+		*	\param	[in]	f				- input face iterator.
+		*	\param	[in]	positions		- container of positions of the computed polygon.
+		*	\param	[in]	polyConnects	- container of polygon connectivity of the computed polygon.
+		*	\param	[in]	polyCounts		- container of number of vertices in the computed polygon.
+		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
+		*	\param	[in]	thresholdLow	- field threshold domain minimum.
+		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
+		*	\since version 0.0.2
+		*/
+		void getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh);
+
 
 	private:
 			

@@ -10,6 +10,9 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
+#ifdef ZSPACE_MANAGED_LIBRARY
+
+
 #pragma once
 
 
@@ -127,7 +130,6 @@ namespace zSpaceManaged
 			}
 		}
 		
-
 		property double v
 		{
 		public:
@@ -144,3 +146,5 @@ namespace zSpaceManaged
 	};
 
 }
+
+#endif

@@ -130,8 +130,9 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG ;ZSPACE_STATIC_LIBRARY; USING_CLR ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG ;ZSPACE_DYNAMIC_LIBRARY;ZSPACE_MANAGED_LIBRARY; USING_CLR ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories> $(SolutionDir)/cpp;  $(SolutionDir)/cli; $(SolutionDir);</AdditionalIncludeDirectories>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(NoInherit);zSpace_Core.lib</AdditionalDependencies>

@@ -589,9 +589,14 @@ namespace zSpace
 			if (!fixedVerticesBoolean[v1] || !fixedVerticesBoolean[v2])
 			{
 				int i = e.getId();
-				q[FD_EdgesCounter] = forceDensities[i];
+				q[FD_EdgesCounter] = forceDensities[i] ;
 
-				if (forceDensities[i] < 0) positiveDensities = false;
+				if (result_tensionEdges[e.getHalfEdge(0).getId()])
+				{
+					positiveDensities = false;
+
+					q[FD_EdgesCounter] *= -1;
+				}
 				FD_EdgesCounter++;
 			}
 
@@ -608,7 +613,7 @@ namespace zSpace
 
 		for (int i = 0; i < resultVMass.size(); i++)
 		{
-			p[i] = resultVMass[i];
+			p[i] = resultVMass[i] * resultVThickness[i] * resultVWeights[i];
 		}
 
 
@@ -750,7 +755,11 @@ namespace zSpace
 				int i = e.getId();
 				q[FD_EdgesCounter] = forceDensities[i];
 
-				if (forceDensities[i] < 0) positiveDensities = false;
+				if (result_tensionEdges[e.getHalfEdge(0).getId()])
+				{
+					positiveDensities = false;
+					q[FD_EdgesCounter] *= -1;
+				}
 				FD_EdgesCounter++;
 			}
 
@@ -767,7 +776,7 @@ namespace zSpace
 
 		for (int i = 0; i < resultVMass.size(); i++)
 		{
-			p[i] = resultVMass[i];
+			p[i] = resultVMass[i] * resultVThickness[i] * resultVWeights[i];
 		}
 
 
@@ -1064,9 +1073,7 @@ namespace zSpace
 			setForceDensitiesFromDiagrams(forceDiagramScale);
 
 			computeForceDensitities = false;
-		}
-
-		printf("\n forceDensities : %i ", forceDensities.size());
+		}		
 
 		zHEData type = zVertexData;
 
@@ -1452,7 +1459,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensities(vector<double> &fDensities)
 	{
-		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of mesh half edges.");
+		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of mesh edges.");
 
 		forceDensities = fDensities;
 	}

@@ -167,7 +167,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnPointCloud::setScale(zDouble3 &scale)
+	ZSPACE_INLINE void zFnPointCloud::setScale(zDouble4 &scale)
 	{
 		// get  inverse pivot translations
 		zTransform invScalemat = pointsObj->transformationMatrix.asInverseScaleTransformMatrix();
@@ -185,7 +185,7 @@ namespace zSpace
 		transformObject(transMat);
 	}
 
-	ZSPACE_INLINE void zFnPointCloud::setRotation(zDouble3 &rotation, bool appendRotations)
+	ZSPACE_INLINE void zFnPointCloud::setRotation(zDouble4 &rotation, bool appendRotations)
 	{
 		// get pivot translation and inverse pivot translations
 		zTransform pivotTransMat = pointsObj->transformationMatrix.asPivotTranslationMatrix();
@@ -209,7 +209,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnPointCloud::setTranslation(zVector &translation, bool appendTranslations)
 	{
 		// get vector as zDouble3
-		zDouble3 t;
+		zDouble4 t;
 		translation.getComponents(t);
 
 		// get pivot translation and inverse pivot translations
@@ -240,7 +240,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnPointCloud::setPivot(zVector &pivot)
 	{
 		// get vector as zDouble3
-		zDouble3 p;
+		zDouble4 p;
 		pivot.getComponents(p);
 
 		// set pivot values of object transformation matrix

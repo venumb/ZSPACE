@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <RhinoDir>C:\Program Files\Rhino 6 SDK</RhinoDir>
-    <MayaDir>C:\Program Files\Autodesk\Maya2017</MayaDir>
+    <MayaDir>C:\Program Files\Autodesk\Maya2018</MayaDir>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />

@@ -41,6 +41,7 @@
     <ClInclude Include="..\..\..\cpp\depends\alglib\cpp\src\specialfunctions.h" />
     <ClInclude Include="..\..\..\cpp\depends\alglib\cpp\src\statistics.h" />
     <ClInclude Include="..\..\..\cpp\depends\alglib\cpp\src\stdafx.h" />
+    <ClInclude Include="..\..\..\cpp\depends\SPA\spa.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\data\zTsKMeans.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\data\zTsOSM.h" />
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\digifab\zTsRobot.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="..\..\..\cpp\depends\alglib\cpp\src\solvers.cpp" />
     <ClCompile Include="..\..\..\cpp\depends\alglib\cpp\src\specialfunctions.cpp" />
     <ClCompile Include="..\..\..\cpp\depends\alglib\cpp\src\statistics.cpp" />
+    <ClCompile Include="..\..\..\cpp\depends\SPA\spa.c" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsKMeans.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsOSM.cpp" />
     <ClCompile Include="..\..\..\cpp\source\zToolsets\digiFab\zTsRobot.cpp" />

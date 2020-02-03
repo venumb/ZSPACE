@@ -275,9 +275,9 @@ namespace zSpace
 
 		void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override;
 
-		void setScale(zDouble3 &scale) override;
+		void setScale(zDouble4 &scale) override;
 
-		void setRotation(zDouble3 &rotation, bool appendRotations = false) override;
+		void setRotation(zDouble4 &rotation, bool appendRotations = false) override;
 
 		void setTranslation(zVector &translation, bool appendTranslations = false) override;
 

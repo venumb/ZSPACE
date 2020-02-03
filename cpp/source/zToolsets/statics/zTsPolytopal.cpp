@@ -264,7 +264,7 @@ namespace zSpace
 
 	//----3D GS ITERATIVE 
 
-	ZSPACE_INLINE bool zTsPolytopal::equilibrium(bool computeTargets, double minmax_Edge, zDomainDouble &deviations, double dT, zIntergrationType type, int numIterations, double angleTolerance, bool colorEdges, bool printInfo)
+	ZSPACE_INLINE bool zTsPolytopal::equilibrium(bool &computeTargets, double minmax_Edge, zDomainDouble &deviations, double dT, zIntergrationType type, int numIterations, double angleTolerance, bool colorEdges, bool printInfo)
 	{
 
 		if (computeTargets)
@@ -1868,7 +1868,6 @@ namespace zSpace
 				// compute residue force
 				zVector r_i = b_i - v_i;
 				zVector forceV = r_i;
-
 
 				// add forces to particle
 				fnFormParticles[i].addForce(forceV);

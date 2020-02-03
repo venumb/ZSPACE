@@ -92,6 +92,8 @@ namespace zSpace
 
 		MPointArray inMesh_positions;
 		maya_fnMesh.getPoints(inMesh_positions);
+			
+		
 
 		pos.assign(maya_fnMesh.numVertices(), zPoint());
 
@@ -106,6 +108,7 @@ namespace zSpace
 
 		polyCounts.resize(vCount.length());
 		vCount.get(&polyCounts[0]);
+			
 
 		polyConnects.resize(vList.length());
 		vList.get(&polyConnects[0]);
@@ -191,17 +194,22 @@ namespace zSpace
 	{
 		zIntArray  polyConnects;
 		zIntArray  polyCount;
+		zPointArray pos;
 
+		getVertexPositions(pos);
 		getPolygonData(polyConnects, polyCount);
+				
 
-		MPointArray newMesh_verts;
+		zPoint* p = pos.data();
+		
+
+		MPointArray newMesh_verts ;
 		MIntArray  	newMesh_pCount(&polyCount[0], polyCount.size());
 		MIntArray newMesh_pConnects(&polyConnects[0], polyConnects.size());
 
 		// vertices
 		newMesh_verts.setLength(numVertices());
-		zPointArray pos;
-		getVertexPositions(pos);
+		
 		for (int i = 0; i < numVertices(); i++)
 		{
 			newMesh_verts[i] = MPoint(pos[i].x, pos[i].y, pos[i].z);

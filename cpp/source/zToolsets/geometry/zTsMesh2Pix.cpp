@@ -569,7 +569,7 @@ namespace zSpace
 		double scaleFac = maxSide / dimMax;		
 
 		fnMesh.setPivot(minBB);
-		zDouble3 scale = { scaleFac ,scaleFac ,scaleFac };
+		zDouble4 scale = { scaleFac ,scaleFac ,scaleFac };
 		fnMesh.setScale(scale);
 
 		zVector trans = zVector(-1, -1, -1) - minBB;

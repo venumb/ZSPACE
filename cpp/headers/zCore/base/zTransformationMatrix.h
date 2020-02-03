@@ -72,16 +72,16 @@ namespace zSpace
 		zTransform Rz;
 
 		/*!	\brief stores rotation  values in x, y, and z in radians  */
-		zDouble3 rotation;
+		zDouble4 rotation;
 
 		/*!	\brief stores scale values in x, y, and z  */
-		zDouble3 scale;
+		zDouble4 scale;
 
 		/*!	\brief stores translation as a vector  */
-		zDouble3 translation;
+		zDouble4 translation;
 
 		/*!	\brief stores pivot as a vector  */ 
-		zDouble3 pivot;
+		zDouble4 pivot;
 
 		
 
@@ -126,14 +126,14 @@ namespace zSpace
 		*	\param		[in]	addValues			- true if the input values are added to the existing values.
 		*	\since version 0.0.2
 		*/
-		void setRotation(zDouble3 &_rotation, bool addValues = false);
+		void setRotation(zDouble4 &_rotation, bool addValues = false);
 
 		/*! \brief This method sets the scale components of the tranform.
 		*
 		*	\param		[in]	_scale		- input scale in x,y and z.
 		*	\since version 0.0.2
 		*/
-		void setScale(zDouble3 &_scale);
+		void setScale(zDouble4 &_scale);
 
 		/*! \brief This method sets the translation components of the tranform.
 		*
@@ -141,14 +141,14 @@ namespace zSpace
 		*	\param		[in]	addValues			- true if the input values are added to the existing values.
 		*	\since version 0.0.2
 		*/
-		void setTranslation(zDouble3 &_translation, bool addValues = false);
+		void setTranslation(zDouble4 &_translation, bool addValues = false);
 
 		/*! \brief This method sets the pivot components of the tranform.
 		*
 		*	\param		[in]	_pivot		- input pivot in x,y and z.
 		*	\since version 0.0.2
 		*/
-		void setPivot(zDouble3 &_pivot);
+		void setPivot(zDouble4 &_pivot);
 
 		//--------------------------
 		//---- GET METHODS
@@ -209,14 +209,14 @@ namespace zSpace
 		*	\param		[out]	_rotation		- output rotations in x,y and z in degrees.
 		*	\since version 0.0.2
 		*/
-		void getRotation(zDouble3 &_rotation);
+		void getRotation(zDouble4 &_rotation);
 
 		/*! \brief This method gets the scale components of the tranform.
 		*
 		*	\param		[out]	_scale		- output scale in x,y and z.
 		*	\since version 0.0.2
 		*/
-		void getScale(zDouble3 &_scale);		
+		void getScale(zDouble4 &_scale);		
 
 		//--------------------------
 		//---- AS MATRIX METHODS

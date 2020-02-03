@@ -58,6 +58,9 @@
     <Filter Include="Depends\QuickHull">
       <UniqueIdentifier>{a422da4e-4b69-4cbb-96a3-8a5cc2cb3990}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Depends\SPA">
+      <UniqueIdentifier>{651748a5-ec62-4b83-9b83-1f77dc5504b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\data\zTsKMeans.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsGraphPolyhedra.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\depends\SPA\spa.h">
+      <Filter>Depends\SPA</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsKMeans.cpp">
@@ -232,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsGraphPolyhedra.cpp">
       <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\depends\SPA\spa.c">
+      <Filter>Depends\SPA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

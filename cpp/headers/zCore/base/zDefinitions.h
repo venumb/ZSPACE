@@ -189,6 +189,20 @@ namespace zSpace
 	*/
 	typedef double* zPDouble3[3];	
 
+	/*! \typedef double4
+	*	\brief An array of double of size 4.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef double zDouble4[4];
+
+	/*! \typedef pDouble4
+	*	\brief An pointer array of double of size 4.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef double* zPDouble4[4];
+
 	/*! \typedef zScalar
 	*	\brief A scalar definition used in scalar fields.
 	*

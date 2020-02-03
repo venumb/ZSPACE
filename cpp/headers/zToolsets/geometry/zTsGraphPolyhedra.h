@@ -17,6 +17,7 @@
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
+#include <headers/zInterface/functionsets/zFnParticle.h>
 #include <headers/zInterface/model/zModel.h>
 
 namespace zSpace
@@ -54,23 +55,27 @@ namespace zSpace
 		/*!	\brief DISCRIPTION  */
 		zModel *model;
 
-		/*!	\brief core utilities Object  */
+		/*!	\brief container of  form particle objects  */
+		vector<zObjParticleArray> formParticlesObj;		
+
+		/*!	\brief container of form particle function set  */
+		vector<vector<zFnParticle>> fnFormParticles;
+
+		/*!	\brief DISCRIPTION  */
 		zUtilsCore coreUtils;
 
 		/*!	\brief DISCRIPTION  */
-		zUtilsDisplay display;
+		zObjMeshArray convexHullMeshes;
 
 		/*!	\brief DISCRIPTION  */
-		zItGraphVertexArray sortedGraphVertices;
+		zObjMeshArray dualMeshes;
 
 		/*!	\brief DISCRIPTION  */
-		zObjMeshArray conHullCol;
+		vector<zIntPairArray> c_graphHalfEdge_dualCellFace;
 
-		/*!	\brief DISCRIPTION  */
-		zObjMeshArray dualMeshCol;
+		vector<zVectorArray> dualCellFace_NormTargets;
 
-		/*!	\brief DISCRIPTION  */
-		vector<zIntPairArray> c_graphEdge_dualCellFace;
+		vector<zDoubleArray> dualCellFace_AreaTargets;
 
 		/*!	\brief DISCRIPTION  */
 		vector<pair<zPoint, zPoint>> dualConnectivityLines;
@@ -85,6 +90,8 @@ namespace zSpace
 
 		/*!	\brief form function set  */
 		zFnGraph fnGraph;
+
+		zDomainDouble deviations[2];
 
 		// TMP!!
 		int snapSteps = 0;
@@ -139,6 +146,12 @@ namespace zSpace
 		void create();
 
 		//--------------------------
+		//---- UPDATE METHODS
+		//--------------------------
+
+		bool equilibrium(bool &compTargets, double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, double areaTolerance = EPS, bool printInfo = false);
+
+		//--------------------------
 		//---- DRAW METHODS
 		//--------------------------
 
@@ -170,7 +183,19 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void createDualMesh(zItGraphVertex &_graphVertex);
-		   		 
+
+		//--------------------------
+		//---- PRIVATE COMPUTE / UPDATE METHODS
+		//--------------------------
+		   	
+		void computeTargets();
+
+		void updateDual(double &dT, zIntergrationType &type, int &numIterations);
+
+		bool checkParallelity(zDomainDouble &deviations, double &angleTolerance,  bool &printInfo);
+
+		bool checkArea(zDomainDouble &deviations, double &areaTolerance, bool &printInfo);
+
 		//--------------------------
 		//---- PRIVATE UTILITY METHODS
 		//--------------------------
@@ -185,7 +210,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void cleanConvexHull(zItGraphVertex &_vIt, int _maxPolygons, zPointArray &_hullPts);
+		void cleanConvexHull(zItGraphVertex &_vIt);
 
 		/*! \brief DISCRIPTION
 		*

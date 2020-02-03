@@ -10,6 +10,8 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
+#ifdef ZSPACE_MANAGED_LIBRARY
+
 #pragma once
 
 using namespace System;
@@ -22,8 +24,12 @@ namespace zSpaceManaged
 	public ref class zManagedObj
 	{
 	protected:
+
 		T* m_zInstance;
+
 	public:
+		zManagedObj() {}
+
 		zManagedObj(T* cppObj)
 			: m_zInstance(cppObj)
 		{
@@ -58,3 +64,5 @@ namespace zSpaceManaged
 
 	};
 }
+
+#endif
