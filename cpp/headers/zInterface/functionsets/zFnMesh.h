@@ -23,6 +23,7 @@
 #include<headers/zInterface/iterators/zItMesh.h>
 
 
+
 namespace zSpace
 {
 	/** \addtogroup zInterface
@@ -55,6 +56,8 @@ namespace zSpace
 		/*!	\brief pointer to a mesh object  */
 		zObjMesh *meshObj;
 
+		/*!	\brief display Object  */
+		zUtilsDisplay display;
 	public:
 		
 		//--------------------------
@@ -245,6 +248,14 @@ namespace zSpace
 		*/
 		double getEdgeCotangentWeight(zItMeshHalfEdge &he);
 		
+		/*!	\brief This method returns a boolean if the input point in inside the convex hull.
+		*
+		*	\param		[in]	pt		- point to check for.
+		*	\return				bool	- true if point is inside the convex hull.
+		*	\since version 0.0.4
+		*/
+		bool checkPointInConvexHull(zPoint &pt);
+
 		//--------------------------
 		//--- COMPUTE METHODS 
 		//--------------------------				
@@ -311,6 +322,14 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void makeStatic();
+
+		/*! \brief This method makes a convex hull from the input points.
+		*
+		*	\details Based on https://github.com/karimnaaji/3d-quickhull
+		*	\param		[in] pts	- array of points
+		*	\since version 0.0.4
+		*/
+		void makeConvexHull(zPointArray &pts);
 
 		//--------------------------
 		//--- SET METHODS 
@@ -414,10 +433,11 @@ namespace zSpace
 
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
-		*	\param		[out]	pos				- positions  contatiner.
-		*	\since version 0.0.2
+		*	\param		[out]	pos						- positions  contatiner.
+		*	\param		[in]	exludeCornerVertices	- boolean to exclude corner vertices. Meaning vertices with valence 2.
+		*	\since version 0.0.4
 		*/
-		void getVertexPositions(zPointArray& pos);
+		void getVertexPositions(zPointArray& pos, bool exludeCornerVertices = false);
 
 		/*! \brief This method gets pointer to the internal vertex positions container.
 		*
@@ -496,7 +516,7 @@ namespace zSpace
 		*/
 		zColor* getRawFaceColors();
 
-		/*! \brief This method computes the center the mesh.
+		/*! \brief This method computes the center of the mesh.
 		*
 		*	\return		zPoint					- center .
 		*	\since version 0.0.2
@@ -598,8 +618,8 @@ namespace zSpace
 
 		/*! \brief This method computes the lengths of all the  edges of a the mesh.
 		*
-		*	\param		[out]	EdgeLengths		- vector of edge lengths.
-		*	\return				double				- total edge lengths.
+		*	\param		[out]	edgeLengths		- vector of edge lengths.
+		*	\return				double			- total edge lengths.
 		*	\since version 0.0.2
 		*/
 		double getEdgeLengths(zDoubleArray &edgeLengths);
@@ -615,7 +635,7 @@ namespace zSpace
 		*/
 		double getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zDoubleArray &vertexAreas);
 
-		/*! \brief This method computes the area of every face of the mesh. It works only for if the faces are planar.
+		/*! \brief This method computes the area of every face of the mesh. It works only if the faces are planar.
 		*
 		*	\details	Based on http://geomalgorithms.com/a01-_area.html.
 		*	\param		[out]	faceAreas		- vector of vertex Areas.
@@ -630,14 +650,15 @@ namespace zSpace
 		*	\param		[out]	polyCounts		- stores number of vertices per polygon.
 		*	\since version 0.0.2
 		*/
-		void getPolygonData(zIntArray(&polyConnects), zIntArray(&polyCounts));
+		void getPolygonData(zIntArray &polyConnects, zIntArray &polyCounts);
 
-		/*! \brief This method stores mesh edge connectivity information in the input containers
+		/*! \brief This method stores mesh edge connectivity information in the input containers.
 		*
-		*	\param		[out]	edgeConnects	- stores list of esdge connection with vertex ids for each edge.
-		*	\since version 0.0.2
+		*	\param		[out]	edgeConnects		- stores list of esdge connection with vertex ids for each edge.
+		*	\param		[in]	excludeBoundary		- excludes the boundary edge of the input mesh.
+		*	\since version 0.0.4
 		*/
-		void getEdgeData(zIntArray &edgeConnects);
+		void getEdgeData(zIntArray &edgeConnects, bool excludeBoundary = false);
 
 		/*! \brief This method creates a duplicate of the mesh.
 		*
@@ -673,6 +694,22 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		int getVBOVertexColorIndex();
+
+		//--------------------------
+		//---- CONTOUR METHODS
+		//--------------------------	
+
+		/*! \brief This method creates a isoband mesh from the input field mesh at the given field threshold.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
+		*	\param	[out]	coutourMeshObj	- isoband mesh.
+		*	\param	[in]	inThresholdLow	- field threshold domain minimum.
+		*	\param	[in]	inThresholdHigh	- field threshold domain maximum.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.
+		*	\since version 0.0.2
+		*	\warning	works only with vertex color gradients Red to Black.
+		*/
+		void getIsobandMesh(zObjMesh &coutourMeshObj, double inThresholdLow = 0.2, double inThresholdHigh = 0.5);
 
 		//--------------------------
 		//---- TRI-MESH MODIFIER METHODS
@@ -717,7 +754,7 @@ namespace zSpace
 		*	\param		[in]	removeInactiveElements	- inactive elements in the list would be removed if true.
 		*	\since version 0.0.2
 		*/
-		void deleteEdge( int index, bool removeInactiveElements = true);
+		void deleteEdge(zItMeshEdge &edge, bool removeInactiveElements = true);
 
 		//--------------------------
 		//---- TOPOLOGY MODIFIER METHODS
@@ -725,12 +762,12 @@ namespace zSpace
 
 		/*! \brief This method collapses an edge into a vertex.
 		*
-		*	\param		[in]	index					- index of the edge to be collapsed.
+		*	\param		[in]	edge					- iterator of edge to be collapsed.
 		*	\param		[in]	edgeFactor				- position factor of the remaining vertex after collapse on the original egde. Needs to be between 0.0 and 1.0.
-		*	\param		[in]	removeInactiveElems	- inactive elements in the list would be removed if true.
+		*	\param		[in]	removeInactiveElems		- inactive elements in the list would be removed if true.
 		*	\since version 0.0.2
 		*/
-		void collapseEdge(int index, double edgeFactor = 0.5, bool removeInactiveElems = true);
+		void collapseEdge(zItMeshEdge &edge, double edgeFactor = 0.5, bool removeInactiveElems = true);
 
 		/*! \brief This method splits an edge and inserts a vertex along the edge at the input factor.
 		*
@@ -748,12 +785,12 @@ namespace zSpace
 		*/
 		int detachEdge(int index);
 
-		/*! \brief This method flips the edge shared bettwen two rainglua faces.
+		/*! \brief This method flips the edge shared bettwen two triangular faces.
 		*
-		*	\param		[in]	edgeList	- indicies of the edges to be collapsed.
+		*	\param		[in]	edge			- iterator of edge.
 		*	\since version 0.0.2
 		*/
-		void flipTriangleEdge(int &index);
+		void flipTriangleEdge(zItMeshEdge &edge);
 
 		/*! \brief This method splits a set of edges and faces of a mesh in a continuous manner.
 		*
@@ -768,7 +805,7 @@ namespace zSpace
 		*	\param		[in]	numDivisions	- number of subdivision to be done on the mesh.
 		*	\since version 0.0.2
 		*/
-		void subdivideMesh(int numDivisions);
+		void subdivide(int numDivisions);
 
 		/*! \brief This method applies Catmull-Clark subdivision to the mesh.
 		*
@@ -787,6 +824,7 @@ namespace zSpace
 		*	\retrun				zMesh				- extruded mesh.
 		*	\since version 0.0.2
 		*/
+
 		void extrudeMesh(float extrudeThickness, zObjMesh &outMesh, bool thicknessTris = false);
 			 
 		/*! \brief This method returns an extruded mesh of the boundary edgesd of the input mesh.
@@ -798,15 +836,18 @@ namespace zSpace
 		*/
 		void extrudeBoundaryEdge(float extrudeThickness, zObjMesh &outMesh, bool thicknessTris = false);
 
+		zObjMesh extrude(float extrudeThickness, bool thicknessTris = false);
+			   		 	  	  		
+
 		//--------------------------
 		//---- TRANSFORM METHODS OVERRIDES
 		//--------------------------
 		
 		void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override;
 				
-		void setScale(zDouble3 &scale) override;
+		void setScale(zDouble4 &scale) override;
 				
-		void setRotation(zDouble3 &rotation, bool appendRotations = false) override;
+		void setRotation(zDouble4 &rotation, bool appendRotations = false) override;
 		
 		void setTranslation(zVector &translation, bool appendTranslations = false) override;
 		
@@ -855,6 +896,44 @@ namespace zSpace
 		*/
 		bool fromJSON(string infilename);
 
+		//--------------------------
+		//---- PROTECTED CONTOUR METHODS
+		//--------------------------
+
+		/*! \brief This method gets the isoline case based on the input vertex ternary values.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
+		*	\param	[in]	vertexTernary	- vertex ternary values.
+		*	\return			int				- case type.
+		*	\since version 0.0.2
+		*/
+		int getIsobandCase(int vertexTernary[4]);
+
+		/*! \brief This method return the contour position  given 2 input positions at the input field threshold.
+		*
+		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	vertex_lower	- lower threshold position.
+		*	\param	[in]	vertex_higher	- higher threshold position.
+		*	\param	[in]	thresholdLow	- field threshold domain minimum.
+		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
+		*	\since version 0.0.2
+		*/
+		zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh);
+
+		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
+		*
+		*	\param	[in]	f				- input face iterator.
+		*	\param	[in]	positions		- container of positions of the computed polygon.
+		*	\param	[in]	polyConnects	- container of polygon connectivity of the computed polygon.
+		*	\param	[in]	polyCounts		- container of number of vertices in the computed polygon.
+		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
+		*	\param	[in]	thresholdLow	- field threshold domain minimum.
+		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
+		*	\since version 0.0.2
+		*/
+		void getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh);
+
+
 	private:
 			
 		//--------------------------
@@ -873,14 +952,14 @@ namespace zSpace
 
 		/*! \brief This method adds input half edge and corresponding symmety edge from the halfEdgesMap.
 		*
-		*	\param		[in]	zItMeshHalfEdge			- half edge iterator.
+		*	\param		[in]	he			- half edge iterator.
 		*	\since version 0.0.2
 		*/
 		void addToHalfEdgesMap(zItMeshHalfEdge &he);
 
 		/*! \brief This method removes input half edge and corresponding symmety edge from the halfEdgesMap.
 		*
-		*	\param		[in]	zItMeshHalfEdge			- half edge iterator.
+		*	\param		[in]	he			- half edge iterator.
 		*	\since version 0.0.2
 		*/
 		void removeFromHalfEdgesMap(zItMeshHalfEdge &he);

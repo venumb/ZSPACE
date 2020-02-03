@@ -47,7 +47,7 @@ namespace  zSpace
 	protected:
 		
 		/*!	\brief pointer to components	*/
-		zPDouble3 vals;
+		zPDouble4 vals;
 
 	public:
 		/*!	\brief x component				*/
@@ -58,6 +58,9 @@ namespace  zSpace
 
 		/*!	\brief z component				*/
 		double z;			
+
+		/*!	\brief w component				*/
+		double w;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -73,9 +76,10 @@ namespace  zSpace
 		*	\param		[in]	_x		- x component of the zVector.
 		*	\param		[in]	_z		- y component of the zVector.
 		*	\param		[in]	_z		- z component of the zVector.
+		*	\param		[in]	_w		- w component of the zVector.
 		*	\since version 0.0.1
 		*/		
-		zVector(double _x, double _y, double _z);			
+		zVector(double _x, double _y, double _z, double _w = 1.0);
 
 		/*! \brief Overloaded constructor.
 		*
@@ -83,6 +87,13 @@ namespace  zSpace
 		*	\since version 0.0.2
 		*/
 		zVector(zDouble3 &_vals);
+
+		/*! \brief Overloaded constructor.
+		*
+		*	\param		[in]	vals	- input array of values.
+		*	\since version 0.0.2
+		*/
+		zVector(const zDouble4 &_vals);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -107,7 +118,7 @@ namespace  zSpace
 
 		/*! \brief This method returns the component value of the current zVector.
 		*
-		*	\param		[in]	index		- index. ( 0 - x component, 1 - y component, 2 - z component).
+		*	\param		[in]	index		- index. ( 0 - x component, 1 - y component, 2 - z component, 3 - w component).
 		*	\return				double		- value of the component.
 		*	\since version 0.0.1
 		*/
@@ -187,7 +198,7 @@ namespace  zSpace
 
 		/*! \brief This operator is used for scalar division of a vector.
 		*
-		*	\param		[in]	val		- scalar value used to divide from the current vector.
+		*	\param		[in]	val		- scalar value used to divide the current vector.
 		*	\return				zVector	- resultant vector after the scalar division.
 		*	\since version 0.0.1
 		*/	
@@ -220,7 +231,7 @@ namespace  zSpace
 
 		/*! \brief This overloaded operator is used for scalar subtraction and assigment of the result to the current vector.
 		*
-		*	\param		[in]	val		- scalar value to be sbtracted from the current vector.
+		*	\param		[in]	val		- scalar value to be subtracted from the current vector.
 		*	\since version 0.0.1
 		*/	
 		void operator -=(double val);
@@ -262,10 +273,10 @@ namespace  zSpace
 		*/	
 		void normalize();
 
-		/*! \brief This method returns the square distance between the current zVector and input zVector.
+		/*! \brief This method returns the squared distance between the current zVector and input zVector.
 		*
 		*	\param		[in]	v1			- input vector.
-		*	\return				double		- value of the distance between the vectors.
+		*	\return				double		- squared value of the distance between the vectors.
 		*	\since version 0.0.1
 		*/
 		double squareDistanceTo(zVector &v1);
@@ -286,7 +297,7 @@ namespace  zSpace
 		*/	
 		double angle(zVector &v1);
 
-		/*! \brief This method returns the angle between the current zVector and input zVector in the range of 0 to 360.
+		/*! \brief This method returns the angle between the current zVector and input zVector in the range of 0 to 360 in the plane given by the input normal..
 		*
 		*	\param		[in]	v1			- input vector.
 		*	\param		[in]	normal		- input reference normal or axis of rotation.
@@ -305,7 +316,7 @@ namespace  zSpace
 		*/	
 		double dihedralAngle(zVector &v1, zVector &v2);
 	
-		/*! \brief This method returns the contangetn of the angle between the current and input vector. 
+		/*! \brief This method returns the contangent of the angle between the current and input vector. 
 		*
 		*	\details Based on http://multires.caltech.edu/pubs/diffGeoOps.pdf and http://rodolphe-vaillant.fr/?e=69
 		*	\param		[in]	v			- input vector.
@@ -319,7 +330,7 @@ namespace  zSpace
 		*	\param		[out]	vals		- output compnent values. ( 0 - x component, 1 - y component, 2 - z component).
 		*	\since version 0.0.2
 		*/
-		void getComponents(zDouble3 &_vals);
+		void getComponents(zDouble4 &_vals);
 
 		/*! \brief This method gets the raw pointer to the components.
 		*

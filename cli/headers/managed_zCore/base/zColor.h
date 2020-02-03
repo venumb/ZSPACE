@@ -10,16 +10,19 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
+#ifdef ZSPACE_MANAGED_LIBRARY
+
+
 #pragma once
 
 
 #include<headers/managed_zCore/managedObject/zManagedObj.h>
-#include<headers/zCore/coreHeader.h>
+#include<headers/zCore/zCore.h>
 
 using namespace System;
 
 
-namespace zSpaceCLI
+namespace zSpaceManaged
 {
 
 	public ref class zColor : public zManagedObj<zSpace::zColor>
@@ -31,6 +34,11 @@ namespace zSpaceCLI
 		zColor(double _r, double _g, double _b, double _a);
 
 		zColor(double _h, double _s, double _v);
+
+		/// <summary>
+		/// Copy Constructor.
+		/// </summary>
+		zColor(const zColor ^ &c1);
 
 		void toHSV();
 
@@ -80,6 +88,20 @@ namespace zSpaceCLI
 			}
 		}
 
+		property double a
+		{
+		public:
+			double get()
+			{
+				return m_zInstance->a;
+			}
+
+			void set(double value)
+			{
+				m_zInstance->a = value;
+			}
+		}
+
 		property double h
 		{
 		public:
@@ -108,7 +130,6 @@ namespace zSpaceCLI
 			}
 		}
 		
-
 		property double v
 		{
 		public:
@@ -125,3 +146,5 @@ namespace zSpaceCLI
 	};
 
 }
+
+#endif

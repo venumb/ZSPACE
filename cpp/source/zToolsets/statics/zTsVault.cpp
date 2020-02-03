@@ -473,15 +473,15 @@ namespace zSpace
 				//int symId = fnForm.getSymIndex(i);
 				//if (fnForm.onBoundary(i, zHalfEdgeData) || fnForm.onBoundary(symId, zHalfEdgeData))
 				//{
-				if (form_tensionEdges[i])
-				{
-					if (e_Form_vec*e_Force_vec > 0) eId = e_force.getSym().getId();
-				}
-				//for compression edge point to the edge in the same direction
-				else
-				{
-					if (e_Form_vec*e_Force_vec < 0) eId = e_force.getSym().getId();
-				}
+				//if (form_tensionEdges[i])
+				//{
+				//	if (e_Form_vec*e_Force_vec > 0) eId = e_force.getSym().getId();
+				//}
+				////for compression edge point to the edge in the same direction
+				//else
+				//{
+				//	if (e_Form_vec*e_Force_vec < 0) eId = e_force.getSym().getId();
+				//}
 				//}			
 
 
@@ -589,9 +589,14 @@ namespace zSpace
 			if (!fixedVerticesBoolean[v1] || !fixedVerticesBoolean[v2])
 			{
 				int i = e.getId();
-				q[FD_EdgesCounter] = forceDensities[i];
+				q[FD_EdgesCounter] = forceDensities[i] ;
 
-				if (forceDensities[i] < 0) positiveDensities = false;
+				if (result_tensionEdges[e.getHalfEdge(0).getId()])
+				{
+					positiveDensities = false;
+
+					q[FD_EdgesCounter] *= -1;
+				}
 				FD_EdgesCounter++;
 			}
 
@@ -608,7 +613,7 @@ namespace zSpace
 
 		for (int i = 0; i < resultVMass.size(); i++)
 		{
-			p[i] = resultVMass[i];
+			p[i] = resultVMass[i] * resultVThickness[i] * resultVWeights[i];
 		}
 
 
@@ -750,7 +755,11 @@ namespace zSpace
 				int i = e.getId();
 				q[FD_EdgesCounter] = forceDensities[i];
 
-				if (forceDensities[i] < 0) positiveDensities = false;
+				if (result_tensionEdges[e.getHalfEdge(0).getId()])
+				{
+					positiveDensities = false;
+					q[FD_EdgesCounter] *= -1;
+				}
 				FD_EdgesCounter++;
 			}
 
@@ -767,7 +776,7 @@ namespace zSpace
 
 		for (int i = 0; i < resultVMass.size(); i++)
 		{
-			p[i] = resultVMass[i];
+			p[i] = resultVMass[i] * resultVThickness[i] * resultVWeights[i];
 		}
 
 
@@ -862,7 +871,7 @@ namespace zSpace
 
 			if (formVWeights.size() == 0) setVertexWeights(zDiagramType::zFormDiagram);
 			if (forceVWeights.size() == 0) setVertexWeights(zDiagramType::zForceDiagram);
-
+			
 			computeTargets = !computeTargets;
 		}
 
@@ -879,7 +888,7 @@ namespace zSpace
 		}
 
 		// check deviations
-		zDomainDouble dev;
+		zDomainDouble dev;		
 		bool out = checkHorizontalParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 		if (out)
@@ -1064,7 +1073,7 @@ namespace zSpace
 			setForceDensitiesFromDiagrams(forceDiagramScale);
 
 			computeForceDensitities = false;
-		}
+		}		
 
 		zHEData type = zVertexData;
 
@@ -1450,7 +1459,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensities(vector<double> &fDensities)
 	{
-		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of mesh half edges.");
+		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of mesh edges.");
 
 		forceDensities = fDensities;
 	}
@@ -2613,7 +2622,7 @@ namespace zSpace
 		vector<double> deviations;
 		deviation.min = 10000;
 		deviation.max = -10000;
-
+		
 		for (zItMeshHalfEdge e_form(*formObj); !e_form.end(); e_form++)
 		{
 
@@ -2658,9 +2667,10 @@ namespace zSpace
 				deviations.push_back(-1);
 			}
 		}
+		
 
 		if (printInfo)
-		{
+		{			
 			printf("\n  tolerance : %1.4f minDeviation : %1.4f , maxDeviation: %1.4f ", angleTolerance, deviation.min, deviation.max);
 		}
 

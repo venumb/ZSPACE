@@ -10,20 +10,26 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
+#ifdef ZSPACE_MANAGED_LIBRARY
+
 #pragma once
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
 
-namespace zSpaceCLI 
+namespace zSpaceManaged 
 {
 
 	template<class T>
 	public ref class zManagedObj
 	{
 	protected:
+
 		T* m_zInstance;
+
 	public:
+		zManagedObj() {}
+
 		zManagedObj(T* cppObj)
 			: m_zInstance(cppObj)
 		{
@@ -58,3 +64,5 @@ namespace zSpaceCLI
 
 	};
 }
+
+#endif

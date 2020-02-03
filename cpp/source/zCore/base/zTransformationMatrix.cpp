@@ -77,19 +77,21 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setRotation(zDouble3 &_rotation, bool addValues)
+	ZSPACE_INLINE void zTransformationMatrix::setRotation(zDouble4 &_rotation, bool addValues)
 	{
 		if (addValues)
 		{
 			rotation[0] += DEG_TO_RAD * _rotation[0];
 			rotation[1] += DEG_TO_RAD * _rotation[1];
 			rotation[2] += DEG_TO_RAD * _rotation[2];
+			rotation[3] = 1;
 		}
 		else
 		{
 			rotation[0] = DEG_TO_RAD * _rotation[0];
 			rotation[1] = DEG_TO_RAD * _rotation[1];
 			rotation[2] = DEG_TO_RAD * _rotation[2];
+			rotation[3] = 1;
 		}
 
 
@@ -102,7 +104,7 @@ namespace zSpace
 		computeTransform();
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setScale(zDouble3 &_scale)
+	ZSPACE_INLINE void zTransformationMatrix::setScale(zDouble4 &_scale)
 	{
 		scale[0] = _scale[0];
 		if (scale[0] == 0)scale[0] = scaleZero;
@@ -113,35 +115,40 @@ namespace zSpace
 		scale[2] = _scale[2];
 		if (scale[2] == 0)scale[2] = scaleZero;
 
+		scale[3] = _scale[3];
+		if (scale[3] == 0)scale[3] = 1;
+
 		computeS();
 
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setTranslation(zDouble3 &_translation, bool addValues)
+	ZSPACE_INLINE void zTransformationMatrix::setTranslation(zDouble4 &_translation, bool addValues)
 	{
 		if (addValues)
 		{
 			translation[0] += _translation[0];
 			translation[1] += _translation[1];
 			translation[2] += _translation[2];
-
+			translation[3] = _translation[3];
 		}
 		else
 		{
 			translation[0] = _translation[0];
 			translation[1] = _translation[1];
 			translation[2] = _translation[2];
+			translation[3] = _translation[3];
 		}
 
 		computeT();
 		computeTransform();
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setPivot(zDouble3 &_pivot)
+	ZSPACE_INLINE void zTransformationMatrix::setPivot(zDouble4 &_pivot)
 	{
 		pivot[0] = _pivot[0];
 		pivot[1] = _pivot[1];
 		pivot[2] = _pivot[2];
+		pivot[3] = _pivot[3];
 
 		computeP();
 
@@ -184,15 +191,16 @@ namespace zSpace
 		return &pivot[0];
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::getRotation(zDouble3 &_rotation)
+	ZSPACE_INLINE void zTransformationMatrix::getRotation(zDouble4 &_rotation)
 	{
 		_rotation[0] = RAD_TO_DEG * rotation[0];
 		_rotation[1] = RAD_TO_DEG * rotation[1];
 		_rotation[2] = RAD_TO_DEG * rotation[2];
+		_rotation[3] = rotation[3];
 
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::getScale(zDouble3 &_scale)
+	ZSPACE_INLINE void zTransformationMatrix::getScale(zDouble4 &_scale)
 	{
 		_scale[0] = scale[0];
 		if (scale[0] == scaleZero)_scale[0] = 0;
@@ -202,6 +210,9 @@ namespace zSpace
 
 		_scale[2] = scale[2];
 		if (scale[2] == scaleZero)_scale[2] = 0;
+
+		_scale[2] = scale[2];
+		if (scale[2] == scaleZero)_scale[2] = 1;
 	}
 
 	//---- AS MATRIX METHODS

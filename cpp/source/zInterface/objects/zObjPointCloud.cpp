@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 
@@ -25,7 +25,7 @@ namespace zSpace
 		displayUtils = nullptr;
 #endif
 
-		showVertices = false;
+		displayVertices = false;
 
 	}
 
@@ -35,9 +35,9 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zObjPointCloud::setShowElements(bool _showVerts)
+	ZSPACE_INLINE void zObjPointCloud::setDisplayElements(bool _displayVerts)
 	{
-		showVertices = _showVerts;
+		displayVertices = _displayVerts;
 	}
 
 	//---- OVERRIDE METHODS
@@ -51,30 +51,14 @@ namespace zSpace
 
 	ZSPACE_INLINE void zObjPointCloud::draw()
 	{
-		if (showObject)
+		if (displayObject)
 		{
 			drawPointCloud();
 		}
 
-		if (showObjectTransform)
+		if (displayObjectTransform)
 		{
 			displayUtils->drawTransform(transformationMatrix);
-		}
-
-	}
-
-
-
-	//---- DISPLAY METHODS
-
-	ZSPACE_INLINE void zObjPointCloud::drawPointCloud()
-	{
-
-		if (showVertices)
-		{
-
-			displayUtils->drawPoints(&pCloud.vertexPositions[0], &pCloud.vertexColors[0], &pCloud.vertexWeights[0], pCloud.vertexPositions.size());
-
 		}
 
 	}
@@ -83,13 +67,27 @@ namespace zSpace
 
 	ZSPACE_INLINE void zObjPointCloud::appendToBuffer()
 	{
-		showObject = showVertices = false;
+		displayObject = displayVertices = false;
 
 		// Vertex Attributes
 		zVector*_dummynormals = nullptr;
 
 		pCloud.VBO_VertexId = displayUtils->bufferObj.appendVertexAttributes(&pCloud.vertexPositions[0], _dummynormals, pCloud.vertexPositions.size());
 		pCloud.VBO_VertexColorId = displayUtils->bufferObj.appendVertexColors(&pCloud.vertexColors[0], pCloud.vertexColors.size());
+	}
+
+	//---- PROTECTED DISPLAY METHODS
+
+	ZSPACE_INLINE void zObjPointCloud::drawPointCloud()
+	{
+
+		if (displayVertices)
+		{
+
+			displayUtils->drawPoints(&pCloud.vertexPositions[0], &pCloud.vertexColors[0], &pCloud.vertexWeights[0], pCloud.vertexPositions.size());
+
+		}
+
 	}
 
 #endif // !ZSPACE_UNREAL_INTEROP

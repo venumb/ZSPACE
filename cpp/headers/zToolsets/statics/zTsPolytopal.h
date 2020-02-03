@@ -281,7 +281,7 @@ namespace zSpace
 		*	\return				bool						- true if the all the forces are within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool equilibrium(bool computeTargets, double minmax_Edge, zDomainDouble &deviations,  double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, bool colorEdges = false, bool printInfo = false);
+		bool equilibrium(bool &computeTargets, double minmax_Edge, zDomainDouble &deviations,  double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, bool colorEdges = false, bool printInfo = false);
 		
 		//--------------------------
 		//----3D GS ALGEBRAIC

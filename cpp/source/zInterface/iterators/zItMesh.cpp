@@ -675,7 +675,7 @@ namespace zSpace
 	}
 
 	ZSPACE_INLINE zItMeshHalfEdge zItMeshEdge::getHalfEdge(int _index)
-	{
+	{	
 		return zItMeshHalfEdge(*meshObj, iter->getHalfEdge(_index)->getId());
 	}
 
@@ -897,9 +897,7 @@ namespace zSpace
 	ZSPACE_INLINE void zItMeshFace::getConnectedFaces(zItMeshFaceArray& faces)
 	{
 		zItMeshHalfEdgeArray cHEdges;
-		getHalfEdges(cHEdges);
-
-		
+		getHalfEdges(cHEdges);		
 
 		for (auto &he : cHEdges)
 		{
@@ -1442,6 +1440,19 @@ namespace zSpace
 		return iter->isActive();
 	}
 
+	ZSPACE_INLINE bool zItMeshFace::checkPointInHalfSpace(zPoint & pt)
+	{
+		zVector n = getNormal();
+		zPoint p = getHalfEdge().getVertex().getPosition();
+
+		double D = n * p* -1;
+		double Dis = (pt*n) + D;
+
+		bool out = (Dis / sqrt(n*n) < 0) ? true : false;
+
+		return out;
+	}
+
 	//---- OPERATOR METHODS
 
 	ZSPACE_INLINE bool zItMeshFace::operator==(zItMeshFace &other)
@@ -1522,7 +1533,6 @@ namespace zSpace
 	{
 		meshObj->mesh.heHandles[iter->getId()] = zHalfEdgeHandle();
 		iter->reset();
-
 	}
 
 	//--- TOPOLOGY QUERY METHODS 

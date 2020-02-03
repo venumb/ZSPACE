@@ -69,6 +69,12 @@
     <ClInclude Include="..\..\..\cpp\headers\zInterOp\interOp\zIONurbsSurface.h">
       <Filter>Header Files\interOp</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\functionSets\zUnrealFnMesh.h">
+      <Filter>Header Files\functionSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zInterOp\include\zUnrealInclude.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zInterOp\core\zRhinoCore.cpp">
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\source\zInterOp\interOp\zIONurbsSurface.cpp">
       <Filter>Source Files\interOp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zInterOp\functionSets\zUnrealFnMesh.cpp">
+      <Filter>Source Files\functionSets</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -49,7 +49,7 @@ namespace zSpace
 	protected:
 		
 		/*! \brief boolean for displaying the bins */
-		bool showBounds;
+		bool displayBounds;
 
 	public:
 		//--------------------------
@@ -86,12 +86,12 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show bins booleans.
+		/*! \brief This method sets display bins booleans.
 		*
-		*	\param		[in]	_showBounds				- input show bounds boolean.
+		*	\param		[in]	_displayBounds				- input display bounds boolean.
 		*	\since version 0.0.3
 		*/
-		void setShowBounds(bool _showBounds);
+		void setDisplayBounds(bool _displayBounds);
 	
 		//--------------------------
 		//---- OVERRIDE METHODS
@@ -103,8 +103,9 @@ namespace zSpace
 
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
+	protected:
 		//--------------------------
-		//---- DISPLAY METHODS
+		//---- PROTECTED DISPLAY METHODS
 		//--------------------------
 
 		/*! \brief This method displays the point cloud.

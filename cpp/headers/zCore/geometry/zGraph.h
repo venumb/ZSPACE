@@ -122,7 +122,6 @@ namespace zSpace
 
 		/*!	\brief stores the start vertex color ID in the VBO, when attache to the zBufferObject.	*/
 		int VBO_VertexColorId;		
-
 		
 		/*!	\brief boolean indicating if the geometry is static or not. Default its false.	*/
 		bool staticGeometry = false;

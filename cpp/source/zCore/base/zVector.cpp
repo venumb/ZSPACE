@@ -12,6 +12,7 @@
 
 
 #include<headers/zCore/base/zVector.h>
+//#include "..\..\..\..\cli\headers\managed_zCore\base\zVector.h"
 
 namespace zSpace
 {
@@ -23,22 +24,26 @@ namespace zSpace
 		x = 0;
 		y = 0;
 		z = 0;
+		w = 1;
 
 		vals[0] = &x;
 		vals[1] = &y;
 		vals[2] = &z;
+		vals[3] = &w;
 	}
 
-	ZSPACE_INLINE zVector::zVector(double _x, double _y, double _z)
+	ZSPACE_INLINE zVector::zVector(double _x, double _y, double _z, double _w)
 	{
 
 		x = _x;
 		y = _y;
 		z = _z;
+		w = _w;
 
 		vals[0] = &x;
 		vals[1] = &y;
 		vals[2] = &z;
+		vals[3] = &w;
 
 	}
 
@@ -48,10 +53,26 @@ namespace zSpace
 		x = _vals[0];
 		y = _vals[1];
 		z = _vals[2];
+		w = 1;
 
 		vals[0] = &x;
 		vals[1] = &y;
 		vals[2] = &z;
+		vals[3] = &w;
+	}
+
+	ZSPACE_INLINE zVector::zVector(const zDouble4 &_vals)
+	{
+
+		x = _vals[0];
+		y = _vals[1];
+		z = _vals[2];
+		w = _vals[3];
+
+		vals[0] = &x;
+		vals[1] = &y;
+		vals[2] = &z;
+		vals[3] = &w;
 	}
 
 	//---- DESTRUCTOR
@@ -70,7 +91,7 @@ namespace zSpace
 
 	ZSPACE_INLINE double  zVector::operator[](int index)
 	{
-		if (index >= 0 && index <= 2)return *vals[index];
+		if (index >= 0 && index <= 3)return *vals[index];
 	}
 
 	ZSPACE_INLINE zVector zVector::operator+(const zVector &v1)
@@ -122,11 +143,11 @@ namespace zSpace
 
 	ZSPACE_INLINE zVector zVector::operator*(zTransform inTrans)
 	{
-		Vector4d p(x, y, z, 1);
+		Vector4d p(x, y, z, w);
 
 		Vector4d newP = inTrans * p;
 
-		zVector out(newP(0), newP(1), newP(2));
+		zVector out(newP(0), newP(1), newP(2), newP(3));
 
 		return out;
 	}
@@ -207,6 +228,7 @@ namespace zSpace
 		y /= length;
 		z /= length;
 	}
+	
 
 	ZSPACE_INLINE double zVector::squareDistanceTo(zVector &v1)
 	{
@@ -304,11 +326,12 @@ namespace zSpace
 		else return dot / denom;
 	}
 
-	ZSPACE_INLINE void zVector::getComponents(zDouble3 &_vals)
+	ZSPACE_INLINE void zVector::getComponents(zDouble4 &_vals)
 	{
 		_vals[0] = x;
 		_vals[1] = y;
 		_vals[2] = z;
+		_vals[3] = w;
 	}
 
 	ZSPACE_INLINE double* zVector::getRawComponents()
@@ -320,7 +343,7 @@ namespace zSpace
 	{
 		vector<double> vals;
 
-		if (cols == 4) vals = { x,y,z,1 };
+		if (cols == 4) vals = { x,y,z,w };
 		if (cols == 3) vals = { x,y,z };
 
 		return zMatrixd(1, cols, vals);
@@ -328,9 +351,9 @@ namespace zSpace
 
 	ZSPACE_INLINE zMatrixd zVector::toColumnMatrix(int rows)
 	{
-		vector<double> vals = { x,y,z,1 };
+		vector<double> vals ;
 
-		if (rows == 4) vals = { x,y,z,1 };
+		if (rows == 4) vals = { x,y,z,w };
 		if (rows == 3) vals = { x,y,z };
 		return zMatrixd(rows, 1, vals);
 	}
@@ -381,7 +404,7 @@ namespace zSpace
 
 	ZSPACE_INLINE ostream & operator<<(ostream & os, const zVector & vec)
 	{
-		os << "\n" <<vec.x << ',' << vec.y << ',' << vec.z;
+		os << " [ " << vec.x << ',' << vec.y << ',' << vec.z << ',' << vec.w << " ]";
 		return os;
 	}
 

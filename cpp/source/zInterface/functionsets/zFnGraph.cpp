@@ -15,7 +15,6 @@
 
 namespace zSpace
 {
-
 	//---- CONSTRUCTOR
 
 	ZSPACE_INLINE zFnGraph::zFnGraph()
@@ -32,7 +31,6 @@ namespace zSpace
 
 		planarGraph = _planarGraph;
 		graphNormal = _graphNormal;
-
 	}
 
 	//---- DESTRUCTOR
@@ -107,19 +105,58 @@ namespace zSpace
 		if (staticGraph) setStaticContainers();
 	}
 
-	ZSPACE_INLINE void zFnGraph::createFromMesh(zObjMesh &graphObj, bool staticGraph)
+	ZSPACE_INLINE void zFnGraph::createFromMesh(zObjMesh &meshObj, bool excludeBoundary, bool staticGraph)
 	{
-		zFnMesh fnMesh(graphObj);
+		zFnMesh fnMesh(meshObj);
 
 		vector<int>edgeConnects;
 		vector<zVector> vertexPositions;
 
-		fnMesh.getEdgeData(edgeConnects);
-		fnMesh.getVertexPositions(vertexPositions);
+		fnMesh.getVertexPositions(vertexPositions, excludeBoundary);
+		fnMesh.getEdgeData(edgeConnects, excludeBoundary);
 
-		create(vertexPositions, edgeConnects);
+		create(vertexPositions, edgeConnects, staticGraph);
 
 		if (staticGraph) setStaticContainers();
+	}
+
+	ZSPACE_INLINE bool zFnGraph::addVertex(zPoint &_pos, bool checkDuplicates, zItGraphVertex &vertex)
+	{
+		if (checkDuplicates)
+		{
+			int id;
+			bool chk = vertexExists(_pos, vertex);
+			if (chk)	return false;
+
+		}
+
+		bool out = graphObj->graph.addVertex(_pos);
+		vertex = zItGraphVertex(*graphObj, numVertices() - 1);
+
+		return out;
+	}
+
+	ZSPACE_INLINE bool zFnGraph::addEdges(int &v1, int &v2, bool checkDuplicates, zItGraphHalfEdge &halfEdge)
+	{
+		if (v1 < 0 && v1 >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+		if (v2 < 0 && v2 >= numVertices()) throw std::invalid_argument(" error: index out of bounds");
+
+		if (checkDuplicates)
+		{
+			int id;
+			bool chk = halfEdgeExists(v1, v2, id);
+			if (chk)
+			{
+				halfEdge = zItGraphHalfEdge(*graphObj, id);
+				return false;
+			}
+		}
+
+		bool out = graphObj->graph.addEdges(v1, v2);
+
+		halfEdge = zItGraphHalfEdge(*graphObj, numHalfEdges() - 2);
+
+		return out;
 	}
 
 	//--- TOPOLOGY QUERY METHODS 
@@ -139,16 +176,32 @@ namespace zSpace
 		return graphObj->graph.n_he;
 	}
 
-	ZSPACE_INLINE bool zFnGraph::vertexExists(zPoint pos, int &outVertexId, int precisionfactor)
-	{
-		return graphObj->graph.vertexExists(pos, outVertexId, precisionfactor);
-	}
-
-	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, int &outHalfEdge)
+	ZSPACE_INLINE bool zFnGraph::vertexExists(zPoint pos, zItGraphVertex &outVertex, int precisionfactor)
 	{
 
-		return graphObj->graph.halfEdgeExists(v1, v2, outHalfEdge);
+		int id;
+		bool chk = graphObj->graph.vertexExists(pos, id, precisionfactor);
+
+		if (chk) outVertex = zItGraphVertex(*graphObj, id);
+
+		return chk;
 	}
+
+	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, int &outHalfEdgeId)
+	{
+		return graphObj->graph.halfEdgeExists(v1, v2, outHalfEdgeId);
+	}
+
+	ZSPACE_INLINE bool zFnGraph::halfEdgeExists(int v1, int v2, zItGraphHalfEdge &outHalfEdge)
+	{
+		int id;
+		bool chk = halfEdgeExists(v1, v2, id);
+
+		if (chk) outHalfEdge = zItGraphHalfEdge(*graphObj, id);
+
+		return chk;
+	}
+
 
 	//--- COMPUTE METHODS 
 
@@ -677,107 +730,162 @@ namespace zSpace
 
 	}
 
+	ZSPACE_INLINE void zFnGraph::getGraphEccentricityCenter(zItGraphVertexArray & outV)
+	{
+		const int N = numVertices();	// number of nodes in graph
+		const int INF = 99999;
+		MatrixXi d(N,N);				// distances between nodes
+		VectorXi e(N);					// eccentricity of nodes
+		set<int> c;						// center of graph
+		int rad = INF;					// radius of graph
+		int diam = 0;					// diamater of graph
+
+		zIntArray boundaryVerts;
+		for (zItGraphVertex v(*graphObj); !v.end(); v++)
+			if (v.checkValency(1)) boundaryVerts.push_back(v.getId());
+		
+		d.setConstant(INF);
+		e.setZero();
+
+		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
+		{
+			d(he.getStartVertex().getId(), he.getVertex().getId()) = 1;
+			d(he.getStartVertex().getId(), he.getStartVertex().getId()) = 0;
+		}
+
+		// Floyd-Warshall's algorithm
+		for (int k = 0; k < N; k++)
+			for (int j = 0; j < N; j++)
+				for (int i = 0; i < N; i++)
+					d(i,j) = coreUtils.zMin(d(i, j), d(i, k) + d(k, j));
+
+		// Counting values of eccentricity
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < N; j++)
+				e(i) = coreUtils.zMax(e(i), d(i,j));
+
+		for (int i = 0; i < N; i++) 
+		{
+			rad = coreUtils.zMin(rad, e(i));
+			diam = coreUtils.zMax(diam, e(i));
+		}
+
+
+		for (int i = 0; i < N; i++) 
+			if (e[i] == rad) 		
+				c.insert(i);
+
+
+		zItGraphVertex v(*graphObj);
+		int maxScore = 0;
+
+		//printf("\n cen:");
+		for (auto id : c)
+		{
+			zItGraphVertex v1(*graphObj, id);
+			outV.push_back(v1);
+
+			double score = 0;
+
+			for (int j = 0; j < boundaryVerts.size(); j++)
+				score += d(v1.getId(), boundaryVerts[j]);
+
+			if (score > maxScore)
+			{
+				maxScore = score;
+				v = v1;
+			}
+
+			//printf("  %i ", v1.getId());
+		}
+
+		
+		//outV.push_back(v);
+	}
+
 	//---- TOPOLOGY MODIFIER METHODS
 
-	ZSPACE_INLINE int zFnGraph::splitEdge(int index, double edgeFactor)
+	ZSPACE_INLINE zItGraphVertex zFnGraph::splitEdge(zItGraphEdge &edge, double edgeFactor)
 	{
-		//if (index >= numEdges()) throw std::invalid_argument(" error: index out of bounds.");
-		//zItEdge e = graphObj->graph.indexToEdge[index];
-		//if (!e->isActive()) throw std::invalid_argument(" error: index out of bounds.");
+		int edgeId = edge.getId();
 
-		//
-		//zItHalfEdge edgetoSplit = e->halfEdges[0];
-		//zItHalfEdge edgetoSplitSym = edgetoSplit->sym;
+		zItGraphHalfEdge he = edge.getHalfEdge(0);
+		zItGraphHalfEdge heS = edge.getHalfEdge(1);
 
-		//zItHalfEdge e_next = edgetoSplit->next;
-		//zItHalfEdge e_prev = edgetoSplit->prev;
+		zItGraphHalfEdge he_next = he.getNext();
+		zItGraphHalfEdge he_prev = he.getPrev();
 
-		//zItHalfEdge es_next = edgetoSplitSym->next;
-		//zItHalfEdge es_prev = edgetoSplitSym->prev;
+		zItGraphHalfEdge heS_next = heS.getNext();
+		zItGraphHalfEdge heS_prev = heS.getPrev();
 
 
-		//zVector edgeDir = getHalfEdgeVector(index);
-		//double  edgeLength = edgeDir.length();
-		//edgeDir.normalize();
+		zVector edgeDir = he.getVector();
+		double  edgeLength = edgeDir.length();
+		edgeDir.normalize();
 
+		zVector newVertPos = he.getStartVertex().getPosition() + edgeDir * edgeFactor * edgeLength;
 
-		//zVector v0 =	getVertexPosition( getSym(index)->v->index);
-		//zVector newVertPos = v0 + edgeDir * edgeFactor * edgeLength;
-		//		
+		int numOriginalVertices = numVertices();
 
+		// check if vertex exists if not add new vertex
+		zItGraphVertex newVertex;
+		addVertex(newVertPos, false, newVertex);
 
-		//// check if vertex exists if not add new vertex
-		//int VertId;
-		//bool vExists = vertexExists(newVertPos, VertId);
-		//if (!vExists)
-		//{
-		//	graphObj->graph.addVertex(newVertPos);
-		//	VertId =numVertices() - 1;
-		//}
+		if (newVertex.getId() >= numOriginalVertices)
+		{
+			// remove from halfEdge vertices map
+			removeFromHalfEdgesMap(he);
 
-		////printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
+			// add new edges
+			int v1 = newVertex.getId();
+			int v2 = he.getVertex().getId();
 
-		//if (!vExists)
-		//{
-		//	// remove from verticesEdge map
-		//	graphObj->graph.removeFromHalfEdgesMap(edgetoSplit->v->index, edgetoSplitSym->v->index);
+			bool v2_val1 = he.getVertex().checkValency(1);
 
-		//	// add new edges
-		//	int v1 = VertId;
-		//	int v2 = edgetoSplit->v->index;
-		//	graphObj->graph.addEdges(v1, v2);				
+			zItGraphHalfEdge newHe;
+			bool edgesResize = addEdges(v1, v2, false, newHe);
 
-		//	bool v2_val1 = checkVertexValency(v2, 1);
+			int newHeId = newHe.getId();
 
-		//	// update vertex pointers
-		//	zItVertex vIter1 = graphObj->graph.indexToVertex[v1];
-		//	zItVertex vIter2 = graphObj->graph.indexToVertex[v2];
+			// recompute iterators if resize is true
+			if (edgesResize)
+			{
+				edge = zItGraphEdge(*graphObj, edgeId);
 
-		//	zItHalfEdge he1 = graphObj->graph.indexToHalfEdge[numHalfEdges() - 2];
-		//	zItHalfEdge he2 = graphObj->graph.indexToHalfEdge[numHalfEdges() - 1];
+				he = edge.getHalfEdge(0);
+				heS = edge.getHalfEdge(1);
 
-		//	vIter1->e = he1;
-		//	vIter2->e = he2;
-		//	
+				he_next = he.getNext();
+				he_prev = he.getPrev();
 
-		//	//// update pointers
+				heS_next = heS.getNext();
+				heS_prev = heS.getPrev();
 
-		//	zItVertex vIter = graphObj->graph.indexToVertex[VertId];
-		//	edgetoSplit->v = vIter;				// current edge vertex pointer updated to new added vertex
+				newHe = zItGraphHalfEdge(*graphObj, newHeId);
+			}
 
-		//	he2->next = edgetoSplitSym;		// new added edge next pointer to point to the next of current edge
-		//	
-		//	if (!v2_val1)
-		//	{
-		//		he2->prev = es_prev;
-		//		es_prev->next = he2;
-		//	}
-		//	else
-		//	{
-		//		he2->prev = he1; 
-		//		he1->next = he2;
-		//	}
+			zItGraphHalfEdge newHeS = newHe.getSym();
 
-		//	he1->prev = edgetoSplit;
-		//	edgetoSplit->next = he1;
+			// update vertex pointers
+			newVertex.setHalfEdge(newHe);
+			he.getVertex().setHalfEdge(newHeS);
 
-		//	
-		//	if (!v2_val1)
-		//	{
-		//		he1->next = e_next;
-		//		e_next->prev = he1;					
-		//	}
+			//// update pointers
+			he.setVertex(newVertex);		// current hedge vertex pointer updated to new added vertex
 
+			newHeS.setNext(heS);			// new added symmetry hedge next pointer to point to the symmetry of current hedge
+			
+			if (!v2_val1) newHeS.setPrev(heS_prev);
+			else newHeS.setPrev(newHe);
+			
+			newHe.setPrev(he);				// new added  hedge prev pointer to point to the current hedge
+			if (!v2_val1) newHe.setNext(he_next);
 
-		//	// update verticesEdge map
-		//	graphObj->graph.addToHalfEdgesMap(edgetoSplitSym->v->index, edgetoSplit->v->index, edgetoSplit);
+			// update verticesEdge map
+			addToHalfEdgesMap(he);
+		}
 
-		//}
-
-		//
-		//return VertId;
-
-		return 0;
+		return newVertex;
 	}
 
 	//---- TRANSFORM METHODS OVERRIDES
@@ -811,7 +919,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnGraph::setScale(zDouble3 &scale)
+	ZSPACE_INLINE void zFnGraph::setScale(zDouble4 &scale)
 	{
 		// get  inverse pivot translations
 		zTransform invScalemat = graphObj->transformationMatrix.asInverseScaleTransformMatrix();
@@ -829,7 +937,7 @@ namespace zSpace
 		transformObject(transMat);
 	}
 
-	ZSPACE_INLINE void zFnGraph::setRotation(zDouble3 &rotation, bool appendRotations)
+	ZSPACE_INLINE void zFnGraph::setRotation(zDouble4 &rotation, bool appendRotations)
 	{
 		// get pivot translation and inverse pivot translations
 		zTransform pivotTransMat = graphObj->transformationMatrix.asPivotTranslationMatrix();
@@ -853,7 +961,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnGraph::setTranslation(zVector &translation, bool appendTranslations)
 	{
 		// get vector as zDouble3
-		zDouble3 t;
+		zDouble4 t;
 		translation.getComponents(t);
 
 		// get pivot translation and inverse pivot translations
@@ -884,7 +992,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnGraph::setPivot(zVector &pivot)
 	{
 		// get vector as zDouble3
-		zDouble3 p;
+		zDouble4 p;
 		pivot.getComponents(p);
 
 		// set pivot values of object transformation matrix
@@ -1075,15 +1183,12 @@ namespace zSpace
 		{
 			cout << " error in opening file  " << infilename.c_str() << endl;
 			return false;
-
 		}
 
 		while (!myfile.eof())
 		{
 			string str;
 			getline(myfile, str);
-
-
 
 			vector<string> perlineData = graphObj->graph.coreUtils.splitString(str, " ");
 
@@ -1121,16 +1226,14 @@ namespace zSpace
 
 								graphObj->graph.create(positions, edgeConnects, graphNormal, sortRef);
 							}
-							printf("\n graph: %i %i ", numVertices(), numEdges());
-
+							printf("\n graph: %i %i", numVertices(), numEdges());
 						}
 					}
+
 					hashCounter++;
 
 					positions.clear();
 					edgeConnects.clear();
-
-
 				}
 
 				// vertex
@@ -1155,12 +1258,8 @@ namespace zSpace
 					}
 
 				}
-
-
-
 			}
 		}
-
 
 		return true;
 	}
@@ -1169,146 +1268,101 @@ namespace zSpace
 	{
 		json j;
 		zUtilsJsonHE graphJSON;
-
 		// read data to json
 		ifstream in_myfile;
 		in_myfile.open(infilename.c_str());
-
 		int lineCnt = 0;
-
 		if (in_myfile.fail())
 		{
 			cout << " error in opening file  " << infilename.c_str() << endl;
 			return false;
 		}
-
 		in_myfile >> j;
 		in_myfile.close();
-
 		// read data to json graph
-
 		// Vertices
 		graphJSON.vertices.clear();
 		graphJSON.vertices = (j["Vertices"].get<vector<int>>());
-
-		//Edges
+		// Edges
 		graphJSON.halfedges.clear();
 		graphJSON.halfedges = (j["Halfedges"].get<vector<vector<int>>>());
-
 		graphObj->graph.edges.clear();
-
-		// update  graph
-
+		// update graph
 		graphObj->graph.clear();
-
 		graphObj->graph.vertices.assign(graphJSON.vertices.size(), zVertex());
 		graphObj->graph.halfEdges.assign(graphJSON.halfedges.size(), zHalfEdge());
-		graphObj->graph.edges.assign(floor(graphJSON.halfedges.size()*0.5), zEdge());
-
+		graphObj->graph.edges.assign(floor(graphJSON.halfedges.size() * 0.5), zEdge());
 		graphObj->graph.vHandles.assign(graphJSON.vertices.size(), zVertexHandle());
-		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size()*0.5), zEdgeHandle());
+		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size() * 0.5), zEdgeHandle());
 		graphObj->graph.heHandles.assign(graphJSON.halfedges.size(), zHalfEdgeHandle());
-
+		// set IDs
+		for (int i = 0; i < graphJSON.vertices.size(); i++) graphObj->graph.vertices[i].setId(i);
+		for (int i = 0; i < graphJSON.halfedges.size(); i++)graphObj->graph.halfEdges[i].setId(i);
+		// set Pointers
 		int n_v = 0;
 		for (zItGraphVertex v(*graphObj); !v.end(); v++)
 		{
 			v.setId(n_v);
-
 			if (graphJSON.vertices[n_v] != -1)
 			{
-				zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]);;
-				v.setHalfEdge(e);
-
+				zItGraphHalfEdge he(*graphObj, graphJSON.vertices[n_v]);
+				v.setHalfEdge(he);
+				graphObj->graph.vHandles[n_v].id = n_v;
 				graphObj->graph.vHandles[n_v].he = graphJSON.vertices[n_v];
 			}
-
-
-
 			n_v++;
 		}
 		graphObj->graph.setNumVertices(n_v);
-
 		int n_he = 0;
 		int n_e = 0;
-
 		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
 		{
-
 			// Half Edge
 			he.setId(n_he);
-
+			graphObj->graph.heHandles[n_he].id = n_he;
 			if (graphJSON.halfedges[n_he][0] != -1)
 			{
 				zItGraphHalfEdge e(*graphObj, graphJSON.halfedges[n_he][0]);
 				he.setPrev(e);
-
 				graphObj->graph.heHandles[n_he].p = graphJSON.halfedges[n_he][0];
 			}
-
 			if (graphJSON.halfedges[n_he][1] != -1)
 			{
 				zItGraphHalfEdge e(*graphObj, graphJSON.halfedges[n_he][1]);
 				he.setNext(e);
-
 				graphObj->graph.heHandles[n_he].n = graphJSON.halfedges[n_he][1];
 			}
-
 			if (graphJSON.halfedges[n_he][2] != -1)
 			{
 				zItGraphVertex v(*graphObj, graphJSON.halfedges[n_he][2]);
 				he.setVertex(v);
-
 				graphObj->graph.heHandles[n_he].v = graphJSON.halfedges[n_he][2];
 			}
-
-
-
 			// symmetry half edges
-			if (n_he % 2 == 0)
-			{
-				zItGraphHalfEdge e(*graphObj, n_he + 1);
-				he.setSym(e);
-			}
-			else
-			{
-				zItGraphHalfEdge e(*graphObj, n_he - 1);
-				he.setSym(e);
-			}
-
-
-			// Edge
 			if (n_he % 2 == 1)
 			{
+				zItGraphHalfEdge heSym(*graphObj, n_he - 1);
+				he.setSym(heSym);
 				zItGraphEdge e(*graphObj, n_e);
 				e.setId(n_e);
-
-				zItGraphHalfEdge heSym = he.getSym();
-
 				e.setHalfEdge(heSym, 0);
 				e.setHalfEdge(he, 1);
-
+				he.setEdge(e);
+				heSym.setEdge(e);
 				graphObj->graph.heHandles[n_he].e = n_e;
 				graphObj->graph.heHandles[n_he - 1].e = n_e;
-
 				graphObj->graph.eHandles[n_e].id = n_e;
 				graphObj->graph.eHandles[n_e].he0 = n_he - 1;
 				graphObj->graph.eHandles[n_e].he1 = n_he;
-
 				n_e++;
 			}
-
 			n_he++;
-
 		}
-
 		graphObj->graph.setNumEdges(n_e);
-
-
 
 		// Vertex Attributes
 		graphJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
 		//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
-
 		graphObj->graph.vertexPositions.clear();
 		graphObj->graph.vertexColors.clear();
 		graphObj->graph.vertexWeights.clear();
@@ -1316,28 +1370,20 @@ namespace zSpace
 		{
 			for (int k = 0; k < graphJSON.vertexAttributes[i].size(); k++)
 			{
-
 				// position and color
-
 				if (graphJSON.vertexAttributes[i].size() == 6)
 				{
 					zVector pos(graphJSON.vertexAttributes[i][k], graphJSON.vertexAttributes[i][k + 1], graphJSON.vertexAttributes[i][k + 2]);
 					graphObj->graph.vertexPositions.push_back(pos);
-
 					zColor col(graphJSON.vertexAttributes[i][k + 3], graphJSON.vertexAttributes[i][k + 4], graphJSON.vertexAttributes[i][k + 5], 1);
 					graphObj->graph.vertexColors.push_back(col);
-
 					graphObj->graph.vertexWeights.push_back(2.0);
-
 					k += 5;
 				}
 			}
 		}
-
-
 		// Edge Attributes
 		graphJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
-
 		graphObj->graph.edgeColors.clear();
 		graphObj->graph.edgeWeights.clear();
 		if (graphJSON.halfedgeAttributes.size() == 0)
@@ -1356,34 +1402,23 @@ namespace zSpace
 				if (graphJSON.halfedgeAttributes[i].size() == 3)
 				{
 					zColor col(graphJSON.halfedgeAttributes[i][0], graphJSON.halfedgeAttributes[i][1], graphJSON.halfedgeAttributes[i][2], 1);
-
 					graphObj->graph.edgeColors.push_back(col);
 					graphObj->graph.edgeWeights.push_back(1.0);
-
 				}
 			}
 		}
-
-
-
 		printf("\n graph: %i %i ", numVertices(), numEdges());
-
-		// add to maps 
+		// add to maps
 		for (int i = 0; i < graphObj->graph.vertexPositions.size(); i++)
 		{
 			graphObj->graph.addToPositionMap(graphObj->graph.vertexPositions[i], i);
 		}
-
-
-
 		for (zItGraphEdge e(*graphObj); !e.end(); e++)
 		{
 			int v1 = e.getHalfEdge(0).getVertex().getId();
 			int v2 = e.getHalfEdge(1).getVertex().getId();
-
 			graphObj->graph.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());
 		}
-
 		return true;
 
 	}
@@ -1536,5 +1571,17 @@ namespace zSpace
 		}
 
 		graphObj->graph.setStaticEdgeVertices(edgeVerts);
+	}
+
+	//---- PRIVATE DEACTIVATE AND REMOVE METHODS
+
+	ZSPACE_INLINE void zFnGraph::addToHalfEdgesMap(zItGraphHalfEdge &he)
+	{
+		graphObj->graph.addToHalfEdgesMap(he.getStartVertex().getId(), he.getVertex().getId(), he.getId());
+	}
+
+	ZSPACE_INLINE void zFnGraph::removeFromHalfEdgesMap(zItGraphHalfEdge &he)
+	{
+		graphObj->graph.removeFromHalfEdgesMap(he.getStartVertex().getId(), he.getVertex().getId());
 	}
 }

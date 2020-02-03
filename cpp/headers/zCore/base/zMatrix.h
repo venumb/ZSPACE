@@ -19,6 +19,9 @@
 
 #include <stdexcept>
 #include <vector>
+#include <queue>
+#include <tuple>
+
 using namespace std;
 
 #include<depends/Eigen/Core>
@@ -541,6 +544,13 @@ namespace zSpace
 	*	\since version 0.0.2
 	*/	
 	typedef Eigen::Matrix4d zTransform;
+
+	/*! \typedef zPlane
+	*	\brief A 4x4 matrix.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef Eigen::Matrix4d zPlane;
 
 	/*! \typedef zSparseMatrix
 	*	\brief A  Eigen library column-major sparse matrix type of double.

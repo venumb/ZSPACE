@@ -29,7 +29,6 @@ namespace zSpace
 		meshObj = &_meshObj;
 
 		fnType = zFnType::zMeshFn;
-
 	}
 
 	//---- DESTRUCTOR
@@ -75,7 +74,6 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::clear()
 	{
-
 		meshObj->mesh.clear();
 	}
 
@@ -89,7 +87,6 @@ namespace zSpace
 		meshObj->mesh.faces.reserve(_n_f);
 		meshObj->mesh.edges.reserve(_n_e);
 		meshObj->mesh.halfEdges.reserve(_n_e * 2);
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::create(zPointArray& _positions, zIntArray& polyCounts, zIntArray& polyConnects, bool staticMesh)
@@ -100,7 +97,6 @@ namespace zSpace
 		computeMeshNormals();
 
 		if (staticMesh) setStaticContainers();
-
 	}
 
 	ZSPACE_INLINE bool zFnMesh::addVertex(zPoint &_pos, bool checkDuplicates, zItMeshVertex &vertex)
@@ -150,6 +146,8 @@ namespace zSpace
 		}
 
 		bool out = meshObj->mesh.addPolygon(fVertices);
+			
+		
 
 		face = zItMeshFace(*meshObj, numPolygons() - 1);
 
@@ -287,13 +285,11 @@ namespace zSpace
 			}*/
 		}
 
-
 		return meshLaplacian;
 	}
 
 	ZSPACE_INLINE double zFnMesh::getEdgeCotangentWeight(zItMeshHalfEdge &he)
 	{
-
 		zItMeshVertex i = he.getStartVertex();
 		zItMeshVertex j = he.getVertex();
 
@@ -325,7 +321,19 @@ namespace zSpace
 		if (isnan(wt)) wt = 0.0;
 
 		return wt;
+	}
 
+	ZSPACE_INLINE bool zFnMesh::checkPointInConvexHull(zPoint &pt)
+	{
+		bool out = true;
+
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			out = f.checkPointInHalfSpace(pt);
+			if (!out) break;
+		}
+
+		return out;
 	}
 
 	//--- COMPUTE METHODS 
@@ -347,20 +355,12 @@ namespace zSpace
 
 				if (meshObj->mesh.edgeColors.size() <= e.getId()) meshObj->mesh.edgeColors.push_back(col);
 				else meshObj->mesh.edgeColors[e.getId()] = col;
-
-
 			}
-
-
 		}
-
-
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::computeVertexColorfromEdgeColor()
 	{
-
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
 		{
 			if (v.isActive())
@@ -379,15 +379,12 @@ namespace zSpace
 				col.r /= cEdges.size(); col.g /= cEdges.size(); col.b /= cEdges.size();
 
 				meshObj->mesh.vertexColors[v.getId()] = col;
-
 			}
 		}
 	}
 
 	ZSPACE_INLINE void zFnMesh::computeFaceColorfromVertexColor()
 	{
-
-
 		for (zItMeshFace f(*meshObj); !f.end(); f++)
 		{
 			if (f.isActive())
@@ -408,12 +405,10 @@ namespace zSpace
 				meshObj->mesh.faceColors[f.getId()] = col;
 			}
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::computeVertexColorfromFaceColor()
 	{
-
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
 		{
 			if (v.isActive())
@@ -434,7 +429,6 @@ namespace zSpace
 				meshObj->mesh.vertexColors[v.getId()] = col;
 			}
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::smoothColors(int smoothVal, zHEData type)
@@ -466,12 +460,9 @@ namespace zSpace
 						col.r += (currentCol.r); col.g += (currentCol.g); col.b += (currentCol.b);
 
 						col.r /= cVerts.size(); col.g /= cVerts.size(); col.b /= cVerts.size();
-
-
 					}
 
 					tempColors.push_back(col);
-
 				}
 
 				for (zItMeshVertex v(*meshObj); !v.end(); v++)
@@ -482,7 +473,6 @@ namespace zSpace
 					}
 				}
 			}
-
 
 			if (type == zFaceData)
 			{
@@ -505,13 +495,10 @@ namespace zSpace
 						}
 
 						col.r += (currentCol.r); col.g += (currentCol.g); col.b += (currentCol.b);
-
 						col.r /= cFaces.size(); col.g /= cFaces.size(); col.b /= cFaces.size();
-
 					}
 
 					tempColors.push_back(col);
-
 				}
 
 				for (zItMeshFace f(*meshObj); !f.end(); f++)
@@ -525,20 +512,19 @@ namespace zSpace
 
 			else throw std::invalid_argument(" error: invalid zHEData type");
 		}
-
-
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::computeVertexNormalfromFaceNormal()
 	{
-
 		meshObj->mesh.vertexNormals.clear();
 
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
 		{
 			if (v.isActive())
 			{
+
+				//if (v.getHalfEdge().onBoundary()) v.setHalfEdge(v.getHalfEdge().getSym().getNext());
+
 				vector<int> cFaces;
 				v.getConnectedFaces(cFaces);
 
@@ -555,7 +541,6 @@ namespace zSpace
 			}
 			else meshObj->mesh.vertexNormals.push_back(zVector());
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::computeMeshNormals()
@@ -592,8 +577,6 @@ namespace zSpace
 					for (int j = 0; j < fVerts.size(); j++)
 					{
 						fNorm += (points[j] - fCen) ^ (points[(j + 1) % fVerts.size()] - fCen);
-
-
 					}
 
 
@@ -617,20 +600,18 @@ namespace zSpace
 					fNorm = cross;
 
 					//printf("\n working! %i ", i);
-
 				}
-
 
 				fNorm.normalize();
 				meshObj->mesh.faceNormals.push_back(fNorm);
-			}
+
+							}
 			else meshObj->mesh.faceNormals.push_back(zVector());
-
 		}
-
-
 		// compute vertex normal
 		computeVertexNormalfromFaceNormal();
+
+		
 	}
 
 	ZSPACE_INLINE void zFnMesh::averageVertices(int numSteps)
@@ -660,13 +641,11 @@ namespace zSpace
 						tempVertPos[v.getId()] /= (cVerts.size() + 1);
 					}
 				}
-
 			}
 
 			// update position
 			for (int i = 0; i < tempVertPos.size(); i++) meshObj->mesh.vertexPositions[i] = tempVertPos[i];
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::garbageCollection(zHEData type)
@@ -677,6 +656,36 @@ namespace zSpace
 	ZSPACE_INLINE void zFnMesh::makeStatic()
 	{
 		setStaticContainers();
+	}
+
+	ZSPACE_INLINE void zFnMesh::makeConvexHull(zPointArray &_pts)
+	{
+		int num = _pts.size();
+		qh_vertex_t *vertices = new qh_vertex_t[num];
+
+		for (int i = 0; i < num; ++i)
+		{
+			vertices[i].x = _pts[i].x;
+			vertices[i].y = _pts[i].y;
+			vertices[i].z = _pts[i].z;
+		}
+
+		qh_mesh_t mesh = qh_quickhull3d(vertices, num);
+
+		reserve(mesh.nvertices, floor(mesh.nvertices / 3), floor(mesh.nvertices / 3));
+
+		for (int i = 0; i < mesh.nvertices; i += 3)
+		{
+			zItMeshFace f(*meshObj);
+			zPointArray pts;
+			
+			pts.push_back(zVector(mesh.vertices[i + 0].x, mesh.vertices[i + 0].y, mesh.vertices[i + 0].z));
+			pts.push_back(zVector(mesh.vertices[i + 1].x, mesh.vertices[i + 1].y, mesh.vertices[i + 1].z));
+			pts.push_back(zVector(mesh.vertices[i + 2].x, mesh.vertices[i + 2].y, mesh.vertices[i + 2].z));
+			addPolygon(pts, f);
+		}
+
+		computeMeshNormals();
 	}
 
 	//--- SET METHODS 
@@ -693,10 +702,8 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::setVertexColor(zColor col, bool setFaceColor)
 	{
-
 		meshObj->mesh.vertexColors.clear();
 		meshObj->mesh.vertexColors.assign(meshObj->mesh.n_v, col);
-
 
 		if (setFaceColor) computeFaceColorfromVertexColor();
 	}
@@ -750,10 +757,8 @@ namespace zSpace
 		zVector* norm = getRawFaceNormals();
 		zColor* col = getRawFaceColors();
 
-
 		for (int i = 0; i < numPolygons(); i++)
 		{
-
 			double ang = norm[i].angle(lightVec);
 
 			zDomainDouble in(90.0, 180.0);
@@ -764,9 +769,7 @@ namespace zSpace
 			if (ang <= 90) 	val = /*ofMap(ang, 0, 90, 1, 0.4)*/ 0.4;
 			else if (ang > 90) 	val = coreUtils.ofMap<double>(ang, in, out);
 
-
 			col[i] = zColor(val, val, val, 1);
-
 		}
 
 		if (setVertexColor) computeVertexColorfromFaceColor();
@@ -774,11 +777,8 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::setFaceNormals(zVector &fNormal)
 	{
-
-
 		meshObj->mesh.faceNormals.clear();
 		meshObj->mesh.faceNormals.assign(meshObj->mesh.n_f, fNormal);
-
 
 		// compute normals per face based on vertex normals and store it in faceNormals
 		computeVertexNormalfromFaceNormal();
@@ -786,7 +786,6 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::setFaceNormals(zVectorArray &fNormals)
 	{
-
 		if (meshObj->mesh.faces.size() != fNormals.size()) throw std::invalid_argument("size of color contatiner is not equal to number of mesh faces.");
 
 		meshObj->mesh.faceNormals.clear();
@@ -799,13 +798,10 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::setEdgeColor(zColor col, bool setVertexColor)
 	{
-
 		meshObj->mesh.edgeColors.clear();
 		meshObj->mesh.edgeColors.assign(meshObj->mesh.n_e, col);
 
-
 		if (setVertexColor) computeVertexColorfromEdgeColor();
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::setEdgeColors(zColorArray& col, bool setVertexColor)
@@ -822,7 +818,6 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::setEdgeWeight(int index, double wt)
 	{
-
 		if (meshObj->mesh.edgeWeights.size() != meshObj->mesh.edges.size())
 		{
 			meshObj->mesh.edgeWeights.clear();
@@ -835,7 +830,6 @@ namespace zSpace
 		int symEdge = (index % 2 == 0) ? index + 1 : index - 1;
 
 		meshObj->mesh.edgeWeights[symEdge] = wt;
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::setEdgeWeights(zDoubleArray& wt)
@@ -849,10 +843,18 @@ namespace zSpace
 	}
 
 	//--- GET METHODS 
-
-	ZSPACE_INLINE void zFnMesh::getVertexPositions(zPointArray& pos)
+	ZSPACE_INLINE void zFnMesh::getVertexPositions(zPointArray &pos, bool exludeCornerVertices)
 	{
 		pos = meshObj->mesh.vertexPositions;
+
+		//// LB fix: this is crashing when excluding corner vertices 
+		//pos.clear();
+
+		//for (zItMeshVertex v(*meshObj); !v.end(); v++)
+		//{
+		//	if (exludeCornerVertices && v.checkValency(2)) continue;
+		//	pos.push_back(v.getPosition());
+		//}
 	}
 
 	ZSPACE_INLINE zPoint* zFnMesh::getRawVertexPositions()
@@ -934,7 +936,6 @@ namespace zSpace
 		out /= meshObj->mesh.vertexPositions.size();
 
 		return out;
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::getCenters(zHEData type, zPointArray &centers)
@@ -942,7 +943,6 @@ namespace zSpace
 		// Mesh Edge 
 		if (type == zHalfEdgeData)
 		{
-
 			centers.clear();
 
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
@@ -957,11 +957,9 @@ namespace zSpace
 
 				}
 			}
-
 		}
 		else if (type == zEdgeData)
 		{
-
 			centers.clear();
 
 			for (zItMeshEdge e(*meshObj); !e.end(); e++)
@@ -976,7 +974,6 @@ namespace zSpace
 
 				}
 			}
-
 		}
 
 		// Mesh Face 
@@ -1022,7 +1019,6 @@ namespace zSpace
 		{
 			inEdge_dualVertex.push_back(-1);
 
-
 			if (!he.isActive()) continue;
 
 			if (he.onBoundary())
@@ -1038,7 +1034,6 @@ namespace zSpace
 				inEdge_dualVertex[he.getId()] = he.getFace().getId(); ;
 			}
 		}
-
 
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
 		{
@@ -1070,7 +1065,6 @@ namespace zSpace
 						}
 					}
 
-
 					e = e.getPrev();
 					eId = e.getId();
 
@@ -1089,8 +1083,6 @@ namespace zSpace
 					index = -1;
 					checkRepeat = meshObj->mesh.coreUtils.checkRepeatElement(inEdge_dualVertex[eId], tempPolyConnects, index);
 					if (!checkRepeat) tempPolyConnects.push_back(inEdge_dualVertex[eId]);
-
-
 
 					e = e.getSym();
 
@@ -1117,10 +1109,7 @@ namespace zSpace
 
 				polyCounts.push_back(cEdges.size());
 			}
-
-
 		}
-
 
 		dualMeshObj.mesh.create(positions, polyCounts, polyConnects);
 
@@ -1142,8 +1131,6 @@ namespace zSpace
 				dualMeshObj.mesh.vertexPositions[i] -= cen;
 				dualMeshObj.mesh.vertexPositions[i] = dualMeshObj.mesh.vertexPositions[i].rotateAboutAxis(meshNorm, -90);
 			}
-
-
 		}
 
 		// compute dualEdge_inEdge
@@ -1172,9 +1159,6 @@ namespace zSpace
 				dualEdge_inEdge[inEdge_dualEdge[i]] = i;
 			}
 		}
-
-
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::getDualGraph(zObjGraph &dualGraphObj, zIntArray &inEdge_dualEdge, zIntArray &dualEdge_inEdge, bool excludeBoundary , bool PlanarMesh , bool rotate90)
@@ -1259,8 +1243,6 @@ namespace zSpace
 				dualGraphObj.graph.vertexPositions[i] -= cen;
 				dualGraphObj.graph.vertexPositions[i] = dualGraphObj.graph.vertexPositions[i].rotateAboutAxis(graphNorm, -90);
 			}
-
-
 		}
 
 		// compute dualEdge_inEdge
@@ -1289,8 +1271,6 @@ namespace zSpace
 				dualEdge_inEdge[inEdge_dualEdge[i]] = i;
 			}
 		}
-
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::getRainflowGraph(zObjGraph &rainflowGraphObj, bool excludeBoundary)
@@ -1309,7 +1289,6 @@ namespace zSpace
 			vector<zItMeshFace> cFaces;
 			v.getConnectedFaces(cFaces);
 
-
 			vector<int> positionIndicies;
 			for (auto &f : cFaces)
 			{
@@ -1318,7 +1297,6 @@ namespace zSpace
 
 				for (int k = 0; k < fVerts.size(); k++) positionIndicies.push_back(fVerts[k]);
 			}
-
 
 			// get lowest positions
 
@@ -1346,10 +1324,8 @@ namespace zSpace
 				}
 			}
 
-
 			if (lowId.size() > 0)
 			{
-
 				for (int j = 0; j < lowId.size(); j++)
 				{
 					zVector pos1 = pos[v.getId()];
@@ -1377,12 +1353,8 @@ namespace zSpace
 					edgeConnects.push_back(v1);
 					edgeConnects.push_back(v2);
 				}
-
-
 			}
-
 		}
-
 		rainflowGraphObj.graph.create(positions, edgeConnects);
 	}
 
@@ -1410,11 +1382,8 @@ namespace zSpace
 				if (fVerts.size() > 0) f.getTriangles(n_Tris, Tri_connects);
 				else Tri_connects = fVerts;
 			}
-
-
 			faceTris.push_back(Tri_connects);
 		}
-
 	}
 
 	ZSPACE_INLINE double zFnMesh::getMeshVolume()
@@ -1432,8 +1401,6 @@ namespace zSpace
 
 				out += vol;
 			}
-
-
 		}
 
 		return out;
@@ -1491,7 +1458,6 @@ namespace zSpace
 		{
 			vertexCurvatures[i] = pCurvature[i].k1 * pCurvature[i].k2;
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::getEdgeDihedralAngles(zDoubleArray &dihedralAngles)
@@ -1511,7 +1477,6 @@ namespace zSpace
 	ZSPACE_INLINE double zFnMesh::getHalfEdgeLengths(zDoubleArray &halfEdgeLengths)
 	{
 		double total = 0.0;
-
 
 		halfEdgeLengths.clear();
 
@@ -1602,12 +1567,9 @@ namespace zSpace
 				}
 
 			}
-
-
 			out.push_back(vArea);
 
 			totalArea += vArea;
-
 		}
 
 		//printf("\n totalArea : %1.4f ",  totalArea);
@@ -1619,7 +1581,6 @@ namespace zSpace
 
 	ZSPACE_INLINE double zFnMesh::getPlanarFaceAreas(zDoubleArray &faceAreas)
 	{
-
 		if (meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
 		faceAreas.clear();
@@ -1634,7 +1595,6 @@ namespace zSpace
 			totalArea += fArea;
 		}
 
-
 		return totalArea;
 	}
 
@@ -1647,27 +1607,26 @@ namespace zSpace
 		{
 			if (!f.isActive()) continue;
 
-
 			vector<int> facevertices;
 			f.getVertices(facevertices);
 
 			polyCounts.push_back(facevertices.size());
 
-
 			for (int j = 0; j < facevertices.size(); j++)
 			{
 				polyConnects.push_back(facevertices[j]);
-
 			}
 		}
 	}
 
-	ZSPACE_INLINE void zFnMesh::getEdgeData(zIntArray &edgeConnects)
+	ZSPACE_INLINE void zFnMesh::getEdgeData(zIntArray &edgeConnects, bool excludeBoundary)
 	{
 		edgeConnects.clear();
-
+		
 		for (zItMeshEdge e(*meshObj); !e.end(); e++)
 		{
+			if (excludeBoundary && e.onBoundary()) continue;
+
 			edgeConnects.push_back(e.getHalfEdge(0).getVertex().getId());
 			edgeConnects.push_back(e.getHalfEdge(1).getVertex().getId());
 		}
@@ -1675,7 +1634,6 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::getDuplicate(zObjMesh &out)
 	{
-
 		vector<zVector> positions;
 		vector<int> polyConnects;
 		vector<int> polyCounts;
@@ -1684,7 +1642,6 @@ namespace zSpace
 		getPolygonData(polyConnects, polyCounts);
 
 		out.mesh.create(positions, polyCounts, polyConnects);
-
 
 		zFnMesh tempFn(out);
 
@@ -1714,11 +1671,35 @@ namespace zSpace
 		return meshObj->mesh.VBO_VertexColorId;
 	}
 
+	
+
+	//---- CONTOUR METHODS
+
+	void zFnMesh::getIsobandMesh(zObjMesh & coutourMeshObj, double inThresholdLow, double inThresholdHigh)
+	{
+		zFnMesh tempFn(coutourMeshObj);
+		tempFn.clear(); // clear memory if the mobject exists.
+
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		unordered_map <string, int> positionVertex;
+
+		
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			getIsobandPoly(f, positions, polyConnects, polyCounts, positionVertex, (inThresholdLow < inThresholdHigh) ? inThresholdLow : inThresholdHigh, (inThresholdLow < inThresholdHigh) ? inThresholdHigh : inThresholdLow);
+		}
+
+		tempFn.create(positions, polyCounts, polyConnects);;
+		
+	}
+
 	//---- TRI-MESH MODIFIER METHODS
 
 	ZSPACE_INLINE void zFnMesh::faceTriangulate(zItMeshFace &face)
 	{
-
 		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
 
 		vector<int> fVerts;
@@ -1784,7 +1765,6 @@ namespace zSpace
 							if (e20.onBoundary())  e20_Boundary = true;
 						}
 					}
-
 				}
 
 				//printf("\n %i %i %i ", e01.getId(), e12.getId(), e20.getId());
@@ -1802,7 +1782,6 @@ namespace zSpace
 				}
 				else
 				{
-
 					if (!e01_Boundary) face.setHalfEdge(e01);
 					else if (!e12_Boundary) face.setHalfEdge(e12);
 					else if (!e20_Boundary) face.setHalfEdge(e20);
@@ -1822,34 +1801,26 @@ namespace zSpace
 
 				e12.setNext(e20);
 				e20.setPrev(e12);
-
 			}
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::triangulate()
 	{
-
 		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
-
-
 
 		// iterate through faces and triangulate faces with more than 3 vetices
 		int numfaces_original = meshObj->mesh.faces.size();
 
 		for (int i = 0; i < numfaces_original; i++)
 		{
-
 			zItMeshFace f(*meshObj, i);
 			if (!f.isActive()) continue;
 
 			faceTriangulate(f);
-
 		}
 
 		computeMeshNormals();
-
 	}
 
 	//---- DELETE MODIFIER METHODS
@@ -2078,16 +2049,82 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnMesh::deleteEdge(int index, bool removeInactiveElements) {}
+	ZSPACE_INLINE void zFnMesh::deleteEdge(zItMeshEdge &edge, bool removeInactiveElements)
+	{
+		//// check if the edge is boundary.
+		if (edge.onBoundary())
+		{
+			printf("\n Can't delete on boundary edge.");
+			return;
+		}
+
+		int edgeId = edge.getId();
+
+		zItMeshHalfEdge he = edge.getHalfEdge(0);
+		zItMeshHalfEdge heS = edge.getHalfEdge(1);
+
+		zItMeshHalfEdge he_next = he.getNext();
+		zItMeshHalfEdge he_prev = he.getPrev();
+
+		zItMeshHalfEdge heS_next = heS.getNext();
+		zItMeshHalfEdge heS_prev = heS.getPrev();
+		
+		zItMeshFace he_face = he.getFace();
+		zItMeshFace heS_face = heS.getFace();
+		int remove_faceId = heS_face.getId();
+
+		// set face pointer of heS_face to he_face
+		zItMeshHalfEdgeArray heS_faceEdges;
+		heS_face.getHalfEdges(heS_faceEdges);
+
+		for (auto & tmpHe : heS_faceEdges) tmpHe.setFace(he_face);
+		
+		// set next and prev pointers
+		he_prev.setNext(heS_next);
+		he_next.setPrev(heS_prev);
+
+		// set he_face edge pointer
+		he_face.setHalfEdge(he_next);
+
+		if (he.getVertex().getHalfEdge() == heS) he.getVertex().setHalfEdge(he_next);
+
+
+		if (heS.getVertex().getHalfEdge() == he) he.getVertex().setHalfEdge(heS_next);
+
+		// deactivate face and symmetry half edge
+		removeFromHalfEdgesMap(he);
+		he.deactivate();
+
+		heS.deactivate();
+		edge.deactivate();
+
+		heS_face.deactivate();
+
+		// update indices and clean up
+		for (auto &f : meshObj->mesh.fHandles) if (f.he > (edgeId * 2) + 1) f.he -= 2;
+		for (auto &v: meshObj->mesh.vHandles) if (v.he > (edgeId * 2) + 1) v.he -= 2;
+		for (auto &he : meshObj->mesh.heHandles)
+		{
+			if (he.n > (edgeId * 2) + 1) he.n -= 2;
+			if (he.p > (edgeId * 2) + 1) he.p -= 2;
+			if (he.f > remove_faceId) he.f -= 1;			
+		}
+		
+		garbageCollection(zVertexData);
+		garbageCollection(zFaceData);
+		garbageCollection(zEdgeData);	
+
+		computeMeshNormals();
+	}
 
 	//---- TOPOLOGY MODIFIER METHODS
 
-	ZSPACE_INLINE void zFnMesh::collapseEdge(int index, double edgeFactor, bool removeInactiveElems )
+	ZSPACE_INLINE void zFnMesh::collapseEdge(zItMeshEdge &edge, double edgeFactor, bool removeInactiveElems )
 	{
 		//if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
 		//if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
 
-		//int nFVerts = (onBoundary(index, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[index].getFace()->getFaceId());
+		//int nFVerts = (edge.onBoundary()) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[index].getFace()->getFaceId());
 
 		//int sEdge = meshObj->mesh.edges[index].getSym()->getEdgeId();
 		//int nFVerts_Sym = (onBoundary(sEdge, zEdgeData)) ? 0 : getNumPolygonVertices( meshObj->mesh.edges[sEdge].getFace()->getFaceId());
@@ -2388,6 +2425,8 @@ namespace zSpace
 	ZSPACE_INLINE zItMeshVertex zFnMesh::splitEdge(zItMeshEdge &edge, double edgeFactor)
 	{
 
+		int edgeId = edge.getId();
+
 		zItMeshHalfEdge he = edge.getHalfEdge(0);
 		zItMeshHalfEdge heS = edge.getHalfEdge(1);
 
@@ -2396,7 +2435,6 @@ namespace zSpace
 
 		zItMeshHalfEdge heS_next = heS.getNext();
 		zItMeshHalfEdge heS_prev = heS.getPrev();
-
 
 		zVector edgeDir = he.getVector();
 		double  edgeLength = edgeDir.length();
@@ -2410,9 +2448,7 @@ namespace zSpace
 		zItMeshVertex newVertex;
 		addVertex(newVertPos, false, newVertex);
 
-
-
-		//printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
+    //printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
 
 		if (newVertex.getId() >= numOriginalVertices)
 		{
@@ -2431,7 +2467,9 @@ namespace zSpace
 			// recompute iterators if resize is true
 			if (edgesResize)
 			{
-				edge = zItMeshEdge(*meshObj, edge.getId());
+
+				//edge = zItMeshEdge(*meshObj, edge.getId());
+				edge = zItMeshEdge(*meshObj, edgeId);
 
 				he = edge.getHalfEdge(0);
 				heS = edge.getHalfEdge(1);
@@ -2454,9 +2492,9 @@ namespace zSpace
 			he.getVertex().setHalfEdge(newHeS);
 
 			//// update pointers
-			he.setVertex(newVertex);		// current edge vertex pointer updated to new added vertex
+			he.setVertex(newVertex);		// current hedge vertex pointer updated to new added vertex
 
-			newHeS.setNext(heS); // new added edge next pointer to point to the next of current edge
+			newHeS.setNext(heS); // new added symmetry hedge next pointer to point to the symmetry of current hedge
 			newHeS.setPrev(heS_prev);
 
 			if (!heS.onBoundary())
@@ -2474,92 +2512,79 @@ namespace zSpace
 				newHe.setFace(he_f);
 			}
 
-
 			// update verticesEdge map
 			addToHalfEdgesMap(he);
-
 		}
-
-
 		return newVertex;
 	}
 
 	ZSPACE_INLINE int zFnMesh::detachEdge(int index) { return 0; }
 
-	ZSPACE_INLINE void zFnMesh::flipTriangleEdge(int &index)
+	ZSPACE_INLINE void zFnMesh::flipTriangleEdge(zItMeshEdge &edge)
 	{
-		//if (index > meshObj->mesh.edgeActive.size()) throw std::invalid_argument(" error: index out of bounds.");
-		//if (!meshObj->mesh.edgeActive[index]) throw std::invalid_argument(" error: index out of bounds.");
+		if(edge.onBoundary())
+		{
+			throw std::invalid_argument("\n Cannot flip boundary edge ");
+			return;
+		}
 
-		//zEdge* edgetoFlip = &meshObj->mesh.edges[index];
-		//zEdge* edgetoFlipSym = edgetoFlip->getSym();
+		if(edge.getHalfEdge(0).getFace().getNumVertices() != 3 || edge.getHalfEdge(1).getFace().getNumVertices() != 3)
+		{
+			throw std::invalid_argument("\n Cannot flip edge not shared by two Triangles. ");
+			return;
+		}
 
-		//if (!edgetoFlip->getFace() || !edgetoFlipSym->getFace())
-		//{
-		//	throw std::invalid_argument("\n Cannot flip boundary edge %i ");
-		//	return;
-		//}
+		zItMeshHalfEdge hEdgeToFlip = edge.getHalfEdge(0);
+		zItMeshHalfEdge hEdgeToFlipSym = edge.getHalfEdge(1);
 
-		//vector<int> edgetoFlip_fVerts;
-		//getVertices(edgetoFlip->getFace()->getFaceId(), zFaceData, edgetoFlip_fVerts);
+		zItMeshHalfEdge he_next = hEdgeToFlip.getNext();
+		zItMeshHalfEdge he_prev = hEdgeToFlip.getPrev();
 
-		//vector<int> edgetoFlipSym_fVerts;
-		//getVertices(edgetoFlipSym->getFace()->getFaceId(), zFaceData, edgetoFlipSym_fVerts);
-
-		//if (edgetoFlip_fVerts.size() != 3 || edgetoFlipSym_fVerts.size() != 3)
-		//{
-		//	throw std::invalid_argument("\n Cannot flip edge not shared by two Triangles.");
-		//	return;
-		//}
-
-		//zEdge* e_next = edgetoFlip->getNext();
-		//zEdge* e_prev = edgetoFlip->getPrev();
-
-		//zEdge* es_next = edgetoFlipSym->getNext();
-		//zEdge* es_prev = edgetoFlipSym->getPrev();
-
-		//// remove from verticesEdge map
-		//string removeHashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge.erase(removeHashKey);
-
-		//string removeHashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge.erase(removeHashKey1);
+		zItMeshHalfEdge heS_next = hEdgeToFlipSym.getNext();
+		zItMeshHalfEdge heS_prev = hEdgeToFlipSym.getPrev();
+		
+		//// remove fromhalfEdge map
+		removeFromHalfEdgesMap(hEdgeToFlip);
+		removeFromHalfEdgesMap(hEdgeToFlipSym);
 
 		//// update pointers
 
-		//if (edgetoFlip->getVertex()->getEdge() == edgetoFlipSym)edgetoFlip->getVertex()->setEdge(edgetoFlipSym->getPrev()->getSym());
-		//if (edgetoFlipSym->getVertex()->getEdge() == edgetoFlip) edgetoFlipSym->getVertex()->setEdge(edgetoFlip->getPrev()->getSym());
+		if (hEdgeToFlip.getVertex().getHalfEdge() == hEdgeToFlipSym)
+		{
+			zItMeshHalfEdge he = hEdgeToFlipSym.getPrev().getSym();
+			hEdgeToFlip.getVertex().setHalfEdge(he);
+		}
 
-		//edgetoFlip->setVertex(e_next->getVertex());
-		//edgetoFlipSym->setVertex(es_next->getVertex());
+		if (hEdgeToFlipSym.getVertex().getHalfEdge() == hEdgeToFlip)
+		{
+			zItMeshHalfEdge he = hEdgeToFlip.getPrev().getSym();
+			hEdgeToFlipSym.getVertex().setHalfEdge(he);
+		}   
 
+		hEdgeToFlip.setNext(he_prev);
+		hEdgeToFlip.setPrev(heS_next);		
 
+		hEdgeToFlipSym.setNext(heS_prev);
+		hEdgeToFlipSym.setPrev(he_next);		
 
-		//edgetoFlip->setNext(e_prev);
-		//edgetoFlip->setPrev(es_next);
+		he_prev.setNext(heS_next);
+		heS_prev.setNext(he_next);		
 
-		//edgetoFlipSym->setNext(es_prev);
-		//edgetoFlipSym->setPrev(e_next);
+		zItMeshFace f0 = hEdgeToFlip.getFace();
+		hEdgeToFlip.getNext().setFace(f0);
+		hEdgeToFlip.getPrev().setFace(f0);
 
-		//e_prev->setNext(es_next);
-		//es_prev->setNext(e_next);
+		zItMeshFace f1 = hEdgeToFlipSym.getFace();
+		hEdgeToFlipSym.getNext().setFace(f1);
+		hEdgeToFlipSym.getPrev().setFace(f1);
+				
+		hEdgeToFlip.getFace().setHalfEdge(hEdgeToFlip);
+		hEdgeToFlipSym.getFace().setHalfEdge(hEdgeToFlipSym);
 
-		//edgetoFlip->getNext()->setFace(edgetoFlip->getFace());
-		//edgetoFlip->getPrev()->setFace(edgetoFlip->getFace());
-
-		//edgetoFlipSym->getNext()->setFace(edgetoFlipSym->getFace());
-		//edgetoFlipSym->getPrev()->setFace(edgetoFlipSym->getFace());
-
-		//edgetoFlip->getFace()->setEdge(edgetoFlip);
-		//edgetoFlipSym->getFace()->setEdge(edgetoFlipSym);
-
-		//// update verticesEdge map
-
-		//string hashKey = (to_string(edgetoFlip->getVertex()->getVertexId()) + "," + to_string(edgetoFlipSym->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge[hashKey] = edgetoFlipSym->getEdgeId();
-
-		//string hashKey1 = (to_string(edgetoFlipSym->getVertex()->getVertexId()) + "," + to_string(edgetoFlip->getVertex()->getVertexId()));
-		//meshObj->mesh.verticesEdge[hashKey1] = edgetoFlip->getEdgeId();
+		// update verticesEdge map
+		addToHalfEdgesMap(hEdgeToFlip);
+		addToHalfEdgesMap(hEdgeToFlipSym);
+				
 	}
 
 	ZSPACE_INLINE void zFnMesh::splitFaces(vector<int> &edgeList, vector<double> &edgeFactor)
@@ -2662,9 +2687,8 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnMesh::subdivideMesh(int numDivisions)
+	ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 	{
-
 		for (int j = 0; j < numDivisions; j++)
 		{
 
@@ -2683,12 +2707,9 @@ namespace zSpace
 				if (e.isActive()) splitEdge(e);
 			}
 
-
 			// get face centers
 			vector<zVector> fCenters;
 			getCenters(zFaceData, fCenters);
-
-			
 
 			// add faces
 			int numOriginalfaces = numPolygons();
@@ -2702,14 +2723,12 @@ namespace zSpace
 				vector<zItMeshHalfEdge> fEdges;
 				f.getHalfEdges(fEdges);
 
-
 				// disable current face
 				f.deactivate();
 
 				// check if vertex exists if not add new vertex
 				zItMeshVertex vertexCen;
 				addVertex(fCenters[i], true, vertexCen);
-
 
 				// add new faces				
 				int startId = 0;
@@ -2733,25 +2752,19 @@ namespace zSpace
 
 					//printf("\n %s ", (chk) ? "true" : "false");
 				}
-
 			}
-
-
+	
 			// update half edge handles. 
 			for (int i = 0; i < meshObj->mesh.heHandles.size(); i++)
 			{
 				if(meshObj->mesh.heHandles[i].f != -1) meshObj->mesh.heHandles[i].f -= numOriginalfaces;
 			}
 					
-
 			// remove inactive faces
 			garbageCollection(zFaceData);
 
-
 			computeMeshNormals();
-
 		}
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::smoothMesh(int numDivisions, bool smoothCorner)
@@ -2762,8 +2775,6 @@ namespace zSpace
 
 		for (int j = 0; j < numDivisions; j++)
 		{
-
-
 			// get face centers
 			fCenters.clear();
 			getCenters(zFaceData, fCenters);
@@ -2809,7 +2820,6 @@ namespace zSpace
 			// compute new smooth positions for the original vertices
 			for (int i = 0; i < numOriginalVertices; i++)
 			{
-
 				zItMeshVertex v(*meshObj, i);
 
 				if (v.onBoundary())
@@ -2837,7 +2847,6 @@ namespace zSpace
 					//vPositions[i] = (P + R) / n; 
 
 					vPositions[i] = (P / n) + (R / (n*n));				
-
 				}
 				else
 				{
@@ -2860,15 +2869,9 @@ namespace zSpace
 
 					vPositions[i] = (F + (R * 2) + (P * (n - 3))) / n;
 				}
-
-
 			}
 
-
-			
-
-			// split edges at center
-			
+			// split edges at center			
 			for (int i = 0; i < numOriginalEdges; i++)
 			{
 				zItMeshEdge e(*meshObj,i);
@@ -2879,11 +2882,8 @@ namespace zSpace
 				}
 			}
 
-
-
 			// add faces
 			int numOriginalFaces = numPolygons();
-
 			
 			for (int i = 0; i < numOriginalFaces; i++)
 			{
@@ -2894,14 +2894,12 @@ namespace zSpace
 				vector<zItMeshHalfEdge> fEdges;
 				f.getHalfEdges(fEdges);
 
-
 				// disable current face
 				f.deactivate();
 
 				// check if vertex exists if not add new vertex
 				zItMeshVertex vertexCen;
 				addVertex(fCenters[i], true, vertexCen);
-
 
 				// add new faces				
 				int startId = 0;
@@ -2921,10 +2919,7 @@ namespace zSpace
 
 					zItMeshFace newF;
 					addPolygon(newFVerts, newF);
-
 				}
-
-
 			}
 
 			// update half edge handles. 
@@ -2937,11 +2932,9 @@ namespace zSpace
 			garbageCollection(zFaceData);
 
 			computeMeshNormals();
-
 		}	
-
-
 	}
+
 
 	ZSPACE_INLINE void zFnMesh::extrudeMesh(float extrudeThickness,zObjMesh &out, bool thicknessTris)
 	{
@@ -2951,8 +2944,6 @@ namespace zSpace
 		vector<zVector> positions;
 		vector<int> polyCounts;
 		vector<int> polyConnects;
-
-
 
 		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
 		{
@@ -2982,9 +2973,7 @@ namespace zSpace
 			}
 
 			polyCounts.push_back(fVerts.size());
-
 		}
-
 
 		for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 		{
@@ -3016,8 +3005,6 @@ namespace zSpace
 
 					polyCounts.push_back(4);
 				}
-
-
 			}
 		}
 
@@ -3109,7 +3096,6 @@ namespace zSpace
 			zVector p = meshObj->transformationMatrix.getPivot();
 			p = p * transMat;
 			setPivot(p);
-
 		}
 		else
 		{
@@ -3117,12 +3103,10 @@ namespace zSpace
 
 			zVector p = meshObj->transformationMatrix.getO();
 			setPivot(p);
-
 		}
-
 	}
 
-	ZSPACE_INLINE void zFnMesh::setScale(zDouble3 &scale)
+	ZSPACE_INLINE void zFnMesh::setScale(zDouble4 &scale)
 	{
 		// get  inverse pivot translations
 		zTransform invScalemat = meshObj->transformationMatrix.asInverseScaleTransformMatrix();
@@ -3140,7 +3124,7 @@ namespace zSpace
 		transformObject(transMat);
 	}
 
-	ZSPACE_INLINE void zFnMesh::setRotation(zDouble3 &rotation, bool appendRotations)
+	ZSPACE_INLINE void zFnMesh::setRotation(zDouble4 &rotation, bool appendRotations)
 	{
 		// get pivot translation and inverse pivot translations
 		zTransform pivotTransMat = meshObj->transformationMatrix.asPivotTranslationMatrix();
@@ -3164,7 +3148,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnMesh::setTranslation(zVector &translation, bool appendTranslations)
 	{
 		// get vector as zDouble3
-		zDouble3 t;
+		zDouble4 t;
 		translation.getComponents(t);
 
 		// get pivot translation and inverse pivot translations
@@ -3189,13 +3173,12 @@ namespace zSpace
 		zVector p = meshObj->transformationMatrix.getPivot();
 		p = p * transMat;
 		setPivot(p);
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::setPivot(zVector &pivot)
 	{
 		// get vector as zDouble3
-		zDouble3 p;
+		zDouble4 p;
 		pivot.getComponents(p);
 
 		// set pivot values of object transformation matrix
@@ -3211,26 +3194,21 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::transformObject(zTransform &transform)
 	{
-
 		if (numVertices() == 0) return;
-
 
 		zVector* pos = getRawVertexPositions();
 
 		for (int i = 0; i < numVertices(); i++)
 		{
-
 			zVector newPos = pos[i] * transform;
 			pos[i] = newPos;
 		}
-
 	}
 
 	//---- FACTORY METHODS
 
 	ZSPACE_INLINE void zFnMesh::toOBJ(string outfilename)
 	{
-
 		// remove inactive elements
 		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
 		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
@@ -3244,24 +3222,20 @@ namespace zSpace
 		{
 			cout << " error in opening file  " << outfilename.c_str() << endl;
 			return;
-
 		}
-
-
 
 		// vertex positions
 		for (auto &vPos : meshObj->mesh.vertexPositions)
 		{
 			myfile << "\n v " << vPos.x << " " << vPos.y << " " << vPos.z;
-
 		}
 
 		// vertex nornmals
 		/*for (auto &vNorm : meshObj->mesh.vertexNormals)
 		{
 			myfile << "\n vn " << vNorm.x << " " << vNorm.y << " " << vNorm.z;
-
 		}*/
+
 
 		myfile << "\n";
 
@@ -3279,21 +3253,15 @@ namespace zSpace
 
 				if (j != fVerts.size() - 1) myfile << " ";
 			}
-
 		}
-
-
-
 
 		myfile.close();
 
 		cout << endl << " OBJ exported. File:   " << outfilename.c_str() << endl;
-
 	}
 
 	ZSPACE_INLINE void zFnMesh::toJSON(string outfilename)
 	{
-
 		// remove inactive elements
 		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
 		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
@@ -3308,7 +3276,6 @@ namespace zSpace
 		{
 			if (v.getHalfEdge().isActive()) meshJSON.vertices.push_back(v.getHalfEdge().getId());
 			else meshJSON.vertices.push_back(-1);
-
 		}
 
 		//Edges
@@ -3356,7 +3323,6 @@ namespace zSpace
 			v_attrib.push_back(meshObj->mesh.vertexColors[i].g);
 			v_attrib.push_back(meshObj->mesh.vertexColors[i].b);
 
-
 			meshJSON.vertexAttributes.push_back(v_attrib);
 		}
 
@@ -3376,8 +3342,6 @@ namespace zSpace
 			meshJSON.faceAttributes.push_back(f_attrib);
 		}
 
-
-
 		// Json file 
 		j["Vertices"] = meshJSON.vertices;
 		j["Halfedges"] = meshJSON.halfedges;
@@ -3387,7 +3351,6 @@ namespace zSpace
 		j["FaceAttributes"] = meshJSON.faceAttributes;
 
 		// EXPORT	
-
 		ofstream myfile;
 		myfile.open(outfilename.c_str());
 
@@ -3400,7 +3363,6 @@ namespace zSpace
 		//myfile.precision(16);
 		myfile << j.dump();
 		myfile.close();
-
 	}
 
 	ZSPACE_INLINE bool zFnMesh::fromOBJ(string infilename)
@@ -3419,7 +3381,6 @@ namespace zSpace
 		{
 			cout << " error in opening file  " << infilename.c_str() << endl;
 			return false;
-
 		}
 
 		while (!myfile.eof())
@@ -3465,10 +3426,7 @@ namespace zSpace
 				// face
 				if (perlineData[0] == "f")
 				{
-
 					zVector norm;
-
-
 
 					for (int i = 1; i < perlineData.size(); i++)
 					{
@@ -3483,7 +3441,6 @@ namespace zSpace
 
 						int normId = atoi(faceData[faceData.size() - 1].c_str()) - 1;
 						norm += vertexNormals[normId];
-
 					}
 
 					norm /= (perlineData.size() - 1);
@@ -3498,10 +3455,8 @@ namespace zSpace
 
 		myfile.close();
 
-
 		meshObj->mesh.create(positions, polyCounts, polyConnects);;
 		printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
-
 
 		setFaceNormals(faceNormals);
 
@@ -3512,7 +3467,6 @@ namespace zSpace
 	{
 		json j;
 		zUtilsJsonHE meshJSON;
-
 
 		ifstream in_myfile;
 		in_myfile.open(infilename.c_str());
@@ -3541,7 +3495,6 @@ namespace zSpace
 		// Faces
 		meshJSON.faces.clear();
 		meshJSON.faces = (j["Faces"].get<vector<int>>());
-
 
 		// update  mesh
 		meshObj->mesh.clear();
@@ -3578,8 +3531,6 @@ namespace zSpace
 				meshObj->mesh.vHandles[n_v].he = meshJSON.vertices[n_v];
 			}
 
-
-
 			n_v++;
 		}
 		meshObj->mesh.setNumVertices(n_v);
@@ -3589,7 +3540,6 @@ namespace zSpace
 
 		for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 		{
-
 			// Half Edge
 			he.setId(n_he);
 			meshObj->mesh.heHandles[n_he].id = n_he;
@@ -3653,9 +3603,7 @@ namespace zSpace
 			}
 
 			n_he++;
-
 		}
-
 
 		meshObj->mesh.setNumEdges(n_e);
 
@@ -3674,13 +3622,9 @@ namespace zSpace
 				meshObj->mesh.fHandles[n_f].he = meshJSON.faces[n_f];
 			}
 
-
-
 			n_f++;
 		}
 		meshObj->mesh.setNumPolygons(n_f);
-
-
 
 		//// Vertex Attributes
 		meshJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
@@ -3694,7 +3638,6 @@ namespace zSpace
 		{
 			for (int k = 0; k < meshJSON.vertexAttributes[i].size(); k++)
 			{
-
 				// position and color
 
 				if (meshJSON.vertexAttributes[i].size() == 9)
@@ -3715,7 +3658,6 @@ namespace zSpace
 			}
 		}
 
-
 		// Edge Attributes
 		meshJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
 
@@ -3723,8 +3665,6 @@ namespace zSpace
 		meshObj->mesh.edgeWeights.clear();
 		if (meshJSON.halfedgeAttributes.size() == 0)
 		{
-
-
 			for (int i = 0; i < meshObj->mesh.n_e; i++)
 			{
 				meshObj->mesh.edgeColors.push_back(zColor());
@@ -3762,7 +3702,6 @@ namespace zSpace
 					zColor col(meshJSON.faceAttributes[i][k + 3], meshJSON.faceAttributes[i][k + 4], meshJSON.faceAttributes[i][k + 5], 1);
 					meshObj->mesh.faceColors.push_back(col);
 
-
 					zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
 					meshObj->mesh.faceNormals.push_back(normal);
 
@@ -3774,13 +3713,11 @@ namespace zSpace
 					zVector normal(meshJSON.faceAttributes[i][k], meshJSON.faceAttributes[i][k + 1], meshJSON.faceAttributes[i][k + 2]);
 					meshObj->mesh.faceNormals.push_back(normal);
 
-
 					meshObj->mesh.faceColors.push_back(zColor(0.5, 0.5, 0.5, 1));
 
 					k += 2;
 				}
 			}
-
 		}
 
 		if (meshJSON.faceAttributes.size() == 0)
@@ -3789,13 +3726,11 @@ namespace zSpace
 			setFaceColor(zColor(0.5, 0.5, 0.5, 1));
 		}
 
-
 		// add to maps 
 		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
 		{
 			meshObj->mesh.addToPositionMap(meshObj->mesh.vertexPositions[i], i);
 		}
-
 
 		for (zItMeshEdge e(*meshObj); !e.end(); e++)
 		{
@@ -3805,16 +3740,1014 @@ namespace zSpace
 			meshObj->mesh.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());
 		}
 
-
-
 		printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
 
 		return true;
+	}
+
+	//---- PROTECTED CONTOUR METHODS
+
+	int zFnMesh::getIsobandCase(int vertexTernary[4])
+	{
+		int out = -1;
+
+		// No Contour
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 0;
+
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 1;
+
+
+		// Single Triangle
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 2;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 3;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 4;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 5;
+
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 6;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 7;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 8;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 9;
+
+		// Single Trapezoid
+
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 10;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 11;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 12;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 13;
+
+
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 14;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 15;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 16;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 17;
+
+		// Single Rectangle
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 18;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 19;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 20;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 21;
+
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 22;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 23;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 24;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 25;
+
+
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 26;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 27;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 28;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 29;
+
+		// Single Square
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 30;
+
+		// Single Pentagon
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 31;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 32;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 33;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 34;
+
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 35;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 36;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 37;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 38;
+
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 39;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 40;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 41;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 42;
+
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 43;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 44;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 45;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 46;
+
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 47;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 48;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 49;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 0) out = 50;
+
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 51;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 52;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 53;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 2) out = 54;
+
+		// Single Hexagon
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 55;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 56;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 57;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 58;
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 59;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 60;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 1) out = 61;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 62;
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 63;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 64;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 65;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 66;
+
+
+		// Saddles:  1 or 2 polygon
+
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 67;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 68;
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 69;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 70;
+
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 71;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 72;
+
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 1 && vertexTernary[3] == 2) out = 73;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 74;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 1) out = 75;
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 1 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 76;
+
+		if (vertexTernary[0] == 2 && vertexTernary[1] == 0 && vertexTernary[2] == 1 && vertexTernary[3] == 0) out = 77;
+		if (vertexTernary[0] == 1 && vertexTernary[1] == 0 && vertexTernary[2] == 2 && vertexTernary[3] == 0) out = 78;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 2 && vertexTernary[2] == 0 && vertexTernary[3] == 1) out = 79;
+		if (vertexTernary[0] == 0 && vertexTernary[1] == 1 && vertexTernary[2] == 0 && vertexTernary[3] == 2) out = 80;
+
+		return out;
 
 	}
 
-	//---- PRIVATE METHODS
+	zVector zFnMesh::getContourPosition(double & threshold, zVector & vertex_lower, zVector & vertex_higher, double & thresholdLow, double & thresholdHigh)
+	{
+		double scaleVal = coreUtils.ofMap(threshold, thresholdLow, thresholdHigh, 0.0, 1.0);
 
+		zVector e = vertex_higher - vertex_lower;
+		double edgeLen = e.length();
+		e.normalize();
+
+		return (vertex_lower + (e * edgeLen *scaleVal));
+	}
+
+	void zFnMesh::getIsobandPoly(zItMeshFace & f, zPointArray & positions, zIntArray & polyConnects, zIntArray & polyCounts, unordered_map<string, int>& positionVertex, double & thresholdLow, double & thresholdHigh)
+
+	{
+		vector<zItMeshVertex> fVerts;
+		f.getVertices(fVerts);
+
+		//printf("\n fVs: %i ", fVerts.size());
+
+		if (fVerts.size() != 4) return;
+
+		// chk if all the face vertices are below the threshold
+		int vertexTernary[4];
+		double averageScalar = 0;
+
+		for (int j = 0; j < fVerts.size(); j++)
+		{
+			if (fVerts[j].getColor().r <= thresholdLow)
+			{
+				vertexTernary[j] = 0;
+			}
+
+			else if (fVerts[j].getColor().r >= thresholdHigh)
+			{
+				vertexTernary[j] = 2;
+			}
+			else vertexTernary[j] = 1;
+
+			averageScalar += fVerts[j].getColor().r;
+		}
+
+		averageScalar /= fVerts.size();
+
+		int MS_case = getIsobandCase(vertexTernary);
+				
+
+		vector<zVector> newPositions;
+		vector<zVector> newPositions2;
+
+		// No Contours CASE 0 & 1
+		if (MS_case == 0 || MS_case == 1)
+		{
+			// NO Vertices to be added
+		}
+
+		// Single Triangle CASE 2 to 9 
+		if (MS_case >= 2 && MS_case <= 9)
+		{
+			int startID = -1;
+			double threshold = thresholdHigh;
+
+			if (MS_case == 2 || MS_case == 6)startID = 0;
+			if (MS_case == 3 || MS_case == 7)startID = 1;
+			if (MS_case == 4 || MS_case == 8)startID = 2;
+			if (MS_case == 5 || MS_case == 9)startID = 3;
+
+			if (MS_case > 5) threshold = thresholdLow;
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+
+			zVector v1 = fVerts[prevID].getPosition();
+			double s1 = fVerts[prevID].getColor().r;
+
+
+			zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+			zVector pos1 = fVerts[startID].getPosition();
+
+
+			v1 = fVerts[nextID].getPosition();
+			s1 = fVerts[nextID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+
+		}
+
+
+		// Single Trapezoid CASE 10 to 17
+
+		if (MS_case >= 10 && MS_case <= 17)
+		{
+			int startID = -1;
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case == 10 || MS_case == 14) startID = 0;
+			if (MS_case == 11 || MS_case == 15) startID = 1;
+			if (MS_case == 12 || MS_case == 16) startID = 2;
+			if (MS_case == 13 || MS_case == 17) startID = 3;
+
+			if (MS_case > 13)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+			}
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+
+			zVector pos0 = (getContourPosition(threshold0, v0, v1, s0, s1));
+
+			zVector pos1 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+
+			zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			zVector pos3 = (getContourPosition(threshold0, v0, v1, s0, s1));
+
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+
+		}
+
+
+		// Single Rectangle CASE 18 to 29
+		if (MS_case >= 18 && MS_case <= 25)
+		{
+			int startID = -1;
+			double threshold = thresholdLow;
+			if (MS_case > 21) threshold = thresholdHigh;
+
+			if (MS_case == 18 || MS_case == 22) startID = 0;
+			if (MS_case == 19 || MS_case == 23) startID = 1;
+			if (MS_case == 20 || MS_case == 24) startID = 2;
+			if (MS_case == 21 || MS_case == 25) startID = 3;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+			zVector pos1 = fVerts[nextID].getPosition();
+
+			zVector v0 = fVerts[nextID].getPosition();
+			double s0 = fVerts[nextID].getColor().r;
+
+			zVector v1 = fVerts[next_nextID].getPosition();
+			double s1 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos3 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+
+
+		}
+
+		// Single Rectangle CASE 26 to 29
+		if (MS_case >= 26 && MS_case <= 29)
+		{
+			int startID = -1;
+
+			if (MS_case == 26) startID = 0;
+			if (MS_case == 27) startID = 1;
+			if (MS_case == 28) startID = 2;
+			if (MS_case == 29) startID = 3;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+
+			zVector v1 = fVerts[prevID].getPosition();
+			double s1 = fVerts[prevID].getColor().r;
+
+			zVector pos0 = (getContourPosition(thresholdLow, v0, v1, s0, s1));
+			zVector pos3 = (getContourPosition(thresholdHigh, v0, v1, s0, s1));
+
+			v0 = fVerts[nextID].getPosition();
+			s0 = fVerts[nextID].getColor().r;
+			v1 = fVerts[next_nextID].getPosition();
+			s1 = fVerts[next_nextID].getColor().r;
+
+
+			zVector pos1 = (getContourPosition(thresholdLow, v0, v1, s0, s1));
+			zVector pos2 = (getContourPosition(thresholdHigh, v0, v1, s0, s1));
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+		}
+
+		// Single Square CASE 30
+		if (MS_case == 30)
+		{
+			for (int j = 0; j < fVerts.size(); j++)
+				newPositions.push_back(fVerts[j].getPosition());
+		}
+
+		// Single Pentagon CASE 31 to 38
+		if (MS_case >= 31 && MS_case <= 38)
+		{
+			int startID = -1;
+
+			double threshold = thresholdHigh;
+			if (MS_case > 34)threshold = thresholdLow;
+
+			if (MS_case == 31 || MS_case == 35) startID = 0;
+			if (MS_case == 32 || MS_case == 36) startID = 1;
+			if (MS_case == 33 || MS_case == 37) startID = 2;
+			if (MS_case == 34 || MS_case == 38) startID = 3;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+			zVector pos1 = fVerts[nextID].getPosition();
+
+			zVector v0 = fVerts[nextID].getPosition();
+			double s0 = fVerts[nextID].getColor().r;
+
+			zVector v1 = fVerts[next_nextID].getPosition();
+			double s1 = fVerts[next_nextID].getColor().r;
+
+
+      zVector pos2 = getContourPosition(threshold, v0, v1, s0, s1);
+
+
+			v0 = fVerts[prevID].getPosition();
+			s0 = fVerts[prevID].getColor().r;
+
+			zVector pos3 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+			zVector pos4 = fVerts[prevID].getPosition();;
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+			newPositions.push_back(pos4);
+
+		}
+
+		// Single Pentagon CASE 39 to 46
+		if (MS_case >= 39 && MS_case <= 46)
+		{
+			int startID = -1;
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case > 42)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+
+			}
+
+			if (MS_case == 39 || MS_case == 43) startID = 3;
+			if (MS_case == 40 || MS_case == 44) startID = 2;
+			if (MS_case == 41 || MS_case == 45) startID = 1;
+			if (MS_case == 42 || MS_case == 46) startID = 0;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+			zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			v0 = fVerts[next_nextID].getPosition();
+			s0 = fVerts[next_nextID].getColor().r;
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold0, v0, v1, s0, s1));
+			zVector pos3 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+
+			zVector pos4 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+			newPositions.push_back(pos4);
+
+		}
+
+		// Single Pentagon CASE 47 to54
+		if (MS_case >= 47 && MS_case <= 54)
+		{
+			int startID = -1;
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case > 50)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+
+			}
+
+			if (MS_case == 47 || MS_case == 51) startID = 3;
+			if (MS_case == 48 || MS_case == 52) startID = 2;
+			if (MS_case == 49 || MS_case == 53) startID = 1;
+			if (MS_case == 50 || MS_case == 54) startID = 0;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
+
+			v0 = fVerts[nextID].getPosition();
+			s0 = fVerts[nextID].getColor().r;
+			v1 = fVerts[next_nextID].getPosition();
+			s1 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = getContourPosition(threshold1, v0, v1, s0, s1);
+			zVector pos3 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos4 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+			newPositions.push_back(pos4);
+		
+		}
+
+		// Single Hexagon CASE 55 to 62
+		if (MS_case >= 55 && MS_case <= 62)
+		{
+			int startID = -1;
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case > 58)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+
+			}
+
+			if (MS_case == 55 || MS_case == 59) startID = 0;
+			if (MS_case == 56 || MS_case == 60) startID = 1;
+			if (MS_case == 57 || MS_case == 61) startID = 2;
+			if (MS_case == 58 || MS_case == 62) startID = 3;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+			zVector pos1 = fVerts[nextID].getPosition();
+
+			zVector v0 = fVerts[nextID].getPosition();
+			double s0 = fVerts[nextID].getColor().r;
+			zVector v1 = fVerts[next_nextID].getPosition();
+			double s1 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = getContourPosition(threshold1, v0, v1, s0, s1);
+
+			v0 = fVerts[prevID].getPosition();
+			s0 = fVerts[prevID].getColor().r;
+
+			zVector pos3 = (getContourPosition(threshold1, v0, v1, s0, s1));
+			zVector pos4 = (getContourPosition(threshold0, v0, v1, s0, s1));
+
+			v1 = fVerts[startID].getPosition();
+			s1 = fVerts[startID].getColor().r;
+
+			zVector pos5 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+			newPositions.push_back(pos4);
+			newPositions.push_back(pos5);
+		}
+
+		// Single Hexagon CASE 63 to 66
+		if (MS_case >= 63 && MS_case <= 66)
+		{
+			int startID = -1;
+
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case % 2 == 0)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+			}
+
+			if (MS_case == 63 || MS_case == 64) startID = 0;
+			if (MS_case == 65 || MS_case == 66) startID = 1;
+
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+			zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			v0 = fVerts[next_nextID].getPosition();
+			s0 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold0, v0, v1, s0, s1));
+
+			zVector pos3 = fVerts[next_nextID].getPosition();
+
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos4 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+
+			zVector pos5 = getContourPosition(threshold1, v0, v1, s0, s1);
+
+			newPositions.push_back(pos0);
+			newPositions.push_back(pos1);
+			newPositions.push_back(pos2);
+			newPositions.push_back(pos3);
+			newPositions.push_back(pos4);
+			newPositions.push_back(pos5);
+		}
+
+		// SADDLE CASE 67 to 68 : 8 Sides
+		if (MS_case >= 67 && MS_case <= 68)
+		{
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case % 2 == 0)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+			}
+
+			int SaddleCase = -1;;
+
+			if (averageScalar < thresholdLow) SaddleCase = 0;
+			else if (averageScalar > thresholdHigh) SaddleCase = 2;
+			else SaddleCase = 1;
+
+			int startID = 0;
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+			zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
+			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
+
+			v0 = fVerts[next_nextID].getPosition();
+			s0 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
+			zVector pos3 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos4 = (getContourPosition(threshold0, v0, v1, s0, s1));
+			zVector pos5 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+
+			zVector pos6 = getContourPosition(threshold1, v0, v1, s0, s1);
+			zVector pos7 = (getContourPosition(threshold0, v0, v1, s0, s1));
+
+
+			if (SaddleCase == 0)
+			{
+				// quad 1
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos2);
+				newPositions.push_back(pos3);
+
+				// quad 2
+				newPositions2.push_back(pos4);
+				newPositions2.push_back(pos5);
+				newPositions2.push_back(pos6);
+				newPositions2.push_back(pos7);
+			}
+
+
+			if (SaddleCase == 2)
+			{
+				// quad 1
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos6);
+				newPositions.push_back(pos7);
+
+				// quad 2
+				newPositions2.push_back(pos2);
+				newPositions2.push_back(pos3);
+				newPositions2.push_back(pos4);
+				newPositions2.push_back(pos5);
+			}
+
+
+			if (SaddleCase == 1)
+			{
+				// octagon
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos2);
+				newPositions.push_back(pos3);
+
+				newPositions.push_back(pos4);
+				newPositions.push_back(pos5);
+				newPositions.push_back(pos6);
+				newPositions.push_back(pos7);
+			}
+
+		}
+
+		// SADDLE CASE 69 to 72 : 6 Sides
+		if (MS_case >= 69 && MS_case <= 72)
+		{
+
+			double threshold = thresholdLow;
+
+			if (MS_case > 70)
+			{
+				threshold = thresholdHigh;
+			}
+
+			int SaddleCase = -1;;
+
+			if (averageScalar > thresholdLow && averageScalar < thresholdHigh) SaddleCase = 1;
+			else SaddleCase = 0;
+
+			int startID = (MS_case % 2 == 0) ? 1 : 0;
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector pos0 = fVerts[startID].getPosition();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+			zVector pos1 = getContourPosition(threshold, v0, v1, s0, s1);
+
+			v0 = fVerts[next_nextID].getPosition();
+			s0 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+			zVector pos3 = fVerts[next_nextID].getPosition();
+
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos4 = (getContourPosition(threshold, v0, v1, s0, s1));
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+
+			zVector pos5 = getContourPosition(threshold, v0, v1, s0, s1);
+
+
+			if (SaddleCase == 0)
+			{
+				// tri 1
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos5);
+
+				// tri 2
+				newPositions2.push_back(pos2);
+				newPositions2.push_back(pos3);
+				newPositions2.push_back(pos4);
+			}
+
+
+			if (SaddleCase == 1)
+			{
+				// hexagon
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos2);
+				newPositions.push_back(pos3);
+				newPositions.push_back(pos4);
+				newPositions.push_back(pos5);
+
+			}
+
+		}
+
+		// SADDLE CASE 73 to 80 : 7 Sides
+		if (MS_case >= 73 && MS_case <= 80)
+		{
+
+			double threshold0 = thresholdLow;
+			double threshold1 = thresholdHigh;
+
+			if (MS_case > 76)
+			{
+				threshold0 = thresholdHigh;
+				threshold1 = thresholdLow;
+			}
+
+			int SaddleCase = -1;;
+
+			if (averageScalar > thresholdLow && averageScalar < thresholdHigh) SaddleCase = 1;
+			else SaddleCase = 0;
+
+			int startID = -1;
+
+			if (MS_case == 73 || MS_case == 77) startID = 0;
+			if (MS_case == 74 || MS_case == 78) startID = 2;
+			if (MS_case == 75 || MS_case == 79) startID = 1;
+			if (MS_case == 76 || MS_case == 80) startID = 3;
+
+
+			int nextID = (startID + 1) % fVerts.size();
+			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
+			int next_nextID = (nextID + 1) % fVerts.size();
+
+			zVector v0 = fVerts[startID].getPosition();
+			double s0 = fVerts[startID].getColor().r;
+			zVector v1 = fVerts[nextID].getPosition();
+			double s1 = fVerts[nextID].getColor().r;
+
+			zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
+			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
+
+			v0 = fVerts[next_nextID].getPosition();
+			s0 = fVerts[next_nextID].getColor().r;
+
+			zVector pos2 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			zVector pos3 = fVerts[next_nextID].getPosition();
+
+			v1 = fVerts[prevID].getPosition();
+			s1 = fVerts[prevID].getColor().r;
+
+			zVector pos4 = (getContourPosition(threshold1, v0, v1, s0, s1));
+
+			v0 = fVerts[startID].getPosition();
+			s0 = fVerts[startID].getColor().r;
+
+			zVector pos5 = getContourPosition(threshold1, v0, v1, s0, s1);
+			zVector pos6 = getContourPosition(threshold0, v0, v1, s0, s1);
+
+			if (SaddleCase == 0)
+			{
+				// quad 1
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos5);
+				newPositions.push_back(pos6);
+
+				// tri 2
+				newPositions2.push_back(pos2);
+				newPositions2.push_back(pos3);
+				newPositions2.push_back(pos4);
+			}
+
+
+			if (SaddleCase == 1)
+			{
+				// heptagon
+				newPositions.push_back(pos0);
+				newPositions.push_back(pos1);
+				newPositions.push_back(pos2);
+				newPositions.push_back(pos3);
+				newPositions.push_back(pos4);
+				newPositions.push_back(pos5);
+				newPositions.push_back(pos6);
+
+			}
+
+		}
+
+		// check for edge lengths
+
+		if (newPositions.size() >= 3)
+		{
+			for (int i = 0; i < newPositions.size(); i++)
+			{
+				int next = (i + 1) % newPositions.size();
+
+				if (newPositions[i].distanceTo(newPositions[next]) < distanceTolerance)
+				{
+					newPositions.erase(newPositions.begin() + i);
+
+				}
+			}
+		}
+
+
+		// compute poly 
+		if (newPositions.size() >= 3)
+		{
+			for (int i = 0; i < newPositions.size(); i++)
+			{
+				zVector p0 = newPositions[i];
+				int v0;
+
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+				if (!vExists)
+				{
+					v0 = positions.size();
+					positions.push_back(p0);
+
+					string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					positionVertex[hashKey] = v0;
+				}
+
+				polyConnects.push_back(v0);
+			}
+
+			polyCounts.push_back(newPositions.size());
+		}
+
+
+		// only if there are 2 tris Case : 5,10
+
+		// Edge Length Check
+
+
+		if (newPositions2.size() >= 3)
+		{
+			for (int i = 0; i < newPositions2.size(); i++)
+			{
+				int next = (i + 1) % newPositions2.size();
+
+
+				if (newPositions2[i].distanceTo(newPositions2[next]) < distanceTolerance)
+				{
+					newPositions2.erase(newPositions.begin() + i);
+
+
+				}
+
+			}
+		}
+
+
+		// compute poly 
+		if (newPositions2.size() >= 3)
+		{
+			for (int i = 0; i < newPositions2.size(); i++)
+			{
+				zVector p0 = newPositions2[i];
+				int v0;
+
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+				if (!vExists)
+				{
+					v0 = positions.size();
+					positions.push_back(p0);
+
+					string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					positionVertex[hashKey] = v0;
+				}
+
+				polyConnects.push_back(v0);
+			}
+
+			polyCounts.push_back(newPositions2.size());
+		}
+
+	}
+	   
+	//---- PRIVATE METHODS
+	   
 	ZSPACE_INLINE void zFnMesh::setStaticContainers()
 	{
 		meshObj->mesh.staticGeometry = true;
@@ -3831,7 +4764,6 @@ namespace zSpace
 
 		meshObj->mesh.setStaticEdgeVertices(edgeVerts);
 
-
 		vector<vector<int>> faceVerts;
 
 		for (zItMeshFace f(*meshObj); !f.end(); f++)
@@ -3843,8 +4775,6 @@ namespace zSpace
 		}
 
 		meshObj->mesh.setStaticFaceVertices(faceVerts);
-
-
 	}
 
 	//---- PRIVATE DEACTIVATE AND REMOVE METHODS
@@ -3873,109 +4803,91 @@ namespace zSpace
 				if (!active)
 				{
 					reindex = true;
-					while (meshObj->mesh.vHandles[i].id == -1)
+					while (meshObj->mesh.vHandles[i].id == -1 && i < meshObj->mesh.vHandles.size())
 					{
-						meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + i);
+						meshObj->mesh.vertexColors.erase(meshObj->mesh.vertexColors.begin() + i);
 
-						meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() + i);
+						meshObj->mesh.vertexNormals.erase(meshObj->mesh.vertexNormals.begin() + i);
 
 						meshObj->mesh.vHandles.erase(meshObj->mesh.vHandles.begin() + i);
 
 						meshObj->mesh.n_v--;
-
 					}
 				}
-
-
 			}
 
 			for (int i = 0; i < meshObj->mesh.vHandles.size(); i++) meshObj->mesh.vHandles[i].id = i;
 
 			meshObj->mesh.resizeArray(zVertexData, numVertices());
 
-			//printf("\n removed inactive vertices. ");
-
-
-			/*vector<zVertexHandle>::iterator v = meshObj->mesh.vHandles.begin();
-
-			while (v != meshObj->mesh.vHandles.end())
-			{
-
-				
-
-				bool active = (v->id == -1) ? false : true;
-
-				if (!active)
-				{
-					meshObj->mesh.vertexPositions.erase(meshObj->mesh.vertexPositions.begin() + v->id);
-
-					meshObj->mesh.vertexColors.erase(meshObj->mesh.vertexColors.begin() + v->id);
-
-					meshObj->mesh.vertexWeights.erase(meshObj->mesh.vertexWeights.begin() + v->id);
-
-					meshObj->mesh.vertexNormals.erase(meshObj->mesh.vertexNormals.begin() + v->id);
-
-					meshObj->mesh.vHandles.erase(v++);
-
-					meshObj->mesh.n_v--;
-				}
-			}
-
-			meshObj->mesh.resizeArray(zVertexData, numVertices());
-
-			printf("\n removed inactive vertices. ");*/
-
+			printf("\n removed inactive vertices. ");
 		}
 
 		//  Edge
 		else if (type == zEdgeData || type == zHalfEdgeData)
 		{
-			vector<zHalfEdgeHandle>::iterator he = meshObj->mesh.heHandles.begin();
+			bool reindex = false;
 
-			while (he != meshObj->mesh.heHandles.end())
+			for (int i = 0; i < meshObj->mesh.heHandles.size(); i++)
 			{
-				bool active = (he->id == -1) ? false : true;
+				bool active = (meshObj->mesh.heHandles[i].id == -1) ? false : true;
 
 				if (!active)
 				{
-					meshObj->mesh.heHandles.erase(he++);
+					reindex = true;
+					while (meshObj->mesh.heHandles[i].id == -1 &&  i < meshObj->mesh.heHandles.size())
+					{
+						meshObj->mesh.heHandles.erase(meshObj->mesh.heHandles.begin() + i);
+						meshObj->mesh.n_he--;
 
-					meshObj->mesh.n_he--;
+					}
 				}
 			}
 
-			vector<zEdgeHandle>::iterator e = meshObj->mesh.eHandles.begin();
-
-
-			while (e != meshObj->mesh.eHandles.end())
-			{
-				bool active = (e->id == -1) ? false : true;
-
-				if (!active)
-				{
-					meshObj->mesh.edgeColors.erase(meshObj->mesh.edgeColors.begin() + e->id);
-
-					meshObj->mesh.edgeWeights.erase(meshObj->mesh.edgeWeights.begin() + e->id);
-
-					meshObj->mesh.eHandles.erase(e++);
-
-					meshObj->mesh.n_e--;
-				}
-			}
-
-			//printf("\n removed inactive edges and half edges. ");
+			for (int i = 0; i < meshObj->mesh.heHandles.size(); i++) meshObj->mesh.heHandles[i].id = i;
 
 			meshObj->mesh.resizeArray(zHalfEdgeData, numHalfEdges());
 
-			meshObj->mesh.resizeArray(zEdgeData, numHalfEdges());
+			printf("\n removed inactive halfedges. ");
 
+			
+			for (int i = 0; i < meshObj->mesh.eHandles.size(); i++)
+			{
+				bool active = (meshObj->mesh.eHandles[i].id == -1) ? false : true;
+
+				if (!active)
+				{
+					reindex = true;
+					while (meshObj->mesh.eHandles[i].id == -1 && i < meshObj->mesh.eHandles.size())
+					{
+						meshObj->mesh.edgeColors.erase(meshObj->mesh.edgeColors.begin() + i);
+
+						meshObj->mesh.eHandles.erase(meshObj->mesh.eHandles.begin() + i);
+
+						meshObj->mesh.n_e--;
+					}
+				}
+			}
+
+			for (int i = 0; i < meshObj->mesh.eHandles.size(); i++)
+			{
+				meshObj->mesh.eHandles[i].id = i;
+
+				meshObj->mesh.eHandles[i].he0 = (i * 2);
+				meshObj->mesh.eHandles[i].he1 = (i * 2) +1;
+			}
+
+			meshObj->mesh.resizeArray(zEdgeData, numEdges());
+
+			printf("\n removed inactive edges. ");
 		}
 
 		// Mesh Face
 		else if (type == zFaceData)
-		{
-			
+		{			
 			bool reindex = false;
+
+			//printf("\n fhendles %i ", meshObj->mesh.fHandles.size());
 
 			for (int i = 0; i < meshObj->mesh.fHandles.size(); i++)
 			{
@@ -3984,32 +4896,24 @@ namespace zSpace
 				if (!active)
 				{
 					reindex = true;
-					while (meshObj->mesh.fHandles[i].id == -1)
+					while (meshObj->mesh.fHandles[i].id == -1 && i < meshObj->mesh.fHandles.size())
 					{
 						meshObj->mesh.faceColors.erase(meshObj->mesh.faceColors.begin() + i);
-
-						meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() +i);
-
+						meshObj->mesh.faceNormals.erase(meshObj->mesh.faceNormals.begin() + i);
 						meshObj->mesh.fHandles.erase(meshObj->mesh.fHandles.begin() + i);
-
-						meshObj->mesh.n_f--;		
-						
+						meshObj->mesh.n_f--;							
 					}
 				}
-				
-
 			}		
-
 	
 			for (int i = 0; i < meshObj->mesh.fHandles.size(); i++) meshObj->mesh.fHandles[i].id = i;
 		
 
 			meshObj->mesh.resizeArray(zFaceData, meshObj->mesh.fHandles.size());
 
-			//printf("\n removed inactive faces. ");
+			printf("\n removed inactive faces. ");
 		}
 
 		else throw std::invalid_argument(" error: invalid zHEData type");
 	}
-
 }

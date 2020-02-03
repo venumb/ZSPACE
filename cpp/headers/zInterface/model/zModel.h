@@ -127,7 +127,7 @@ namespace zSpace
 		*	\param		[in]	objs				- input  contatiner of objects.
 		*	\since version 0.0.2
 		*/
-		void addObjects(vector<zObj> &objs);
+		void addObjects(zObjArray &objs);
 
 		//--------------------------
 		//---- DRAW METHODS

@@ -40,7 +40,7 @@ namespace zSpace
 
 		int num_edges = computeNumEdges(polyCounts, polyConnects);
 
-    vertices.reserve(_positions.size() /*+ 1*/);
+		vertices.reserve(_positions.size() /*+ 1*/);
 		faces.reserve(polyCounts.size() /*+ 1*/);
 		edges.reserve(num_edges/* + 1*/);
 		halfEdges.reserve(num_edges * 2 /*+ 2*/);
@@ -294,7 +294,7 @@ namespace zSpace
 		zIntArray fEdge;
 
 		int currentNumEdges = n_he;
-
+	
 
 		for (int i = 0; i < fVertices.size(); i++)
 		{
@@ -302,8 +302,7 @@ namespace zSpace
 			int eID;
 			bool chkEdge = halfEdgeExists(fVertices[i], fVertices[(i + 1) % fVertices.size()], eID);
 
-
-
+		
 			if (chkEdge)
 			{
 				fEdge.push_back(eID);
@@ -561,6 +560,7 @@ namespace zSpace
 			{
 				if (eHandles[i].he0 != -1) edges[i].setHalfEdge(&halfEdges[eHandles[i].he0], 0);
 				if (eHandles[i].he1 != -1) edges[i].setHalfEdge(&halfEdges[eHandles[i].he1], 1);
+			
 			}
 
 			for (int i = 0; i < fHandles.size(); i++)
@@ -591,6 +591,7 @@ namespace zSpace
 
 				if (e.he0 != -1)newE->setHalfEdge(&halfEdges[e.he0], 0);
 				if (e.he1 != -1)newE->setHalfEdge(&halfEdges[e.he1], 1);
+				
 
 				n_e++;
 

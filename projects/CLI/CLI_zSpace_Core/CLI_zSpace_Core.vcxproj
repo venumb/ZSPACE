@@ -33,6 +33,7 @@
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>CLIzSpaceCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>zSpace_Managed_Core</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,8 +130,9 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG ;ZSPACE_STATIC_LIBRARY; USING_CLR ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG ;ZSPACE_DYNAMIC_LIBRARY;ZSPACE_MANAGED_LIBRARY; USING_CLR ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories> $(SolutionDir)/cpp;  $(SolutionDir)/cli; $(SolutionDir);</AdditionalIncludeDirectories>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(NoInherit);zSpace_Core.lib</AdditionalDependencies>
@@ -194,12 +196,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cli\headers\managed_zCore\base\zColor.h" />
+    <ClInclude Include="..\..\..\cli\headers\managed_zCore\base\zVector.h" />
     <ClInclude Include="..\..\..\cli\headers\managed_zCore\managedObject\zManagedObj.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cli\source\managed_zCore\base\zColor.cpp" />
+    <ClCompile Include="..\..\..\cli\source\managed_zCore\base\zVector.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 
@@ -19,8 +19,8 @@ namespace zSpace
 
 	ZSPACE_INLINE zObj::zObj()
 	{
-		showObject = true;
-		showObjectTransform = false;
+		displayObject = true;
+		displayObjectTransform = false;
 
 		transformationMatrix = zTransformationMatrix();
 	}
@@ -37,14 +37,14 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zObj::setShowObject(bool _showObject)
+	ZSPACE_INLINE void zObj::setDisplayObject(bool _displayObject)
 	{
-		showObject = _showObject;
+		displayObject = _displayObject;
 	}
 
-	ZSPACE_INLINE void zObj::setShowTransform(bool _showObjectTransform)
+	ZSPACE_INLINE void zObj::setDisplayTransform(bool _displayObjectTransform)
 	{
-		showObjectTransform = _showObjectTransform;
+		displayObjectTransform = _displayObjectTransform;
 	}
 
 #ifndef ZSPACE_UNREAL_INTEROP

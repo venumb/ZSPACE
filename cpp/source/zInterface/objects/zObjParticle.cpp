@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 
@@ -24,7 +24,7 @@ namespace zSpace
 		displayUtils = nullptr;
 #endif
 
-		showForces = false;
+		displayForces = false;
 
 		forceScale = 1.0;
 	}
@@ -35,9 +35,9 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zObjParticle::setShowElements(bool _showForces, double _forceScale)
+	ZSPACE_INLINE void zObjParticle::setDisplayElements(bool _displayForces, double _forceScale)
 	{
-		showForces = _showForces;
+		displayForces = _displayForces;
 		forceScale = _forceScale;
 	}
 
@@ -48,18 +48,18 @@ namespace zSpace
 
 	ZSPACE_INLINE void zObjParticle::draw()
 	{
-		if (showObject)
+		if (displayObject)
 		{
-			if (showForces) drawForces();
+			if (displayForces) drawForces();
 		}
 
-		if (showObjectTransform)
+		if (displayObjectTransform)
 		{
 			displayUtils->drawTransform(transformationMatrix);
 		}
 	}
 
-	//---- DISPLAY METHODS
+	//---- PROTECTED DISPLAY METHODS
 
 	ZSPACE_INLINE void zObjParticle::drawForces()
 	{

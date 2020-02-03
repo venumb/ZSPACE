@@ -68,16 +68,9 @@ namespace zSpace
 		obj.setUtils(displayUtils);
 	}
 
-	ZSPACE_INLINE void zModel::addObjects(vector<zObj> &objs)
+	ZSPACE_INLINE void zModel::addObjects(zObjArray &objs)
 	{
-		for (int i = 0; i < objs.size(); i++)
-		{
-			sceneObjects.push_back(&objs[i]);
-
-			objs[i].setUtils(displayUtils);
-		}
-
-
+		for (auto &obj : objs) addObject(obj);		
 	}
 
 	//---- DRAW METHODS

@@ -154,7 +154,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\cpp\Depends\Armadillo;$(SolutionDir);$(SolutionDir)\cpp\Depends;$(SolutionDir)\cpp;$(SolutionDir)\cpp\Depends\alglib\cpp\src</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;NOTUSING_CLR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -237,6 +237,7 @@
     <ClInclude Include="..\..\..\cpp\headers\zCore\field\zField3D.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zGraph.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zHEGeomTypes.h" />
+    <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zVolGeomTypes.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zMesh.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zPointCloud.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsBMP.h" />
@@ -244,6 +245,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsDisplay.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsJson.h" />
     <ClInclude Include="..\..\..\cpp\headers\zCore\utilities\zUtilsPointerMethods.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

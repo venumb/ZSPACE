@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="kernel.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{df916486-2112-4923-aec9-a5c09a5b45db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles">
+      <UniqueIdentifier>{2451c220-b709-419e-b2fd-9313e8544a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Energy">
+      <UniqueIdentifier>{ff34b76d-be9d-42e2-9c38-17057fccb6c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\Energy">
+      <UniqueIdentifier>{d77622e0-61e6-4077-a2a7-da8a942ca946}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\energy\zTsSolarAnalysis.h">
+      <Filter>Headers\Energy</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\cpp\source\zCudaToolsets\energy\zTsSolarAnalysis.cpp">
+      <Filter>SourceFiles\Energy</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

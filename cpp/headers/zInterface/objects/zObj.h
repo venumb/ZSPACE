@@ -7,7 +7,7 @@
 // If a copy of the MIT License was not distributed with this file, You can 
 // obtain one at https://opensource.org/licenses/MIT.
 //
-// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
+// Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>, Leo Bieling <leo.bieling@zaha-hadid.com>
 //
 
 #ifndef ZSPACE_OBJ_H
@@ -56,10 +56,10 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*! \brief boolean for displaying the object		*/
-		bool showObject;
+		bool displayObject;
 
 		/*! \brief boolean for displaying the object transform		*/
-		bool showObjectTransform;
+		bool displayObjectTransform;
 
 	public:
 		//--------------------------
@@ -111,19 +111,19 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets show object boolean.
+		/*! \brief This method sets display object boolean.
 		*
-		*	\param		[in]	_showObject				- input show object boolean.
+		*	\param		[in]	_displayObject				- input display object boolean.
 		*	\since version 0.0.2
 		*/
-		void setShowObject(bool _showObject);
+		void setDisplayObject(bool _displayObject);
 
-		/*! \brief This method sets show object transform boolean.
+		/*! \brief This method sets display object transform boolean.
 		*
-		*	\param		[in]	_showObjectTransform				- input show object transform boolean.
+		*	\param		[in]	_displayObjectTransform				- input display object transform boolean.
 		*	\since version 0.0.2
 		*/
-		void setShowTransform(bool _showObjectTransform);
+		void setDisplayTransform(bool _displayObjectTransform);
 
 #ifndef ZSPACE_UNREAL_INTEROP
 		/*! \brief This method sets display utils.

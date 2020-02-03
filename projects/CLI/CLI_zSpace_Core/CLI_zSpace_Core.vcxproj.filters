@@ -36,6 +36,9 @@
     <ClInclude Include="..\..\..\cli\headers\managed_zCore\base\zColor.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cli\headers\managed_zCore\base\zVector.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -45,6 +48,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cli\source\managed_zCore\base\zColor.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cli\source\managed_zCore\base\zVector.cpp">
       <Filter>Source Files\Base</Filter>
     </ClCompile>
   </ItemGroup>
