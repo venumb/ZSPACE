@@ -246,27 +246,6 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTsRobot::createEndEffectorMeshfromFile(string directory, zFileTpye type)
-	{
-		if (type == zJSON)
-		{
-			string path = directory;
-			path.append("/r_EE.json");
-			fnMeshJoints[7].from(path, type, false);
-					
-			setJointMeshColor(zVector(0, 0, 1));
-		}
-
-		if (type == zOBJ)
-		{
-			string path = directory;
-			path.append("/r_EE.obj");
-			fnMeshJoints[7].from(path, type, false);
-		
-			setJointMeshColor(zVector(0, 0, 1));
-		}
-	}
-
 	ZSPACE_INLINE void zTsRobot::createTargetsfromFile(string infilename, zFileTpye type)
 	{
 		if (type == zTXT)
