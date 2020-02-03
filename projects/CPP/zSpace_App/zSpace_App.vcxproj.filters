@@ -51,7 +51,10 @@
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zViewer.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zUEContent.h">
+    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zHousing.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zArchGeom.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
   </ItemGroup>

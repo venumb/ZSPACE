@@ -35,26 +35,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgColumn.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgFacade.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgObj.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgRoof.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgSlab.cpp" />
-    <ClCompile Include="..\..\..\cpp\source\zArchGeom\zAgWall.cpp" />
+    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcAggregation.h" />
+    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcStructure.h" />
+    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcUnit.h" />
+    <ClInclude Include="..\cpp\headers\zHousing\base\zHcEnumerators.h" />
+    <ClInclude Include="..\cpp\headers\zHousing\base\zHcTypeDef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgColumn.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgFacade.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgObj.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgRoof.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgSlab.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgTypedef.h" />
-    <ClInclude Include="..\..\..\cpp\headers\zArchGeom\zAgWall.h" />
+    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcAggregation.cpp" />
+    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcStructure.cpp" />
+    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcUnit.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}</ProjectGuid>
-    <RootNamespace>zSpaceArchGeom</RootNamespace>
+    <ProjectGuid>{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}</ProjectGuid>
+    <RootNamespace>zSpaceHousing</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -142,17 +137,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)cpp\compiled\lib</OutDir>
-    <TargetExt>$(TargetExt)</TargetExt>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
-    <OutDir>$(SolutionDir)cpp\compiled\dll</OutDir>
     <TargetExt>$(TargetExt)</TargetExt>
+    <OutDir>$(SolutionDir)cpp\compiled\dll</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unreal|x64'">
-    <OutDir>$(SolutionDir)cpp\compiled\UnrealLib</OutDir>
     <TargetExt>$(TargetExt)</TargetExt>
+    <OutDir>$(SolutionDir)cpp\compiled\UnrealLib</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -162,14 +153,12 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir);$(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY;NOTUSING_CLR;_WINDLL;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/depends/OPENGL/lib;$(SolutionDir)/cpp/depends/SQLITE/lib;$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zSpace_Core.lib; zSpace_Interface.lib;sqlite3.lib;opengl32.lib; glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
@@ -180,14 +169,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir);$(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ZSPACE_DYNAMIC_LIBRARY;NOTUSING_CLR;_WINDLL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/depends/OPENGL/lib;$(SolutionDir)/cpp/depends/SQLITE/lib;$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zSpace_Core.lib; zSpace_Interface.lib;sqlite3.lib;opengl32.lib; glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/Depends/openGL/lib;$(SolutionDir)/cpp/Depends/SQLITE/lib; $(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Unreal|x64'">
@@ -198,14 +186,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir);$(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ZSPACE_STATIC_LIBRARY;ZSPACE_UNREAL_INTEROP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/cpp/Depends/Armadillo;$(SolutionDir)/cpp/Depends;$(SolutionDir); $(SolutionDir)/cpp;$(SolutionDir)/cpp/Depends/alglib/cpp/src/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/depends/OPENGL/lib;$(SolutionDir)/cpp/depends/SQLITE/lib;$(OutDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zSpace_Core.lib; zSpace_Interface.lib;sqlite3.lib;opengl32.lib; glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/Depends/openGL/lib;$(SolutionDir)/cpp/Depends/SQLITE/lib; $(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

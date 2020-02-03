@@ -10,19 +10,18 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_COLUMN_H
-#define ZSPACE_AG_COLUMN_H
+#ifndef ZSPACE_AG_ROOF_H
+#define ZSPACE_AG_ROOF_H
 
 #pragma once
 
-#include <headers/zCore/base/zExtern.h>
 #include <headers/zInterface/model/zModel.h>
+#include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
 #include <headers/zInterface/functionsets/zFnParticle.h>
 
-#include <headers/zHousing/base/zHcEnumerators.h>
 #include <headers/zArchGeom/zAgObj.h>
 
 #include <stdlib.h>
@@ -34,48 +33,27 @@ using namespace std;
 namespace zSpace
 {
 
-	/*! \class zAgColumn
-	*	\brief A toolset for creating columns in housing units
+	/*! \class zAgSlab
+	*	\brief A toolset for creating roofs in housing units
 	*	\since version 0.0.4
 	*/
+	/** @}*/
 
-
-	class ZSPACE_AG zAgColumn : public zAgObj
+	class ZSPACE_AG zAgRoof : public zAgObj
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
-
-		/*!	\brief stores x and y directions */
-		zVector x, y, z;
-
-
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to column mesh Object  */
-		zObjMesh columnMeshObj;
+		/*!	\brief roof mesh Object  */
+		zObjMesh roofMeshObj;
 
-		/*!	\brief input height  */
-		float height;
-
-		/*!	\brief input axis x and y */
-		zVectorArray axis;
-
-		/*!	\brief input avis attributes primary or secondary  */
-		zBoolArray axisAttributes;
-
-		/*!	\brief input mesh snap points for slab creation  */
-		vector<zVectorArray> snapSlabpoints;
-
-		/*!	\brief input array of neighbouring cell condition */
-		vector<zBoundary> boundaryArray;
-
-		/*!	\brief stores position point*/
-		zVector position;
+		/*!	\brief input center vectors for oposite corner */
+		zPointArray vertexCorners; 
+			
+		/*!	\brief input boolean condition if is in facade */
+		bool isFacade;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -84,18 +62,15 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zAgColumn();
+		zAgRoof();
 
-		/*! \brief overloaded constructor.
-		*	
-		*	\param		[in]	_position					- world position.
-		*	\param		[in]	_showForces					- array of axis vectors.
-		*	\param		[in]	_showForces					- array of axis attributes.
-		*	\param		[in]	_showForces					- array on boundary attributes.
-		*	\param		[in]	_showForces					- input height.
+		/*! \brief overload constructor.
+		*
+		*	\param		[in]	_vertexCorners				- input vertex corners.
+		*	\param		[in]	_isFacade					- input scale of forces.
 		*	\since version 0.0.4
 		*/
-		zAgColumn(zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height);
+		zAgRoof(zPointArray&_vertexCorners, bool _isFacade);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -105,30 +80,24 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zAgColumn();
+		~zAgRoof();
 
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates a robotic hotwire cut column
+
+		/*! \brief This method creates a robotic hotwire cut slab
 		*
 		*	\since version 0.0.4
 		*/
 		void createRhwc() override;
 
-		/*! \brief This method creates a Timber column
+		/*! \brief This method creates a timber slab
 		*
 		*	\since version 0.0.4
 		*/
 		void createTimber() override;
-
-
-		/*! \brief This method creates structural extrusions from wireframe mesh
-		*
-		*	\since version 0.0.4
-		*/
-		void createFrame();
 
 		//--------------------------
 		//---- DISPLAY METHODS
@@ -138,24 +107,26 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void displayColumn(bool showColumn);
+		void displayRoof(bool showRoof);
+
 
 #ifndef ZSPACE_UNREAL_INTEROP
 
-		/*! \brief This method displays the mesh associated with this obj
+		/*! \brief This method sets the zModel pointer.
 		*
 		*	\since version 0.0.4
 		*/
 		void addObjsToModel() override;
 #endif
-
 	};
+
+
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgColumn.cpp>
+#include<source/zArchGeom/zAgRoof.cpp>
 #endif
 
 #endif

@@ -14,6 +14,7 @@
 #include<headers/zInterface/model/zModel.h>
 
 #ifndef ZSPACE_UNREAL_INTEROP
+
 namespace zSpace
 {
 
@@ -76,8 +77,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zModel::draw()
 	{
+				
 		for (auto obj : sceneObjects)
-		{
+		{	
 			obj->draw();
 		}
 
