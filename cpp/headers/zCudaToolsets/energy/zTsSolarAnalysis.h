@@ -16,48 +16,35 @@
 #pragma once
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
-#include <depends/spa/spa.h>
-
-
-
+#include <headers/zCudaToolsets/energy/zCudaHost.h>
 
 namespace zSpace
 {
-	struct zEPWDataPoint
-	{
-		int year, month, day, hour, minute;
-		double db_temperature, radiation, pressure;
-	};
-
 	struct zEPWData
 	{
+		int year, timeZone;
 		string location;
-		double latitude, longitude, timezone, elevation;
-
-		vector<zEPWDataPoint> dataPoints;
+		double dbTemperature, humidity, windSpeed, windDirection, radiation, pressure;
+		double longitude, latitude;
 	};
 
-	struct zYear
+	struct zSunPosition
 	{
-		int id;
-		vector<int> months;
-		vector<int> days;
-		vector<int> hours;
+		float altitude, azimuth;
 	};
 
-
-	/** \addtogroup zToolsets
+	/** \addtogroup zCudaToolsets
 	*	\brief Collection of toolsets for applications.
 	*  @{
 	*/
 
-	/** \addtogroup zTsGeometry
+	/** \addtogroup energy
 	*	\brief tool sets for geometry related utilities.
 	*  @{
 	*/
 
 	/*! \class zTsSolarAnalysis
-	*	\brief A function set to convert graph data to polyhedra.
+	*	\brief A function set for solar analysis.
 	*	\since version 0.0.4
 	*/
 
@@ -69,6 +56,9 @@ namespace zSpace
 	{
 	private:
 
+		zCUDADate* cuda_Date;
+		zCUDAVector* cuda_faceNormals;
+		char* cuda_Path;
 
 	protected:
 
@@ -81,48 +71,53 @@ namespace zSpace
 		zFnMesh fnMesh;
 			
 		zEPWData epwData;
-		spa_data SPA;
 
-		multimap<MultiKey, double> radiationMap;
+		unordered_map<zDate, zEPWData> dataMap;
 
-		unordered_map<int, int> yearsMap;
-		vector<zYear> years;
+		double* angles_out;
 
 		///////////////////////// Constructor - Overload - Destructor /////////////////////////
 
 		zTsSolarAnalysis();
 		 
-		zTsSolarAnalysis(zObjMesh &_objMesh, string &path);
+		zTsSolarAnalysis(zObjMesh &_objMesh, string &ewp_path, string &mesh_path);
 
 		~zTsSolarAnalysis();
 
-		///////////////////////// Methods /////////////////////////
+		///////////////////////// Import /////////////////////////
 
 		bool import_EPW(string &path);
 
-		void createMap();
+		vector<zEPWData> createMap(zDomainDate _dDomain);
+		
+		///////////////////////// Sun Data /////////////////////////
 
-		///// Methods for Sun Position Calculation 
+		void sunData(zSunPosition&_sunposition, zDate date);
 
-		void computeSunPosition(int day, int hour, int minute, double longitude, double latitude, double timzone, double &azimuth, double &zenith);
+		void getTemperature(zDomainDate _dDomain, zDoubleArray&_temperatures);
 
-		zVector computeSun(int year, int month, int day, int hour);
+		void getSunPosition(zVector&_sunPos, zDate &date, float radius = 100.f);
 
-		void computeSPA_EPW(int idDataPoint);
+		///////////////////////// CUDA /////////////////////////
 
-		void computeSPA(int year, int month, int day, int hour);
+		void initializeCUDA(char* _path, zCUDADate *_date, zCUDAVector *_faceNormals, double *_anglesOut);
 
-		void computeSPA(int year, int month, int day, int hour, int minute, int second, double timezone, double longitude, double latitude, double elevation);
+		void computeRadiation();
 
 		///////////////////////// Utils /////////////////////////
 
-		double GregorianToJulian(int year, int month, int day, int H, int M, int S);
+		double GregorianToJulian(int year, int month, int day, int hour, int minute, int second);
 
-		void JulianToGregorian(double julian, int &year, int &month, int&day);
+		//https://social.msdn.microsoft.com/Forums/en-US/12bde6a1-3888-4857-bf71-a9fcadbe9c62/convert-julian-date-with-time-hms-to-date-time-in-c?forum=csharpgeneral
+		void JulianToGregorian(double julian, zDate&_gDate);
 
 		zVector SphericalToCartesian(double azimuth, double zenith, double radius);
 
 		void CartesianToSpherical(zVector input, double &radius, double &zenith, double &azimuth);
+
+		//////////////////////// Display /////////////////////////
+
+		void getSunPath(zVectorArray&_sunPath, zDomainDate dDate, float Timezone, float radius, int interval);
 	};
 }
 

@@ -58,9 +58,9 @@ namespace zSpace
 
 	//---- GET METHODS
 
-	ZSPACE_INLINE bool zObj::getShowObject()
-	{
-		return showObject;
-	}
+	//ZSPACE_INLINE bool zObj::getShowObject()
+	//{
+		//return showObject;
+	//}
 
 }

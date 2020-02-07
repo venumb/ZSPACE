@@ -19,6 +19,7 @@
 #include<headers/zCore/base/zMatrix.h>
 #include<headers/zCore/base/zVector.h>
 #include<headers/zCore/base/zColor.h>
+#include<headers/zCore/base/zDate.h>
 
 namespace  zSpace
 {
@@ -130,6 +131,12 @@ namespace  zSpace
 	*/
 	typedef zDomain<zVector> zDomainVector;
 
+	/*! \typedef zDomainDate
+	*	\brief A domain  of dates.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef zDomain<zDate> zDomainDate;
 
 	/** @}*/
 	/** @}*/
