@@ -56,8 +56,6 @@ namespace zSpace
 		/*!	\brief pointer to a mesh object  */
 		zObjMesh *meshObj;
 
-		/*!	\brief display Object  */
-		zUtilsDisplay display;
 	public:
 		
 		//--------------------------
@@ -446,6 +444,15 @@ namespace zSpace
 		*/
 		zPoint* getRawVertexPositions();
 
+		/*! \brief This method gets pointer to the internal vertex positions container.
+		*
+		*	\details The points are stored in a single contiguous array of doubles, first by coordinate, then by element (xyzxyz...) There are three coordinate values, so each vertex is stored in 24 bytes of data, and the total array length is 24*numVertices() bytes.
+		*	\param		[out]			points				- pointer to internal vertex position container.
+		*	\warning points to be initialised to three times number of vertices, before calling the method. ( points = new double*[numVertices * 3] ) 
+		*	\since version 0.0.2
+		*/
+		void getRawVertexPositions(float** points);
+
 		/*! \brief This method gets vertex positions of all the vertices.
 		*
 		*	\param		[out]	norm				- normals  contatiner.
@@ -459,6 +466,15 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		zVector* getRawVertexNormals();
+
+		/*! \brief This method gets pointer to the internal vertex normal container.
+		*
+		*	\details The normals are stored in a single contiguous array of doubles, first by coordinate, then by element (xyzxyz...) There are three coordinate values, so each vertex is stored in 24 bytes of data, and the total array length is 24*numVertices() bytes.
+		*	\param		[out]			normals				- pointer to internal vertex normal container.
+		*	\warning normals to be initialised to three times number of vertices, before calling the method. ( normals = new double*[numVertices] )
+		*	\since version 0.0.2
+		*/
+		void getRawVertexNormals(float** normals);
 
 		/*! \brief This method gets vertex color of all the vertices.
 		*
@@ -832,9 +848,9 @@ namespace zSpace
 		
 		void setTransform(zTransform &inTransform, bool decompose = true, bool updatePositions = true) override;
 				
-		void setScale(zDouble4 &scale) override;
+		void setScale(zFloat4 &scale) override;
 				
-		void setRotation(zDouble4 &rotation, bool appendRotations = false) override;
+		void setRotation(zFloat4 &rotation, bool appendRotations = false) override;
 		
 		void setTranslation(zVector &translation, bool appendTranslations = false) override;
 		

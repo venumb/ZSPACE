@@ -15,9 +15,13 @@
 
 #pragma once
 
-
 #include<headers/zCore/display/zObjBuffer.h>
-//#include <depends/freeglut/freeglut_std.h>
+
+#if defined(__CUDACC__)  || defined(ZSPACE_UNREAL_INTEROP) || defined(ZSPACE_MAYA_INTEROP)
+	// All defined OK so do nothing
+#else
+	#include <depends/freeglut/freeglut_std.h>
+#endif
 
 namespace zSpace
 {

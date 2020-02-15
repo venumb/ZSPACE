@@ -49,7 +49,7 @@ namespace zSpace
 	// explicit instantiation
 	template class zObjPointField<zVector>;
 
-	template class zObjPointField<double>;
+	template class zObjPointField<zScalar>;
 
 #endif
 }

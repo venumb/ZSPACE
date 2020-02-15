@@ -275,7 +275,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnParticle::setScale(zDouble4 &scale)
+	ZSPACE_INLINE void zFnParticle::setScale(zFloat4 &scale)
 	{
 		// get  inverse pivot translations
 		zTransform invScalemat = particleObj->transformationMatrix.asInverseScaleTransformMatrix();
@@ -293,7 +293,7 @@ namespace zSpace
 		transformObject(transMat);
 	}
 
-	ZSPACE_INLINE void zFnParticle::setRotation(zDouble4 &rotation, bool appendRotations)
+	ZSPACE_INLINE void zFnParticle::setRotation(zFloat4 &rotation, bool appendRotations)
 	{
 		// get pivot translation and inverse pivot translations
 		zTransform pivotTransMat = particleObj->transformationMatrix.asPivotTranslationMatrix();
@@ -317,7 +317,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnParticle::setTranslation(zVector &translation, bool appendTranslations)
 	{
 		// get vector as zDouble3
-		zDouble4 t;
+		zFloat4 t;
 		translation.getComponents(t);
 
 		// get pivot translation and inverse pivot translations
@@ -348,7 +348,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnParticle::setPivot(zVector &pivot)
 	{
 		// get vector as zDouble3
-		zDouble4 p;
+		zFloat4 p;
 		pivot.getComponents(p);
 
 		// set pivot values of object transformation matrix

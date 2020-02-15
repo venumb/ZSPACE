@@ -153,6 +153,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zCore\geometry\zVolGeomTypes.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCore\base\zDate.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zCore\base\zColor.cpp">
@@ -217,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\depends\lodePNG\lodepng.cpp">
       <Filter>Depends</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCore\base\zDate.cpp">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

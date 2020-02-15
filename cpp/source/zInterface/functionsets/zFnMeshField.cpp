@@ -948,7 +948,7 @@ namespace zSpace
 
 	//---- zScalar specilization for getFieldValue
 	template<>
-	ZSPACE_INLINE zVector zFnMeshField<zScalar>::getGradient(zItMeshScalarField &s, double epsilon )
+	ZSPACE_INLINE zVector zFnMeshField<zScalar>::getGradient(zItMeshScalarField &s, float epsilon )
 	{
 		
 		bool out = true;
@@ -985,7 +985,7 @@ namespace zSpace
 
 	//---- zScalar specilization for getFieldValue
 	template<>
-	ZSPACE_INLINE vector<zVector> zFnMeshField<zScalar>::getGradients(double epsilon)
+	ZSPACE_INLINE vector<zVector> zFnMeshField<zScalar>::getGradients(float epsilon)
 	{
 		vector<zVector> out;
 
@@ -1713,7 +1713,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Square(zScalarArray &scalars, zVector &dimensions, double annularVal, bool normalise)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Square(zScalarArray &scalars, zVector &dimensions, float annularVal, bool normalise)
 	{
 		scalars.clear();
 		scalars.assign(fnMesh.numVertices(), 0.0);
@@ -1731,7 +1731,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Trapezoid(zScalarArray &scalars, double r1, double r2, double he, double annularVal, bool normalise)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Trapezoid(zScalarArray &scalars, float r1, float r2, float he, float annularVal, bool normalise)
 	{
 		scalars.clear();
 		scalars.assign(fnMesh.numVertices(), 0.0);
@@ -1787,14 +1787,14 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnMeshField<zScalar>::normliseValues(zScalarArray &fieldValues)
 	{
-		zDomainDouble d;
+		zDomainFloat d;
 		computeDomain(fieldValues, d);
 
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = d.max - fieldValues[i];
 
 		computeDomain(fieldValues, d);
 
-		zDomainDouble out(-1.0, 1.0);
+		zDomainFloat out(-1.0, 1.0);
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = coreUtils.ofMap(fieldValues[i], d, out);
 	}
 
@@ -1811,11 +1811,11 @@ namespace zSpace
 	{
 		for (int k = 0; k < numSmooth; k++)
 		{
-			vector<double> tempValues;
+			vector<float> tempValues;
 
 			for( zItMeshScalarField s(*fieldObj); !s.end(); s++)			
 			{
-				double lapA = 0;
+				float lapA = 0;
 
 				vector<zItMeshScalarField> ringNeigbours;
 				s.getNeighbour_Ring( 1, ringNeigbours);
@@ -1840,9 +1840,9 @@ namespace zSpace
 
 				if (type == zLaplacian)
 				{
-					double val1 = s.getValue();
+					float val1 = s.getValue();
 					
-					double newA = val1 + (lapA * diffuseDamp);
+					float newA = val1 + (lapA * diffuseDamp);
 					tempValues.push_back(newA);
 				}
 				else if (type == zAverage)
@@ -1957,7 +1957,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnMeshField<zScalar>::boolean_union(zScalarArray& scalars0, zScalarArray& scalars1, zScalarArray& scalarsResult, bool normalise)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		for (int i = 0; i < scalars0.size(); i++)
 		{
@@ -1972,7 +1972,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnMeshField<zScalar>::boolean_subtract(zScalarArray& fieldValues_A, zScalarArray& fieldValues_B, zScalarArray& fieldValues_Result, bool normalise)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		for (int i = 0; i < fieldValues_A.size(); i++)
 		{
@@ -1987,7 +1987,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnMeshField<zScalar>::boolean_intersect(zScalarArray& fieldValues_A, zScalarArray& fieldValues_B, zScalarArray& fieldValues_Result, bool normalise)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		for (int i = 0; i < fieldValues_A.size(); i++)
 		{
@@ -2002,13 +2002,13 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnMeshField<zScalar>::boolean_difference(zScalarArray& fieldValues_A, zScalarArray& fieldValues_B, zScalarArray& fieldValues_Result, bool normalise)
 	{
-		vector<double> AUnionB;
+		vector<float> AUnionB;
 		boolean_union(fieldValues_A, fieldValues_B, AUnionB, normalise);
 
-		vector<double> AIntersectB;
+		vector<float> AIntersectB;
 		boolean_intersect(fieldValues_B, fieldValues_A, AIntersectB, normalise);
 
-		vector<double> out;
+		vector<float> out;
 		boolean_subtract(AUnionB, AIntersectB, out, normalise);
 
 		if (normalise) normliseValues(out);
@@ -2017,14 +2017,14 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::boolean_clipwithPlane(zScalarArray& scalars, zMatrixd& clipPlane)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::boolean_clipwithPlane(zScalarArray& scalars, zMatrix4& clipPlane)
 	{
 		int i = 0;
 
 		for (zItMeshVertex v(*fieldObj); !v.end(); v++, i++)
 		{
-			zVector O = coreUtils.fromMatrixColumn(clipPlane, 3);
-			zVector Z = coreUtils.fromMatrixColumn(clipPlane, 2);
+			zVector O = coreUtils.fromMatrix4Column(clipPlane, 3);
+			zVector Z = coreUtils.fromMatrix4Column(clipPlane, 2);
 
 			zVector A = v.getPosition() - O;
 			double minDist_Plane = A * Z;
@@ -2048,7 +2048,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnMeshField<zScalar>::updateColors()
 	{
 
-		vector<double> scalars;
+		vector<float> scalars;
 		getFieldValues(scalars);
 
 		if (fnMesh.numVertices() == scalars.size() || fnMesh.numPolygons() == scalars.size())
@@ -2168,7 +2168,7 @@ namespace zSpace
 	//---- CONTOUR METHODS
 	
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsocontour(zObjGraph &coutourGraphObj, double inThreshold)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsocontour(zObjGraph &coutourGraphObj, float inThreshold)
 	{
 		if (contourVertexValues.size() == 0) return;
 		if (contourVertexValues.size() != numFieldValues())
@@ -2177,7 +2177,7 @@ namespace zSpace
 			return;
 		}
 
-		double threshold = coreUtils.ofMap(inThreshold, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
+		float threshold = coreUtils.ofMap(inThreshold, 0.0f, 1.0f, contourValueDomain.min, contourValueDomain.max);
 
 		vector<zVector> pos;
 		vector<int> edgeConnects;
@@ -2199,8 +2199,8 @@ namespace zSpace
 
 
 
-			double scalar_lower = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV0] : contourVertexValues[eV1];
-			double scalar_higher = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV1] : contourVertexValues[eV0];;
+			float scalar_lower = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV0] : contourVertexValues[eV1];
+			float scalar_higher = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV1] : contourVertexValues[eV0];;
 
 			bool chkSplitEdge = (scalar_lower <= threshold && scalar_higher > threshold) ? true : false;
 
@@ -2214,7 +2214,7 @@ namespace zSpace
 				zVector scalar_lower_vertPos = positions[scalar_lower_vertId];
 				zVector scalar_higher_vertPos = positions[scalar_higher_vertId];
 
-				double scaleVal = coreUtils.ofMap(threshold, scalar_lower, scalar_higher, 0.0, 1.0);
+				float scaleVal = coreUtils.ofMap(threshold, scalar_lower, scalar_higher, 0.0f, 1.0f);
 
 				zVector e = scalar_higher_vertPos - scalar_lower_vertPos;
 				double eLen = e.length();
@@ -2266,7 +2266,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsolineMesh(zObjMesh &coutourMeshObj, double inThreshold, bool invertMesh)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsolineMesh(zObjMesh &coutourMeshObj, float inThreshold, bool invertMesh)
 	{
 		if (contourVertexValues.size() == 0) return;
 		if (contourVertexValues.size() != numFieldValues())
@@ -2284,7 +2284,7 @@ namespace zSpace
 
 		unordered_map <string, int> positionVertex;
 
-		double threshold = coreUtils.ofMap(inThreshold, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
+		float threshold = coreUtils.ofMap(inThreshold, 0.0f, 1.0f, contourValueDomain.min, contourValueDomain.max);
 
 
 		for (zItMeshFace f(*fieldObj); !f.end(); f++)
@@ -2297,7 +2297,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsobandMesh(zObjMesh &coutourMeshObj, double inThresholdLow, double inThresholdHigh, bool invertMesh)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsobandMesh(zObjMesh &coutourMeshObj, float inThresholdLow, float inThresholdHigh, bool invertMesh)
 	{
 		if (contourVertexValues.size() == 0) return;
 
@@ -2316,8 +2316,8 @@ namespace zSpace
 
 		unordered_map <string, int> positionVertex;
 
-		double thresholdLow = coreUtils.ofMap(inThresholdLow, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
-		double thresholdHigh = coreUtils.ofMap(inThresholdHigh, 0.0, 1.0, contourValueDomain.min, contourValueDomain.max);
+		float thresholdLow = coreUtils.ofMap(inThresholdLow, 0.0f, 1.0f, contourValueDomain.min, contourValueDomain.max);
+		float thresholdHigh = coreUtils.ofMap(inThresholdHigh, 0.0f, 1.0f, contourValueDomain.min, contourValueDomain.max);
 
 		if (invertMesh)
 		{
@@ -2556,18 +2556,18 @@ namespace zSpace
 	//---- PROTECTED SCALAR METHODS
 
 	template<>
-	ZSPACE_INLINE double zFnMeshField<zScalar>::getScalar_Circle(zPoint &cen, zPoint &p, float r)
+	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Circle(zPoint &cen, zPoint &p, float r)
 	{
 		return ((p - cen).length() - r);
 	}
 
 	template<>
-	ZSPACE_INLINE double zFnMeshField<zScalar>::getScalar_Line(zPoint &p, zPoint &v0, zPoint &v1)
+	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Line(zPoint &p, zPoint &v0, zPoint &v1)
 	{
 		zVector pa = p - v0;
 		zVector ba = v1 - v0;
 
-		float h = coreUtils.ofClamp((pa* ba) / (ba* ba), 0.0, 1.0);
+		float h = coreUtils.ofClamp((pa* ba) / (ba* ba), 0.0f, 1.0f);
 
 		zVector out = pa - (ba*h);
 
@@ -2576,12 +2576,12 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE double zFnMeshField<zScalar>::getScalar_Square(zPoint &p, zVector &dimensions)
+	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Square(zPoint &p, zVector &dimensions)
 	{
 		p.x = abs(p.x); p.y = abs(p.y); p.z = abs(p.z);
 
 		zVector out;
-		out.x = coreUtils.zMax<double>(coreUtils.zMax<double>(p.x - dimensions.x, 0), coreUtils.zMax<double>(p.y - dimensions.y, 0));
+		out.x = coreUtils.zMax<float>(coreUtils.zMax<float>(p.x - dimensions.x, 0), coreUtils.zMax<float>(p.y - dimensions.y, 0));
 		out.y = 0;
 		out.z = 0;
 
@@ -2589,14 +2589,14 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE double zFnMeshField<zScalar>::getScalar_Trapezoid(zPoint &p, double &r1, double &r2, double &he)
+	ZSPACE_INLINE double zFnMeshField<zScalar>::getScalar_Trapezoid(zPoint &p, float &r1, float &r2, float &he)
 	{
 		zVector k1 = zVector(r2, he, 0);
 		zVector k2 = zVector((r2 - r1), (2.0 * he), 0);
 
 		p.x = abs(p.x);
 		zVector ca = zVector(p.x - coreUtils.zMin(p.x, (p.y < 0.0) ? r1 : r2), abs(p.y) - he, 0.0);
-		zVector cb = p - k1 + k2 * coreUtils.ofClamp(((k1 - p) * k2) / (k2*k2), 0.0, 1.0);
+		zVector cb = p - k1 + k2 * coreUtils.ofClamp(((k1 - p) * k2) / (k2*k2), 0.0f, 1.0f);
 
 		double s = (cb.x < 0.0 && ca.y < 0.0) ? -1.0 : 1.0;
 
@@ -2781,10 +2781,10 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE zVector zFnMeshField<zScalar>::getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh)
+	ZSPACE_INLINE zVector zFnMeshField<zScalar>::getContourPosition(float &threshold, zVector& vertex_lower, zVector& vertex_higher, float& thresholdLow, float& thresholdHigh)
 	{
 
-		double scaleVal = coreUtils.ofMap(threshold, thresholdLow, thresholdHigh, 0.0, 1.0);
+		float scaleVal = coreUtils.ofMap(threshold, thresholdLow, thresholdHigh, 0.0f, 1.0f);
 
 		zVector e = vertex_higher - vertex_lower;
 		double edgeLen = e.length();
@@ -2794,7 +2794,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsolinePoly(zItMeshFace& f , zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &threshold, bool invertMesh)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsolinePoly(zItMeshFace& f , zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, float &threshold, bool invertMesh)
 	{
 		vector<zItMeshVertex> fVerts;
 		f.getVertices(fVerts);
@@ -2803,7 +2803,7 @@ namespace zSpace
 
 		// chk if all the face vertices are below the threshold
 		bool vertexBinary[4];
-		double averageScalar = 0;
+		float averageScalar = 0;
 
 		for (int j = 0; j < fVerts.size(); j++)
 		{
@@ -2838,10 +2838,10 @@ namespace zSpace
 		if (MS_case == 1)
 		{
 			zVector v0 = fVerts[0].getPosition();
-			double s0 = fVerts[0].getColor().r;
+			float s0 = fVerts[0].getColor().r;
 
 			zVector v1 = fVerts[1].getPosition();
-			double s1 = fVerts[1].getColor().r;
+			float s1 = fVerts[1].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -2867,10 +2867,10 @@ namespace zSpace
 			newPositions.push_back(fVerts[0].getPosition());
 
 			zVector v0 = fVerts[0].getPosition();
-			double s0 = fVerts[0].getColor().r;
+			float s0 = fVerts[0].getColor().r;
 
 			zVector v1 = fVerts[1].getPosition();
-			double s1 = fVerts[1].getColor().r;
+			float s1 = fVerts[1].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -2891,10 +2891,10 @@ namespace zSpace
 		if (MS_case == 3)
 		{
 			zVector v0 = fVerts[3].getPosition();
-			double s0 = fVerts[3].getColor().r;
+			float s0 = fVerts[3].getColor().r;
 
 			zVector v1 = fVerts[0].getPosition();
-			double s1 = fVerts[0].getColor().r;
+			float s1 = fVerts[0].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -2923,10 +2923,10 @@ namespace zSpace
 			newPositions.push_back(fVerts[1].getPosition());
 
 			zVector v0 = fVerts[1].getPosition();
-			double s0 = fVerts[1].getColor().r;
+			float s0 = fVerts[1].getColor().r;
 
 			zVector v1 = fVerts[2].getPosition();
-			double s1 = fVerts[2].getColor().r;
+			float s1 = fVerts[2].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -2954,10 +2954,10 @@ namespace zSpace
 				// hex
 
 				zVector v0 = fVerts[1].getPosition();
-				double s0 = fVerts[1].getColor().r;
+				float s0 = fVerts[1].getColor().r;
 
 				zVector v1 = fVerts[0].getPosition();
-				double s1 = fVerts[0].getColor().r;
+				float s1 = fVerts[0].getColor().r;
 
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
@@ -2989,10 +2989,10 @@ namespace zSpace
 			{
 				// tri 1
 				zVector v0 = fVerts[1].getPosition();
-				double s0 = fVerts[1].getColor().r;
+				float s0 = fVerts[1].getColor().r;
 
 				zVector v1 = fVerts[0].getPosition();
-				double s1 = fVerts[0].getColor().r;
+				float s1 = fVerts[0].getColor().r;
 
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
@@ -3028,9 +3028,9 @@ namespace zSpace
 			newPositions.push_back(fVerts[0].getPosition());
 
 			zVector v0 = fVerts[0].getPosition();
-			double s0 = fVerts[0].getColor().r;
+			float s0 = fVerts[0].getColor().r;
 			zVector v1 = fVerts[1].getPosition();
-			double s1 = fVerts[1].getColor().r;
+			float s1 = fVerts[1].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3052,9 +3052,9 @@ namespace zSpace
 		if (MS_case == 7)
 		{
 			zVector v0 = fVerts[3].getPosition();
-			double s0 = fVerts[3].getColor().r;
+			float s0 = fVerts[3].getColor().r;
 			zVector v1 = fVerts[2].getPosition();
-			double s1 = fVerts[2].getColor().r;
+			float s1 = fVerts[2].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3079,9 +3079,9 @@ namespace zSpace
 			newPositions.push_back(fVerts[2].getPosition());
 
 			zVector v0 = fVerts[2].getPosition();
-			double s0 = fVerts[2].getColor().r;
+			float s0 = fVerts[2].getColor().r;
 			zVector v1 = fVerts[3].getPosition();
-			double s1 = fVerts[3].getColor().r;
+			float s1 = fVerts[3].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3097,9 +3097,9 @@ namespace zSpace
 		if (MS_case == 9)
 		{
 			zVector v0 = fVerts[1].getPosition();
-			double s0 = fVerts[1].getColor().r;
+			float s0 = fVerts[1].getColor().r;
 			zVector v1 = fVerts[0].getPosition();
-			double s1 = fVerts[0].getColor().r;
+			float s1 = fVerts[0].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3130,9 +3130,9 @@ namespace zSpace
 				newPositions.push_back(fVerts[0].getPosition());
 
 				zVector v0 = fVerts[0].getPosition();
-				double s0 = fVerts[0].getColor().r;
+				float s0 = fVerts[0].getColor().r;
 				zVector v1 = fVerts[1].getPosition();
-				double s1 = fVerts[1].getColor().r;
+				float s1 = fVerts[1].getColor().r;
 
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
@@ -3169,9 +3169,9 @@ namespace zSpace
 				newPositions.push_back(fVerts[0].getPosition());
 
 				zVector v0 = fVerts[0].getPosition();
-				double s0 = fVerts[0].getColor().r;
+				float s0 = fVerts[0].getColor().r;
 				zVector v1 = fVerts[1].getPosition();
-				double s1 = fVerts[1].getColor().r;
+				float s1 = fVerts[1].getColor().r;
 
 				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 				newPositions.push_back(pos);
@@ -3206,9 +3206,9 @@ namespace zSpace
 		if (MS_case == 11)
 		{
 			zVector v0 = fVerts[2].getPosition();
-			double s0 = fVerts[2].getColor().r;
+			float s0 = fVerts[2].getColor().r;
 			zVector v1 = fVerts[1].getPosition();
-			double s1 = fVerts[1].getColor().r;
+			float s1 = fVerts[1].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3233,9 +3233,9 @@ namespace zSpace
 			newPositions.push_back(fVerts[1].getPosition());
 
 			zVector v0 = fVerts[1].getPosition();
-			double s0 = fVerts[1].getColor().r;
+			float s0 = fVerts[1].getColor().r;
 			zVector v1 = fVerts[2].getPosition();
-			double s1 = fVerts[2].getColor().r;
+			float s1 = fVerts[2].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3254,9 +3254,9 @@ namespace zSpace
 		if (MS_case == 13)
 		{
 			zVector v0 = fVerts[1].getPosition();
-			double s0 = fVerts[1].getColor().r;
+			float s0 = fVerts[1].getColor().r;
 			zVector v1 = fVerts[0].getPosition();
-			double s1 = fVerts[0].getColor().r;
+			float s1 = fVerts[0].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3277,9 +3277,9 @@ namespace zSpace
 			newPositions.push_back(fVerts[0].getPosition());
 
 			zVector v0 = fVerts[0].getPosition();
-			double s0 = fVerts[0].getColor().r;
+			float s0 = fVerts[0].getColor().r;
 			zVector v1 = fVerts[1].getPosition();
-			double s1 = fVerts[1].getColor().r;
+			float s1 = fVerts[1].getColor().r;
 
 			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
 			newPositions.push_back(pos);
@@ -3393,7 +3393,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, float &thresholdLow, float &thresholdHigh)
 	{
 		vector<zItMeshVertex> fVerts;
 		f.getVertices(fVerts);
@@ -3404,7 +3404,7 @@ namespace zSpace
 
 		// chk if all the face vertices are below the threshold
 		int vertexTernary[4];
-		double averageScalar = 0;
+		float averageScalar = 0;
 
 		for (int j = 0; j < fVerts.size(); j++)
 		{
@@ -3445,7 +3445,7 @@ namespace zSpace
 		if (MS_case >= 2 && MS_case <= 9)
 		{
 			int startID = -1;
-			double threshold = thresholdHigh;
+			float threshold = thresholdHigh;
 
 			if (MS_case == 2 || MS_case == 6)startID = 0;
 			if (MS_case == 3 || MS_case == 7)startID = 1;
@@ -3459,10 +3459,10 @@ namespace zSpace
 
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[prevID].getPosition();
-			double s1 = fVerts[prevID].getColor().r;
+			float s1 = fVerts[prevID].getColor().r;
 
 
 			zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
@@ -3489,8 +3489,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case == 10 || MS_case == 14) startID = 0;
 			if (MS_case == 11 || MS_case == 15) startID = 1;
@@ -3507,10 +3507,10 @@ namespace zSpace
 			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 
 			zVector pos0 = (getContourPosition(threshold0, v0, v1, s0, s1));
@@ -3538,7 +3538,7 @@ namespace zSpace
 		if (MS_case >= 18 && MS_case <= 25)
 		{
 			int startID = -1;
-			double threshold = thresholdLow;
+			float threshold = thresholdLow;
 			if (MS_case > 21) threshold = thresholdHigh;
 
 			if (MS_case == 18 || MS_case == 22) startID = 0;
@@ -3556,10 +3556,10 @@ namespace zSpace
 			zVector pos1 = fVerts[nextID].getPosition();
 
 			zVector v0 = fVerts[nextID].getPosition();
-			double s0 = fVerts[nextID].getColor().r;
+			float s0 = fVerts[nextID].getColor().r;
 
 			zVector v1 = fVerts[next_nextID].getPosition();
-			double s1 = fVerts[next_nextID].getColor().r;
+			float s1 = fVerts[next_nextID].getColor().r;
 
 			zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
 
@@ -3593,10 +3593,10 @@ namespace zSpace
 			int next_nextID = (nextID + 1) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[prevID].getPosition();
-			double s1 = fVerts[prevID].getColor().r;
+			float s1 = fVerts[prevID].getColor().r;
 
 			zVector pos0 = (getContourPosition(thresholdLow, v0, v1, s0, s1));
 			zVector pos3 = (getContourPosition(thresholdHigh, v0, v1, s0, s1));
@@ -3628,7 +3628,7 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold = thresholdHigh;
+			float threshold = thresholdHigh;
 			if (MS_case > 34)threshold = thresholdLow;
 
 			if (MS_case == 31 || MS_case == 35) startID = 0;
@@ -3645,10 +3645,10 @@ namespace zSpace
 			zVector pos1 = fVerts[nextID].getPosition();
 
 			zVector v0 = fVerts[nextID].getPosition();
-			double s0 = fVerts[nextID].getColor().r;
+			float s0 = fVerts[nextID].getColor().r;
 
 			zVector v1 = fVerts[next_nextID].getPosition();
-			double s1 = fVerts[next_nextID].getColor().r;
+			float s1 = fVerts[next_nextID].getColor().r;
 
 			zVector pos2 = getContourPosition(threshold, v0, v1, s0, s1);
 
@@ -3671,8 +3671,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 42)
 			{
@@ -3694,10 +3694,10 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
 
@@ -3726,8 +3726,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 50)
 			{
@@ -3749,9 +3749,9 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
 
@@ -3782,8 +3782,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 58)
 			{
@@ -3806,9 +3806,9 @@ namespace zSpace
 			zVector pos1 = fVerts[nextID].getPosition();
 
 			zVector v0 = fVerts[nextID].getPosition();
-			double s0 = fVerts[nextID].getColor().r;
+			float s0 = fVerts[nextID].getColor().r;
 			zVector v1 = fVerts[next_nextID].getPosition();
-			double s1 = fVerts[next_nextID].getColor().r;
+			float s1 = fVerts[next_nextID].getColor().r;
 
 			zVector pos2 = getContourPosition(threshold1, v0, v1, s0, s1);
 
@@ -3837,8 +3837,8 @@ namespace zSpace
 			int startID = -1;
 
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case % 2 == 0)
 			{
@@ -3858,9 +3858,9 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
 
@@ -3893,8 +3893,8 @@ namespace zSpace
 		if (MS_case >= 67 && MS_case <= 68)
 		{
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case % 2 == 0)
 			{
@@ -3915,9 +3915,9 @@ namespace zSpace
 			int next_nextID = (nextID + 1) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
 			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
@@ -3993,7 +3993,7 @@ namespace zSpace
 		if (MS_case >= 69 && MS_case <= 72)
 		{
 
-			double threshold = thresholdLow;
+			float threshold = thresholdLow;
 
 			if (MS_case > 70)
 			{
@@ -4014,9 +4014,9 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold, v0, v1, s0, s1);
 
@@ -4070,8 +4070,8 @@ namespace zSpace
 		if (MS_case >= 73 && MS_case <= 80)
 		{
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 76)
 			{
@@ -4097,9 +4097,9 @@ namespace zSpace
 			int next_nextID = (nextID + 1) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
 			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
@@ -4250,7 +4250,7 @@ namespace zSpace
 	// explicit instantiation
 	template class zFnMeshField<zVector>;
 
-	template class zFnMeshField<double>;
+	template class zFnMeshField<zScalar>;
 
 #endif
 }

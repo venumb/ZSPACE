@@ -57,7 +57,7 @@ namespace zSpace
 		//--------------------------
 
 		/*! \brief field 2D */
-		zField3D<double> field;	
+		zField3D<float> field;	
 
 		/*!	\brief bins			*/
 		vector<zBin> bins;

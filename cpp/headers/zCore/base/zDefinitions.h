@@ -15,6 +15,8 @@
 
 #pragma once
 #include <vector>
+#include <string>
+using namespace std;
 
 namespace zSpace
 {
@@ -180,35 +182,35 @@ namespace zSpace
 	*
 	*	\since version 0.0.2
 	*/
-	typedef double zDouble3[3];
+	typedef float zFloat3[3];
 	
 	/*! \typedef pDouble3
 	*	\brief An pointer array of double of size 3.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef double* zPDouble3[3];	
+	typedef float* zPFloat3[3];
 
 	/*! \typedef double4
 	*	\brief An array of double of size 4.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef double zDouble4[4];
+	typedef float zFloat4[4];
 
 	/*! \typedef pDouble4
 	*	\brief An pointer array of double of size 4.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef double* zPDouble4[4];
+	typedef float* zPFloat4[4];
 
 	/*! \typedef zScalar
 	*	\brief A scalar definition used in scalar fields.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef double zScalar;
+	typedef float zScalar;
 
 	/** @}*/
 
@@ -265,7 +267,41 @@ namespace zSpace
 	/** @}*/
 	/** @}*/	
 	/** @}*/
+
+	/** \addtogroup zCore
+	*	\brief The core datastructures of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zSolar
+	*	\brief The geometry classes of the library.
+	*  @{
+	*/
 	
+
+	/*! \struct zEPWData
+	*	\brief A epw data struct defined to  hold energy plus weather information.
+	*	\details https://energyplus.net/weather
+	*	\since version 0.0.4
+	*/
+	struct zEPWData
+	{
+		double dbTemperature, humidity, windSpeed, windDirection, radiation, pressure;
+	};
+
+	/*! \struct zLocation
+	*	\brief A location data struct defined to  hold timezone, latitude and longitude information.
+	*	\since version 0.0.4
+	*/
+	struct zLocation
+	{
+		int timeZone;
+		float longitude, latitude;
+	};
+
+
+	/** @}*/
+	/** @}*/
 
 }
 

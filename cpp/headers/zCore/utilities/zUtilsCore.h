@@ -20,24 +20,12 @@
 #include <headers/zCore/base/zVector.h>
 #include <headers/zCore/base/zColor.h>
 #include <headers/zCore/base/zMatrix.h>
+#include <headers/zCore/base/zDate.h>
 #include <headers/zCore/base/zTransformationMatrix.h>
 #include <headers/zCore/base/zQuaternion.h>
 #include <headers/zCore/base/zDomain.h>
 #include <headers/zCore/base/zTypeDef.h>
 #include <headers/zCore/base/zExtern.h>
-
-
-#include<headers/zCore/utilities/zUtilsPointerMethods.h>
-#include<headers/zCore/utilities/zUtilsBMP.h>
-
-#include <depends/tooJPEG/toojpeg.h>
-#include <depends/lodePNG/lodepng.h>
-
-#ifndef QUICKHULL_H
-#define QUICKHULL_IMPLEMENTATION
-#define _CRT_SECURE_NO_WARNINGS
-#include <depends/quickhull/quickhull.h>
-#endif //QUICKHULL_H
 
 #include <string.h>
 #include <vector>
@@ -55,10 +43,28 @@
 #include <numeric>
 #include <map>
 #include <unordered_map>
-
 #include <iostream>
 
 using namespace std;
+
+#include<headers/zCore/utilities/zUtilsPointerMethods.h>
+#include<headers/zCore/utilities/zUtilsBMP.h>
+
+#ifndef __CUDACC__	
+
+	#include <depends/tooJPEG/toojpeg.h>
+	#include <depends/lodePNG/lodepng.h>
+
+
+#ifndef QUICKHULL_H
+	#define QUICKHULL_IMPLEMENTATION
+	#define _CRT_SECURE_NO_WARNINGS
+	#include <depends/quickhull/quickhull.h>
+#endif 
+
+#endif
+
+
 
 namespace zSpace
 {
@@ -92,7 +98,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		zUtilsCore();
+		ZSPACE_CUDA_CALLABLE zUtilsCore();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -102,7 +108,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		~zUtilsCore();
+		ZSPACE_CUDA_CALLABLE ~zUtilsCore();
 
 		//--------------------------
 		//---- WINDOWS UTILITY  METHODS
@@ -114,7 +120,7 @@ namespace zSpace
 		*	\return				int				- number of files in the input folder.
 		*	\since version 0.0.2
 		*/
-		int getNumfiles(string dirPath);
+		ZSPACE_CUDA_CALLABLE_HOST int getNumfiles(string dirPath);
 
 		/*! \brief This method returns the number of files in the input directory of the input file type.
 		*
@@ -123,7 +129,7 @@ namespace zSpace
 		*	\return				int				- number of files in the input folder.
 		*	\since version 0.0.2
 		*/
-		int getNumfiles_Type(string dirPath, zFileTpye type = zJSON);
+		ZSPACE_CUDA_CALLABLE_HOST int getNumfiles_Type(string dirPath, zFileTpye type = zJSON);
 		
 			
 		/*! \brief This method gets all the files on the input file type in the input directory sorted by time of creation.
@@ -133,7 +139,7 @@ namespace zSpace
 		*	\param		[in]	type			- input zFileTpye.
 		*	\since version 0.0.2
 		*/
-		void getFilesFromDirectory(zStringArray &fpaths, string dirPath, zFileTpye type = zJSON);		
+		ZSPACE_CUDA_CALLABLE_HOST void getFilesFromDirectory(zStringArray &fpaths, string dirPath, zFileTpye type = zJSON);
 
 		//--------------------------
 		//---- STRING METHODS
@@ -146,7 +152,7 @@ namespace zSpace
 		*	\return				vector<string>	- list of elements of split string.
 		*	\since version 0.0.1
 		*/
-		vector<string> splitString(const string& str, const string& delimiter);
+		ZSPACE_CUDA_CALLABLE_HOST vector<string> splitString(const string& str, const string& delimiter);
 		
 
 		//--------------------------
@@ -165,7 +171,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		template <typename T>
-		T ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax);
+		ZSPACE_CUDA_CALLABLE T ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax);
 
 		/*! \brief This method maps the input value from the input domain to output domain.
 		*
@@ -177,7 +183,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		template <typename T>
-		T ofMap(T value, zDomain<T> inDomain, zDomain<T> outDomain);
+		ZSPACE_CUDA_CALLABLE T ofMap(T value, zDomain<T> inDomain, zDomain<T> outDomain);
 
 		/*! \brief This method clamps the input value to the input domain.
 		*
@@ -189,7 +195,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		template <typename T>
-		T ofClamp(T value, T inputMin, T inputMax);
+		ZSPACE_CUDA_CALLABLE T ofClamp(T value, T inputMin, T inputMax);
 
 		/*! \brief This method returns the minimum of the two input values.
 		*
@@ -199,7 +205,7 @@ namespace zSpace
 		*	\return 			double			- minimum value
 		*/
 		template <typename T>
-		T zMin(T val0, T val1);
+		ZSPACE_CUDA_CALLABLE T zMin(T val0, T val1);
 
 		/*! \brief This method returns the minimum of the input container values.
 		*
@@ -208,7 +214,7 @@ namespace zSpace
 		*	\return 			double			- minimum value
 		*/
 		template <typename T>
-		T zMin(vector<T> &vals);
+		ZSPACE_CUDA_CALLABLE_HOST T zMin(vector<T> &vals);
 
 		/*! \brief This method returns the maximum of the two input values.
 		*
@@ -218,7 +224,7 @@ namespace zSpace
 		*	\return 			double			- maximum value
 		*/
 		template <typename T>
-		T zMax(T val0, T val1);
+		ZSPACE_CUDA_CALLABLE T zMax(T val0, T val1);
 
 		/*! \brief This method returns the maximun of the input container values.
 		*
@@ -227,7 +233,7 @@ namespace zSpace
 		*	\return 			double			- maximum value
 		*/
 		template <typename T>
-		T zMax(vector<T> &vals);
+		ZSPACE_CUDA_CALLABLE_HOST T zMax(vector<T> &vals);
 
 		/*! \brief This method returns a random number in the input domain.
 		*
@@ -235,7 +241,7 @@ namespace zSpace
 		*	\param		[in]	max		- domain maximum value.
 		*	\return				int		- random number between the 2 input values.
 		*/
-		int randomNumber(int min, int max);
+		ZSPACE_CUDA_CALLABLE int randomNumber(int min, int max);
 
 		/*! \brief This method returns a random number in the input domain.
 		*
@@ -243,7 +249,7 @@ namespace zSpace
 		*	\param		[in]	max			- domain maximum value.
 		*	\return				double		- random number between the 2 input values.
 		*/
-		double randomNumber_double(double min, double max);
+		ZSPACE_CUDA_CALLABLE double randomNumber_double(double min, double max);
 
 		/*! \brief This method returns the factorised value to the input precision.
 		*
@@ -254,7 +260,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		template <typename T>
-		T factorise(T inputValue, int precision = 3);
+		ZSPACE_CUDA_CALLABLE T factorise(T inputValue, int precision = 3);
 
 		/*! \brief This method returns the factorised vector to the input precision.
 		*
@@ -263,7 +269,7 @@ namespace zSpace
 		*	\return				zVector				- factorised vector.
 		*	\since version 0.0.1
 		*/		
-		zVector factoriseVector(zVector inputValue, int precision = 3);
+		ZSPACE_CUDA_CALLABLE zVector factoriseVector(zVector inputValue, int precision = 3);
 
 		/*! \brief This method checks if the input value is repeated in input container.
 		*
@@ -276,7 +282,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 		template <typename T>
-		bool checkRepeatElement(T &inVal, vector<T> values, int &index, int precision = 3);
+		ZSPACE_CUDA_CALLABLE_HOST bool checkRepeatElement(T &inVal, vector<T> values, int &index, int precision = 3);
 
 		/*! \brief This method checks if the input vector is repeated in input container.
 		*
@@ -287,7 +293,7 @@ namespace zSpace
 		*	\return				bool			- true if there is a repeat element.
 		*	\since version 0.0.1
 		*/
-		bool checkRepeatVector(zVector &inVec, vector<zVector> values, int &index, int precision = 3);
+		ZSPACE_CUDA_CALLABLE_HOST bool checkRepeatVector(zVector &inVec, vector<zVector> values, int &index, int precision = 3);
 
 		//--------------------------
 		//---- MAP METHODS 
@@ -301,7 +307,7 @@ namespace zSpace
 		*	\return				bool		- true if the string exists in the map.
 		*	\since version 0.0.1
 		*/
-		bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal);
+		ZSPACE_CUDA_CALLABLE bool existsInMap(string hashKey, unordered_map<string, int> map, int &outVal);
 
 		/*! \brief This method checks if the input position exists in the map.
 		*
@@ -312,7 +318,7 @@ namespace zSpace
 		*	\return				bool			- true if the position exists in the map.
 		*	\since version 0.0.1
 		*/
-		bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int precisionFac, int & outVertexId);
+		ZSPACE_CUDA_CALLABLE_HOST bool vertexExists(unordered_map<string, int>& positionVertex, zVector & pos, int precisionFac, int & outVertexId);
 
 		/*! \brief This method adds the position given by input vector to the positionVertex Map.
 		*	\param		[in]	positionVertex		- input position vertex map.
@@ -321,7 +327,7 @@ namespace zSpace
 		*	\param		[in]	precisionFac		- precision factor of the points to check.
 		*	\since version 0.0.1
 		*/
-		void addToPositionMap(unordered_map<string, int>& positionVertex, zVector &pos, int index, int precisionFac);
+		ZSPACE_CUDA_CALLABLE_HOST void addToPositionMap(unordered_map<string, int>& positionVertex, zVector &pos, int index, int precisionFac);
 			   
 		//--------------------------
 		//---- VECTOR METHODS 
@@ -333,7 +339,7 @@ namespace zSpace
 		*	\return 			zVectors		- vector with minimum length
 		*	\since version 0.0.2
 		*/
-		zVector zMin(vector<zVector> &vals);
+		ZSPACE_CUDA_CALLABLE_HOST zVector zMin(vector<zVector> &vals);
 
 		/*! \brief This method returns the maximum of the input container of zVectors.
 		*
@@ -341,7 +347,7 @@ namespace zSpace
 		*	\return 			zVectors		- vector with maximum length
 		*	\since version 0.0.2
 		*/
-		zVector zMax(vector<zVector> &vals);
+		ZSPACE_CUDA_CALLABLE_HOST zVector zMax(vector<zVector> &vals);
 
 		/*! \brief This method maps the input value from the input domain to output domain.
 		*
@@ -353,7 +359,7 @@ namespace zSpace
 		*	\return				double			- mapped vector.
 		*	\since version 0.0.2
 		*/
-		zVector ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax);
+		ZSPACE_CUDA_CALLABLE zVector ofMap(float value, float inputMin, float inputMax, zVector outputMin, zVector outputMax);
 
 		/*! \brief This method maps the input value from the input domain to output domain.
 		*
@@ -363,8 +369,7 @@ namespace zSpace
 		*	\return				double			- mapped vector.
 		*	\since version 0.0.2
 		*/
-		zVector ofMap(double value, zDomainDouble inputDomain, zDomainVector outDomain);
-				
+		ZSPACE_CUDA_CALLABLE zVector ofMap(float value, zDomainFloat inputDomain, zDomainVector outDomain);
 
 		/*! \brief This method a zVector from the input matrix row.
 		*
@@ -373,7 +378,7 @@ namespace zSpace
 		*	\return					zVector		- zVector of the row matrix.
 		*	\since version 0.0.2
 		*/
-		zVector fromMatrixRow(zMatrixd &inMatrix, int rowIndex = 0);
+		ZSPACE_CUDA_CALLABLE zVector fromMatrix4Row(zMatrix4 &inMatrix, int rowIndex = 0);
 
 		/*! \brief This method returns extracts a zVector from the input matrix column.
 		*
@@ -382,7 +387,7 @@ namespace zSpace
 		*	\return					zVector		- zVector of the column matrix.
 		*	\since version 0.0.2
 		*/
-		zVector fromMatrixColumn(zMatrixd &inMatrix, int colIndex);
+		ZSPACE_CUDA_CALLABLE zVector fromMatrix4Column(zMatrix4 &inMatrix, int colIndex);
 
 		/*! \brief This method returns the factorised vector to the input precision.
 		*
@@ -391,7 +396,7 @@ namespace zSpace
 		*	\return					zVector			- factorised vector.
 		*	\since version 0.0.2
 		*/
-		zVector factorise(zVector &inVector, int precision = 3);
+		ZSPACE_CUDA_CALLABLE zVector factorise(zVector &inVector, int precision = 3);
 
 		/*! \brief This method scales the input point cloud by the input scale factor.
 		*
@@ -399,7 +404,7 @@ namespace zSpace
 		*	\param		[out]	scaleFac			- scale factor.
 		*	\since version 0.0.2
 		*/
-		void scalePointCloud(vector<zVector> &inPoints, double scaleFac);
+		ZSPACE_CUDA_CALLABLE_HOST void scalePointCloud(vector<zVector> &inPoints, double scaleFac);
 
 		/*! \brief This method computes the center of the input point cloud.
 		*
@@ -407,7 +412,7 @@ namespace zSpace
 		*	\param		[out]	center				- center of point cloud.
 		*	\since version 0.0.2
 		*/
-		void getCenter_PointCloud(vector<zVector> &inPoints, zVector &center);
+		ZSPACE_CUDA_CALLABLE_HOST void getCenter_PointCloud(vector<zVector> &inPoints, zVector &center);
 
 		/*! \brief This method return index of the closest point in the input container to the input position.
 		*
@@ -415,7 +420,7 @@ namespace zSpace
 		*	\param		[in]	inPositions		- input container of positions.
 		*	\since version 0.0.2
 		*/
-		int getClosest_PointCloud(zVector &pos, vector<zVector> inPositions);
+		ZSPACE_CUDA_CALLABLE_HOST int getClosest_PointCloud(zVector &pos, vector<zVector> inPositions);
 
 		/*! \brief This method returns the bounds of the input list points.
 		*
@@ -423,7 +428,7 @@ namespace zSpace
 		*	\param  	[out]	minBB		- stores zVector of bounding box minimum.
 		*	\param		[out]	maxBB		- stores zVector of bounding box maximum.
 		*/
-		void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB);
+		ZSPACE_CUDA_CALLABLE_HOST void getBounds(vector<zVector> &inPoints, zVector &minBB, zVector &maxBB);
 
 		/*! \brief This method returns the bounds of the input list points.
 		*
@@ -432,7 +437,7 @@ namespace zSpace
 		*	\param  	[out]	minBB		- stores zVector of bounding box minimum.
 		*	\param		[out]	maxBB		- stores zVector of bounding box maximum.
 		*/
-		void getBounds(zVector* inPoints, int numPoints, zVector &minBB, zVector &maxBB);
+		ZSPACE_CUDA_CALLABLE void getBounds(zVector* inPoints, int numPoints, zVector &minBB, zVector &maxBB);
 
 		/*! \brief This method computes the distances in X,Y,Z for the input bounds.
 		*
@@ -441,7 +446,7 @@ namespace zSpace
 		*	\param		[out]	Dims			- distances in X,Y,Z axis in local frame
 		*	\since version 0.0.2
 		*/
-		zVector getDimsFromBounds(zVector &minBB, zVector &maxBB);
+		ZSPACE_CUDA_CALLABLE zVector getDimsFromBounds(zVector &minBB, zVector &maxBB);
 
 		/*! \brief This method checks if the input position is inside the input bounds.
 		*
@@ -451,7 +456,7 @@ namespace zSpace
 		*	\return				bool			- true if input position is inside the bounds.
 		*	\since version 0.0.2
 		*/
-		bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB);
+		ZSPACE_CUDA_CALLABLE bool pointInBounds(zVector &inPoint, zVector &minBB, zVector &maxBB);
 
 		/*! \brief This method computes the inverse distance weights of the input positions container on the input point .
 		*
@@ -462,7 +467,7 @@ namespace zSpace
 		*	\param		[out]	weights			- influence Weights between 0 and 1.
 		*	\since version 0.0.2
 		*/
-		void getDistanceWeights(zPoint& inPos, zPointArray positions, double power, zDoubleArray &weights);
+		ZSPACE_CUDA_CALLABLE_HOST void getDistanceWeights(zPoint& inPos, zPointArray positions, double power, zDoubleArray &weights);
 		
 		/*! \brief This method  returns the intersection of two planes which is  line.
 		*
@@ -476,7 +481,7 @@ namespace zSpace
 		*	\return					bool	- true if the planes intersect.
 		*	\since version 0.0.2
 		*/
-		bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2);
+		ZSPACE_CUDA_CALLABLE bool plane_planeIntersection(zVector &nA, zVector &nB, zVector &pA, zVector &pB, zVector &outP1, zVector &outP2);
 
 		/*! \brief This method  returns the closest points of two lines.
 		*
@@ -490,7 +495,7 @@ namespace zSpace
 		*	\return					bool	- true if the planes intersect.
 		*	\since version 0.0.2
 		*/
-		bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB);
+		ZSPACE_CUDA_CALLABLE bool line_lineClosestPoints(zVector &a0, zVector &a1, zVector &b0, zVector &b1, double &uA, double &uB);
 
 		/*! \brief This method  returns the closest points of two lines.
 		*
@@ -506,7 +511,7 @@ namespace zSpace
 		*	\return					bool	- true if the lines intersect.
 		*	\since version 0.0.2
 		*/
-		bool line_lineClosestPoints(zVector &p1, zVector &p2, zVector &p3, zVector &p4, double &uA, double &uB, zVector &pA, zVector &pB);
+		ZSPACE_CUDA_CALLABLE bool line_lineClosestPoints(zVector &p1, zVector &p2, zVector &p3, zVector &p4, double &uA, double &uB, zVector &pA, zVector &pB);
 
 		/*! \brief This method  returns the intersection of two lines which is  point.
 		*
@@ -519,7 +524,7 @@ namespace zSpace
 		*	\return					bool			- true if the line and plane intersect.
 		*	\since version 0.0.2
 		*/
-		bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt);
+		ZSPACE_CUDA_CALLABLE bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt);
 
 		/*! \brief This method returns the area of triagle defined by the three input zVectors.
 		*
@@ -529,7 +534,7 @@ namespace zSpace
 		*	\return					double			- area of triangle defirned by the vectors.
 		*	\since version 0.0.2
 		*/
-		double getTriangleArea(zVector &v1, zVector &v2, zVector &v3);
+		ZSPACE_CUDA_CALLABLE double getTriangleArea(zVector &v1, zVector &v2, zVector &v3);
 
 		/*! \brief This method returns the signed volume of the tetrahedron formed by the three input zVectors and the origin.
 		*
@@ -540,7 +545,7 @@ namespace zSpace
 		*	\return					double			- volume of tetrahedron formed by the three input vectors  and the origin.
 		*	\since version 0.0.2
 		*/
-		double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3);
+		ZSPACE_CUDA_CALLABLE double getSignedTriangleVolume(zVector &v1, zVector &v2, zVector &v3);
 
 		/*! \brief This method checks if the given input points liess within the input triangle.
 		*
@@ -549,7 +554,7 @@ namespace zSpace
 		*	\param		[in]	t0,t1,t2	- zVector holding the position information for the 3 points of the triangle.
 		*	\return				bool		- true if point is inside the input triangle.
 		*/
-		bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2);
+		ZSPACE_CUDA_CALLABLE bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2);
 
 		/*! \brief This method computes the minimum distance between a point and edge and the closest Point on the edge.
 		*
@@ -561,7 +566,7 @@ namespace zSpace
 		*	\return			minDist		- distance to closest point.
 		*	\since version 0.0.2
 		*/
-		double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt);
+		ZSPACE_CUDA_CALLABLE double minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt);
 
 		/*! \brief This method computes the minimum distance between a point and a plane.
 		*
@@ -572,7 +577,7 @@ namespace zSpace
 		*	\return			minDist		- minimum distance to plane.
 		*	\since version 0.0.2
 		*/
-		double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm);
+		ZSPACE_CUDA_CALLABLE double minDist_Point_Plane(zVector & pA, zVector & pB, zVector & norm);
 
 		/*! \brief This method gets the bary-center of the input positions based on the input weights.
 		*
@@ -581,7 +586,27 @@ namespace zSpace
 		*	\return				zVector			- bary-center.
 		*	\since version 0.0.2
 		*/
-		zVector getBaryCenter(zPointArray &inPositions, zDoubleArray& weights);
+		ZSPACE_CUDA_CALLABLE_HOST zVector getBaryCenter(zPointArray &inPositions, zDoubleArray& weights);
+
+		/*! \brief This method converts spherical coordinates to cartesian coordinates.
+		*
+		*	\param		[in]	azimuth			- input azimuth coordinate.
+		*	\param		[in]	altitude		- input altitude coordinate.
+		*	\param		[in]	radius			- input radius.
+		*	\return				zVector			- output cartesian point.
+		*	\since version 0.0.2
+		*/
+		ZSPACE_CUDA_CALLABLE zPoint sphericalToCartesian(double azimuth, double altitude, double radius);
+
+		/*! \brief This method converts cartesian coordinates to spherical coordinates.
+		*
+		*	\param		[in]	inVec			- input cartesioan point.
+		*	\param		[in]	radius			- input radius.
+		*	\param		[out]	azimuth			- output azimuth coordinate.
+		*	\param		[out]	altitude		- output altitude coordinate.
+		*	\since version 0.0.2
+		*/
+		ZSPACE_CUDA_CALLABLE void cartesianToSpherical(zPoint &inVec, double &radius, double &azimuth, double &altitude);
 
 		//--------------------------
 		//---- 4x4 zMATRIX  TRANSFORMATION METHODS
@@ -589,31 +614,26 @@ namespace zSpace
 
 		/*! \brief This method inputs the vector values at the input index of the 4X4 tranformation matrix.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	inMatrix	- input zMatrix .
 		*	\param		[in]	inVec		- input vector.
 		*	\param		[in]	index		- column index.
 		*	\return 			zMatrix		- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		void setColfromVector(zMatrix<T> &inMatrix, zVector &inVec, int index);
+		ZSPACE_CUDA_CALLABLE void setColfromVector(zMatrix4 &inMatrix, zVector &inVec, int index);
 
 		/*! \brief This method inputs the vector values at the input index of the 4X4 tranformation matrix.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	inMatrix	- input zMatrix .
 		*	\param		[in]	inVec		- input vector.
 		*	\param		[in]	index		- column index.
 		*	\return 			zMatrix		- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		void setRowfromVector(zMatrix<T> &inMatrix, zVector &inVec, int index);
+		ZSPACE_CUDA_CALLABLE void setRowfromVector(zMatrix4 &inMatrix, zVector &inVec, int index);
 
 		/*! \brief This method returns the 4X4 tranformation matrix to change the origin to the input vector.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[out]	inMatrix	- input zMatrix .
 		*	\param		[in]	X			- input X Axis as a vector.
 		*	\param		[in]	Y			- input Y Axis as a vector.
@@ -621,39 +641,32 @@ namespace zSpace
 		*	\param		[in]	O			- input origin as a vector.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		void setTransformfromVectors(zMatrix<T> &inMatrix, zVector &X, zVector &Y, zVector &Z, zVector &O);
+		ZSPACE_CUDA_CALLABLE void setTransformfromVectors(zMatrix4 &inMatrix, zVector &X, zVector &Y, zVector &Z, zVector &O);
 
 		/*! \brief This method computes the tranformation to the world space of the input 4x4 matrix.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	inMatrix	- input zMatrix to be transformed.
 		*	\return 			zMatrix		- world transformation matrix.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		zMatrix<T> toWorldMatrix(zMatrix<T> &inMatrix);
+		ZSPACE_CUDA_CALLABLE zMatrix4 toWorldMatrix(zMatrix4 &inMatrix);
 
 		/*! \brief This method computes the tranformation to the local space of the input 4x4 matrix.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	inMatrix	- input 4X4 zMatrix to be transformed.
 		*	\return 			zMatrix		- world transformation matrix.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		zMatrix<T> toLocalMatrix(zMatrix<T> &inMatrix);
+		ZSPACE_CUDA_CALLABLE zMatrix4 toLocalMatrix(zMatrix4 &inMatrix);
 
 		/*! \brief This method computes the tranformation from one 4X4 matrix to another.
 		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
 		*	\param		[in]	from		- input 4X4 zMatrix.
 		*	\param		[in]	to			- input 4X4 zMatrix.
 		*	\return 			zMatrix		- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		zMatrix<T> PlanetoPlane(zMatrix<T> &from, zMatrix<T> &to);
+		ZSPACE_CUDA_CALLABLE zMatrix4 PlanetoPlane(zMatrix4 &from, zMatrix4 &to);
 
 		/*! \brief This method computes the tranformation to change the baseis from one 4X4 matrix to another.
 		*
@@ -663,8 +676,7 @@ namespace zSpace
 		*	\return 			zMatrix		- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		zMatrix<T> ChangeBasis(zMatrix<T> &from, zMatrix<T> &to);
+		ZSPACE_CUDA_CALLABLE zMatrix4 ChangeBasis(zMatrix4 &from, zMatrix4 &to);
 
 		/*! \brief This method computes the input target as per the input new basis.
 		*
@@ -672,50 +684,104 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 
-		/*! \brief This method computes the input target as per the input new basis.
-		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	target		- input 4X4 zMatrix.
-		*	\param		[in]	newBasis	- input 4X4 zMatrix.
-		*	\return 			zMatrix		- new target matrix.
-		*	\since version 0.0.2
-		*/
-		template <typename T>
-		zMatrix<T> target_newBasis(zMatrix<T> &target, zMatrix<T> &newBasis);
 
-		/*! \brief This method computes the euclidean distance between two input row matricies.  The number of columns of m1 and m2 need to be equal.
-		*
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	m1			- input zMatrix 1.
-		*	\param		[in]	m2			- input zMatrix 2.
-		*	\param		[in]	tolerance	- input tolerance for distance check.
-		*	\return 			double		- euclidean distance.
-		*	\since version 0.0.2
-		*/
-		template <typename T>
-		double getEuclideanDistance(zMatrix<T> &m1, zMatrix<T> &m2, double tolerance = 0.001);
+		//--------------------------
+		//---- VECTOR METHODS GEOMETRY
+		//--------------------------
 
-		/*! \brief This method returns the minimum value of the input matirix.
+		/*! \brief This method computes the points on a ellipse centered around world origin for input radius, and number of points.
 		*
-		*	\tparam				T				- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	inMatrix		- input matrix.
-		*	\param		[out]	index			- index of minimum value in the matrix container.
-		*	\return 			T				- minimum value
+		*	\param		[in]		radius		- radius.
+		*	\param		[in]		numPoints	- number of points in the the ellipse.
+		*	\param		[out]		Pts			- points on circle.
+		*	\param		[in]		localPlane	- orientation plane, by default a world plane.
+		*	\param		[out]		xFactor		- the factor of scaling in x direction. For a circle both xFactor and yFactor need to be equal.
+		*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		T zMin(zMatrix<T> &inMatrix, int &index);
+		ZSPACE_CUDA_CALLABLE void getEllipse(double radius, int numPoints, zPointArray &Pts, zMatrix4 localPlane = zMatrix4(), double xFactor = 1.0, double yFactor = 1.0);
 
-		/*! \brief This method returns the maximum value of the input container of zVectors.
+		/*! \brief This method computes the points on a rectangle for input dimensions centers around the world origin.
 		*
-		*	\tparam				T				- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	inMatrix		- input matrix.
-		*	\param		[out]	index			- index of maximum value in the matrix container.
-		*	\return 			T				- minimum value
+		*	\param		[in]		dims			- dimensions of rectangle.
+		*	\param		[out]		rectanglePts	- points on rectangle.
+		*	\param		[in]		localPlane		- orientation plane, by default a world plane.
 		*	\since version 0.0.2
 		*/
-		template <typename T>
-		T zMax(zMatrix<T> &inMatrix, int &index);
+		ZSPACE_CUDA_CALLABLE void getRectangle(zVector dims, zPointArray &rectanglePts, zMatrix4 localPlane = zMatrix4());
+
+		//--------------------------
+		//---- COLOR  METHODS
+		//--------------------------
+			
+		/*! \brief This method returns the average color of the two input colors.
+		*
+		*	\param		[in]	c1		- input color 1.
+		*	\param		[in]	c2		- input color 2.
+		*	\param		[in]	type	- color type - zRGB / zHSV.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zColor averageColor(zColor c1, zColor c2, zColorType type);
+
+		/*! \brief This method returns the average color of the input color container.
+		*
+		*	\param		[in]	c1		- input color container.
+		*	\param		[in]	c2		- input color 2.
+		*	\param		[in]	type	- color type - zRGB / zHSV.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zColor averageColor(zColorArray &c1, zColorType type);
+
+		/*! \brief This method returns the blend color based on the input value, domain and the color domains.
+		*
+		*	\param		[in]	value			- input value to be mapped.
+		*	\param		[in]	inputMin		- input domain minimum.
+		*	\param		[in]	inputMax		- input domain maximum.
+		*	\param		[in]	cMin			- input color domain minimum.
+		*	\param		[in]	cMax			- input color domain maximum.
+		*	\param		[in]	type			- color type - zRGB / zHSV.
+		*	\return				zColor			- output color.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zColor blendColor(float inputValue, zDomainFloat inDomain, zDomainColor outDomain, zColorType type);
+		
+#ifndef __CUDACC__
+
+		//--------------------------
+		//---- IMAGE  METHODS
+		//--------------------------
+
+		/*! \brief This method writes a BMP from the input matrix.
+		*
+		*	\param		[in]	mat				- input container of matrices.
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\since version 0.0.4
+		*/
+		void matrixToBMP(vector<MatrixXd> &matrices, string path);
+
+		/*! \brief This method writes a JPEG from the input matrix.
+		*
+		*	\param		[in]	mat				- input container of matrices.
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\since version 0.0.4
+		*/
+		void matrixToJPEG(vector<MatrixXd> &matrices, string path);
+
+		/*! \brief This method writes a PNG from the input matrix.
+		*
+		*	\param		[in]	mat				- input container of matrices.
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\since version 0.0.4
+		*/
+		void matrixToPNG(vector<MatrixXd> &matrices, string path);
+
+		/*! \brief This method read a PNG values to the output matrix.
+		*
+		*	\param		[out]	mat				- input container of matrices.
+		*	\param		[in]	path			- input path where to write the image to.
+		*	\since version 0.0.4
+		*/
+		void matrixFromPNG(vector<MatrixXd> &matrices, string path);
 
 		//--------------------------
 		//---- MATRIX METHODS USING EIGEN / ARMA
@@ -830,123 +896,6 @@ namespace zSpace
 
 #endif
 
-		//--------------------------
-		//---- FACTORY METHODS GEOMETRY
-		//--------------------------
-
-		/*! \brief This method create a matrix from input container of zVectors.
-		*
-		*	\param		[out]	inMatrix		- input matrix.
-		*	\param		[in]	inPoints		- input container of zVectors.
-		*	\since version 0.0.2
-		*/
-		void fromPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints);
-
-
-		/*! \brief This method create a container of zVectors from input matrix.
-		*
-		*	\param		[in]	inMatrix		- input matrix.
-		*	\param		[out]	inPoints		- input container of zPoints.
-		*	\since version 0.0.2
-		*/
-		void toPOINTS(zMatrixd &inMatrix, zPointArray &inPoints);
-
-		//--------------------------
-		//---- VECTOR METHODS GEOMETRY
-		//--------------------------
-
-		/*! \brief This method computes the points on a ellipse centered around world origin for input radius, and number of points.
-		*
-		*	\param		[in]		radius		- radius.
-		*	\param		[in]		numPoints	- number of points in the the ellipse.
-		*	\param		[out]		Pts			- points on circle.
-		*	\param		[in]		localPlane	- orientation plane, by default a world plane.
-		*	\param		[out]		xFactor		- the factor of scaling in x direction. For a circle both xFactor and yFactor need to be equal.
-		*	\param		[out]		yFactor		- the factor of scaling in y direction. For a circle both xFactor and yFactor need to be equal.
-		*	\since version 0.0.2
-		*/
-		void getEllipse(double radius, int numPoints, zPointArray &Pts, zMatrixd localPlane = zMatrixd(), double xFactor = 1.0, double yFactor = 1.0);
-
-		/*! \brief This method computes the points on a rectangle for input dimensions centers around the world origin.
-		*
-		*	\param		[in]		dims			- dimensions of rectangle.
-		*	\param		[out]		rectanglePts	- points on rectangle.
-		*	\param		[in]		localPlane		- orientation plane, by default a world plane.
-		*	\since version 0.0.2
-		*/
-		void getRectangle(zVector dims, zPointArray &rectanglePts, zMatrixd localPlane = zMatrixd());
-
-		//--------------------------
-		//---- COLOR  METHODS
-		//--------------------------
-			
-		/*! \brief This method returns the average color of the two input colors.
-		*
-		*	\param		[in]	c1		- input color 1.
-		*	\param		[in]	c2		- input color 2.
-		*	\param		[in]	type	- color type - zRGB / zHSV.
-		*	\since version 0.0.1
-		*/
-		zColor averageColor(zColor c1, zColor c2, zColorType type);
-
-		/*! \brief This method returns the average color of the input color container.
-		*
-		*	\param		[in]	c1		- input color container.
-		*	\param		[in]	c2		- input color 2.
-		*	\param		[in]	type	- color type - zRGB / zHSV.
-		*	\since version 0.0.1
-		*/
-		zColor averageColor(zColorArray &c1, zColorType type);
-
-		/*! \brief This method returns the blend color based on the input value, domain and the color domains.
-		*
-		*	\param		[in]	value			- input value to be mapped.
-		*	\param		[in]	inputMin		- input domain minimum.
-		*	\param		[in]	inputMax		- input domain maximum.
-		*	\param		[in]	cMin			- input color domain minimum.
-		*	\param		[in]	cMax			- input color domain maximum.
-		*	\param		[in]	type			- color type - zRGB / zHSV.
-		*	\return				zColor			- output color.
-		*	\since version 0.0.1
-		*/
-		zColor blendColor(double inputValue, zDomainDouble inDomain, zDomainColor outDomain, zColorType type);
-
-		//--------------------------
-		//---- IMAGE  METHODS
-		//--------------------------
-
-		/*! \brief This method writes a BMP from the input matrix.
-		*
-		*	\param		[in]	mat				- input container of matrices.
-		*	\param		[in]	path			- input path where to write the image to.
-		*	\since version 0.0.4
-		*/
-		void matrixToBMP(vector<MatrixXd> &matrices, string path);
-
-		/*! \brief This method writes a JPEG from the input matrix.
-		*
-		*	\param		[in]	mat				- input container of matrices.
-		*	\param		[in]	path			- input path where to write the image to.
-		*	\since version 0.0.4
-		*/
-		void matrixToJPEG(vector<MatrixXd> &matrices, string path);
-
-		/*! \brief This method writes a PNG from the input matrix.
-		*
-		*	\param		[in]	mat				- input container of matrices.
-		*	\param		[in]	path			- input path where to write the image to.
-		*	\since version 0.0.4
-		*/
-		void matrixToPNG(vector<MatrixXd> &matrices, string path);
-	
-		/*! \brief This method read a PNG values to the output matrix.
-		*
-		*	\param		[out]	mat				- input container of matrices.
-		*	\param		[in]	path			- input path where to write the image to.
-		*	\since version 0.0.4
-		*/
-		void matrixFromPNG(vector<MatrixXd> &matrices, string path);
-
 	private:
 
 		//--------------------------
@@ -1016,6 +965,9 @@ namespace zSpace
 		void rref_eliminateColumn(mat &A, int &r, int &c);
 
 #endif
+
+#endif
+
 
 	};	
 	
@@ -1107,205 +1059,10 @@ namespace zSpace
 		return out;
 	}
 
-	//---- 4x4 zMATRIX  TRANSFORMATION METHODS
-
-	template <typename T>
-	inline void zUtilsCore::setColfromVector(zMatrix<T> &inMatrix, zVector &inVec, int index)
-	{
-		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
-		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
-
-		inMatrix(0, index) = inVec.x; inMatrix(1, index) = inVec.y; inMatrix(2, index) = inVec.z;
-
-	}
-
-	template <typename T>
-	inline void zUtilsCore::setRowfromVector(zMatrix<T> &inMatrix, zVector &inVec, int index)
-	{
-		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
-		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
-
-		inMatrix(index, 0) = inVec.x; inMatrix(index, 1) = inVec.y; inMatrix(index, 2) = inVec.z;
-	}
-
-	template <typename T>
-	inline void zUtilsCore::setTransformfromVectors(zMatrix<T> &inMatrix, zVector &X, zVector &Y, zVector &Z, zVector &O)
-	{
-
-		inMatrix.setIdentity();
-
-		setColfromVector(inMatrix, X, 0);
-		setColfromVector(inMatrix, Y, 1);
-		setColfromVector(inMatrix, Z, 2);
-		setColfromVector(inMatrix, O, 3);
-
-
-	}
-
-	template <typename T>
-	inline zMatrix<T> zUtilsCore::toWorldMatrix(zMatrix<T> &inMatrix)
-	{
-		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
-		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
-
-		zMatrix<T> outMatrix;
-		outMatrix.setIdentity();
-
-		zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
-		zVector Y(inMatrix(0, 1), inMatrix(1, 1), inMatrix(2, 1));
-		zVector Z(inMatrix(0, 2), inMatrix(1, 2), inMatrix(2, 2));
-		zVector Cen(inMatrix(0, 3), inMatrix(1, 3), inMatrix(2, 3));
-
-
-		outMatrix(0, 0) = X.x; outMatrix(0, 1) = Y.x; outMatrix(0, 2) = Z.x;
-		outMatrix(1, 0) = X.y; outMatrix(1, 1) = Y.y; outMatrix(1, 2) = Z.y;
-		outMatrix(2, 0) = X.z; outMatrix(2, 1) = Y.z; outMatrix(2, 2) = Z.z;
-
-		outMatrix(0, 3) = Cen.x; outMatrix(1, 3) = Cen.y; outMatrix(2, 3) = Cen.z;
-
-		return outMatrix;
-	}
-
-	template <typename T>
-	inline zMatrix<T> zUtilsCore::toLocalMatrix(zMatrix<T> &inMatrix)
-	{
-		if (inMatrix.getNumCols() != inMatrix.getNumRows()) 	throw std::invalid_argument("input Matrix is not a square.");
-		if (inMatrix.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
-
-		zMatrix<T> outMatrix;
-		outMatrix.setIdentity();
-
-		zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
-		zVector Y(inMatrix(0, 1), inMatrix(1, 1), inMatrix(2, 1));
-		zVector Z(inMatrix(0, 2), inMatrix(1, 2), inMatrix(2, 2));
-		zVector Cen(inMatrix(0, 3), inMatrix(1, 3), inMatrix(2, 3));
-
-		zVector orig(0, 0, 0);
-		zVector d = Cen - orig;
-
-		outMatrix(0, 0) = X.x; outMatrix(0, 1) = X.y; outMatrix(0, 2) = X.z;
-		outMatrix(1, 0) = Y.x; outMatrix(1, 1) = Y.y; outMatrix(1, 2) = Y.z;
-		outMatrix(2, 0) = Z.x; outMatrix(2, 1) = Z.y; outMatrix(2, 2) = Z.z;
-
-		outMatrix(0, 3) = -(X*d); outMatrix(1, 3) = -(Y*d); outMatrix(2, 3) = -(Z*d);
 
 
 
-		return outMatrix;
-	}
 
-	template <typename T>
-	inline zMatrix<T> zUtilsCore::PlanetoPlane(zMatrix<T> &from, zMatrix<T> &to)
-	{
-		if (from.getNumCols() != from.getNumRows()) 	throw std::invalid_argument("input from Matrix is not a square.");
-		if (from.getNumCols() != to.getNumCols()) 	throw std::invalid_argument("input matrices dont match in size.");
-		if (from.getNumCols() != 4) 	throw std::invalid_argument("input Matrix is not a 4X4 matrix.");
-
-		zMatrix<T> world = toWorldMatrix(to);
-		zMatrix<T> local = toLocalMatrix(from);
-
-		zMatrix<T> out = world * local;
-
-		return out;
-	}
-
-	template <typename T>
-	inline zMatrix<T> zUtilsCore::ChangeBasis(zMatrix<T> &from, zMatrix<T> &to)
-	{
-		return toLocalMatrix(to) * toWorldMatrix(from);
-	}
-
-	template <typename T>
-	inline  zMatrix<T> zUtilsCore::target_newBasis(zMatrix<T> &target, zMatrix<T> &newBasis)
-	{
-		zMatrix<T> C = newBasis;
-		zMatrix<T> C_inverse;
-
-		bool chkInvr = C.inverseMatrix(C_inverse);
-
-		if (!chkInvr) throw std::invalid_argument("input Matrix is singular and doesnt have an inverse matrix.");
-
-		Matrix4f targ_newbasis;
-		targ_newbasis.setIdentity();
-
-		targ_newbasis = C_inverse * target;
-
-		return targ_newbasis;
-
-	}
-
-	template <typename T>
-	inline double zUtilsCore::getEuclideanDistance(zMatrix<T> &m1, zMatrix<T> &m2, double tolerance)
-	{
-		if (m1.getNumCols() != m2.getNumCols()) throw std::invalid_argument("number of columns in m1 not equal to number of columns in m2.");
-		if (m2.getNumRows() != 1) throw std::invalid_argument("number of rows in m2 not equal to 1.");
-		if (m1.getNumRows() != 1) throw std::invalid_argument("number of rows in m1 not equal to 1.");
-
-		double out;
-
-		double dist = 0;;
-
-		for (int j = 0; j < m1.getNumCols(); j++)
-		{
-			dist += pow((m1(0, j) - m2(0, j)), 2);
-		}
-
-		if (dist > tolerance) out = sqrt(dist);
-		else out = 0.0;
-
-
-		return out;
-	}
-
-	template <typename T>
-	inline T zUtilsCore::zMin(zMatrix<T> &inMatrix, int &index)
-	{
-		T minVal = 1000000;
-		int minID = -1;
-		for (int i = 0; i < inMatrix.getNumRows(); i++)
-		{
-			for (int j = 0; j < inMatrix.getNumCols(); j++)
-			{
-				if (inMatrix(i, j) < minVal)
-				{
-					minVal = inMatrix(i, j);
-					minID = inMatrix.getIndex(i, j);
-				}
-
-			}
-
-
-
-		}
-
-		index = minID;
-
-		return minVal;
-	}
-
-	template <typename T>
-	inline T zUtilsCore::zMax(zMatrix<T> &inMatrix, int &index)
-	{
-		T maxVal = -1000000;
-		int maxID = -1;
-		for (int i = 0; i < inMatrix.getNumRows(); i++)
-		{
-			for (int j = 0; j < inMatrix.getNumCols(); j++)
-			{
-				if (inMatrix(i, j) > maxVal)
-				{
-					maxVal = inMatrix(i, j);
-					maxID = inMatrix.getIndex(i, j);
-				}
-
-			}
-
-		}
-
-		index = maxID;
-
-		return maxVal;
-	}
 
 #endif
 

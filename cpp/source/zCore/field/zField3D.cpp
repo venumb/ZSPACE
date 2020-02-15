@@ -103,7 +103,7 @@ namespace zSpace
 	// explicit instantiation
 	template class zField3D<zVector>;
 
-	template class zField3D<double>;
+	template class zField3D<float>;
 
 #endif
 }

@@ -22,24 +22,104 @@
 #include <queue>
 #include <tuple>
 
+#include <array>
+
 using namespace std;
 
-#include<depends/Eigen/Core>
-#include<depends/Eigen/Dense>
-#include<depends/Eigen/Sparse>
-#include<depends/Eigen/Eigen>
-#include<depends/Eigen/Sparse>
-using namespace Eigen;
-
-
+#ifndef __CUDACC__
+	#include<depends/Eigen/Core>
+	#include<depends/Eigen/Dense>
+	#include<depends/Eigen/Sparse>
+	#include<depends/Eigen/Eigen>
+	#include<depends/Eigen/Sparse>
+	using namespace Eigen;
 
 #ifndef USING_CLR
 	#include <depends/Armadillo/armadillo>
 	using namespace arma;
 #endif
 
+#endif
+
 namespace zSpace
 { 
+	/** \addtogroup zCore
+	*	\brief The core datastructures of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zBase
+	*	\brief  The base classes, enumerators ,defintions of the library.
+	*  @{
+	*/
+
+	/*! \typedef zMatrix4Row
+	*	\brief An array of float of size 4.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix4Row[4];
+
+	/*! \typedef zMatrix4Col
+	*	\brief An array of float of size 4.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix4Col[4];
+
+	/*! \typedef zMatrix3Diag
+	*	\brief An array of float of size 4.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix4Diag[4];
+
+	/*! \typedef zMatrix3Row
+	*	\brief An array of float of size 3.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix3Row[3];
+
+	/*! \typedef zMatrix3Col
+	*	\brief An array of float of size 3.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix3Col[3];
+
+	/*! \typedef zMatrix3Diag
+	*	\brief An array of float of size 3.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix3Diag[3];
+
+	/*! \typedef zMatrix2Row
+*	\brief An array of float of size 2.
+*
+*	\since version 0.0.2
+*/
+	typedef float zMatrix2Row[2];
+
+	/*! \typedef zMatrix2Col
+	*	\brief An array of float of size 2.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix2Col[2];
+
+	/*! \typedef zMatrix3Diag
+	*	\brief An array of float of size 2.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zMatrix2Diag[2];
+
+	/** @}*/
+
+	/** @}*/
+
 
 	/** \addtogroup zCore
 	*	\brief The core datastructures of the library.
@@ -51,67 +131,367 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \class zMatrix
-	*	\brief A template matrix math class.
-	*	
-	*	\tparam				T			- Type to work with standard c++ numerical datatypes. 
+	/*! \class zMatrix2
+	*	\brief A 2x2 matrix math class.
+	*
 	*	\since version 0.0.1
 	*/
 
-	/** @}*/ 
-
 	/** @}*/
 
-	template <typename T>
-	class ZSPACE_CORE zMatrix
+	/** @}*/
+	class ZSPACE_CORE zMatrix2
 	{
-	
+
 	protected:
 		/*!	\brief list of values in the matrix			*/
-		vector<T> mat;	
-
-		/*!	\brief number of rows in the matrix			*/
-		int rows;	
-
-		/*!	\brief number of columns in the matrix		*/
-		int cols;		
+		float mat[4];
 
 	public:
-
-		
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
-		
-		/*! \brief Default Constructor sets to a 4x4 matrix.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\since version 0.0.1
-		*/
-		zMatrix();		
 
-		/*! \brief Overloaded Constructor.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	_rows		- number of rows.
-		*	\param		[in]	_cols		- number of columns.
-		*	\param		[in]	_mat		- values of the matrix.
+		/*! \brief Default Constructor .
+		*
 		*	\since version 0.0.1
 		*/
-		zMatrix(int _rows, int _cols, vector<T> &_mat);		
+		ZSPACE_CUDA_CALLABLE zMatrix2();
+
 
 		/*! \brief Overloaded Constructor for a square matrix.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	_dims		- number of rows and cols.
+		*
+		*	\param		[in]	_mat		- input values of the matrix.
 		*	\since version 0.0.1
 		*/
-		zMatrix(int _dims);		
+		ZSPACE_CUDA_CALLABLE zMatrix2(const float _mat[4]);
 
-		/*! \brief Overloaded Constructor for a matrix.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	_rows		- number of rows.
-		*	\param		[in]	_cols		- number of cols.
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
+		*
 		*	\since version 0.0.1
 		*/
-		zMatrix(int _rows, int _cols);	
+		ZSPACE_CUDA_CALLABLE ~zMatrix2();
+
+
+		//--------------------------
+		//---- GET METHODS
+		//--------------------------
+
+		/*! \brief This method gets the index in the matrix value container given the row and column indicies.
+		*
+		*	\param		[in]	int		- row index.
+		*	\param		[in]	int		- column index.
+		*	\return				int		- index in value container.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE int getIndex(int rowIndex, int colIndex);
+
+		/*! \brief This method gets the row and column index in the matrix given the input container index.
+		*
+		*	\param		[in]	int		- index.
+		*	\param		[out]	int		- row index.
+		*	\param		[out]	int		- column index.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getIndices(int index, int &rowIndex, int &colIndex);
+
+		/*! \brief This method gets the row values as container of values at the input row index.
+		*
+		*	\param		[in]	index		- input row index.
+		*	\return				zMatrix2Row	- container of row values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getRow(int index, zMatrix2Row &row);
+
+		/*! \brief This method gets the column values at the input column index.
+		*
+		*	\param		[in]	index		- input column index.
+		*	\return				zMatrix2Col	- container of column values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getCol(int index, zMatrix2Col &col);
+
+		/*! \brief This method gets the diagonal values.
+		*
+		*	\return				zMatrix2Diag	- container of diagonal values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getDiagonal(zMatrix2Diag &diag);
+
+		/*! \brief This method gets the mats values container.
+		*
+		*	\param		[out]	_mat		- size 4 container of matrix values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float* getMatrixValues();
+
+		/*! \brief This method gets pointer to the internal matrix values container.
+		*
+		*	\param		[out]	float*		- pointer to internal matrix value container.
+		*	\since version 0.0.2
+		*/
+		ZSPACE_CUDA_CALLABLE float* getRawMatrixValues();
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+		/*! \brief This method sets the row values at the input row index with the input value.
+		*	
+		*	\param		[in]	index		- input row index.
+		*	\param		[in]	val			- value of the row.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setRow(int index, float val);
+
+		/*! \brief This method sets the row values at the input row index with the container vector of values.
+		*	
+		*	\param		[in]	index		- input row index.
+		*	\param		[in]	row			- container of values for the row.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setRow(int index, zMatrix2Row &row);
+
+		/*! \brief This method sets the column values at the input column index with the input value.
+		*	
+		*	\param		[in]	index		- input col index.
+		*	\param		[in]	val			- value of the col.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setCol(int index, float val);
+
+		/*! \brief This method sets the col values at the input col index with the input container of values.
+		*	
+		*	\param		[in]	index		- input col index.
+		*	\param		[in]	col			- container of values for the column.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setCol(int index, const zMatrix2Col &col);
+
+
+		/*! \brief This method sets the diagonal values of a square matrix with the input value.
+		*	
+		*	\param		[in]	val			- value of the diagonal.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setDiagonal(float val);
+
+		/*! \brief This method sets the diagonal values of the matrix with the input container of values.
+		*	
+		*	\param		[in]	diag			- container of values for the diagonal.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setDiagonal(const zMatrix2Diag &diag);
+
+		/*! \brief This method sets values of the matrix to zero.
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setZero();
+
+		/*! \brief This method sets values of the matrix to one.
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setOne();
+
+		/*! \brief This method sets the matrix to identity.
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setIdentity();
+
+		//--------------------------
+		//---- OPERATORS
+		//--------------------------
+
+		/*! \brief This operator returns the reference  to the coefficient at at the given row and column index.
+		*
+		*	\param		[in]	row		- input row index.
+		*	\param		[in]	col		- input col index.
+		*	\return				float	- reference  to the coefficient.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float& operator()(int row, int col);
+
+		/*! \brief This operator returns the reference  to the coefficient at at the given index.
+		*
+		*	\param		[in]	id		- input index.
+		*	\return				float	- reference  to the coefficient.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float& operator()(int index);
+
+		/*! \brief This operator is used for matrix addition.
+		*
+		*	\param		[in]	m1		 - zMatrix2 which is added to the current matrix.
+		*	\return				zMatrix2 - resultant matrix after the addition.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 operator+ (zMatrix2 &m1);
+
+		/*! \brief This operator is used for scalar addition to a matrix.
+		*
+		*	\param		[in]	s1			- scalar value which is added to the current matrix.
+		*	\return				zMatrix2	- resultant matrix after the addition.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 operator+ (float s1);
+
+		/*! \brief This operator is used for matrix subtraction.
+		*
+		*	\param		[in]	m1		    - zMatrix2 which is subtracted from the current matrix.
+		*	\return				zMatrix2	- resultant matrix after the subtraction.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 operator- (zMatrix2 &m1);
+
+		/*! \brief This operator is used for scalar subtraction from a matrix.
+		*
+		*	\param		[in]	s1			- scalar value which is subtracted from the current matrix.
+		*	\return				zMatrix2	- resultant matrix after the subtraction.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 operator- (float s1);
+
+		/*! \brief This operator is used for matrix multiplication.
+		*
+		*	\param		[in]	m1			- zMatrix2 which is multiplied with the current matrix.
+		*	\return				zMatrix2	- resultant matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 operator* (zMatrix2 &m1);
+
+		/*! \brief This operator is used for scalar multiplication with a matrix.
+		*
+		*	\param		[in]	s1			- scalar value which is multiplied with the current matrix.
+		*	\return				zMatrix2	- resultant matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 operator* (float s1);
+
+		//--------------------------
+		//---- OVERLOADED OPERATORS
+		//--------------------------
+
+		/*! \brief This operator is used for matrix addition and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	m1		- zMatrix2 which is added to the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator+= (zMatrix2 &m1);
+
+		/*! \brief This operator is used for scalar addition and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which is added to the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator+= (float s1);
+
+		/*! \brief This operator is used for matrix subtraction and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	m1		- zMatrix2 which is subtracted from the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator-= (zMatrix2 &m1);
+
+		/*! \brief This operator is used for scalar subtraction and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which is subtracted from the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator-= (float s1);
+
+		/*! \brief This operator is used for scalar multiplication and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which is multiplied to the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator*= (float s1);
+
+		/*! \brief This operator is used for scalar division and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which divides the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator/= (float s1);
+
+		//--------------------------
+		//---- METHODS
+		//--------------------------
+
+		/*! \brief This method is used for matrix multiplication with a column matrix.
+		*
+		*	\param		[in]	m1			- column matrix which is multiplied with the current matrix.
+		*	\param		[out]	out			- resultant column matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void multiply(zMatrix2Col &m1, zMatrix2Col &out);
+
+		/*! \brief This method returns the transpose of the input matrix.
+		*
+		*	\return				zMatrix2	- resultant transpose matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix2 transpose();
+
+		/*! \brief This method returns the determinant of the input matrix if it is a square matrix.
+		*
+		*	\details Based on https://www.geeksforgeeks.org/determinant-of-a-matrix/
+		*	\return				float		- determinant value.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float det();
+
+	};
+
+	/** \addtogroup zCore
+	*	\brief The core datastructures of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zBase
+	*	\brief  The base classes, enumerators ,defintions of the library.
+	*  @{
+	*/
+
+	/*! \class zMatrix3
+	*	\brief A 3x3 matrix math class.
+	*
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/
+
+	/** @}*/
+	class ZSPACE_CORE zMatrix3
+	{
+
+	protected:
+		/*!	\brief list of values in the matrix			*/
+		float mat[9];
+
+	public:
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
+
+		/*! \brief Default Constructor .
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix3();
+
+		/*! \brief Overloaded Constructor.
+		*
+		*	\param		[in]	_mat		- input values of the matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix3(const float _mat[9]);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -120,183 +500,135 @@ namespace zSpace
 		/*! \brief Default destructor.
 		*	\since version 0.0.1
 		*/
-		~zMatrix();
-	
+		ZSPACE_CUDA_CALLABLE ~zMatrix3();
 
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
 
-		/*! \brief This method gets the number of rows in the matrix.
-		*	\return				int		- number of rows.
-		*	\since version 0.0.1
-		*/
-		int getNumRows();		
-
-		/*! \brief This method gets the number of columns in the matrix.
-		*	\return				int		- number of columns.
-		*	\since version 0.0.1
-		*/
-		int getNumCols();		
-
 		/*! \brief This method gets the index in the matrix value container given the row and column indicies.
+		*
 		*	\param		[in]	int		- row index.
 		*	\param		[in]	int		- column index.
 		*	\return				int		- index in value container.
 		*	\since version 0.0.1
 		*/
-		int getIndex(int rowIndex, int colIndex);	
+		ZSPACE_CUDA_CALLABLE int getIndex(int rowIndex, int colIndex);
 
 		/*! \brief This method gets the row and column index in the matrix given the input container index.
+		*
 		*	\param		[in]	int		- index.
 		*	\param		[out]	int		- row index.
 		*	\param		[out]	int		- column index.
 		*	\since version 0.0.1
 		*/
-		void getIndices(int index, int &rowIndex, int &colIndex);
+		ZSPACE_CUDA_CALLABLE void getIndices(int index, int &rowIndex, int &colIndex);
 
 		/*! \brief This method gets the row values as container of values at the input row index.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+		*
 		*	\param		[in]	index		- input row index.
-		*	\return				vector<T>	- vector of row values.
+		*	\return				zMatrix3Row	- container of row values.
 		*	\since version 0.0.1
 		*/
-		vector<T> getRow(int index);
-
-		/*! \brief This method gets the row matrix at the input row index.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	index		- input row index.
-		*	\return				zMatrix<T>	- row matrix.
-		*	\since version 0.0.1
-		*/
-		zMatrix<T> getRowMatrix(int index);
+		ZSPACE_CUDA_CALLABLE void getRow(int index, zMatrix3Row &row);
 
 		/*! \brief This method gets the column values at the input column index.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		*
 		*	\param		[in]	index		- input column index.
-		*	\return				vector<T>	- vector of column values.
+		*	\return				zMatrix3Col	- container of column values.
 		*	\since version 0.0.1
 		*/
-		vector<T> getCol(int index);
+		ZSPACE_CUDA_CALLABLE void getCol(int index, zMatrix3Col &col);
 
-		/*! \brief This method gets the column matrix at the input column index.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	index		- input column index.
-		*	\return				zMatrix<T>	- column matrix.
+		/*! \brief This method gets the diagonal values.
+		*
+		*	\return				zMatrix3Diag	- container of diagonal values.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> getColumnMatrix(int index);
-
-		/*! \brief This method gets the diagonal values if it is a square matrix.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\return				vector<T>	- vector of diagonal values.
-		*	\since version 0.0.1
-		*/
-		vector<T> getDiagonal();
+		ZSPACE_CUDA_CALLABLE void getDiagonal(zMatrix3Diag &diag);
 
 		/*! \brief This method gets the mats values container.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-		*	\param		[out]	_mat		- vector of matrix values.
+		*
+		*	\param		[out]	_mat		- size 4 container of matrix values.
 		*	\since version 0.0.1
 		*/
-		void getMatrixValues(vector<T> & _mat);
+		ZSPACE_CUDA_CALLABLE float* getMatrixValues();
 
 		/*! \brief This method gets pointer to the internal matrix values container.
 		*
-		*	\tparam				T					- Type to work with standard c++ numerical datatypes.
-		*	\return				T*					- pointer to internal matrix value container.
+		*	\param		[out]	float*		- pointer to internal matrix value container.
 		*	\since version 0.0.2
 		*/
-		T* getRawMatrixValues();
+		ZSPACE_CUDA_CALLABLE float* getRawMatrixValues();
 
 
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets the matrix values with the input container of values.
-		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	_mat		- vector of matrix values.
-		*	\since version 0.0.1
-		*/
-		void setMatrixValues(vector<T> & _mat);
-
 		/*! \brief This method sets the row values at the input row index with the input value.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		*
 		*	\param		[in]	index		- input row index.
 		*	\param		[in]	val			- value of the row.
 		*	\since version 0.0.1
 		*/
-		void setRow(int index, T val);
+		ZSPACE_CUDA_CALLABLE void setRow(int index, float val);
 
-		/*! \brief This method sets the row values at the input row index with the input vector of values.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		/*! \brief This method sets the row values at the input row index with the container vector of values.
+		*
 		*	\param		[in]	index		- input row index.
-		*	\param		[in]	vals		- vector of values for the row.
+		*	\param		[in]	row			- container of values for the row.
 		*	\since version 0.0.1
 		*/
-		void setRow(int index, vector<T>& vals);
+		ZSPACE_CUDA_CALLABLE void setRow(int index, const zMatrix3Row &row);
 
-		/*! \brief This method sets the row values at the input row index with the input row Matrix.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	index		- input row index.
-		*	\param		[in]	rowMatrix	- row matrix.
-		*	\since version 0.0.1
-		*/
-		void setRow(int index, zMatrix<T> &rowMatrix);
-
-		/*! \brief This method sets the col values at the input col index with the input value.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		/*! \brief This method sets the column values at the input column index with the input value.
+		*
 		*	\param		[in]	index		- input col index.
 		*	\param		[in]	val			- value of the col.
 		*	\since version 0.0.1
 		*/
-		void setCol(int index, T val);
+		ZSPACE_CUDA_CALLABLE void setCol(int index, float val);
 
-		/*! \brief This method sets the col values at the input col index with the input vector of values.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		/*! \brief This method sets the col values at the input col index with the input container of values.
+		*
 		*	\param		[in]	index		- input col index.
-		*	\param		[in]	vals		- vector of values for the col.
+		*	\param		[in]	col			- container of values for the column.
 		*	\since version 0.0.1
 		*/
-		void setCol(int index, vector<T>& vals);
-
-		/*! \brief This method sets the row values at the input column index with the input column Matrix.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	index		- input row index.
-		*	\param		[in]	colMatrix	- column matrix.
-		*	\since version 0.0.1
-		*/
-		void setCol(int index, zMatrix<T> &colMatrix);
+		ZSPACE_CUDA_CALLABLE void setCol(int index, const zMatrix3Col &col);
 
 		/*! \brief This method sets the diagonal values of a square matrix with the input value.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
+		*
 		*	\param		[in]	val			- value of the diagonal.
 		*	\since version 0.0.1
 		*/
-		void setDiagonal(T val);
+		ZSPACE_CUDA_CALLABLE void setDiagonal(float val);
 
-		/*! \brief This method sets the diagonal values of a square matrix with the input vector of values.
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[in]	vals			- vector of values for the diagonal.
+		/*! \brief This method sets the diagonal values of the matrix with the input container of values.
+		*
+		*	\param		[in]	diag		- container of values for the diagonal.
 		*	\since version 0.0.1
 		*/
-		void setDiagonal(vector<T> vals);
+		ZSPACE_CUDA_CALLABLE void setDiagonal(const zMatrix3Diag &diag);
 
 		/*! \brief This method sets values of the matrix to zero.
+		*
 		*	\since version 0.0.1
 		*/
-		void setZero();
+		ZSPACE_CUDA_CALLABLE void setZero();
 
 		/*! \brief This method sets values of the matrix to one.
+		*
 		*	\since version 0.0.1
 		*/
-		void setOne();
+		ZSPACE_CUDA_CALLABLE void setOne();
 
-		/*! \brief This method sets the matrix to identity if it is a square matrix.
+		/*! \brief This method sets the matrix to identity.
+		*
 		*	\since version 0.0.1
 		*/
-		void setIdentity();
+		ZSPACE_CUDA_CALLABLE void setIdentity();
 
 		//--------------------------
 		//---- OPERATORS
@@ -304,193 +636,537 @@ namespace zSpace
 
 		/*! \brief This operator returns the reference  to the coefficient at at the given row and column index.
 		*
-		*	\tparam				T		- Type to work with int, double, float
 		*	\param		[in]	row		- input row index.
 		*	\param		[in]	col		- input col index.
-		*	\return				T		- reference  to the coefficient.
+		*	\return				float	- reference  to the coefficient.
 		*	\since version 0.0.1
 		*/
-		T& operator()(int row, int col);
+		ZSPACE_CUDA_CALLABLE float& operator()(int row, int col);
 
 		/*! \brief This operator returns the reference  to the coefficient at at the given index.
 		*
-		*	\tparam				T		- Type to work with int, double, float
 		*	\param		[in]	id		- input index.
-		*	\return				T		- reference  to the coefficient.
+		*	\return				float	- reference  to the coefficient.
 		*	\since version 0.0.1
 		*/
-		T& operator()(int index);
+		ZSPACE_CUDA_CALLABLE float& operator()(int index);
 
 		/*! \brief This operator is used for matrix addition.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	m1		- zMatrix which is added to the current matrix.
-		*	\return				zMatrix	- resultant matrix after the addition.
+		*	\param		[in]	m1		 - zMatrix3 which is added to the current matrix.
+		*	\return				zMatrix3 - resultant matrix after the addition.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> operator+ (zMatrix<T> &m1);
+		ZSPACE_CUDA_CALLABLE zMatrix3 operator+ (zMatrix3 &m1);
 
 		/*! \brief This operator is used for scalar addition to a matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	s1		- scalar value which is added to the current matrix.
-		*	\return				zMatrix	- resultant matrix after the addition.
+		*	\param		[in]	s1			- scalar value which is added to the current matrix.
+		*	\return				zMatrix3	- resultant matrix after the addition.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> operator+ (T s1);
+		ZSPACE_CUDA_CALLABLE zMatrix3 operator+ (float s1);
 
 		/*! \brief This operator is used for matrix subtraction.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	m1		- zMatrix which is subtracted from the current matrix.
-		*	\return				zMatrix	- resultant matrix after the subtraction.
+		*	\param		[in]	m1		    - zMatrix3 which is subtracted from the current matrix.
+		*	\return				zMatrix3	- resultant matrix after the subtraction.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> operator- (zMatrix<T> &m1);
+		ZSPACE_CUDA_CALLABLE zMatrix3 operator- (zMatrix3 &m1);
 
 		/*! \brief This operator is used for scalar subtraction from a matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	s1		- scalar value which is subtracted from the current matrix.
-		*	\return				zMatrix	- resultant matrix after the subtraction.
+		*	\param		[in]	s1			- scalar value which is subtracted from the current matrix.
+		*	\return				zMatrix3	- resultant matrix after the subtraction.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> operator- (T s1);
-
+		ZSPACE_CUDA_CALLABLE zMatrix3 operator- (float s1);
 
 		/*! \brief This operator is used for matrix multiplication.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	m1		- zMatrix which is multiplied with the current matrix.
-		*	\return				zMatrix	- resultant matrix after the multiplication.
+		*	\param		[in]	m1			- zMatrix3 which is multiplied with the current matrix.
+		*	\return				zMatrix3	- resultant matrix after the multiplication.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> operator* (zMatrix<T> &m1);
+		ZSPACE_CUDA_CALLABLE zMatrix3 operator* (zMatrix3 &m1);
+
 
 		/*! \brief This operator is used for scalar multiplication with a matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	s1		- scalar value which is multiplied with the current matrix.
-		*	\return				zMatrix	- resultant matrix after the multiplication.
+		*	\param		[in]	s1			- scalar value which is multiplied with the current matrix.
+		*	\return				zMatrix3	- resultant matrix after the multiplication.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> operator* (T s1);
+		ZSPACE_CUDA_CALLABLE zMatrix3 operator* (float s1);
 
 		//--------------------------
 		//---- OVERLOADED OPERATORS
 		//--------------------------
-
-
+		
 		/*! \brief This operator is used for matrix addition and assigment of the result to the current matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	m1		- zMatrix which is added to the current matrix.
+		*	\param		[in]	m1		- zMatrix3 which is added to the current matrix.
 		*	\since version 0.0.1
 		*/
-		void operator+= (zMatrix<T> &m1);
-
+		ZSPACE_CUDA_CALLABLE void operator+= (zMatrix3 &m1);
 
 		/*! \brief This operator is used for scalar addition and assigment of the result to the current matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
 		*	\param		[in]	s1		- scalar value which is added to the current matrix.
 		*	\since version 0.0.1
 		*/
-		void operator+= (T s1);
-
+		ZSPACE_CUDA_CALLABLE void operator+= (float s1);
 
 		/*! \brief This operator is used for matrix subtraction and assigment of the result to the current matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	m1		- zMatrix which is added to the current matrix.
+		*	\param		[in]	m1		- zMatrix3 which is subtracted from the current matrix.
 		*	\since version 0.0.1
 		*/
-		void operator-= (zMatrix<T> &m1);
+		ZSPACE_CUDA_CALLABLE void operator-= (zMatrix3 &m1);
 
 		/*! \brief This operator is used for scalar subtraction and assigment of the result to the current matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	s1		- scalar value which is added to the current matrix.
+		*	\param		[in]	s1		- scalar value which is subtracted from the current matrix.
 		*	\since version 0.0.1
 		*/
-		void operator-= (T s1);
+		ZSPACE_CUDA_CALLABLE void operator-= (float s1);
 
 		/*! \brief This operator is used for scalar multiplication and assigment of the result to the current matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
 		*	\param		[in]	s1		- scalar value which is multiplied to the current matrix.
 		*	\since version 0.0.1
 		*/
-		void operator*= (T s1);
-
+		ZSPACE_CUDA_CALLABLE void operator*= (float s1);
 
 		/*! \brief This operator is used for scalar division and assigment of the result to the current matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
 		*	\param		[in]	s1		- scalar value which divides the current matrix.
 		*	\since version 0.0.1
 		*/
-		void operator/= (T s1);
+		ZSPACE_CUDA_CALLABLE void operator/= (float s1);
 
 		//--------------------------
 		//---- METHODS
 		//--------------------------
 
+		/*! \brief This method is used for matrix multiplication with a column matrix.
+		*
+		*	\param		[in]	m1			- column matrix which is multiplied with the current matrix.
+		*	\param		[out]	out			- resultant column matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void multiply(zMatrix3Col &m1, zMatrix3Col &out);
+
 		/*! \brief This method returns the transpose of the input matrix.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\return				zMatrix	- resultant transpose matrix.
+		*	\return				zMatrix3	- resultant transpose matrix.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> transpose();
+		ZSPACE_CUDA_CALLABLE zMatrix3 transpose();
 
-
-		/*! \brief This method returns the minor/sub matrix of the input square matrix removing the row and column values given by the input colindex and rowIndex.
+		/*! \brief This method returns the minor/sub matrix of the input matrix removing the row and column values given by the input colindex and rowIndex.
 		*
-		*	\tparam				T		- Type to work with int, double, float
-		*	\param		[in]	colIndex- column index to be removed.
-		*	\return				zMatrix	- resultant leftover matrix.
+		*	\param		[in]	colIndex	- column index to be removed.
+		*	\return				zMatrix2	- resultant leftover matrix.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> minorMatrix(int colIndex, int rowIndex = 0);
-			   
-		/*! \brief This method returns the cofactor matrix of the input square matrix.
+		ZSPACE_CUDA_CALLABLE zMatrix2 minor(int colIndex, int rowIndex = 0);
+
+		/*! \brief This method returns the cofactor matrix of the input matrix.
 		*
 		*   \details Based on  https://www.geeksforgeeks.org/adjoint-inverse-matrix/
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\return				zMatrix		- resultant cofactor zMatrix.
+		*	\return				zMatrix3	- resultant cofactor zMatrix.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> cofactorMatrix();
+		ZSPACE_CUDA_CALLABLE zMatrix3 cofactor();
 
-
-		/*! \brief This method returns the adjoint matrix of the input square matrix.
+		/*! \brief This method returns the adjoint matrix of the input matrix.
 		*
 		*   \details Based on  https://www.geeksforgeeks.org/adjoint-inverse-matrix/
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\return				zMatrix		- resultant adjoint zMatrix.
+		*	\return				zMatrix3	- resultant adjoint zMatrix.
 		*	\since version 0.0.1
 		*/
-		zMatrix<T> adjointMatrix();
+		ZSPACE_CUDA_CALLABLE zMatrix3 adjoint();
 
-		/*! \brief This method returns the inverse matrix of the input square matrix, if it exists.
+		/*! \brief This method returns the inverse matrix of the input matrix, if it exists.
 		*
 		*   \details Based on  https://www.geeksforgeeks.org/adjoint-inverse-matrix/
-		*	\tparam				T   - Type to work with standard c++ numerical datatypes.
-		*	\param		[out]	zMatrix		- resultant inverse zMatrix.
+		*	\param		[out]	zMatrix3	- resultant inverse zMatrix.
 		*	\return				bool		- true if inverse matrix exists.
 		*	\since version 0.0.1
 		*/
-		bool inverseMatrix(zMatrix<T>& outMat);
+		ZSPACE_CUDA_CALLABLE bool inverse(zMatrix3 &outMatrix);
+
+		/*! \brief This method returns the determinant of the input matrix.
+		*
+		*	\details Based on https://www.geeksforgeeks.org/determinant-of-a-matrix/
+		*	\return				float		- determinant value.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float det();
+
+	};
+
+	/** \addtogroup zCore
+	*	\brief The core datastructures of the library.
+	*  @{
+	*/
+
+	/** \addtogroup zBase
+	*	\brief  The base classes, enumerators ,defintions of the library.
+	*  @{
+	*/
+
+	/*! \class zMatrix4
+	*	\brief A 4x4 matrix math class.
+	*	
+	*	\since version 0.0.1
+	*/
+
+	/** @}*/ 
+
+	/** @}*/	
+	class ZSPACE_CORE zMatrix4
+	{
+	
+	protected:
+		/*!	\brief list of values in the matrix			*/
+		float mat[16];
+
+	public:
+
+		
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
+		
+		/*! \brief Default Constructor .
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4();
+
+
+		/*! \brief Overloaded Constructor for a square matrix.
+		*
+		*	\param		[in]	_mat		- input values of the matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4(const float _mat[16]);
+
+
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
+
+		/*! \brief Default destructor.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE ~zMatrix4();
+	
+
+		//--------------------------
+		//---- GET METHODS
+		//--------------------------
+
+		/*! \brief This method gets the index in the matrix value container given the row and column indicies.
+		*
+		*	\param		[in]	int		- row index.
+		*	\param		[in]	int		- column index.
+		*	\return				int		- index in value container.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE int getIndex(int rowIndex, int colIndex);
+
+		/*! \brief This method gets the row and column index in the matrix given the input container index.
+		*
+		*	\param		[in]	int		- index.
+		*	\param		[out]	int		- row index.
+		*	\param		[out]	int		- column index.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getIndices(int index, int &rowIndex, int &colIndex);
+
+		/*! \brief This method gets the row values as container of values at the input row index.
+		*
+		*	\param		[in]	index		- input row index.
+		*	\return				zMatrix4Row	- container of row values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getRow(int index, zMatrix4Row &row);
+
+		/*! \brief This method gets the column values at the input column index.
+		*
+		*	\param		[in]	index		- input column index.
+		*	\return				zMatrix4Col	- container of column values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getCol(int index, zMatrix4Col &col);
+
+		/*! \brief This method gets the diagonal values.
+		*
+		*	\return				zMatrix4Diag	- container of diagonal values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void getDiagonal(zMatrix4Diag &diag);
+
+		/*! \brief This method gets the mats values container.
+		*
+		*	\param		[out]	_mat		- size 4 container of matrix values.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float* getMatrixValues();
+
+		/*! \brief This method gets pointer to the internal matrix values container.
+		*
+		*	\param		[out]	float*		- pointer to internal matrix value container.
+		*	\since version 0.0.2
+		*/
+		ZSPACE_CUDA_CALLABLE float* getRawMatrixValues();
+
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+
+		/*! \brief This method sets the row values at the input row index with the input value.
+		*
+		*	\param		[in]	index		- input row index.
+		*	\param		[in]	val			- value of the row.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setRow(int index, float val);
+
+		/*! \brief This method sets the row values at the input row index with the input vector of values.
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	index		- input row index.
+		*	\param		[in]	vals		- container of values for the row.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setRow(int index, const zMatrix4Row row);
+
+		/*! \brief This method sets the row values at the input row index with the container vector of values.
+		*
+		*	\param		[in]	index		- input column index.
+		*	\param		[in]	row			- value for the column.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setCol(int index, float val);
+
+		/*! \brief This method sets the col values at the input col index with the input container of values.
+		*
+		*	\param		[in]	index		- input col index.
+		*	\param		[in]	col			- container of values for the column.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setCol(int index, const zMatrix4Col col);
+
+		/*! \brief This method sets the diagonal values of a square matrix with the input value.
+		*
+		*	\param		[in]	val			- value of the diagonal.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setDiagonal(float val);
+
+		/*! \brief This method sets the diagonal values of the matrix with the input container of values.
+		*
+		*	\param		[in]	diag			- vector of values for the diagonal.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setDiagonal(const zMatrix4Diag diag);
+
+		/*! \brief This method sets values of the matrix to zero.
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setZero();
+
+		/*! \brief This method sets values of the matrix to one.
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setOne();
+
+		/*! \brief This method sets the matrix to identity if it is a square matrix.
+		*
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void setIdentity();
+
+		//--------------------------
+		//---- OPERATORS
+		//--------------------------
+
+		/*! \brief This operator returns the reference  to the coefficient at at the given row and column index.
+		*
+		*	\param		[in]	row		- input row index.
+		*	\param		[in]	col		- input col index.
+		*	\return				float	- reference  to the coefficient.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float& operator()(int row, int col);
+
+		/*! \brief This operator returns the reference  to the coefficient at at the given index.
+		*
+		*	\param		[in]	id		- input index.
+		*	\return				float	- reference  to the coefficient.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE float& operator()(int index);
+
+		/*! \brief This operator is used for matrix addition.
+		*
+		*	\param		[in]	m1		 - zMatrix4 which is added to the current matrix.
+		*	\return				zMatrix4 - resultant matrix after the addition.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 operator+ (zMatrix4 &m1);
+
+		/*! \brief This operator is used for scalar addition to a matrix.
+		*
+		*	\param		[in]	s1			- scalar value which is added to the current matrix.
+		*	\return				zMatrix4	- resultant matrix after the addition.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 operator+ (float s1);
+
+		/*! \brief This operator is used for matrix subtraction.
+		*
+		*	\param		[in]	m1		    - zMatrix4 which is subtracted from the current matrix.
+		*	\return				zMatrix4	- resultant matrix after the subtraction.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 operator- (zMatrix4 &m1);
+
+		/*! \brief This operator is used for scalar subtraction from a matrix.
+		*
+		*	\param		[in]	s1			- scalar value which is subtracted from the current matrix.
+		*	\return				zMatrix4	- resultant matrix after the subtraction.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 operator- (float s1);
+
+		/*! \brief This operator is used for matrix multiplication.
+		*
+		*	\param		[in]	m1			- zMatrix2 which is multiplied with the current matrix.
+		*	\return				zMatrix4	- resultant matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 operator* (zMatrix4 &m1);
+
+		/*! \brief This operator is used for scalar multiplication with a matrix.
+		*
+		*	\param		[in]	s1			- scalar value which is multiplied with the current matrix.
+		*	\return				zMatrix2	- resultant matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 operator* (float s1);
+
+		//--------------------------
+		//---- OVERLOADED OPERATORS
+		//--------------------------
+
+		/*! \brief This operator is used for matrix addition and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	m1		- zMatrix4 which is added to the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator+= (zMatrix4 &m1);
+
+		/*! \brief This operator is used for scalar addition and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which is added to the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator+= (float s1);
+
+		/*! \brief This operator is used for matrix subtraction and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	m1		- zMatrix4 which is subtracted from the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator-= (zMatrix4 &m1);
+
+		/*! \brief This operator is used for scalar subtraction and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which is subtracted from the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator-= (float s1);
+
+		/*! \brief This operator is used for scalar multiplication and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which is multiplied to the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator*= (float s1);
+
+		/*! \brief This operator is used for scalar division and assigment of the result to the current matrix.
+		*
+		*	\param		[in]	s1		- scalar value which divides the current matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void operator/= (float s1);
+
+		//--------------------------
+		//---- METHODS
+		//--------------------------
+
+		/*! \brief This method is used for matrix multiplication with a column matrix.
+		*
+		*	\param		[in]	m1			- column matrix which is multiplied with the current matrix.
+		*	\param		[out]	out			- resultant column matrix after the multiplication.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE void multiply(zMatrix4Col &m1, zMatrix4Col &out);
+
+		/*! \brief This method returns the transpose of the input matrix.
+		*
+		*	\return				zMatrix4	- resultant transpose matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 transpose();
+
+		/*! \brief This method returns the minor/sub matrix of the input matrix removing the row and column values given by the input colindex and rowIndex.
+		*
+		*	\param		[in]	colIndex	- column index to be removed.
+		*	\return				zMatrix4	- resultant leftover matrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix3 minor(int colIndex, int rowIndex = 0);
+
+		/*! \brief This method returns the cofactor matrix of the input matrix.
+		*
+		*   \details Based on  https://www.geeksforgeeks.org/adjoint-inverse-matrix/
+		*	\return				zMatrix3	- resultant cofactor zMatrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 cofactor();
+
+		/*! \brief This method returns the adjoint matrix of the input matrix.
+		*
+		*   \details Based on  https://www.geeksforgeeks.org/adjoint-inverse-matrix/
+		*	\return				zMatrix		- resultant adjoint zMatrix.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE zMatrix4 adjoint();
+
+		/*! \brief This method returns the inverse matrix of the input matrix, if it exists.
+		*
+		*   \details Based on  https://www.geeksforgeeks.org/adjoint-inverse-matrix/
+		*	\param		[out]	zMatrix3	- resultant inverse zMatrix.
+		*	\return				bool		- true if inverse matrix exists.
+		*	\since version 0.0.1
+		*/
+		ZSPACE_CUDA_CALLABLE bool inverse(zMatrix4 &outMatrix);
 
 		/*! \brief This method returns the determinant of the input matrix if it is a square matrix.
 		*
 		*	\details Based on https://www.geeksforgeeks.org/determinant-of-a-matrix/
-		*	\tparam				T		- Type to work with int, double, float
-		*	\return				T		- determinant value.
+		*	\return				float		- determinant value.
 		*	\since version 0.0.1
 		*/
-		T det();		
+		ZSPACE_CUDA_CALLABLE float det();
 
 	};
 
@@ -516,64 +1192,51 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \typedef zMatrixi
-	*	\brief A matrix  of integers.
-	*
-	*	\since version 0.0.1
-	*/
-	typedef zMatrix<int> zMatrixi;
-	
-	
-	/*! \typedef zMatrixd
-	*	\brief A matrix  of doubles.
-	*
-	*	\since version 0.0.1
-	*/	
-	typedef zMatrix<double> zMatrixd;
-	
-	/*! \typedef zMatrixf
-	*	\brief A matrix  of floats.
-	*
-	*	\since version 0.0.1
-	*/	
-	typedef zMatrix<float> zMatrixf;
-
 	/*! \typedef zTransform
 	*	\brief A 4x4 matrix.
 	*
 	*	\since version 0.0.2
 	*/	
-	typedef Eigen::Matrix4d zTransform;
+#ifndef __CUDACC__
+	typedef Eigen::Matrix4f zTransform;
+#else
+	typedef zSpace::zMatrix4 zTransform;
+#endif
 
 	/*! \typedef zPlane
 	*	\brief A 4x4 matrix.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::Matrix4d zPlane;
-
+#ifndef __CUDACC__
+	typedef Eigen::Matrix4f zPlane;
+#else
+	typedef zSpace::zMatrix4 zPlane;
+#endif
+	
+#ifndef __CUDACC__
 	/*! \typedef zSparseMatrix
-	*	\brief A  Eigen library column-major sparse matrix type of double.
+	*	\brief A  Eigen library column-major sparse matrix type of float.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::SparseMatrix<double> zSparseMatrix; 
+	typedef Eigen::SparseMatrix<float> zSparseMatrix; 
 
 	/*! \typedef zTriplet
-	*	\brief A  Eigen library triplet of double.
+	*	\brief A  Eigen library triplet of float.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::Triplet<double> zTriplet;
+	typedef Eigen::Triplet<float> zTriplet;
 
 	/*! \typedef zDiagonalMatrix
-	*	\brief A  Eigen library diagonal matrix of double.
+	*	\brief A  Eigen library diagonal matrix of float.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> zDiagonalMatrix;
+	typedef DiagonalMatrix<float, Eigen::Dynamic, Eigen::Dynamic> zDiagonalMatrix;
 	
-	//typedef zMatrix<double> zTransform;
+#endif
 	
 	/** @}*/
 	/** @}*/ 

@@ -64,10 +64,10 @@ namespace zSpace
 		zFnType fnType;
 			   		
 		/*!	\brief contour value domain.  */
-		zDomain<double> contourValueDomain;
+		zDomain<float> contourValueDomain;
 
 		/*!	\brief container of field values used for contouring. All values to be in teh 0 to 1 domain  */
-		vector<double> contourVertexValues;
+		vector<float> contourVertexValues;
 
 	protected:
 		//--------------------------
@@ -303,7 +303,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning works only with scalar fields
 		*/
-		zVector getGradient(zItMeshScalarField &s, double epsilon = EPS);
+		zVector getGradient(zItMeshScalarField &s, float epsilon = EPS);
 
 		/*! \brief This method gets the gradient of the field at the input sample position.
 		*
@@ -313,7 +313,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning works only with scalar fields
 		*/
-		zVectorArray getGradients(double epsilon = EPS);
+		zVectorArray getGradients(float epsilon = EPS);
 
 		/*! \brief This method gets the boolean indicating if the field values aligns with mesh vertices or faces.
 		*
@@ -560,7 +560,7 @@ namespace zSpace
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalars_Square(zScalarArray &scalars, zVector &dimensions, double annularVal = 0, bool normalise = true);
+		void getScalars_Square(zScalarArray &scalars, zVector &dimensions, float annularVal = 0, bool normalise = true);
 
 		/*! \brief This method gets the scalars for a trapezoid.
 		*
@@ -573,7 +573,7 @@ namespace zSpace
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalars_Trapezoid(zScalarArray &scalars, double r1, double r2, double he, double annularVal = 0, bool normalise = true);
+		void getScalars_Trapezoid(zScalarArray &scalars, float r1, float r2, float he, float annularVal = 0, bool normalise = true);
 
 		//--------------------------
 		//--- COMPUTE METHODS 
@@ -703,7 +703,7 @@ namespace zSpace
 		*	\param	[in]	clipPlane			- input zPlane used for clipping.
 		*	\since version 0.0.2
 		*/
-		void boolean_clipwithPlane(zScalarArray& scalars, zMatrixd& clipPlane);
+		void boolean_clipwithPlane(zScalarArray& scalars, zMatrix4 &clipPlane);
 
 		//--------------------------
 		//----  UPDATE METHODS
@@ -729,7 +729,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning	works only with scalar fields
 		*/
-		void getIsocontour(zObjGraph &coutourGraphObj, double inThreshold = 0.5);
+		void getIsocontour(zObjGraph &coutourGraphObj, float inThreshold = 0.5);
 
 		/*! \brief This method creates a isoline mesh from the input field mesh at the given field threshold.
 		*
@@ -741,7 +741,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning	works only with scalar fields
 		*/
-		void getIsolineMesh(zObjMesh &coutourMeshObj, double inThreshold = 0.5, bool invertMesh = false);
+		void getIsolineMesh(zObjMesh &coutourMeshObj, float inThreshold = 0.5, bool invertMesh = false);
 
 		/*! \brief This method creates a isoband mesh from the input field mesh at the given field threshold.
 		*
@@ -753,7 +753,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning	works only with scalar fields
 		*/
-		void getIsobandMesh(zObjMesh &coutourMeshObj, double inThresholdLow = 0.2, double inThresholdHigh = 0.5, bool invertMesh = false);
+		void getIsobandMesh(zObjMesh &coutourMeshObj, float inThresholdLow = 0.2, float inThresholdHigh = 0.5, bool invertMesh = false);
 
 	protected:
 		
@@ -797,7 +797,7 @@ namespace zSpace
 		*	\return			double			- scalar value.
 		*	\since version 0.0.2
 		*/
-		double getScalar_Circle(zPoint &cen, zPoint &p, float r);
+		float getScalar_Circle(zPoint &cen, zPoint &p, float r);
 
 		/*! \brief This method gets the scalar for the input line.
 		*
@@ -808,7 +808,7 @@ namespace zSpace
 		*	\return			double			- scalar value.
 		*	\since version 0.0.2
 		*/
-		double getScalar_Line(zPoint &p, zPoint &v0, zPoint &v1);
+		float getScalar_Line(zPoint &p, zPoint &v0, zPoint &v1);
 
 		/*! \brief This method gets the sqaure scalar for the input point.
 		*
@@ -818,7 +818,7 @@ namespace zSpace
 		*	\param	[in]	dimention		- input distance.
 		*	\since version 0.0.2
 		*/
-		double getScalar_Square(zPoint &p, zVector &dimensions);
+		float getScalar_Square(zPoint &p, zVector &dimensions);
 
 		/*! \brief This method gets the scalar for a trapezoid.
 		*
@@ -830,7 +830,7 @@ namespace zSpace
 		*	\return			double			- scalar value.
 		*	\since version 0.0.2
 		*/
-		double getScalar_Trapezoid(zPoint &p, double &r1, double &r2, double &he);
+		double getScalar_Trapezoid(zPoint &p, float &r1, float &r2, float &he);
 
 
 		/*! \brief This method gets the isoline case based on the input vertex binary values.
@@ -860,7 +860,7 @@ namespace zSpace
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 		*	\since version 0.0.2
 		*/
-		zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh);
+		zVector getContourPosition(float &threshold, zVector& vertex_lower, zVector& vertex_higher, float& thresholdLow, float& thresholdHigh);
 
 		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
 		*
@@ -873,7 +873,7 @@ namespace zSpace
 		*	\param	[in]	invertMesh	- true if inverted mesh is required.
 		*	\since version 0.0.2
 		*/
-		void getIsolinePoly(zItMeshFace& f , zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &threshold, bool invertMesh);
+		void getIsolinePoly(zItMeshFace& f , zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, float &threshold, bool invertMesh);
 
 		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
 		*
@@ -886,7 +886,7 @@ namespace zSpace
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 		*	\since version 0.0.2
 		*/
-		void getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh);
+		void getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, float &thresholdLow, float &thresholdHigh);
 
 	};	
 

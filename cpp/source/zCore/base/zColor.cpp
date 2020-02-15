@@ -25,7 +25,7 @@ namespace zSpace
 		h = s = v = 0;
 	}
 
-	ZSPACE_INLINE zColor::zColor(double _r, double _g, double _b, double _a)
+	ZSPACE_INLINE zColor::zColor(float _r, float _g, float _b, float _a)
 	{
 		r = _r;
 		g = _g;
@@ -36,7 +36,7 @@ namespace zSpace
 		toHSV();
 	}
 
-	ZSPACE_INLINE zColor::zColor(double _h, double _s, double _v)
+	ZSPACE_INLINE zColor::zColor(float _h, float _s, float _v)
 	{
 		h = _h;
 		s = _s;
@@ -56,7 +56,7 @@ namespace zSpace
 	ZSPACE_INLINE void zColor::toHSV()
 	{
 
-		double      min, max, delta;
+		float      min, max, delta;
 
 		min = r < g ? r : g;
 		min = min < b ? min : b;
@@ -101,7 +101,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zColor::toRGB()
 	{
-		double      hh, p, q, t, ff;
+		float      hh, p, q, t, ff;
 		long        i;
 
 

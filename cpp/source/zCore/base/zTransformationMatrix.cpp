@@ -77,21 +77,21 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setRotation(zDouble4 &_rotation, bool addValues)
+	ZSPACE_INLINE void zTransformationMatrix::setRotation(zFloat4 &_rotation, bool addValues)
 	{
 		if (addValues)
 		{
 			rotation[0] += DEG_TO_RAD * _rotation[0];
 			rotation[1] += DEG_TO_RAD * _rotation[1];
 			rotation[2] += DEG_TO_RAD * _rotation[2];
-			rotation[3] = 1;
+			rotation[3] = _rotation[3];
 		}
 		else
 		{
 			rotation[0] = DEG_TO_RAD * _rotation[0];
 			rotation[1] = DEG_TO_RAD * _rotation[1];
 			rotation[2] = DEG_TO_RAD * _rotation[2];
-			rotation[3] = 1;
+			rotation[3] = _rotation[3];
 		}
 
 
@@ -104,7 +104,7 @@ namespace zSpace
 		computeTransform();
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setScale(zDouble4 &_scale)
+	ZSPACE_INLINE void zTransformationMatrix::setScale(zFloat4 &_scale)
 	{
 		scale[0] = _scale[0];
 		if (scale[0] == 0)scale[0] = scaleZero;
@@ -116,13 +116,13 @@ namespace zSpace
 		if (scale[2] == 0)scale[2] = scaleZero;
 
 		scale[3] = _scale[3];
-		if (scale[3] == 0)scale[3] = 1;
+		if (scale[3] == 0)scale[3] = _scale[3];
 
 		computeS();
 
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setTranslation(zDouble4 &_translation, bool addValues)
+	ZSPACE_INLINE void zTransformationMatrix::setTranslation(zFloat4 &_translation, bool addValues)
 	{
 		if (addValues)
 		{
@@ -143,7 +143,7 @@ namespace zSpace
 		computeTransform();
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::setPivot(zDouble4 &_pivot)
+	ZSPACE_INLINE void zTransformationMatrix::setPivot(zFloat4 &_pivot)
 	{
 		pivot[0] = _pivot[0];
 		pivot[1] = _pivot[1];
@@ -186,12 +186,12 @@ namespace zSpace
 		return pivot;
 	}
 
-	ZSPACE_INLINE double* zTransformationMatrix::getRawPivot()
+	ZSPACE_INLINE float* zTransformationMatrix::getRawPivot()
 	{
 		return &pivot[0];
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::getRotation(zDouble4 &_rotation)
+	ZSPACE_INLINE void zTransformationMatrix::getRotation(zFloat4 &_rotation)
 	{
 		_rotation[0] = RAD_TO_DEG * rotation[0];
 		_rotation[1] = RAD_TO_DEG * rotation[1];
@@ -200,7 +200,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTransformationMatrix::getScale(zDouble4 &_scale)
+	ZSPACE_INLINE void zTransformationMatrix::getScale(zFloat4 &_scale)
 	{
 		_scale[0] = scale[0];
 		if (scale[0] == scaleZero)_scale[0] = 0;
@@ -222,14 +222,25 @@ namespace zSpace
 		return Transform;
 	}
 
-	ZSPACE_INLINE double* zTransformationMatrix::asRawMatrix()
+	ZSPACE_INLINE float* zTransformationMatrix::asRawMatrix()
 	{
+#ifndef __CUDACC__
 		return Transform.data();
+#else
+
+		return Transform.getRawMatrixValues();
+#endif
 	}
 
 	ZSPACE_INLINE zTransform zTransformationMatrix::asInverseMatrix()
 	{
+#ifndef __CUDACC__
 		return Transform.inverse();
+#else
+		zTransform out;
+		Transform.inverse(out);
+		return out;
+#endif
 	}
 
 	ZSPACE_INLINE zTransform zTransformationMatrix::asScaleMatrix()
@@ -264,7 +275,14 @@ namespace zSpace
 	ZSPACE_INLINE zTransform zTransformationMatrix::asInversePivotTranslationMatrix()
 	{
 
+#ifndef __CUDACC__
 		return asPivotTranslationMatrix().inverse();
+#else
+		zTransform out;
+		asPivotTranslationMatrix().inverse(out);
+		return out;
+#endif
+
 	}
 
 	ZSPACE_INLINE zTransform zTransformationMatrix::asScaleTransformMatrix()
@@ -286,8 +304,14 @@ namespace zSpace
 
 	ZSPACE_INLINE zTransform zTransformationMatrix::asInverseScaleTransformMatrix()
 	{
-
+#ifndef __CUDACC__
 		return asScaleTransformMatrix().inverse();
+#else
+		zTransform out;
+		asScaleTransformMatrix().inverse(out);
+		return out;
+#endif
+
 	}
 
 	//---- GET MATRIX METHODS
@@ -355,8 +379,13 @@ namespace zSpace
 
 	ZSPACE_INLINE zTransform zTransformationMatrix::getTargetMatrix(zTransform &target)
 	{
-
+#ifndef __CUDACC__
 		zTransform C_inverse = Transform.inverse();
+#else
+		zTransform C_inverse;
+		Transform.inverse(C_inverse);
+#endif
+				
 
 		zTransform targ_newbasis;
 		targ_newbasis.setIdentity();
@@ -373,10 +402,15 @@ namespace zSpace
 		Transform.setIdentity();
 
 		zTransform PS = P * S;
+
+#ifndef __CUDACC__
 		zTransform PSInverse = PS.inverse();
+#else
+		zTransform PSInverse;
+		Transform.inverse(PSInverse);
+#endif
 
 		Transform = PS * PSInverse * R * T;
-
 
 	}
 
@@ -450,8 +484,8 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTransformationMatrix::decomposeR()
 	{
-		zDouble3 rot0;
-		zDouble3 rot1;
+		zFloat3 rot0;
+		zFloat3 rot1;
 
 		if (R(0, 2) != 1 && R(0, 2) != -1)
 		{

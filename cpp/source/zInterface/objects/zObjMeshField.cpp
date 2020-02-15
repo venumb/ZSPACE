@@ -65,7 +65,7 @@ namespace zSpace
 	// explicit instantiation
 	template class zObjMeshField<zVector>;
 
-	template class zObjMeshField<double>;
+	template class zObjMeshField<zScalar>;
 
 #endif
 }

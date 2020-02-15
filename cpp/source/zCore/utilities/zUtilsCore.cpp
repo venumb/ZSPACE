@@ -141,7 +141,14 @@ namespace zSpace
 	
 	ZSPACE_INLINE zVector zUtilsCore::factoriseVector(zVector inputVec, int precision)
 	{
+
+#ifndef __CUDACC__
 		double factor = pow(10, precision);
+#else
+		double factor = powf(10, precision);
+#endif
+
+
 		inputVec.x = std::round(inputVec.x *factor) / factor;
 		inputVec.y = std::round(inputVec.y *factor) / factor;
 		inputVec.z = std::round(inputVec.z *factor) / factor;
@@ -302,7 +309,7 @@ namespace zSpace
 		return vals[maxID];
 	}
 
-	ZSPACE_INLINE zVector zUtilsCore::ofMap(double value, double inputMin, double inputMax, zVector outputMin, zVector outputMax)
+	ZSPACE_INLINE zVector zUtilsCore::ofMap(float value, float inputMin, float inputMax, zVector outputMin, zVector outputMax)
 	{
 		zVector out;
 
@@ -313,7 +320,7 @@ namespace zSpace
 		return out;
 	}
 
-	ZSPACE_INLINE zVector zUtilsCore::ofMap(double value, zDomainDouble inputDomain, zDomainVector outDomain)
+	ZSPACE_INLINE zVector zUtilsCore::ofMap(float value, zDomainFloat inputDomain, zDomainVector outDomain)
 	{
 		zVector out;
 
@@ -324,27 +331,30 @@ namespace zSpace
 		return out;
 	}
 
-	ZSPACE_INLINE zVector zUtilsCore::fromMatrixRow(zMatrixd &inMatrix, int rowIndex)
+	ZSPACE_INLINE zVector zUtilsCore::fromMatrix4Row(zMatrix4 &inMatrix, int rowIndex)
 	{
-		if (inMatrix.getNumCols() < 3 || inMatrix.getNumCols() > 4) throw std::invalid_argument("cannot convert matrix row to vector.");
-
-		vector<double> rVals = inMatrix.getRow(rowIndex);
-
+		zMatrix4Row rVals;
+		inMatrix.getRow(rowIndex, rVals);
 		return zVector(rVals[0], rVals[1], rVals[2]);
 	}
 
 
-	ZSPACE_INLINE zVector zUtilsCore::fromMatrixColumn(zMatrixd &inMatrix, int colIndex)
+	ZSPACE_INLINE zVector zUtilsCore::fromMatrix4Column(zMatrix4 &inMatrix, int colIndex)
 	{
-		if (inMatrix.getNumRows() < 3 || inMatrix.getNumRows() > 4) throw std::invalid_argument("cannot convert matrix column to vector.");
-
-		vector<double> cVals = inMatrix.getCol(colIndex);
+		zMatrix4Col cVals;
+		inMatrix.getCol(colIndex, cVals);
 		return zVector(cVals[0], cVals[1], cVals[2]);
 	}
 
 	ZSPACE_INLINE zVector zUtilsCore::factorise(zVector &inVector, int precision)
 	{
+
+#ifndef __CUDACC__
 		double factor = pow(10, precision);
+#else
+		double factor = powf(10, precision);
+#endif
+
 		double x1 = std::round(inVector.x *factor) / factor;
 		double y1 = std::round(inVector.y *factor) / factor;
 		double z1 = std::round(inVector.z *factor) / factor;
@@ -552,7 +562,7 @@ namespace zSpace
 		pB.z = p3.z + uB * p43.z;
 
 		if (pA.distanceTo(pB) < EPS) return  true;
-		else false;
+		else return false;
 	}
 
 	ZSPACE_INLINE bool zUtilsCore::line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt)
@@ -634,7 +644,12 @@ namespace zSpace
 		if (abs(v) < 0.001) v = 0;
 
 		// round factor to precision 3 
+#ifndef __CUDACC__
 		double factor = pow(10, 3);
+#else
+		double factor = powf(10, 3);
+#endif
+
 		u = std::round(u*factor) / factor;
 		v = std::round(v*factor) / factor;
 
@@ -648,8 +663,6 @@ namespace zSpace
 
 	ZSPACE_INLINE double zUtilsCore::minDist_Edge_Point(zVector & pt, zVector & e0, zVector & e1, zVector & closest_Pt)
 	{
-		double out = 0.0;
-
 		zVector n = (e1 - e0) ^ (zVector(0, 0, 1));
 		n.normalize();
 		closest_Pt = n * ((e0 - pt) * n);
@@ -693,168 +706,53 @@ namespace zSpace
 		return out;
 	}
 
-	//---- MATRIX METHODS USING EIGEN / ARMA
-
-	ZSPACE_INLINE zPlane zUtilsCore::getBestFitPlane(zPointArray& points)
+	ZSPACE_INLINE zPoint zUtilsCore::sphericalToCartesian(double azimuth, double altitude, double radius)
 	{
+		zPoint out;
 
-		zPlane out;
-		out.setIdentity();
+		double azimuth_radians = azimuth * DEG_TO_RAD;
+		double altitude_radians = altitude * DEG_TO_RAD;
 
-		// compute average point
-		zVector averagePt;
-
-		for (int i = 0; i < points.size(); i++)
-		{
-			averagePt += points[i];
-
-		}
-
-		averagePt /= points.size();
-
-		arma::mat X_arma(points.size(), 3);
-		for (int i = 0; i < points.size(); i++)
-		{
-			X_arma(i, 0) = points[i].x - averagePt.x;
-			X_arma(i, 1) = points[i].y - averagePt.y;
-			X_arma(i, 2) = points[i].z - averagePt.z;
-
-		}
-
-		
-		mat U;
-		arma::vec s;
-		mat V;
-		svd(U, s, V, X_arma);		
-
-		// x
-		out(0, 0) = V(0, 0); 	out(1, 0) = V(1, 0);	out(2, 0) = V(2, 0);
-
-		// y
-		out(0, 1) = V(0, 1); 	out(1, 1) = V(1, 1);	out(2, 1) = V(2, 1);
-
-		// z
-		out(0, 2) = V(0, 2);	out(1, 2) = V(1, 2);	out(2, 2) = V(2, 2);
-
-		// o
-		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
-
-		MatrixXd X_eigen(points.size(), 3);
-		for (int i = 0; i < points.size(); i++)
-		{
-			X_eigen(i, 0) = points[i].x - averagePt.x;
-			X_eigen(i, 1) = points[i].y - averagePt.y;
-			X_eigen(i, 2) = points[i].z - averagePt.z;
-
-		}
-
-
-		//Matrix3f covarianceMat;
-		////X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
-
-		//BDCSVD<Matrix3d> svd;
-		//svd.compute(X_eigen);
-
-		//cout << "\n eigen \n " << svd.computeV();
-
-		// compute covariance matrix 
-		/*SelfAdjointEigenSolver<Matrix3f> eigensolver;
-		Matrix3f covarianceMat;
-
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-
-				float val = 0;
-				for (int k = 0; k < points.size(); k++)
-				{
-					val += (points[k][i] - averagePt[i]) * (points[k][j] - averagePt[j]);
-				}
-
-				if (val == INFINITY) val = 0.00;
-
-				if (val > EPS) val /= (points.size() - 1);
-				else val = 0.00;
-
-				covarianceMat(i, j) = val;
-			}
-
-		}
-
-		eigensolver.compute(covarianceMat);
-		if (eigensolver.info() != Success) abort();
-
-		vector<double> X = { eigensolver.eigenvectors().col(2)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
-		vector<double> Y = { eigensolver.eigenvectors().col(1)(0), eigensolver.eigenvectors().col(1)(1), eigensolver.eigenvectors().col(1)(2), 1 };
-		vector<double> Z = { eigensolver.eigenvectors().col(0)(0), eigensolver.eigenvectors().col(0)(1), eigensolver.eigenvectors().col(0)(2), 1 };
-		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };*/
-
-		/*out.setCol(0, X);
-		out.setCol(1, Y);
-		out.setCol(2, Z);
-		out.setCol(3, O);*/
+		out.x = radius * cos(altitude_radians) * sin(azimuth_radians);
+		out.y = radius * cos(altitude_radians) * cos(azimuth_radians);
+		out.z = radius * sin(altitude_radians);
 
 		return out;
 	}
 
-	ZSPACE_INLINE void zUtilsCore::getProjectedPoints_BestFitPlane(zPointArray & points, zPointArray &projectPoints)
+	ZSPACE_INLINE void zUtilsCore::cartesianToSpherical(zPoint &inVec, double & radius, double & azimuth, double & altitude)
 	{
-		zPlane plane;
-		plane = getBestFitPlane(points);
-
-		// project points on plane
-		zVector planeNormal = zVector(plane(0, 2), plane(1, 2), plane(2, 2));
-		zVector planeOrigin = zVector(plane(0, 3), plane(1, 3), plane(2, 3));
-
-		projectPoints.clear();
-
-		for (int i = 0; i < points.size(); i++)
-		{
-			zPoint tmp;
-			zPoint B = points[i] + planeNormal;
-			bool chkProjected = line_PlaneIntersection(points[i],B , planeNormal, planeOrigin, tmp);
-			projectPoints.push_back(tmp);
-		}
+		radius = inVec.length();
+		azimuth = atan(inVec.y / inVec.x);
+		altitude = acos(inVec.z / radius);
 	}
 
-	ZSPACE_INLINE void zUtilsCore::boundingboxPCA(zPointArray points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
+	//---- 4x4 zMATRIX  TRANSFORMATION METHODS
+
+	ZSPACE_INLINE void zUtilsCore::setColfromVector(zMatrix4 &inMatrix, zVector &inVec, int index)
 	{
-		zPlane bPlane_Mat = getBestFitPlane(points);
-
-		// translate points to local frame
-		zTransform bPlane_Mat_local = toLocalMatrix(bPlane_Mat);
-
-		for (int i = 0; i < points.size(); i++)
-		{
-			zVector new_pos = points[i] * bPlane_Mat_local;
-			points[i] = new_pos;
-		}
-
-		// compute boundings in local frame
-
-		getBounds(points, minBB_local, maxBB_local);
-
-
-		// translate points to world frame
-		zTransform bPlane_Mat_world = toWorldMatrix(bPlane_Mat);
-
-		for (int i = 0; i < points.size(); i++)
-		{
-			zVector new_pos = points[i] * bPlane_Mat_world;
-			points[i] = new_pos;
-
-		}
-
-		minBB = minBB_local * bPlane_Mat_world;
-		maxBB = maxBB_local * bPlane_Mat_world;
-
+		inMatrix(0, index) = inVec.x; inMatrix(1, index) = inVec.y; inMatrix(2, index) = inVec.z;
 	}
 
-	ZSPACE_INLINE zTransform zUtilsCore::toWorldMatrix(zTransform &inMatrix)
+	ZSPACE_INLINE void zUtilsCore::setRowfromVector(zMatrix4 &inMatrix, zVector &inVec, int index)
 	{
+		inMatrix(index, 0) = inVec.x; inMatrix(index, 1) = inVec.y; inMatrix(index, 2) = inVec.z;
+	}
 
-		zTransform outMatrix;
+	ZSPACE_INLINE void zUtilsCore::setTransformfromVectors(zMatrix4 &inMatrix, zVector &X, zVector &Y, zVector &Z, zVector &O)
+	{
+		inMatrix.setIdentity();
+
+		setColfromVector(inMatrix, X, 0);
+		setColfromVector(inMatrix, Y, 1);
+		setColfromVector(inMatrix, Z, 2);
+		setColfromVector(inMatrix, O, 3);
+	}
+
+
+	ZSPACE_INLINE zMatrix4 zUtilsCore::toWorldMatrix(zMatrix4 &inMatrix)
+	{
+		zMatrix4 outMatrix;
 		outMatrix.setIdentity();
 
 		zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
@@ -872,10 +770,9 @@ namespace zSpace
 		return outMatrix;
 	}
 
-	ZSPACE_INLINE zTransform zUtilsCore::toLocalMatrix(zTransform &inMatrix)
+	ZSPACE_INLINE zMatrix4 zUtilsCore::toLocalMatrix(zMatrix4 &inMatrix)
 	{
-
-		zTransform outMatrix;
+		zMatrix4 outMatrix;
 		outMatrix.setIdentity();
 
 		zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
@@ -897,131 +794,32 @@ namespace zSpace
 		return outMatrix;
 	}
 
-	ZSPACE_INLINE zTransform zUtilsCore::PlanetoPlane(zTransform &from, zTransform &to)
+	ZSPACE_INLINE zMatrix4 zUtilsCore::PlanetoPlane(zMatrix4 &from, zMatrix4 &to)
 	{
-		zTransform world = toWorldMatrix(to);
-		zTransform local = toLocalMatrix(from);
-
-		zTransform out = world * local;
-
+		zMatrix4 world = toWorldMatrix(to);
+		zMatrix4 local = toLocalMatrix(from);
+		zMatrix4 out = world * local;
 		return out;
 	}
 
-	//---- MATRIX  METHODS USING ARMADILLO
 
-#ifndef USING_CLR 
-
-	ZSPACE_INLINE arma::mat zUtilsCore::rref(arma::mat A, double tol)
+	ZSPACE_INLINE zMatrix4 zUtilsCore::ChangeBasis(zMatrix4 &from, zMatrix4 &to)
 	{
-		int rows = A.n_rows;
-		int cols = A.n_cols;
-
-		int r = 0;
-
-		for (int c = 0; c < cols; c++)
-		{
-			//## Find the pivot row
-			double m; int pivot;
-			rref_max(A, r, c, m, pivot);
-			//pivot = r + pivot - 1;
-			//if (pivot < 0) pivot =0;
-
-			if (m <= tol)
-			{
-				//## Skip column c, making sure the approximately zero terms are actually zero.
-				for (int i = r; i < A.n_rows; i++) A(i, c) = 0;
-			}
-
-			else
-			{
-
-				//## Swap current row and pivot row
-				rref_swapRows(A, r, c, pivot);
-
-				//## Normalize pivot row
-				rref_normaliseRow(A, r, c);
-
-				//## Eliminate the current column
-				rref_eliminateColumn(A, r, c);
-
-				//## Check if done
-				r++;
-				if (r == rows) break;
-
-			}
-		}
-
-		return A;
+		zMatrix4 world = toWorldMatrix(from);
+		zMatrix4 local = toLocalMatrix(to);
+		zMatrix4 out = local * world;
+		return out;
 	}
-
-	//---- MATRIX  CAST METHODS USING ARMADILLO AND EIGEN
-
-	ZSPACE_INLINE MatrixXd zUtilsCore::armaToEigen(mat &arma_A)
-	{
-		MatrixXd eigen_B = Eigen::Map<MatrixXd>(arma_A.memptr(), arma_A.n_rows, arma_A.n_cols);
-		return eigen_B;
-	}
-
-	ZSPACE_INLINE VectorXd zUtilsCore::armaToEigen(arma::vec &arma_A)
-	{
-		VectorXd eigen_B = Eigen::Map<VectorXd>(arma_A.memptr(), arma_A.n_rows, arma_A.n_cols);
-		return eigen_B;
-	}
-
-	ZSPACE_INLINE mat zUtilsCore::eigenToArma(MatrixXd &eigen_A)
-	{
-		mat arma_B = mat(eigen_A.data(), eigen_A.rows(), eigen_A.cols(), false, false);
-		return arma_B;
-	}
-
-	ZSPACE_INLINE arma::vec zUtilsCore::eigenToArma(VectorXd &eigen_A)
-	{
-		arma::vec arma_B = arma::vec(eigen_A.data(), eigen_A.rows(), false, false);
-		return arma_B;
-	}
-
-#endif
-
-	//---- FACTORY METHODS GEOMETRY
-
-	ZSPACE_INLINE void zUtilsCore::fromPOINTS(zMatrixd &inMatrix, vector<zVector> &inPoints)
-	{
-		inMatrix = zMatrixd(inPoints.size(), 3);
-
-		for (int i = 0; i < inPoints.size(); i++)
-		{
-			inMatrix(i, 0) = inPoints[i].x;
-			inMatrix(i, 1) = inPoints[i].y;
-			inMatrix(i, 2) = inPoints[i].z;
-		}
-	}
-
-	ZSPACE_INLINE void zUtilsCore::toPOINTS(zMatrixd &inMatrix, zPointArray &inPoints)
-	{
-		if (inMatrix.getNumCols() != 3) throw std::invalid_argument("cannnot convert zMatrix to zVector");
-
-		inPoints.clear();
-
-		for (int i = 0; i < inMatrix.getNumRows(); i++)
-		{
-			inPoints.push_back(zVector());
-
-
-			inPoints[i].x = inMatrix(i, 0);
-			inPoints[i].y = inMatrix(i, 1);
-			inPoints[i].z = inMatrix(i, 2);
-
-		}
-	}
-
+	
+	
 	//---- VECTOR METHODS GEOMETRY
 
-	ZSPACE_INLINE void zUtilsCore::getEllipse(double radius, int numPoints, zPointArray &Pts, zMatrixd localPlane, double xFactor, double yFactor)
+	ZSPACE_INLINE void zUtilsCore::getEllipse(double radius, int numPoints, zPointArray &Pts, zMatrix4 localPlane, double xFactor, double yFactor)
 	{
 		double theta = 0;
 
-		zMatrixd worldPlane;
-		zMatrixd trans = PlanetoPlane(worldPlane, localPlane);
+		zMatrix4 worldPlane;
+		zMatrix4 trans = PlanetoPlane(worldPlane, localPlane);
 
 		for (int i = 0; i < numPoints + 1; i++)
 		{
@@ -1036,7 +834,7 @@ namespace zSpace
 		}
 	}
 
-	ZSPACE_INLINE void zUtilsCore::getRectangle(zVector dims, zPointArray &rectanglePts, zMatrixd localPlane)
+	ZSPACE_INLINE void zUtilsCore::getRectangle(zVector dims, zPointArray &rectanglePts, zMatrix4 localPlane)
 	{
 		dims.x *= 0.5;
 		dims.y *= 0.5;
@@ -1046,8 +844,8 @@ namespace zSpace
 		zVector v2 = zVector(dims.x, dims.y, 0);
 		zVector v3 = zVector(-dims.x, dims.y, 0);
 
-		zMatrixd worldPlane;
-		zMatrixd trans = PlanetoPlane(worldPlane, localPlane);
+		zMatrix4 worldPlane;
+		zMatrix4 trans = PlanetoPlane(worldPlane, localPlane);
 
 		rectanglePts.push_back(v0 * trans);
 		rectanglePts.push_back(v1* trans);
@@ -1134,7 +932,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE zColor zUtilsCore::blendColor(double inputValue, zDomainDouble inDomain, zDomainColor outDomain, zColorType type)
+	ZSPACE_INLINE zColor zUtilsCore::blendColor(float inputValue, zDomainFloat inDomain, zDomainColor outDomain, zColorType type)
 	{
 		zColor out;
 
@@ -1196,6 +994,9 @@ namespace zSpace
 		return out;
 
 	}
+	
+
+#ifndef __CUDACC__
 
 	//---- BMP MATRIX  METHODS
 
@@ -1464,6 +1265,296 @@ namespace zSpace
 		//the pixels are now in the vector "image", 4 bytes per pixel, ordered RGBARGBA..., use it as texture, draw it, ..
 	}
 
+
+	//---- MATRIX METHODS USING EIGEN / ARMA
+
+	ZSPACE_INLINE zPlane zUtilsCore::getBestFitPlane(zPointArray& points)
+	{
+
+		zPlane out;
+		out.setIdentity();
+
+		// compute average point
+		zVector averagePt;
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			averagePt += points[i];
+
+		}
+
+		averagePt /= points.size();
+
+		arma::mat X_arma(points.size(), 3);
+		for (int i = 0; i < points.size(); i++)
+		{
+			X_arma(i, 0) = points[i].x - averagePt.x;
+			X_arma(i, 1) = points[i].y - averagePt.y;
+			X_arma(i, 2) = points[i].z - averagePt.z;
+
+		}
+
+
+		mat U;
+		arma::vec s;
+		mat V;
+		svd(U, s, V, X_arma);
+
+		// x
+		out(0, 0) = V(0, 0); 	out(1, 0) = V(1, 0);	out(2, 0) = V(2, 0);
+
+		// y
+		out(0, 1) = V(0, 1); 	out(1, 1) = V(1, 1);	out(2, 1) = V(2, 1);
+
+		// z
+		out(0, 2) = V(0, 2);	out(1, 2) = V(1, 2);	out(2, 2) = V(2, 2);
+
+		// o
+		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
+
+		MatrixXd X_eigen(points.size(), 3);
+		for (int i = 0; i < points.size(); i++)
+		{
+			X_eigen(i, 0) = points[i].x - averagePt.x;
+			X_eigen(i, 1) = points[i].y - averagePt.y;
+			X_eigen(i, 2) = points[i].z - averagePt.z;
+
+		}
+
+
+		//Matrix3f covarianceMat;
+		////X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
+
+		//BDCSVD<Matrix3d> svd;
+		//svd.compute(X_eigen);
+
+		//cout << "\n eigen \n " << svd.computeV();
+
+		// compute covariance matrix 
+		/*SelfAdjointEigenSolver<Matrix3f> eigensolver;
+		Matrix3f covarianceMat;
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+
+				float val = 0;
+				for (int k = 0; k < points.size(); k++)
+				{
+					val += (points[k][i] - averagePt[i]) * (points[k][j] - averagePt[j]);
+				}
+
+				if (val == INFINITY) val = 0.00;
+
+				if (val > EPS) val /= (points.size() - 1);
+				else val = 0.00;
+
+				covarianceMat(i, j) = val;
+			}
+
+		}
+
+		eigensolver.compute(covarianceMat);
+		if (eigensolver.info() != Success) abort();
+
+		vector<double> X = { eigensolver.eigenvectors().col(2)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
+		vector<double> Y = { eigensolver.eigenvectors().col(1)(0), eigensolver.eigenvectors().col(1)(1), eigensolver.eigenvectors().col(1)(2), 1 };
+		vector<double> Z = { eigensolver.eigenvectors().col(0)(0), eigensolver.eigenvectors().col(0)(1), eigensolver.eigenvectors().col(0)(2), 1 };
+		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };*/
+
+		/*out.setCol(0, X);
+		out.setCol(1, Y);
+		out.setCol(2, Z);
+		out.setCol(3, O);*/
+
+		return out;
+	}
+
+	ZSPACE_INLINE void zUtilsCore::getProjectedPoints_BestFitPlane(zPointArray & points, zPointArray &projectPoints)
+	{
+		zPlane plane;
+		plane = getBestFitPlane(points);
+
+		// project points on plane
+		zVector planeNormal = zVector(plane(0, 2), plane(1, 2), plane(2, 2));
+		zVector planeOrigin = zVector(plane(0, 3), plane(1, 3), plane(2, 3));
+
+		projectPoints.clear();
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			zPoint tmp;
+			zPoint B = points[i] + planeNormal;
+			bool chkProjected = line_PlaneIntersection(points[i], B, planeNormal, planeOrigin, tmp);
+			projectPoints.push_back(tmp);
+		}
+	}
+
+	ZSPACE_INLINE void zUtilsCore::boundingboxPCA(zPointArray points, zVector &minBB, zVector &maxBB, zVector &minBB_local, zVector &maxBB_local)
+	{
+		zPlane bPlane_Mat = getBestFitPlane(points);
+
+		// translate points to local frame
+		zTransform bPlane_Mat_local = toLocalMatrix(bPlane_Mat);
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			zVector new_pos = points[i] * bPlane_Mat_local;
+			points[i] = new_pos;
+		}
+
+		// compute boundings in local frame
+
+		getBounds(points, minBB_local, maxBB_local);
+
+
+		// translate points to world frame
+		zTransform bPlane_Mat_world = toWorldMatrix(bPlane_Mat);
+
+		for (int i = 0; i < points.size(); i++)
+		{
+			zVector new_pos = points[i] * bPlane_Mat_world;
+			points[i] = new_pos;
+
+		}
+
+		minBB = minBB_local * bPlane_Mat_world;
+		maxBB = maxBB_local * bPlane_Mat_world;
+
+	}
+
+	ZSPACE_INLINE zTransform zUtilsCore::toWorldMatrix(zTransform &inMatrix)
+	{
+
+		zTransform outMatrix;
+		outMatrix.setIdentity();
+
+		zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
+		zVector Y(inMatrix(0, 1), inMatrix(1, 1), inMatrix(2, 1));
+		zVector Z(inMatrix(0, 2), inMatrix(1, 2), inMatrix(2, 2));
+		zVector Cen(inMatrix(0, 3), inMatrix(1, 3), inMatrix(2, 3));
+
+
+		outMatrix(0, 0) = X.x; outMatrix(0, 1) = Y.x; outMatrix(0, 2) = Z.x;
+		outMatrix(1, 0) = X.y; outMatrix(1, 1) = Y.y; outMatrix(1, 2) = Z.y;
+		outMatrix(2, 0) = X.z; outMatrix(2, 1) = Y.z; outMatrix(2, 2) = Z.z;
+
+		outMatrix(0, 3) = Cen.x; outMatrix(1, 3) = Cen.y; outMatrix(2, 3) = Cen.z;
+
+		return outMatrix;
+	}
+
+	ZSPACE_INLINE zTransform zUtilsCore::toLocalMatrix(zTransform &inMatrix)
+	{
+
+		zTransform outMatrix;
+		outMatrix.setIdentity();
+
+		zVector X(inMatrix(0, 0), inMatrix(1, 0), inMatrix(2, 0));
+		zVector Y(inMatrix(0, 1), inMatrix(1, 1), inMatrix(2, 1));
+		zVector Z(inMatrix(0, 2), inMatrix(1, 2), inMatrix(2, 2));
+		zVector Cen(inMatrix(0, 3), inMatrix(1, 3), inMatrix(2, 3));
+
+		zVector orig(0, 0, 0);
+		zVector d = Cen - orig;
+
+		outMatrix(0, 0) = X.x; outMatrix(0, 1) = X.y; outMatrix(0, 2) = X.z;
+		outMatrix(1, 0) = Y.x; outMatrix(1, 1) = Y.y; outMatrix(1, 2) = Y.z;
+		outMatrix(2, 0) = Z.x; outMatrix(2, 1) = Z.y; outMatrix(2, 2) = Z.z;
+
+		outMatrix(0, 3) = -(X*d); outMatrix(1, 3) = -(Y*d); outMatrix(2, 3) = -(Z*d);
+
+
+
+		return outMatrix;
+	}
+
+	ZSPACE_INLINE zTransform zUtilsCore::PlanetoPlane(zTransform &from, zTransform &to)
+	{
+		zTransform world = toWorldMatrix(to);
+		zTransform local = toLocalMatrix(from);
+
+		zTransform out = world * local;
+
+		return out;
+	}
+
+	//---- MATRIX  METHODS USING ARMADILLO
+
+#ifndef USING_CLR 
+
+	ZSPACE_INLINE arma::mat zUtilsCore::rref(arma::mat A, double tol)
+	{
+		int rows = A.n_rows;
+		int cols = A.n_cols;
+
+		int r = 0;
+
+		for (int c = 0; c < cols; c++)
+		{
+			//## Find the pivot row
+			double m; int pivot;
+			rref_max(A, r, c, m, pivot);
+			//pivot = r + pivot - 1;
+			//if (pivot < 0) pivot =0;
+
+			if (m <= tol)
+			{
+				//## Skip column c, making sure the approximately zero terms are actually zero.
+				for (int i = r; i < A.n_rows; i++) A(i, c) = 0;
+			}
+
+			else
+			{
+
+				//## Swap current row and pivot row
+				rref_swapRows(A, r, c, pivot);
+
+				//## Normalize pivot row
+				rref_normaliseRow(A, r, c);
+
+				//## Eliminate the current column
+				rref_eliminateColumn(A, r, c);
+
+				//## Check if done
+				r++;
+				if (r == rows) break;
+
+			}
+		}
+
+		return A;
+	}
+
+	//---- MATRIX  CAST METHODS USING ARMADILLO AND EIGEN
+
+	ZSPACE_INLINE MatrixXd zUtilsCore::armaToEigen(mat &arma_A)
+	{
+		MatrixXd eigen_B = Eigen::Map<MatrixXd>(arma_A.memptr(), arma_A.n_rows, arma_A.n_cols);
+		return eigen_B;
+	}
+
+	ZSPACE_INLINE VectorXd zUtilsCore::armaToEigen(arma::vec &arma_A)
+	{
+		VectorXd eigen_B = Eigen::Map<VectorXd>(arma_A.memptr(), arma_A.n_rows, arma_A.n_cols);
+		return eigen_B;
+	}
+
+	ZSPACE_INLINE mat zUtilsCore::eigenToArma(MatrixXd &eigen_A)
+	{
+		mat arma_B = mat(eigen_A.data(), eigen_A.rows(), eigen_A.cols(), false, false);
+		return arma_B;
+	}
+
+	ZSPACE_INLINE arma::vec zUtilsCore::eigenToArma(VectorXd &eigen_A)
+	{
+		arma::vec arma_B = arma::vec(eigen_A.data(), eigen_A.rows(), false, false);
+		return arma_B;
+	}
+
+#endif
+
 	//---- PRIVATE MATRIX  METHODS
 
 #ifndef USING_CLR
@@ -1534,6 +1625,8 @@ namespace zSpace
 			rowCounter++;
 		}
 	}
+
+#endif
 
 #endif
 

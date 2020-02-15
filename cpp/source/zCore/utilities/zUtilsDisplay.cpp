@@ -30,11 +30,16 @@ namespace zSpace
 
 	ZSPACE_INLINE void zUtilsDisplay::drawTextAtPoint(string s, zPoint &pt)
 	{
+
+#if defined(__CUDACC__)  || defined(ZSPACE_UNREAL_INTEROP) || defined(ZSPACE_MAYA_INTEROP)
+		// do nothing
+#else
 		unsigned int i;
 		glRasterPos3f(pt.x, pt.y, pt.z);
 
-		//for (i = 0; i < s.length(); i++)
-			//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+		for (i = 0; i < s.length(); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+#endif
 	}
 
 	//---- IMMEDIATE MODE DISPLAY
@@ -245,8 +250,8 @@ namespace zSpace
 	
 	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransformationMatrix &transform)
 	{
-		double* val = transform.asRawMatrix();
-		double* pivot = transform.getRawPivot();
+		float* val = transform.asRawMatrix();
+		float* pivot = transform.getRawPivot();
 
 		glLineWidth(2.0);
 
@@ -275,7 +280,11 @@ namespace zSpace
 
 	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransform &transform)
 	{
-		double* val = transform.data();
+#ifndef __CUDACC__
+		float* val = transform.data();
+#else
+		float* val = transform.getRawMatrixValues();
+#endif
 
 		glLineWidth(2.0);
 

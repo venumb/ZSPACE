@@ -16,11 +16,14 @@
 #pragma once
 
 #include <headers/zCore/utilities/zUtilsCore.h>
-#include <headers/zCore/utilities/zUtilsJson.h>
+
+#ifndef __CUDACC__
+	#include <headers/zCore/utilities/zUtilsJson.h>
+#endif
 
 #ifndef ZSPACE_UNREAL_INTEROP
-#include <headers/zCore/utilities/zUtilsDisplay.h>
-#endif // !ZSPACE_UNREAL_INTEROP
+	#include <headers/zCore/utilities/zUtilsDisplay.h>
+#endif 
 
 namespace zSpace
 {

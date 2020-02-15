@@ -15,36 +15,23 @@
 
 #pragma once
 
-#include <headers/zInterface/functionsets/zFnMesh.h>
-#include <depends/spa/spa.h>
 
+#include<headers/zCudaToolsets/base/zCudaMacros.h>
+#include<headers/zCore/base/zInline.h>
+#include<headers/zCore/base/zDomain.h>
+#include<headers/zCore/utilities/zUtilsCore.h>
 
-
+#include <headers/zInterface/objects/zObjPointCloud.h>
+#include <headers/zInterface/functionsets/zFnPointCloud.h>
 
 namespace zSpace
 {
-	struct zEPWDataPoint
+
+	struct zNorm_SunVec
 	{
-		int year, month, day, hour, minute;
-		double db_temperature, radiation, pressure;
+		zVector norm;
+		zVector sunVec;
 	};
-
-	struct zEPWData
-	{
-		string location;
-		double latitude, longitude, timezone, elevation;
-
-		vector<zEPWDataPoint> dataPoints;
-	};
-
-	struct zYear
-	{
-		int id;
-		vector<int> months;
-		vector<int> days;
-		vector<int> hours;
-	};
-
 
 	/** \addtogroup zToolsets
 	*	\brief Collection of toolsets for applications.
@@ -57,7 +44,7 @@ namespace zSpace
 	*/
 
 	/*! \class zTsSolarAnalysis
-	*	\brief A function set to convert graph data to polyhedra.
+	*	\brief A tool set to do solar analysis.
 	*	\since version 0.0.4
 	*/
 
@@ -65,64 +52,118 @@ namespace zSpace
 
 	/** @}*/
 
-	class zTsSolarAnalysis
+	class ZSPACE_CUDA zTsSolarAnalysis
 	{
 	private:
 
+		
 
-	protected:
+		/*!	\brief pointer to container of normals	*/
+		zVector *normals;
 
-		zObjMesh* objMesh;
+		/*!	\brief number of face normals in the container	*/
+		int numNorms;
 
-		zUtilsCore coreUtils;
+		/*!	\brief pointer to container of sun vectors	*/
+		zVector *sunVecs;
 
+		/*!	\brief number of sun vectors in the container	*/
+		int numSunVec;
+
+		/*!	\brief pointer to container of epw data	*/
+		zEPWData* epwData;		
+
+		/*!	\brief number of epw data points in the container	*/
+		int numData;			
+
+		/*!	\brief date domain	*/
+		zDomainDate dDate;			
+			   			   
 	public:
 
-		zFnMesh fnMesh;
-			
-		zEPWData epwData;
-		spa_data SPA;
+		/*!	\brief core utilities Object  */
+		zUtilsCore coreUtils;
 
-		multimap<MultiKey, double> radiationMap;
+		/*!	\brief pointer to container of normals and sun vectors. It should be same size as solar angles*/
+		zNorm_SunVec *norm_sunVecs;
 
-		unordered_map<int, int> yearsMap;
-		vector<zYear> years;
+		/*!	\brief location info	*/
+		zLocation location;		
 
-		///////////////////////// Constructor - Overload - Destructor /////////////////////////
+		/*!	\brief pointer to container of solar angles*/
+		float *solarAngles;
 
-		zTsSolarAnalysis();
-		 
-		zTsSolarAnalysis(zObjMesh &_objMesh, string &path);
+		//--------------------------
+		//---- CONSTRUCTOR
+		//--------------------------
 
-		~zTsSolarAnalysis();
+		/*! \brief Default constructor.
+		*	\since version 0.0.4
+		*/
+		ZSPACE_CUDA_CALLABLE_HOST zTsSolarAnalysis();
+	
+		//--------------------------
+		//---- DESTRUCTOR
+		//--------------------------
 
-		///////////////////////// Methods /////////////////////////
+		/*! \brief Default destructor.
+		*	\since version 0.0.4
+		*/
+		ZSPACE_CUDA_CALLABLE_HOST ~zTsSolarAnalysis();
 
-		bool import_EPW(string &path);
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------	
 
-		void createMap();
+		ZSPACE_CUDA_CALLABLE_HOST void setNormals(zVector *_normals, int _numNormals);
 
-		///// Methods for Sun Position Calculation 
+		ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
 
-		void computeSunPosition(int day, int hour, int minute, double longitude, double latitude, double timzone, double &azimuth, double &zenith);
+		ZSPACE_CUDA_CALLABLE_HOST void setDates(zDomainDate & _dDate);
 
-		zVector computeSun(int year, int month, int day, int hour);
+		ZSPACE_CUDA_CALLABLE_HOST void setNorm_SunVecs();
 
-		void computeSPA_EPW(int idDataPoint);
+		//--------------------------
+		//---- GET METHODS
+		//--------------------------	
 
-		void computeSPA(int year, int month, int day, int hour);
+		ZSPACE_CUDA_CALLABLE int numNormals();
 
-		void computeSPA(int year, int month, int day, int hour, int minute, int second, double timezone, double longitude, double latitude, double elevation);
+		ZSPACE_CUDA_CALLABLE int numSunVecs();
 
-		///////////////////////// Utils /////////////////////////
+		ZSPACE_CUDA_CALLABLE int numDataPoints();
 
-		double GregorianToJulian(int year, int month, int day, int H, int M, int S);
+		ZSPACE_CUDA_CALLABLE zVector* getNormals();
 
-		void JulianToGregorian(double julian, int &year, int &month, int&day);
+		ZSPACE_CUDA_CALLABLE zVector* getSunVectors();
 
-		zVector SphericalToCartesian(double azimuth, double zenith, double radius);
+		ZSPACE_CUDA_CALLABLE zEPWData* getEPWData();
 
-		void CartesianToSpherical(zVector input, double &radius, double &zenith, double &azimuth);
+		ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, float radius);
+
+		ZSPACE_CUDA_CALLABLE zDomainDate getSunRise_SunSet(zDate &date);
+
+		ZSPACE_CUDA_CALLABLE zDomainDate getDates();
+
+		ZSPACE_CUDA_CALLABLE zNorm_SunVec* getNorm_SunVecs();
+
+		//--------------------------
+		//---- COMPUTE METHODS
+		//--------------------------	
+		
+		ZSPACE_CUDA_CALLABLE void computeSunVectors( float radius);		
+
+		//--------------------------
+		//---- DISPLAY METHODS
+		//--------------------------	
+
+		//--------------------------
+		//---- PROTECTED METHODS
+		//--------------------------	
+
+
+
+
 	};
 }
 

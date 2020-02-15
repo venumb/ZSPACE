@@ -50,25 +50,25 @@ namespace zSpace
 	public:
 
 		/*!	\brief red component				*/
-		double r; 
+		float r; 
 
 		/*!	\brief green component			*/
-		double g; 
+		float g; 
 
 		/*!	\brief blue component			*/
-		double b; 
+		float b; 
 
 		/*!	\brief alpha component			*/
-		double a;  
+		float a;  
 
 		/*!	\brief hue component				*/
-		double h; 
+		float h; 
 
 		/*!	\brief saturation component		*/
-		double s;
+		float s;
 
 		/*!	\brief value component			*/
-		double v;  
+		float v;  
 		
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -77,7 +77,7 @@ namespace zSpace
 		/*! \brief	 Default constructor sets by default r,g,b,h,s,v to 0 and a to 1.
 		*	\since	 version 0.0.1
 		*/
-		zColor();
+		ZSPACE_CUDA_CALLABLE zColor();
 
 		/*! \brief	Overloaded constructor sets RGB_A components of the color and uses it to compute HSV components.
 		*
@@ -87,7 +87,7 @@ namespace zSpace
 		*	\param		[in]	_a		- alpha component of zColor.
 		*	\since version 0.0.1
 		*/
-		zColor(double _r, double _g, double _b, double _a);
+		ZSPACE_CUDA_CALLABLE zColor(float _r, float _g, float _b, float _a);
 		
 
 		// overloaded constructor HSV
@@ -98,7 +98,7 @@ namespace zSpace
 		*	\param		[in]	_v		- value component of zColor.
 		*	\since version 0.0.1
 		*/
-		zColor(double _h, double _s, double _v);
+		ZSPACE_CUDA_CALLABLE zColor(float _h, float _s, float _v);
 		
 
 		//--------------------------
@@ -108,7 +108,7 @@ namespace zSpace
 		/*! \brief Default destructor.
 		*	\since version 0.0.1
 		*/
-		~zColor();
+		ZSPACE_CUDA_CALLABLE ~zColor();
 
 		//--------------------------
 		//---- METHODS
@@ -118,13 +118,13 @@ namespace zSpace
 		/*! \brief This methods calculates the HSV components based on the RGB_A components of color.
 		*	\since version 0.0.1
 		*/		
-		void toHSV();
+		ZSPACE_CUDA_CALLABLE void toHSV();
 		
 
 		/*! \brief This methods calculates the RGB_A components based on the HSV components of color.
 		*	\since version 0.0.1
 		*/		
-		void toRGB();
+		ZSPACE_CUDA_CALLABLE void toRGB();
 			
 
 		//--------------------------
@@ -137,7 +137,7 @@ namespace zSpace
 		*	\return				bool	- true if colors are the same.
 		*	\since version 0.0.1
 		*/				
-		bool operator==(zColor &c1);
+		ZSPACE_CUDA_CALLABLE bool operator==(zColor &c1);
 		
 
 	};

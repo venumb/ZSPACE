@@ -296,7 +296,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE double zItPointScalarField::getValue()
+	ZSPACE_INLINE float zItPointScalarField::getValue()
 	{
 		return *iter;
 	}

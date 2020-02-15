@@ -82,7 +82,7 @@ namespace zSpace
 	// explicit instantiation
 	template class zField2D<zVector>;
 
-	template class zField2D<double>;
+	template class zField2D<float>;
 
 #endif
 }

@@ -92,7 +92,7 @@ namespace zSpace
 	{
 	protected:
 
-		std::vector<double>::iterator iter;
+		std::vector<float>::iterator iter;
 
 		/*!	\brief pointer to a mesh fieldobject  */
 		zObjPointScalarField  *fieldObj;

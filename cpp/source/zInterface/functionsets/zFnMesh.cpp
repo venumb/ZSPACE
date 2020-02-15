@@ -864,6 +864,21 @@ namespace zSpace
 		return &meshObj->mesh.vertexPositions[0];
 	}
 
+	ZSPACE_INLINE void zFnMesh::getRawVertexPositions(float** points)
+	{
+		if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+			
+		
+
+		for (int i = 0; i < numVertices(); i++)
+		{
+			points[(i * 3) + 0] = &meshObj->mesh.vertexPositions[i].x;
+			points[(i * 3) + 1] = &meshObj->mesh.vertexPositions[i].y;
+			points[(i * 3) + 2] = &meshObj->mesh.vertexPositions[i].z;
+		}
+
+	}
+
 	ZSPACE_INLINE void zFnMesh::getVertexNormals(zVectorArray& norm)
 	{
 		norm = meshObj->mesh.vertexNormals;
@@ -874,6 +889,19 @@ namespace zSpace
 		if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
 
 		return &meshObj->mesh.vertexNormals[0];
+	}
+
+	ZSPACE_INLINE void zFnMesh::getRawVertexNormals(float** normals)
+	{
+		if (numVertices() == 0) throw std::invalid_argument(" error: null pointer.");
+
+		for (int i = 0; i < numVertices(); i++)
+		{
+			normals[(i * 3) + 0] = &meshObj->mesh.vertexNormals[i].x;
+			normals[(i * 3) + 1] = &meshObj->mesh.vertexNormals[i].y;
+			normals[(i * 3) + 2] = &meshObj->mesh.vertexNormals[i].z;
+		}
+
 	}
 
 	ZSPACE_INLINE void zFnMesh::getVertexColors(zColorArray& col)
@@ -1675,7 +1703,7 @@ namespace zSpace
 
 	//---- CONTOUR METHODS
 
-	void zFnMesh::getIsobandMesh(zObjMesh & coutourMeshObj, double inThresholdLow, double inThresholdHigh)
+	ZSPACE_INLINE void zFnMesh::getIsobandMesh(zObjMesh & coutourMeshObj, double inThresholdLow, double inThresholdHigh)
 	{
 		zFnMesh tempFn(coutourMeshObj);
 		tempFn.clear(); // clear memory if the mobject exists.
@@ -3039,7 +3067,7 @@ namespace zSpace
 		}
 	}
 
-	ZSPACE_INLINE void zFnMesh::setScale(zDouble4 &scale)
+	ZSPACE_INLINE void zFnMesh::setScale(zFloat4 &scale)
 	{
 		// get  inverse pivot translations
 		zTransform invScalemat = meshObj->transformationMatrix.asInverseScaleTransformMatrix();
@@ -3057,7 +3085,7 @@ namespace zSpace
 		transformObject(transMat);
 	}
 
-	ZSPACE_INLINE void zFnMesh::setRotation(zDouble4 &rotation, bool appendRotations)
+	ZSPACE_INLINE void zFnMesh::setRotation(zFloat4 &rotation, bool appendRotations)
 	{
 		// get pivot translation and inverse pivot translations
 		zTransform pivotTransMat = meshObj->transformationMatrix.asPivotTranslationMatrix();
@@ -3081,7 +3109,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnMesh::setTranslation(zVector &translation, bool appendTranslations)
 	{
 		// get vector as zDouble3
-		zDouble4 t;
+		zFloat4 t;
 		translation.getComponents(t);
 
 		// get pivot translation and inverse pivot translations
@@ -3111,7 +3139,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnMesh::setPivot(zVector &pivot)
 	{
 		// get vector as zDouble3
-		zDouble4 p;
+		zFloat4 p;
 		pivot.getComponents(p);
 
 		// set pivot values of object transformation matrix
@@ -3680,7 +3708,7 @@ namespace zSpace
 
 	//---- PROTECTED CONTOUR METHODS
 
-	int zFnMesh::getIsobandCase(int vertexTernary[4])
+	ZSPACE_INLINE int zFnMesh::getIsobandCase(int vertexTernary[4])
 	{
 		int out = -1;
 
@@ -3815,7 +3843,7 @@ namespace zSpace
 
 	}
 
-	zVector zFnMesh::getContourPosition(double & threshold, zVector & vertex_lower, zVector & vertex_higher, double & thresholdLow, double & thresholdHigh)
+	ZSPACE_INLINE zVector zFnMesh::getContourPosition(double & threshold, zVector & vertex_lower, zVector & vertex_higher, double & thresholdLow, double & thresholdHigh)
 	{
 		double scaleVal = coreUtils.ofMap(threshold, thresholdLow, thresholdHigh, 0.0, 1.0);
 
@@ -3826,7 +3854,7 @@ namespace zSpace
 		return (vertex_lower + (e * edgeLen *scaleVal));
 	}
 
-	void zFnMesh::getIsobandPoly(zItMeshFace & f, zPointArray & positions, zIntArray & polyConnects, zIntArray & polyCounts, unordered_map<string, int>& positionVertex, double & thresholdLow, double & thresholdHigh)
+	ZSPACE_INLINE void zFnMesh::getIsobandPoly(zItMeshFace & f, zPointArray & positions, zIntArray & polyConnects, zIntArray & polyCounts, unordered_map<string, int>& positionVertex, double & thresholdLow, double & thresholdHigh)
 
 	{
 		vector<zItMeshVertex> fVerts;

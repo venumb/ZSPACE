@@ -2,29 +2,23 @@
 
 namespace zSpace
 {
-	///////////////////////// Constructor - Overload - Destructor /////////////////////////
+	//---- CONSTRUCTOR
 
-	zTsSolarAnalysis::zTsSolarAnalysis()
+	ZSPACE_INLINE zTsSolarAnalysis::zTsSolarAnalysis(){}
+
+	//---- DESTRUCTOR
+
+	ZSPACE_INLINE zTsSolarAnalysis::~zTsSolarAnalysis(){}
+
+	//---- SET METHODS
+
+	ZSPACE_INLINE void zTsSolarAnalysis::setNormals(zVector *_normals, int _numNormals)
 	{
-		objMesh = nullptr;
+		normals = _normals;
+		numNorms = _numNormals;
 	}
 
-	zTsSolarAnalysis::zTsSolarAnalysis(zObjMesh &_objMesh, string &path)
-	{
-		objMesh = &_objMesh;
-		fnMesh = zFnMesh(*objMesh);
-
-		import_EPW(path);
-	}
-
-	zTsSolarAnalysis::~zTsSolarAnalysis()
-	{
-
-	}
-
-	///////////////////////// Methods /////////////////////////
-
-	bool zTsSolarAnalysis::import_EPW(string &path)
+	ZSPACE_INLINE bool zTsSolarAnalysis::setEPWData(string path)
 	{
 		ifstream myfile;
 		myfile.open(path.c_str());
@@ -35,7 +29,10 @@ namespace zSpace
 			return false;
 		}
 
-		epwData.dataPoints.clear();
+		epwData = new zEPWData[8760];
+
+		bool startCount = false;
+		int count = 0;
 
 		while (!myfile.eof())
 		{
@@ -46,290 +43,253 @@ namespace zSpace
 
 			if (perlineData.size() > 0)
 			{
-				if (perlineData.size() == 10)
+				if (perlineData[0] == "LOCATION")
 				{
-					epwData.location = perlineData[1];
-					epwData.latitude = atof(perlineData[6].c_str());
-					epwData.longitude = atof(perlineData[7].c_str());
-					epwData.timezone = atof(perlineData[8].c_str());
-					epwData.elevation = atof(perlineData[9].c_str());
+					//location.location = perlineData[1];
+					location.latitude = atof(perlineData[6].c_str());
+					location.longitude = atof(perlineData[7].c_str());
+					location.timeZone = atoi(perlineData[8].c_str());
 				}
 
-				if (perlineData.size() == 35)
+				if (startCount)
 				{
-					zEPWDataPoint tempDataPoint;
-
-					tempDataPoint.year = atoi(perlineData[0].c_str());
-					tempDataPoint.month = atoi(perlineData[1].c_str());
-					tempDataPoint.day = atoi(perlineData[2].c_str());
-					tempDataPoint.hour = atoi(perlineData[3].c_str());
-					tempDataPoint.minute = atoi(perlineData[4].c_str());
-
-					tempDataPoint.db_temperature = atof(perlineData[6].c_str());
-					tempDataPoint.pressure = atof(perlineData[9].c_str());
-					tempDataPoint.radiation = atof(perlineData[12].c_str());
-
-					epwData.dataPoints.push_back(tempDataPoint);
+							
+					epwData[count].dbTemperature = atof(perlineData[6].c_str());
+					epwData[count].pressure = atof(perlineData[9].c_str());
+					epwData[count].radiation = atof(perlineData[12].c_str());
+					epwData[count].humidity = atof(perlineData[8].c_str());
+					epwData[count].windDirection = atof(perlineData[20].c_str());
+					epwData[count].windSpeed = atof(perlineData[21].c_str());
+										
+					count++;
 				}
+
+				if (perlineData[0] == "DATA PERIODS") startCount = true;
 			}
+
 		}
 
 		myfile.close();
 
-		printf("\nFile Imported Succesfully \n");
-
-		cout << "Location: " << epwData.location
-			<< ", Latitude: " << epwData.latitude
-			<< ", Longitude: " << epwData.longitude
-			<< ", Timezone: " << epwData.timezone << " GMT"
-			<< ", Elevation: " << epwData.elevation << endl;
-
-		printf("Data Points: %i \n", epwData.dataPoints.size());
-
 		return true;
 	}
 
-	void zTsSolarAnalysis::createMap()
+	ZSPACE_INLINE void zTsSolarAnalysis::setDates(zDomainDate & _dDate)
 	{
-		for (int i = 0; i < epwData.dataPoints.size(); i++)
+		dDate = _dDate;
+	}
+
+	ZSPACE_INLINE void zTsSolarAnalysis::setNorm_SunVecs()
+	{
+		norm_sunVecs = new zNorm_SunVec[numNorms * numSunVec];
+
+		for (int i = 0; i < numNorms; i++)
 		{
-			MultiKey key = MultiKey(epwData.dataPoints[i].year, epwData.dataPoints[i].month, epwData.dataPoints[i].day, epwData.dataPoints[i].hour);
-			multimap<MultiKey, double>::const_iterator iter = radiationMap.begin();
-			radiationMap.insert(iter, pair<MultiKey, double>(key, epwData.dataPoints[i].radiation));
-
-			unordered_map<int, int>::const_iterator it = yearsMap.find(epwData.dataPoints[i].year);
-
-			if (it != yearsMap.end())
+			for (int j = 0; j < numSunVec; j++)
 			{
-				years[it->second].months.push_back(epwData.dataPoints[i].month);
-				years[it->second].days.push_back(epwData.dataPoints[i].day);
-				years[it->second].hours.push_back(epwData.dataPoints[i].hour);
-			}
-			else
-			{
-				zYear tempYear;
-				tempYear.id = epwData.dataPoints[i].year;
-
-				years.push_back(tempYear);
-
-				years[years.size() - 1].months.push_back(epwData.dataPoints[i].month);
-				years[years.size() - 1].days.push_back(epwData.dataPoints[i].day);
-				years[years.size() - 1].hours.push_back(epwData.dataPoints[i].hour);
-
-				yearsMap[epwData.dataPoints[i].year] = years.size() - 1;
+				norm_sunVecs[(i*numSunVec) + j].norm = normals[i];
+				norm_sunVecs[(i*numSunVec) + j].sunVec = sunVecs[j];
 			}
 		}
 	}
 
-	void zTsSolarAnalysis::computeSunPosition(int day, int hour, int minute, double longitude, double latitude, double timezone, double &azimuth, double &zenith)
+	//---- GET METHODS
+
+	ZSPACE_INLINE int zTsSolarAnalysis::numNormals()
 	{
-		///// Fractional Year (y) /////
-		double y = ((2 * PI) / 365) * (day - 1 + ((hour - 12) / 24));
-
-		///// Time Equation (minutes) /////
-		double eqtime = 229.18*(0.000075 + 0.001868 * cos(y) - 0.032077 * sin(y) - 0.014615 * cos(2 * y) - 0.040849 * sin(2 * y));
-
-		///// Solar Declination Angle (radians) /////
-		double declination = 0.006918 - 0.399912 * cos(y) + 0.070257 * sin(y) - 0.006758 * cos(2 * y) + 0.000907 *sin(2 * y) - 0.002697 *cos(3 * y) + 0.00148 * sin(3 * y);
-
-		///// Time Offset (minutes) /////
-		double time_offset = eqtime + 4 * longitude - 60 * timezone;
-
-		///// True Solar Time (minutes) /////
-		double solar_time = hour * 60 + minute + 1 / 60 + time_offset;
-
-		///// Solar Hour Angle (degrees) /////
-		double solar_hour_angle = (solar_time / 4) - 180;
-
-		///// Solar Zenith Angle (degrees) /////
-		double theta = sin(latitude) * sin(declination) + cos(latitude)* cos(declination) * cos(solar_hour_angle);
-
-		zenith = cos(theta);
-
-		///// Solar Azimuth Angle (degrees) /////
-		double theta2 = -(sin(latitude) * cos(theta) - sin(declination)) / (cos(latitude) * sin(theta));
-
-		azimuth = cos(180 - theta2);
+		return numNorms;
 	}
 
-	zVector zTsSolarAnalysis::computeSun(int year, int month, int day, int hour)
+	ZSPACE_INLINE int zTsSolarAnalysis::numSunVecs()
 	{
-		zVector out;
+		return numSunVec;
+	}
 
-		double jd = GregorianToJulian(year, month, day, hour, 1,1);
-		cout << jd << endl;
+	ZSPACE_INLINE int zTsSolarAnalysis::numDataPoints()
+	{
+		return numData;
+	}
 
-		double n = jd - 2451545.0;
+	ZSPACE_INLINE zVector* zTsSolarAnalysis::getNormals()
+	{
+		return normals;
+	}
 
-		double L = 280.460 + 0.9856474 * n;
-		double g = 357.528 + 0.9856003 * n;
+	ZSPACE_INLINE zVector* zTsSolarAnalysis::getSunVectors()
+	{
+		return sunVecs;
+	}
 
-		double lambda = L + 1.915 * sin(g) + 0.020 * sin(2*g);
-		double R = 1.00014 - 0.01671 * cos(g) - 0.00014 * cos(2 * g);
+	ZSPACE_INLINE zEPWData* zTsSolarAnalysis::getEPWData()
+	{
+		return epwData;
+	}
 
-		double epsilon = 23.439 - 0.0000004 * n;
+	ZSPACE_INLINE zVector zTsSolarAnalysis::getSunPosition(zDate &date, float radius)
+	{
+		float LocalTime = date.tm_hour + (date.tm_min / 60.0);
 
-		out.x = R * cos(epsilon) * cos(lambda);
-		out.y = R * cos(epsilon) * sin(lambda);
-		out.z = R * sin(epsilon);
+		double JD = date.toJulian();
+
+		double phi = location.latitude;
+		double lambda = location.longitude;
+
+		double n = JD - 2451545.0;
+
+		double LDeg = (double) fmod((280.460 + 0.9856474 * n), 360.0);
+		double gDeg = (double) fmod((357.528 + 0.9856003 * n), 360.0);
+
+		double LambdaDeg = LDeg + 1.915 * sin(gDeg * DEG_TO_RAD) + 0.01997 * sin(2 * gDeg * DEG_TO_RAD);
+
+		double epsilonDeg = 23.439 - 0.0000004 * n;
+
+		double alphaDeg;
+		alphaDeg = atan(cos(epsilonDeg * DEG_TO_RAD) * tan(LambdaDeg * DEG_TO_RAD));
+		alphaDeg *= RAD_TO_DEG;
+		if (cos(LambdaDeg  * DEG_TO_RAD) < 0)	alphaDeg += (4 * (atan(1.0) * RAD_TO_DEG));
+
+		double deltaDeg = asin(sin(epsilonDeg * DEG_TO_RAD) * sin(LambdaDeg  * DEG_TO_RAD)) * RAD_TO_DEG;
+
+		zDate dZero(date.tm_year, date.tm_mon, date.tm_mday, 0, 0);
+		double JDNull = dZero.toJulian();
+
+		double TNull = ((JDNull - 2451545.0) / 36525);
+		double T = LocalTime - location.timeZone;
+
+		double thetaGh = 6.697376 + 2400.05134 * TNull + 1.002738 * T;
+
+		double thetaG = (double) fmod(thetaGh * 15.0, 360.0);
+		double theta = thetaG + lambda;
+
+		double tauDeg = theta - alphaDeg;
+
+		double denom = (cos(tauDeg  * DEG_TO_RAD)*sin(phi  * DEG_TO_RAD) - tan(deltaDeg  * DEG_TO_RAD)*cos(phi  * DEG_TO_RAD));
+		double aDeg = atan(sin(tauDeg  * DEG_TO_RAD) / denom);
+		aDeg *= RAD_TO_DEG;
+		if (denom < 0) aDeg = aDeg + 180;
+		aDeg += 180; //add 180 to azimuth to compute from the north.
+
+		double hDeg = asin(cos(deltaDeg  * DEG_TO_RAD)*cos(tauDeg  * DEG_TO_RAD)*cos(phi  * DEG_TO_RAD) + sin(deltaDeg  * DEG_TO_RAD)*sin(phi  * DEG_TO_RAD));
+		hDeg *= RAD_TO_DEG;
+
+		double valDeg = hDeg + (10.3 / (hDeg + 5.11));
+		double RDeg = 1.02 / (tan(valDeg * DEG_TO_RAD));
+
+		double hRDeg = hDeg + (RDeg / 60);
+
+		return coreUtils.sphericalToCartesian(aDeg, hRDeg, radius);
+	}
+
+	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getSunRise_SunSet(zDate &date)
+	{
+		zDomainDate out;
+
+		zDate temp = date;
+		temp.tm_hour = 12;
+		temp.tm_min = 0;
+		temp.tm_sec = 0;
+
+		double jd = temp.toJulian();
+
+		double n = jd - 2451545.0 + 0.0008;
+
+		double js = n - (location.longitude / 360.0);
+
+		double m = (double) fmod((357.5291 + 0.98560028 * js), 360.0) * DEG_TO_RAD; // radians
+
+		double c = 1.9148 * sin(m) + 0.02 * sin(2 * m) + 0.0003 * sin(3 * m);
+
+		double mDeg = m * RAD_TO_DEG;
+		double lambdaDeg = (double) fmod((mDeg + c + 180 + 102.9372), 360.0); //deg
+		double lambda = lambdaDeg * DEG_TO_RAD;
+
+		double jt = 2451545.0 + js + ((0.0053 * sin(m)) - (0.0069 * sin(2 * lambda)));
+
+		double delta = asin(sin(lambda) * sin(23.44 * DEG_TO_RAD));
+
+		double cosOmega = (sin(-0.83 * DEG_TO_RAD) - (sin(location.latitude * DEG_TO_RAD) * sin(delta))) / (cos(location.longitude * DEG_TO_RAD) * cos(delta));
+		double omegaDeg = acos(cosOmega) * RAD_TO_DEG;
+
+		double j;
+
+		//sunrise
+		j = jt - (omegaDeg / 360.0);
+		out.min.fromJulian(j);
+
+		//sunset
+		j = jt + (omegaDeg / 360.0);
+		out.max.fromJulian(j);
+			   
+		return out;
+	}
+
+	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getDates()
+	{
+		return dDate;
+	}
+
+	ZSPACE_INLINE zNorm_SunVec * zTsSolarAnalysis::getNorm_SunVecs()
+	{
+		return norm_sunVecs;
+	}
+
+	//---- COMPUTE METHODS
+
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors( float radius)
+	{
+		time_t  unixTime_s = dDate.min.toUnix();
+		time_t  unixTime_e = dDate.max.toUnix();
+
+		// get minute domain per day
+		zDate minHour = dDate.min;
+		zDate maxHour(dDate.min.tm_year, dDate.min.tm_mon, dDate.min.tm_mday, dDate.max.tm_hour, dDate.max.tm_min);
 		
-		return out;
-	}
+		time_t  unixTime_sh = minHour.toUnix();
+		time_t  unixTime_eh = maxHour.toUnix();
 
-	void zTsSolarAnalysis::computeSPA_EPW(int idDataPoint)
-	{
-		SPA.year = epwData.dataPoints[idDataPoint].year;
-		SPA.month = epwData.dataPoints[idDataPoint].month;
-		SPA.day = epwData.dataPoints[idDataPoint].day;
-		SPA.hour = 12;
-		SPA.minute = 30;
-		SPA.second = 30;
-		SPA.timezone = epwData.timezone;
-		SPA.delta_ut1 = 0;
-		SPA.delta_t = 67;
-		SPA.longitude = epwData.longitude;
-		SPA.latitude = epwData.latitude;
-		SPA.elevation = epwData.elevation;
 
-		zDomainDouble dom0(31000, 120000);
-		zDomainDouble dom1(0, 5000);
-		SPA.pressure = coreUtils.ofMap(epwData.dataPoints[idDataPoint].pressure,dom0, dom1);
-
-		SPA.temperature = epwData.dataPoints[idDataPoint].db_temperature;
-		SPA.slope = 0;
-		SPA.azm_rotation = -10;
-		SPA.atmos_refract = 0.5667;
-		SPA.function = SPA_ALL;
-
-		int result = spa_calculate(&SPA);
-
-		if (result != 0)  //check for SPA errors
-			printf("SPA Error Code: %d\n", result);
-	}
-
-	void zTsSolarAnalysis::computeSPA(int year, int month, int day, int hour)
-	{
-		SPA.year = year;
-		SPA.month = month;
-		SPA.day = day;
-		SPA.hour = hour;
-		SPA.minute = 30;
-		SPA.second = 30;
-		SPA.timezone = epwData.timezone;
-		SPA.delta_ut1 = 0;
-		SPA.delta_t = 67;
-		SPA.longitude = epwData.longitude;
-		SPA.latitude = epwData.latitude;
-		SPA.elevation = epwData.elevation;
-		SPA.pressure = 1000;
-		SPA.temperature = 10;
-		SPA.slope = 0;
-		SPA.azm_rotation = 0;
-		SPA.atmos_refract = 0.5667;
-		SPA.function = SPA_ALL;
-
-		int result = spa_calculate(&SPA);
-
-		if (result != 0)  //check for SPA errors
-			printf("SPA Error Code: %d\n", result);
-	}
-
-	void zTsSolarAnalysis::computeSPA(int year, int month, int day, int hour, int minute, int second, double timezone, double longitude, double latitude, double elevation)
-	{
-		SPA.year = year;
-		SPA.month = month;
-		SPA.day = day;
-		SPA.hour = hour;
-		SPA.minute = minute;
-		SPA.second = second;
-		SPA.timezone = timezone;
-		SPA.delta_ut1 = 0;
-		SPA.delta_t = 67;
-		SPA.longitude = longitude;
-		SPA.latitude = latitude;
-		SPA.elevation = elevation;
-		SPA.pressure = 1000;
-		SPA.temperature = 10;
-		SPA.slope = 0;
-		SPA.azm_rotation = 10;
-		SPA.atmos_refract = 0.5667;
-		SPA.function = SPA_ALL;
-
-		int result = spa_calculate(&SPA);
-
-		if (result == 0)  //check for SPA errors
+		//get total number of vectors
+		int numDays = (unixTime_e - unixTime_s);
+		if (numDays != 0)
 		{
-			//display the results inside the SPA structure
+			numDays /= 86400;
+			numDays += 1;
+		}
 
-			printf("\nJulian Day:    %.6f\n", SPA.jd);
-			printf("L:             %.6e degrees\n", SPA.l);
-			printf("B:             %.6e degrees\n", SPA.b);
-			printf("R:             %.6f AU\n", SPA.r);
-			printf("H:             %.6f degrees\n", SPA.h);
-			printf("Delta Psi:     %.6e degrees\n", SPA.del_psi);
-			printf("Delta Epsilon: %.6e degrees\n", SPA.del_epsilon);
-			printf("Epsilon:       %.6f degrees\n", SPA.epsilon);
-			printf("Zenith:        %.6f degrees\n", SPA.zenith);
-			printf("Azimuth:       %.6f degrees\n", SPA.azimuth);
-			printf("Incidence:     %.6f degrees\n", SPA.incidence);
+		int numMin = (unixTime_eh - unixTime_sh);
+		if (numMin != 0)
+		{
+			numMin /= 60;
+			numMin += 1;
+		}
 
-			float minimum = 60.0*(SPA.sunrise - (int)(SPA.sunrise));
-			float sec = 60.0*(minimum - (int)minimum);
-			printf("Sunrise:       %02d:%02d:%02d Local Time\n", (int)(SPA.sunrise), (int)minimum, (int)sec);
+		numSunVec = (numDays) *  (numMin);
 
-			minimum = 60.0*(SPA.sunset - (int)(SPA.sunset));
-			sec = 60.0*(minimum - (int)minimum);
-			printf("Sunset:        %02d:%02d:%02d Local Time\n", (int)(SPA.sunset), (int)minimum, (int)sec);
+		sunVecs = new zVector[numSunVec];
+
+		int count = 0;
+
+		for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
+		{
+
+			for (time_t minute = unixTime_sh; minute <= unixTime_eh; minute += 60)
+			{
+				zDate currentDate;
+				currentDate.fromUnix(day + minute - unixTime_s);;
+					
+				//zDomainDate sRS = getSunRise_SunSet(currentDate);
+
+				//if (currentDate.tm_hour > sRS.min.tm_hour && currentDate.tm_hour < sRS.max.tm_hour)
+				//{
+					sunVecs[count] = getSunPosition(currentDate, radius);
+					count++;
+				//}
+
+				
+			}
 
 		}
-		else printf("SPA Error Code: %d\n", result);
 	}
-
-	///////////////////////// Utils /////////////////////////
 	
-	double zTsSolarAnalysis::GregorianToJulian(int Y, int M, int D, int H, int MN, int S)
-	{
 
-		double JDN = (1461 * (Y + 4800 + (M - 14) / 12)) / 4 + (367 *(M - 2 - 12 *((M - 14) / 12))) / 12 -(3 *((Y + 4900 + (M - 14) / 12) / 100)) / 4 + D - 32075;
-
-		double JD = JDN + ((H - 12) / 24) + (MN / 1440) + (S / 86400);
-
-		return JD;
-	}
-
-	void zTsSolarAnalysis::JulianToGregorian(double julian, int & year, int & month, int & day)
-	{
-		double a = julian + 32044;
-		double	b = (4 * a + 3) / 146097;
-		double	c = a - (b * 146097) / 4;
-
-		double d = (4 * c + 3) / 1461;
-		double e = c - (1461 * d) / 4;
-		double m = (5 * e + 2) / 153;
-
-		day = e - (153 * m + 2) / 5 + 1;
-		month = m + 3 - 12 * (m / 10);
-		year = b * 100 + d - 4800 + m / 10;
-	}
-
-	zVector zTsSolarAnalysis::SphericalToCartesian(double azimuth, double zenith, double radius)
-	{
-		zVector out;
-
-		double azimuth_radians = (azimuth * PI) / 180;
-		double zenith_radians = (zenith * PI) / 180;
-
-		out.x = radius * cos(zenith_radians) * sin(azimuth_radians);
-		out.y = radius * cos(zenith_radians) * cos(azimuth_radians);
-		out.z = radius * sin(zenith_radians);
-
-		return out;
-	}
-
-	void zTsSolarAnalysis::CartesianToSpherical(zVector input, double & radius, double & zenith, double & azimuth)
-	{
-		radius = sqrt(pow(input.x, 2) + pow(input.y, 2) + pow(input.z, 2));
-		azimuth = atan(input.y / input.x);
-		zenith = acos(input.z / radius);
-	}
 }

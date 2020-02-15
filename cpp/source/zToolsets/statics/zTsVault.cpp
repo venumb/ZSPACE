@@ -48,7 +48,7 @@ namespace zSpace
 
 		forceObj = &_forceObj;
 		fnForce = zFnMesh(_forceObj);
-
+		
 	}
 
 	//---- mesh specilization for zTsVault overloaded constructor 

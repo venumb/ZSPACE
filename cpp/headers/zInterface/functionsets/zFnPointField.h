@@ -64,7 +64,7 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief contour value domain.  */
-		zDomain<double> contourValueDomain;
+		zDomain<float> contourValueDomain;
 
 		/*!	\brief pointer to a field 3D object  */
 		zObjPointField<T> *fieldObj;	
@@ -256,7 +256,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning works only with scalar fields
 		*/
-		zVector getGradient(zItPointScalarField &s, double epsilon = EPS);
+		zVector getGradient(zItPointScalarField &s, float epsilon = EPS);
 
 		/*! \brief This method gets the gradient of the field at the input sample position.
 		*
@@ -266,7 +266,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning works only with scalar fields
 		*/
-		vector<zVector> getGradients(double epsilon = EPS);
+		vector<zVector> getGradients(float epsilon = EPS);
 
 		//--------------------------
 		//---- SET METHODS
@@ -567,7 +567,7 @@ namespace zSpace
 		*	\param	[in]	clipPlane			- input zPlane used for clipping.
 		*	\since version 0.0.2
 		*/
-		void boolean_clipwithPlane(zScalarArray& scalars, zMatrixd& clipPlane);	
+		void boolean_clipwithPlane(zScalarArray& scalars, zMatrix4& clipPlane);	
 
 		//--------------------------
 		//----  UPDATE METHODS

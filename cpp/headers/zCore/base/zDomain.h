@@ -19,6 +19,7 @@
 #include<headers/zCore/base/zMatrix.h>
 #include<headers/zCore/base/zVector.h>
 #include<headers/zCore/base/zColor.h>
+#include<headers/zCore/base/zDate.h>
 
 namespace  zSpace
 {
@@ -58,7 +59,7 @@ namespace  zSpace
 		/*! \brief Default constructor.
 		*	\since version 0.0.2
 		*/
-		zDomain();
+		ZSPACE_CUDA_CALLABLE zDomain();
 		
 		/*! \brief Overloaded constructor.
 		*
@@ -66,7 +67,7 @@ namespace  zSpace
 		*	\param		[in]	_max	- maximum value of the domain.		
 		*	\since version 0.0.2
 		*/
-		zDomain(T _min, T _max);
+		ZSPACE_CUDA_CALLABLE zDomain(T _min, T _max);
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -75,7 +76,7 @@ namespace  zSpace
 		/*! \brief Default destructor.
 		*	\since version 0.0.2
 		*/
-		~zDomain();
+		ZSPACE_CUDA_CALLABLE ~zDomain();
 		
 	};
 
@@ -114,7 +115,7 @@ namespace  zSpace
 	*
 	*	\since version 0.0.2
 	*/
-	typedef zDomain<double> zDomainFloat;
+	typedef zDomain<float> zDomainFloat;
 
 	/*! \typedef zDomainColor
 	*	\brief A domain  of color.
@@ -129,6 +130,13 @@ namespace  zSpace
 	*	\since version 0.0.2
 	*/
 	typedef zDomain<zVector> zDomainVector;
+
+	/*! \typedef zDomainDate
+	*	\brief A domain  of dates.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef zDomain<zDate> zDomainDate;
 
 
 	/** @}*/

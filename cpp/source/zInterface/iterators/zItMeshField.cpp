@@ -328,7 +328,7 @@ namespace zSpace
 				
 	}
 
-	ZSPACE_INLINE double zItMeshScalarField::getValue()
+	ZSPACE_INLINE float zItMeshScalarField::getValue()
 	{
 		return *iter;
 	}

@@ -13,712 +13,618 @@
 
 #include<headers/zCore/base/zMatrix.h>
 
+//---- zMATRIX 2X2
+
 namespace zSpace
 {
 	//---- CONSTRUCTOR
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T>::zMatrix()
+	ZSPACE_INLINE zMatrix2::zMatrix2()
 	{
-		rows = 4;
-		cols = 4;
-
-		mat.clear();
-
-		for (int i = 0; i < rows; i++)
+		for (int i = 0; i < 2; i++)
 		{
-			for (int j = 0; j < cols; j++)
+			for (int j = 0; j < 2; j++)
 			{
-				mat.push_back(0);
-				if (i == j) mat[mat.size() - 1] = 1;
+
+				if (i == j) mat[i * 2 + j] = 1;
+				else mat[i * 2 + j] = (0);
 
 			}
 		}
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T>::zMatrix(int _rows, int _cols, vector<T> &_mat)
+	ZSPACE_INLINE zMatrix2::zMatrix2(const float _mat[4])
 	{
-		if (_rows*_cols != _mat.size()) throw std::invalid_argument("input _mat size not equal to (_rows * _cols).");
-
-		rows = _rows;
-		cols = _cols;
-
-		mat.clear();
-		mat = _mat;
-	}
-
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T>::zMatrix(int _dims)
-	{
-		rows = _dims;
-		cols = _dims;
-
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				mat.push_back(0);
-				if (i == j)mat[mat.size() - 1] = 1;
-
-			}
-		}
-	}
-
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T>::zMatrix(int _rows, int _cols)
-	{
-		rows = _rows;
-		cols = _cols;
-
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				mat.push_back(0);
-			}
-		}
+		for (int i = 0; i < 4; i++) mat[i] = _mat[i];
 	}
 
 	//---- DESTRUCTOR
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T>::~zMatrix(){}
+	ZSPACE_INLINE zMatrix2::~zMatrix2() {}
 
 	//---- GET METHODS
 
-	template <typename T>
-	ZSPACE_INLINE int zMatrix<T>::getNumRows()
+	ZSPACE_INLINE int zMatrix2::getIndex(int rowIndex, int colIndex)
 	{
-		return this->rows;
+		return rowIndex * 2 + colIndex;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE int zMatrix<T>::getNumCols()
+	ZSPACE_INLINE void zMatrix2::getIndices(int index, int &rowIndex, int &colIndex)
 	{
-		return this->cols;
+
+#ifndef __CUDACC__
+		rowIndex = floor(index / 2);
+#else
+		rowIndex = floorf(index / 2);
+#endif		
+		colIndex = index % 2;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE int zMatrix<T>::getIndex(int rowIndex, int colIndex)
+	ZSPACE_INLINE void zMatrix2::getRow(int index, zMatrix2Row &row)
 	{
-		if (rowIndex < 0 || rowIndex > this->getNumRows()) throw std::invalid_argument("input rowIndex out of bounds.");
-		if (colIndex < 0 || colIndex > this->getNumCols()) throw std::invalid_argument("input colIndex out of bounds.");
-
-		return rowIndex * this->getNumCols() + colIndex;
+		for (int i = 0; i < 2; i++)	row[i] = (this->operator()(index, i));
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::getIndices(int index, int &rowIndex, int &colIndex)
+	ZSPACE_INLINE void zMatrix2::getCol(int index, zMatrix2Col &col)
 	{
-		if (index < 0 || index > this->getNumRows() * this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-
-		rowIndex =
-
-			rowIndex = floor(index / this->getNumCols());
-		colIndex = index % this->getNumCols();
+		for (int i = 0; i < 2; i++)	col[i] = (this->operator()(i, index));
 	}
 
-	template <typename T>
-	ZSPACE_INLINE vector<T> zMatrix<T>::getRow(int index)
+	ZSPACE_INLINE void zMatrix2::getDiagonal(zMatrix2Diag &diag)
 	{
-		if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
-
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumCols(); i++)
-		{
-			out.push_back(this->operator()(index, i));
-		}
-
-		return out;
+		for (int i = 0; i < 3; i++)	diag[i] = (this->operator()(i, i));
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::getRowMatrix(int index)
-	{
-		if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
-
-		zMatrix<T> out(1, this->getNumCols());
-
-		for (int i = 0; i < this->getNumCols(); i++)
-		{
-			out(0, i) = (this->operator()(index, i));
-		}
-
-		return out;
+	ZSPACE_INLINE float* zMatrix2::getMatrixValues()
+	{		
+		return  mat;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE vector<T> zMatrix<T>::getCol(int index)
-	{
-		if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			out.push_back(this->operator()(i, index));
-		}
-
-		return out;
-	}
-
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::getColumnMatrix(int index)
-	{
-		if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-
-		zMatrix<T> out(this->getNumRows(), 1);
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			out(i, 0) = (this->operator()(i, index));
-		}
-
-		return out;
-	}
-
-	template <typename T>
-	ZSPACE_INLINE vector<T> zMatrix<T>::getDiagonal()
-	{
-		if (this->getNumRows() != this->getNumCols()) throw std::invalid_argument("input is not a square matrix.");
-
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			for (int j = 0; j < this->getNumCols(); j++)
-			{
-				if (i == j) out.push_back(this->operator()(i, j));
-			}
-
-		}
-
-		return out;
-	}
-
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::getMatrixValues(vector<T> & _mat)
-	{
-		_mat = mat;
-	}
-	
-	template <typename T>
-	ZSPACE_INLINE T* zMatrix<T>::getRawMatrixValues()
+	ZSPACE_INLINE float* zMatrix2::getRawMatrixValues()
 	{
 		return &mat[0];
 	}
 
 	//---- SET METHODS
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setMatrixValues(vector<T> & _mat)
+	ZSPACE_INLINE void zMatrix2::setRow(int index, float val)
 	{
-		if (this->getNumCols() * this->getNumRows() != _mat.size()) throw std::invalid_argument("input _mat size not equal to (rows * cols).");
-
-		mat.clear();
-		mat = _mat;
+		for (int i = 0; i < 2; i++) this->operator()(index, i) = val;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setRow(int index, T val)
+	ZSPACE_INLINE void zMatrix2::setRow(int index, zMatrix2Row &row)
 	{
-		if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
-
-		for (int i = 0; i < this->getNumCols(); i++)
-		{
-			this->operator()(index, i) = val;
-
-
-		}
-
+		for (int i = 0; i < 2; i++) this->operator()(index, i) = i;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setRow(int index, vector<T>& vals)
+	ZSPACE_INLINE void zMatrix2::setCol(int index, float val)
 	{
-		if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
-		if (vals.size() != this->getNumCols()) throw std::invalid_argument("input values size dont match with number of columns.");
-
-		for (int i = 0; i < this->getNumCols(); i++)
-		{
-			this->operator()(index, i) = vals[i];
-		}
-
+		for (int i = 0; i < 2; i++) this->operator()(i, index) = val;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setRow(int index, zMatrix<T> &rowMatrix)
+	ZSPACE_INLINE void zMatrix2::setCol(int index, const zMatrix2Col &col)
 	{
-		if (index < 0 || index > this->getNumRows()) throw std::invalid_argument("input index out of bounds.");
-		if (rowMatrix.getNumCols() != this->getNumCols()) throw std::invalid_argument("input values size dont match with number of columns.");
-		if (rowMatrix.getNumRows() != 1) throw std::invalid_argument("input in not row matrix.");
-
-		for (int i = 0; i < this->getNumCols(); i++)
-		{
-			this->operator()(index, i) = rowMatrix(0, i);
-		}
-
+		for (int i = 0; i <= 2; i++) this->operator()(i, index) = col[i];
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setCol(int index, T val)
+	ZSPACE_INLINE void zMatrix2::setDiagonal(float val)
 	{
-		if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			this->operator()(i, index) = val;
-		}
-
+		for (int i = 0; i < 2; i++)	this->operator()(i, i) = val;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setCol(int index, vector<T>& vals)
+	ZSPACE_INLINE void zMatrix2::setDiagonal(const zMatrix2Diag &diag)
 	{
-		if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-		if (vals.size() != this->getNumRows()) throw std::invalid_argument("input values size dont match with number of rows.");
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			this->operator()(i, index) = vals[i];
-		}
-
+		for (int i = 0; i < 2; i++)	this->operator()(i, i) = diag[i];
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setCol(int index, zMatrix<T> &colMatrix)
+	ZSPACE_INLINE void zMatrix2::setZero()
 	{
-		if (index < 0 || index > this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-		if (colMatrix.getNumRows() != this->getNumRows()) throw std::invalid_argument("input values size dont match with number of rows.");
-		if (colMatrix.getNumCols() != 1) throw std::invalid_argument("input in not column matrix.");
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			this->operator()(i, index) = colMatrix(i, 0);
-		}
-
+		for (int i = 0; i < 4; i++) mat[i] = 0;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setDiagonal(T val)
+	ZSPACE_INLINE void zMatrix2::setOne()
 	{
-		if (this->getNumRows() != this->getNumCols()) throw std::invalid_argument("input not a square matrix.");
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			for (int j = 0; j < this->getNumCols(); j++)
-			{
-				if (i == j)this->operator()(i, j) = val;
-			}
-
-		}
-
+		for (int i = 0; i < 4; i++) mat[i] = 1;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setDiagonal(vector<T> vals)
+	ZSPACE_INLINE void zMatrix2::setIdentity()
 	{
-		if (this->getNumRows() != this->getNumCols()) throw std::invalid_argument("input not a square matrix.");
-		if (vals.size() != this->getNumRows()) throw std::invalid_argument("input values size dont match with number of rows/columns.");
-
-		for (int i = 0; i < this->getNumRows(); i++)
-		{
-			for (int j = 0; j < this->getNumCols(); j++)
-			{
-				if (i == j) this->operator()(i, j) = vals[i];
-			}
-
-		}
-
-	}
-
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setZero()
-	{
-
-		for (int i = 0; i < getNumRows(); i++)
-		{
-			for (int j = 0; j < getNumCols(); j++)
-			{
-				this->operator()(i, j) = 0;
-			}
-		}
-
-	}
-
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setOne()
-	{
-
-		for (int i = 0; i < getNumRows(); i++)
-		{
-			for (int j = 0; j < getNumCols(); j++)
-			{
-				this->operator()(i, j) = 1;
-			}
-		}
-
-	}
-
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::setIdentity()
-	{
-		_ASSERT_EXPR(getNumRows() == getNumCols(), "input not a square matrix.");
-
 		this->setZero();
 		this->setDiagonal(1);
 	}
 
 	//---- OPERATORS
 
-	template <typename T>
-	ZSPACE_INLINE T& zMatrix<T>::operator()(int row, int col)
+	ZSPACE_INLINE float& zMatrix2::operator()(int row, int col)
 	{
-		if (row < 0 && row > this->getNumRows()) throw std::invalid_argument("input row out of bounds.");
-		if (col < 0 && col > this->getNumRows()) throw std::invalid_argument("input col out of bounds.");
-
-		return mat[(row * this->getNumCols()) + col];
+		return mat[row * 2 + col];
 	}
 
-	template <typename T>
-	ZSPACE_INLINE T& zMatrix<T>::operator()(int index)
+	ZSPACE_INLINE float& zMatrix2::operator()(int index)
 	{
-		if (index < 0 && index >= this->getNumRows() * this->getNumCols()) throw std::invalid_argument("input index out of bounds.");
-
 		return mat[index];
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::operator+ (zMatrix<T> &m1)
+	ZSPACE_INLINE zMatrix2 zMatrix2::operator+ (zMatrix2 &m1)
 	{
-		if (this->getNumRows() != m1.getNumRows()) throw std::invalid_argument("number of rows not equal.");
-		if (this->getNumCols() != m1.getNumCols()) throw std::invalid_argument("number of cols not equal.");
-
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumRows() *this->getNumCols(); i++)
-		{
-			T val = this->operator()(i) + m1(i);
-			out.push_back(val);
-		}
-
-		return zMatrix<T>(this->getNumRows(), this->getNumCols(), out);
+		zMatrix2 out;
+		for (int i = 0; i < 4; i++)out(i) = this->operator()(i) + m1(i);
+		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::operator+ (T s1)
+	ZSPACE_INLINE zMatrix2 zMatrix2::operator+ (float s1)
 	{
-
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumRows() *this->getNumCols(); i++)
-		{
-			T val = this->operator()(i) + s1;
-			out.push_back(val);
-		}
-
-		return zMatrix<T>(this->getNumRows(), this->getNumCols(), out);
+		zMatrix2 out;
+		for (int i = 0; i < 4; i++)out(i) = this->operator()(i) + s1;
+		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::operator- (zMatrix<T> &m1)
+	ZSPACE_INLINE zMatrix2 zMatrix2::operator- (zMatrix2 &m1)
 	{
-		if (this->getNumRows() != m1.getNumRows()) throw std::invalid_argument("number of rows not equal.");
-		if (this->getNumCols() != m1.getNumCols()) throw std::invalid_argument("number of cols not equal.");
-
-
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumRows() * this->getNumCols(); i++)
-		{
-			T val = this->operator()(i) - m1(i);
-			out.push_back(val);
-		}
-
-		return zMatrix<T>(this->getNumRows(), this->getNumCols(), out);
+		zMatrix2 out;
+		for (int i = 0; i < 4; i++)out(i) = this->operator()(i) - m1(i);
+		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::operator- (T s1)
+	ZSPACE_INLINE zMatrix2 zMatrix2::operator- (float s1)
 	{
-		vector<T> out;
-
-		for (int i = 0; i < this->getNumRows() *this->getNumCols(); i++)
-		{
-			T val = this->operator()(i) - s1;
-			out.push_back(val);
-		}
-
-		return zMatrix<T>(this->getNumRows(), this->getNumCols(), out);
+		zMatrix2 out;
+		for (int i = 0; i < 4; i++)out(i) = this->operator()(i) - s1;
+		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::operator* (zMatrix<T> &m1)
+	ZSPACE_INLINE zMatrix2 zMatrix2::operator* (zMatrix2 &m1)
 	{
-		if (this->getNumCols() != m1.getNumRows()) throw std::invalid_argument("number of columns in current matrix not equal to number of rows in m1.");
-
-		vector<T> out;
-		out.assign(this->getNumRows() * m1.getNumCols(), T());
-
+		zMatrix2 out;
 		int count = 0;
 
-		for (int i = 0; i < this->getNumRows(); i++)
+		for (int i = 0; i < 2; i++)
 		{
-			vector<T> rVals = this->getRow(i);
+			zMatrix2Row rVals;
+			this->getRow(i, rVals);
 
-			for (int j = 0; j < m1.getNumCols(); j++)
+			for (int j = 0; j < 2; j++)
 			{
-				vector<T> cVals = m1.getCol(j);
+				zMatrix2Col cVals;
+				m1.getCol(j,cVals);
 
-				T val = 0;
-
-				for (int k = 0; k < rVals.size(); k++)
-				{
-					val += rVals[k] * cVals[k];
-				}
-
-				out[count] = (val);
+				float val = 0;
+				for (int k = 0; k < 2; k++)	val += rVals[k] * cVals[k];
+				out(count) = val;
 				count++;
 			}
 		}
 
-		return zMatrix<T>(this->getNumRows(), m1.getNumCols(), out);
+		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::operator* (T s1)
+	ZSPACE_INLINE zMatrix2 zMatrix2::operator* (float s1)
 	{
-		vector<T> out;
-
-		for (int i = 0; i < getNumRows() *getNumCols(); i++)
-		{
-			T val = this->operator()(i) * s1;
-			out.push_back(val);
-		}
-
-		return zMatrix<T>(getNumRows(), getNumCols(), out);
+		zMatrix2 out;
+		for (int i = 0; i < 4; i++)out(i) = this->operator()(i) * s1;
+		return out;
 	}
 
 	//---- OVERLOADED OPERATORS
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::operator+= (zMatrix<T> &m1)
+	ZSPACE_INLINE void zMatrix2::operator+= (zMatrix2 &m1)
 	{
-		if (this->getNumRows() != m1.getNumRows()) throw std::invalid_argument("number of rows not equal.");
-		if (this->getNumCols() != m1.getNumCols()) throw std::invalid_argument("number of cols not equal.");
-
-		for (int i = 0; i < getNumRows() *getNumCols(); i++)
-		{
-
-			this->operator()(i) += m1(i);
-		}
-
+		for (int i = 0; i < 4; i++) this->operator()(i) += m1(i);
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::operator+= (T s1)
+	ZSPACE_INLINE void zMatrix2::operator+= (float s1)
 	{
-		for (int i = 0; i < getNumRows() *getNumCols(); i++)
-		{
-			this->operator()(i) += s1;
-		}
-
+		for (int i = 0; i < 9; i++) this->operator()(i) += s1;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::operator-= (zMatrix<T> &m1)
+	ZSPACE_INLINE void zMatrix2::operator-= (zMatrix2 &m1)
 	{
-		if (this->getNumRows() != m1.getNumRows()) throw std::invalid_argument("number of rows not equal.");
-		if (this->getNumCols() != m1.getNumCols()) throw std::invalid_argument("number of cols not equal.");
-
-		for (int i = 0; i < this->getNumRows() * this->getNumCols(); i++)
-		{
-
-			this->operator()(i) -= m1(i);
-		}
-
+		for (int i = 0; i < 4; i++) this->operator()(i) -= m1(i);
 	}
 
-	template <typename T>
-	ZSPACE_INLINE
-	void zMatrix<T>::operator-= (T s1)
+	ZSPACE_INLINE void zMatrix2::operator-= (float s1)
 	{
-
-		for (int i = 0; i < this->getNumRows() * this->getNumCols(); i++)
-		{
-
-			this->operator()(i) -= s1;
-		}
-
+		for (int i = 0; i < 4; i++) this->operator()(i) -= s1;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::operator*= (T s1)
+	ZSPACE_INLINE void zMatrix2::operator*= (float s1)
 	{
-
-		for (int i = 0; i < this->getNumRows() * this->getNumCols(); i++)
-		{
-
-			this->operator()(i) *= s1;
-		}
-
+		for (int i = 0; i < 4; i++) this->operator()(i) *= s1;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE void zMatrix<T>::operator/= (T s1)
+	ZSPACE_INLINE void zMatrix2::operator/= (float s1)
 	{
-
-		for (int i = 0; i < this->getNumRows() * this->getNumCols(); i++)
-		{
-
-			mat[i] /= s1;
-		}
-
+		for (int i = 0; i < 4; i++) this->operator()(i) /= s1;
 	}
 
 	//---- METHODS
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::transpose()
+	ZSPACE_INLINE void zMatrix2::multiply(zMatrix2Col &m1, zMatrix2Col &out)
 	{
-		int _numRows = this->getNumCols();
-		int _numCols = this->getNumRows();
+		int count = 0;
 
-		zMatrix<T> out = zMatrix<T>(_numRows, _numCols);
-
-		for (int i = 0; i < this->getNumCols(); i++)
+		for (int i = 0; i < 2; i++)
 		{
-			vector<T> colVals = this->getCol(i);
+			zMatrix2Row rVals;
+			this->getRow(i, rVals);
+
+			float val = 0;
+			for (int k = 0; k < 2; k++)	val += rVals[k] * m1[k];
+			out[count] = val;
+			count++;
+		}
+	}
+
+	ZSPACE_INLINE zMatrix2 zMatrix2::transpose()
+	{
+		zMatrix2 out;
+
+		for (int i = 0; i < 3; i++)
+		{
+			zMatrix2Col colVals;
+			this->getCol(i, colVals);
 			out.setRow(i, colVals);
 		}
 
 		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::minorMatrix(int colIndex, int rowIndex )
+	ZSPACE_INLINE float zMatrix2::det()
 	{
-		if (getNumCols() != getNumRows()) throw std::invalid_argument("input Matrix is not a square.");
-		if (colIndex < 0 && colIndex > getNumCols()) throw std::invalid_argument("input colIndex out of bounds.");
-		if (rowIndex < 0 && rowIndex > getNumRows()) throw std::invalid_argument("input rowIndex out of bounds.");
+		return (mat[0]*mat[3]) - (mat[1] * mat[2]) ;
+	}
 
-		vector<T> vals;
+}
 
-		for (int i = 0; i < this->getNumRows(); i++)
+//---- zMATRIX 3X3
+
+namespace zSpace
+{
+	//---- CONSTRUCTOR
+
+	ZSPACE_INLINE zMatrix3::zMatrix3()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+
+				if (i == j) mat[i * 3 + j] = 1;
+				else mat[i * 3 + j] = (0);
+
+			}
+		}
+	}
+
+	ZSPACE_INLINE zMatrix3::zMatrix3(const float _mat[9])
+	{
+		for (int i = 0; i < 9; i++) mat[i] = _mat[i];
+	}
+
+	//---- DESTRUCTOR
+
+	ZSPACE_INLINE zMatrix3::~zMatrix3() {}
+
+	//---- GET METHODS
+
+	ZSPACE_INLINE int zMatrix3::getIndex(int rowIndex, int colIndex)
+	{
+		return rowIndex * 3 + colIndex;
+	}
+
+	ZSPACE_INLINE void zMatrix3::getIndices(int index, int &rowIndex, int &colIndex)
+	{
+
+#ifndef __CUDACC__
+		rowIndex = floor(index / 3);
+#else
+		rowIndex = floorf(index / 3);
+#endif
+		colIndex = index % 3;
+	}
+
+	ZSPACE_INLINE void zMatrix3::getRow(int index, zMatrix3Row &row)
+	{	
+		for (int i = 0; i < 3; i++)	row[i] = (this->operator()(index, i));
+	}
+
+	ZSPACE_INLINE void zMatrix3::getCol(int index, zMatrix3Col &col)
+	{	
+		for (int i = 0; i < 3; i++)	col[i] = (this->operator()(i, index));
+	}
+
+	ZSPACE_INLINE void zMatrix3::getDiagonal(zMatrix3Diag &diag)
+	{			
+		for (int i = 0; i < 3; i++)	diag[i] = (this->operator()(i, i));
+	}
+
+	ZSPACE_INLINE float* zMatrix3::getMatrixValues()
+	{
+		return mat;
+	}
+
+	ZSPACE_INLINE float* zMatrix3::getRawMatrixValues( )
+	{
+		return &mat[0];
+	}
+
+	//---- SET METHODS
+
+	ZSPACE_INLINE void zMatrix3::setRow(int index, float val)
+	{
+		for (int i = 0; i < 3; i++) this->operator()(index, i) = val;
+	}
+
+	ZSPACE_INLINE void zMatrix3::setRow(int index, const zMatrix3Row &row)
+	{
+		for (int i = 0; i < 3; i++) this->operator()(index, i) = row[i];
+	}
+
+	ZSPACE_INLINE void zMatrix3::setCol(int index, float val)
+	{
+		for (int i = 0; i < 3; i++) this->operator()(i, index) = val;
+	}
+
+	ZSPACE_INLINE void zMatrix3::setCol(int index, const zMatrix3Col &col)
+	{
+		for (int i = 0; i <= 3; i++) this->operator()(i, index) = col[i];
+	}
+
+	ZSPACE_INLINE void zMatrix3::setDiagonal(float val)
+	{
+		for (int i = 0; i < 3; i++)	this->operator()(i, i) = val;
+	}
+
+	ZSPACE_INLINE void zMatrix3::setDiagonal(const zMatrix3Diag &diag)
+	{
+		for (int i = 0; i < 3; i++)	this->operator()(i, i) = diag[i];
+	}
+
+	ZSPACE_INLINE void zMatrix3::setZero()
+	{
+		for (int i = 0; i < 9; i++) mat[i] = 0;
+	}
+
+	ZSPACE_INLINE void zMatrix3::setOne()
+	{
+		for (int i = 0; i < 9; i++) mat[i] = 1;
+	}
+
+	ZSPACE_INLINE void zMatrix3::setIdentity()
+	{
+		this->setZero();
+		this->setDiagonal(1);
+	}
+
+	//---- OPERATORS
+
+	ZSPACE_INLINE float& zMatrix3::operator()(int row, int col)
+	{
+		return mat[row * 3 + col];
+	}
+
+	ZSPACE_INLINE float& zMatrix3::operator()(int index)
+	{
+		return mat[index];
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::operator+ (zMatrix3 &m1)
+	{
+		zMatrix3 out;
+		for (int i = 0; i < 9; i++)out(i) = this->operator()(i) + m1(i);
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::operator+ (float s1)
+	{
+		zMatrix3 out;
+		for (int i = 0; i < 9; i++)out(i) = this->operator()(i) + s1;
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::operator- (zMatrix3 &m1)
+	{
+		zMatrix3 out;
+		for (int i = 0; i < 9; i++)out(i) = this->operator()(i) - m1(i);
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::operator- (float s1)
+	{
+		zMatrix3 out;
+		for (int i = 0; i < 9; i++)out(i) = this->operator()(i) - s1;
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::operator* (zMatrix3 &m1)
+	{
+		zMatrix3 out;
+		int count = 0;
+
+		for (int i = 0; i < 3; i++)
+		{
+			zMatrix3Row rVals;
+			this->getRow(i, rVals);
+
+			for (int j = 0; j < 3; j++)
+			{
+				zMatrix3Col cVals;
+				m1.getCol(j,cVals);
+
+				float val = 0;
+				for (int k = 0; k < 3; k++)	val += rVals[k] * cVals[k];
+				out(count) = val;
+				count++;
+			}
+		}
+
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::operator* (float s1)
+	{
+		zMatrix3 out;
+		for (int i = 0; i < 9; i++)out(i) = this->operator()(i) * s1;
+		return out;
+	}
+
+	//---- OVERLOADED OPERATORS
+
+	ZSPACE_INLINE void zMatrix3::operator+= (zMatrix3 &m1)
+	{
+		for (int i = 0; i < 9; i++) this->operator()(i) += m1(i);
+	}
+
+	ZSPACE_INLINE void zMatrix3::operator+= (float s1)
+	{
+		for (int i = 0; i < 9; i++) this->operator()(i) += s1;
+	}
+
+	ZSPACE_INLINE void zMatrix3::operator-= (zMatrix3 &m1)
+	{
+		for (int i = 0; i < 9; i++) this->operator()(i) -= m1(i);
+	}
+
+	ZSPACE_INLINE void zMatrix3::operator-= (float s1)
+	{
+		for (int i = 0; i < 9; i++) this->operator()(i) -= s1;
+	}
+
+	ZSPACE_INLINE void zMatrix3::operator*= (float s1)
+	{
+		for (int i = 0; i < 9; i++) this->operator()(i) *= s1;
+	}
+
+	ZSPACE_INLINE void zMatrix3::operator/= (float s1)
+	{
+		for (int i = 0; i < 9; i++) this->operator()(i) /= s1;
+	}
+
+	//---- METHODS
+
+	ZSPACE_INLINE void zMatrix3::multiply(zMatrix3Col &m1, zMatrix3Col &out)
+	{
+		int count = 0;
+
+		for (int i = 0; i < 3; i++)
+		{
+			zMatrix3Row rVals;
+			this->getRow(i, rVals);
+
+			float val = 0;
+			for (int k = 0; k < 3; k++)	val += rVals[k] * m1[k];
+			out[count] = val;
+			count++;
+		}
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix3::transpose()
+	{
+		zMatrix3 out;
+
+		for (int i = 0; i < 3; i++)
+		{
+			zMatrix3Col colVals;
+			this->getCol(i, colVals);
+			out.setRow(i, colVals);
+		}
+
+		return out;
+	}	
+
+	ZSPACE_INLINE zMatrix2 zMatrix3::minor(int colIndex, int rowIndex)
+	{
+		zMatrix2 out;
+		int iCount = 0;
+		int jCount = 0;
+
+		for (int i = 0; i < 3; i++)
 		{
 			if (i != rowIndex)
 			{
-				for (int j = 0; j < this->getNumCols(); j++)
+				for (int j = 0; j < 3; j++)
 				{
-					if (j != colIndex) vals.push_back(this->operator()(i, j));
-
+					jCount = 0;
+					if (j != colIndex)
+					{
+						out(iCount, jCount) = (this->operator()(i, j));
+						jCount++;
+					}
 				}
-			}
 
+				iCount++;
+			}
 		}
 
-		return zMatrix<T>(this->getNumRows() - 1, this->getNumCols() - 1, vals);
-
+		return out;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::cofactorMatrix()
+	ZSPACE_INLINE zMatrix3 zMatrix3::cofactor()
 	{
-		if (getNumCols() != getNumRows()) throw std::invalid_argument("input Matrix is not a square.");
-
-		vector<T> vals;
-
-		if (this->getNumCols() == 1)
-		{
-			vals.push_back(1);
-
-			return	zMatrix<T>(this->getNumRows(), this->getNumCols(), vals);
-
-		}
-
+		zMatrix3 out;
 		int sign = 1;
 
-		for (int i = 0; i < this->getNumRows(); i++)
+		for (int i = 0; i < 4; i++)
 		{
-			for (int j = 0; j < this->getNumCols(); j++)
+			for (int j = 0; j < 4; j++)
 			{
 
-				zMatrix<T> minorM = this->minorMatrix(j, i);
+				zMatrix2 minorM = this->minor(j, i);
 
 				// sign of adj[j][i] positive if sum of row 
 				// and column indexes is even. 
 				sign = ((i + j) % 2 == 0) ? 1 : -1;
 
-				vals.push_back(sign * minorM.det());
+				out(i, j) = (sign * minorM.det());
 
 			}
 		}
 
-		return zMatrix<T>(this->getNumRows(), this->getNumCols(), vals);;
+		return out;;
 	}
 
-	template <typename T>
-	ZSPACE_INLINE zMatrix<T> zMatrix<T>::adjointMatrix()
+	ZSPACE_INLINE zMatrix3 zMatrix3::adjoint()
 	{
-		if (getNumCols() != getNumRows()) throw std::invalid_argument("input Matrix is not a square.");
-
-		zMatrix<T> cofactorMatrix = this->cofactorMatrix();
+		zMatrix3 cofactorMatrix = this->cofactor();
 
 		return cofactorMatrix.transpose();
 	}
 
-	template <typename T>
-	ZSPACE_INLINE bool zMatrix<T>::inverseMatrix(zMatrix<T>& outMat)
+	ZSPACE_INLINE bool zMatrix3::inverse(zMatrix3 &outMatrix)
 	{
-
-		if (getNumCols() != getNumRows()) throw std::invalid_argument("input Matrix is not a square.");
-
-		double det = this->det();
+		float det = this->det();
 
 		if (det == 0)
 		{
 			printf("\n Singular matrix, can't find its inverse");
-			outMat = zMatrix<T>(this->getNumRows(), this->getNumCols());
+			outMatrix.setIdentity();
 			return false;
 		}
 		else
 		{
-			zMatrix<T> adjoint = adjointMatrix();
-			vector<T> vals;
+			zMatrix3 adjointM = adjoint();			
 
-			for (int i = 0; i < this->getNumRows(); i++)
+			for (int i = 0; i < 3; i++)
 			{
-				for (int j = 0; j < this->getNumRows(); j++)
-					vals.push_back(adjoint(i, j) / det);
+				for (int j = 0; j < 3; j++)
+					outMatrix(i,j) = (adjointM(i, j) / det);
 			}
-
-			outMat = zMatrix<T>(this->getNumRows(), this->getNumCols(), vals);
+						
 			return true;
 		}
-
 	}
 
-	template <typename T>
-	ZSPACE_INLINE T zMatrix<T>::det()
+	ZSPACE_INLINE float zMatrix3::det()
 	{
-		if (getNumCols() != getNumRows()) throw std::invalid_argument("input Matrix is not a square.");
-
-		T D = 0;
-
-		if (this->getNumCols() == 1) return this->operator()(0, 0);
-
+		float D = 0;
 
 		int sign = 1;  // To store sign multiplier 
 
-					   // Iterate for each element of first row 
-		for (int i = 0; i < this->getNumCols(); i++)
+		 // Iterate for each element of first row 
+		for (int i = 0; i < 3; i++)
 		{
 			// Getting Cofactor of mat[0][f] 
-
-			zMatrix<T> minorM = this->minorMatrix(i);
-
+			zMatrix2 minorM = this->minor(i);
 			D += sign * this->operator()(0, i) * minorM.det();
 
 			// terms are to be added with alternate sign 
@@ -728,16 +634,365 @@ namespace zSpace
 		return D;
 	}
 
+}
 
-#if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
-// explicit instantiation
-	template class zMatrix<int>;
+//---- zMATRIX 4X4
 
-	template class zMatrix<float>;
-
-	template class zMatrix<double>;
+namespace zSpace
+{
+	//---- CONSTRUCTOR
 	
+	ZSPACE_INLINE zMatrix4::zMatrix4()
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				
+				if (i == j) mat[i * 4 + j] = 1;
+				else mat[i * 4 + j] = (0);
+
+			}
+		}
+	}
+	
+	ZSPACE_INLINE zMatrix4::zMatrix4(const float _mat[16])
+	{	
+		for (int i = 0; i < 16; i++) mat[i] = _mat[i];
+	}	
+
+	//---- DESTRUCTOR
+	
+	ZSPACE_INLINE zMatrix4::~zMatrix4(){}
+
+	//---- GET METHODS
+	
+	ZSPACE_INLINE int zMatrix4::getIndex(int rowIndex, int colIndex)
+	{
+		return rowIndex * 4 + colIndex;
+	}
+	
+	ZSPACE_INLINE void zMatrix4::getIndices(int index, int &rowIndex, int &colIndex)
+	{
+#ifndef __CUDACC__
+		rowIndex = floor(index / 4);
+#else
+		rowIndex = floorf(index / 4);
 #endif
+		colIndex = index % 4;
+	}
 	
+	ZSPACE_INLINE void zMatrix4::getRow(int index, zMatrix4Row &row)
+	{
+		for (int i = 0; i < 4; i++)	row[i] = (this->operator()(index, i));
+	}
+	
+	ZSPACE_INLINE void zMatrix4::getCol(int index, zMatrix4Col &col)
+	{
+		for (int i = 0; i < 4; i++)	col[i] = (this->operator()(i, index));
+	}
+	
+	ZSPACE_INLINE void zMatrix4::getDiagonal(zMatrix4Diag &diag)
+	{
+		for (int i = 0; i < 4; i++)	diag[i] = (this->operator()(i, i));	
+	}
+	
+	ZSPACE_INLINE float* zMatrix4::getMatrixValues()
+	{
+		return mat;
+	}
+
+	ZSPACE_INLINE float* zMatrix4::getRawMatrixValues()
+	{
+		return &mat[0];
+	}
+
+	//---- SET METHODS
+		
+	ZSPACE_INLINE void zMatrix4::setRow(int index, float val)
+	{
+		for (int i = 0; i < 4; i++) this->operator()(index, i) = val;		
+	}
+
+	ZSPACE_INLINE void zMatrix4::setRow(int index, const zMatrix4Row row)
+	{		
+		for (int i = 0; i < 4; i++) this->operator()(index, i) = row[i];
+	}
+
+	ZSPACE_INLINE void zMatrix4::setCol(int index, float val)
+	{
+		for (int i = 0; i < 4; i++) this->operator()(i, index) = val;
+	}
+	
+	ZSPACE_INLINE void zMatrix4::setCol(int index, const zMatrix4Col col)
+	{
+		for (int i = 0; i <= 4; i++) this->operator()(i, index) = col[i];
+	}
+
+	ZSPACE_INLINE void zMatrix4::setDiagonal(float val)
+	{
+		for (int i = 0; i < 4; i++)	this->operator()(i, i) = val;
+	}
+
+	ZSPACE_INLINE void zMatrix4::setDiagonal(const zMatrix4Diag diag)
+	{
+		for (int i = 0; i < 4; i++)	this->operator()(i, i) = diag[i];
+	}
+
+	ZSPACE_INLINE void zMatrix4::setZero()
+	{
+		for (int i = 0; i < 16; i++) mat[i] = 0;
+	}
+
+	ZSPACE_INLINE void zMatrix4::setOne()
+	{
+		for (int i = 0; i < 16; i++) mat[i] = 1;
+	}
+
+	ZSPACE_INLINE void zMatrix4::setIdentity()
+	{
+		this->setZero();
+		this->setDiagonal(1);
+	}
+
+	//---- OPERATORS
+
+	ZSPACE_INLINE float& zMatrix4::operator()(int row, int col)
+	{
+		return mat[row * 4 + col];
+	}
+
+	ZSPACE_INLINE float& zMatrix4::operator()(int index)
+	{
+		return mat[index];
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::operator+ (zMatrix4 &m1)
+	{
+		zMatrix4 out;
+		for (int i = 0; i < 16; i++)out(i) = this->operator()(i) + m1(i);
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::operator+ (float s1)
+	{
+		zMatrix4 out;
+		for (int i = 0; i < 16; i++)out(i) = this->operator()(i) + s1;
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::operator- (zMatrix4 &m1)
+	{
+		zMatrix4 out;
+		for (int i = 0; i < 16; i++)out(i) = this->operator()(i) - m1(i);
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::operator- (float s1)
+	{
+		zMatrix4 out;
+		for (int i = 0; i < 16; i++)out(i) = this->operator()(i) - s1;
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::operator* (zMatrix4 &m1)
+	{
+		zMatrix4 out;
+		int count = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			zMatrix4Row rVals;
+			this->getRow(i,rVals);
+
+			for (int j = 0; j < 4; j++)
+			{
+				zMatrix4Col cVals;
+				m1.getCol(j,cVals);
+
+				float val = 0;
+				for (int k = 0; k < 4; k++)	val += rVals[k] * cVals[k];
+				out(count) = val;
+				count++;
+			}
+		}
+
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::operator* (float s1)
+	{
+		zMatrix4 out;
+		for (int i = 0; i < 16; i++)out(i) = this->operator()(i) * s1;
+		return out;
+	}
+
+	//---- OVERLOADED OPERATORS
+	
+	ZSPACE_INLINE void zMatrix4::operator+= (zMatrix4 &m1)
+	{
+		for (int i = 0; i < 16; i++) this->operator()(i) += m1(i);
+	}
+	
+	ZSPACE_INLINE void zMatrix4::operator+= (float s1)
+	{
+		for (int i = 0; i < 16; i++) this->operator()(i) += s1;
+	}
+	
+	ZSPACE_INLINE void zMatrix4::operator-= (zMatrix4 &m1)
+	{
+		for (int i = 0; i < 16; i++) this->operator()(i) -= m1(i);
+	}
+	
+	ZSPACE_INLINE
+	void zMatrix4::operator-= (float s1)
+	{
+		for (int i = 0; i < 16; i++) this->operator()(i) -= s1;
+	}
+	
+	ZSPACE_INLINE void zMatrix4::operator*= (float s1)
+	{
+		for (int i = 0; i < 16; i++) this->operator()(i) *= s1;
+	}
+	
+	ZSPACE_INLINE void zMatrix4::operator/= (float s1)
+	{
+		for (int i = 0; i < 16; i++) this->operator()(i) /= s1;
+	}
+
+	//---- METHODS
+	
+	ZSPACE_INLINE void zMatrix4::multiply(zMatrix4Col &m1, zMatrix4Col &out)
+	{		
+		int count = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			zMatrix4Row rVals;
+			this->getRow(i, rVals);
+
+			float val = 0;
+			for (int k = 0; k < 4; k++)	val += rVals[k] * m1[k];
+			out[count] = val;
+			count++;
+		}		
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::transpose()
+	{
+		zMatrix4 out;
+
+		for (int i = 0; i < 4; i++)
+		{
+			zMatrix4Col colVals;
+			this->getCol(i,colVals);
+			out.setRow(i, colVals);
+		}
+
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix3 zMatrix4::minor(int colIndex, int rowIndex)
+	{
+		zMatrix3 out;
+		int iCount = 0;
+		int jCount = 0;
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (i != rowIndex)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					jCount = 0;					
+					if (j != colIndex)
+					{
+						out(iCount, jCount) = (this->operator()(i, j));
+						jCount++;
+					}
+				}
+
+				iCount++;
+			}
+		}
+
+		return out;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::cofactor()
+	{
+		zMatrix4 out;
+		int sign = 1;
+
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j <4; j++)
+			{
+
+				zMatrix3 minorM = this->minor(j, i);
+
+				// sign of adj[j][i] positive if sum of row 
+				// and column indexes is even. 
+				sign = ((i + j) % 2 == 0) ? 1 : -1;
+
+				out(i,j) = (sign * minorM.det());
+
+			}
+		}
+
+		return out;;
+	}
+
+	ZSPACE_INLINE zMatrix4 zMatrix4::adjoint()
+	{
+		zMatrix4 cofactorMatrix = this->cofactor();
+
+		return cofactorMatrix.transpose();
+	}
+
+	ZSPACE_INLINE bool zMatrix4::inverse(zMatrix4 &outMatrix)
+	{
+		float det = this->det();
+
+		if (det == 0)
+		{
+			printf("\n Singular matrix, can't find its inverse");
+			outMatrix.setIdentity();
+			return false;
+		}
+		else
+		{
+			zMatrix4 adjointMat = adjoint();
+
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+					outMatrix(i, j) = (adjointMat(i, j) / det);
+			}
+
+			return true;
+		}
+	}
+
+	ZSPACE_INLINE float zMatrix4::det()
+	{
+		float D = 0;
+
+		int sign = 1;  // To store sign multiplier 
+
+		 // Iterate for each element of first row 
+		for (int i = 0; i < 4; i++)
+		{
+			// Getting Cofactor of mat[0][f] 
+			zMatrix3 minorM = this->minor(i);
+			D += sign * this->operator()(0, i) * minorM.det();
+
+			// terms are to be added with alternate sign 
+			sign = -sign;
+		}
+
+		return D;
+	}
+
 }
 

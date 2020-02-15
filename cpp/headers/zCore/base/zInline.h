@@ -29,6 +29,7 @@
 #define ZSPACE_INTEROP  __declspec(dllexport)
 #define ZSPACE_MAYA  __declspec(dllexport)
 #define ZSPACE_RHINO  __declspec(dllexport)
+#define ZSPACE_CUDA  __declspec(dllexport)
 #else
 #define ZSPACE_CORE 
 #define ZSPACE_API 
@@ -38,5 +39,11 @@
 #define ZSPACE_INTEROP 
 #define ZSPACE_MAYA  
 #define ZSPACE_RHINO  
+#define ZSPACE_CUDA  
 #endif
 
+#ifndef __CUDACC__
+#define ZSPACE_CUDA_CALLABLE 
+#define ZSPACE_CUDA_CALLABLE_HOST 
+#define ZSPACE_CUDA_CALLABLE_DEVICE 
+#endif

@@ -23,6 +23,8 @@
 #include <GL/GL.h>			// Header File For The OpenGL32 Library
 #include <gl/glu.h>			// Header File For The GLu32 Library
 
+
+
 //#include <windows.h>		// Header File For Windows
 //#include <stdio.h>
 

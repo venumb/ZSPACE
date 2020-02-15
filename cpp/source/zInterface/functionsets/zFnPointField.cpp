@@ -417,7 +417,7 @@ namespace zSpace
 	//---- zScalar specilization for getFieldValue
 	
 	template<>
-	ZSPACE_INLINE zVector zFnPointField<zScalar>::getGradient(zItPointScalarField &s, double epsilon)
+	ZSPACE_INLINE zVector zFnPointField<zScalar>::getGradient(zItPointScalarField &s, float epsilon)
 	{
 
 		bool out = true;
@@ -458,7 +458,7 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE vector<zVector> zFnPointField<zScalar>::getGradients(double epsilon)
+	ZSPACE_INLINE vector<zVector> zFnPointField<zScalar>::getGradients(float epsilon)
 	{
 		vector<zVector> out;
 
@@ -1043,14 +1043,14 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnPointField<zScalar>::normliseValues(zScalarArray &fieldValues)
 	{
-		zDomainDouble d;
+		zDomainFloat d;
 		computeDomain(fieldValues, d);
 
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = d.max - fieldValues[i];
 
 		computeDomain(fieldValues, d);
 
-		zDomainDouble out(-1.0, 1.0);
+		zDomainFloat out(-1.0, 1.0);
 		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = coreUtils.ofMap(fieldValues[i], d, out);
 	}
 
@@ -1067,7 +1067,7 @@ namespace zSpace
 	{
 		for (int k = 0; k < numSmooth; k++)
 		{
-			vector<double> tempValues;
+			vector<float> tempValues;
 
 			for (zItPointScalarField s(*fieldObj); !s.end(); s++)
 			{
@@ -1211,7 +1211,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnPointField<zScalar>::boolean_union(zScalarArray& scalars0, zScalarArray& scalars1, zScalarArray& scalarsResult, bool normalise)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		for (int i = 0; i < scalars0.size(); i++)
 		{
@@ -1226,7 +1226,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnPointField<zScalar>::boolean_subtract(zScalarArray& fieldValues_A, zScalarArray& fieldValues_B, zScalarArray& fieldValues_Result, bool normalise)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		for (int i = 0; i < fieldValues_A.size(); i++)
 		{
@@ -1241,7 +1241,7 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnPointField<zScalar>::boolean_intersect(zScalarArray& fieldValues_A, zScalarArray& fieldValues_B, zScalarArray& fieldValues_Result, bool normalise)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		for (int i = 0; i < fieldValues_A.size(); i++)
 		{
@@ -1256,13 +1256,13 @@ namespace zSpace
 	template<>
 	ZSPACE_INLINE void zFnPointField<zScalar>::boolean_difference(zScalarArray& fieldValues_A, zScalarArray& fieldValues_B, zScalarArray& fieldValues_Result, bool normalise)
 	{
-		vector<double> AUnionB;
+		vector<float> AUnionB;
 		boolean_union(fieldValues_A, fieldValues_B, AUnionB, normalise);
 
-		vector<double> AIntersectB;
+		vector<float> AIntersectB;
 		boolean_intersect(fieldValues_B, fieldValues_A, AIntersectB, normalise);
 
-		vector<double> out;
+		vector<float> out;
 		boolean_subtract(AUnionB, AIntersectB, out, normalise);
 
 		if (normalise) normliseValues(out);
@@ -1271,13 +1271,13 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE void zFnPointField<zScalar>::boolean_clipwithPlane(zScalarArray& scalars, zMatrixd& clipPlane)
+	ZSPACE_INLINE void zFnPointField<zScalar>::boolean_clipwithPlane(zScalarArray& scalars, zMatrix4& clipPlane)
 	{
 		int i = 0;
 		for (zItPointCloudVertex v(*fieldObj); !v.end(); v++, i++)
 		{
-			zVector O = coreUtils.fromMatrixColumn(clipPlane, 3);
-			zVector Z = coreUtils.fromMatrixColumn(clipPlane, 2);
+			zVector O = coreUtils.fromMatrix4Column(clipPlane, 3);
+			zVector Z = coreUtils.fromMatrix4Column(clipPlane, 2);
 
 			zVector A = v.getPosition() - O;
 			double minDist_Plane = A * Z;
@@ -1302,7 +1302,7 @@ namespace zSpace
 	ZSPACE_INLINE void zFnPointField<zScalar>::updateColors()
 	{
 
-		vector<double> scalars;
+		vector<float> scalars;
 		getFieldValues(scalars);
 
 		computeDomain(scalars, contourValueDomain);
@@ -1387,7 +1387,7 @@ namespace zSpace
 	// explicit instantiation
 	template class zFnPointField<zVector>;
 
-	template class zFnPointField<double>;
+	template class zFnPointField<zScalar>;
 
 #endif
 }

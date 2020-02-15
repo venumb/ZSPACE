@@ -80,7 +80,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		zEdge();
+		ZSPACE_CUDA_CALLABLE zEdge();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -91,7 +91,7 @@ namespace zSpace
 		*	\since version 0.0.1
 		*/
 
-		~zEdge();
+		ZSPACE_CUDA_CALLABLE ~zEdge();
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -102,21 +102,21 @@ namespace zSpace
 		*	\return				int -  edge index.
 		*	\since version 0.0.1
 		*/
-		int getId();
+		ZSPACE_CUDA_CALLABLE int getId();
 
 		/*! \brief This method sets the edgeId of current edge to the input value.
 		*
 		*	\param		[in]	edgeId - input edge index.
 		*	\since version 0.0.1
 		*/
-		void setId(int _edgeId);
+		ZSPACE_CUDA_CALLABLE void setId(int _edgeId);
 
 		/*! \brief This method gets the half edge pointer of current edge at the input index.
 		*
 		*	\param		[in]	_index		- input index - 0 or 1.
 		*	\since version 0.0.1
 		*/
-		zHalfEdge* getHalfEdge(int _index);
+		ZSPACE_CUDA_CALLABLE zHalfEdge* getHalfEdge(int _index);
 
 		/*! \brief This method sets the half edge pointer of current edge at the input index.
 		*
@@ -124,7 +124,7 @@ namespace zSpace
 		*	\param		[in]	_index		- input index - 0 or 1.
 		*	\since version 0.0.1
 		*/
-		void setHalfEdge(zHalfEdge* _he, int _index);
+		ZSPACE_CUDA_CALLABLE void setHalfEdge(zHalfEdge* _he, int _index);
 
 		//--------------------------
 		//---- METHODS
@@ -134,13 +134,13 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		bool isActive() const;
+		ZSPACE_CUDA_CALLABLE bool isActive() const;
 		
 		/*! \brief This method resets the pointers of the current edge to null.
 		*
 		*	\since version 0.0.1
 		*/
-		void reset();	
+		ZSPACE_CUDA_CALLABLE void reset();
 
 	};
 
@@ -206,7 +206,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		zHalfEdge();	
+		ZSPACE_CUDA_CALLABLE zHalfEdge();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -216,7 +216,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		~zHalfEdge();
+		ZSPACE_CUDA_CALLABLE ~zHalfEdge();
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -227,111 +227,111 @@ namespace zSpace
 		*	\return				int - half edge index.
 		*	\since version 0.0.1
 		*/
-		int getId();
+		ZSPACE_CUDA_CALLABLE int getId();
 
 		/*! \brief This method sets the index of current half edge to the the input value.
 		*
 		*	\param		[in]	_ edgeId - input half edge index
 		*	\since version 0.0.1
 		*/
-		void setId(int _edgeId);
+		ZSPACE_CUDA_CALLABLE void setId(int _edgeId);
 
 		/*! \brief This method returns the symmetry half edge of current half edge.
 		*
 		*	\return				zHalfEdge - symmetry halfedge pointed by the half edge.
 		*	\since version 0.0.1
 		*/
-		zHalfEdge* getSym();
+		ZSPACE_CUDA_CALLABLE zHalfEdge* getSym();
 
 		/*! \brief This method sets the symmetry edge of current zEdge to the the input edge
 		*
 		*	\param		[in]	_sym - symmetry half edge.
 		*	\since version 0.0.1
 		*/
-		void setSym(zHalfEdge* _sym);
+		ZSPACE_CUDA_CALLABLE void setSym(zHalfEdge* _sym);
 
 		/*! \brief This method returns the previous half edge of current zEdge.
 		*
 		*	\return				zHalfEdge - previous halfedge pointed by the half edge.
 		*	\since version 0.0.1
 		*/
-		zHalfEdge* getPrev();
+		ZSPACE_CUDA_CALLABLE zHalfEdge* getPrev();
 
 		/*! \brief This method sets the previous half edge of current half edge to the the input half edge.
 		*
 		*	\param		[in]	_prev		- previous halfedge.
 		*	\since version 0.0.1
 		*/
-		void setPrev(zHalfEdge* _prev);
+		ZSPACE_CUDA_CALLABLE void setPrev(zHalfEdge* _prev);
 
 		/*! \brief This method returns the next edge of current halfedge.
 		*
 		*	\return				zHalfEdge - next halfedge pointed by the half edge.
 		*	\since version 0.0.1
 		*/
-		zHalfEdge* getNext();
+		ZSPACE_CUDA_CALLABLE zHalfEdge* getNext();
 
 		/*! \brief This method sets the next edge of current half edge to the the input half edge
 		*
 		*	\param		[in]	_next		- next half edge.
 		*	\since version 0.0.1
 		*/
-		void setNext(zHalfEdge* _next);
+		ZSPACE_CUDA_CALLABLE void setNext(zHalfEdge* _next);
 
 		/*! \brief This method returns the vertex pointed to by the current zEdge.
 		*
 		*	\return				zVertex - vertex pointed by the half edge.
 		*	\since version 0.0.1
 		*/
-		zVertex* getVertex();
+		ZSPACE_CUDA_CALLABLE zVertex* getVertex();
 
 		/*! \brief This method sets the vertex pointed to by the current half edge to the the input vertex.
 		*
 		*	\param		[in]	_v - input vertex.
 		*	\since version 0.0.1
 		*/
-		void setVertex(zVertex* _v);
+		ZSPACE_CUDA_CALLABLE void setVertex(zVertex* _v);
 
 		/*! \brief This method returns the face pointed to by the current half edge.
 		*
 		*	\return				zEdge - face pointed by the half edge.
 		*	\since version 0.0.1
 		*/
-		zFace* getFace();
+		ZSPACE_CUDA_CALLABLE zFace* getFace();
 
 		/*! \brief This method sets the face pointed to by the current half edge to the the input face.
 		*
 		*	\param		[in]	 _f - input face.
 		*	\since version 0.0.1
 		*/
-		void setFace(zFace* _f);
+		ZSPACE_CUDA_CALLABLE void setFace(zFace* _f);
 
 		/*! \brief This method gets the edge pointed to by the current half edge.
 		*
 		*	\return				zEdge - edge pointed by the half edge.
 		*	\since version 0.0.1
 		*/
-		zEdge* getEdge();
+		ZSPACE_CUDA_CALLABLE zEdge* getEdge();
 
 		/*! \brief This method sets the edge pointed to by the current halfedge to the the input edge.
 		*
 		*	\param		[in]	 _e - input edge.
 		*	\since version 0.0.1
 		*/
-		void setEdge(zEdge* _e);
+		ZSPACE_CUDA_CALLABLE void setEdge(zEdge* _e);
 
 		/*! \brief This method resets the pointers of the half edge to null.
 		*
 		*	\since version 0.0.1
 		*/
-		void reset();
+		ZSPACE_CUDA_CALLABLE void reset();
 
 		/*! \brief This method checks if the current element is active.
 		*
 		*	\return				bool - true if active else false.
 		*	\since version 0.0.1
 		*/
-		bool isActive() const;
+		ZSPACE_CUDA_CALLABLE bool isActive() const;
 
 	};
 
@@ -382,7 +382,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		zVertex();
+		ZSPACE_CUDA_CALLABLE zVertex();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -392,7 +392,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		~zVertex();
+		ZSPACE_CUDA_CALLABLE ~zVertex();
 		
 		//--------------------------
 		//---- GET-SET METHODS
@@ -403,41 +403,41 @@ namespace zSpace
 		*	\return				int - vertex index.
 		*	\since version 0.0.1
 		*/
-		int getId();
+		ZSPACE_CUDA_CALLABLE int getId();
 
 		/*! \brief This method sets the index of current vertex to the the input value.
 		*
 		*	\param		[in]	_vertexId - input index.
 		*	\since version 0.0.1
 		*/
-		void setId(int _vertexId);
+		ZSPACE_CUDA_CALLABLE void setId(int _vertexId);
 
 		/*! \brief This method gets the half edge pointed by the current Vertex.
 		*
 		*	\return				zHalfEdge - half edge pointed to by the vertex.
 		*	\since version 0.0.1
 		*/
-		zHalfEdge* getHalfEdge();
+		ZSPACE_CUDA_CALLABLE zHalfEdge* getHalfEdge();
 
 		/*! \brief This method sets the half edge of the current vertex to the the input half edge
 		*
 		*	\param		[in]	_he - input half edge.
 		*	\since version 0.0.1
 		*/
-		void setHalfEdge(zHalfEdge* _he);
+		ZSPACE_CUDA_CALLABLE void setHalfEdge(zHalfEdge* _he);
 
 		/*! \brief This method makes the pointers of the current zVertex to null.
 		*
 		*	\since version 0.0.1
 		*/
-		void reset();
+		ZSPACE_CUDA_CALLABLE void reset();
 
 		/*! \brief This method checks if the current element is active.
 		*
 		*	\return				bool - true if active else false.
 		*	\since version 0.0.1
 		*/
-		bool isActive() const;
+		ZSPACE_CUDA_CALLABLE bool isActive() const;
 
 	};
 
@@ -487,7 +487,7 @@ namespace zSpace
 		/*! \brief Default constructor.
 		*	\since version 0.0.1
 		*/
-		zFace();
+		ZSPACE_CUDA_CALLABLE zFace();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -496,7 +496,7 @@ namespace zSpace
 		/*! \brief Default destructor.
 		*	\since version 0.0.1
 		*/
-		~zFace();
+		ZSPACE_CUDA_CALLABLE ~zFace();
 
 		//--------------------------
 		//---- GET-SET METHODS
@@ -507,28 +507,28 @@ namespace zSpace
 		*	\return				int - face index.
 		*	\since version 0.0.1
 		*/
-		int getId();
+		ZSPACE_CUDA_CALLABLE int getId();
 
 		/*! \brief This method sets the index of current face to the the input value.
 		*
 		*	\param		[in]	_faceId - input face index.
 		*	\since version 0.0.1
 		*/
-		void setId(int _faceId);
+		ZSPACE_CUDA_CALLABLE void setId(int _faceId);
 
 		/*! \brief This method returns the associated edge of current zFace.
 		*
 		*	\return				zHalfEdge -  half edge pointed to by the face.
 		*	\since version 0.0.1
 		*/
-		zHalfEdge* getHalfEdge();
+		ZSPACE_CUDA_CALLABLE zHalfEdge* getHalfEdge();
 
 		/*! \brief This method sets the associated edge of current zFace to the the input edge
 		*
 		*	\param		[in]	_he - input half edge.
 		*	\since version 0.0.1
 		*/
-		void setHalfEdge(zHalfEdge* _he);
+		ZSPACE_CUDA_CALLABLE void setHalfEdge(zHalfEdge* _he);
 
 		//--------------------------
 		//---- METHODS
@@ -538,14 +538,14 @@ namespace zSpace
 		*
 		*	\since version 0.0.1
 		*/
-		void reset();
+		ZSPACE_CUDA_CALLABLE void reset();
 
 		/*! \brief This method checks if the current element is active.
 		*
 		*	\return				bool - true if active else false.
 		*	\since version 0.0.1
 		*/
-		bool isActive() const;
+		ZSPACE_CUDA_CALLABLE bool isActive() const;
 
 	};	
 

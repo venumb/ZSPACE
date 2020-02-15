@@ -16,7 +16,6 @@
 #pragma once
 
 #include<headers/zCore/base/zDefinitions.h>
-#include<headers/zCore/base/zMatrix.h>
 #include<headers/zCore/base/zVector.h>
 
 namespace  zSpace
@@ -60,21 +59,21 @@ namespace  zSpace
 		/*! \brief Default Constructor.
 		*	\since version 0.0.2
 		*/
-		zQuaternion();
+		ZSPACE_CUDA_CALLABLE zQuaternion();
 
 		/*! \brief Overloaded Constructor.
 		*	\param		[in]	_s			- scalar part.
 		*	\param		[in]	_v			- vector part.
 		*	\since version 0.0.2
 		*/
-		zQuaternion(double _s, double _vi, double _vj, double _vk);
+		ZSPACE_CUDA_CALLABLE zQuaternion(double _s, double _vi, double _vj, double _vk);
 
 		/*! \brief Overloaded Constructor.
 		*	\param		[in]	_s			- scalar part.
 		*	\param		[in]	_v			- vector part.
 		*	\since version 0.0.2
 		*/
-		zQuaternion(double _s, zVector _v);
+		ZSPACE_CUDA_CALLABLE zQuaternion(double _s, zVector _v);
 
 		//--------------------------
 		//---- OPERATORS
@@ -85,28 +84,28 @@ namespace  zSpace
 		*	\param		[in]	_s		- scalar component.
 		*	\since version 0.0.2
 		*/
-		void operator=(double _s);
+		ZSPACE_CUDA_CALLABLE void operator=(double _s);
 
 		/*! \brief This operator assigns vector component of the quaternion
 		*
 		*	\param		[in]	_v		- vector component.
 		*	\since version 0.0.2
 		*/
-		void operator=(zVector &_v);
+		ZSPACE_CUDA_CALLABLE void operator=(zVector &_v);
 
 		/*! \brief This operator returns the indexed component (0-based indexing: double, i, j, k)
 		*
 		*	\return			double&		- reference to the specified component (0-based indexing: double, i, j, k)
 		*	\since version 0.0.2
 		*/
-		double& operator[](int index);
+		ZSPACE_CUDA_CALLABLE double& operator[](int index);
 
 		/*! \brief This operator returns the indexed component (0-based indexing: double, i, j, k)
 		*
 		*	\return			double&		- const reference to the specified component (0-based indexing: double, i, j, k)
 		*	\since version 0.0.2
 		*/
-		const double& operator[](int index) const;
+		ZSPACE_CUDA_CALLABLE const double& operator[](int index) const;
 
 		/*! \brief This operator is used for quaternion addition.
 		*
@@ -114,7 +113,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the addition.
 		*	\since version 0.0.2
 		*/
-		zQuaternion operator+(const zQuaternion  &q);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator+(const zQuaternion  &q);
 
 		/*! \brief This operator is used for quaternion subtraction.
 		*
@@ -122,7 +121,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the subtraction.
 		*	\since version 0.0.2
 		*/
-		zQuaternion operator-(const zQuaternion &q);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator-(const zQuaternion &q);
 
 		/*! \brief This operator is used for quaternion multiplication with a scalar.
 		*
@@ -130,7 +129,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the multiplication.
 		*	\since version 0.0.2
 		*/
-		zQuaternion operator*(double c);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator*(double c);
 
 		/*! \brief This operator is used for quaternion Hamiton Product.
 		*
@@ -138,7 +137,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the multiplication.
 		*	\since version 0.0.2
 		*/
-		zQuaternion operator*(zQuaternion &q);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator*(zQuaternion &q);
 
 		/*! \brief This operator is used for quaternion division with a scalar.
 		*
@@ -146,7 +145,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the division.
 		*	\since version 0.0.2
 		*/
-		zQuaternion operator/(double c);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator/(double c);
 
 		//--------------------------
 		//---- OVERLOADED OPERATORS
@@ -157,35 +156,35 @@ namespace  zSpace
 		*	\param		[in]	q		- quaternion which is added to the current quaternion.
 		*	\since version 0.0.1
 		*/
-		void operator +=(const zQuaternion &q);
+		ZSPACE_CUDA_CALLABLE void operator +=(const zQuaternion &q);
 
 		/*! \brief This overloaded operator is used for subtraction and assigment of the result to the current quaternion.
 		*
 		*	\param		[in]	q		- quaternion which is subtracted from the current quaternion.
 		*	\since version 0.0.1
 		*/
-		void operator -=(const zQuaternion &q);
+		ZSPACE_CUDA_CALLABLE void operator -=(const zQuaternion &q);
 
 		/*! \brief This operator is used for multiplication with a scalar and assigment of the result to the current quaternion.
 		*
 		*	\param		[in]	c			- scalar value which is multiplied to the current quaternion.		
 		*	\since version 0.0.2
 		*/
-		void operator*=(double c);
+		ZSPACE_CUDA_CALLABLE void operator*=(double c);
 
 		/*! \brief This operator is used for quaternion Hamiton Product and assigment of the result to the current quaternion..
 		*
 		*	\param		[in]	q			- quaternion which is multiplied with the current quaternion.
 		*	\since version 0.0.2
 		*/
-		void operator*=(zQuaternion q);
+		ZSPACE_CUDA_CALLABLE void operator*=(zQuaternion q);
 
 		/*! \brief This operator is used for division with a scalar and assigment of the result to the current quaternion.
 		*
 		*	\param		[in]	c			- scalar value which is used for division of the current quaternion.
 		*	\since version 0.0.2
 		*/
-		void operator/=(double c);
+		ZSPACE_CUDA_CALLABLE void operator/=(double c);
 			   
 		//--------------------------
 		//---- GET METHODS
@@ -195,25 +194,25 @@ namespace  zSpace
 		*	\return				double		- scalar component.
 		*	\since version 0.0.2
 		*/
-		double getRe();
+		ZSPACE_CUDA_CALLABLE double getRe();
 
 		/*! \brief This method gets the imaginary/ vector component of the quaternion.
 		*	\return				zVector		- vector component.
 		*	\since version 0.0.2
 		*/
-		zVector getIm();
+		ZSPACE_CUDA_CALLABLE zVector getIm();
 
 		/*! \brief This method gets the conjuate of the quaternion.
 		*	\return				zQuaternion		- conjugate quaternion.
 		*	\since version 0.0.2
 		*/
-		zQuaternion getConjugate();
+		ZSPACE_CUDA_CALLABLE zQuaternion getConjugate();
 
 		/*! \brief This method gets the inverse of the quaternion.
 		*	\return				zQuaternion		- inverse quaternion.
 		*	\since version 0.0.2
 		*/
-		zQuaternion getInverse();
+		ZSPACE_CUDA_CALLABLE zQuaternion getInverse();
 
 		//--------------------------
 		//---- METHODS
@@ -223,18 +222,18 @@ namespace  zSpace
 		*	\return				double		- Euclidean length.
 		*	\since version 0.0.2
 		*/
-		double length();
+		ZSPACE_CUDA_CALLABLE double length();
 
 		/*! \brief This method gets the Euclidean length sqaured of the quaternion.
 		*	\return				double		- Euclidean length squared.
 		*	\since version 0.0.2
 		*/
-		double length2();
+		ZSPACE_CUDA_CALLABLE double length2();
 
 		/*! \brief This method normalizes the quaternion .
 		*	\since version 0.0.2
 		*/
-		void normalize();
+		ZSPACE_CUDA_CALLABLE void normalize();
 
 		/*! \brief This method computes spherical-linear interpolation
 		*	\param		[in]	q0			- input start quaternion.
@@ -242,7 +241,7 @@ namespace  zSpace
 		*	\param		[in]	t			- input time step.
 		*	\since version 0.0.2
 		*/
-		zQuaternion slerp(zQuaternion& q0, zQuaternion& q1, double t);
+		ZSPACE_CUDA_CALLABLE zQuaternion slerp(zQuaternion& q0, zQuaternion& q1, double t);
 
 	};
 

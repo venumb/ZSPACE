@@ -130,7 +130,7 @@ namespace zSpace
 		*	\param [in]		scale		- input scale values.
 		*	\since version 0.0.2
 		*/
-		virtual void setScale(zDouble4 &scale) = 0;
+		virtual void setScale(zFloat4 &scale) = 0;
 	
 
 		/*! \brief This method sets the rotation components of the object.
@@ -139,7 +139,7 @@ namespace zSpace
 		*	\param [in]		append		- true if the input values are added to the existing rotations.
 		*	\since version 0.0.2
 		*/
-		virtual void setRotation(zDouble4 &rotation, bool append = false) = 0;
+		virtual void setRotation(zFloat4 &rotation, bool append = false) = 0;
 	
 
 		/*! \brief This method sets the translation components of the object.

@@ -72,16 +72,16 @@ namespace zSpace
 		zTransform Rz;
 
 		/*!	\brief stores rotation  values in x, y, and z in radians  */
-		zDouble4 rotation;
+		zFloat4 rotation;
 
 		/*!	\brief stores scale values in x, y, and z  */
-		zDouble4 scale;
+		zFloat4 scale;
 
 		/*!	\brief stores translation as a vector  */
-		zDouble4 translation;
+		zFloat4 translation;
 
 		/*!	\brief stores pivot as a vector  */ 
-		zDouble4 pivot;
+		zFloat4 pivot;
 
 		
 
@@ -96,7 +96,7 @@ namespace zSpace
 		*	
 		*	\since version 0.0.2
 		*/
-		zTransformationMatrix();		
+		ZSPACE_CUDA_CALLABLE zTransformationMatrix();
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -105,7 +105,7 @@ namespace zSpace
 		/*! \brief Default destructor.
 		*	\since version 0.0.2
 		*/
-		~zTransformationMatrix();
+		ZSPACE_CUDA_CALLABLE ~zTransformationMatrix();
 
 		//--------------------------
 		//---- SET METHODS
@@ -118,7 +118,7 @@ namespace zSpace
 		*	\return 			zTransform		- input transform.
 		*	\since version 0.0.2
 		*/
-		void setTransform(zTransform &inTransform, bool decompose = true);
+		ZSPACE_CUDA_CALLABLE void setTransform(zTransform &inTransform, bool decompose = true);
 
 		/*! \brief This method sets the rotation components of the tranform.
 		*
@@ -126,14 +126,14 @@ namespace zSpace
 		*	\param		[in]	addValues			- true if the input values are added to the existing values.
 		*	\since version 0.0.2
 		*/
-		void setRotation(zDouble4 &_rotation, bool addValues = false);
+		ZSPACE_CUDA_CALLABLE void setRotation(zFloat4 &_rotation, bool addValues = false);
 
 		/*! \brief This method sets the scale components of the tranform.
 		*
 		*	\param		[in]	_scale		- input scale in x,y and z.
 		*	\since version 0.0.2
 		*/
-		void setScale(zDouble4 &_scale);
+		ZSPACE_CUDA_CALLABLE void setScale(zFloat4 &_scale);
 
 		/*! \brief This method sets the translation components of the tranform.
 		*
@@ -141,14 +141,14 @@ namespace zSpace
 		*	\param		[in]	addValues			- true if the input values are added to the existing values.
 		*	\since version 0.0.2
 		*/
-		void setTranslation(zDouble4 &_translation, bool addValues = false);
+		ZSPACE_CUDA_CALLABLE void setTranslation(zFloat4 &_translation, bool addValues = false);
 
 		/*! \brief This method sets the pivot components of the tranform.
 		*
 		*	\param		[in]	_pivot		- input pivot in x,y and z.
 		*	\since version 0.0.2
 		*/
-		void setPivot(zDouble4 &_pivot);
+		ZSPACE_CUDA_CALLABLE void setPivot(zFloat4 &_pivot);
 
 		//--------------------------
 		//---- GET METHODS
@@ -160,63 +160,63 @@ namespace zSpace
 		*	\return				zVector		- output x axis vector.
 		*	\since version 0.0.2
 		*/
-		zVector getX();
+		ZSPACE_CUDA_CALLABLE zVector getX();
 
 		/*! \brief This method gets the Y-Axis of the tranform.
 		*
 		*	\return				zVector		- output y axis vector.
 		*	\since version 0.0.2
 		*/
-		zVector getY();
+		ZSPACE_CUDA_CALLABLE zVector getY();
 
 		/*! \brief This method gets the Z-Axis of the tranform.
 		*
 		*	\return				zVector		- output z axis vector.
 		*	\since version 0.0.2
 		*/
-		zVector getZ();
+		ZSPACE_CUDA_CALLABLE zVector getZ();
 
 		/*! \brief This method gets the Origin of the tranform.
 		*
 		*	\return				zVector		- output origin vector.
 		*	\since version 0.0.2
 		*/
-		zVector getO();
+		ZSPACE_CUDA_CALLABLE zVector getO();
 
 		/*! \brief This method gets the translation components of the tranform.
 		*
 		*	\return				zVector		- output translation vector.
 		*	\since version 0.0.2
 		*/
-		zVector getTranslation();
+		ZSPACE_CUDA_CALLABLE zVector getTranslation();
 
 		/*! \brief This method gets the pivot components of the tranform.
 		*
 		*	\return				zVector		- output pivot vector.
 		*	\since version 0.0.2
 		*/
-		zVector getPivot();
+		ZSPACE_CUDA_CALLABLE zVector getPivot();
 
 		/*! \brief This method gets the pointer to the pivot components.
 		*
 		*	\return			double*		- pointer to pivot component.
 		*	\since version 0.0.2
 		*/
-		double* getRawPivot();
+		ZSPACE_CUDA_CALLABLE float* getRawPivot();
 
 		/*! \brief This method gets the rotation components of the tranform.
 		*
 		*	\param		[out]	_rotation		- output rotations in x,y and z in degrees.
 		*	\since version 0.0.2
 		*/
-		void getRotation(zDouble4 &_rotation);
+		ZSPACE_CUDA_CALLABLE void getRotation(zFloat4 &_rotation);
 
 		/*! \brief This method gets the scale components of the tranform.
 		*
 		*	\param		[out]	_scale		- output scale in x,y and z.
 		*	\since version 0.0.2
 		*/
-		void getScale(zDouble4 &_scale);		
+		ZSPACE_CUDA_CALLABLE void getScale(zFloat4 &_scale);
 
 		//--------------------------
 		//---- AS MATRIX METHODS
@@ -227,56 +227,56 @@ namespace zSpace
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asMatrix();
 
 		/*! \brief This method returns the pointer to the 4x4 matrix that describes this transformation;
 		*
 		*	\return 			double*		-  pointer to the 4x4 matrix .
 		*	\since version 0.0.2
 		*/
-		double* asRawMatrix();
+		ZSPACE_CUDA_CALLABLE float* asRawMatrix();
 
 		/*! \brief This method returns the inverse of the 4x4 matrix that describes this transformation;
 		*
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asInverseMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asInverseMatrix();
 
 		/*! \brief This method returns the scale matrix;
 		*
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asScaleMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asScaleMatrix();
 
 		/*! \brief This method returns the rotation matrix;
 		*
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asRotationMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asRotationMatrix();
 		
 		/*! \brief This method returns the rotation matrix;
 		*
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asPivotMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asPivotMatrix();
 
 		/*! \brief This method returns the pivot translation matrix
 		*
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asPivotTranslationMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asPivotTranslationMatrix();
 
 		/*! \brief This method returns the inverse of the pivot translation matrix
 		*
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asInversePivotTranslationMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asInversePivotTranslationMatrix();
 
 		/*! \brief This method returns the scaling matrix;
 		*
@@ -284,7 +284,7 @@ namespace zSpace
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asScaleTransformMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asScaleTransformMatrix();
 
 		/*! \brief This method returns the scaling matrix;
 		*
@@ -292,7 +292,7 @@ namespace zSpace
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform asInverseScaleTransformMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform asInverseScaleTransformMatrix();
 
 		//--------------------------
 		//---- GET MATRIX METHODS
@@ -303,14 +303,14 @@ namespace zSpace
 		*	\return 			zTransform		- world transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform getWorldMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform getWorldMatrix();
 
 		/*! \brief This method gets the tranformation to the local space.
 		*
 		*	\return 			zTransform		- local transformation matrix.
 		*	\since version 0.0.2
 		*/		
-		zTransform getLocalMatrix();
+		ZSPACE_CUDA_CALLABLE zTransform getLocalMatrix();
 		
 		/*! \brief This method gets the tranformation from current tranform to input transform.
 		*
@@ -318,7 +318,7 @@ namespace zSpace
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform getToMatrix(zTransformationMatrix &to);
+		ZSPACE_CUDA_CALLABLE zTransform getToMatrix(zTransformationMatrix &to);
 
 		/*! \brief This method gets the tranformation to change the basis to another.
 		*
@@ -326,7 +326,7 @@ namespace zSpace
 		*	\return 			zTransform	- transformation matrix.
 		*	\since version 0.0.2
 		*/
-		zTransform getBasisChangeMatrix(zTransformationMatrix &to);
+		ZSPACE_CUDA_CALLABLE zTransform getBasisChangeMatrix(zTransformationMatrix &to);
 
 		/*! \brief This method gets the input target as per the current transform as the basis.
 		*
@@ -334,7 +334,7 @@ namespace zSpace
 		*	\return 			zTransform	- new target transform.
 		*	\since version 0.0.2
 		*/
-		zTransform getTargetMatrix(zTransform &target);		
+		ZSPACE_CUDA_CALLABLE zTransform getTargetMatrix(zTransform &target);
 
 	protected:
 
@@ -342,62 +342,62 @@ namespace zSpace
 		*
 		*	\since version 0.0.2
 		*/
-		void computeTransform();
+		ZSPACE_CUDA_CALLABLE void computeTransform();
 
 		/*! \brief This method compute the rotation matrix.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeR();
+		ZSPACE_CUDA_CALLABLE void computeR();
 
 		/*! \brief This method compute the rotation matrix in X.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeRx();
+		ZSPACE_CUDA_CALLABLE void computeRx();
 
 		/*! \brief This method compute the rotation matrix in Y.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeRy();
+		ZSPACE_CUDA_CALLABLE void computeRy();
 
 		/*! \brief This method compute the rotation matrix in Z.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeRz();
+		ZSPACE_CUDA_CALLABLE void computeRz();
 
 		/*! \brief This method compute the translation matrix.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeT();
+		ZSPACE_CUDA_CALLABLE void computeT();
 
 		/*! \brief This method compute the pivot matrix.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeP();
+		ZSPACE_CUDA_CALLABLE void computeP();
 
 		/*! \brief This method compute the scale matrix.
 		*
 		*	\since version 0.0.2
 		*/
-		void computeS();
+		ZSPACE_CUDA_CALLABLE void computeS();
 
 		/*! \brief This method decomposes the rotation matrix into Euler angles.
 		*
 		*	\details based on  http://www.gregslabaugh.net/publications/euler.pdf. The zTransform matrix is the the transpose of the one in the paper. 
 		*	\since version 0.0.2
 		*/
-		void decomposeR();
+		ZSPACE_CUDA_CALLABLE void decomposeR();
 
 		/*! \brief This method decomposes the translation matrix into ddistances in x, y and z axis.
 		*
 		*	\since version 0.0.2
 		*/
-		void decomposeT();	
+		ZSPACE_CUDA_CALLABLE void decomposeT();
 
 	};
 
