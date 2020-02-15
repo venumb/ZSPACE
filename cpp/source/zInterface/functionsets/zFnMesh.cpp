@@ -2476,7 +2476,7 @@ namespace zSpace
 		zItMeshVertex newVertex;
 		addVertex(newVertPos, false, newVertex);
 
-		//printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
+    //printf("\n newVert: %1.2f %1.2f %1.2f   %s ", newVertPos.x, newVertPos.y, newVertPos.z, (vExists)?"true":"false");
 
 		if (newVertex.getId() >= numOriginalVertices)
 		{
@@ -2495,6 +2495,8 @@ namespace zSpace
 			// recompute iterators if resize is true
 			if (edgesResize)
 			{
+
+				//edge = zItMeshEdge(*meshObj, edge.getId());
 				edge = zItMeshEdge(*meshObj, edgeId);
 
 				he = edge.getHalfEdge(0);
@@ -2961,11 +2963,11 @@ namespace zSpace
 		}	
 	}
 
-	ZSPACE_INLINE zObjMesh zFnMesh::extrude(float extrudeThickness, bool thicknessTris)
+
+	ZSPACE_INLINE void zFnMesh::extrudeMesh(float extrudeThickness,zObjMesh &out, bool thicknessTris)
 	{
 		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
-
-		zObjMesh out;
+		
 
 		vector<zVector> positions;
 		vector<int> polyCounts;
@@ -3034,9 +3036,74 @@ namespace zSpace
 			}
 		}
 
-		out.mesh.create(positions, polyCounts, polyConnects);
+		zFnMesh tempFn(out);
 
-		return out;
+		tempFn.clear();
+		tempFn.create(positions, polyCounts, polyConnects);		
+		
+	}
+
+	ZSPACE_INLINE void zFnMesh::extrudeBoundaryEdge(float extrudeThickness, zObjMesh &out, bool thicknessTris)
+	{
+		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
+
+
+		vector<zVector> positions;
+		vector<int> polyCounts;
+		vector<int> polyConnects;
+
+
+		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(meshObj->mesh.vertexPositions[i]);
+		}
+
+		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(meshObj->mesh.vertexPositions[i] + (meshObj->mesh.vertexNormals[i] * extrudeThickness));
+		}	
+
+
+		for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
+		{
+			if (he.onBoundary())
+			{
+				vector<int> eVerts;
+				he.getVertices(eVerts);
+
+				if (thicknessTris)
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1]);
+
+					polyCounts.push_back(3);
+					polyCounts.push_back(3);
+				}
+				else
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + meshObj->mesh.vertexPositions.size());
+
+
+					polyCounts.push_back(4);
+				}
+
+
+			}
+		}
+
+		zFnMesh tempFn(out);
+
+		tempFn.clear();
+		tempFn.create(positions, polyCounts, polyConnects);
+
 	}
 
 	//---- TRANSFORM METHODS OVERRIDES
@@ -3914,7 +3981,6 @@ namespace zSpace
 			int nextID = (startID + 1) % fVerts.size();
 			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
 
-
 			zVector v0 = fVerts[startID].getPosition();
 			double s0 = fVerts[startID].getColor().r;
 
@@ -4032,6 +4098,7 @@ namespace zSpace
 			newPositions.push_back(pos2);
 			newPositions.push_back(pos3);
 
+
 		}
 
 		// Single Rectangle CASE 26 to 29
@@ -4107,7 +4174,9 @@ namespace zSpace
 			zVector v1 = fVerts[next_nextID].getPosition();
 			double s1 = fVerts[next_nextID].getColor().r;
 
-			zVector pos2 = getContourPosition(threshold, v0, v1, s0, s1);
+
+      zVector pos2 = getContourPosition(threshold, v0, v1, s0, s1);
+
 
 			v0 = fVerts[prevID].getPosition();
 			s0 = fVerts[prevID].getColor().r;

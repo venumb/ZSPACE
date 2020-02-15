@@ -10,13 +10,13 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_AG_COLUMN_H
-#define ZSPACE_AG_COLUMN_H
+#ifndef ZSPACE_AG_WALL_H
+#define ZSPACE_AG_WALL_H
 
 #pragma once
 
-#include <headers/zCore/base/zExtern.h>
 #include <headers/zInterface/model/zModel.h>
+#include <headers/zCore/base/zExtern.h>
 
 #include <headers/zInterface/functionsets/zFnMesh.h>
 #include <headers/zInterface/functionsets/zFnGraph.h>
@@ -34,48 +34,30 @@ using namespace std;
 namespace zSpace
 {
 
-	/*! \class zAgColumn
-	*	\brief A toolset for creating columns in housing units
+	/*! \class zAgWall
+	*	\brief A toolset for creating walls in housing units
 	*	\since version 0.0.4
 	*/
 
+	/** @}*/
 
-	class ZSPACE_AG zAgColumn : public zAgObj
+
+	class ZSPACE_AG zAgWall : public zAgObj
 	{
-	protected:
-		//--------------------------
-		//---- PROTECTED ATTRIBUTES
-		//--------------------------
-
-		/*!	\brief stores x and y directions */
-		zVector x, y, z;
-
 
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief pointer to column mesh Object  */
-		zObjMesh columnMeshObj;
+		/*!	\brief pointer to input mesh Object  */
+		zObjMesh wallMeshObj;
 
-		/*!	\brief input height  */
-		float height;
+		/*!	\brief input vertex corners */
+		zPointArray vertexCorners;
 
-		/*!	\brief input axis x and y */
-		zVectorArray axis;
-
-		/*!	\brief input avis attributes primary or secondary  */
-		zBoolArray axisAttributes;
-
-		/*!	\brief input mesh snap points for slab creation  */
-		vector<zVectorArray> snapSlabpoints;
-
-		/*!	\brief input array of neighbouring cell condition */
-		vector<zBoundary> boundaryArray;
-
-		/*!	\brief stores position point*/
-		zVector position;
+		/*!	\brief id of the parent's face its parented to */
+		int faceId;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -84,18 +66,15 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zAgColumn();
+		zAgWall();
 
-		/*! \brief overloaded constructor.
-		*	
-		*	\param		[in]	_position					- world position.
-		*	\param		[in]	_showForces					- array of axis vectors.
-		*	\param		[in]	_showForces					- array of axis attributes.
-		*	\param		[in]	_showForces					- array on boundary attributes.
-		*	\param		[in]	_showForces					- input height.
+		/*! \brief overload constructor.
+		*
+		*	\param		[in]	_inMeshObj				- input mesh object.
+		*	\param		[in]	_vertexCorners			- input vertex corners.
 		*	\since version 0.0.4
 		*/
-		zAgColumn(zVector&_position, zVectorArray&_axis, zBoolArray&_axisAttributes, vector<zBoundary>&_boundaryArray, float _height);
+		zAgWall(zPointArray&_vertexCorners, int _faceId);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -105,30 +84,23 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zAgColumn();
+		~zAgWall();
 
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates a robotic hotwire cut column
-		*
-		*	\since version 0.0.4
-		*/
-		void createRhwc() override;
-
-		/*! \brief This method creates a Timber column
-		*
-		*	\since version 0.0.4
-		*/
 		void createTimber() override;
 
+		void createRhwc() override;
 
-		/*! \brief This method creates structural extrusions from wireframe mesh
-		*
-		*	\since version 0.0.4
-		*/
-		void createFrame();
+
+		//--------------------------
+		//---- UPDATE METHODS
+		//--------------------------
+
+		void updateWall(zPointArray&_corners);
+
 
 		//--------------------------
 		//---- DISPLAY METHODS
@@ -138,24 +110,26 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void displayColumn(bool showColumn);
+		void displayWall(bool showWall);
+
 
 #ifndef ZSPACE_UNREAL_INTEROP
 
-		/*! \brief This method displays the mesh associated with this obj
+		/*! \brief This method sets the zModel pointer.
 		*
 		*	\since version 0.0.4
 		*/
 		void addObjsToModel() override;
 #endif
-
 	};
+
+
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zArchGeom/zAgColumn.cpp>
+#include<source/zArchGeom/zAgWall.cpp>
 #endif
 
 #endif

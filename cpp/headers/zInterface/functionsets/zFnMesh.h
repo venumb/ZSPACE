@@ -840,8 +840,21 @@ namespace zSpace
 		*	\retrun				zMesh				- extruded mesh.
 		*	\since version 0.0.2
 		*/
+
+		void extrudeMesh(float extrudeThickness, zObjMesh &outMesh, bool thicknessTris = false);
+			 
+		/*! \brief This method returns an extruded mesh of the boundary edgesd of the input mesh.
+		*
+		*	\param		[in]	extrudeThickness	- extrusion thickness.
+		*	\param		[in]	thicknessTris		- true if the cap needs to be triangulated.
+		*	\retrun				zMesh				- extruded mesh.
+		*	\since version 0.0.2
+		*/
+		void extrudeBoundaryEdge(float extrudeThickness, zObjMesh &outMesh, bool thicknessTris = false);
+
 		zObjMesh extrude(float extrudeThickness, bool thicknessTris = false);
 			   		 	  	  		
+
 		//--------------------------
 		//---- TRANSFORM METHODS OVERRIDES
 		//--------------------------
