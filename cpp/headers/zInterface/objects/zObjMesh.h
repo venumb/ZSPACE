@@ -230,11 +230,12 @@ namespace zSpace
 		//--------------------------
 		//---- OVERRIDE METHODS
 		//--------------------------
-
-
+		
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 		void draw() override;
 #endif
 

@@ -187,7 +187,7 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief pointer to a 2D field  */
-		zObjMeshField<double> *fieldObj;
+		zObjMeshScalarField  *fieldObj;
 
 		//--------------------------
 		//---- STREET ATTRIBUTES
@@ -264,7 +264,7 @@ namespace zSpace
 		double scaleFactor;
 
 		/*!	\brief field function set  */
-		zFnMeshField<double> fnField;
+		zFnMeshField<zScalar> fnField;
 
 		/*!	\brief graph function set for streets */
 		zFnGraph fnStreet;
@@ -299,7 +299,7 @@ namespace zSpace
 		*	\param		[in]	DatabaseFileName		- file path to the SQL database.
 		*	\since version 0.0.1
 		*/
-		zTsOSM(char* DatabaseFileName, zObjMeshField<double> &_fieldObj, zObjGraph &_streetObj, zObjMesh &_buildingObj, zObjGraph &_buildingGraphObj);
+		zTsOSM(char* DatabaseFileName, zObjMeshField<zScalar> &_fieldObj, zObjGraph &_streetObj, zObjMesh &_buildingObj, zObjGraph &_buildingGraphObj);
 
 		//--------------------------
 		//---- DESTRUCTOR

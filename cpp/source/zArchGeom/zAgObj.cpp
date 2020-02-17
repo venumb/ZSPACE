@@ -39,7 +39,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgObj::createTimber(){}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 	   
 	ZSPACE_INLINE void zAgObj::setModel(zModel & _model)
 	{

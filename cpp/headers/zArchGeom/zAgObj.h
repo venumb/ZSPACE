@@ -49,7 +49,9 @@ namespace zSpace
 		/*!	\brief input structure type */
 		zStructureType structureType;
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 
 		/*!	\brief pointer to display model  */
 		zModel *model;
@@ -105,7 +107,9 @@ namespace zSpace
 		//--------------------------
 
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 
 		/*! \brief This method sets the zModel pointer.
 		*

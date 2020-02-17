@@ -245,7 +245,7 @@ namespace zSpace
 
 	//----  2D STREAM LINES METHODS WITH INFLUENCE SCALAR FIELD
 
-	ZSPACE_INLINE void zTsStreams2D::createStreams_Influence(vector<zStreamLine>& streams, vector<zVector> &start_seedPoints, zFnMeshField<double>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly)
+	ZSPACE_INLINE void zTsStreams2D::createStreams_Influence(vector<zStreamLine>& streams, vector<zVector> &start_seedPoints, zFnMeshField<zScalar>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly)
 	{
 		streams.clear();
 
@@ -705,7 +705,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE bool zTsStreams2D::createStreamGraph_Influence(zObjGraph &streamGraphObj, zVector &seedPoint, zFnMeshField<double>& fnInfluenceField, double min_Power, double max_Power)
+	ZSPACE_INLINE bool zTsStreams2D::createStreamGraph_Influence(zObjGraph &streamGraphObj, zVector &seedPoint, zFnMeshField<zScalar>& fnInfluenceField, double min_Power, double max_Power)
 	{
 
 		vector<zVector> positions;
@@ -760,9 +760,9 @@ namespace zSpace
 
 
 				// get dSep
-				double influenceFieldValue;
+				float influenceFieldValue;
 				fnInfluenceField.getFieldValue(curPos, zFieldNeighbourWeighted, influenceFieldValue);
-				double power = coreUtils.ofMap(influenceFieldValue, -1.0, 1.0, min_Power, max_Power);
+				double power = coreUtils.ofMap(influenceFieldValue, -1.0f, 1.0f, (float) min_Power,(float) max_Power);
 
 				double distSep = *dSep / pow(2, power);
 
@@ -886,9 +886,9 @@ namespace zSpace
 				}
 
 				// get dSep
-				double influenceFieldValue;
+				float influenceFieldValue;
 				fnInfluenceField.getFieldValue(curPos, zFieldNeighbourWeighted, influenceFieldValue);
-				double power = coreUtils.ofMap(influenceFieldValue, -1.0, 1.0, min_Power, max_Power);
+				double power = coreUtils.ofMap(influenceFieldValue, -1.0f, 1.0f, (float) min_Power, (float) max_Power);
 
 				double distSep = *dSep / pow(2, power);
 
@@ -994,7 +994,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTsStreams2D::getSeedPoints_Influence(zFnMeshField<double>& fnInfluenceField, zStreamLine& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
+	ZSPACE_INLINE void zTsStreams2D::getSeedPoints_Influence(zFnMeshField<zScalar>& fnInfluenceField, zStreamLine& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
 	{
 		zItGraphVertex v(*currentStream.graphObj, vertexId);
 
@@ -1006,10 +1006,10 @@ namespace zSpace
 		zVector vPos = v.getPosition();
 
 		// get dSep
-		double influenceFieldValue;
+		float influenceFieldValue;
 		fnInfluenceField.getFieldValue(vPos, zFieldNeighbourWeighted, influenceFieldValue);
 
-		double power = coreUtils.ofMap(influenceFieldValue, -1.0, 1.0, min_Power, max_Power);
+		double power = coreUtils.ofMap(influenceFieldValue, -1.0f, 1.0f, (float) min_Power, (float) max_Power);
 		power = floor(power);
 		double distSep = *dSep / pow(2, power);
 

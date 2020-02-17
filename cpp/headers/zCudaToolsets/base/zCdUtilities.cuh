@@ -18,12 +18,18 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 
-#include<headers/zCudaToolsets/base/zCudaMacros.h>
+#include <cooperative_groups.h>
+#include <helper_cuda.h>
+#include <helper_functions.h>
+#include <helper_math.h>
+
+#include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
 
-//--------------------------
+#include <stdio.h>
+using namespace std;
+
 //---- UTILITIES
-//--------------------------
 
 ZSPACE_CUDA_CALLABLE_HOST ZSPACE_INLINE int cu_ConvertSMVer2Cores(int major, int minor)
 {
@@ -130,6 +136,14 @@ ZSPACE_CUDA_CALLABLE_HOST ZSPACE_INLINE static void checkCUDAError(const char *m
 	{
 		fprintf(stderr, "Cuda error: %s: %s.\n", msg, cudaGetErrorString(err));		
 	}
+}
+
+ZSPACE_CUDA_CALLABLE_HOST ZSPACE_INLINE void cu_getAttributes(int &numSMs, int &numTB)
+{
+	cudaDeviceGetAttribute(&numSMs, cudaDevAttrMultiProcessorCount, cu_gpuGetMaxGflopsDeviceId());
+	cudaDeviceGetAttribute(&numTB, cudaDevAttrMaxThreadsPerBlock, cu_gpuGetMaxGflopsDeviceId());
+
+	printf("\n numSMs: %i  numTB :%i ", numSMs, numTB);
 }
 
 #endif

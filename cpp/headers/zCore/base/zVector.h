@@ -22,7 +22,6 @@ using namespace std;
 #include <headers/zCore/base/zDefinitions.h>
 #include <headers/zCore/base/zMatrix.h>
 
-
 namespace  zSpace
 {
 	/** \addtogroup zCore

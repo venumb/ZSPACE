@@ -30,7 +30,7 @@
     <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\energy\zTsSolarAnalysis.h">
       <Filter>Headers\Energy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\base\zCudaMacros.h">
+    <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\base\zCudaDefinitions.h">
       <Filter>Headers\Base</Filter>
     </ClInclude>
   </ItemGroup>

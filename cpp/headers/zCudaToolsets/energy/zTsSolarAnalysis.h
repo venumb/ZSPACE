@@ -16,13 +16,10 @@
 #pragma once
 
 
-#include<headers/zCudaToolsets/base/zCudaMacros.h>
+#include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
 #include<headers/zCore/base/zDomain.h>
 #include<headers/zCore/utilities/zUtilsCore.h>
-
-#include <headers/zInterface/objects/zObjPointCloud.h>
-#include <headers/zInterface/functionsets/zFnPointCloud.h>
 
 namespace zSpace
 {
@@ -77,7 +74,14 @@ namespace zSpace
 		int numData;			
 
 		/*!	\brief date domain	*/
-		zDomainDate dDate;			
+		zDomainDate dDate;	
+
+		/*!	\brief location info	*/
+		zLocation location;
+
+		/*!	\brief pointer to container of cummulative raditation*/
+		float *cummulativeRadiation;
+
 			   			   
 	public:
 
@@ -85,13 +89,9 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief pointer to container of normals and sun vectors. It should be same size as solar angles*/
-		zNorm_SunVec *norm_sunVecs;
+		zNorm_SunVec *norm_sunVecs;		
 
-		/*!	\brief location info	*/
-		zLocation location;		
-
-		/*!	\brief pointer to container of solar angles*/
-		float *solarAngles;
+		
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -115,11 +115,15 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------	
 
+		ZSPACE_CUDA_CALLABLE_HOST void setMemory(int _newSize);
+
 		ZSPACE_CUDA_CALLABLE_HOST void setNormals(zVector *_normals, int _numNormals);
 
 		ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
 
 		ZSPACE_CUDA_CALLABLE_HOST void setDates(zDomainDate & _dDate);
+
+		ZSPACE_CUDA_CALLABLE_HOST void setLocation(zLocation &_location);
 
 		ZSPACE_CUDA_CALLABLE_HOST void setNorm_SunVecs();
 
@@ -133,17 +137,21 @@ namespace zSpace
 
 		ZSPACE_CUDA_CALLABLE int numDataPoints();
 
-		ZSPACE_CUDA_CALLABLE zVector* getNormals();
+		ZSPACE_CUDA_CALLABLE zVector* getRawNormals();
 
-		ZSPACE_CUDA_CALLABLE zVector* getSunVectors();
+		ZSPACE_CUDA_CALLABLE zVector* getRawSunVectors();
 
-		ZSPACE_CUDA_CALLABLE zEPWData* getEPWData();
+		ZSPACE_CUDA_CALLABLE zEPWData* getRawEPWData();
+
+		ZSPACE_CUDA_CALLABLE float* getRawCummulativeRadiation();
 
 		ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, float radius);
 
 		ZSPACE_CUDA_CALLABLE zDomainDate getSunRise_SunSet(zDate &date);
 
 		ZSPACE_CUDA_CALLABLE zDomainDate getDates();
+
+		ZSPACE_CUDA_CALLABLE zLocation getLocation();
 
 		ZSPACE_CUDA_CALLABLE zNorm_SunVec* getNorm_SunVecs();
 

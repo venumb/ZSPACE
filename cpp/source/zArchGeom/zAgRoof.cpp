@@ -154,15 +154,17 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgRoof::displayRoof(bool showRoof)
 	{
-		roofMeshObj.setShowObject(showRoof);
+		roofMeshObj.setDisplayObject(showRoof);
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 	ZSPACE_INLINE void zAgRoof::addObjsToModel()
 	{
 		model->addObject(roofMeshObj);
-		roofMeshObj.setShowElements(false, true, true);
+		roofMeshObj.setDisplayElements(false, true, true);
 	}
 
 #endif

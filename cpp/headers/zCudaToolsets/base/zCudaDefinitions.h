@@ -33,3 +33,39 @@
 #define ZSPACE_CUDA_CALLABLE_DEVICE 
 #define ZSPACE_CUDA_GLOBAL
 #endif
+
+
+/*!
+*	\brief Defines the size of d_THREADSPERBLOCK.
+*/
+#ifndef d_THREADSPERBLOCK
+#define d_THREADSPERBLOCK 256
+#endif
+
+/*!
+*	\brief Defines the size of d_MEMORYMULTIPLIER.
+*/
+#ifndef d_MEMORYMULTIPLIER
+#define d_MEMORYMULTIPLIER (d_THREADSPERBLOCK * 10)
+#endif
+
+/*!
+*	\brief Defines the size of FloatSize.
+*/
+#ifndef FloatSize
+#define FloatSize sizeof(float)
+#endif
+
+/*!
+*	\brief Defines the size of zVectorSize.
+*/
+#ifndef zVectorSize
+#define zVectorSize sizeof(zVector)
+#endif
+
+/*!
+*	\brief Defines the size of zColorSize.
+*/
+#ifndef zColorSize
+#define zColorSize sizeof(zColor)
+#endif

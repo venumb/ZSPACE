@@ -209,7 +209,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE zSlimeEnvironment::zSlimeEnvironment(zObjMeshField<double> &_fieldObj)
+	ZSPACE_INLINE zSlimeEnvironment::zSlimeEnvironment(zObjMeshField<zScalar> &_fieldObj)
 	{
 		fieldObj = &_fieldObj;
 		fnMesh = zFnMesh(_fieldObj);
@@ -286,7 +286,7 @@ namespace zSpace
 		id_minA = -1;
 		id_maxA = -1;
 
-		vector<double> data = chemA;
+		vector<float> data = chemA;
 		std::sort(data.begin(), data.end());
 
 		int max_percentile = floor(max *  chemA.size());
@@ -315,7 +315,7 @@ namespace zSpace
 		repellants.clear();
 	}
 
-	ZSPACE_INLINE zTsSlime::zTsSlime(zObjMeshField<double> &_fieldObj, zObjPointCloud &_pointsObj)
+	ZSPACE_INLINE zTsSlime::zTsSlime(zObjMeshField<zScalar> &_fieldObj, zObjPointCloud &_pointsObj)
 	{
 		environment = zSlimeEnvironment(_fieldObj);
 

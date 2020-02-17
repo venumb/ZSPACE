@@ -286,7 +286,7 @@ namespace zSpace
 	*/
 	struct zEPWData
 	{
-		double dbTemperature, humidity, windSpeed, windDirection, radiation, pressure;
+		float dbTemperature, humidity, windSpeed, windDirection, radiation, pressure;
 	};
 
 	/*! \struct zLocation

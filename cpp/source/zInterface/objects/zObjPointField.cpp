@@ -21,7 +21,9 @@ namespace zSpace
 	template<typename T>
 	ZSPACE_INLINE zObjPointField<T>::zObjPointField()
 	{
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 		displayUtils = nullptr;
 #endif
 
@@ -35,7 +37,9 @@ namespace zSpace
 
 	//---- OVERRIDE METHODS
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 	template<typename T>
 	ZSPACE_INLINE void zObjPointField<T>::draw()
 	{

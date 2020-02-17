@@ -250,7 +250,7 @@ namespace zSpace
 		updateFormDiagram(minmax_Edge, dT, type, numIterations);
 
 		// check deviations
-		zDomainDouble dev;
+		zDomainFloat dev;
 		bool out = checkParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 		return out;
@@ -273,12 +273,12 @@ namespace zSpace
 		formGraphVertex_Offsets = offsets;
 	}
 
-	ZSPACE_INLINE void zTsSpatialStructures::setFormEdgeWeightsfromVolume(zDomainDouble weightDomain)
+	ZSPACE_INLINE void zTsSpatialStructures::setFormEdgeWeightsfromVolume(zDomainFloat weightDomain)
 	{
 		//compute edgeWeights
 		vector<vector<double>> volMesh_fAreas;
 
-		zDomainDouble areaDomain(10000, -100000);
+		zDomainFloat areaDomain(10000, -100000);
 		zDomainColor colDomain(zColor(0.784, 0, 0.157, 1), zColor(0.027, 0, 0.157, 1));
 
 		for (int i = 0; i < fnVolumes.size(); i++)
@@ -310,9 +310,9 @@ namespace zSpace
 
 			for (int j = 0; j < cEdges.size(); j++)
 			{
-				double val = coreUtils.ofMap(fArea, areaDomain, weightDomain);
+				double val = coreUtils.ofMap((float)fArea, areaDomain, weightDomain);
 
-				zColor col = coreUtils.blendColor(fArea, areaDomain, colDomain, zRGB);
+				zColor col = coreUtils.blendColor((float)fArea, areaDomain, colDomain, zRGB);
 
 				cEdges[j].getEdge().setWeight(val);
 				cEdges[j].getEdge().setColor(col);
@@ -519,11 +519,11 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE bool zTsSpatialStructures::checkParallelity(zDomainDouble & deviation, double angleTolerance, bool colorEdges, bool printInfo)
+	ZSPACE_INLINE bool zTsSpatialStructures::checkParallelity(zDomainFloat & deviation, double angleTolerance, bool colorEdges, bool printInfo)
 	{
 		bool out = true;
-		vector<double> deviations;
-		deviation = zDomainDouble(10000, -10000);
+		vector<float> deviations;
+		deviation = zDomainFloat(10000, -10000);
 
 		for (zItGraphEdge e(*formObj); !e.end(); e++)
 		{

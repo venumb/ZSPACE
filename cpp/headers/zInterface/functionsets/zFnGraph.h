@@ -56,9 +56,6 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
-		/*!	\brief display Object  */
-		zUtilsDisplay display;
-
 	public:
 
 		//--------------------------

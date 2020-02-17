@@ -30,7 +30,7 @@ namespace zSpace
 
 	ZSPACE_INLINE zTsVariableExtrude::~zTsVariableExtrude() {}
 
-	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableFaceOffset(bool keepExistingFaces, bool assignColor, double minVal, double maxVal, bool useVertexColor)
+	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableFaceOffset(bool keepExistingFaces, bool assignColor, float minVal, float maxVal, bool useVertexColor)
 	{
 
 		vector<zVector>positions;
@@ -56,10 +56,10 @@ namespace zSpace
 			f.getVertices(fVerts);
 
 			zColor faceCol = f.getColor();
-			double faceVal = faceCol.r;
+			float faceVal = faceCol.r;
 			zColor newCol(faceCol.r, 0, 0, 1);
 
-			double extrudeVal = coreUtils.ofMap(faceVal, 0.0, 1.0, minVal, maxVal);
+			double extrudeVal = coreUtils.ofMap(faceVal, 0.0f, 1.0f, minVal, maxVal);
 
 			// get current size of positions
 			int numVerts = positions.size();
@@ -76,7 +76,7 @@ namespace zSpace
 				{
 					zColor vertexCol = fV.getColor();
 
-					extrudeVal = coreUtils.ofMap(vertexCol.r, 0.0, 1.0, minVal, maxVal);
+					extrudeVal = coreUtils.ofMap(vertexCol.r, 0.0f, 1.0f, minVal, maxVal);
 				}
 
 				zVector newPos = pos + dir * len * extrudeVal;
@@ -136,7 +136,7 @@ namespace zSpace
 		return out;
 	}
 
-	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableBoundaryOffset(bool keepExistingFaces, bool assignColor, double minVal, double maxVal)
+	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableBoundaryOffset(bool keepExistingFaces, bool assignColor, float minVal, float maxVal)
 	{
 
 		vector<zVector>positions;
@@ -170,10 +170,10 @@ namespace zSpace
 						vertexColors.push_back(v.getColor());
 					}
 
-					double vertexVal = v.getColor().r;
+					float vertexVal = v.getColor().r;
 					zColor newCol(v.getColor().r, 0, 0, 1);
 
-					double extrudeVal = coreUtils.ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
+					double extrudeVal = coreUtils.ofMap(vertexVal, 0.0f, 1.0f, minVal, maxVal);
 
 
 					zItMeshHalfEdge vEdge;
@@ -277,10 +277,10 @@ namespace zSpace
 				if (v.onBoundary())
 				{
 
-					double vertexVal = v.getColor().r;
+					float vertexVal = v.getColor().r;
 					zColor newCol(v.getColor().r, 0, 0, 1);
 
-					double extrudeVal = coreUtils.ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
+					double extrudeVal = coreUtils.ofMap(vertexVal, 0.0f, 1.0f, minVal, maxVal);
 
 
 					zItMeshHalfEdge vEdge = v.getHalfEdge();
@@ -390,7 +390,7 @@ namespace zSpace
 		return out;
 	}
 
-	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableFaceThicknessExtrude(bool assignColor, double minVal, double maxVal)
+	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableFaceThicknessExtrude(bool assignColor, float minVal, float maxVal)
 	{
 
 
@@ -414,7 +414,7 @@ namespace zSpace
 			double vertexVal = v.getColor().r;
 			zColor newCol(v.getColor().r, 0, 0, 1);
 
-			double extrudeVal = coreUtils.ofMap(vertexVal, 0.0, 1.0, minVal, maxVal);
+			double extrudeVal = coreUtils.ofMap((float) vertexVal, 0.0f, 1.0f, minVal, maxVal);
 
 			zVector vNormal = v.getNormal();
 			vNormal.normalize();

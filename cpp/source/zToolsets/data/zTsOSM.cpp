@@ -31,12 +31,12 @@ namespace zSpace
 		buildingGraphObj = nullptr;
 	}
 
-	ZSPACE_INLINE zTsOSM::zTsOSM(char* DatabaseFileName, zObjMeshField<double> &_fieldObj, zObjGraph &_streetObj, zObjMesh &_buildingObj, zObjGraph &_buildingGraphObj)
+	ZSPACE_INLINE zTsOSM::zTsOSM(char* DatabaseFileName, zObjMeshField<zScalar> &_fieldObj, zObjGraph &_streetObj, zObjMesh &_buildingObj, zObjGraph &_buildingGraphObj)
 	{
 		zDB = new zDatabase(DatabaseFileName);
 
 		fieldObj = &_fieldObj;
-		fnField = zFnMeshField<double>(_fieldObj);
+		fnField = zFnMeshField<zScalar>(_fieldObj);
 
 		streetObj = &_streetObj;
 		fnStreet = zFnGraph(_streetObj);
@@ -90,8 +90,8 @@ namespace zSpace
 
 	ZSPACE_INLINE zVector zTsOSM::computePositionFromCoordinates(double &lat, double &lon)
 	{
-		double mappedX = coreUtils.ofMap(lon, lat_lon[1], lat_lon[3], minBB.x, maxBB.x);
-		double mappedY = coreUtils.ofMap(lat, lat_lon[0], lat_lon[2], minBB.y, maxBB.y);
+		double mappedX = coreUtils.ofMap(lon, lat_lon[1], lat_lon[3], (double) minBB.x, (double)maxBB.x);
+		double mappedY = coreUtils.ofMap(lat, lat_lon[0], lat_lon[2], (double)minBB.y, (double)maxBB.y);
 
 		//printf("\n X : %1.2f Y: %1.2f", mappedX, mappedY);
 

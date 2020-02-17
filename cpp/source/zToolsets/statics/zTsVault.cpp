@@ -862,7 +862,7 @@ namespace zSpace
 	//---- TNA METHODS
 
 	template<typename T, typename U>
-	ZSPACE_INLINE bool zTsVault<T, U>::equilibriumHorizontal(bool &computeTargets, double formWeight, double dT, zIntergrationType type, int numIterations , double angleTolerance, double minMax_formEdge , double minMax_forceEdge , bool colorEdges, bool printInfo )
+	ZSPACE_INLINE bool zTsVault<T, U>::equilibriumHorizontal(bool &computeTargets, float formWeight, float dT, zIntergrationType type, int numIterations , float angleTolerance, float minMax_formEdge , float minMax_forceEdge , bool colorEdges, bool printInfo )
 	{
 		// compute horizontal equilibrium targets
 		if (computeTargets)
@@ -888,7 +888,7 @@ namespace zSpace
 		}
 
 		// check deviations
-		zDomainDouble dev;		
+		zDomainFloat dev;		
 		bool out = checkHorizontalParallelity(dev, angleTolerance, colorEdges, printInfo);
 
 		if (out)
@@ -903,7 +903,7 @@ namespace zSpace
 
 	//---- graph specilization for verticalEquilibrium using Linear Algebra
 	template<>
-	ZSPACE_INLINE  bool zTsVault<zObjGraph, zFnGraph>::equilibriumVertical(bool &computeForceDensitities, double forceDiagramScale)
+	ZSPACE_INLINE  bool zTsVault<zObjGraph, zFnGraph>::equilibriumVertical(bool &computeForceDensitities, float forceDiagramScale)
 	{
 		if (computeForceDensitities)
 		{
@@ -1066,7 +1066,7 @@ namespace zSpace
 
 	//---- mesh specilization for verticalEquilibrium using Linear Algebra
 	template<>
-	ZSPACE_INLINE  bool zTsVault<zObjMesh, zFnMesh>::equilibriumVertical(bool &computeForceDensitities, double forceDiagramScale)
+	ZSPACE_INLINE  bool zTsVault<zObjMesh, zFnMesh>::equilibriumVertical(bool &computeForceDensitities, float forceDiagramScale)
 	{
 		if (computeForceDensitities)
 		{
@@ -1424,7 +1424,7 @@ namespace zSpace
 
 	//---- graph specilization for setForceDensity
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setForceDensity(double fDensity)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setForceDensity(float fDensity)
 	{
 		forceDensities.clear();
 
@@ -1436,7 +1436,7 @@ namespace zSpace
 
 	//---- mesh specilization for setForceDensity
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensity(double fDensity)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensity(float fDensity)
 	{
 		forceDensities.clear();
 
@@ -1448,7 +1448,7 @@ namespace zSpace
 
 	//---- graph specilization for setForceDensities
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setForceDensities(vector<double> &fDensities)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setForceDensities(vector<float> &fDensities)
 	{
 		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of graph half edges.");
 
@@ -1457,7 +1457,7 @@ namespace zSpace
 
 	//---- mesh specilization for setForceDensities
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensities(vector<double> &fDensities)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensities(vector<float> &fDensities)
 	{
 		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of mesh edges.");
 
@@ -1466,7 +1466,7 @@ namespace zSpace
 
 	//---- graph specilization for setForceDensitiesFromDiagrams
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setForceDensitiesFromDiagrams(double forceDiagramScale, bool negate)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setForceDensitiesFromDiagrams(float forceDiagramScale, bool negate)
 	{
 		forceDensities.clear();
 
@@ -1518,7 +1518,7 @@ namespace zSpace
 
 	//---- mesh specilization for setForceDensitiesFromDiagrams
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensitiesFromDiagrams(double forceDiagramScale, bool negate)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setForceDensitiesFromDiagrams(float forceDiagramScale, bool negate)
 	{
 		forceDensities.clear();
 
@@ -1932,7 +1932,7 @@ namespace zSpace
 
 	//---- graph specilization for setVertexWeights
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexWeights(zDiagramType type, const vector<double>& vWeights)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexWeights(zDiagramType type, const vector<float>& vWeights)
 	{
 		if (type == zFormDiagram)
 		{
@@ -1984,7 +1984,7 @@ namespace zSpace
 
 	//---- mesh specilization for setVertexWeights
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexWeights(zDiagramType type, const vector<double>& vWeights)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexWeights(zDiagramType type, const vector<float>& vWeights)
 	{
 		if (type == zFormDiagram)
 		{
@@ -2075,7 +2075,7 @@ namespace zSpace
 
 	//---- graph specilization for setVertexThickness
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexThickness(double thickness)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexThickness(float thickness)
 	{
 		resultVThickness.clear();
 
@@ -2086,7 +2086,7 @@ namespace zSpace
 
 	//---- mesh specilization for setVertexThickness
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexThickness(double thickness)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexThickness(float thickness)
 	{
 		resultVThickness.clear();
 		resultVThickness.assign(fnResult.numVertices(), thickness);
@@ -2096,7 +2096,7 @@ namespace zSpace
 
 	//---- graph specilization for setVertexThickness
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexThickness(vector<double> &thickness)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexThickness(vector<float> &thickness)
 	{
 		if (thickness.size() != fnResult.numVertices()) throw std::invalid_argument("size of thickness contatiner is not equal to number of mesh vertices.");
 
@@ -2106,7 +2106,7 @@ namespace zSpace
 
 	//---- mesh specilization for setVertexThickness
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexThickness(vector<double> &thickness)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexThickness(vector<float> &thickness)
 	{
 		if (thickness.size() != fnResult.numVertices()) throw std::invalid_argument("size of thickness contatiner is not equal to number of mesh vertices.");
 
@@ -2116,7 +2116,7 @@ namespace zSpace
 
 	//---- graph specilization for setVertexMass
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexMass(double mass)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setVertexMass(float mass)
 	{
 		resultVMass.clear();
 
@@ -2127,7 +2127,7 @@ namespace zSpace
 
 	//---- mesh specilization for setVertexMass
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexMass(double mass)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexMass(float mass)
 	{
 		resultVMass.clear();
 		resultVMass.assign(fnResult.numVertices(), mass);
@@ -2135,7 +2135,7 @@ namespace zSpace
 
 	//---- graph specilization for setVertexMass
 	template<>
-	ZSPACE_INLINE void zTsVault<zObjGraph, zFnGraph>::setVertexMass(vector<double> &mass)
+	ZSPACE_INLINE void zTsVault<zObjGraph, zFnGraph>::setVertexMass(vector<float> &mass)
 	{
 		if (mass.size() != fnResult.numVertices()) throw std::invalid_argument("size of mass contatiner is not equal to number of mesh vertices.");
 
@@ -2144,7 +2144,7 @@ namespace zSpace
 
 	//---- mesh specilization for setVertexMass
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexMass(vector<double> &mass)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setVertexMass(vector<float> &mass)
 	{
 		if (mass.size() != fnResult.numVertices()) throw std::invalid_argument("size of mass contatiner is not equal to number of mesh vertices.");
 
@@ -2298,7 +2298,7 @@ namespace zSpace
 	//---- UTILITY METHODS 
 
 	template<typename T, typename U>
-	ZSPACE_INLINE void zTsVault<T, U>::translateForceDiagram(double value)
+	ZSPACE_INLINE void zTsVault<T, U>::translateForceDiagram(float value)
 	{
 		// bounding box
 		zVector minBB, maxBB;
@@ -2417,7 +2417,7 @@ namespace zSpace
 
 	//---- graph specilization for getHorizontalTargets
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::getHorizontalTargets(double formWeight)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::getHorizontalTargets(float formWeight)
 	{
 		targetEdges_form.clear();
 		targetEdges_force.clear();
@@ -2470,7 +2470,7 @@ namespace zSpace
 
 	//---- mesh specilization for getHorizontalTargets
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::getHorizontalTargets(double formWeight)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::getHorizontalTargets(float formWeight)
 	{
 		targetEdges_form.clear();
 		targetEdges_force.clear();
@@ -2525,7 +2525,7 @@ namespace zSpace
 
 	//---- graph specilization for checkHorizontalParallelity
 	template<>
-	ZSPACE_INLINE  bool zTsVault<zObjGraph, zFnGraph>::checkHorizontalParallelity(zDomainDouble &deviation, double angleTolerance, bool colorEdges, bool printInfo)
+	ZSPACE_INLINE  bool zTsVault<zObjGraph, zFnGraph>::checkHorizontalParallelity(zDomainFloat &deviation, float angleTolerance, bool colorEdges, bool printInfo)
 	{
 		bool out = true;
 		vector<double> deviations;
@@ -2616,7 +2616,7 @@ namespace zSpace
 
 	//---- mesh specilization for checkHorizontalParallelity
 	template<>
-	ZSPACE_INLINE  bool zTsVault<zObjMesh, zFnMesh>::checkHorizontalParallelity(zDomainDouble &deviation, double angleTolerance, bool colorEdges, bool printInfo)
+	ZSPACE_INLINE  bool zTsVault<zObjMesh, zFnMesh>::checkHorizontalParallelity(zDomainFloat &deviation, float angleTolerance, bool colorEdges, bool printInfo)
 	{
 		bool out = true;
 		vector<double> deviations;
@@ -2706,7 +2706,7 @@ namespace zSpace
 
 	//---- graph specilization for updateFormDiagram
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::updateFormDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::updateFormDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations)
 	{
 
 
@@ -2798,7 +2798,7 @@ namespace zSpace
 	
 	//---- mesh specilization for updateFormDiagram
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::updateFormDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::updateFormDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations)
 	{
 
 		if (fnFormParticles.size() != fnForm.numVertices())
@@ -2890,7 +2890,7 @@ namespace zSpace
 
 	//---- graph specilization for updateForceDiagram
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::updateForceDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::updateForceDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations)
 	{
 		if (fnForceParticles.size() != fnForce.numVertices())
 		{
@@ -2981,7 +2981,7 @@ namespace zSpace
 
 	//---- mesh specilization for updateForceDiagram
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::updateForceDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::updateForceDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations)
 	{
 		if (fnForceParticles.size() != fnForce.numVertices())
 		{

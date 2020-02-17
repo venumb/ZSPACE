@@ -1553,9 +1553,9 @@ namespace zSpace
 		return total;
 	}
 
-	ZSPACE_INLINE double zFnMesh::getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zDoubleArray &vertexAreas)
+	ZSPACE_INLINE double zFnMesh::getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zFloatArray &vertexAreas)
 	{
-		vector<double> out;
+		vector<float> out;
 
 		double totalArea = 0;
 

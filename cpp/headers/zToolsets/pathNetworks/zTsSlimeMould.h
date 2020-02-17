@@ -283,7 +283,7 @@ namespace zSpace
 
 	/** @}*/
 
-	class ZSPACE_TOOLS zSlimeEnvironment : public zFnMeshField<double>
+	class ZSPACE_TOOLS zSlimeEnvironment : public zFnMeshField<zScalar>
 	{
 	protected:
 
@@ -307,7 +307,7 @@ namespace zSpace
 
 	
 		/*!<chemical A in the field. The size of the array should match fieldresoultion.*/
-		vector<double> chemA;	
+		vector<float> chemA;	
 
 		/*!<true if cell is occupied else false. The size of the array should match fieldresoultion.*/
 		vector< bool> occupied;		
@@ -339,7 +339,7 @@ namespace zSpace
 		*	\param		[in]	_fieldObj			- input field2D object.
 		*	\since version 0.0.2
 		*/
-		zSlimeEnvironment(zObjMeshField<double> &_fieldObj);			
+		zSlimeEnvironment(zObjMeshField<zScalar> &_fieldObj);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -464,7 +464,7 @@ namespace zSpace
 		*	\param		[in]	_pointsObj			- input pointcloud object.
 		*	\since version 0.0.2
 		*/
-		zTsSlime(zObjMeshField<double> &_fieldObj, zObjPointCloud &_pointsObj);
+		zTsSlime(zObjMeshField<zScalar> &_fieldObj, zObjPointCloud &_pointsObj);
 
 		//--------------------------
 		//---- DESTRUCTOR

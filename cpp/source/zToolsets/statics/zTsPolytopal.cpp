@@ -264,7 +264,7 @@ namespace zSpace
 
 	//----3D GS ITERATIVE 
 
-	ZSPACE_INLINE bool zTsPolytopal::equilibrium(bool &computeTargets, double minmax_Edge, zDomainDouble &deviations, double dT, zIntergrationType type, int numIterations, double angleTolerance, bool colorEdges, bool printInfo)
+	ZSPACE_INLINE bool zTsPolytopal::equilibrium(bool &computeTargets, double minmax_Edge, zDomainFloat &deviations, double dT, zIntergrationType type, int numIterations, double angleTolerance, bool colorEdges, bool printInfo)
 	{
 
 		if (computeTargets)
@@ -1412,12 +1412,12 @@ namespace zSpace
 		formGraphVertex_Offsets = offsets;
 	}
 
-	ZSPACE_INLINE void zTsPolytopal::setDualEdgeWeightsfromPrimal(zDomainDouble weightDomain)
+	ZSPACE_INLINE void zTsPolytopal::setDualEdgeWeightsfromPrimal(zDomainFloat weightDomain)
 	{
 		//compute edgeWeights
 
-		double minArea = 100000;
-		double maxArea = -100000;
+		float minArea = 100000;
+		float maxArea = -100000;
 
 		for (int i = 0; i < primalFaceAreas.size(); i++)
 		{
@@ -1427,7 +1427,7 @@ namespace zSpace
 			if (primalFaceAreas[i] > maxArea) maxArea = primalFaceAreas[i];
 		}
 
-		zDomainDouble areaDomain(minArea, maxArea);
+		zDomainFloat areaDomain(minArea, maxArea);
 
 		zDomainColor colDomain(zColor(0.027, 0, 0.157, 1), zColor(0.784, 0, 0.157, 1));
 
@@ -1438,7 +1438,7 @@ namespace zSpace
 
 			double fArea = primalFaceAreas[internalFaceIndex_primalFace[e.getId()]];
 
-			double wt = coreUtils.ofMap(fArea, areaDomain, weightDomain);
+			double wt = coreUtils.ofMap((float) fArea, areaDomain, weightDomain);
 
 			zColor col = coreUtils.blendColor(fArea, areaDomain, colDomain, zRGB);
 
@@ -1720,11 +1720,11 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE bool zTsPolytopal::checkParallelity(zDomainDouble & deviation, double angleTolerance, bool colorEdges, bool printInfo)
+	ZSPACE_INLINE bool zTsPolytopal::checkParallelity(zDomainFloat & deviation, double angleTolerance, bool colorEdges, bool printInfo)
 	{
 		bool out = true;
-		vector<double> deviations;
-		deviation = zDomainDouble(10000, -10000);
+		vector<float> deviations;
+		deviation = zDomainFloat(10000, -10000);
 
 		for (zItGraphEdge e(*formObj); !e.end(); e++)
 		{

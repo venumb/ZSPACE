@@ -44,8 +44,9 @@ namespace zSpace
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
-
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 
 /*!	\brief pointer to display model  */
 		zModel *model;
@@ -182,7 +183,9 @@ namespace zSpace
 		//---- DISPLAY METHODS
 		//--------------------------
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 
 		/*! \brief This method creates the roof that live in this structure cell object
 		*

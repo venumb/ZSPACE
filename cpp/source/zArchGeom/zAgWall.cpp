@@ -65,15 +65,17 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgWall::displayWall(bool showWall)
 	{
-		wallMeshObj.setShowObject(showWall);
+		wallMeshObj.setDisplayObject(showWall);
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 	ZSPACE_INLINE void zAgWall::addObjsToModel()
 	{
 		model->addObject(wallMeshObj);
-		wallMeshObj.setShowElements(false, true, true);
+		wallMeshObj.setDisplayElements(false, true, true);
 	}
 
 #endif

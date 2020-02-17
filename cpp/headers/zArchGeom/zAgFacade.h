@@ -171,7 +171,9 @@ namespace zSpace
 		void displayFacade(bool showFacade);
 
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 
 		/*! \brief This method sets the zModel pointer.
 		*

@@ -16,7 +16,9 @@
 #pragma once
 #include <headers/zInterface/objects/zObj.h>
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 namespace zSpace
 {

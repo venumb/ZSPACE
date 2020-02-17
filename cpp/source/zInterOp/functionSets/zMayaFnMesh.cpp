@@ -379,19 +379,25 @@ namespace zSpace
 
 		// Vertices
 		meshJSON.edgeCreaseData.clear();
-		meshJSON.edgeCreaseData = (j["EdgeCreaseData"].get<vector<double>>());
 
+		bool checkCreaseData = (j.find("EdgeCreaseData") != j.end()) ? true : false;
 		creaseEdgeData.clear();
 		creaseEdgeIndex.clear();
 
-		for (int i = 0; i < meshJSON.edgeCreaseData.size(); i++)
+		if (checkCreaseData)
 		{
-			if (meshJSON.edgeCreaseData[i] != 0)
+			meshJSON.edgeCreaseData = (j["EdgeCreaseData"].get<vector<double>>());
+
+			for (int i = 0; i < meshJSON.edgeCreaseData.size(); i++)
 			{
-				creaseEdgeIndex.push_back(i);
-				creaseEdgeData.push_back(meshJSON.edgeCreaseData[i]);
+				if (meshJSON.edgeCreaseData[i] != 0)
+				{
+					creaseEdgeIndex.push_back(i);
+					creaseEdgeData.push_back(meshJSON.edgeCreaseData[i]);
+				}
 			}
 		}
+		
 	}
 
 }

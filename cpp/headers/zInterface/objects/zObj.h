@@ -21,7 +21,9 @@
 	#include <headers/zCore/utilities/zUtilsJson.h>
 #endif
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 	#include <headers/zCore/utilities/zUtilsDisplay.h>
 #endif 
 
@@ -49,11 +51,6 @@ namespace zSpace
 	class ZSPACE_API zObj
 	{
 	protected:
-		
-#ifndef ZSPACE_UNREAL_INTEROP
-		/*! \brief pointer to display utilities object	*/
-		zUtilsDisplay *displayUtils;
-#endif
 	
 		/*! \brief core utilities object	*/
 		zUtilsCore coreUtils;
@@ -127,17 +124,6 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void setDisplayTransform(bool _displayObjectTransform);
-
-#ifndef ZSPACE_UNREAL_INTEROP
-		/*! \brief This method sets display utils.
-		*
-		*	\param		[in]	_displayUtils			- input display utils.
-		*	\param		[in]	_coreUtils				- input core utils.
-		*	\since version 0.0.2
-		*/
-		void setUtils(zUtilsDisplay &_displayUtils);
-
-#endif // !ZSPACE_UNREAL_INTEROP
 		
 
 		//--------------------------
@@ -149,7 +135,26 @@ namespace zSpace
 		*	\return			boolean				-  show object boolean.
 		*	\since version 0.0.2
 		*/
-		bool getShowObject();
+		bool getDisplayObject();
+
+
+
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
+		/*! \brief This method sets display utils.
+		*
+		*	\param		[in]	_displayUtils			- input display utils.
+		*	\param		[in]	_coreUtils				- input core utils.
+		*	\since version 0.0.2
+		*/
+		void setUtils(zUtilsDisplay &_displayUtils);
+
+	protected:
+
+		/*! \brief pointer to display utilities object	*/
+		zUtilsDisplay *displayUtils;
+#endif
 
 	};
 

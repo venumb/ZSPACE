@@ -121,7 +121,7 @@ namespace zSpace
 		*/
 		void generatePrintSupport2Pix(string directory, string filename, double angle_threshold, bool train = true, int numIters = 0, bool perturbPositions = false, zVector perturbVal = zVector(1,1,1));
 
-		bool generateFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool train = true, int numIters = 0, bool perturbPositions = false, zDomainDouble maxDensityDomain = zDomainDouble(0.1, 1.0));
+		bool generateFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zFloatArray &forceDensities, zDomainFloat &densityDomain, bool train = true, int numIters = 0, bool perturbPositions = false, zDomainFloat maxDensityDomain = zDomainFloat(0.1, 1.0));
 
 		//--------------------------
 		//---- PREDICT DATA METHODS
@@ -129,7 +129,7 @@ namespace zSpace
 
 		void predictPrintSupport2Pix(string directory, string filename, bool genPix);
 
-		void predictFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool genPix);
+		void predictFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zFloatArray &forceDensities, zDomainFloat &densityDomain, bool genPix);
 
 		//--------------------------
 		//---- UTILITY METHODS
@@ -149,7 +149,7 @@ namespace zSpace
 		*	\param		[out]	normMat			- output container of matrices.
 		*	\since version 0.0.4
 		*/
-		void getMatrixFromNormals(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &normMat);
+		void getMatrixFromNormals(zConnectivityType type, zDomainFloat &outDomain, vector<MatrixXf> &normMat);
 
 		/*! \brief This method gets a container of matrices from the positions of a mesh.
 		*
@@ -157,7 +157,7 @@ namespace zSpace
 		*	\param		[out]	normMat			- output container of matrices.
 		*	\since version 0.0.4
 		*/
-		void getMatrixFromPositions(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &posMat);
+		void getMatrixFromPositions(zConnectivityType type, zDomainFloat &outDomain, vector<MatrixXf> &posMat);
 
 		/*! \brief This method gets a container of matrices from the normals of a mesh.
 		*
@@ -165,7 +165,7 @@ namespace zSpace
 		*	\param		[out]	normMat			- output container of matrices.
 		*	\since version 0.0.4
 		*/
-		void getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainDouble &outDomain, vector<MatrixXd> &normMat);
+		void getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainFloat &outDomain, vector<MatrixXf> &normMat);
 
 
 		/*! \brief This method gets a container of matrices from the normals of a mesh.
@@ -174,7 +174,7 @@ namespace zSpace
 		*	\param		[out]	normMat			- output container of matrices.
 		*	\since version 0.0.4
 		*/
-		void getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat);
+		void getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainFloat &outDomain, vector<MatrixXf> &outMat);
 
 		/*! \brief This method gets a matrix from the input container and matix type.
 		*
@@ -185,11 +185,11 @@ namespace zSpace
 		*	\param		[out]	outMat			- output matrix.
 		*	\since version 0.0.4
 		*/
-		void getMatrixFromContainer(zConnectivityType type, int numVerts, zDoubleArray &data, zIntPairArray &dataPair,   zDomainDouble &outDomain, vector<MatrixXd> &outMat);
+		void getMatrixFromContainer(zConnectivityType type, int numVerts, zFloatArray &data, zIntPairArray &dataPair, zDomainFloat &outDomain, vector<MatrixXf> &outMat);
 
 		void getVertexSupport(double angle_threshold, zBoolArray &support);
 
-		void getCombinedMatrix(vector<MatrixXd> &mat1, vector<MatrixXd> &mat2, vector<MatrixXd> &out);
+		void getCombinedMatrix(vector<MatrixXf> &mat1, vector<MatrixXf> &mat2, vector<MatrixXf> &out);
 	};
 }
 

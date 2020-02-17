@@ -16,15 +16,25 @@
 #pragma once
 
 
-#include <cooperative_groups.h>
-#include <helper_cuda.h>
-#include <helper_functions.h>
-#include <helper_math.h>
+
 
 #include<headers/zCudaToolsets/base/zCdUtilities.cuh>
 #include<headers/zCudaToolsets/energy/zTsSolarAnalysis.h>
 
 using namespace zSpace;
+
+//---- DEVICE VARIABLES
+
+
+
+zVector *d_norms;
+
+float *d_cummulativeRadiation;
+
+int d_MemSize;
+
+
+//---- CUDA HOST DEVICE METHODS 
 
 ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 {
@@ -78,13 +88,32 @@ ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 	return zPoint(cos(aDeg * DEG_TO_RAD) * sin(hRDeg * DEG_TO_RAD), cos(aDeg * DEG_TO_RAD) * cos(hRDeg * DEG_TO_RAD), sin(aDeg * DEG_TO_RAD));
 }
 
-ZSPACE_CUDA_GLOBAL void computeSolarAngles_kernel(zNorm_SunVec *norm_sunVecs, float *angles, int numAngles)
+ZSPACE_CUDA_CALLABLE_HOST void cleanDeviceMemory()
 {
-	uint i = blockIdx.x * blockDim.x + threadIdx.x;	
-	angles[i] = norm_sunVecs[i].norm.angle(norm_sunVecs[i].sunVec);	
+	// Free memory.
+	cudaFree(d_norms);
+	cudaFree(d_cummulativeRadiation);
 }
 
-ZSPACE_CUDA_GLOBAL void computeCummulativeSolarAngles_kernel(zVector *norms, float *angles, int numAngles , zDomainDate dDate, zLocation location)
+ZSPACE_CUDA_CALLABLE_HOST void setDeviceMemory(int _newSize)
+{
+	if (_newSize < d_MemSize) return;
+	else
+	{
+		while (d_MemSize < _newSize) d_MemSize += d_MEMORYMULTIPLIER;
+
+		cleanDeviceMemory();
+
+		checkCudaErrors(cudaMalloc((void **)&d_norms, d_MemSize * zVectorSize));
+		checkCudaErrors(cudaMalloc((void **)&d_cummulativeRadiation, d_MemSize * FloatSize));
+	}
+}
+
+
+
+//---- CUDA KERNEL 
+
+ZSPACE_CUDA_GLOBAL void computeCummulativeRadiation_kernel(zVector *norms, float *angles, int numAngles , zDomainDate dDate, zLocation location)
 {
 	uint i = blockIdx.x * blockDim.x + threadIdx.x;	
 
@@ -110,9 +139,9 @@ ZSPACE_CUDA_GLOBAL void computeCummulativeSolarAngles_kernel(zVector *norms, flo
 
 	for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
 	{
-		for (time_t minute = unixTime_sh; minute <= unixTime_eh; minute += 60)
+		for (time_t hour = unixTime_sh; hour <= unixTime_eh; hour += 3600)
 		{			
-			date.fromUnix(day + minute - unixTime_s);;
+			date.fromUnix(day + hour - unixTime_s);;
 
 			sVec = getSunPosition(date, location);			
 			
@@ -122,71 +151,17 @@ ZSPACE_CUDA_GLOBAL void computeCummulativeSolarAngles_kernel(zVector *norms, flo
 		}
 
 	}
-
+		
 	angles[i] /= count;
 
 }
 
-ZSPACE_EXTERN bool cdpSolarAngles(zTsSolarAnalysis &sAnalysis)
+//---- launch KERNEL METHODS
+
+ZSPACE_EXTERN bool cdpCummulativeRadiation(zTsSolarAnalysis &sAnalysis)
 {
 	int numSMs, numTB;
-	cudaDeviceGetAttribute(&numSMs, cudaDevAttrMultiProcessorCount, cu_gpuGetMaxGflopsDeviceId());
-	cudaDeviceGetAttribute(&numTB, cudaDevAttrMaxThreadsPerBlock, cu_gpuGetMaxGflopsDeviceId());
-
-	printf("\n numSMs: %i  numTB :%i ", numSMs, numTB);
-
-	// Allocate device memory
-	int NUM_ANGLES = sAnalysis.numNormals() * sAnalysis.numSunVecs();
-	
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
-
-	zNorm_SunVec *d_norm_sunVecs;
-	float *d_solarAngles;
-
-
-	cudaEventRecord(start);
-
-	checkCudaErrors(cudaMalloc((void **)&d_norm_sunVecs, NUM_ANGLES * sizeof(zNorm_SunVec)));
-	checkCudaErrors(cudaMalloc((void **)&d_solarAngles, NUM_ANGLES * sizeof(float)));
-
-	// transfer memory to device
-
-	checkCudaErrors(cudaMemcpy(d_norm_sunVecs, sAnalysis.norm_sunVecs, NUM_ANGLES * sizeof(zNorm_SunVec), cudaMemcpyHostToDevice));
-	checkCudaErrors(cudaMemcpy(d_solarAngles, sAnalysis.solarAngles, NUM_ANGLES * sizeof(float), cudaMemcpyHostToDevice));
-
-	// Launch Kernel
-	printf( "\n Launching CDP kernel to compute solar angles \n " );
-	dim3 block(256);
-	dim3 grid((uint)ceil(NUM_ANGLES / (double)block.x));	
-	computeSolarAngles_kernel <<< grid, block >>> (d_norm_sunVecs, d_solarAngles, NUM_ANGLES);
-	checkCudaErrors(cudaGetLastError());
-
-	// transfer memory to host
-	checkCudaErrors(cudaMemcpy(sAnalysis.solarAngles, d_solarAngles, NUM_ANGLES * sizeof(float), cudaMemcpyDeviceToHost));
-	   
-	cudaEventRecord(stop);
-	cudaEventSynchronize(stop);
-	float milliseconds = 0;
-	cudaEventElapsedTime(&milliseconds, start, stop);
-
-	printf("\n gpu %1.8f ms \n", milliseconds );
-
-	// Free memory.
-	cudaFree(d_norm_sunVecs);
-	cudaFree(d_solarAngles);	
-
-	return true;
-}
-
-ZSPACE_EXTERN bool cdpCummulativeSolarAngles(zTsSolarAnalysis &sAnalysis)
-{
-	int numSMs, numTB;
-	cudaDeviceGetAttribute(&numSMs, cudaDevAttrMultiProcessorCount, cu_gpuGetMaxGflopsDeviceId());
-	cudaDeviceGetAttribute(&numTB, cudaDevAttrMaxThreadsPerBlock, cu_gpuGetMaxGflopsDeviceId());
-
-	printf("\n numSMs: %i  numTB :%i ", numSMs, numTB);
+	cu_getAttributes(numSMs, numTB);
 
 	// Allocate device memory
 	int NUM_ANGLES = sAnalysis.numNormals();
@@ -195,35 +170,31 @@ ZSPACE_EXTERN bool cdpCummulativeSolarAngles(zTsSolarAnalysis &sAnalysis)
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
 
-	zVector *d_norms;
-	float *d_solarAngles;
+	
 
 	zDomainDate dDate = sAnalysis.getDates();
-	zLocation location = sAnalysis.location;
-
-
+	zLocation location = sAnalysis.getLocation();
 
 	cudaEventRecord(start);
 
-	checkCudaErrors(cudaMalloc((void **)&d_norms, NUM_ANGLES * sizeof(zVector)));
-	checkCudaErrors(cudaMalloc((void **)&d_solarAngles, NUM_ANGLES * sizeof(float)));
+	setDeviceMemory(NUM_ANGLES);
 
 	// transfer memory to device
 
-	checkCudaErrors(cudaMemcpy(d_norms, sAnalysis.getNormals(), NUM_ANGLES * sizeof(zVector), cudaMemcpyHostToDevice));
-	checkCudaErrors(cudaMemcpy(d_solarAngles, sAnalysis.solarAngles, NUM_ANGLES * sizeof(float), cudaMemcpyHostToDevice));
+	checkCudaErrors(cudaMemcpy(d_norms, sAnalysis.getRawNormals(), d_MemSize * zVectorSize, cudaMemcpyHostToDevice));
+	//checkCudaErrors(cudaMemcpy(d_solarAngles, sAnalysis.solarAngles, NUM_ANGLES * sizeof(float), cudaMemcpyHostToDevice));
 
 	// Launch Kernel
-	printf("\n Launching CDP kernel to compute solar angles \n ");
-	dim3 block(256);
-	dim3 grid((uint)ceil(NUM_ANGLES / (double)block.x));
-	computeCummulativeSolarAngles_kernel << < grid, block >> > (d_norms, d_solarAngles, NUM_ANGLES, dDate, location);
+	printf("\n Launching CDP kernel to compute solar radiation \n ");
+	dim3 block(d_THREADSPERBLOCK);
+	dim3 grid((uint)ceil(d_MemSize / (double)block.x));	
+	computeCummulativeRadiation_kernel << < grid, block >> > (d_norms, d_cummulativeRadiation, d_MemSize, dDate, location);
 	checkCudaErrors(cudaGetLastError());
 
 	//system("Pause");
 
 	// transfer memory to host
-	checkCudaErrors(cudaMemcpy(sAnalysis.solarAngles, d_solarAngles, NUM_ANGLES * sizeof(float), cudaMemcpyDeviceToHost));
+	checkCudaErrors(cudaMemcpy(sAnalysis.getRawCummulativeRadiation(), d_cummulativeRadiation, d_MemSize * FloatSize, cudaMemcpyDeviceToHost));
 
 	cudaEventRecord(stop);
 	cudaEventSynchronize(stop);
@@ -232,9 +203,7 @@ ZSPACE_EXTERN bool cdpCummulativeSolarAngles(zTsSolarAnalysis &sAnalysis)
 
 	printf("\n gpu %1.8f ms \n", milliseconds);
 
-	// Free memory.
-	cudaFree(d_norms);
-	cudaFree(d_solarAngles);
+	printf("\n gpu  d_MemSize %i \n", d_MemSize);
 
 	return true;
 }

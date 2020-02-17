@@ -97,7 +97,7 @@ namespace zSpace
 		*	\param		[in]	useVertexColor				- true if vertex color is to be used else face color is used.
 		*	\since version 0.0.1
 		*/
-		zObjMesh getVariableFaceOffset(bool keepExistingFaces = true, bool assignColor = true, double minVal = 0.01, double maxVal = 0.99, bool useVertexColor = false);
+		zObjMesh getVariableFaceOffset(bool keepExistingFaces = true, bool assignColor = true, float minVal = 0.01, float maxVal = 0.99, bool useVertexColor = false);
 
 		/*! \brief This method offsets the boundary faces of the input mesh based on vertex color. It uses only the red channel of the color.
 		*
@@ -108,7 +108,7 @@ namespace zSpace
 		*	\param		[in]	useVertexColor				- true if vertex color is to be used else face color is used.
 		*	\since version 0.0.1
 		*/
-		zObjMesh getVariableBoundaryOffset(bool keepExistingFaces = true, bool assignColor = true, double minVal = 0.01, double maxVal = 0.99);
+		zObjMesh getVariableBoundaryOffset(bool keepExistingFaces = true, bool assignColor = true, float minVal = 0.01, float maxVal = 0.99);
 
 
 		/*! \brief This method extrudes the input mesh based on vertex / face color. It uses only the red channel of the color.
@@ -119,7 +119,7 @@ namespace zSpace
 		*	\param		[in]	useVertexColor				- true if vertex color is to be used else face color is used.
 		*	\since version 0.0.1
 		*/
-		zObjMesh getVariableFaceThicknessExtrude(bool assignColor, double minVal, double maxVal);
+		zObjMesh getVariableFaceThicknessExtrude(bool assignColor, float minVal, float maxVal);
 
 	};
 	

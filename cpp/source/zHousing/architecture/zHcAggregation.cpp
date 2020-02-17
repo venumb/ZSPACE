@@ -132,7 +132,9 @@ namespace zSpace
 	}
 
 	
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 	//---- DISPLAY SET METHODS
 
@@ -146,7 +148,7 @@ namespace zSpace
 		for (auto& u : unitObjs)
 		{
 			model->addObject(u);
-			u.setShowElements(true, true, false);
+			u.setDisplayElements(true, true, false);
 		}
 
 

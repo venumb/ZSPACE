@@ -54,10 +54,10 @@ namespace zSpace
 	
 	ZSPACE_INLINE void zTsMesh2Pix::generatePrintSupport2Pix(string directory, string filename, double angle_threshold, bool train, int numIters, bool perturbPositions, zVector perturbVal)
 	{
-		vector<MatrixXd> outMat_A;
-		vector<MatrixXd> outMat_B;
+		vector<MatrixXf> outMat_A;
+		vector<MatrixXf> outMat_B;
 
-		vector<MatrixXd> outMat;
+		vector<MatrixXf> outMat;
 
 		// make folders
 		string trainDir = directory + "/train/";
@@ -79,13 +79,13 @@ namespace zSpace
 
 
 			// get Matrix from vertex normals
-			zDomainDouble outDomain_A(0.05, 0.45);
+			zDomainFloat outDomain_A(0.05, 0.45);
 			getMatrixFromNormals(zVertexVertex, outDomain_A, outMat_A);
 
 			// get edge length data 
-			zDoubleArray heLength;
+			zFloatArray heLength;
 			zIntPairArray hedgeVertexPair;
-			zDomainDouble outDomain(0.5, 0.9);
+			zDomainFloat outDomain(0.5, 0.9);
 
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 			{
@@ -103,7 +103,7 @@ namespace zSpace
 			// support matrix 
 			outMat_B.clear();
 
-			zDomainDouble outDomain_B(0.0, 0.9);
+			zDomainFloat outDomain_B(0.0, 0.9);
 
 			zBoolArray supports;
 			getVertexSupport(angle_threshold, supports);
@@ -172,14 +172,14 @@ namespace zSpace
 
 	}
 	
-	ZSPACE_INLINE bool zTsMesh2Pix::generateFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool train, int numIters, bool perturbPositions, zDomainDouble maxDensityDomain)
+	ZSPACE_INLINE bool zTsMesh2Pix::generateFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zFloatArray &forceDensities, zDomainFloat &densityDomain, bool train, int numIters, bool perturbPositions, zDomainFloat maxDensityDomain)
 	{
 		bool out = true;
 
-		vector<MatrixXd> outMat_A;
-		vector<MatrixXd> outMat_B;
+		vector<MatrixXf> outMat_A;
+		vector<MatrixXf> outMat_B;
 
-		vector<MatrixXd> outMat;
+		vector<MatrixXf> outMat;
 
 		// make folders
 		string trainDir = directory + "/train/";
@@ -200,20 +200,20 @@ namespace zSpace
 		if (!perturbPositions)
 		{
 			// get Matrix from vertex positions
-			zDomainDouble outDomain_A(0.05, 0.45);
+			zDomainFloat outDomain_A(0.05, 0.45);
 			getMatrixFromPositions(zVertexVertex, outDomain_A, outMat_A);
 
 			// get edge length data
-			zDoubleArray heDensities;
+			zFloatArray heDensities;
 			zIntPairArray hedgeVertexPair;
-			zDomainDouble outDomain_A1(0.5, 0.9);
+			zDomainFloat outDomain_A1(0.5, 0.9);
 
 			zBoolArray supports;
 			supports.assign(fnMesh.numVertices(), false);
 
 			for (auto vId : fixedConstrained) supports[vId] = true;
 
-			zDomainDouble outDensityDomain(0.0, 1.0);
+			zDomainFloat outDensityDomain(0.0, 1.0);
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 			{
 				zIntPair vertPair;
@@ -225,7 +225,7 @@ namespace zSpace
 				if (supports[he.getVertex().getId()] && supports[he.getStartVertex().getId()]) heDensities.push_back(-1);
 				else
 				{
-					zDomainDouble densDomain(0.1, 20.0);
+					zDomainFloat densDomain(0.1, 20.0);
 					double val = coreUtils.ofMap(forceDensities[he.getEdge().getId()], densDomain, outDensityDomain);
 									
 					heDensities.push_back(val);
@@ -259,12 +259,12 @@ namespace zSpace
 				return out;
 			}
 
-			zDomainDouble outDomain_B(0.05, 0.45);
+			zDomainFloat outDomain_B(0.05, 0.45);
 			getMatrixFromPositions(zVertexVertex, outDomain_B, outMat_B);
 
-			zDoubleArray dummyData;
+			zFloatArray dummyData;
 			zIntPairArray dummyPair;
-			zDomainDouble outDomain_B1(0.5, 0.9);
+			zDomainFloat outDomain_B1(0.5, 0.9);
 
 			getMatrixFromContainer(zVertexVertex, fnMesh.numVertices(), dummyData, dummyPair, outDomain_B1, outMat_B);
 
@@ -314,11 +314,11 @@ namespace zSpace
 
 
 				// compute density domain and forcedensities
-				zDomainDouble tempDomain;
+				zDomainFloat tempDomain;
 
 				tempDomain.min = densityDomain.min + j * minIncrements;
 				tempDomain.max = densityDomain.max + j * maxIncrements;			
-				zDoubleArray densities;
+				zFloatArray densities;
 
 				for (auto fd : forceDensities)
 				{
@@ -358,7 +358,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsMesh2Pix::predictPrintSupport2Pix(string directory, string filename, bool genPix)
 	{
-		vector<MatrixXd> outMat;	
+		vector<MatrixXf> outMat;	
 
 		// generate prediction image
 		if (genPix)
@@ -368,19 +368,19 @@ namespace zSpace
 			numPredictFiles = coreUtils.getNumfiles_Type(predictDir, zPNG);
 			if (numPredictFiles == 0) _mkdir(predictDir.c_str());
 
-			vector<MatrixXd> outMat_A;
-			vector<MatrixXd> outMat_B;
+			vector<MatrixXf> outMat_A;
+			vector<MatrixXf> outMat_B;
 
 			outMat_A.clear();
 
 			// get Matrix from vertex normals
-			zDomainDouble outDomain_A(0.05, 0.45);
+			zDomainFloat outDomain_A(0.05, 0.45);
 			getMatrixFromNormals(zVertexVertex, outDomain_A, outMat_A);
 
 			// get edge length data 
-			zDoubleArray heLength;
+			zFloatArray heLength;
 			zIntPairArray hedgeVertexPair;
-			zDomainDouble outDomain(0.5, 0.9);
+			zDomainFloat outDomain(0.5, 0.9);
 
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 			{
@@ -400,9 +400,9 @@ namespace zSpace
 
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
-			MatrixXd R(n_v, n_v);
-			MatrixXd G(n_v, n_v);
-			MatrixXd B(n_v, n_v);
+			MatrixXf R(n_v, n_v);
+			MatrixXf G(n_v, n_v);
+			MatrixXf B(n_v, n_v);
 
 			R.setConstant(0.95);
 			G.setConstant(0.95);
@@ -442,9 +442,9 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::predictFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zDoubleArray &forceDensities, zDomainDouble &densityDomain, bool genPix)
+	ZSPACE_INLINE void zTsMesh2Pix::predictFDM2Pix(string directory, string filename, zIntArray &fixedConstrained, zFloatArray &forceDensities, zDomainFloat &densityDomain, bool genPix)
 	{
-		vector<MatrixXd> outMat;
+		vector<MatrixXf> outMat;
 
 		// generate prediction image
 		if (genPix)
@@ -454,26 +454,26 @@ namespace zSpace
 			numPredictFiles = coreUtils.getNumfiles_Type(predictDir, zPNG);
 			if (numPredictFiles == 0) _mkdir(predictDir.c_str());
 
-			vector<MatrixXd> outMat_A;
-			vector<MatrixXd> outMat_B;
+			vector<MatrixXf> outMat_A;
+			vector<MatrixXf> outMat_B;
 
 			outMat_A.clear();
 
 			// get Matrix from vertex positions
-			zDomainDouble outDomain_A(0.05, 0.45);
+			zDomainFloat outDomain_A(0.05, 0.45);
 			getMatrixFromPositions(zVertexVertex, outDomain_A, outMat_A);
 
 			// get edge length data
-			zDoubleArray heDensities;
+			zFloatArray heDensities;
 			zIntPairArray hedgeVertexPair;
-			zDomainDouble outDomain_A1(0.5, 0.9);
+			zDomainFloat outDomain_A1(0.5, 0.9);
 
 			zBoolArray supports;
 			supports.assign(fnMesh.numVertices(), false);
 
 			for (auto vId : fixedConstrained) supports[vId] = true;
 
-			zDomainDouble outDensityDomain(0.0, 1.0);
+			zDomainFloat outDensityDomain(0.0, 1.0);
 			for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
 			{
 				zIntPair vertPair;
@@ -485,7 +485,7 @@ namespace zSpace
 				if (supports[he.getVertex().getId()] && supports[he.getStartVertex().getId()]) heDensities.push_back(-1);
 				else
 				{
-					zDomainDouble densDomain(0.1, 20.0);
+					zDomainFloat densDomain(0.1, 20.0);
 					double val = coreUtils.ofMap(forceDensities[he.getEdge().getId()], densDomain, outDensityDomain);
 
 					heDensities.push_back(val);
@@ -508,9 +508,9 @@ namespace zSpace
 
 			int n_v = (maxVertices != -1) ? maxVertices : fnMesh.numVertices();
 
-			MatrixXd R(n_v, n_v);
-			MatrixXd G(n_v, n_v);
-			MatrixXd B(n_v, n_v);
+			MatrixXf R(n_v, n_v);
+			MatrixXf G(n_v, n_v);
+			MatrixXf B(n_v, n_v);
 
 			R.setConstant(0.95);
 			G.setConstant(0.95);
@@ -537,8 +537,8 @@ namespace zSpace
 			// color vertex color
 			zPoint * vPositions = fnPredictedMesh.getRawVertexPositions();
 
-			zDomainDouble outDomain(0.05, 0.45);
-			zDomainDouble inDomain(-1.0, 1.0);
+			zDomainFloat outDomain(0.05, 0.45);
+			zDomainFloat inDomain(-1.0, 1.0);
 
 			for (int i = 0; i < fnMesh.numVertices(); i++)
 			{
@@ -547,7 +547,7 @@ namespace zSpace
 				vPositions[i].z = coreUtils.ofMap(outMat[2](i, i), outDomain, inDomain);
 			}
 
-			zDoubleArray deviations;
+			zFloatArray deviations;
 
 			
 		}
@@ -569,7 +569,7 @@ namespace zSpace
 		double scaleFac = maxSide / dimMax;		
 
 		fnMesh.setPivot(minBB);
-		zDouble4 scale = { scaleFac ,scaleFac ,scaleFac };
+		zFloat4 scale = { scaleFac ,scaleFac ,scaleFac };
 		fnMesh.setScale(scale);
 
 		zVector trans = zVector(-1, -1, -1) - minBB;
@@ -580,7 +580,7 @@ namespace zSpace
 
 	//---- PRIVATE GET METHODS
 
-	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromNormals(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &normMat)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromNormals(zConnectivityType type, zDomainFloat &outDomain, vector<MatrixXf> &normMat)
 	{
 		if (type == zVertexVertex)
 		{		
@@ -595,7 +595,7 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 	
-	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromPositions(zConnectivityType type, zDomainDouble &outDomain, vector<MatrixXd> &posMat)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromPositions(zConnectivityType type, zDomainFloat &outDomain, vector<MatrixXf> &posMat)
 	{
 		if (type == zVertexVertex)
 		{
@@ -608,7 +608,7 @@ namespace zSpace
 			zVector minBB, maxBB;
 			fnMesh.getBounds(minBB, maxBB);
 
-			//zDomainDouble inDomain(minBB.x, maxBB.x);
+			//zDomainFloat inDomain(minBB.x, maxBB.x);
 
 			//zVector temp = (maxBB + minBB) * 0.5;;
 			zVector tempDir = zVector(-1,-1,-1) - minBB;
@@ -623,7 +623,7 @@ namespace zSpace
 			printf("\n maxBB %1.2f %1.2f %1.2f ", maxBB.x, maxBB.y, maxBB.z);
 			printf("\n domain %1.2f %1.2f ", inDomain.min, inDomain.max);
 
-			zDomainDouble mapDomain(-1.0, 1.0);*/
+			zDomainFloat mapDomain(-1.0, 1.0);*/
 			for (auto &pos : positions)
 			{
 				pos += tempDir;
@@ -644,7 +644,7 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zVectorArray &data, zDomainFloat &outDomain, vector<MatrixXf> &outMat)
 	{
 		if (type == zVertexVertex)
 		{
@@ -653,9 +653,9 @@ namespace zSpace
 			if (outMat.size() == 0)
 			{			
 
-				MatrixXd R(n_v, n_v);
-				MatrixXd G(n_v, n_v);
-				MatrixXd B(n_v, n_v);
+				MatrixXf R(n_v, n_v);
+				MatrixXf G(n_v, n_v);
+				MatrixXf B(n_v, n_v);
 
 				R.setConstant(0.95);
 				G.setConstant(0.95);
@@ -669,9 +669,9 @@ namespace zSpace
 
 			for (int i = 0; i < data.size(); i++)
 			{
-				outMat[0](i, i) = coreUtils.ofMap(data[i].x, -1.0, 1.0, outDomain.min, outDomain.max);
-				outMat[1](i, i) = coreUtils.ofMap(data[i].y, -1.0, 1.0, outDomain.min, outDomain.max);
-				outMat[2](i, i) = coreUtils.ofMap(data[i].z, -1.0, 1.0, outDomain.min, outDomain.max);	
+				outMat[0](i, i) = coreUtils.ofMap(data[i].x, -1.0f, 1.0f, outDomain.min, outDomain.max);
+				outMat[1](i, i) = coreUtils.ofMap(data[i].y, -1.0f, 1.0f, outDomain.min, outDomain.max);
+				outMat[2](i, i) = coreUtils.ofMap(data[i].z, -1.0f, 1.0f, outDomain.min, outDomain.max);	
 
 				//printf("\n %i : %1.2f %1.2f %1.2f ",i, outMat[0](i, i) * 255, outMat[1](i, i) * 255, outMat[2](i, i) * 255);
 			}
@@ -684,7 +684,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, zBoolArray &data, zDomainFloat &outDomain, vector<MatrixXf> &outMat)
 	{
 		if (type == zVertexVertex)
 		{
@@ -692,9 +692,9 @@ namespace zSpace
 
 			if (outMat.size() == 0)
 			{
-				MatrixXd R(n_v, n_v);
-				MatrixXd G(n_v, n_v);
-				MatrixXd B(n_v, n_v);
+				MatrixXf R(n_v, n_v);
+				MatrixXf G(n_v, n_v);
+				MatrixXf B(n_v, n_v);
 
 				R.setConstant(0.95);
 				G.setConstant(0.95);
@@ -746,7 +746,7 @@ namespace zSpace
 		else throw std::invalid_argument(" error: invalid zConnectivityType");
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, int numVerts, zDoubleArray &data, zIntPairArray &dataPair, zDomainDouble &outDomain, vector<MatrixXd> &outMat)
+	ZSPACE_INLINE void zTsMesh2Pix::getMatrixFromContainer(zConnectivityType type, int numVerts, zFloatArray &data, zIntPairArray &dataPair, zDomainFloat &outDomain, vector<MatrixXf> &outMat)
 	{
 		if (type == zVertexVertex)
 		{
@@ -754,9 +754,9 @@ namespace zSpace
 
 			if (outMat.size() == 0)
 			{
-				MatrixXd R(n_v, n_v);
-				MatrixXd G(n_v, n_v);
-				MatrixXd B(n_v, n_v);
+				MatrixXf R(n_v, n_v);
+				MatrixXf G(n_v, n_v);
+				MatrixXf B(n_v, n_v);
 
 				R.setConstant(0.95);
 				G.setConstant(0.95);
@@ -785,7 +785,7 @@ namespace zSpace
 
 			if (data.size() == 0) return;
 
-			zDomainDouble inDomain ( -1.0, 1.0);
+			zDomainFloat inDomain ( -1.0, 1.0);
 
 			/*inDomain.min = coreUtils.zMin(data);
 			inDomain.max = coreUtils.zMax(data);
@@ -867,7 +867,7 @@ namespace zSpace
 		}
 	}
 
-	ZSPACE_INLINE void zTsMesh2Pix::getCombinedMatrix(vector<MatrixXd>& mat1, vector<MatrixXd>& mat2, vector<MatrixXd>& out)
+	ZSPACE_INLINE void zTsMesh2Pix::getCombinedMatrix(vector<MatrixXf>& mat1, vector<MatrixXf>& mat2, vector<MatrixXf>& out)
 	{
 		if (mat1.size() == 0) throw std::invalid_argument(" error: mat1 container size is 0. ");
 		if (mat2.size() == 0) throw std::invalid_argument(" error: mat2 container size is 0. ");
@@ -881,7 +881,7 @@ namespace zSpace
 
 		for (int i = 0; i < mat1.size(); i++)
 		{
-			MatrixXd temp(nRows, nCols);
+			MatrixXf temp(nRows, nCols);
 
 			temp << mat1[i], mat2[i];
 

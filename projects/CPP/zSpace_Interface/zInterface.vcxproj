@@ -27,7 +27,7 @@
     <ProjectGuid>{2F6830C0-A2D1-4FC9-A7E9-C9799CD89CC3}</ProjectGuid>
     <RootNamespace>zInterface</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>zSpace_Interface</ProjectName>
+    <ProjectName>02_zSpace_Interface</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -100,6 +100,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <TargetExt>$(TargetExt)</TargetExt>
     <OutDir>$(SolutionDir)cpp\compiled\dll</OutDir>
+    <TargetName>zSpace_Interface</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Make|x64'">
     <TargetExt>$(TargetExt)</TargetExt>
@@ -152,7 +153,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>zSpace_Core.lib;sqlite3.lib;opengl32.lib; glew32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/Depends/openGL/lib;$(SolutionDir)/cpp/Depends/SQLITE/lib; $(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/cpp/Depends/openGL/lib;$(SolutionDir)/cpp/Depends/SQLITE/lib; $(OutDir); $(SolutionDir)/cpp/Depends/freeglut;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Make|x64'">

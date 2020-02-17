@@ -12,6 +12,19 @@ namespace zSpace
 
 	//---- SET METHODS
 
+	ZSPACE_INLINE void zTsSolarAnalysis::setMemory(int _newSize)
+	{
+		if (_newSize < numNorms) return;
+		else
+		{
+			while (numNorms < _newSize) numNorms += d_MEMORYMULTIPLIER;
+
+			normals = new zVector[numNorms];
+			cummulativeRadiation = new float[numNorms];
+
+		}
+	}
+
 	ZSPACE_INLINE void zTsSolarAnalysis::setNormals(zVector *_normals, int _numNormals)
 	{
 		normals = _normals;
@@ -79,6 +92,11 @@ namespace zSpace
 		dDate = _dDate;
 	}
 
+	ZSPACE_INLINE void zTsSolarAnalysis::setLocation(zLocation & _location)
+	{
+		location = _location;
+	}
+
 	ZSPACE_INLINE void zTsSolarAnalysis::setNorm_SunVecs()
 	{
 		norm_sunVecs = new zNorm_SunVec[numNorms * numSunVec];
@@ -110,19 +128,24 @@ namespace zSpace
 		return numData;
 	}
 
-	ZSPACE_INLINE zVector* zTsSolarAnalysis::getNormals()
+	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawNormals()
 	{
 		return normals;
 	}
 
-	ZSPACE_INLINE zVector* zTsSolarAnalysis::getSunVectors()
+	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawSunVectors()
 	{
 		return sunVecs;
 	}
 
-	ZSPACE_INLINE zEPWData* zTsSolarAnalysis::getEPWData()
+	ZSPACE_INLINE zEPWData* zTsSolarAnalysis::getRawEPWData()
 	{
 		return epwData;
+	}
+
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawCummulativeRadiation()
+	{
+		return cummulativeRadiation;
 	}
 
 	ZSPACE_INLINE zVector zTsSolarAnalysis::getSunPosition(zDate &date, float radius)
@@ -226,6 +249,11 @@ namespace zSpace
 	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getDates()
 	{
 		return dDate;
+	}
+
+	ZSPACE_INLINE zLocation zTsSolarAnalysis::getLocation()
+	{
+		return location;
 	}
 
 	ZSPACE_INLINE zNorm_SunVec * zTsSolarAnalysis::getNorm_SunVecs()

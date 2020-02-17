@@ -100,7 +100,7 @@ namespace zSpace
 		if (val >= n_Eigens) val = (int)frequency % n_Eigens;
 
 		// compute derivatives
-		zDomainDouble inDomain;
+		zDomainFloat inDomain;
 		computeMinMax_Eigen(val, inDomain);
 
 
@@ -113,9 +113,9 @@ namespace zSpace
 
 		for (int i = 0; i < n_v; i++)
 		{
-			double matVal = eigenVectors.col(val).row(i).value();
+			float matVal = eigenVectors.col(val).row(i).value();
 
-			double EigenFunctionRegular = matVal;
+			float EigenFunctionRegular = matVal;
 
 			eigenFunctionValues[i] = coreUtils.ofMap(matVal, inDomain, eigenDomain);
 		}
@@ -251,7 +251,7 @@ namespace zSpace
 
 	//---- PROTECTED UTILITY METHODS
 
-	ZSPACE_INLINE void zTsSpectral::computeMinMax_Eigen(int &colIndex, zDomainDouble &inDomain)
+	ZSPACE_INLINE void zTsSpectral::computeMinMax_Eigen(int &colIndex, zDomainFloat &inDomain)
 	{
 		inDomain.min = 10000;
 		inDomain.max = -10000;

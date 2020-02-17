@@ -96,16 +96,6 @@
 #include <maya/MLibrary.h>
 #include <maya/MIOStream.h>
 
-#include <ctime>
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cstdio>
-#include <vector>
-#include <stdio.h>
-#include <direct.h>
-
 // Viewport 2.0
 #include <maya/MDrawRegistry.h>
 #include <maya/MPxDrawOverride.h>
@@ -115,7 +105,7 @@
 #include <maya/MPointArray.h>
 #include <maya/MViewport2Renderer.h>
 
-using namespace std;
+
 
 #endif
 

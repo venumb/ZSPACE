@@ -757,7 +757,7 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixToBMP(vector<MatrixXd> &matrices, string path);
+		void matrixToBMP(vector<MatrixXf> &matrices, string path);
 
 		/*! \brief This method writes a JPEG from the input matrix.
 		*
@@ -765,7 +765,7 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixToJPEG(vector<MatrixXd> &matrices, string path);
+		void matrixToJPEG(vector<MatrixXf> &matrices, string path);
 
 		/*! \brief This method writes a PNG from the input matrix.
 		*
@@ -773,7 +773,7 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixToPNG(vector<MatrixXd> &matrices, string path);
+		void matrixToPNG(vector<MatrixXf> &matrices, string path);
 
 		/*! \brief This method read a PNG values to the output matrix.
 		*
@@ -781,7 +781,7 @@ namespace zSpace
 		*	\param		[in]	path			- input path where to write the image to.
 		*	\since version 0.0.4
 		*/
-		void matrixFromPNG(vector<MatrixXd> &matrices, string path);
+		void matrixFromPNG(vector<MatrixXf> &matrices, string path);
 
 		//--------------------------
 		//---- MATRIX METHODS USING EIGEN / ARMA
@@ -836,6 +836,17 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		zTransform PlanetoPlane(zTransform &from, zTransform &to);
+
+		/*! \brief This method computes the euclidean distance between two input row matricies.  The number of columns of m1 and m2 need to be equal.
+		*
+		*	\tparam				T			- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	m1			- input zMatrix 1.
+		*	\param		[in]	m2			- input zMatrix 2.
+		*	\param		[in]	tolerance	- input tolerance for distance check.
+		*	\return 			double		- euclidean distance.
+		*	\since version 0.0.2
+		*/
+		float getEuclideanDistance(MatrixXf &m1, MatrixXf &m2, double tolerance = 0.001);
 
 
 		//--------------------------

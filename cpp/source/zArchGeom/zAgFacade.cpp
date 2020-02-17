@@ -840,17 +840,19 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgFacade::displayFacade(bool showFacade)
 	{
-		for (auto& f : facadeObjs) f.setShowObject(showFacade);
+		for (auto& f : facadeObjs) f.setDisplayObject(showFacade);
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 	ZSPACE_INLINE void zAgFacade::addObjsToModel()
 	{
 		for (auto& f : facadeObjs)
 		{
 			model->addObject(f);
-			f.setShowElements(false, true, true);
+			f.setDisplayElements(false, true, true);
 		}	
 	}
 

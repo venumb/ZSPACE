@@ -1220,21 +1220,21 @@ namespace zSpace
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::SparseMatrix<float> zSparseMatrix; 
+	typedef Eigen::SparseMatrix<double> zSparseMatrix; 
 
 	/*! \typedef zTriplet
 	*	\brief A  Eigen library triplet of float.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef Eigen::Triplet<float> zTriplet;
+	typedef Eigen::Triplet<double> zTriplet;
 
 	/*! \typedef zDiagonalMatrix
 	*	\brief A  Eigen library diagonal matrix of float.
 	*
 	*	\since version 0.0.2
 	*/
-	typedef DiagonalMatrix<float, Eigen::Dynamic, Eigen::Dynamic> zDiagonalMatrix;
+	typedef DiagonalMatrix<double, Eigen::Dynamic, Eigen::Dynamic> zDiagonalMatrix;
 	
 #endif
 	

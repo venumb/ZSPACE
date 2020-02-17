@@ -71,13 +71,13 @@ namespace zSpace
 		vector<zFnParticle> fnResultParticles;
 
 		/*!	\brief container storing the update weights of the result diagram.  */
-		vector<double> resultVWeights;
+		vector<float> resultVWeights;
 
 		/*!	\brief container storing the vertex mass of the result diagram.  */
-		vector<double> resultVThickness;
+		vector<float> resultVThickness;
 
 		/*!	\brief container storing the vertex mass of the result diagram.  */
-		vector<double> resultVMass;
+		vector<float> resultVMass;
 
 		//--------------------------
 		//---- FORM DIAGRAM ATTRIBUTES
@@ -90,7 +90,7 @@ namespace zSpace
 		vector<zFnParticle> fnFormParticles;
 
 		/*!	\brief container storing the update weights of the form diagram.  */
-		vector<double> formVWeights;
+		vector<float> formVWeights;
 
 		//--------------------------
 		//---- FORCE DIAGRAM ATTRIBUTES
@@ -104,14 +104,14 @@ namespace zSpace
 		vector<zFnParticle> fnForceParticles;
 
 		/*!	\brief container storing the update weights of the force diagram.  */
-		vector<double> forceVWeights;
+		vector<float> forceVWeights;
 
 		//--------------------------
 		//---- ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief container of force densities  */
-		vector<double> forceDensities;
+		vector<float> forceDensities;
 
 		/*!	\brief container of indicies of fixed vertices  */
 		vector<int> fixedVertices;		
@@ -292,7 +292,7 @@ namespace zSpace
 		*	\return				bool								- true if the all the correponding edges are parallel.
 		*	\since version 0.0.2
 		*/
-		bool equilibriumHorizontal(bool &computeTargets, double formWeight, double dT, zIntergrationType type, int numIterations = 1, double angleTolerance = 0.001, double minMax_formEdge = 0.1, double minMax_forceEdge = 0.1, bool colorEdges = false, bool printInfo = false);
+		bool equilibriumHorizontal(bool &computeTargets, float formWeight, float dT, zIntergrationType type, int numIterations = 1, float angleTolerance = 0.001, float minMax_formEdge = 0.1, float minMax_forceEdge = 0.1, bool colorEdges = false, bool printInfo = false);
 
 		/*! \brief This method computes the vertical equilibrium of the result diagram using linear algebra method.
 		*
@@ -301,7 +301,7 @@ namespace zSpace
 		*	\param		[in]	forceDiagramScale					- scale of force diagram.
 		*	\since version 0.0.2
 		*/
-		bool equilibriumVertical(bool &computeForceDensitities, double forceDiagramScale);
+		bool equilibriumVertical(bool &computeForceDensitities, float forceDiagramScale);
 
 		//--------------------------
 		//--- SET METHODS 
@@ -334,21 +334,21 @@ namespace zSpace
 		*	\param		[in]	fDensity			- force density value.
 		*	\since version 0.0.2
 		*/
-		void setForceDensity(double fDensity);
+		void setForceDensity(float fDensity);
 
 		/*! \brief This method sets force density of the edges with the input container of values.
 		*
 		*	\param		[in]	fDensities			- container of force density values.
 		*	\since version 0.0.2
 		*/
-		void setForceDensities(vector<double> &fDensities);
+		void setForceDensities(vector<float> &fDensities);
 
 		/*! \brief This method sets the force densities edges based on form and force diagrams.
 		*
 		*	\param		[in]	forceDiagramScale					- scale of force diagram.
 		*	\since version 0.0.2
 		*/
-		void setForceDensitiesFromDiagrams(double forceDiagramScale , bool negate = false);	
+		void setForceDensitiesFromDiagrams(float forceDiagramScale , bool negate = false);
 
 		/*! \brief This method sets tension edges of the form diagram.
 		*
@@ -402,7 +402,7 @@ namespace zSpace
 		*	\param		[in]	type							- zFormDiagram or zForceDiagram or zResultDiagram.
 		*	\since version 0.0.2
 		*/
-		void setVertexWeights(zDiagramType type, const vector<double> &vWeights = vector<double>());
+		void setVertexWeights(zDiagramType type, const vector<float> &vWeights = vector<float>());
 
 		/*! \brief This method sets the result vertex update weights for each vertex of the input diagram type based on the constraints.
 		*
@@ -415,28 +415,28 @@ namespace zSpace
 		*	\param		[in]	thickness			- thickness value.
 		*	\since version 0.0.2
 		*/
-		void setVertexThickness(double thickness);
+		void setVertexThickness(float thickness);
 
 		/*! \brief This method sets thickness of all the result vertices to the input container of values.
 		*
 		*	\param		[in]	thickness			- container of thickness values.
 		*	\since version 0.0.2
 		*/
-		void setVertexThickness(vector<double> &thickness);
+		void setVertexThickness(vector<float> &thickness);
 
 		/*! \brief This method sets vertex mass of all the result vertices to the input value.
 		*
 		*	\param		[in]	mass			- mass value.
 		*	\since version 0.0.2
 		*/
-		void setVertexMass(double mass);
+		void setVertexMass(float mass);
 
 		/*! \brief This method sets vertex mass of all the result vertices to the input container of values.
 		*
 		*	\param		[in]	mass			- container of mass values.
 		*	\since version 0.0.2
 		*/
-		void setVertexMass(vector<double> &mass);
+		void setVertexMass(vector<float> &mass);
 
 		/*! \brief This method sets vertex mass of all the result vertices based on vertex tributary area. Works only on mesh result diagram.
 		*
@@ -486,7 +486,7 @@ namespace zSpace
 		//---- UTILITY METHODS 
 		//--------------------------
 
-		void translateForceDiagram(double value);
+		void translateForceDiagram(float value);
 
 	protected:		
 
@@ -521,7 +521,7 @@ namespace zSpace
 		*	\param		[in]	formWeight							- weight of form diagram update. To be between 0 and 1.
 		*	\since version 0.0.2
 		*/
-		void getHorizontalTargets(double formWeight);
+		void getHorizontalTargets(float formWeight);
 
 		/*! \brief This method if the form mesh edges and corresponding force mesh edge are parallel.
 		*
@@ -531,7 +531,7 @@ namespace zSpace
 		*	\return				bool								- true if the all the correponding edges are parallel or within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool checkHorizontalParallelity(zDomainDouble &deviation, double angleTolerance = 0.001, bool colorEdges = false, bool printInfo = false);
+		bool checkHorizontalParallelity(zDomainFloat &deviation, float angleTolerance = 0.001, bool colorEdges = false, bool printInfo = false);
 
 		/*! \brief This method updates the form diagram.
 		*
@@ -541,7 +541,7 @@ namespace zSpace
 		*	\param		[in]	numIterations				- number of iterations to run.
 		*	\since version 0.0.2
 		*/
-		void updateFormDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations = 1);
+		void updateFormDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations = 1);
 
 		/*! \brief This method updates the form diagram.
 		*
@@ -551,7 +551,7 @@ namespace zSpace
 		*	\param		[in]	numIterations				- number of iterations to run.
 		*	\since version 0.0.2
 		*/
-		void updateForceDiagram(double minmax_Edge, double dT, zIntergrationType type, int numIterations = 1);					   		
+		void updateForceDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations = 1);
 
 	};
 	   

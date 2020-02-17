@@ -25,7 +25,7 @@ namespace zSpace
 		numIterations = 100;
 	}
 
-	ZSPACE_INLINE zTsKMeans::zTsKMeans(zMatrixd &_dataPoints)
+	ZSPACE_INLINE zTsKMeans::zTsKMeans(MatrixXf &_dataPoints)
 	{
 		dataPoints = _dataPoints;
 
@@ -34,7 +34,7 @@ namespace zSpace
 		numIterations = 100;
 	}
 
-	ZSPACE_INLINE zTsKMeans::zTsKMeans(zMatrixd &_dataPoints, int &_numClusters, int &_numIterations)
+	ZSPACE_INLINE zTsKMeans::zTsKMeans(MatrixXf &_dataPoints, int &_numClusters, int &_numIterations)
 	{
 		dataPoints = _dataPoints;
 
@@ -62,18 +62,19 @@ namespace zSpace
 
 	ZSPACE_INLINE int zTsKMeans::getKMeansClusters(int &actualNumClusters)
 	{
-		int numRows = dataPoints.getNumRows();
-		int numCols = dataPoints.getNumCols();
+		int numRows = dataPoints.rows();
+		int numCols = dataPoints.cols();
 
 		// get min max value of the datapoints
 		int minIndex;
-		double minVal = coreUtils.zMin(dataPoints, minIndex);
+		
+		float minVal = dataPoints.minCoeff();
 
 		int maxIndex;
-		double maxVal = coreUtils.zMax(dataPoints, maxIndex);
+		float maxVal = dataPoints.maxCoeff();
 
 		// Initialise means
-		zMatrixd tempMeans = intialiseMeans(minVal, maxVal);
+		MatrixXf tempMeans = intialiseMeans(minVal, maxVal);
 
 		// Initialise container to store cluster index per data point
 		vector<int> clusterIDS;
@@ -104,8 +105,7 @@ namespace zSpace
 
 			for (int j = 0; j < numRows; j++)
 			{
-				zMatrix<double> data = dataPoints.getRowMatrix(j);
-
+				MatrixXf data = dataPoints.row(j);
 
 				int clusterID = getClusterIndex(data, tempMeans);
 
@@ -126,17 +126,17 @@ namespace zSpace
 			// update mean			
 			for (int j = 0; j < numClusters; j++)
 			{
-				zMatrix<double> mean = tempMeans.getRowMatrix(j);
+				MatrixXf  mean = tempMeans.row(j);
 
 				for (int l = 0; l < tempClusters[j].size(); l++)
 				{
 					int dataId = tempClusters[j][l];
-					zMatrix<double> data = dataPoints.getRowMatrix(dataId);
+					MatrixXf data = dataPoints.row(dataId);
 
 					updateMean(data, mean, l + 1);
-				}
+				}		
 
-				tempMeans.setRow(j, mean);
+				tempMeans.row(j) = mean;
 			}
 
 
@@ -169,13 +169,13 @@ namespace zSpace
 
 		}
 
-		means = zMatrixd(actualNumClusters, tempMeans.getNumCols());
+		means = MatrixXf(actualNumClusters, tempMeans.cols());
 		int id = 0;
-		for (int i = 0; i < tempMeans.getNumRows(); i++)
+		for (int i = 0; i < tempMeans.rows(); i++)
 		{
 			if (tempClusters[i].size() != 0)
 			{
-				for (int j = 0; j < tempMeans.getNumCols(); j++)
+				for (int j = 0; j < tempMeans.cols(); j++)
 				{
 					means(id, j) = tempMeans(i, j);
 				}
@@ -190,16 +190,16 @@ namespace zSpace
 
 	//---- PROTECTED METHODS
 
-	ZSPACE_INLINE zMatrix<double> zTsKMeans::intialiseMeans(double &minVal, double &maxVal)
+	ZSPACE_INLINE MatrixXf zTsKMeans::intialiseMeans(float &minVal, float &maxVal)
 	{
-		zMatrix<double> out(numClusters, dataPoints.getNumCols());
+		MatrixXf out(numClusters, dataPoints.cols());
 
 		// to generate different random number every time the program runs
 		srand(time(NULL));
 
 		vector<double> randNumbers;
 
-		for (int i = 0; i < out.getNumRows() * out.getNumCols(); i++)
+		for (int i = 0; i < out.rows() * out.cols(); i++)
 		{
 			double v = coreUtils.randomNumber_double(minVal, maxVal);
 
@@ -208,10 +208,10 @@ namespace zSpace
 
 		int id = 0;
 
-		for (int i = 0; i < out.getNumRows(); i++)
+		for (int i = 0; i < out.rows(); i++)
 		{
 
-			for (int j = 0; j < out.getNumCols(); j++)
+			for (int j = 0; j < out.cols(); j++)
 			{
 				out(i, j) = randNumbers[id];
 				id++;
@@ -221,14 +221,14 @@ namespace zSpace
 		return out;
 	}
 
-	ZSPACE_INLINE int zTsKMeans::getClusterIndex(zMatrixd &data, zMatrixd &means)
+	ZSPACE_INLINE int zTsKMeans::getClusterIndex(MatrixXf &data, MatrixXf &means)
 	{
 		double minDist = 10000000;
 		int out = -1;
 
-		for (int i = 0; i < means.getNumRows(); i++)
+		for (int i = 0; i < means.rows(); i++)
 		{
-			zMatrix<double> mean = means.getRowMatrix(i);
+			MatrixXf mean = means.row(i);
 
 			double dist = coreUtils.getEuclideanDistance(data, mean);
 
@@ -242,9 +242,9 @@ namespace zSpace
 		return out;
 	}
 
-	ZSPACE_INLINE void zTsKMeans::updateMean(zMatrixd &data, zMatrixd &mean, int clusterSize)
+	ZSPACE_INLINE void zTsKMeans::updateMean(MatrixXf &data, MatrixXf &mean, int clusterSize)
 	{
-		for (int i = 0; i < mean.getNumCols(); i++)
+		for (int i = 0; i < mean.cols(); i++)
 		{
 			mean(0, i) = (mean(0, i) * (clusterSize - 1) + data(0, i)) / clusterSize;
 		}

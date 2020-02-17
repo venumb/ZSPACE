@@ -1000,7 +1000,7 @@ namespace zSpace
 
 	//---- BMP MATRIX  METHODS
 
-	ZSPACE_INLINE void zUtilsCore::matrixToBMP(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixToBMP(vector<MatrixXf> &matrices, string path)
 	{
 
 		bool checkMatchSize = true;
@@ -1065,7 +1065,7 @@ namespace zSpace
 		bmp.write(path.c_str());
 	}
 
-	ZSPACE_INLINE void zUtilsCore::matrixToJPEG(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixToJPEG(vector<MatrixXf> &matrices, string path)
 	{
 
 		bool checkMatchSize = true;
@@ -1135,7 +1135,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zUtilsCore::matrixToPNG(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixToPNG(vector<MatrixXf> &matrices, string path)
 	{
 
 		bool checkMatchSize = true;
@@ -1195,7 +1195,7 @@ namespace zSpace
 		writePNG(path.c_str(), image, width, height);
 	}
 	
-	ZSPACE_INLINE void zUtilsCore::matrixFromPNG(vector<MatrixXd> &matrices, string path)
+	ZSPACE_INLINE void zUtilsCore::matrixFromPNG(vector<MatrixXf> &matrices, string path)
 	{
 		unsigned width, height;
 		std::vector<unsigned char> image;
@@ -1207,26 +1207,26 @@ namespace zSpace
 
 		// create matrices 
 
-		MatrixXd R(resX, resY);
-		MatrixXd G(resX, resY);
-		MatrixXd B(resX, resY);
-		MatrixXd A(resX, resY);
+		MatrixXf R(resX, resY);
+		MatrixXf G(resX, resY);
+		MatrixXf B(resX, resY);
+		MatrixXf A(resX, resY);
 
 		for (int x = 0; x < resX; ++x)
 		{
 			for (int y = 0; y < resY; ++y)
 			{
 				R(x, y) = image[4 * width * y + 4 * x + 0];
-				R(x, y) = ofMap(R(x, y), 0.0, 255.0, 0.0, 1.0);
+				R(x, y) = ofMap(R(x, y), 0.0f, 255.0f, 0.0f, 1.0f);
 
 				G(x, y) = image[4 * width * y + 4 * x + 1];
-				G(x, y) = ofMap(G(x, y), 0.0, 255.0, 0.0, 1.0);
+				G(x, y) = ofMap(G(x, y), 0.0f, 255.0f, 0.0f, 1.0f);
 
 				B(x, y) = image[4 * width * y + 4 * x + 2];
-				B(x, y) = ofMap(B(x, y), 0.0, 255.0, 0.0, 1.0);
+				B(x, y) = ofMap(B(x, y), 0.0f, 255.0f, 0.0f, 1.0f);
 
 				A(x, y) = image[4 * width * y + 4 * x + 3];
-				A(x, y) = ofMap(A(x, y), 0.0, 255.0, 0.0, 1.0);
+				A(x, y) = ofMap(A(x, y), 0.0f, 255.0f, 0.0f, 1.0f);
 			}
 		}
 
@@ -1476,6 +1476,28 @@ namespace zSpace
 		zTransform local = toLocalMatrix(from);
 
 		zTransform out = world * local;
+
+		return out;
+	}
+
+	ZSPACE_INLINE float zUtilsCore::getEuclideanDistance(MatrixXf & m1, MatrixXf & m2, double tolerance)
+	{
+		if (m1.cols() != m2.cols()) throw std::invalid_argument("number of columns in m1 not equal to number of columns in m2.");
+		if (m2.rows() != 1) throw std::invalid_argument("number of rows in m2 not equal to 1.");
+		if (m1.rows() != 1) throw std::invalid_argument("number of rows in m1 not equal to 1.");
+
+		double out;
+
+		double dist = 0;;
+
+		for (int j = 0; j < m1.cols(); j++)
+		{
+			dist += pow((m1(0, j) - m2(0, j)), 2);
+		}
+
+		if (dist > tolerance) out = sqrt(dist);
+		else out = 0.0;
+
 
 		return out;
 	}

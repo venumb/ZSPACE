@@ -116,7 +116,9 @@ namespace zSpace
 
 	//---- DISPLAY METHODS
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 	ZSPACE_INLINE void zHcUnit::displayLayout(int&_index, bool&_show)
 	{
@@ -124,7 +126,7 @@ namespace zSpace
 		{
 			for (int j = 0; j < layoutMeshObjs[i].size(); j++)
 			{
-				_index == i ? layoutMeshObjs[i][j].setShowObject(_show) : layoutMeshObjs[i][j].setShowObject(false);
+				_index == i ? layoutMeshObjs[i][j].setDisplayObject(_show) : layoutMeshObjs[i][j].setDisplayObject(false);
 
 			}
 		}
@@ -141,7 +143,7 @@ namespace zSpace
 			for (int j = 0; j < layoutMeshObjs[i].size(); j++)
 			{
 				model->addObject(layoutMeshObjs[i][j]);
-				layoutMeshObjs[i][j].setShowElements(false, true, true);
+				layoutMeshObjs[i][j].setDisplayElements(false, true, true);
 			}
 		}
 	}

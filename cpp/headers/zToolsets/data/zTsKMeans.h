@@ -77,10 +77,10 @@ namespace zSpace
 		double *maxLength;
 
 		/*!<\brief mean or average data.*/
-		zMatrixd means;
+		MatrixXf means;
 
 		/*!	\brief matrix data*/
-		zMatrixd dataPoints;
+		MatrixXf dataPoints;
 		
 		/*!	\brief 2 dimensional container of cluster items*/
 		vector<vector<int>> clusters;
@@ -100,7 +100,7 @@ namespace zSpace
 		*	\param		[in]	_data			- input matrix data.
 		*	\since version 0.0.2
 		*/
-		zTsKMeans(zMatrixd &_dataPoints);
+		zTsKMeans(MatrixXf &_dataPoints);
 		
 		/*! \brief Overloaded constructor.
 		*
@@ -109,7 +109,7 @@ namespace zSpace
 		*	\param		[in]	_numIterations		- input number of iterations.
 		*	\since version 0.0.2
 		*/
-		zTsKMeans(zMatrixd &_dataPoints, int &_numClusters, int &_numIterations);
+		zTsKMeans(MatrixXf &_dataPoints, int &_numClusters, int &_numIterations);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -161,14 +161,14 @@ namespace zSpace
 		*	\param	[out]	maxVal			- input maximum value in the data.
 		*	\return			int				- index of cluster.
 		*/
-		zMatrix<double> intialiseMeans(double &minVal, double &maxVal);
+		MatrixXf intialiseMeans(float &minVal, float &maxVal);
 
 		/*! \brief This method computes the cluster index based on the least euclidean distance between input data point and mean values.
 		*
 		*	\param	[in]	data			- input row matrix of data.
 		*	\return			int				- index of cluster.
 		*/
-		int getClusterIndex(zMatrixd &data, zMatrixd &means);
+		int getClusterIndex(MatrixXf &data, MatrixXf &means);
 
 		/*! \brief This method updates the mean value of the cluster based on the input data point and cluster size.
 		*
@@ -176,7 +176,7 @@ namespace zSpace
 		*	\param	[in]	mean			- input row matrix of means.
 		*	\param	[in]	clusterSize		- current cluster size.
 		*/
-		void updateMean(zMatrixd &data, zMatrixd &mean, int clusterSize);
+		void updateMean(MatrixXf &data, MatrixXf &mean, int clusterSize);
 			
 		
 	};

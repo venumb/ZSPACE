@@ -454,15 +454,17 @@ namespace zSpace
 
 	ZSPACE_INLINE void zAgSlab::displaySlab(bool showSlab)
 	{
-		slabMeshObj.setShowObject(showSlab);
+		slabMeshObj.setDisplayObject(showSlab);
 	}
 
-#ifndef ZSPACE_UNREAL_INTEROP
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 
 	ZSPACE_INLINE void zAgSlab::addObjsToModel()
 	{
 		model->addObject(slabMeshObj);
-		slabMeshObj.setShowElements(false, true, true);
+		slabMeshObj.setDisplayElements(false, true, true);
 	}
 
 #endif

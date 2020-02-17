@@ -649,7 +649,7 @@ namespace zSpace
 		*	\return				double			- total area of the mesh.
 		*	\since version 0.0.2
 		*/
-		double getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zDoubleArray &vertexAreas);
+		double getVertexAreas(zPointArray &faceCenters, zPointArray &edgeCenters, zFloatArray &vertexAreas);
 
 		/*! \brief This method computes the area of every face of the mesh. It works only if the faces are planar.
 		*

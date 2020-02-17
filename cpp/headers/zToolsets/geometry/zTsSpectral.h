@@ -77,7 +77,7 @@ namespace zSpace
 		zDomainColor colorDomain = zDomainColor(zColor(), zColor(1, 1, 1, 1));
 
 		/*!	\brief eigen values domain.  */
-		zDomainDouble eigenDomain = zDomainDouble(0.0, 1.0);
+		zDomainFloat eigenDomain = zDomainFloat(0.0, 1.0);
 
 		
 
@@ -221,7 +221,7 @@ namespace zSpace
 		*	\param		[out]	EigenDomain				- output eigen value domain.
 		*	\since version 0.0.2
 		*/
-		void computeMinMax_Eigen(int &colIndex, zDomainDouble &inDomain);
+		void computeMinMax_Eigen(int &colIndex, zDomainFloat &inDomain);
 
 	};
 

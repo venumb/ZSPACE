@@ -281,7 +281,7 @@ namespace zSpace
 		*	\return				bool						- true if the all the forces are within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool equilibrium(bool &computeTargets, double minmax_Edge, zDomainDouble &deviations,  double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, bool colorEdges = false, bool printInfo = false);
+		bool equilibrium(bool &computeTargets, double minmax_Edge, zDomainFloat &deviations,  double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, bool colorEdges = false, bool printInfo = false);
 		
 		//--------------------------
 		//----3D GS ALGEBRAIC
@@ -373,7 +373,7 @@ namespace zSpace
 		*	\param		[in]	weightDomain				- weight domain of the edge.
 		*	\since version 0.0.2
 		*/
-		void setDualEdgeWeightsfromPrimal(zDomainDouble weightDomain = zDomainDouble(2.0, 10.0));
+		void setDualEdgeWeightsfromPrimal(zDomainFloat weightDomain = zDomainFloat(2.0, 10.0));
 
 		//--------------------------
 		//---- UTILITY METHOD
@@ -424,7 +424,7 @@ namespace zSpace
 		*	\return				bool								- true if the all the correponding edges are parallel or within tolerance.
 		*	\since version 0.0.2
 		*/
-		bool checkParallelity(zDomainDouble & deviation, double angleTolerance, bool colorEdges, bool printInfo);
+		bool checkParallelity(zDomainFloat & deviation, double angleTolerance, bool colorEdges, bool printInfo);
 
 		/*! \brief This method updates the form diagram.
 		*
