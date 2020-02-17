@@ -82,6 +82,9 @@ namespace zSpace
 		/*!	\brief pointer to container of cummulative raditation*/
 		float *cummulativeRadiation;
 
+		/*!	\brief size of container for normals and cummulative raditation*/
+		int memSize;
+
 			   			   
 	public:
 
@@ -89,9 +92,7 @@ namespace zSpace
 		zUtilsCore coreUtils;
 
 		/*!	\brief pointer to container of normals and sun vectors. It should be same size as solar angles*/
-		zNorm_SunVec *norm_sunVecs;		
-
-		
+		zNorm_SunVec *norm_sunVecs;			
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -114,9 +115,7 @@ namespace zSpace
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------	
-
-		ZSPACE_CUDA_CALLABLE_HOST void setMemory(int _newSize);
-
+			   
 		ZSPACE_CUDA_CALLABLE_HOST void setNormals(zVector *_normals, int _numNormals);
 
 		ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
@@ -168,7 +167,9 @@ namespace zSpace
 		//--------------------------
 		//---- PROTECTED METHODS
 		//--------------------------	
+	protected:
 
+		ZSPACE_CUDA_CALLABLE_HOST void setMemory(int _newSize);
 
 
 

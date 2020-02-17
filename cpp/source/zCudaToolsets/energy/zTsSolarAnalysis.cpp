@@ -12,22 +12,11 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zTsSolarAnalysis::setMemory(int _newSize)
-	{
-		if (_newSize < numNorms) return;
-		else
-		{
-			while (numNorms < _newSize) numNorms += d_MEMORYMULTIPLIER;
-
-			normals = new zVector[numNorms];
-			cummulativeRadiation = new float[numNorms];
-
-		}
-	}
-
 	ZSPACE_INLINE void zTsSolarAnalysis::setNormals(zVector *_normals, int _numNormals)
 	{
-		normals = _normals;
+		setMemory(_numNormals);
+		
+		for(int i =0; i< _numNormals; i++) normals[i] = _normals[i];		
 		numNorms = _numNormals;
 	}
 
@@ -318,6 +307,21 @@ namespace zSpace
 
 		}
 	}
+
+	//---- PROTECTED METHODS
+
+	ZSPACE_INLINE void zTsSolarAnalysis::setMemory(int _newSize)
+	{
+		if (_newSize < numNorms) return;
+		else
+		{
+			while (memSize < _newSize) memSize += d_MEMORYMULTIPLIER;
+
+			normals = new zVector[memSize];
+			cummulativeRadiation = new float[memSize];
+		}
+	}
+	
 	
 
 }
