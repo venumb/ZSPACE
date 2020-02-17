@@ -15,6 +15,7 @@
 
 #pragma once
 
+#define MAX_SUNVECS 8784
 
 #include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
@@ -52,8 +53,6 @@ namespace zSpace
 	class ZSPACE_CUDA zTsSolarAnalysis
 	{
 	private:
-
-		
 
 		/*!	\brief pointer to container of normals	*/
 		zVector *normals;
@@ -158,7 +157,7 @@ namespace zSpace
 		//---- COMPUTE METHODS
 		//--------------------------	
 		
-		ZSPACE_CUDA_CALLABLE void computeSunVectors( float radius);		
+		ZSPACE_CUDA_CALLABLE void computeSunVectors_Year();
 
 		//--------------------------
 		//---- DISPLAY METHODS

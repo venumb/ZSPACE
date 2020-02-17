@@ -252,60 +252,55 @@ namespace zSpace
 
 	//---- COMPUTE METHODS
 
-	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors( float radius)
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Year( )
 	{
-		time_t  unixTime_s = dDate.min.toUnix();
-		time_t  unixTime_e = dDate.max.toUnix();
+
+		zDate min = dDate.min;
+		min.tm_mon = 1;
+		min.tm_mday = 1;
+		min.tm_hour = 0;
+		min.tm_min = 1;
+
+
+		zDate max = dDate.max;
+		max.tm_mon = 12;
+		max.tm_mday = 31;
+		max.tm_hour = 23;
+		min.tm_min = 1;
+
+
+		time_t  unixTime_s = min.toUnix();
+		time_t  unixTime_e = max.toUnix();
 
 		// get minute domain per day
-		zDate minHour = dDate.min;
-		zDate maxHour(dDate.min.tm_year, dDate.min.tm_mon, dDate.min.tm_mday, dDate.max.tm_hour, dDate.max.tm_min);
+		zDate minHour = min;
+		zDate maxHour(min.tm_year, min.tm_mon, min.tm_mday, max.tm_hour, max.tm_min);
 		
 		time_t  unixTime_sh = minHour.toUnix();
 		time_t  unixTime_eh = maxHour.toUnix();
 
 
 		//get total number of vectors
-		int numDays = (unixTime_e - unixTime_s);
-		if (numDays != 0)
-		{
-			numDays /= 86400;
-			numDays += 1;
-		}
-
-		int numMin = (unixTime_eh - unixTime_sh);
-		if (numMin != 0)
-		{
-			numMin /= 60;
-			numMin += 1;
-		}
-
-		numSunVec = (numDays) *  (numMin);
-
+		numSunVec = MAX_SUNVECS;
 		sunVecs = new zVector[numSunVec];
 
 		int count = 0;
 
 		for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
 		{
-
-			for (time_t minute = unixTime_sh; minute <= unixTime_eh; minute += 60)
+			for (time_t hour = unixTime_sh; hour <= unixTime_eh; hour += 3600)
 			{
 				zDate currentDate;
-				currentDate.fromUnix(day + minute - unixTime_s);;
-					
-				//zDomainDate sRS = getSunRise_SunSet(currentDate);
+				currentDate.fromUnix(day + hour - unixTime_s);;
 
-				//if (currentDate.tm_hour > sRS.min.tm_hour && currentDate.tm_hour < sRS.max.tm_hour)
-				//{
-					sunVecs[count] = getSunPosition(currentDate, radius);
-					count++;
-				//}
-
-				
+				sunVecs[count] = getSunPosition(currentDate, 1.0);
+			
+				count++; ;
 			}
 
 		}
+
+		printf("\n count %i ", count);
 	}
 
 	//---- PROTECTED METHODS
