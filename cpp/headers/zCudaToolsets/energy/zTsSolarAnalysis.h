@@ -15,7 +15,9 @@
 
 #pragma once
 
-#define MAX_SUNVECS 8784
+#define MAX_SUNVECS_HOUR 366*24
+#define MAX_SUNVECS_DAY 24*7
+#define COMPASS_SUBD 12*2
 
 #include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
@@ -61,10 +63,13 @@ namespace zSpace
 		int numNorms;
 
 		/*!	\brief pointer to container of sun vectors	*/
-		zVector *sunVecs;
+		zVector *sunVecs_hour;
 
-		/*!	\brief number of sun vectors in the container	*/
-		int numSunVec;
+		/*!	\brief pointer to container of sun vectors	*/
+		zVector *sunVecs_days;
+
+		/*!	\brief pointer to container of compass display vectors	*/
+		zVector *compassVecs;
 
 		/*!	\brief pointer to container of epw data	*/
 		zEPWData* epwData;		
@@ -137,13 +142,17 @@ namespace zSpace
 
 		ZSPACE_CUDA_CALLABLE zVector* getRawNormals();
 
-		ZSPACE_CUDA_CALLABLE zVector* getRawSunVectors();
+		ZSPACE_CUDA_CALLABLE zVector* getRawSunVectors_hour();
+
+		ZSPACE_CUDA_CALLABLE zVector* getRawSunVectors_day();
+
+		ZSPACE_CUDA_CALLABLE zVector* getRawCompassVectors();
 
 		ZSPACE_CUDA_CALLABLE zEPWData* getRawEPWData();
 
 		ZSPACE_CUDA_CALLABLE float* getRawCummulativeRadiation();
 
-		ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, float radius);
+		ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date);
 
 		ZSPACE_CUDA_CALLABLE zDomainDate getSunRise_SunSet(zDate &date);
 
@@ -159,6 +168,8 @@ namespace zSpace
 		
 		ZSPACE_CUDA_CALLABLE void computeSunVectors_Year();
 
+		ZSPACE_CUDA_CALLABLE void computeCompass();
+
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------	
@@ -170,6 +181,9 @@ namespace zSpace
 
 		ZSPACE_CUDA_CALLABLE_HOST void setMemory(int _newSize);
 
+		ZSPACE_CUDA_CALLABLE_HOST void computeSunVectors_Hour();
+
+		ZSPACE_CUDA_CALLABLE_HOST void computeSunVectors_Day();
 
 
 	};

@@ -88,7 +88,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsSolarAnalysis::setNorm_SunVecs()
 	{
-		norm_sunVecs = new zNorm_SunVec[numNorms * numSunVec];
+		/*norm_sunVecs = new zNorm_SunVec[numNorms * numSunVec];
 
 		for (int i = 0; i < numNorms; i++)
 		{
@@ -97,7 +97,7 @@ namespace zSpace
 				norm_sunVecs[(i*numSunVec) + j].norm = normals[i];
 				norm_sunVecs[(i*numSunVec) + j].sunVec = sunVecs[j];
 			}
-		}
+		}*/
 	}
 
 	//---- GET METHODS
@@ -109,7 +109,7 @@ namespace zSpace
 
 	ZSPACE_INLINE int zTsSolarAnalysis::numSunVecs()
 	{
-		return numSunVec;
+		return MAX_SUNVECS_HOUR;
 	}
 
 	ZSPACE_INLINE int zTsSolarAnalysis::numDataPoints()
@@ -122,9 +122,19 @@ namespace zSpace
 		return normals;
 	}
 
-	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawSunVectors()
+	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawSunVectors_hour()
 	{
-		return sunVecs;
+		return sunVecs_hour;
+	}
+
+	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawSunVectors_day()
+	{
+		return sunVecs_days;
+	}
+
+	ZSPACE_INLINE zVector * zTsSolarAnalysis::getRawCompassVectors()
+	{
+		return compassVecs;
 	}
 
 	ZSPACE_INLINE zEPWData* zTsSolarAnalysis::getRawEPWData()
@@ -137,7 +147,7 @@ namespace zSpace
 		return cummulativeRadiation;
 	}
 
-	ZSPACE_INLINE zVector zTsSolarAnalysis::getSunPosition(zDate &date, float radius)
+	ZSPACE_INLINE zVector zTsSolarAnalysis::getSunPosition(zDate &date)
 	{
 		float LocalTime = date.tm_hour + (date.tm_min / 60.0);
 
@@ -189,7 +199,7 @@ namespace zSpace
 
 		double hRDeg = hDeg + (RDeg / 60);
 
-		return coreUtils.sphericalToCartesian(aDeg, hRDeg, radius);
+		return coreUtils.sphericalToCartesian(aDeg, hRDeg, 1.0);
 	}
 
 	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getSunRise_SunSet(zDate &date)
@@ -219,7 +229,7 @@ namespace zSpace
 
 		double delta = asin(sin(lambda) * sin(23.44 * DEG_TO_RAD));
 
-		double cosOmega = (sin(-0.83 * DEG_TO_RAD) - (sin(location.latitude * DEG_TO_RAD) * sin(delta))) / (cos(location.longitude * DEG_TO_RAD) * cos(delta));
+		double cosOmega = (sin(-0.83 * DEG_TO_RAD) - (sin(location.latitude * DEG_TO_RAD) * sin(delta))) / (cos(location.latitude * DEG_TO_RAD) * cos(delta));
 		double omegaDeg = acos(cosOmega) * RAD_TO_DEG;
 
 		double j;
@@ -255,52 +265,31 @@ namespace zSpace
 	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Year( )
 	{
 
-		zDate min = dDate.min;
-		min.tm_mon = 1;
-		min.tm_mday = 1;
-		min.tm_hour = 0;
-		min.tm_min = 1;
+		computeSunVectors_Hour();
 
-
-		zDate max = dDate.max;
-		max.tm_mon = 12;
-		max.tm_mday = 31;
-		max.tm_hour = 23;
-		min.tm_min = 1;
-
-
-		time_t  unixTime_s = min.toUnix();
-		time_t  unixTime_e = max.toUnix();
-
-		// get minute domain per day
-		zDate minHour = min;
-		zDate maxHour(min.tm_year, min.tm_mon, min.tm_mday, max.tm_hour, max.tm_min);
+		computeSunVectors_Day();
 		
-		time_t  unixTime_sh = minHour.toUnix();
-		time_t  unixTime_eh = maxHour.toUnix();
+	}
 
+	ZSPACE_INLINE void zTsSolarAnalysis::computeCompass()
+	{
+		compassVecs = new zVector[COMPASS_SUBD];
 
-		//get total number of vectors
-		numSunVec = MAX_SUNVECS;
-		sunVecs = new zVector[numSunVec];
+		float deg = (float)(360 / (float)(12));
 
-		int count = 0;
+		//zVector pos(0, 1, 0);
 
-		for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
+		for (int i = 0; i < 2; i++)
 		{
-			for (time_t hour = unixTime_sh; hour <= unixTime_eh; hour += 3600)
+			//if (i > 0) pos *= 1.1;
+			zVector pos(0, 1 + (i * 0.1), 0);
+
+			for (int j = 0; j < 12; j++)
 			{
-				zDate currentDate;
-				currentDate.fromUnix(day + hour - unixTime_s);;
-
-				sunVecs[count] = getSunPosition(currentDate, 1.0);
-			
-				count++; ;
+				compassVecs[i * 12 + j] = pos;
+				pos = pos.rotateAboutAxis(zVector(0, 0, 1), deg);
 			}
-
 		}
-
-		printf("\n count %i ", count);
 	}
 
 	//---- PROTECTED METHODS
@@ -314,6 +303,122 @@ namespace zSpace
 
 			normals = new zVector[memSize];
 			cummulativeRadiation = new float[memSize];
+		}
+	}
+
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Hour()
+	{
+		zDate min = dDate.min;
+		min.tm_mon = 1;
+		min.tm_mday = 1;
+		min.tm_hour = 0;
+		min.tm_min = 0;
+
+
+		zDate max = dDate.max;
+		max.tm_mon = 12;
+		max.tm_mday = 31;
+		max.tm_hour = 23;
+		min.tm_min = 0;
+
+
+		time_t  unixTime_s = min.toUnix();
+		time_t  unixTime_e = max.toUnix();
+
+		// get minute domain per day
+		zDate minHour = min;
+		zDate maxHour(min.tm_year, min.tm_mon, min.tm_mday, max.tm_hour, max.tm_min);
+
+		time_t  unixTime_sh = minHour.toUnix();
+		time_t  unixTime_eh = maxHour.toUnix();
+
+
+		//get total number of vectors
+		sunVecs_hour = new zVector[MAX_SUNVECS_HOUR];
+
+		int hrCount = 0;
+
+		for (time_t hour = unixTime_sh; hour <= unixTime_eh; hour += 3600)
+		{
+			int dCount = 0;
+			for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
+			{
+				zDate currentDate;
+				currentDate.fromUnix(day + hour - unixTime_s);;			
+
+				zVector sunPos = getSunPosition(currentDate);
+
+				if (sunPos.z >= 0) sunVecs_hour[hrCount * 366 + dCount] = sunPos;
+
+				dCount++; ;
+			}
+
+			hrCount++;
+		}
+	}
+
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Day()
+	{
+
+		zDate days[7];
+
+		int _year = dDate.min.tm_year;
+
+		days[0] = zDate(_year, 06, 20, 0, 1);
+		days[1] = zDate(_year, 12, 21, 0, 1);
+		days[2] = zDate(_year, 1, 28, 0, 1);
+		days[3] = zDate(_year, 2, 28, 0, 1);
+		days[4] = zDate(_year, 3, 21, 0, 1);
+		days[5] = zDate(_year, 4, 15, 0, 1);
+		days[6] = zDate(_year, 5, 15, 0, 1);
+
+		sunVecs_days = new zVector[MAX_SUNVECS_DAY];
+
+		for (int i = 0; i < 7; i++)
+		{
+					   
+			zDate init = days[i];
+			zDate end = days[i];
+
+			init.tm_hour = 0;
+			init.tm_min = 1;
+			end.tm_hour = 23;
+			end.tm_min = 59;
+
+			time_t  unixTime_s = init.toUnix();
+			time_t  unixTime_e = end.toUnix();
+
+			int count = 0;
+			for (time_t hour = unixTime_s; hour <= unixTime_e; hour += 3600)
+			{
+				zDate currentDate;
+				currentDate.fromUnix(hour);
+				zDomainDate dd = getSunRise_SunSet(currentDate);
+
+			
+				zVector sunPos;
+	
+				sunPos = getSunPosition(currentDate);
+				if (sunPos.z >= 0) sunVecs_days[i * 24 + count] = sunPos;  //TODO update to base pt
+			
+
+				if (currentDate.tm_hour == dd.min.tm_hour)
+				{
+					sunPos = getSunPosition(dd.min);
+					sunVecs_days[i * 24 + count] = sunPos;
+					sunVecs_days[i * 24 + count].z = 0; //TODO update to base pt
+				}
+
+				if (currentDate.tm_hour == dd.max.tm_hour + 1)
+				{
+					sunPos = getSunPosition(dd.max);
+					sunVecs_days[i * 24 + count] = sunPos;
+					sunVecs_days[i * 24 + count].z = 0; //TODO update to base pt
+				}
+
+				count++;
+			}
+
 		}
 	}
 	

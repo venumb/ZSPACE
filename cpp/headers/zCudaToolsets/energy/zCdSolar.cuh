@@ -88,7 +88,7 @@ ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 	return zPoint(cos(aDeg * DEG_TO_RAD) * sin(hRDeg * DEG_TO_RAD), cos(aDeg * DEG_TO_RAD) * cos(hRDeg * DEG_TO_RAD), sin(aDeg * DEG_TO_RAD));
 }
 
-ZSPACE_CUDA_CALLABLE_HOST void cleanDeviceMemory()
+ZSPACE_EXTERN void cleanDeviceMemory()
 {
 	// Free memory.
 	cudaFree(d_norms);

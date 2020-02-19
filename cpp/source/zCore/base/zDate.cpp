@@ -72,17 +72,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zDate::fromUnix(time_t unixSecs)
 	{
-#ifndef __CUDACC__
-		zDate out;
-		gmtime_s(&out, &unixSecs);
-
-		out.tm_year += 1900;
-		out.tm_mon += 1;
-
-		*this =  out;
-
-#else
-
+		
 		int z = unixSecs / 86400 + 719468;
 		int era = (z >= 0 ? z : z - 146096) / 146097;
 		unsigned doe = static_cast<unsigned>(z - era * 146097);
@@ -103,7 +93,6 @@ namespace zSpace
 
 		*this = zDate(y, m, d, h, min);
 
-#endif
 
 	}
 
@@ -116,10 +105,6 @@ namespace zSpace
 	ZSPACE_INLINE double zDate::toJulian()
 	{
 
-#ifndef __CUDACC__
-		time_t unix = toUnix();
-		return toJulian(unix);
-#else
 
 		double y, m, d, b;
 
@@ -142,7 +127,8 @@ namespace zSpace
 		b = 2 - floor(y / 100) + floor(y / 400);
 
 		return floor(365.25 * (y + 4716)) + floor(30.6001 * (m + 1)) + d + b - 1524.5;
-#endif
+
+
 	}
 
 	ZSPACE_INLINE double zDate::toJulian(time_t unixSecs)
@@ -157,25 +143,8 @@ namespace zSpace
 
 	ZSPACE_INLINE time_t zDate::toUnix()
 	{
-
-#ifndef __CUDACC__
-		zDate temp;
-		temp.tm_year = tm_year;
-		temp.tm_mon = tm_mon;
-		temp.tm_mday = tm_mday;
-		temp.tm_hour = tm_hour;
-		temp.tm_min = tm_min;
-
-
-		temp.tm_year -= 1900;
-		temp.tm_mon -= 1;
-
-		return mktime(&temp);
-#else
-
 		double jd = toJulian();
 		return toUnix(jd);
-#endif
 	}
 
 #ifndef __CUDACC__
