@@ -12,12 +12,24 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zTsSolarAnalysis::setNormals(zVector *_normals, int _numNormals)
+	ZSPACE_INLINE void zTsSolarAnalysis::setNormals(const float *_normals, int _numNormals, bool EPWread)
 	{
-		setMemory(_numNormals);
-		
-		for(int i =0; i< _numNormals; i++) normals[i] = _normals[i];		
+		normals = new float[_numNormals];;
+		std::copy(_normals, _normals + _numNormals, normals);
+
 		numNorms = _numNormals;
+
+		setMemory();
+
+		std::copy(normals, normals + (numNorms), norm_sunvecs);
+		std::copy(sunVecs_hour, sunVecs_hour + MAX_SUNVECS_HOUR, norm_sunvecs + numNorms);
+
+		if (EPWread)
+		{
+			std::copy(normals, normals + (numNorms), cummulativeRadiation);
+			std::copy(epwData_radiation, epwData_radiation + MAX_SUNVECS_HOUR, cummulativeRadiation + numNorms);
+		}
+
 	}
 
 	ZSPACE_INLINE bool zTsSolarAnalysis::setEPWData(string path)
@@ -31,7 +43,9 @@ namespace zSpace
 			return false;
 		}
 
-		epwData = new zEPWData[8760];
+		epwData_radiation = new float[MAX_SUNVECS_HOUR];
+
+		bool leapYear = (dDate.min.tm_year % 4 == 0) ? true : false;
 
 		bool startCount = false;
 		int count = 0;
@@ -56,12 +70,40 @@ namespace zSpace
 				if (startCount)
 				{
 							
-					epwData[count].dbTemperature = atof(perlineData[6].c_str());
-					epwData[count].pressure = atof(perlineData[9].c_str());
-					epwData[count].radiation = atof(perlineData[12].c_str());
-					epwData[count].humidity = atof(perlineData[8].c_str());
-					epwData[count].windDirection = atof(perlineData[20].c_str());
-					epwData[count].windSpeed = atof(perlineData[21].c_str());
+					epwData_radiation[count * 3 + 0] = atof(perlineData[5].c_str()); // temperature
+					epwData_radiation[count * 3 + 1] = atof(perlineData[8].c_str()); //pressure
+					epwData_radiation[count * 3 + 2] = atof(perlineData[11].c_str()); //radiation
+
+					if (leapYear && count == (59 *24)) // Feb 28
+					{
+						for (int k = 0; k < 24; k++)
+						{
+							count++;
+
+							epwData_radiation[count * 3 + 0] = epwData_radiation[(count - 24) * 3 + 0]; // temperature
+							epwData_radiation[count * 3 + 1] = epwData_radiation[(count - 24) * 3 + 1]; //pressure
+							epwData_radiation[count * 3 + 2] = epwData_radiation[(count - 24) * 3 + 2]; //radiation
+						}
+						
+					}
+
+					if (!leapYear && count == (365 * 24)) // Dec 31
+					{
+						for (int k = 0; k < 24; k++)
+						{
+							count++;
+
+							epwData_radiation[count * 3 + 0] = INVALID_VAL; // temperature
+							epwData_radiation[count * 3 + 1] = INVALID_VAL; //pressure
+							epwData_radiation[count * 3 + 2] = INVALID_VAL; //radiation
+						}
+					}
+
+					//printf("\n %i | %1.2f ", count * 3 + 2, epwData_radiation[count * 3 + 2]);
+					
+					//epwData[count].humidity = atof(perlineData[7].c_str());
+					//epwData[count].windDirection = atof(perlineData[19].c_str());
+					//epwData[count].windSpeed = atof(perlineData[20].c_str());
 										
 					count++;
 				}
@@ -71,33 +113,26 @@ namespace zSpace
 
 		}
 
+
+		printf("\n count : %i ", count);
 		myfile.close();
 
 		return true;
 	}
 
-	ZSPACE_INLINE void zTsSolarAnalysis::setDates(zDomainDate & _dDate)
+	ZSPACE_INLINE void zTsSolarAnalysis::setDomain_Dates(zDomainDate & _dDate)
 	{
 		dDate = _dDate;
+	}
+
+	ZSPACE_INLINE void zTsSolarAnalysis::setDomain_Colors(zDomainColor & _dColor)
+	{
+		dColor = _dColor;
 	}
 
 	ZSPACE_INLINE void zTsSolarAnalysis::setLocation(zLocation & _location)
 	{
 		location = _location;
-	}
-
-	ZSPACE_INLINE void zTsSolarAnalysis::setNorm_SunVecs()
-	{
-		norm_sunVecs = new zNorm_SunVec[numNorms * numSunVec];
-
-		for (int i = 0; i < numNorms; i++)
-		{
-			for (int j = 0; j < numSunVec; j++)
-			{
-				norm_sunVecs[(i*numSunVec) + j].norm = normals[i];
-				norm_sunVecs[(i*numSunVec) + j].sunVec = sunVecs[j];
-			}
-		}
 	}
 
 	//---- GET METHODS
@@ -109,7 +144,7 @@ namespace zSpace
 
 	ZSPACE_INLINE int zTsSolarAnalysis::numSunVecs()
 	{
-		return numSunVec;
+		return MAX_SUNVECS_HOUR;
 	}
 
 	ZSPACE_INLINE int zTsSolarAnalysis::numDataPoints()
@@ -117,19 +152,34 @@ namespace zSpace
 		return numData;
 	}
 
-	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawNormals()
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawNormals()
 	{
 		return normals;
 	}
 
-	ZSPACE_INLINE zVector* zTsSolarAnalysis::getRawSunVectors()
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawColors()
 	{
-		return sunVecs;
+		return colors;
 	}
 
-	ZSPACE_INLINE zEPWData* zTsSolarAnalysis::getRawEPWData()
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawNormals_SunVectors()
 	{
-		return epwData;
+		return norm_sunvecs;
+	}
+
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawSunVectors_hour()
+	{
+		return sunVecs_hour;
+	}
+
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawSunVectors_day()
+	{
+		return sunVecs_days;
+	}
+
+	ZSPACE_INLINE float* zTsSolarAnalysis::getRawEPWRadiation()
+	{
+		return epwData_radiation;
 	}
 
 	ZSPACE_INLINE float* zTsSolarAnalysis::getRawCummulativeRadiation()
@@ -137,7 +187,7 @@ namespace zSpace
 		return cummulativeRadiation;
 	}
 
-	ZSPACE_INLINE zVector zTsSolarAnalysis::getSunPosition(zDate &date, float radius)
+	ZSPACE_INLINE zVector zTsSolarAnalysis::getSunPosition(zDate &date)
 	{
 		float LocalTime = date.tm_hour + (date.tm_min / 60.0);
 
@@ -189,7 +239,7 @@ namespace zSpace
 
 		double hRDeg = hDeg + (RDeg / 60);
 
-		return coreUtils.sphericalToCartesian(aDeg, hRDeg, radius);
+		return coreUtils.sphericalToCartesian(aDeg, hRDeg, 1.0);
 	}
 
 	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getSunRise_SunSet(zDate &date)
@@ -207,19 +257,19 @@ namespace zSpace
 
 		double js = n - (location.longitude / 360.0);
 
-		double m = (double) fmod((357.5291 + 0.98560028 * js), 360.0) * DEG_TO_RAD; // radians
+		double m = (double)fmod((357.5291 + 0.98560028 * js), 360.0) * DEG_TO_RAD; // radians
 
 		double c = 1.9148 * sin(m) + 0.02 * sin(2 * m) + 0.0003 * sin(3 * m);
 
 		double mDeg = m * RAD_TO_DEG;
-		double lambdaDeg = (double) fmod((mDeg + c + 180 + 102.9372), 360.0); //deg
+		double lambdaDeg = (double)fmod((mDeg + c + 180 + 102.9372), 360.0); //deg
 		double lambda = lambdaDeg * DEG_TO_RAD;
 
 		double jt = 2451545.0 + js + ((0.0053 * sin(m)) - (0.0069 * sin(2 * lambda)));
 
 		double delta = asin(sin(lambda) * sin(23.44 * DEG_TO_RAD));
 
-		double cosOmega = (sin(-0.83 * DEG_TO_RAD) - (sin(location.latitude * DEG_TO_RAD) * sin(delta))) / (cos(location.longitude * DEG_TO_RAD) * cos(delta));
+		double cosOmega = (sin(-0.83 * DEG_TO_RAD) - (sin(location.latitude * DEG_TO_RAD) * sin(delta))) / (cos(location.latitude * DEG_TO_RAD) * cos(delta));
 		double omegaDeg = acos(cosOmega) * RAD_TO_DEG;
 
 		double j;
@@ -231,97 +281,242 @@ namespace zSpace
 		//sunset
 		j = jt + (omegaDeg / 360.0);
 		out.max.fromJulian(j);
-			   
+
 		return out;
 	}
 
-	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getDates()
+	ZSPACE_INLINE zDomainDate zTsSolarAnalysis::getDomain_Dates()
 	{
 		return dDate;
+	}
+
+	ZSPACE_INLINE zDomainColor zTsSolarAnalysis::getDomain_Colors()
+	{
+		return dColor;
 	}
 
 	ZSPACE_INLINE zLocation zTsSolarAnalysis::getLocation()
 	{
 		return location;
 	}
-
-	ZSPACE_INLINE zNorm_SunVec * zTsSolarAnalysis::getNorm_SunVecs()
-	{
-		return norm_sunVecs;
-	}
-
+	   
 	//---- COMPUTE METHODS
 
-	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors( float radius)
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Year( )
 	{
-		time_t  unixTime_s = dDate.min.toUnix();
-		time_t  unixTime_e = dDate.max.toUnix();
+		computeSunVectors_Hour();
+		computeSunVectors_Day();
+	}
 
-		// get minute domain per day
-		zDate minHour = dDate.min;
-		zDate maxHour(dDate.min.tm_year, dDate.min.tm_mon, dDate.min.tm_mday, dDate.max.tm_hour, dDate.max.tm_min);
+	ZSPACE_INLINE void zTsSolarAnalysis::computeCummulativeRadiation()
+	{
+		for(int i =0; i< numNorms; i+= 3)
 		
-		time_t  unixTime_sh = minHour.toUnix();
-		time_t  unixTime_eh = maxHour.toUnix();
-
-
-		//get total number of vectors
-		int numDays = (unixTime_e - unixTime_s);
-		if (numDays != 0)
 		{
-			numDays /= 86400;
-			numDays += 1;
-		}
+			zVector norm(norm_sunvecs[i + 0], norm_sunvecs[i + 1], norm_sunvecs[i + 2]);
 
-		int numMin = (unixTime_eh - unixTime_sh);
-		if (numMin != 0)
-		{
-			numMin /= 60;
-			numMin += 1;
-		}
+			int sunvecs_offset = numNorms - i;
 
-		numSunVec = (numDays) *  (numMin);
-
-		sunVecs = new zVector[numSunVec];
-
-		int count = 0;
-
-		for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
-		{
-
-			for (time_t minute = unixTime_sh; minute <= unixTime_eh; minute += 60)
+			float angle = 0;
+			int count = 0;
+			for (int o = i; o < i + MAX_SUNVECS_HOUR; o += 3)
 			{
-				zDate currentDate;
-				currentDate.fromUnix(day + minute - unixTime_s);;
-					
-				//zDomainDate sRS = getSunRise_SunSet(currentDate);
+				int j = o + sunvecs_offset;
+				zVector sVec(norm_sunvecs[j + 0], norm_sunvecs[j + 1], norm_sunvecs[j + 2]);
 
-				//if (currentDate.tm_hour > sRS.min.tm_hour && currentDate.tm_hour < sRS.max.tm_hour)
-				//{
-					sunVecs[count] = getSunPosition(currentDate, radius);
+				if (sVec.x != INVALID_VAL && sVec.y != INVALID_VAL && sVec.z != INVALID_VAL)
+				{
+					angle += norm.angle(sVec);
 					count++;
-				//}
+				}
 
-				
+
 			}
+			angle /= count;
+
+
+			if (angle > 90.0)
+			{
+				colors[i + 0] = dColor.min.h;
+				colors[i + 1] = dColor.min.s;
+				colors[i + 2] = dColor.min.v;
+			}
+			else
+			{
+				colors[i + 0] = coreUtils.ofMap(angle, 90.0f, 0.0f, dColor.min.h, dColor.max.h);
+				colors[i + 1] = coreUtils.ofMap(angle, 90.0f, 0.0f, dColor.min.s, dColor.max.s);
+				colors[i + 2] = coreUtils.ofMap(angle, 90.0f, 0.0f, dColor.min.v, dColor.max.v);
+			}
+
+
 
 		}
 	}
 
 	//---- PROTECTED METHODS
 
-	ZSPACE_INLINE void zTsSolarAnalysis::setMemory(int _newSize)
+	ZSPACE_INLINE void zTsSolarAnalysis::setMemory()
 	{
-		if (_newSize < numNorms) return;
+		if ((numNorms + MAX_SUNVECS_HOUR) < memSize) return;
 		else
 		{
-			while (memSize < _newSize) memSize += d_MEMORYMULTIPLIER;
+			while (memSize < (numNorms + MAX_SUNVECS_HOUR)) memSize += d_MEMORYMULTIPLIER;
 
-			normals = new zVector[memSize];
+			norm_sunvecs = new float[memSize];
 			cummulativeRadiation = new float[memSize];
+			
+			// set to  Num Normals			
+			colors = new float[numNorms];
 		}
 	}
 	
-	
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Hour()
+	{
+		zDate min = dDate.min;
+		min.tm_mon = 1;
+		min.tm_mday = 1;
+		min.tm_hour = 0;
+		min.tm_min = 0;
+
+
+		zDate max = dDate.max;
+		max.tm_mon = 12;
+		max.tm_mday = 31;
+		max.tm_hour = 23;
+		min.tm_min = 0;
+
+
+		time_t  unixTime_s = min.toUnix();
+		time_t  unixTime_e = max.toUnix();
+
+		// get minute domain per day
+		zDate minHour = min;
+		zDate maxHour(min.tm_year, min.tm_mon, min.tm_mday, max.tm_hour, max.tm_min);
+
+		time_t  unixTime_sh = minHour.toUnix();
+		time_t  unixTime_eh = maxHour.toUnix();
+
+
+		//get total number of vectors
+		sunVecs_hour = new float[MAX_SUNVECS_HOUR];
+
+		int hrCount = 0;
+
+		for (time_t hour = unixTime_sh; hour <= unixTime_eh; hour += 3600)
+		{
+			int dCount = 0;
+			for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
+			{
+				zDate currentDate;
+				currentDate.fromUnix(day + hour - unixTime_s);;
+
+				zVector sunPos = getSunPosition(currentDate);
+
+				if (sunPos.z >= 0)
+				{
+					sunVecs_hour[(((hrCount * 366) + dCount) * 3) + 0] = sunPos.x;
+					sunVecs_hour[(((hrCount * 366) + dCount) * 3) + 1] = sunPos.y;
+					sunVecs_hour[(((hrCount * 366) + dCount) * 3) + 2] = sunPos.z;
+				}
+				else
+				{
+					sunVecs_hour[(((hrCount * 366) + dCount) * 3) + 0] = INVALID_VAL;
+					sunVecs_hour[(((hrCount * 366) + dCount) * 3) + 1] = INVALID_VAL;
+					sunVecs_hour[(((hrCount * 366) + dCount) * 3) + 2] = INVALID_VAL;
+				}
+
+				dCount++; ;
+			}
+
+			hrCount++;
+		}
+
+		// for non leap years
+		if (min.tm_year % 4 != 0)
+		{
+			for (int i = (365 * 24 * 3); i < MAX_SUNVECS_HOUR; i++)
+			{
+				sunVecs_hour[i] = INVALID_VAL;				
+			}
+		}
+	}
+
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Day()
+	{
+
+		zDate days[7];
+
+		int _year = dDate.min.tm_year;
+
+		days[0] = zDate(_year, 06, 20, 0, 1);
+		days[1] = zDate(_year, 12, 21, 0, 1);
+		days[2] = zDate(_year, 1, 28, 0, 1);
+		days[3] = zDate(_year, 2, 28, 0, 1);
+		days[4] = zDate(_year, 3, 21, 0, 1);
+		days[5] = zDate(_year, 4, 15, 0, 1);
+		days[6] = zDate(_year, 5, 15, 0, 1);
+
+		sunVecs_days = new float[MAX_SUNVECS_DAY];
+
+		for (int i = 0; i < 7; i++)
+		{
+
+			zDate init = days[i];
+			zDate end = days[i];
+
+			init.tm_hour = 0;
+			init.tm_min = 1;
+			end.tm_hour = 23;
+			end.tm_min = 59;
+
+			time_t  unixTime_s = init.toUnix();
+			time_t  unixTime_e = end.toUnix();
+
+			int count = 0;
+			for (time_t hour = unixTime_s; hour <= unixTime_e; hour += 3600)
+			{
+				zDate currentDate;
+				currentDate.fromUnix(hour);
+				zDomainDate dd = getSunRise_SunSet(currentDate);
+
+
+				zVector sunPos;
+
+				sunPos = getSunPosition(currentDate);
+				if (sunPos.z >= 0)
+				{
+					sunVecs_days[(((i * 24) + count) * 3) + 0] = sunPos.x;
+					sunVecs_days[(((i * 24) + count) * 3) + 1] = sunPos.y;
+					sunVecs_days[(((i * 24) + count) * 3) + 2] = sunPos.z;
+				}
+				else
+				{
+					sunVecs_days[(((i * 24) + count) * 3) + 0] = INVALID_VAL;
+					sunVecs_days[(((i * 24) + count) * 3) + 1] = INVALID_VAL;
+					sunVecs_days[(((i * 24) + count) * 3) + 2] = INVALID_VAL;
+				}
+
+
+				if (currentDate.tm_hour == dd.min.tm_hour)
+				{
+					sunPos = getSunPosition(dd.min);
+					sunVecs_days[(((i * 24) + count) * 3) + 0] = sunPos.x;
+					sunVecs_days[(((i * 24) + count) * 3) + 1] = sunPos.y;
+					sunVecs_days[(((i * 24) + count) * 3) + 2] = sunPos.z;
+				}
+
+				if (currentDate.tm_hour == dd.max.tm_hour + 1)
+				{
+					sunPos = getSunPosition(dd.max);
+					sunVecs_days[(((i * 24) + count) * 3) + 0] = sunPos.x;
+					sunVecs_days[(((i * 24) + count) * 3) + 1] = sunPos.y;
+					sunVecs_days[(((i * 24) + count) * 3) + 2] = sunPos.z;
+				}
+
+				count++;
+			}
+
+		}
+	}
 
 }

@@ -25,6 +25,7 @@
 
 #include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
+#include<headers/zCore/base/zExtern.h>
 
 #include <stdio.h>
 using namespace std;
@@ -138,12 +139,33 @@ ZSPACE_CUDA_CALLABLE_HOST ZSPACE_INLINE static void checkCUDAError(const char *m
 	}
 }
 
-ZSPACE_CUDA_CALLABLE_HOST ZSPACE_INLINE void cu_getAttributes(int &numSMs, int &numTB)
+ZSPACE_CUDA_CALLABLE_HOST ZSPACE_INLINE void cdpGetAttributes(int &numSMs, int &numTB)
 {
 	cudaDeviceGetAttribute(&numSMs, cudaDevAttrMultiProcessorCount, cu_gpuGetMaxGflopsDeviceId());
 	cudaDeviceGetAttribute(&numTB, cudaDevAttrMaxThreadsPerBlock, cu_gpuGetMaxGflopsDeviceId());
 
-	printf("\n numSMs: %i  numTB :%i ", numSMs, numTB);
+	//printf("\n numSMs: %i  numTB :%i ", numSMs, numTB);
+}
+
+ZSPACE_EXTERN bool checkCudaExists(string &version)
+{
+
+	int runtime;
+	cudaRuntimeGetVersion(&runtime);
+
+	cout <<"\n CUDA: "<< runtime;
+
+	if (runtime >= 10020)
+	{
+		version = "NVIDIA CUDA 10.2 or higher Installed.";
+		return true;
+	}
+	else
+	{
+		version = "Install NVIDIA CUDA 10.2 or higher.";
+		return false;
+	}
+	   
 }
 
 #endif

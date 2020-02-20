@@ -15,6 +15,15 @@
 
 #pragma once
 
+#define MAX_SUNVECS_HOUR 366*24 * 3
+#define MAX_SUNVECS_DAY 24*7 * 3
+#define INVALID_VAL -10000.0
+
+#define RAD_ANGLE_MIN 30.0
+#define RAD_ANGLE_MAX 120.0
+
+#define RAD_MIN 300.0
+#define RAD_MAX 1000.0
 
 #include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
@@ -56,19 +65,19 @@ namespace zSpace
 		
 
 		/*!	\brief pointer to container of normals	*/
-		zVector *normals;
+		float *normals;
 
 		/*!	\brief number of face normals in the container	*/
 		int numNorms;
 
 		/*!	\brief pointer to container of sun vectors	*/
-		zVector *sunVecs;
+		float *sunVecs_hour;
 
-		/*!	\brief number of sun vectors in the container	*/
-		int numSunVec;
+		/*!	\brief pointer to container of sun vectors	*/
+		float *sunVecs_days;
 
 		/*!	\brief pointer to container of epw data	*/
-		zEPWData* epwData;		
+		float* epwData_radiation;		
 
 		/*!	\brief number of epw data points in the container	*/
 		int numData;			
@@ -79,20 +88,26 @@ namespace zSpace
 		/*!	\brief location info	*/
 		zLocation location;
 
+		/*!	\brief color domain	*/
+		zDomainColor dColor;
+
 		/*!	\brief pointer to container of cummulative raditation*/
 		float *cummulativeRadiation;
 
-		/*!	\brief size of container for normals and cummulative raditation*/
+		/*!	\brief pointer to container of colors*/
+		float *colors;
+
+		/*!	\brief pointer to container of normals + sunvectors*/
+		float *norm_sunvecs;
+
+		/*!	\brief size of container for normals, cummulative raditation, colors*/
 		int memSize;
 
 			   			   
 	public:
 
 		/*!	\brief core utilities Object  */
-		zUtilsCore coreUtils;
-
-		/*!	\brief pointer to container of normals and sun vectors. It should be same size as solar angles*/
-		zNorm_SunVec *norm_sunVecs;			
+		zUtilsCore coreUtils;		
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -116,15 +131,15 @@ namespace zSpace
 		//---- SET METHODS
 		//--------------------------	
 			   
-		ZSPACE_CUDA_CALLABLE_HOST void setNormals(zVector *_normals, int _numNormals);
+		ZSPACE_CUDA_CALLABLE_HOST void setNormals(const float *_normals, int _numNormals, bool EPWread);
 
 		ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
 
-		ZSPACE_CUDA_CALLABLE_HOST void setDates(zDomainDate & _dDate);
+		ZSPACE_CUDA_CALLABLE_HOST void setDomain_Dates(zDomainDate & _dDate);
+
+		ZSPACE_CUDA_CALLABLE_HOST void setDomain_Colors(zDomainColor & _dColor);
 
 		ZSPACE_CUDA_CALLABLE_HOST void setLocation(zLocation &_location);
-
-		ZSPACE_CUDA_CALLABLE_HOST void setNorm_SunVecs();
 
 		//--------------------------
 		//---- GET METHODS
@@ -136,29 +151,37 @@ namespace zSpace
 
 		ZSPACE_CUDA_CALLABLE int numDataPoints();
 
-		ZSPACE_CUDA_CALLABLE zVector* getRawNormals();
+		ZSPACE_CUDA_CALLABLE float* getRawNormals();
 
-		ZSPACE_CUDA_CALLABLE zVector* getRawSunVectors();
+		ZSPACE_CUDA_CALLABLE float* getRawColors();
 
-		ZSPACE_CUDA_CALLABLE zEPWData* getRawEPWData();
+		ZSPACE_CUDA_CALLABLE float* getRawNormals_SunVectors();
+
+		ZSPACE_CUDA_CALLABLE float* getRawSunVectors_hour();
+
+		ZSPACE_CUDA_CALLABLE float* getRawSunVectors_day();
+
+		ZSPACE_CUDA_CALLABLE float* getRawEPWRadiation();
 
 		ZSPACE_CUDA_CALLABLE float* getRawCummulativeRadiation();
 
-		ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, float radius);
+		ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date);
 
 		ZSPACE_CUDA_CALLABLE zDomainDate getSunRise_SunSet(zDate &date);
 
-		ZSPACE_CUDA_CALLABLE zDomainDate getDates();
+		ZSPACE_CUDA_CALLABLE zDomainDate getDomain_Dates();
+
+		ZSPACE_CUDA_CALLABLE zDomainColor getDomain_Colors();
 
 		ZSPACE_CUDA_CALLABLE zLocation getLocation();
-
-		ZSPACE_CUDA_CALLABLE zNorm_SunVec* getNorm_SunVecs();
 
 		//--------------------------
 		//---- COMPUTE METHODS
 		//--------------------------	
 		
-		ZSPACE_CUDA_CALLABLE void computeSunVectors( float radius);		
+		ZSPACE_CUDA_CALLABLE void computeSunVectors_Year( );
+
+		ZSPACE_CUDA_CALLABLE void computeCummulativeRadiation();
 
 		//--------------------------
 		//---- DISPLAY METHODS
@@ -169,9 +192,11 @@ namespace zSpace
 		//--------------------------	
 	protected:
 
-		ZSPACE_CUDA_CALLABLE_HOST void setMemory(int _newSize);
+		ZSPACE_CUDA_CALLABLE_HOST void setMemory();
 
+		ZSPACE_CUDA_CALLABLE_HOST void computeSunVectors_Hour();
 
+		ZSPACE_CUDA_CALLABLE_HOST void computeSunVectors_Day();
 
 	};
 }
