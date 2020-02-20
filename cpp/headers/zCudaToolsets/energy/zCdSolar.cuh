@@ -25,16 +25,17 @@ using namespace zSpace;
 
 //---- DEVICE VARIABLES
 
-
-
-zVector *d_norms;
-
-float *d_cummulativeRadiation;
+float *d_norms_sunVecs;
+float *d_colors;
 
 int d_MemSize;
 
-
 //---- CUDA HOST DEVICE METHODS 
+
+ZSPACE_CUDA_CALLABLE float ofMap(float value, float inputMin, float inputMax, float outputMin, float outputMax)
+{
+	return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+}
 
 ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 {
@@ -88,71 +89,79 @@ ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 	return zPoint(cos(aDeg * DEG_TO_RAD) * sin(hRDeg * DEG_TO_RAD), cos(aDeg * DEG_TO_RAD) * cos(hRDeg * DEG_TO_RAD), sin(aDeg * DEG_TO_RAD));
 }
 
-ZSPACE_EXTERN void cleanDeviceMemory()
+ZSPACE_CUDA_CALLABLE_HOST void cleanDeviceMemory()
 {
 	// Free memory.
-	cudaFree(d_norms);
-	cudaFree(d_cummulativeRadiation);
+	cudaFree(d_norms_sunVecs);
+	cudaFree(d_colors);
 }
 
-ZSPACE_CUDA_CALLABLE_HOST void setDeviceMemory(int _newSize)
+ZSPACE_CUDA_CALLABLE_HOST void setDeviceMemory(int _numNormals, int _numSunVecs)
 {
-	if (_newSize < d_MemSize) return;
+	if (_numNormals + _numSunVecs < d_MemSize) return;
 	else
 	{
-		while (d_MemSize < _newSize) d_MemSize += d_MEMORYMULTIPLIER;
+		while (d_MemSize < _numNormals + _numSunVecs) d_MemSize += d_MEMORYMULTIPLIER;
 
 		cleanDeviceMemory();
 
-		checkCudaErrors(cudaMalloc((void **)&d_norms, d_MemSize * zVectorSize));
-		checkCudaErrors(cudaMalloc((void **)&d_cummulativeRadiation, d_MemSize * FloatSize));
+		checkCudaErrors(cudaMalloc((void **)&d_norms_sunVecs, d_MemSize * FloatSize));
+
+		// set size to num normals
+		checkCudaErrors(cudaMalloc((void **)&d_colors, d_MemSize * FloatSize));
+
+
 	}
 }
 
-
-
 //---- CUDA KERNEL 
 
-ZSPACE_CUDA_GLOBAL void computeCummulativeRadiation_kernel(zVector *norms, float *angles, int numAngles , zDomainDate dDate, zLocation location)
+ZSPACE_CUDA_GLOBAL void computeCummulativeRadiation_kernel(float *norms_sunvecs, float *colors, int numNormals, int numSunvecs, zDomainColor domainColor)
 {
-	uint i = blockIdx.x * blockDim.x + threadIdx.x;	
+	uint i = blockIdx.x * blockDim.x + threadIdx.x;
 
-	
-	int  unixTime_s = (int) dDate.min.toUnix();
-	int  unixTime_e = (int)dDate.max.toUnix();
-
-	// get minute domain per day
-	zDate minHour = dDate.min;
-	zDate maxHour = dDate.min;
-
-	maxHour.tm_hour = dDate.max.tm_hour;
-	maxHour.tm_min = dDate.max.tm_min;
-
-	int  unixTime_sh = (int) minHour.toUnix();
-	int  unixTime_eh = (int) maxHour.toUnix();
-
-	int count = 0;	
-	zDate date;
-	zVector sVec;
-
-	angles[i] = 0;
-
-	for (time_t day = unixTime_s; day <= unixTime_e; day += 86400)
+	if (i < numNormals && i % 3 == 0)
 	{
-		for (time_t hour = unixTime_sh; hour <= unixTime_eh; hour += 3600)
-		{			
-			date.fromUnix(day + hour - unixTime_s);;
+		zVector norm(norms_sunvecs[i + 0], norms_sunvecs[i + 1], norms_sunvecs[i + 2]);
 
-			sVec = getSunPosition(date, location);			
-			
-			angles[i] += norms[i].angle(sVec);
+		uint sunvecs_offset = numNormals - i;
 
-			count++; ;
+		float angle = 0;
+		int count = 0;
+		for (int o = i; o < i + numSunvecs; o += 3)
+		{
+			int j = o + sunvecs_offset;
+			zVector sVec(norms_sunvecs[j + 0], norms_sunvecs[j + 1], norms_sunvecs[j + 2]);
+
+			if (sVec.x != INVALID_VAL && sVec.y != INVALID_VAL && sVec.z != INVALID_VAL)
+			{
+				angle += norm.angle(sVec);
+				count++;
+			}
+
+
+		}
+		angle /= count;
+
+
+		if (angle > 90.0)
+		{
+			colors[i + 0] = domainColor.min.h;
+			colors[i + 1] = domainColor.min.s;
+			colors[i + 2] = domainColor.min.v;
+		}
+		else
+		{
+			colors[i + 0] = ofMap(angle, 90.0, 0.0, domainColor.min.h, domainColor.max.h);
+			colors[i + 1] = ofMap(angle, 90.0, 0.0, domainColor.min.s, domainColor.max.s);
+			colors[i + 2] = ofMap(angle, 90.0, 0.0, domainColor.min.v, domainColor.max.v);
 		}
 
+		//printf("\n %1.2f %1.2f %1.2f  | %1.2f  | %1.2f %1.2f %1.2f", norm.x, norm.y, norm.z, angle, colors[i + 0], colors[i + 1], colors[i + 2]);
+
+
 	}
-		
-	angles[i] /= count;
+
 
 }
 
@@ -164,37 +173,34 @@ ZSPACE_EXTERN bool cdpCummulativeRadiation(zTsSolarAnalysis &sAnalysis)
 	cu_getAttributes(numSMs, numTB);
 
 	// Allocate device memory
-	int NUM_ANGLES = sAnalysis.numNormals();
+	int NUM_NORMALS = sAnalysis.numNormals();
+	int NUM_SUNVECS = sAnalysis.numSunVecs();
 
 	cudaEvent_t start, stop;
 	cudaEventCreate(&start);
 	cudaEventCreate(&stop);
 
-	
-
-	zDomainDate dDate = sAnalysis.getDates();
-	zLocation location = sAnalysis.getLocation();
+	zDomainColor dColor = sAnalysis.getDomain_Colors();
 
 	cudaEventRecord(start);
 
-	setDeviceMemory(NUM_ANGLES);
+	setDeviceMemory(NUM_NORMALS, NUM_SUNVECS);
 
 	// transfer memory to device
 
-	checkCudaErrors(cudaMemcpy(d_norms, sAnalysis.getRawNormals(), d_MemSize * zVectorSize, cudaMemcpyHostToDevice));
+	checkCudaErrors(cudaMemcpy(d_norms_sunVecs, sAnalysis.getRawNormals_SunVectors(), d_MemSize * FloatSize, cudaMemcpyHostToDevice));
 	//checkCudaErrors(cudaMemcpy(d_solarAngles, sAnalysis.solarAngles, NUM_ANGLES * sizeof(float), cudaMemcpyHostToDevice));
 
 	// Launch Kernel
-	printf("\n Launching CDP kernel to compute solar radiation \n ");
+	//printf("\n Launching CDP kernel to compute solar radiation \n ");
 	dim3 block(d_THREADSPERBLOCK);
-	dim3 grid((uint)ceil(d_MemSize / (double)block.x));	
-	computeCummulativeRadiation_kernel << < grid, block >> > (d_norms, d_cummulativeRadiation, d_MemSize, dDate, location);
+	dim3 grid((uint)ceil(d_MemSize / (double)block.x));
+	computeCummulativeRadiation_kernel << < grid, block >> > (d_norms_sunVecs, d_colors, NUM_NORMALS, NUM_SUNVECS, dColor);
 	checkCudaErrors(cudaGetLastError());
 
-	//system("Pause");
 
 	// transfer memory to host
-	checkCudaErrors(cudaMemcpy(sAnalysis.getRawCummulativeRadiation(), d_cummulativeRadiation, d_MemSize * FloatSize, cudaMemcpyDeviceToHost));
+	checkCudaErrors(cudaMemcpy(sAnalysis.getRawColors(), d_colors, d_MemSize * FloatSize, cudaMemcpyDeviceToHost));
 
 	cudaEventRecord(stop);
 	cudaEventSynchronize(stop);
