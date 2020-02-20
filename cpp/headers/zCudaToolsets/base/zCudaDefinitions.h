@@ -46,7 +46,7 @@
 *	\brief Defines the size of d_MEMORYMULTIPLIER.
 */
 #ifndef d_MEMORYMULTIPLIER
-#define d_MEMORYMULTIPLIER (d_THREADSPERBLOCK * 10)
+#define d_MEMORYMULTIPLIER (d_THREADSPERBLOCK * 2)
 #endif
 
 /*!

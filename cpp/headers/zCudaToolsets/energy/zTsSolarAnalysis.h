@@ -18,7 +18,15 @@
 #define MAX_SUNVECS_HOUR 366*24 * 3
 #define MAX_SUNVECS_DAY 24*7 * 3
 #define INVALID_VAL -10000.0
+
 #define COMPASS_SUBD 12*2*3
+
+#define RAD_ANGLE_MIN 30.0
+#define RAD_ANGLE_MAX 120.0
+
+#define RAD_MIN 300.0
+#define RAD_MAX 1000.0
+
 
 #include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
@@ -75,7 +83,7 @@ namespace zSpace
 		float *compassPts;
 
 		/*!	\brief pointer to container of epw data	*/
-		zEPWData* epwData;
+		float* epwData_radiation;		
 
 		/*!	\brief number of epw data points in the container	*/
 		int numData;
@@ -105,7 +113,8 @@ namespace zSpace
 	public:
 
 		/*!	\brief core utilities Object  */
-		zUtilsCore coreUtils;
+		zUtilsCore coreUtils;		
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -128,10 +137,10 @@ namespace zSpace
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------	
+			   
+		ZSPACE_CUDA_CALLABLE_HOST void setNormals(const float *_normals, int _numNormals, bool EPWread);
 
-		ZSPACE_CUDA_CALLABLE_HOST void setNormals(const float *_normals, int _numNormals);
-
-		ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
+    ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
 
 		ZSPACE_CUDA_CALLABLE_HOST void setDomain_Dates(zDomainDate & _dDate);
 
@@ -161,7 +170,7 @@ namespace zSpace
 
 		ZSPACE_CUDA_CALLABLE float* getRawCompassPts();
 
-		ZSPACE_CUDA_CALLABLE zEPWData* getRawEPWData();
+		ZSPACE_CUDA_CALLABLE float* getRawEPWRadiation();
 
 		ZSPACE_CUDA_CALLABLE float* getRawCummulativeRadiation();
 
@@ -182,6 +191,9 @@ namespace zSpace
 		ZSPACE_CUDA_CALLABLE void computeSunVectors_Year();
 
 		ZSPACE_CUDA_CALLABLE void computeCompass();
+
+		ZSPACE_CUDA_CALLABLE void computeCummulativeRadiation();
+
 
 		//--------------------------
 		//---- DISPLAY METHODS
