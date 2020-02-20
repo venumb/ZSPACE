@@ -526,6 +526,22 @@ namespace zSpace
 		*/
 		ZSPACE_CUDA_CALLABLE bool line_PlaneIntersection(zVector &p1, zVector &p2, zVector &planeNorm, zVector &p3, zVector &intersectionPt);
 
+
+		/*! \brief This method  returns the intersection of two lines which is  point.
+		*
+		*	\details Based on https://stackoverflow.com/questions/42740765/intersection-between-line-and-triangle-in-3d/42752998#42752998
+		*	\param		[in]		a				- first point on triangle.
+		*	\param		[in]		b				- second point on triangle.
+		*	\param		[in]		c				- third point on triangle.
+		*	\param		[in]		d				- direction of ray.
+		*	\param		[in]		o				- origin of ray.
+		*	\param		[out]		intersectionPt	- intersection point, if it exists.
+		*	\return					bool			- true if the line and plane intersect.
+		*	\since version 0.0.2
+		*/
+		ZSPACE_CUDA_CALLABLE bool ray_triangleIntersection( zPoint &a, zPoint &b, zPoint &c, zVector & d, zPoint & o , zPoint &intersectionPt);
+
+
 		/*! \brief This method returns the area of triagle defined by the three input zVectors.
 		*
 		*	\param		[in]		p1				- first input point of triangle.

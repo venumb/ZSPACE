@@ -597,6 +597,32 @@ namespace zSpace
 		return out;
 	}
 
+	ZSPACE_INLINE bool zUtilsCore::ray_triangleIntersection(zPoint & a, zPoint & b, zPoint & c, zVector & d, zPoint & o, zPoint &intersectionPt)
+	{
+
+		// Ray-triangle isect:
+		zVector e1 = b - a; 
+		zVector e2 = c - a;
+		zVector n = e1 ^ e2;
+
+		float det =  d * n * -1;
+		zVector ao = o - a;
+		zVector dao = ao ^ d;
+
+		float u = (e2 * dao)/ det;
+		float v = -(e1 * dao) / det;
+		float t = (ao*n)/ det;
+
+		bool out = (t > 0.0 && u > 0.0 && v > 0.0 && (u + v) < 1.0);
+
+		if (out)
+		{
+			intersectionPt = o + (d*t);
+		}
+
+		return out;			
+	}
+
 	ZSPACE_INLINE double zUtilsCore::getTriangleArea(zVector &v1, zVector &v2, zVector &v3)
 	{
 		double area = 0;
