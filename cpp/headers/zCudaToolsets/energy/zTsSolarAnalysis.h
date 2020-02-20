@@ -19,11 +19,14 @@
 #define MAX_SUNVECS_DAY 24*7 * 3
 #define INVALID_VAL -10000.0
 
+#define COMPASS_SUBD 12*2*3
+
 #define RAD_ANGLE_MIN 30.0
 #define RAD_ANGLE_MAX 120.0
 
 #define RAD_MIN 300.0
 #define RAD_MAX 1000.0
+
 
 #include<headers/zCudaToolsets/base/zCudaDefinitions.h>
 #include<headers/zCore/base/zInline.h>
@@ -62,7 +65,7 @@ namespace zSpace
 	{
 	private:
 
-		
+
 
 		/*!	\brief pointer to container of normals	*/
 		float *normals;
@@ -76,14 +79,17 @@ namespace zSpace
 		/*!	\brief pointer to container of sun vectors	*/
 		float *sunVecs_days;
 
+		/*!	\brief pointer to container of compass display vectors	*/
+		float *compassPts;
+
 		/*!	\brief pointer to container of epw data	*/
 		float* epwData_radiation;		
 
 		/*!	\brief number of epw data points in the container	*/
-		int numData;			
+		int numData;
 
 		/*!	\brief date domain	*/
-		zDomainDate dDate;	
+		zDomainDate dDate;
 
 		/*!	\brief location info	*/
 		zLocation location;
@@ -103,11 +109,12 @@ namespace zSpace
 		/*!	\brief size of container for normals, cummulative raditation, colors*/
 		int memSize;
 
-			   			   
+
 	public:
 
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;		
+
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -117,7 +124,7 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		ZSPACE_CUDA_CALLABLE_HOST zTsSolarAnalysis();
-	
+
 		//--------------------------
 		//---- DESTRUCTOR
 		//--------------------------
@@ -133,7 +140,7 @@ namespace zSpace
 			   
 		ZSPACE_CUDA_CALLABLE_HOST void setNormals(const float *_normals, int _numNormals, bool EPWread);
 
-		ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
+    ZSPACE_CUDA_CALLABLE_HOST bool setEPWData(string path);
 
 		ZSPACE_CUDA_CALLABLE_HOST void setDomain_Dates(zDomainDate & _dDate);
 
@@ -161,6 +168,8 @@ namespace zSpace
 
 		ZSPACE_CUDA_CALLABLE float* getRawSunVectors_day();
 
+		ZSPACE_CUDA_CALLABLE float* getRawCompassPts();
+
 		ZSPACE_CUDA_CALLABLE float* getRawEPWRadiation();
 
 		ZSPACE_CUDA_CALLABLE float* getRawCummulativeRadiation();
@@ -178,10 +187,13 @@ namespace zSpace
 		//--------------------------
 		//---- COMPUTE METHODS
 		//--------------------------	
-		
-		ZSPACE_CUDA_CALLABLE void computeSunVectors_Year( );
+
+		ZSPACE_CUDA_CALLABLE void computeSunVectors_Year();
+
+		ZSPACE_CUDA_CALLABLE void computeCompass();
 
 		ZSPACE_CUDA_CALLABLE void computeCummulativeRadiation();
+
 
 		//--------------------------
 		//---- DISPLAY METHODS

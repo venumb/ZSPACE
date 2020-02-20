@@ -4,13 +4,14 @@ namespace zSpace
 {
 	//---- CONSTRUCTOR
 
-	ZSPACE_INLINE zTsSolarAnalysis::zTsSolarAnalysis(){}
+	ZSPACE_INLINE zTsSolarAnalysis::zTsSolarAnalysis() {}
 
 	//---- DESTRUCTOR
 
-	ZSPACE_INLINE zTsSolarAnalysis::~zTsSolarAnalysis(){}
+	ZSPACE_INLINE zTsSolarAnalysis::~zTsSolarAnalysis() {}
 
 	//---- SET METHODS
+
 
 	ZSPACE_INLINE void zTsSolarAnalysis::setNormals(const float *_normals, int _numNormals, bool EPWread)
 	{
@@ -29,7 +30,6 @@ namespace zSpace
 			std::copy(normals, normals + (numNorms), cummulativeRadiation);
 			std::copy(epwData_radiation, epwData_radiation + MAX_SUNVECS_HOUR, cummulativeRadiation + numNorms);
 		}
-
 	}
 
 	ZSPACE_INLINE bool zTsSolarAnalysis::setEPWData(string path)
@@ -103,8 +103,8 @@ namespace zSpace
 					
 					//epwData[count].humidity = atof(perlineData[7].c_str());
 					//epwData[count].windDirection = atof(perlineData[19].c_str());
-					//epwData[count].windSpeed = atof(perlineData[20].c_str());
-										
+					//epwData[count].windSpeed = atof(perlineData[20].c_str());							
+
 					count++;
 				}
 
@@ -177,6 +177,11 @@ namespace zSpace
 		return sunVecs_days;
 	}
 
+	ZSPACE_INLINE float * zTsSolarAnalysis::getRawCompassPts()
+	{
+		return compassPts;
+	}
+
 	ZSPACE_INLINE float* zTsSolarAnalysis::getRawEPWRadiation()
 	{
 		return epwData_radiation;
@@ -198,8 +203,8 @@ namespace zSpace
 
 		double n = JD - 2451545.0;
 
-		double LDeg = (double) fmod((280.460 + 0.9856474 * n), 360.0);
-		double gDeg = (double) fmod((357.528 + 0.9856003 * n), 360.0);
+		double LDeg = (double)fmod((280.460 + 0.9856474 * n), 360.0);
+		double gDeg = (double)fmod((357.528 + 0.9856003 * n), 360.0);
 
 		double LambdaDeg = LDeg + 1.915 * sin(gDeg * DEG_TO_RAD) + 0.01997 * sin(2 * gDeg * DEG_TO_RAD);
 
@@ -220,7 +225,7 @@ namespace zSpace
 
 		double thetaGh = 6.697376 + 2400.05134 * TNull + 1.002738 * T;
 
-		double thetaG = (double) fmod(thetaGh * 15.0, 360.0);
+		double thetaG = (double)fmod(thetaGh * 15.0, 360.0);
 		double theta = thetaG + lambda;
 
 		double tauDeg = theta - alphaDeg;
@@ -281,7 +286,6 @@ namespace zSpace
 		//sunset
 		j = jt + (omegaDeg / 360.0);
 		out.max.fromJulian(j);
-
 		return out;
 	}
 
@@ -301,12 +305,6 @@ namespace zSpace
 	}
 	   
 	//---- COMPUTE METHODS
-
-	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Year( )
-	{
-		computeSunVectors_Hour();
-		computeSunVectors_Day();
-	}
 
 	ZSPACE_INLINE void zTsSolarAnalysis::computeCummulativeRadiation()
 	{
@@ -355,6 +353,40 @@ namespace zSpace
 
 	//---- PROTECTED METHODS
 
+
+	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Year()
+	{
+		computeSunVectors_Hour();
+		computeSunVectors_Day();
+	}
+
+	ZSPACE_INLINE void zTsSolarAnalysis::computeCompass()
+	{
+		compassPts = new float[COMPASS_SUBD];
+		float deg = (float)(360 / (float)(12));
+
+		//zVector pos(0, 1, 0);
+
+		for (int i = 0; i < 2; i++)
+		{
+			//if (i > 0) pos *= 1.1;
+			zVector pos(0, 1 + (i * 0.1), 0);
+
+			for (int j = 0; j < 12; j++)
+			{
+				int id = (i * 12 + j) * 3;
+				compassPts[id] = pos.x;
+				compassPts[id + 1] = pos.y;
+				compassPts[id + 2] = pos.z;
+				pos = pos.rotateAboutAxis(zVector(0, 0, 1), deg);
+			}
+
+		}
+	}
+
+	//---- PROTECTED METHODS
+
+
 	ZSPACE_INLINE void zTsSolarAnalysis::setMemory()
 	{
 		if ((numNorms + MAX_SUNVECS_HOUR) < memSize) return;
@@ -363,13 +395,13 @@ namespace zSpace
 			while (memSize < (numNorms + MAX_SUNVECS_HOUR)) memSize += d_MEMORYMULTIPLIER;
 
 			norm_sunvecs = new float[memSize];
-			cummulativeRadiation = new float[memSize];
-			
-			// set to  Num Normals			
-			colors = new float[numNorms];
+
+			// set to  Num Normals
+			cummulativeRadiation = new float[numNorms];
+			colors = new float[memSize];
 		}
 	}
-	
+
 	ZSPACE_INLINE void zTsSolarAnalysis::computeSunVectors_Hour()
 	{
 		zDate min = dDate.min;
@@ -431,7 +463,7 @@ namespace zSpace
 			hrCount++;
 		}
 
-		// for non leap years
+    // for non leap years
 		if (min.tm_year % 4 != 0)
 		{
 			for (int i = (365 * 24 * 3); i < MAX_SUNVECS_HOUR; i++)
@@ -515,7 +547,6 @@ namespace zSpace
 
 				count++;
 			}
-
 		}
 	}
 

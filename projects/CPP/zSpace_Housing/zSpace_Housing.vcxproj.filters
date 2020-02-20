@@ -27,27 +27,27 @@
     <ClInclude Include="..\cpp\headers\zHousing\base\zHcTypeDef.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcStructure.h">
-      <Filter>Header Files\Architecture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcUnit.h">
-      <Filter>Header Files\Architecture</Filter>
-    </ClInclude>
     <ClInclude Include="..\cpp\headers\zHousing\base\zHcEnumerators.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\headers\zHousing\architecture\zHcAggregation.h">
+    <ClInclude Include="..\..\..\cpp\headers\zHousing\architecture\zHcAggregation.h">
+      <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zHousing\architecture\zHcStructure.h">
+      <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zHousing\architecture\zHcUnit.h">
       <Filter>Header Files\Architecture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcStructure.cpp">
+    <ClCompile Include="..\..\..\cpp\source\zHousing\architecture\zHcAggregation.cpp">
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcUnit.cpp">
+    <ClCompile Include="..\..\..\cpp\source\zHousing\architecture\zHcStructure.cpp">
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\source\zHousing\architecture\zHcAggregation.cpp">
+    <ClCompile Include="..\..\..\cpp\source\zHousing\architecture\zHcUnit.cpp">
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
   </ItemGroup>

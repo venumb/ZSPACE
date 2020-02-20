@@ -25,11 +25,10 @@ using namespace zSpace;
 
 //---- DEVICE VARIABLES
 
-
-
 float *d_norms_sunVecs;
 float *d_colors;
 float *d_cumulativeRadiation;
+
 
 int d_MemSize;
 
@@ -110,14 +109,11 @@ ZSPACE_CUDA_CALLABLE_HOST void setDeviceMemory(int _numNormals, int _numSunVecs,
 		cleanDeviceMemory();
 
 		checkCudaErrors(cudaMalloc((void **)&d_norms_sunVecs, d_MemSize * FloatSize));
+
 		if (EPW_Read) checkCudaErrors(cudaMalloc((void **)&d_cumulativeRadiation, d_MemSize * FloatSize));
 
 		// set size to num normals
 		checkCudaErrors(cudaMalloc((void **)&d_colors, _numNormals * FloatSize));
-		
-		
-
-
 	}
 }
 
@@ -227,6 +223,7 @@ ZSPACE_CUDA_GLOBAL void computeCummulativeAngle_kernel(float *norms_sunvecs, flo
 		angle /= count;
 
 
+
 		if (angle > RAD_ANGLE_MAX)
 		{
 			colors[i + 0] = domainColor.min.h;
@@ -244,7 +241,10 @@ ZSPACE_CUDA_GLOBAL void computeCummulativeAngle_kernel(float *norms_sunvecs, flo
 			colors[i + 0] = domainColor.max.h;
 			colors[i + 1] = domainColor.max.s;
 			colors[i + 2] = domainColor.max.v;
-		}
+    }
+
+		//printf("\n %1.2f %1.2f %1.2f  | %1.2f  | %1.2f %1.2f %1.2f", norm.x, norm.y, norm.z, angle, colors[i + 0], colors[i + 1], colors[i + 2]);
+
 
 
 	}
@@ -268,11 +268,10 @@ ZSPACE_EXTERN bool cdpCummulativeRadiation(zTsSolarAnalysis &sAnalysis, bool EPW
 	cudaEventCreate(&stop);	
 
 	zDomainColor dColor = sAnalysis.getDomain_Colors();
-
+  setDeviceMemory(NUM_NORMALS, NUM_SUNVECS, EPWRead);
+  
 	cudaEventRecord(start);
-
-	setDeviceMemory(NUM_NORMALS, NUM_SUNVECS, EPWRead);
-
+  
 	// transfer memory to device
 
 	checkCudaErrors(cudaMemcpy(d_norms_sunVecs, sAnalysis.getRawNormals_SunVectors(), d_MemSize * FloatSize, cudaMemcpyHostToDevice));
@@ -285,10 +284,12 @@ ZSPACE_EXTERN bool cdpCummulativeRadiation(zTsSolarAnalysis &sAnalysis, bool EPW
 	
 	if(EPWRead) computeCummulativeRadiation_kernel << < grid, block >> > (d_norms_sunVecs, d_cumulativeRadiation, d_colors, NUM_NORMALS, NUM_SUNVECS, dColor);
 	else computeCummulativeAngle_kernel << < grid, block >> > (d_norms_sunVecs, d_colors, NUM_NORMALS, NUM_SUNVECS, dColor);
+  
 	checkCudaErrors(cudaGetLastError());
 
 
 	// transfer memory to host
+
 	checkCudaErrors(cudaMemcpy(sAnalysis.getRawColors(), d_colors, NUM_NORMALS * FloatSize, cudaMemcpyDeviceToHost));
 	if (EPWRead) checkCudaErrors(cudaMemcpy(sAnalysis.getRawCummulativeRadiation(), d_cumulativeRadiation, d_MemSize * FloatSize, cudaMemcpyDeviceToHost));
 
