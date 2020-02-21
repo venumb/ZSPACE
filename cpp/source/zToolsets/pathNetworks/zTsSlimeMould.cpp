@@ -73,7 +73,6 @@ namespace zSpace
 
 	ZSPACE_INLINE zVector zSlimeAgent::getF()
 	{
-
 		fnParticle.getVelocity().normalize();
 		zVector F = fnParticle.getVelocity() * (*SO);
 
@@ -509,8 +508,6 @@ namespace zSpace
 				zVector F = agents[i].getF();
 				double a_F = environment.getChemAatPosition(F);
 
-
-
 				zVector FR = agents[i].getFR();
 				double a_FR = environment.getChemAatPosition(FR);
 
@@ -518,9 +515,6 @@ namespace zSpace
 				double a_FL = environment.getChemAatPosition(FL);
 
 				agents[i].setVelocity(a_F, a_FR, a_FL, chemoRepulsive);
-
-
-
 			}
 		}
 	}
@@ -588,14 +582,11 @@ namespace zSpace
 		{
 			for (int j = 0; j < environment.resY; j++)
 			{
-
 				bool repellant = false;
 
 				if (i <= distFromBoundary || i >= environment.resX - distFromBoundary) repellant = true;
 
 				if (j <= distFromBoundary || j >= environment.resY - distFromBoundary) repellant = true;
-
-
 
 				if (repellant)
 				{

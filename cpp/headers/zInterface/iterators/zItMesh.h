@@ -255,6 +255,20 @@ namespace zSpace
 		*/
 		zCurvature getPrincipalCurvature();
 
+		/*! \brief This method computes the gaussian curvature of the vertex.
+		*
+		*	\return			double		- vertex gaussian curvature.
+		*	\since version 0.0.3s
+		*/
+		double getGaussianCurvature();
+
+		/*! \brief This method computes the gradient at the vertex.
+		*
+		*	\return			zVector		- vertex gradient vector.
+		*	\since version 0.0.3
+		*/
+		zVector getGaussianGradient();
+
 		/*! \brief This method computes the voronoi area of the vertex.
 		*
 		*	\return			double		- vertex area.

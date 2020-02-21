@@ -202,6 +202,8 @@ namespace zSpace
 			fnParticles[i].integrateForces(dT, type);
 			fnParticles[i].updateParticle(clearForce, clearVelocity, clearDerivatives);
 		}
+
+		computeMeshNormals();
 	}
 
 }

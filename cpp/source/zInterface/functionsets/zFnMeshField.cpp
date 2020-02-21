@@ -1760,6 +1760,10 @@ namespace zSpace
 
 		if (index_X > (fieldObj->field.n_X - 1) || index_X <  0 || index_Y >(fieldObj->field.n_Y - 1) || index_Y < 0) out = false;
 
+		int id = index_X * fieldObj->field.n_X + index_Y;
+
+		index = id;
+
 		return out;
 	}
 

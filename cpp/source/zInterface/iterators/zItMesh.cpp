@@ -337,6 +337,64 @@ namespace zSpace
 		return curv;
 	}
 
+	ZSPACE_INLINE double zItMeshVertex::getGaussianCurvature()
+	{
+		double out = -1;
+
+		zCurvature curvature = getPrincipalCurvature();
+
+		return out = curvature.k1 * curvature.k2;
+	}
+
+	ZSPACE_INLINE zVector zItMeshVertex::getGaussianGradient()
+	{
+		zVector out;
+
+		double g0 = getGaussianCurvature();
+
+		zVector temp = getPosition();
+
+		zVector dx = zVector(EPS, 0, 0);
+		setPosition(temp - dx);
+		double gx0 = getGaussianCurvature();
+		setPosition(temp + dx);
+		double gx1 = getGaussianCurvature();
+
+		zVector dy = zVector(0, EPS, 0);
+		setPosition(temp - dy);
+		double gy0 = getGaussianCurvature();
+		setPosition(temp + dy);
+		double gy1 = getGaussianCurvature();
+
+		zVector dz = zVector(0, 0, EPS);
+		setPosition(temp - dz);
+		double gz0 = getGaussianCurvature();
+		setPosition(temp + dz);
+		double gz1 = getGaussianCurvature();
+
+		setPosition(temp);
+
+		double lengthSum;
+
+		zItMeshVertexArray cVerts;
+		getConnectedVertices(cVerts);
+
+		for (int i = 0; i < cVerts.size(); i++)
+		{
+			double edgeLength = getPosition().distanceTo(cVerts[i].getPosition());
+			lengthSum += edgeLength;
+		}
+
+		double avg = lengthSum / cVerts.size();
+
+		double mag = g0 * avg;
+
+		zVector grad = zVector(gx0 - gx1, gy0 - gy1, gz0 - gz1);
+		grad.normalize();
+
+		out = grad * mag;	
+	}
+
 	ZSPACE_INLINE double zItMeshVertex::getArea()
 	{
 		vector<zVector> cFCenters, cECenters;
