@@ -110,7 +110,7 @@ ZSPACE_CUDA_CALLABLE_HOST void setDeviceMemory(int _numNormals, int _numSunVecs,
 
 		checkCudaErrors(cudaMalloc((void **)&d_norms_sunVecs, d_MemSize * FloatSize));
 
-		if (EPW_Read) checkCudaErrors(cudaMalloc((void **)&d_cumulativeRadiation, d_MemSize * FloatSize));
+		checkCudaErrors(cudaMalloc((void **)&d_cumulativeRadiation, d_MemSize * FloatSize));
 
 		// set size to num normals
 		checkCudaErrors(cudaMalloc((void **)&d_colors, _numNormals * FloatSize));

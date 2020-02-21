@@ -397,7 +397,7 @@ namespace zSpace
 			norm_sunvecs = new float[memSize];
 
 			// set to  Num Normals
-			cummulativeRadiation = new float[numNorms];
+			cummulativeRadiation = new float[memSize];
 			colors = new float[memSize];
 		}
 	}
@@ -534,7 +534,7 @@ namespace zSpace
 					sunPos = getSunPosition(dd.min);
 					sunVecs_days[(((i * 24) + count) * 3) + 0] = sunPos.x;
 					sunVecs_days[(((i * 24) + count) * 3) + 1] = sunPos.y;
-					sunVecs_days[(((i * 24) + count) * 3) + 2] = sunPos.z;
+					sunVecs_days[(((i * 24) + count) * 3) + 2] = 0;
 				}
 
 				if (currentDate.tm_hour == dd.max.tm_hour + 1)
@@ -542,7 +542,7 @@ namespace zSpace
 					sunPos = getSunPosition(dd.max);
 					sunVecs_days[(((i * 24) + count) * 3) + 0] = sunPos.x;
 					sunVecs_days[(((i * 24) + count) * 3) + 1] = sunPos.y;
-					sunVecs_days[(((i * 24) + count) * 3) + 2] = sunPos.z;
+					sunVecs_days[(((i * 24) + count) * 3) + 2] = 0;
 				}
 
 				count++;
