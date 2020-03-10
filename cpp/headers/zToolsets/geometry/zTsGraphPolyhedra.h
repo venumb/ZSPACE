@@ -52,11 +52,8 @@ namespace zSpace
 		/*!	\brief pointer to graph Object  */
 		zObjGraph *graphObj;
 
-		/*!	\brief DISCRIPTION  */
-		zModel *model;
-
 		/*!	\brief container of  form particle objects  */
-		vector<zObjParticleArray> formParticlesObj;		
+		vector<zObjParticleArray> formParticlesObj;
 
 		/*!	\brief container of form particle function set  */
 		vector<vector<zFnParticle>> fnFormParticles;
@@ -111,7 +108,7 @@ namespace zSpace
 		*	\param		[in]	_graphObj			- input graph object.
 		*	\since version 0.0.4
 		*/
-		zTsGraphPolyhedra(zObjGraph &_graphObj, zModel &_model);
+		zTsGraphPolyhedra(zObjGraph &_graphObj);
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -151,6 +148,22 @@ namespace zSpace
 
 		bool equilibrium(bool &compTargets, double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, double areaTolerance = EPS, bool printInfo = false);
 
+
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
+
+		//--------------------------
+		//---- DISPLAY SET METHODS
+		//--------------------------
+
+		/*! \brief This method sets the display model not for Unreal.
+		*
+		*	\param		[in]	_index				- input housing unit index
+		*	\since version 0.0.4
+		*/
+		void setDisplayModel(zModel&_model);
+
 		//--------------------------
 		//---- DRAW METHODS
 		//--------------------------
@@ -173,6 +186,12 @@ namespace zSpace
 		*/
 		void setDisplayPolyhedraElements(bool _drawDualMesh, bool _drawFaces = true, bool _drawVertIds = false, bool _drawEdgeIds = false, bool _drawFaceIds = false);
 
+	protected:
+
+		/*!	\brief DISCRIPTION  */
+		zModel *model;
+#endif
+
 	private:
 		//--------------------------
 		//---- PRIVATE CREATE METHODS
@@ -187,12 +206,12 @@ namespace zSpace
 		//--------------------------
 		//---- PRIVATE COMPUTE / UPDATE METHODS
 		//--------------------------
-		   	
+
 		void computeTargets();
 
 		void updateDual(double &dT, zIntergrationType &type, int &numIterations);
 
-		bool checkParallelity(zDomainDouble &deviations, double &angleTolerance,  bool &printInfo);
+		bool checkParallelity(zDomainDouble &deviations, double &angleTolerance, bool &printInfo);
 
 		bool checkArea(zDomainDouble &deviations, double &areaTolerance, bool &printInfo);
 
