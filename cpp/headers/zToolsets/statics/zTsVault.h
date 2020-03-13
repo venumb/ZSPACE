@@ -140,6 +140,36 @@ namespace zSpace
 		/*!	\brief container storing the horizontal equilibrium target for force edges.  */
 		vector<zVector> targetEdges_force;
 
+		//--------------------------
+		//---- FDM CONSTRAINT SOLVE ATTRIBUTES
+		//--------------------------
+
+		/*!	\brief container storing the update weights of plan constraint of the result diagram.  */
+		zIntArray result_vertex_PlanConstraints;
+		zBoolArray result_vertex_PlanConstraintsBoolean;
+
+		// 0 - no pleats, 1 - valey, 2 - ridge
+		zFloatArray result_vertex_ValleyRidge;
+
+		zFloatArray result_vertex_PleatDepth;
+
+		zPointArray originalPoints;
+
+		MatrixXd X, X_orig;
+		zIntArray freeVertices;
+
+		zIntArray forcedensityEdgeMap;
+		int numFreeEdges;
+
+		zSparseMatrix C;
+
+		VectorXd qInitial, qCurrent;
+
+		VectorXd Pn;
+
+		zIntPairArray vertexSymmetryPairs;
+		zIntPairArray edgeSymmetryPairs;
+
 	public:
 		
 		/*!	\brief color domain - min for tension edges and max for compression edges.  */
@@ -273,6 +303,48 @@ namespace zSpace
 		bool forceDensityMethod();
 
 		//--------------------------
+		//---- BEST FIT FDM AND CONSTRAINT METHODS
+		//--------------------------
+
+		bool fdm_constraintsolve(bool &computeQInitial, float alpha, float tolerance , float qLB, float qUB );
+
+		void getSymmetryPairs(zIntPairArray &vPairs, zIntPairArray &ePairs,  zPoint &p_center, zVector &p_norm);
+
+		void boundForceDensities(zIntArray &fdMap, VectorXd &fDensities,float qLB = -10000.0, float qUB = 10000.0);
+
+		void boundGradientForceDensities(VectorXd &grad_fDensities, VectorXd &current_fDensities, float qLB = -10000.0, float qUB = 10000.0);
+
+		bool checkObjectiveAchieved(MatrixXd &currentX, MatrixXd &prevX, float tolerance);
+
+		void updateEquilibriumPositions(VectorXd &fDensities);
+
+		void perturbPleatPositions(MatrixXd &origX);
+
+		void getBestFitForceDensities(VectorXd &bestfit_fDensities);
+
+		void getBestFitForceDensities(zFloatArray &bestfit_fDensities);		
+
+		void getResidual_Gradient(VectorXd & current_fDensities, zVectorArray &targets, VectorXd &residual, VectorXd &gradient_fDensities);
+
+		void getResiduals(float alpha, VectorXd & current_fDensities, VectorXd &residual, VectorXd &residualU, VectorXd &residualC);
+
+		void getGradients(VectorXd & current_fDensities, VectorXd &residualU, VectorXd &residualC, VectorXd &gradPos, VectorXd &gradFDensities);
+
+		void getfreeVertices(zIntArray &freeVerts);
+
+		int getNumFreeEdges(zIntArray &fdMap);
+
+		void getPositionMatrix(MatrixXd &X);
+
+		void getLoadVector(VectorXd &Pn);
+
+		void setConstraint_plan(const zIntArray &vertex_PlanWeights = zIntArray());
+
+		void setConstraint_pleats(zFloatArray &vertex_ValleyRidge, zFloatArray &vertex_PleatDepth);
+		
+		void getConstraint_Planarity(zVectorArray &targets, float planarityTolerance = EPS);
+
+		//--------------------------
 		//---- TNA METHODS
 		//--------------------------
 
@@ -371,6 +443,12 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void setForceTensionEdgesfromForm();
+
+		/*! \brief This method sets the result tension edges based on form tension edges.
+		*
+		*	\since version 0.0.2
+		*/
+		void setResultTensionEdgesfromForceDensities();
 		
 		/*! \brief This method sets the result tension edges based on form tension edges.
 		*
@@ -395,7 +473,7 @@ namespace zSpace
 		*	\param		[in]	type					- diagram type . works with zFormDiagram/ zForceDiagram/ zResultDiagram.
 		*	\since version 0.0.2
 		*/
-		void setelementColorDomain(zDiagramType type);				
+		void setElementColorDomain(zDiagramType type);	
 
 		/*! \brief This method sets the vertex update weights for each vertex of the input diagram type.
 		*
@@ -481,6 +559,8 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getForces_GradientDescent(vector<zVector> &forces);
+
+		zIntArray getConstraints();
 	
 		//--------------------------
 		//---- UTILITY METHODS 
@@ -553,6 +633,8 @@ namespace zSpace
 		*/
 		void updateForceDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations = 1);
 
+
+		void getPleatDataJSON(string infilename);
 	};
 	   
 	/** \addtogroup zToolsets

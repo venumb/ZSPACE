@@ -19,12 +19,10 @@ namespace zSpace
 
 	ZSPACE_INLINE zTsGraphPolyhedra::zTsGraphPolyhedra() {}
 
-	ZSPACE_INLINE zTsGraphPolyhedra::zTsGraphPolyhedra(zObjGraph &_graphObj, zModel &_model)
+	ZSPACE_INLINE zTsGraphPolyhedra::zTsGraphPolyhedra(zObjGraph &_graphObj)
 	{
 		graphObj = &_graphObj;
-		fnGraph = zFnGraph(_graphObj);
-
-		model = &_model;
+		fnGraph = zFnGraph(_graphObj);		
 	}
 
 	//---- DESTRUCTOR
@@ -50,12 +48,17 @@ namespace zSpace
 		// sort vertices
 		//sortGraphVertices(sortedGraphVertices);
 
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+// Do Nothing
+#else
 		// add to model
 		model->addObject(*graphObj);
 		graphObj->setDisplayElements(true, true);
 
 		for (auto &obj : convexHullMeshes) model->addObject(obj);
 		for (auto &obj : dualMeshes) model->addObject(obj);
+#endif
+
 	}
 
 	ZSPACE_INLINE void zTsGraphPolyhedra::createGraphFromMesh(zObjMesh &_inMeshObj, zVector &_verticalForce)
@@ -92,9 +95,13 @@ namespace zSpace
 		// sort vertices
 		//sortGraphVertices(sortedGraphVertices);
 
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 		// add graph to model
 		model->addObject(*graphObj);
 		graphObj->setDisplayElements(true, true);
+#endif
 
 	}
 	
@@ -183,7 +190,17 @@ namespace zSpace
 		return (outP && outA) ? true : false;
 	}
 
-	//---- DRAW METHODS
+	
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
+
+	//---- DISPLAY SET METHODS
+
+	ZSPACE_INLINE void zTsGraphPolyhedra::setDisplayModel(zModel&_model)
+	{
+		model = &_model;	
+	}
 
 	ZSPACE_INLINE void zTsGraphPolyhedra::setDisplayGraphElements(bool _drawGraph, bool _drawVertIds, bool _drawEdgeIds)
 	{
@@ -191,6 +208,8 @@ namespace zSpace
 		graphObj->setDisplayElementIds(_drawVertIds, _drawEdgeIds);
 	}
 	
+	//---- DRAW METHODS
+
 	ZSPACE_INLINE void zTsGraphPolyhedra::setDisplayHullElements(bool _drawConvexHulls, bool _drawFaces, bool _drawVertexIds, bool _drawEdgeIds, bool _drawFaceIds)
 	{
 		for (auto &m : convexHullMeshes)
@@ -251,6 +270,8 @@ namespace zSpace
 			}
 		}
 	}
+
+#endif
 
 	//---- PRIVATE COMPUTE / UPDATE METHODS
 

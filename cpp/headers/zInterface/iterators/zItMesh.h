@@ -377,7 +377,7 @@ namespace zSpace
 		*	\param		[in]	pos						- vertex position.
 		*	\since version 0.0.3
 		*/
-		void setPosition(zVector &pos);
+		void setPosition(zVector pos);
 
 		/*! \brief This method sets color of the vertex.
 		*

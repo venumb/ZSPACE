@@ -190,8 +190,8 @@ Global
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Make|x64.Build.0 = Release|x64
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Make|x86.ActiveCfg = Release|Win32
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Make|x86.Build.0 = Release|Win32
-		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x64.ActiveCfg = Release_DLL|x64
-		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x64.Build.0 = Release_DLL|x64
+		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x64.ActiveCfg = Release_Unreal|x64
+		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x64.Build.0 = Release_Unreal|x64
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x86.ActiveCfg = Release_DLL|Win32
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x86.Build.0 = Release_DLL|Win32
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release|x64.ActiveCfg = Release|x64
@@ -212,7 +212,6 @@ Global
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release_Make|x86.ActiveCfg = Debug_DLL|x64
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release_Make|x86.Build.0 = Debug_DLL|x64
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release_Unreal|x64.ActiveCfg = Release_DLL|x64
-		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release_Unreal|x64.Build.0 = Release_DLL|x64
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release_Unreal|x86.ActiveCfg = Debug_DLL|x64
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release_Unreal|x86.Build.0 = Debug_DLL|x64
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Release|x64.ActiveCfg = Release_DLL|x64

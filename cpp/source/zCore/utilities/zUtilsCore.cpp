@@ -1338,14 +1338,14 @@ namespace zSpace
 		// o
 		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
 
-		MatrixXd X_eigen(points.size(), 3);
+		/*MatrixXd X_eigen(points.size(), 3);
 		for (int i = 0; i < points.size(); i++)
 		{
 			X_eigen(i, 0) = points[i].x - averagePt.x;
 			X_eigen(i, 1) = points[i].y - averagePt.y;
 			X_eigen(i, 2) = points[i].z - averagePt.z;
 
-		}
+		}*/
 
 
 		//Matrix3f covarianceMat;

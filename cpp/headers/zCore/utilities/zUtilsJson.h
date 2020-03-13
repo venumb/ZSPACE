@@ -66,6 +66,9 @@ namespace zSpace
 		
 		/*!	\brief container of edge attribute data - crease*/
 		zDoubleArray edgeCreaseData;
+
+		/*!	\brief container of vertex attribute data - pleat depth*/
+		zDoubleArray pleatData;
 		
 	};
 

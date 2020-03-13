@@ -355,26 +355,29 @@ namespace zSpace
 		zVector temp = getPosition();
 
 		zVector dx = zVector(EPS, 0, 0);
-		setPosition(temp - dx);
-		double gx0 = getGaussianCurvature();
+		//setPosition(temp - dx);
+		//double gx0 = getGaussianCurvature();
 		setPosition(temp + dx);
 		double gx1 = getGaussianCurvature();
 
 		zVector dy = zVector(0, EPS, 0);
-		setPosition(temp - dy);
-		double gy0 = getGaussianCurvature();
+		//setPosition(temp - dy);
+		//double gy0 = getGaussianCurvature();
 		setPosition(temp + dy);
 		double gy1 = getGaussianCurvature();
 
 		zVector dz = zVector(0, 0, EPS);
-		setPosition(temp - dz);
-		double gz0 = getGaussianCurvature();
+		//setPosition(temp - dz);
+		//double gz0 = getGaussianCurvature();
 		setPosition(temp + dz);
 		double gz1 = getGaussianCurvature();
 
 		setPosition(temp);
 
-		double lengthSum;
+		zVector grad = zVector(g0 - gx1, g0 - gy1, g0 - gz1);
+		grad.normalize();
+
+	/*	double lengthSum;
 
 		zItMeshVertexArray cVerts;
 		getConnectedVertices(cVerts);
@@ -388,11 +391,13 @@ namespace zSpace
 		double avg = lengthSum / cVerts.size();
 
 		double mag = g0 * avg;
+	*/
+		
+		
+		///out = grad * mag;
 
-		zVector grad = zVector(gx0 - gx1, gy0 - gy1, gz0 - gz1);
-		grad.normalize();
-
-		out = grad * mag;	
+		return grad;
+		
 	}
 
 	ZSPACE_INLINE double zItMeshVertex::getArea()
@@ -521,7 +526,7 @@ namespace zSpace
 		meshObj->mesh.vHandles[id].he = heId;
 	}
 
-	ZSPACE_INLINE void zItMeshVertex::setPosition(zVector &pos)
+	ZSPACE_INLINE void zItMeshVertex::setPosition(zVector pos)
 	{
 		meshObj->mesh.vertexPositions[getId()] = pos;
 	}

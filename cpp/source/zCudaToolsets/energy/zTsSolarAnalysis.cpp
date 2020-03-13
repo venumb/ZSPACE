@@ -395,9 +395,9 @@ namespace zSpace
 			while (memSize < (numNorms + MAX_SUNVECS_HOUR)) memSize += d_MEMORYMULTIPLIER;
 
 			norm_sunvecs = new float[memSize];
-
+			cummulativeRadiation = new float[memSize];
+			
 			// set to  Num Normals
-			cummulativeRadiation = new float[numNorms];
 			colors = new float[memSize];
 		}
 	}

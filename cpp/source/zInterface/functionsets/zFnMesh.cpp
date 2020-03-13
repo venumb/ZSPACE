@@ -3591,8 +3591,7 @@ namespace zSpace
 			if (meshJSON.halfedges[n_he][2] != -1)
 			{
 				zItMeshVertex v(*meshObj, meshJSON.halfedges[n_he][2]);
-				he.setVertex(v);
-
+				he.setVertex(v);								
 
 				meshObj->mesh.heHandles[n_he].v = meshJSON.halfedges[n_he][2];
 			}
@@ -3666,7 +3665,7 @@ namespace zSpace
 		{
 			for (int k = 0; k < meshJSON.vertexAttributes[i].size(); k++)
 			{
-				// position and color
+				// position, normal and color
 
 				if (meshJSON.vertexAttributes[i].size() == 9)
 				{
@@ -3682,7 +3681,41 @@ namespace zSpace
 					meshObj->mesh.vertexWeights.push_back(2.0);
 
 					k += 8;
+				}				
+
+				// position, normal
+				if (meshJSON.vertexAttributes[i].size() == 6)
+				{
+					zVector pos(meshJSON.vertexAttributes[i][k], meshJSON.vertexAttributes[i][k + 1], meshJSON.vertexAttributes[i][k + 2]);
+					meshObj->mesh.vertexPositions.push_back(pos);
+
+					zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
+					meshObj->mesh.vertexNormals.push_back(normal);
+
+					meshObj->mesh.vertexColors.push_back(zColor(1,0,0,1));
+
+					meshObj->mesh.vertexWeights.push_back(2.0);
+
+					k += 5;
 				}
+
+
+				// position, normal
+				if (meshJSON.vertexAttributes[i].size() == 8)
+				{
+					zVector pos(meshJSON.vertexAttributes[i][k], meshJSON.vertexAttributes[i][k + 1], meshJSON.vertexAttributes[i][k + 2]);
+					meshObj->mesh.vertexPositions.push_back(pos);
+
+					zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
+					meshObj->mesh.vertexNormals.push_back(normal);
+
+					meshObj->mesh.vertexColors.push_back(zColor(1, 0, 0, 1));
+
+					meshObj->mesh.vertexWeights.push_back(2.0);
+
+					k += 7;
+				}
+								
 			}
 		}
 

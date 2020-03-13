@@ -80,7 +80,7 @@ namespace zSpace
 		fnResult.from(path, type);
 
 		setTensionEdges(zResultDiagram);
-		setelementColorDomain(zResultDiagram);
+		setElementColorDomain(zResultDiagram);
 
 
 		setVertexWeights(zResultDiagram);
@@ -92,8 +92,15 @@ namespace zSpace
 	{
 		fnResult.from(path, type);
 
+		// add crease data
+		if (type == zJSON)
+		{
+			getPleatDataJSON(path);
+		}
+		
+
 		setTensionEdges(zResultDiagram);
-		setelementColorDomain(zResultDiagram);
+		setElementColorDomain(zResultDiagram);
 
 		setVertexWeights(zResultDiagram);
 	}
@@ -105,7 +112,7 @@ namespace zSpace
 		fnForce.from(path, type);
 
 		setTensionEdges(zForceDiagram);
-		setelementColorDomain(zForceDiagram);
+		setElementColorDomain(zForceDiagram);
 
 		setVertexWeights(zForceDiagram);
 	}
@@ -117,7 +124,7 @@ namespace zSpace
 		fnForce.from(path, type);
 
 		setTensionEdges(zForceDiagram);
-		setelementColorDomain(zForceDiagram);
+		setElementColorDomain(zForceDiagram);
 
 		setVertexWeights(zForceDiagram);
 	}
@@ -129,7 +136,7 @@ namespace zSpace
 		fnForm.from(path, type);
 
 		setTensionEdges(zFormDiagram);
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 
 
 		setVertexWeights(zFormDiagram);
@@ -166,7 +173,7 @@ namespace zSpace
 		setVertexWeights(zFormDiagram);
 
 		setFormTensionEdgesfromResult();
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 	}
 
 	//---- mesh specilization for createFormFromResult
@@ -205,7 +212,7 @@ namespace zSpace
 
 		setVertexWeights(zFormDiagram);
 		setFormTensionEdgesfromResult();
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 	}
 
 	//---- graph specilization for createFormFromForce
@@ -220,7 +227,7 @@ namespace zSpace
 
 
 		setFormTensionEdgesfromForce();
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 	}
 
 	//---- mesh specilization for createForceFromForm
@@ -503,7 +510,7 @@ namespace zSpace
 		setVertexWeights(zForceDiagram);
 
 		setForceTensionEdgesfromForm();
-		setelementColorDomain(zForceDiagram);
+		setElementColorDomain(zForceDiagram);
 	}
 
 	//---- graph specilization for createResultFromForm
@@ -513,7 +520,7 @@ namespace zSpace
 		*resultObj = fnForm.getDuplicate();
 
 		setResultTensionEdgesfromForm();
-		setelementColorDomain(zResultDiagram);
+		setElementColorDomain(zResultDiagram);
 
 		setVertexWeights(zResultDiagram);
 	}
@@ -525,7 +532,7 @@ namespace zSpace
 		fnForm.getDuplicate(*resultObj);
 
 		setResultTensionEdgesfromForm();
-		setelementColorDomain(zResultDiagram);
+		setElementColorDomain(zResultDiagram);
 
 		setVertexWeights(zResultDiagram);
 	}
@@ -597,6 +604,9 @@ namespace zSpace
 
 					q[FD_EdgesCounter] *= -1;
 				}
+
+				if (q[FD_EdgesCounter] < 0)positiveDensities = false;
+
 				FD_EdgesCounter++;
 			}
 
@@ -696,6 +706,8 @@ namespace zSpace
 		return true;
 	}
 
+	//---- BEST FIT FDM AND CONSTRAINT METHODS
+
 	//---- mesh specilization for ForceDensityMethod
 	template<>
 	ZSPACE_INLINE  bool zTsVault<zObjMesh, zFnMesh>::forceDensityMethod()
@@ -760,6 +772,9 @@ namespace zSpace
 					positiveDensities = false;
 					q[FD_EdgesCounter] *= -1;
 				}
+
+				if(q[FD_EdgesCounter] < 0)positiveDensities = false;
+
 				FD_EdgesCounter++;
 			}
 
@@ -767,7 +782,7 @@ namespace zSpace
 
 
 		//printf("\n Force Densities: \n");
-		//cout << endl << q;
+		//cout << endl << q << endl;
 
 		zDiagonalMatrix Q = q.asDiagonal();
 
@@ -801,6 +816,8 @@ namespace zSpace
 		zSparseMatrix Cf = subMatrix(C, fixedVertices);
 		MatrixXd Xf = subMatrix(X, fixedVertices);
 		MatrixXd Pn = subMatrix(P, freeVertices);
+
+		//cout << "Pn: \n" << Pn << endl;
 
 		//cout << "Cn: \n" << Cn << endl;
 		//cout << "Cf: \n" << Cf << endl;
@@ -859,6 +876,1074 @@ namespace zSpace
 		return true;
 	}
 
+	//---- mesh specilization for fdm_constraintsolve
+	template<>
+	bool zTsVault<zObjMesh, zFnMesh>::fdm_constraintsolve(bool & computeQInitial, float alpha, float tolerance, float qLB, float qUB)
+	{
+		// 0 - compute q intial
+		if (computeQInitial)
+		{
+			numFreeEdges = getNumFreeEdges(forcedensityEdgeMap);
+			getfreeVertices(freeVertices);
+			getPositionMatrix(X_orig);
+
+			X = X_orig;
+
+			C = getEdgeNodeMatrix(numFreeEdges);
+
+			getLoadVector(Pn);
+
+			getBestFitForceDensities(qInitial);	
+
+			zPoint p_center;
+			zVector p_norm(1, 0, 0);
+			getSymmetryPairs(vertexSymmetryPairs, edgeSymmetryPairs, p_center, p_norm);
+
+			boundForceDensities(forcedensityEdgeMap,qInitial, qLB, qUB);
+			qCurrent = qInitial;
+
+			
+		}
+
+		else getLoadVector(Pn);;
+
+		// 1 - Move vertices to user specified pleat depth values
+		//perturbPleatPositions(X_orig);
+		//getPositionMatrix(X);
+
+		// 2 - Compute design target vectors
+		zVectorArray targets;
+		//getConstraint_Planarity(targets);
+
+
+		// 3 - Compute residual and gradient q
+		VectorXd qGradient, posGradient, residual, residualU, residualC;
+		//getResidual_Gradient(qCurrent, targets, residual, qGradient);
+
+		getResiduals(alpha, qCurrent, residual, residualU, residualC);
+		getGradients(qCurrent, residualU, residualC, posGradient, qGradient);
+
+		if (computeQInitial)
+		{
+			/*float d0 = residual.norm();
+			int n_v = fnResult.numVertices() - fixedVertices.size();
+			int counter = 0;
+			for (zItMeshVertex v(*resultObj); !v.end(); v++)
+			{
+				int i = v.getId();
+				if (fixedVerticesBoolean[i]) continue;
+
+				if (v.onBoundary())
+				{
+					printf("\n initial %i : %1.4f %1.4f %1.4f ", i, residual[counter], residual[n_v + counter], residual[(n_v * 2) + counter]);
+
+					zVector posG(residual[counter], residual[n_v + counter], residual[(n_v * 2) + counter]);
+					
+					zPoint p = v.getPosition();
+					p += posG;
+
+					v.setPosition(p);
+					
+				}
+				counter++;
+			}
+			printf("\n residual0 : %1.4f  ", d0);
+
+			getPositionMatrix(X);
+
+			getBestFitForceDensities(qInitial);
+			boundForceDensities(forcedensityEdgeMap, qInitial, qLB, qUB);
+			qCurrent = qInitial;
+
+			getResiduals(alpha, qCurrent, residual, residualU, residualC);
+			getGradients(qCurrent, residualU, residualC, posGradient, qGradient);*/
+
+			computeQInitial = !computeQInitial;
+		}
+
+		//boundGradientForceDensities(qGradient, qCurrent, qLB, qUB);
+
+		// 4 - update qCurrent
+		qCurrent += qGradient;
+		boundForceDensities(forcedensityEdgeMap, qCurrent, qLB, qUB);
+		//cout << endl << "qCurrent \n " << qCurrent << endl;
+
+		// 5 - update positions
+		MatrixXd Xtemp = X;
+		//updateEquilibriumPositions(qCurrent);
+
+		for (int i = 0; i < freeVertices.size(); i++)
+		{
+			int id = freeVertices[i];
+			zItMeshVertex v(*resultObj, id);
+
+			zVector posG(posGradient(i +  0 * freeVertices.size()), posGradient(i + 1 * freeVertices.size()), posGradient(i + 2 * freeVertices.size()));
+			//posG *= 0.1;
+
+			zPoint p = v.getPosition();
+			p += posG;
+			
+			v.setPosition(p);
+		}
+
+		getPositionMatrix(X);
+
+		int qID = 0;
+		for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			zIntArray eVerts;
+			e.getVertices(eVerts);
+
+			if (fixedVerticesBoolean[eVerts[0]] && fixedVerticesBoolean[eVerts[1]])
+			{
+				e.setColor(zColor(0,0,0,1));
+				continue;
+			}
+
+			
+			if (qCurrent[qID] > 0)  e.setColor(elementColorDomain.max);
+			else  e.setColor(elementColorDomain.min);
+
+			qID++;
+		}
+
+		// 6 - calculate objective function
+
+		// 7 - check if update below threshold
+		//bool out = checkObjectiveAchieved(X, Xtemp, tolerance);	
+
+		float d = residual.norm();
+		int n_v = fnResult.numVertices() - fixedVertices.size();
+		int counter = 0;
+		for (zItMeshVertex v(*resultObj); !v.end(); v++)
+		{
+			int i = v.getId();
+			if (fixedVerticesBoolean[i]) continue;
+
+			//if(v.onBoundary()) printf("\n %i : %1.4f %1.4f %1.4f ", i, residual[counter], residual[n_v + counter], residual[(n_v * 2) + counter]);
+			
+			counter++;
+		}
+		printf("\n residual : %1.4f  ", d);
+
+		return (d < tolerance);
+	}
+
+	//---- mesh specilization for getSymmetryPairs
+	template<>
+	void zTsVault<zObjMesh, zFnMesh>::getSymmetryPairs(zIntPairArray &vPairs, zIntPairArray & ePairs, zPoint &p_center, zVector &p_norm)
+	{
+	
+		vPairs.clear();
+		vPairs.assign(fnResult.numVertices(), zIntPair());
+
+		ePairs.clear();
+		ePairs.assign(fnResult.numEdges(), zIntPair());
+
+		zPoint* pos = fnResult.getRawVertexPositions();
+
+		// vertex pairs
+		for (int i = 0; i < fnResult.numVertices();i++)
+		{
+
+			vPairs[i] = std::make_pair(i, -1);
+
+			zPoint pos0 = pos[i];
+			float d0 = coreUtils.minDist_Point_Plane(pos0, p_center, p_norm);
+						
+
+			if (abs(d0) < EPS)
+			{
+				vPairs[i] = std::make_pair(i, i);
+				continue; // lying on symmetry plan
+			}
+
+			for (int j = 0; j < fnResult.numVertices(); j++)
+			{
+				if (i == j) continue;
+			
+				zPoint pos1 = pos[j];
+				float d1 = coreUtils.minDist_Point_Plane(pos1, p_center, p_norm);
+
+				if (d0 == (d1 * -1))
+				{
+					if (vPairs[i].second != -1)
+					{
+						zPoint pos2 = pos[vPairs[i].second];
+
+						if (pos1.distanceTo(pos0) < pos2.distanceTo(pos0))
+						{
+							vPairs[i] = std::make_pair(i, j);
+						}
+
+					}
+					else
+					{
+						vPairs[i] = std::make_pair(i, j);
+						
+					}					
+					
+				}
+
+			}
+
+		}
+
+		// edge pairs
+		for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			zIntArray eVerts;
+			e.getVertices(eVerts);
+
+			if (vPairs[eVerts[0]].second != -1 && vPairs[eVerts[1]].second != -1)
+			{
+
+				int v0 = vPairs[eVerts[0]].second;
+				int v1 = vPairs[eVerts[1]].second;
+
+				int he;
+				bool chk = fnResult.halfEdgeExists(v0, v1, he);
+
+				if (chk)
+				{
+					int eSymId = floor(he * 0.5);
+					ePairs[e.getId()] = std::make_pair(e.getId(), eSymId);
+
+					//printf("\n %i %i %i | %i %i %i", e.getId(), eVerts[0], eVerts[1], eSymId, v0, v1);
+				}
+
+			}
+
+
+		}
+		
+	}
+
+	//---- mesh specilization for fdm_constraintsolve
+
+	template<>
+	void zTsVault<zObjMesh, zFnMesh>::boundForceDensities(zIntArray &fdMap, VectorXd &fDensities, float qLB, float qUB)
+	{
+		int id = 0;
+		for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			zIntArray eVerts;
+			e.getVertices(eVerts);
+
+			int fdId0 = fdMap[e.getId()];
+
+			if (fdId0 == -1) continue;
+
+			
+
+			/*if (edgeSymmetryPairs.size() > 0)
+			{
+				if (edgeSymmetryPairs[e.getId()].second != -1)
+				{
+					int fdId1 = fdMap[edgeSymmetryPairs[e.getId()].second];
+					
+					if (fDensities[fdId1] != fDensities[fdId0])
+					{
+						fDensities[fdId0] = fDensities[fdId1];
+					}
+
+				}
+
+			}*/
+
+			if (!e.onBoundary())
+			{
+				if (fDensities[id] < qLB) fDensities[id] = qLB;
+				if (fDensities[id] > qUB) fDensities[id] = qUB;
+
+				if (fDensities[id] < 0 && abs(fDensities[id]) < EPS) fDensities[id] = -EPS;
+				if (fDensities[id] > 0 && abs(fDensities[id]) < EPS) fDensities[id] = EPS;
+			}
+
+			else
+			{
+				//if (fDensities[id] < qLB) fDensities[id] = qLB;
+				//if (fDensities[id] > qUB) fDensities[id] = qUB;
+
+				if (fDensities[id] >= 0) fDensities[id] = -qLB;
+				////if (fDensities[id] > qLB) fDensities[id] = qLB;
+
+				////if (fDensities[id] < -qLB || abs(fDensities[id]) < EPS) fDensities[id] = -qLB;
+				////if (fDensities[id] > qUB) fDensities[id] = qUB;
+
+				if (fDensities[id] < 0 && abs(fDensities[id]) < EPS) fDensities[id] = -EPS;
+				if (fDensities[id] > 0 && abs(fDensities[id]) < EPS) fDensities[id] = EPS;
+			}
+
+			id++;
+		}
+	}
+
+	template<>
+	void zTsVault<zObjMesh, zFnMesh>::boundGradientForceDensities(VectorXd & grad_fDensities, VectorXd & current_fDensities, float qLB, float qUB)
+	{
+
+		/*for (int i = 0; i < current_fDensities.rows(); i++)
+		{
+			if (current_fDensities[i] < qLB) grad_fDensities[i] = qLB - current_fDensities[i];
+			if (current_fDensities[i] > qUB) grad_fDensities[i] = qUB - current_fDensities[i];
+		}*/
+
+		int id = 0;
+		for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			zIntArray eVerts;
+			e.getVertices(eVerts);
+
+			if (fixedVerticesBoolean[eVerts[0]] && fixedVerticesBoolean[eVerts[1]]) continue;
+
+			if (!e.onBoundary())
+			{
+				if (current_fDensities[id] < qLB) grad_fDensities[id] = qLB - current_fDensities[id];
+				if (current_fDensities[id] > qUB) grad_fDensities[id] = qUB - current_fDensities[id];
+			}
+
+			/*else
+			{
+				if (current_fDensities[id] < -qUB)  grad_fDensities[id] = -qUB - current_fDensities[id]; 
+				if (current_fDensities[id] > qLB)  grad_fDensities[id] = qLB - current_fDensities[id];
+			}*/
+
+			id++;
+		}
+	}
+
+	//---- mesh specilization for checkObjectiveAchieved
+	template<>
+	bool zTsVault<zObjMesh, zFnMesh>::checkObjectiveAchieved(MatrixXd & currentX, MatrixXd & prevX, float tolerance)
+	{
+		bool out = true;
+		
+		for (int i = 0; i < freeVertices.size(); i++)
+		{
+			zVector pos(currentX(i, 0), currentX(i, 1), currentX(i, 2));
+			zVector posPrev(prevX(i, 0), prevX(i, 1), prevX(i, 2));
+
+			if (pos.distanceTo(posPrev) > tolerance)
+			{
+				out = false;
+				break;
+			}
+		}
+
+
+		return out;
+	}
+
+	//---- mesh specilization for updatePositions
+	template<>
+	void zTsVault<zObjMesh, zFnMesh>::updateEquilibriumPositions(VectorXd & q)
+	{
+		zHEData type = zVertexData;
+		bool positiveDensities = true;
+
+		int n_v = fnResult.numVertices();
+		int numEdges = numFreeEdges;;
+	
+
+		// POSITION MATRIX
+		
+
+		// FORCE DENSITY VECTOR
+		
+		zDiagonalMatrix Q = q.asDiagonal();
+
+		// LOAD VECTOR
+		VectorXd p(fnResult.numVertices());
+
+		for (int i = 0; i < resultVMass.size(); i++)
+		{
+			p[i] = resultVMass[i] * resultVThickness[i] * resultVWeights[i];
+		}
+
+
+		MatrixXd P(fnResult.numVertices(), 3);
+		P.setConstant(0.0);
+		P.col(2) = p.col(0);
+		
+
+		// SUB MATRICES
+		
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
+		MatrixXd Xf = subMatrix(X, fixedVertices);		
+
+		MatrixXd Pn_mat = subMatrix(P, freeVertices);
+
+		zSparseMatrix Cn_transpose;
+		Cn_transpose = Cn.transpose();
+
+		//CHOLESKY DECOMPOSITION
+
+		zSparseMatrix Dn = Cn_transpose * Q * Cn;
+		zSparseMatrix Df = Cn_transpose * Q * Cf;
+
+		MatrixXd  B = Pn_mat - Df * Xf;
+
+		// solve
+		MatrixXd Xn;
+
+
+		MatrixXd denseDn;
+		denseDn = MatrixXd(Dn);
+		Xn = denseDn.ldlt().solve(B);
+
+		// convergence error check.
+		double relative_error = (denseDn*Xn - B).norm() / B.norm(); // norm() is L2 norm
+		cout << endl << relative_error << " FDM - negative" << endl;
+
+	
+
+		// POSITIONS OF NON FIXED VERTICES
+		for (int i = 0; i < freeVertices.size(); i++)
+		{
+			int id = freeVertices[i];
+			zItMeshVertex v(*resultObj, id);
+
+			zVector pos(Xn(i, 0), Xn(i, 1), Xn(i, 2));
+			v.setPosition(pos);			
+		}				
+
+	}
+
+	template<>
+	void zTsVault<zObjMesh, zFnMesh>::perturbPleatPositions( MatrixXd &origX)
+	{
+		for (int i = 0; i < freeVertices.size(); i++)
+		{
+			int id = freeVertices[i];
+			zItMeshVertex v(*resultObj, id);
+
+
+			zItMeshHalfEdgeArray cHEdges;
+			v.getConnectedHalfEdges(cHEdges);
+
+
+			zVector p = v.getPosition();
+			//cout << "\n p: " << p;
+
+			// compute normal
+			zVector n;
+			zVector c;
+			for (int j = 0; j < cHEdges.size(); j++)
+			{	
+
+				zPoint p2 = cHEdges[j].getSym().getVertex().getPosition();
+				zVector e1 = p2 - p;
+				
+				zPoint p3 = cHEdges[(j + 1) % cHEdges.size()].getSym().getVertex().getPosition();
+
+				zVector e2 = p3 - p;
+				zVector cross = e1 ^ e2;
+
+				n += cross;
+				c += p2;
+			}
+			n /= cHEdges.size();
+			n.normalize();
+			c /= cHEdges.size();
+
+			
+
+			float offset = (result_vertex_PleatDepth[id]*2) - c.distanceTo(p);
+
+			p += (n * offset);
+
+			//if (result_vertex_ValleyRidge[id] == 1) // valley
+			//{				
+			//	p += (n * offset);
+			//}
+			//else if (result_vertex_ValleyRidge[id] == 2) // ridge
+			//{
+			//	p += (n * -1 * offset);
+			//}
+
+			//zVector pOrig(origX(id, 0), origX(id, 1), origX(id, 2));
+
+			//float offset = result_vertex_PleatDepth[id] -  (p.z - pOrig.z);
+			////if (id == 25) cout << " \n offset " << offset;
+
+			//p.z += offset;
+
+			v.setPosition(p);
+		}
+	}
+
+
+	//---- mesh specilization for computeBestFitForceDensities
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getBestFitForceDensities(VectorXd &bestfit_fDensities)
+	{
+		int n_v = fnResult.numVertices();
+
+		int numEdges = numFreeEdges;;		
+
+		// POSITION MATRIX
+		
+		
+		// SUB MATRICES	
+
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
+
+		zSparseMatrix Cnt;
+		Cnt = Cn.transpose();		
+
+		VectorXd u, v, w;
+		u = C * X.col(0);
+		v = C * X.col(1);
+		w = C * X.col(2);
+
+		zDiagonalMatrix U = u.asDiagonal();
+		zDiagonalMatrix V = v.asDiagonal();
+		zDiagonalMatrix W = w.asDiagonal();
+
+		MatrixXd A(3 * freeVertices.size(), numEdges);
+		A << MatrixXd(Cnt*U), MatrixXd(Cnt*V), MatrixXd(Cnt*W);
+
+		//cout << "P: \n" << Pn << endl;
+		//printf("\n %i %i ", freeVert_Counter, freeVertices.size());
+
+		//clock_t cpu_startTime, cpu_endTime;
+
+		//double cpu_ElapseTime = 0;
+		//cpu_startTime = clock();
+
+		MatrixXd At = A.transpose();
+		MatrixXd LHS = At * A;
+		MatrixXd RHS = At * (Pn * 1);
+
+		bestfit_fDensities = LHS.ldlt().solve(RHS);
+		bestfit_fDensities *= -1;
+
+		//cpu_endTime = clock();
+		//cpu_ElapseTime = ((cpu_endTime - cpu_startTime));
+
+		//printf("\n cpu %1.8f ms \n", cpu_ElapseTime);
+
+		//cout << "\n initial q \n " << bestfit_fDensities << endl;
+
+	}
+
+	//---- mesh specilization for computeBestFitForceDensities
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getBestFitForceDensities(zFloatArray &bestfit_fDensities)
+	{
+		numFreeEdges = getNumFreeEdges(forcedensityEdgeMap);
+		getfreeVertices(freeVertices);
+
+		int n_v = fnResult.numVertices();
+
+		int numEdges = numFreeEdges;;
+
+		/*for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			vector<int> eVerts;
+			e.getVertices(eVerts);
+
+			int v1 = eVerts[0];
+			int v2 = eVerts[1];
+
+			if (fixedVerticesBoolean[v1] && fixedVerticesBoolean[v2]) numEdges--;
+
+		}*/
+
+		// POSITION MATRIX
+		MatrixXd X(fnResult.numVertices(), 3);
+
+
+		for (zItMeshVertex v(*resultObj); !v.end(); v++)
+		{
+			zVector pos = v.getPosition();
+			int i = v.getId();
+
+			X(i, 0) = pos.x;
+			X(i, 1) = pos.y;
+			X(i, 2) = pos.z;
+		};
+
+		// EDGE NODE MATRIX
+		zSparseMatrix C = getEdgeNodeMatrix(numEdges);
+
+		// SUB MATRICES
+		//vector<int> freeVertices;
+
+		for (int j = 0; j < fixedVerticesBoolean.size(); j++)
+		{
+			if (!fixedVerticesBoolean[j])
+			{
+				freeVertices.push_back(j);
+			}
+
+		}
+
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+		zSparseMatrix Cf = subMatrix(C, fixedVertices);
+
+		zSparseMatrix Cnt;
+		Cnt = Cn.transpose();
+
+		MatrixXd Xn = subMatrix(X, freeVertices);
+
+		VectorXd u, v, w;
+		u = C * X.col(0);
+		v = C * X.col(1);
+		w = C * X.col(2);
+
+		zDiagonalMatrix U = u.asDiagonal();
+		zDiagonalMatrix V = v.asDiagonal();
+		zDiagonalMatrix W = w.asDiagonal();
+
+		MatrixXd A(3 * freeVertices.size(), numEdges);
+		A << MatrixXd(Cnt*U), MatrixXd(Cnt*V), MatrixXd(Cnt*W);	
+
+		
+		getLoadVector(Pn);
+
+		
+		//printf("\n  Pn: %i %i  ", Pn.rows(), Pn.cols());
+
+		//cout << "P: \n" << Pn << endl;
+			//printf("\n %i %i ", freeVert_Counter, freeVertices.size());
+		
+
+		MatrixXd LHS = A.transpose() * A;
+		MatrixXd RHS = A.transpose() * Pn   ;
+		VectorXd del_q = LHS.ldlt().solve(RHS);
+
+		printf("\n bestFit Q \n");
+		cout << del_q << endl <<endl;
+
+		bestfit_fDensities.clear();
+
+		int counter = 0;
+		for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			vector<int> eVerts;
+			e.getVertices(eVerts);
+
+			int v1 = eVerts[0];
+			int v2 = eVerts[1];
+
+			if (fixedVerticesBoolean[v1] && fixedVerticesBoolean[v2]) 
+				bestfit_fDensities.push_back(0.0);
+			else
+			{
+				bestfit_fDensities.push_back(del_q(counter));
+				counter++;
+			}
+
+			//printf("\n %1.4f ", bestfit_fDensities[e.getId()]);
+
+		}
+
+		
+
+	}
+
+
+	//---- mesh specilization for getResidual_Gradient
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getResidual_Gradient(VectorXd & current_fDensities, zVectorArray &targets, VectorXd & residual, VectorXd & gradient_fDensities)
+	{
+
+		bool positiveDensities = true;
+
+		int n_v = fnResult.numVertices();
+		int numEdges = numFreeEdges;;
+		
+		
+		// SUB MATRICES
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+
+		zSparseMatrix Cnt;
+		Cnt = Cn.transpose();
+
+		VectorXd u, v, w;
+		u = C * X.col(0);
+		v = C * X.col(1);
+		w = C * X.col(2);
+
+		zDiagonalMatrix U = u.asDiagonal();
+		zDiagonalMatrix V = v.asDiagonal();
+		zDiagonalMatrix W = w.asDiagonal();
+
+		MatrixXd A(3 * freeVertices.size(), numEdges);
+		A << MatrixXd(Cnt*U), MatrixXd(Cnt*V), MatrixXd(Cnt*W);
+
+		
+
+		// FORCE DENSITY VECTOR
+
+		// residual
+		residual = (A * current_fDensities) - Pn ;
+
+		//VectorXd g = residual;
+		////cout << "\n residual r \n " << residual << endl;
+		//
+		//if (targets.size() > 0)
+		//{
+		//	VectorXd Tn(freeVertices.size() * 3);
+		//	int freeVert_Counter = 0;
+
+		//	for (int j = 0; j < resultVMass.size(); j++)
+		//	{
+		//		if (!fixedVerticesBoolean[j])
+		//		{
+		//			Tn[freeVert_Counter + (0 * freeVertices.size())] = targets[j].x;
+		//			Tn[freeVert_Counter + (1 * freeVertices.size())] = targets[j].y;
+		//			Tn[freeVert_Counter + (2 * freeVertices.size())] = targets[j].z;
+		//			freeVert_Counter++;
+		//		}
+		//	}
+
+		//	g += Tn;
+		//}
+
+		// gradient q
+		MatrixXd LHS = A.transpose() * A;
+		MatrixXd RHS = A.transpose() * residual;
+		gradient_fDensities = LHS.ldlt().solve(RHS);
+		
+		//cout << "\n gradient q \n " << gradient_fDensities << endl;
+
+	}
+
+	//---- mesh specilization for getResidual_Gradient
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getResiduals(float alpha,VectorXd & current_fDensities, VectorXd &residual, VectorXd & residualU, VectorXd & residualC)
+	{
+
+		bool positiveDensities = true;
+
+		int n_v = fnResult.numVertices();
+		int numEdges = numFreeEdges;;
+
+
+		// SUB MATRICES
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+
+		zSparseMatrix Cnt;
+		Cnt = Cn.transpose();
+
+		VectorXd u, v, w;
+		u = C * X.col(0);
+		v = C * X.col(1);
+		w = C * X.col(2);
+
+		zDiagonalMatrix U = u.asDiagonal();
+		zDiagonalMatrix V = v.asDiagonal();
+		zDiagonalMatrix W = w.asDiagonal();
+
+		MatrixXd A(3 * freeVertices.size(), numEdges);
+		A << MatrixXd(Cnt*U), MatrixXd(Cnt*V), MatrixXd(Cnt*W);
+			   
+		// FORCE DENSITY VECTOR
+
+		// residual
+		residual = (A * current_fDensities) - (Pn);
+
+		residualU = VectorXd(residual.rows());
+		residualC = VectorXd(residual.rows());
+
+
+		int id = 0;
+		for (int j = 0; j < n_v; j++)
+		{
+			if (!fixedVerticesBoolean[j])
+			{
+				zItMeshVertex v(*resultObj, j);
+
+				if (!v.onBoundary()) // free node 
+				{
+					residualU(id + 0 * freeVertices.size()) = alpha * residual(id + 0 * freeVertices.size());
+					residualU(id + 1 * freeVertices.size()) = alpha * residual(id + 1 * freeVertices.size());
+					residualU(id + 2 * freeVertices.size()) = alpha * residual(id + 2 * freeVertices.size());
+
+					residualC(id + 0 * freeVertices.size()) = (1 - alpha) * residual(id + 0 * freeVertices.size());
+					residualC(id + 1 * freeVertices.size()) = (1 - alpha) * residual(id + 1 * freeVertices.size());
+					residualC(id + 2 * freeVertices.size()) = (1 - alpha) * residual(id + 2 * freeVertices.size());
+				}
+				else // free node constraint to positions
+				{
+					residualU(id + 0 * freeVertices.size()) = 0.00 * residual(id + 0 * freeVertices.size());
+					residualU(id + 1 * freeVertices.size()) = 0.00 * residual(id + 1 * freeVertices.size());
+					residualU(id + 2 * freeVertices.size()) = 0.00 * residual(id + 2 * freeVertices.size());
+
+					residualC(id + 0 * freeVertices.size()) = 1.00 * residual(id + 0 * freeVertices.size());
+					residualC(id + 1 * freeVertices.size()) = 1.00 * residual(id + 1 * freeVertices.size());
+					residualC(id + 2 * freeVertices.size()) = 1.00 * residual(id + 2 * freeVertices.size());
+				}
+
+				id++;
+			}
+		}
+
+	}
+
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getGradients(VectorXd & current_fDensities, VectorXd & residualU, VectorXd & residualC, VectorXd & gradPos, VectorXd & gradFDensities)
+	{
+		int n_v = fnResult.numVertices();
+		int numEdges = numFreeEdges;;
+
+
+		// SUB MATRICES
+		zSparseMatrix Cn = subMatrix(C, freeVertices);
+
+		zSparseMatrix CTabs =  Cn.transpose().cwiseAbs();
+		
+		zSparseMatrix Cnt;
+		Cnt = Cn.transpose();
+
+		VectorXd u, v, w;
+		u = C * X.col(0);
+		v = C * X.col(1);
+		w = C * X.col(2);
+
+		zDiagonalMatrix U = u.asDiagonal();
+		zDiagonalMatrix V = v.asDiagonal();
+		zDiagonalMatrix W = w.asDiagonal();
+
+		VectorXd l(u.rows());
+
+		for (int i = 0; i < u.rows(); i++)l(i) = (u(i) * u(i)) + (v(i) * v(i)) + (w(i) * w(i));;		
+				
+		zDiagonalMatrix L = l.asDiagonal();
+	
+
+		VectorXd current_fDensities_abs = current_fDensities.cwiseAbs();
+
+		printf("\n CTabs %i %i ", CTabs.rows(), CTabs.cols());
+		printf("\n L %i %i ", L.rows(), L.cols());
+		printf("\n current_fDensities %i %i ", current_fDensities.rows(), current_fDensities.cols());
+
+		VectorXd k = (CTabs * L * current_fDensities);
+		VectorXd denom = (CTabs * L * current_fDensities_abs);
+			
+		for (int i = 0; i < k.rows(); i++)
+		{
+			k(i) /= (denom(i));
+			k(i) *= -1;
+		}
+		
+
+		gradPos = VectorXd(3 * freeVertices.size());
+		
+		int freeVert_Counter = 0;
+		for (int j = 0; j < n_v; j++)
+		{
+			if (!fixedVerticesBoolean[j])
+			{
+				gradPos[freeVert_Counter + (0 * freeVertices.size())] = residualU[freeVert_Counter + (0 * freeVertices.size())] * k[freeVert_Counter];
+				gradPos[freeVert_Counter + (1 * freeVertices.size())] = residualU[freeVert_Counter + (1 * freeVertices.size())] * k[freeVert_Counter];
+				gradPos[freeVert_Counter + (2 * freeVertices.size())] = residualU[freeVert_Counter + (2 * freeVertices.size())] * k[freeVert_Counter];
+
+
+				zItMeshVertex v(*resultObj, j);
+
+				/*if (!v.onBoundary())
+				{
+					printf("\n %1.6f |  %1.6f %1.6f %1.6f ", k[freeVert_Counter],
+													gradPos[freeVert_Counter + (0 * freeVertices.size())],
+													gradPos[freeVert_Counter + (1 * freeVertices.size())],
+													gradPos[freeVert_Counter + (2 * freeVertices.size())]);
+				}*/
+
+				freeVert_Counter++;
+			}
+		}
+
+		MatrixXd A(3 * freeVertices.size(), numEdges);
+		A << MatrixXd(Cnt*U), MatrixXd(Cnt*V), MatrixXd(Cnt*W);
+
+		MatrixXd LHS = A.transpose() * A;
+		MatrixXd RHS = A.transpose() * residualC;
+		gradFDensities = LHS.ldlt().solve(RHS);
+
+		gradFDensities *= -1;
+	}
+
+	//---- getfreeVertices
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getfreeVertices(zIntArray & freeVerts)
+	{
+		freeVerts.clear();
+		for (int j = 0; j < fixedVerticesBoolean.size(); j++)
+		{
+			if (!fixedVerticesBoolean[j])
+			{
+				freeVerts.push_back(j);
+			}
+
+		}
+	}
+
+	//---- getNumFreeEdges
+	template<>
+	ZSPACE_INLINE int zTsVault<zObjMesh, zFnMesh>::getNumFreeEdges(zIntArray &fdMap)
+	{
+		int numEdges = fnResult.numEdges();;
+		fdMap.clear();
+
+		fdMap.assign(numEdges, -1);
+		int fdCounter = 0;
+		for (zItMeshEdge e(*resultObj); !e.end(); e++)
+		{
+			vector<int> eVerts;
+			e.getVertices(eVerts);
+
+			int v1 = eVerts[0];
+			int v2 = eVerts[1];
+
+			if (fixedVerticesBoolean[v1] && fixedVerticesBoolean[v2]) numEdges--;
+			else
+			{
+				fdMap[e.getId()] = fdCounter;
+				fdCounter++;
+			}
+
+		}
+
+		return numEdges;
+	}
+
+	//---- mesh specilization for getPositionMatrix
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjGraph, zFnGraph>::getPositionMatrix(MatrixXd & X)
+	{
+		X = MatrixXd(fnResult.numVertices(), 3);
+
+		for (zItGraphVertex v(*resultObj); !v.end(); v++)
+		{
+			zVector pos = v.getPosition();
+			int i = v.getId();
+
+			X(i, 0) = pos.x;
+			X(i, 1) = pos.y;
+			X(i, 2) = pos.z;
+		};
+	}
+
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getPositionMatrix(MatrixXd & X)
+	{
+		 X = MatrixXd(fnResult.numVertices(), 3);
+
+		for (zItMeshVertex v(*resultObj); !v.end(); v++)
+		{
+			zVector pos = v.getPosition();
+			int i = v.getId();
+
+			X(i, 0) = pos.x;
+			X(i, 1) = pos.y;
+			X(i, 2) = pos.z;
+		};
+	}
+
+	//---- getLoadVector
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getLoadVector(VectorXd & Pn)
+	{
+		//setVertexMassfromVertexArea();
+
+		 Pn = VectorXd(freeVertices.size() * 3);
+
+
+		int freeVert_Counter = 0;
+		for (int j = 0; j < resultVMass.size(); j++)
+		{
+			if (!fixedVerticesBoolean[j])
+			{
+				Pn[freeVert_Counter + (0 * freeVertices.size())] = 0;
+				Pn[freeVert_Counter + (1 * freeVertices.size())] = 0;
+				Pn[freeVert_Counter + (2 * freeVertices.size())] = resultVMass[j] * resultVThickness[j] * resultVWeights[j];
+				freeVert_Counter++;
+			}
+		}
+	}
+
+	//---- mesh specilization for setConstraint_Planarity
+	template<>
+	void zTsVault<zObjMesh, zFnMesh>::getConstraint_Planarity(zVectorArray &targets, float planarityTolerance)
+	{
+
+		if (targets.size() == 0)
+		{
+			targets.assign(fnResult.numVertices(), zVector());
+		}
+
+		zInt2DArray fTris;
+		zPointArray fCenters;
+		zDoubleArray fVolumes;
+		fnResult.getMeshFaceVolumes(fTris, fCenters, fVolumes);
+		
+		for (zItMeshFace f(*resultObj); !f.end(); f++)
+		{
+			int i = f.getId();
+
+			if (f.isActive() && fVolumes[i] > planarityTolerance)
+			{
+				vector<int> fVerts;
+				f.getVertices(fVerts);
+
+				vector<zVector> fVertPositions;
+				f.getVertexPositions(fVertPositions);
+
+				zVector fNormal = f.getNormal();
+
+				for (int j = 0; j < fVertPositions.size(); j++)
+				{
+					if (fixedVerticesBoolean[fVerts[j]]) continue;
+
+					double dist = coreUtils.minDist_Point_Plane(fVertPositions[j], fCenters[i], fNormal);
+
+					zVector pForce = fNormal * dist * -1.0;
+					
+					targets[fVerts[j]] += pForce;
+				}
+			}
+
+		}
+	}
+
+	//---- mesh specilization for setConstraint_plan
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::setConstraint_plan(const zIntArray & vertex_PlanWeights)
+	{		
+		
+		if (vertex_PlanWeights.size() == 0)
+		{
+			result_vertex_PlanConstraints.clear();
+
+		}
+		else
+		{
+			result_vertex_PlanConstraints = vertex_PlanWeights;
+		}
+
+		result_vertex_PlanConstraintsBoolean.clear();
+		result_vertex_PlanConstraintsBoolean.assign(fnResult.numVertices(), false);
+
+		for (int i = 0; i < result_vertex_PlanConstraints.size(); i++)
+		{			
+			result_vertex_PlanConstraintsBoolean[result_vertex_PlanConstraints[i]] = true;
+		}
+	}
+
+	//---- mesh specilization for setConstraint_pleats
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::setConstraint_pleats(zFloatArray & vertex_ValleyRidge, zFloatArray & vertex_PleatDepth)
+	{
+		result_vertex_ValleyRidge = vertex_ValleyRidge;
+		result_vertex_PleatDepth = vertex_PleatDepth;
+	}
+	   
 	//---- TNA METHODS
 
 	template<typename T, typename U>
@@ -894,8 +1979,8 @@ namespace zSpace
 		if (out)
 		{
 
-			setelementColorDomain(zFormDiagram);
-			setelementColorDomain(zForceDiagram);
+			setElementColorDomain(zFormDiagram);
+			setElementColorDomain(zForceDiagram);
 		}
 
 		return out;
@@ -1338,6 +2423,7 @@ namespace zSpace
 			}
 			else
 			{
+				fixedVertices.clear();
 				fixedVertices = _fixedVertices;
 			}
 
@@ -1432,6 +2518,8 @@ namespace zSpace
 		{
 			forceDensities.push_back(fDensity);
 		}
+
+		setResultTensionEdgesfromForceDensities();
 	}
 
 	//---- mesh specilization for setForceDensity
@@ -1444,6 +2532,8 @@ namespace zSpace
 		{
 			forceDensities.push_back(fDensity);
 		}
+
+		setResultTensionEdgesfromForceDensities();
 	}
 
 	//---- graph specilization for setForceDensities
@@ -1453,6 +2543,8 @@ namespace zSpace
 		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of graph half edges.");
 
 		forceDensities = fDensities;
+
+		setResultTensionEdgesfromForceDensities();
 	}
 
 	//---- mesh specilization for setForceDensities
@@ -1462,6 +2554,8 @@ namespace zSpace
 		if (fDensities.size() != fnResult.numEdges()) throw std::invalid_argument("size of fDensities contatiner is not equal to number of mesh edges.");
 
 		forceDensities = fDensities;
+
+		//setResultTensionEdgesfromForceDensities();
 	}
 
 	//---- graph specilization for setForceDensitiesFromDiagrams
@@ -1514,6 +2608,8 @@ namespace zSpace
 		}
 
 
+		//setResultTensionEdgesfromForceDensities();
+
 	}
 
 	//---- mesh specilization for setForceDensitiesFromDiagrams
@@ -1565,7 +2661,7 @@ namespace zSpace
 			}
 		}
 
-
+		//setResultTensionEdgesfromForceDensities();
 	}
 
 	//---- graph specilization for setForceDensities
@@ -1587,7 +2683,7 @@ namespace zSpace
 				}
 			}
 
-			setelementColorDomain(type);
+			setElementColorDomain(type);
 		}
 
 		else if (type == zFormDiagram)
@@ -1604,7 +2700,7 @@ namespace zSpace
 				}
 			}
 
-			setelementColorDomain(type);
+			setElementColorDomain(type);
 		}
 
 		else if (type == zForceDiagram)
@@ -1621,7 +2717,7 @@ namespace zSpace
 				}
 			}
 
-			setelementColorDomain(type);
+			setElementColorDomain(type);
 		}
 
 		else throw std::invalid_argument(" invalid diagram type.");
@@ -1647,7 +2743,7 @@ namespace zSpace
 				}
 			}
 
-			setelementColorDomain(type);
+			setElementColorDomain(type);
 		}
 
 		else if (type == zFormDiagram)
@@ -1664,7 +2760,7 @@ namespace zSpace
 				}
 			}
 
-			setelementColorDomain(type);
+			setElementColorDomain(type);
 		}
 
 		else if (type == zForceDiagram)
@@ -1681,7 +2777,7 @@ namespace zSpace
 				}
 			}
 
-			setelementColorDomain(type);
+			setElementColorDomain(type);
 		}
 
 		else throw std::invalid_argument(" invalid diagram type.");
@@ -1746,7 +2842,7 @@ namespace zSpace
 			}
 		}
 
-		setelementColorDomain(zForceDiagram);
+		setElementColorDomain(zForceDiagram);
 	}
 
 	//---- mesh specilization for setForceTensionEdgesfromForm
@@ -1775,7 +2871,32 @@ namespace zSpace
 			}
 		}
 
-		setelementColorDomain(zForceDiagram);
+		setElementColorDomain(zForceDiagram);
+	}
+
+	template<typename T, typename U>
+	void zTsVault<T, U>::setResultTensionEdgesfromForceDensities()
+	{
+		result_tensionEdges.clear();
+	
+		for (int i = 0; i < fnResult.numHalfEdges(); i++)
+		{
+			result_tensionEdges.push_back(false);
+		}
+
+
+		for (int i = 0; i < forceDensities.size(); i++)
+		{
+			if (forceDensities[i] < 0)
+			{
+				result_tensionEdges[i * 2 + 0] = true;
+				result_tensionEdges[i * 2 + 1] = true;
+
+				forceDensities[i] = abs(forceDensities[i]);
+			}
+		}
+
+		setElementColorDomain(zResultDiagram);
 	}
 
 	template<typename T, typename U>
@@ -1785,7 +2906,7 @@ namespace zSpace
 		result_tensionEdges = form_tensionEdges;
 
 
-		setelementColorDomain(zResultDiagram);
+		setElementColorDomain(zResultDiagram);
 	}
 
 	template<typename T, typename U>
@@ -1794,7 +2915,7 @@ namespace zSpace
 		form_tensionEdges.clear();
 		form_tensionEdges = result_tensionEdges;
 
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 
 	}
 
@@ -1824,7 +2945,7 @@ namespace zSpace
 			}
 		}
 
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 
 	}
 
@@ -1854,13 +2975,13 @@ namespace zSpace
 			}
 		}
 
-		setelementColorDomain(zFormDiagram);
+		setElementColorDomain(zFormDiagram);
 
 	}
 
-	//---- graph specilization for setVertexWeights
+	//---- graph specilization for setElementColorDomain
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setelementColorDomain(zDiagramType type)
+	ZSPACE_INLINE  void zTsVault<zObjGraph, zFnGraph>::setElementColorDomain(zDiagramType type)
 	{
 		if (type == zFormDiagram)
 		{
@@ -1894,17 +3015,24 @@ namespace zSpace
 		else throw std::invalid_argument(" invalid diagram type.");
 	}
 
-	//---- mesh specilization for setVertexWeights	
+	//---- mesh specilization for setElementColorDomain	
 	template<>
-	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setelementColorDomain(zDiagramType type)
+	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::setElementColorDomain(zDiagramType type)
 	{
 		if (type == zFormDiagram)
 		{
 			for (zItMeshHalfEdge he(*formObj); !he.end(); he++)
 			{
 				int i = he.getId();
+								
 				if (form_tensionEdges[i]) he.getEdge().setColor(elementColorDomain.min);
 				else  he.getEdge().setColor(elementColorDomain.max);
+
+				if (fixedVerticesBoolean.size() > 0)
+				{
+					if (fixedVerticesBoolean[he.getVertex().getId()] && fixedVerticesBoolean[he.getStartVertex().getId()]) 
+						he.getEdge().setColor(zColor(0,0,0,1));
+				}
 			}
 		}
 		else if (type == zResultDiagram)
@@ -1912,8 +3040,15 @@ namespace zSpace
 			for (zItMeshHalfEdge he(*resultObj); !he.end(); he++)
 			{
 				int i = he.getId();
+			
+				if (fixedVerticesBoolean.size() > 0)
+				{
+					if (fixedVerticesBoolean[he.getVertex().getId()] && fixedVerticesBoolean[he.getStartVertex().getId()]) continue;
+				}
+
 				if (result_tensionEdges[i]) he.getEdge().setColor(elementColorDomain.min);
 				else he.getEdge().setColor(elementColorDomain.max);
+
 			}
 		}
 		else if (type == zForceDiagram)
@@ -2242,6 +3377,14 @@ namespace zSpace
 
 	}
 
+
+	//---- getConstraints
+	template<typename T, typename U>
+	zIntArray zTsVault<T, U>::getConstraints()
+	{
+		return fixedVertices;
+	}
+
 	//---- mesh specilization for getForces_GradientDescent
 	template<>
 	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::getForces_GradientDescent(vector<zVector>& forces)
@@ -2324,10 +3467,10 @@ namespace zSpace
 
 	//---- graph specilization for getEdgeNodeMatrix 
 	template<>
-	ZSPACE_INLINE  zSparseMatrix zTsVault<zObjGraph, zFnGraph>::getEdgeNodeMatrix(int numCols)
+	ZSPACE_INLINE  zSparseMatrix zTsVault<zObjGraph, zFnGraph>::getEdgeNodeMatrix(int numRows)
 	{
 		int n_v = fnResult.numVertices();
-		zSparseMatrix out(numCols, n_v);
+		zSparseMatrix out(numRows, n_v);
 		out.setZero();
 
 		int coefsCounter = 0;
@@ -2361,11 +3504,11 @@ namespace zSpace
 
 	//---- mesh specilization for getEdgeNodeMatrix 
 	template<>
-	ZSPACE_INLINE zSparseMatrix zTsVault<zObjMesh, zFnMesh>::getEdgeNodeMatrix(int numCols)
+	ZSPACE_INLINE zSparseMatrix zTsVault<zObjMesh, zFnMesh>::getEdgeNodeMatrix(int numRows)
 	{
 		int n_v = fnResult.numVertices();
 
-		zSparseMatrix out(numCols, n_v);
+		zSparseMatrix out(numRows, n_v);
 		out.setZero();
 
 		int coefsCounter = 0;
@@ -2978,7 +4121,7 @@ namespace zSpace
 			}
 		}
 	}
-
+	   
 	//---- mesh specilization for updateForceDiagram
 	template<>
 	ZSPACE_INLINE  void zTsVault<zObjMesh, zFnMesh>::updateForceDiagram(float minmax_Edge, float dT, zIntergrationType type, int numIterations)
@@ -3070,6 +4213,74 @@ namespace zSpace
 		}
 	}
 
+
+	//---- mesh specilization for getPleatDataJSON
+	template<>
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getPleatDataJSON(string infilename)
+	{
+		json j;
+		zUtilsJsonHE meshJSON;
+
+
+		ifstream in_myfile;
+		in_myfile.open(infilename.c_str());
+
+		int lineCnt = 0;
+
+		if (in_myfile.fail())
+		{
+			cout << " error in opening file  " << infilename.c_str() << endl;
+
+		}
+
+		in_myfile >> j;
+		in_myfile.close();
+
+		// READ Data from JSON
+
+		// Vertices
+		/*meshJSON.pleatData.clear();
+
+		bool checkCreaseData = (j.find("PleatDepth") != j.end()) ? true : false;
+		result_vertex_PleatDepth.clear();
+
+		if (checkCreaseData)
+		{
+			meshJSON.pleatData = (j["PleatDepth"].get<vector<double>>());
+
+			for (int i = 0; i < meshJSON.pleatData.size(); i++)
+			{
+
+				result_vertex_PleatDepth.push_back(meshJSON.pleatData[i]);
+
+			}
+		}
+*/
+
+		meshJSON.vertexAttributes.clear();
+
+		meshJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
+
+		for (int i = 0; i < meshJSON.vertexAttributes.size(); i++)
+		{
+			for (int k = 0; k < meshJSON.vertexAttributes[i].size(); k++)
+			{
+
+				// pleat depths
+				if (meshJSON.vertexAttributes[i].size() == 8)
+				{
+					result_vertex_PleatDepth.push_back(meshJSON.vertexAttributes[i][k + 6]);
+
+					k += 7;
+				}
+			}
+
+		}
+			
+		
+		//for (auto d : result_vertex_PleatDepth) printf("\n %1.2f ", d);
+
+	}
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 	// explicit instantiation
