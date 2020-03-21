@@ -57,13 +57,17 @@ using namespace std;
 
 
 #ifndef QUICKHULL_H
-	#define QUICKHULL_IMPLEMENTATION
 	#define _CRT_SECURE_NO_WARNINGS
 	#include <depends/quickhull/quickhull.h>
 #endif 
 
 #endif
 
+#if defined(QUICKHULL_H)  || defined(ZSPACE_UNREAL_INTEROP)
+	// All defined OK so do nothing
+#else
+	#define QUICKHULL_IMPLEMENTATION
+#endif
 
 
 namespace zSpace
