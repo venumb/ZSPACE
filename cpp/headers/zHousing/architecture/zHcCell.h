@@ -10,8 +10,8 @@
 // Author : Vishu Bhooshan <vishu.bhooshan@zaha-hadid.com>
 //
 
-#ifndef ZSPACE_HC_UNIT_H
-#define ZSPACE_HC_UNIT_H
+#ifndef ZSPACE_HC_CELL_H
+#define ZSPACE_HC_CELL_H
 
 #pragma once
 
@@ -34,19 +34,21 @@ using namespace std;
 namespace zSpace
 {
 
-	/*! \class zHcUnit
-	*	\brief A toolset for housing units configuration
+	/*! \class zHcCell
+	*	\brief A toolset for housing units grid cells
 	*	\since version 0.0.4
 	*/
 
 	/** @}*/
 
-	class ZSPACE_AG zHcUnit
+	class ZSPACE_AG zHcCell
 	{
 	protected:
 		//--------------------------
 		//---- PROTECTED ATTRIBUTES
 		//--------------------------
+
+		int level = -1;
 
 #if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
 		// Do Nothing
@@ -56,8 +58,8 @@ namespace zSpace
 		zModel *model;
 #endif
 
-		zVector position, rotation, scale;
-		
+		/*!	\stores current cell estate  */
+		zGridCellEstate cellEstate;
 
 	public:
 		//--------------------------
@@ -66,35 +68,10 @@ namespace zSpace
 
 
 		/*!	\brief pointer to input mesh Object  */
-		zObjMesh inUnitMeshObj;
+		zObjMesh cellObj;
 
-		/*!	\brief pointer to input mesh Object  */
-		vector<zObjMeshArray> layoutMeshObjs;
+		bool isSelected = false;
 
-		/*!	\brief house layout option */
-		zLayoutType layoutType;
-
-		/*!	\brief house function option */
-		zHcUnitType funcType;
-
-		/*!	\brief house structure option */
-		zStructureType structureType;
-
-		/*!	\brief structure unit */
-		zHcStructure structureUnit;
-
-		/*!	\brief store edge attributes: primary (true) secondary (false)  */
-		zBoolArray edgeAttributes;
-
-		/*!	\brief store boundary attributes */
-		zBoolArray eBoundaryAttributes;
-
-		/*!	\brief store structure height array */
-		zFloatArray structureHeight;
-
-		/*!	\brief interface manager, handles an input path directory*/
-		zUtilsCore core;
-		
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
@@ -102,17 +79,16 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		zHcUnit();
+		zHcCell();
 
-
-		/*! \brief Default constructor.
+		/*! \brief overload constructor.
 		*
-		*	\param		[in]	_inMeshObj 					- input mesh
-		*	\param		[in]	_structureType 				- input desired function type
-		*	\param		[in]	_structureType 				- input desired structure type
+		*	\param		[in]	verticesPos					- vertex positions
+		*	\param		[in]	cellEstate					- grid cell Estate
 		*	\since version 0.0.4
 		*/
-		zHcUnit(zObjMesh _inMeshObj, zHcUnitType _funcType);
+		zHcCell(zGridCellEstate _cellEstate);
+
 
 		//--------------------------
 		//---- DESTRUCTOR
@@ -122,52 +98,50 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		~zHcUnit();
+		~zHcCell();
+
+		//--------------------------
+		//---- GET METHODS
+		//--------------------------
+
+		/*! \brief set level.
+		*
+		*	\param		[in]	level					- level position
+		*	\since version 0.0.4
+		*/
+		zGridCellEstate getEstate();
 
 
 		//--------------------------
 		//---- SET METHODS
 		//--------------------------
 
-		/*! \brief This method sets the edges attributes: primary or secundary and boundary conditions
+		/*! \brief set level.
 		*
+		*	\param		[in]	level					- level position
 		*	\since version 0.0.4
 		*/
-		void setPosition(zVector _position);
+		void setLevel(int _level);
 
-		void setRotation(zVector _rotation);
-
-		void setScale(zVector _scale);
-
-		void setColor(zColor color);
-
-		/*! \brief This method sets the layout by specified type.
+		/*! \brief set level.
 		*
-		*	\param		[in]	_layoutType					- input desired layout option
+		*	\param		[in]	level					- level position
 		*	\since version 0.0.4
 		*/
-		void setLayoutByType(zLayoutType&_layout);
+		void setEstate(zGridCellEstate estate);
 
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
 
-		/*! \brief This method creates structural units zHcStructure.
+		/*! \brief create cell Mesh Objects.
 		*
-		*	\param		[in]	_structureType 				- input desired structure type
+		*	\param		[in]	verticesPos					- vertex positions
+		*	\param		[in]	cellEstate					- grid cell Estate
 		*	\since version 0.0.4
 		*/
-		bool createStructuralUnits(zStructureType _structureType);
-
-		//--------------------------
-		//---- IMPORT METHODS
-		//--------------------------
-
-
-
-		//--------------------------
-		//---- DISPLAY METHODS
-		//--------------------------
+		void createCellMesh(zPointArray vertexPositions);
+		
 
 #if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
 		// Do Nothing
@@ -178,22 +152,34 @@ namespace zSpace
 		*	\param		[in]	_showColumns					- display column objs
 		*	\since version 0.0.4
 		*/
-		void displayLayout(int&_index, bool&_show);
+		void displayCell(bool&_showAll, int&_showLevel);
 
 		/*! \brief This method sets the zModel pointer.
 		*
 		*	\since version 0.0.4
 		*/
-		void setUnitDisplayModel(zModel&_model);
+		void setColor(zColor color);
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void setModel(zModel&_model);
+
+		/*! \brief This method sets the zModel pointer.
+		*
+		*	\since version 0.0.4
+		*/
+		void AddObjToModel();
 #endif
-		
+
 	};
 }
 
 #if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
 // All defined OK so do nothing
 #else
-#include<source/zHousing/architecture/zHcUnit.cpp>
+#include<source/zHousing/architecture/zHcCell.cpp>
 #endif
 
 #endif

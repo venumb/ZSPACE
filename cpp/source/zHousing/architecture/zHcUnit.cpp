@@ -20,13 +20,17 @@ namespace zSpace
 
 	ZSPACE_INLINE zHcUnit::zHcUnit() {}
 
-	ZSPACE_INLINE zHcUnit::zHcUnit(zObjMesh&_inMeshObj, zFunctionType&_funcType, zStructureType&_structureType)
+	ZSPACE_INLINE zHcUnit::zHcUnit(zObjMesh _inMeshObj, zHcUnitType _funcType)
 	{
-		inUnitMeshObj = &_inMeshObj;
-		fnUnitMesh = zFnMesh(_inMeshObj);
+
+		inUnitMeshObj = _inMeshObj;
 		funcType = _funcType;
 
-		setCellAttributes();
+		cout << "unit" << endl;
+		
+
+		if(funcType == zHcUnitType::zFlat) cout << "flat" << endl;
+
 	}
 
 	//---- DESTRUCTOR
@@ -35,84 +39,56 @@ namespace zSpace
 
 	//---- SET METHODS
 
-	ZSPACE_INLINE void zHcUnit::setCellAttributes()
+	ZSPACE_INLINE void zHcUnit::setPosition(zVector _position)
 	{
-		if (!inUnitMeshObj) return;
+		position = _position;
+		
+		zFnMesh fnMesh(inUnitMeshObj);
+		fnMesh.setTranslation(position);
+		fnMesh.setPivot(position);
+	}
 
-		for (zItMeshEdge e(*inUnitMeshObj); !e.end(); e++)
-		{
-			zItMeshHalfEdge he = e.getHalfEdge(0);
-			zItMeshFace f = he.getFace();
+	ZSPACE_INLINE void zHcUnit::setRotation(zVector _rotation)
+	{
+		rotation = _rotation;
+		zFloat4 m = { rotation.x, rotation.y, rotation.z };
+		
+		zFnMesh fnMesh(inUnitMeshObj);
+		fnMesh.setRotation(m);
+	}
 
-			zIntArray indices;
-			f.getHalfEdges(indices);
-			for (int i = 0; i < indices.size(); i++)
-			{
-				if (indices[i] == he.getId())
-				{
-					if (i % 2 == 0) edgeAttributes.push_back(true);
-					else edgeAttributes.push_back(false);
-				}
-			}
+	ZSPACE_INLINE void zHcUnit::setScale(zVector _scale)
+	{
+		scale = _scale;
+		zFloat4 m = { scale.x, scale.y, scale.z };
 
-			if (e.onBoundary()) eBoundaryAttributes.push_back(true);
-			else eBoundaryAttributes.push_back(false);
-		}
+		zFnMesh fnMesh(inUnitMeshObj);
+		fnMesh.setScale(m);
+	}
+
+	ZSPACE_INLINE void zHcUnit::setColor(zColor color)
+	{
+		zFnMesh fnMesh(inUnitMeshObj);
+		fnMesh.setVertexColor(color, true);
 	}
 
 	ZSPACE_INLINE void zHcUnit::setLayoutByType(zLayoutType&_layout)
 	{
 		layoutType = _layout;
 
-		/*if (layoutType == zLayoutType::zStudio) createStudioLayout(flip);
-		else if (layoutType == zLayoutType::zOneBed) createOneBedLayout(flip);
-		else if (layoutType == zLayoutType::zTwoBed) createTwoBedLayout(flip);
-		else if (layoutType == zLayoutType::zLoft) createLoftLayout(flip);
 
-		updateStructureUnits();*/
 	}
 
 	//---- CREATE METHODS
 
 	ZSPACE_INLINE bool zHcUnit::createStructuralUnits(zStructureType _structureType)
 	{
-		bool success = false;
-		if (!inUnitMeshObj) return success;
-
-		zFloatArray heightArray;
-		heightArray.assign(fnUnitMesh.numPolygons(), 3);
-
-		//create and initialise a structure obj and add it to container
-		structureUnit = zHcStructure(*inUnitMeshObj, funcType, _structureType, heightArray, edgeAttributes, eBoundaryAttributes);
-		//structureUnit.createStructuralCell();
-		structureUnit.createStructureByType(_structureType);
-
-		success = true;
-		return success;
+		
 	}
 
 	//---- IMPORT METHODS
 
-	ZSPACE_INLINE void zHcUnit::importLayoutsFromPath(vector<string>_paths)
-	{
-		layoutMeshObjs.assign(_paths.size(), vector<zObjMesh>());
-
-		int count = 0;
-		for (auto p : _paths)
-		{
-			zStringArray pathsArray;
-			core.getFilesFromDirectory(pathsArray, p, zJSON);
-			layoutMeshObjs[count].assign(pathsArray.size(), zObjMesh());
-
-			for (int i = 0; i < pathsArray.size(); i++)
-			{
-				zFnMesh fnTemp(layoutMeshObjs[count][i]);
-				fnTemp.from(pathsArray[i], zJSON);
-			}
-			count++;
-		}
-		
-	}
+	
 
 	//---- DISPLAY METHODS
 
@@ -136,16 +112,9 @@ namespace zSpace
 	{
 		model = &_model;
 
-		structureUnit.setStructureDisplayModel(_model);
-
-		for (int i = 0; i < layoutMeshObjs.size(); i++)
-		{
-			for (int j = 0; j < layoutMeshObjs[i].size(); j++)
-			{
-				model->addObject(layoutMeshObjs[i][j]);
-				layoutMeshObjs[i][j].setDisplayElements(false, true, true);
-			}
-		}
+		model->addObject(inUnitMeshObj);
+		inUnitMeshObj.setDisplayElements(false, true, true);
+			
 	}
 
 #endif

@@ -18,7 +18,7 @@ namespace zSpace
 
 	ZSPACE_INLINE zHcStructure::zHcStructure() {}
 
-	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inStructObj, zFunctionType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes)
+	ZSPACE_INLINE zHcStructure::zHcStructure(zObjMesh&_inStructObj, zHcUnitType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes)
 	{
 		inStructObj = &_inStructObj;
 		fnStruct = zFnMesh(*inStructObj);	
@@ -72,9 +72,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zHcStructure::createStructureByType(zStructureType & _structureType)
 	{
-		structureType = _structureType;
+		/*structureType = _structureType;
 
-		if (functionType == zFunctionType::zPublic)
+		if (functionType == zHcUnitType::zPublic)
 		{
 			createColumns();
 			createSlabs();
@@ -84,7 +84,7 @@ namespace zSpace
 			createWalls();
 			createFacades();
 			createRoofs();
-		}
+		}*/
 	}
 
 	ZSPACE_INLINE bool zHcStructure::createColumns()
@@ -315,9 +315,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zHcStructure::updateArchComponents(zStructureType & _structureType)
 	{
-		structureType = _structureType;
+		/*structureType = _structureType;
 
-		if (functionType == zFunctionType::zPublic)
+		if (functionType == zHcUnitType::zPublic)
 		{
 			for (auto& column : columnArray) column.createByType(structureType);
 			for (auto& slab : slabArray) slab.createByType(structureType);
@@ -327,7 +327,7 @@ namespace zSpace
 			for (auto& wall : wallArray) wall.createByType(structureType);
 			for (auto& facade : facadeArray) facade.createByType(structureType);
 			for (auto& roof : roofArray) roof.createByType(structureType);
-		}
+		}*/
 
 	}
 

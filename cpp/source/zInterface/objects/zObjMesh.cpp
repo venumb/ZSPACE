@@ -34,6 +34,10 @@ namespace zSpace
 		displayVertexNormals = false;
 		displayFaceNormals = false;
 
+		displayVertexIds = false;
+		displayEdgeIds = false;
+		displayFaceIds = false;
+
 		dihedralAngleThreshold = 45;
 
 		normalScale = 1.0;
