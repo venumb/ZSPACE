@@ -40,7 +40,13 @@ namespace zSpace
 	*	\brief	Programmatic use of the housing unit configurator
 	*	\since	version 0.0.4
 	*/	
-	enum zFunctionType { zPublic, zFlat, zVertical, zLandscape, zTType, zLType };
+	enum zHcUnitType { zFlat, zVertical, zLandscape, zTwin, zLType };
+
+	/*! \enum	zCellFace
+	*	\brief	Architectural attribute per face of a structural cell
+	*	\since	version 0.0.4
+	*/
+	enum zGridCellEstate { zAvailable, zLocked, zReserved};
 
 	/*! \enum	zCellFace
 	*	\brief	Architectural attribute per face of a structural cell

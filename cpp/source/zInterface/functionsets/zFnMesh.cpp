@@ -658,6 +658,9 @@ namespace zSpace
 		setStaticContainers();
 	}
 
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+	// Do Nothing
+#else
 	ZSPACE_INLINE void zFnMesh::makeConvexHull(zPointArray &_pts)
 	{
 		int num = _pts.size();
@@ -687,6 +690,7 @@ namespace zSpace
 
 		computeMeshNormals();
 	}
+#endif
 
 	//--- SET METHODS 
 

@@ -38,7 +38,7 @@ namespace  zSpace
 	*	\brief A 3 dimensional vector math class.
 	*	\since version 0.0.1
 	*/
-
+	 
 	/** @}*/
 	/** @}*/
 

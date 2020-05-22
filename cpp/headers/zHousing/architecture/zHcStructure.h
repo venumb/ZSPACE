@@ -56,7 +56,7 @@ namespace zSpace
 		zStructureType structureType;
 
 		/*!	\brief function type  */
-		zFunctionType functionType;
+		zHcUnitType functionType;
 
 
 	public:
@@ -114,7 +114,7 @@ namespace zSpace
 		*	\param		[in]	_boundaryAttributes		- boundary attributes array
 		*	\since version 0.0.4
 		*/
-		zHcStructure(zObjMesh&_inStructObj, zFunctionType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes);
+		zHcStructure(zObjMesh&_inStructObj, zHcUnitType&_funcType, zStructureType&_structureType, zFloatArray _heightArray, zBoolArray&_edgesAttributes, zBoolArray&_boundaryAttributes);
 
 		//--------------------------
 		//---- DESTRUCTOR

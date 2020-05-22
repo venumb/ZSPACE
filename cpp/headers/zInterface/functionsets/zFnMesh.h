@@ -321,6 +321,10 @@ namespace zSpace
 		*/
 		void makeStatic();
 
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
+
 		/*! \brief This method makes a convex hull from the input points.
 		*
 		*	\details Based on https://github.com/karimnaaji/3d-quickhull
@@ -328,6 +332,7 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void makeConvexHull(zPointArray &pts);
+#endif
 
 		//--------------------------
 		//--- SET METHODS 

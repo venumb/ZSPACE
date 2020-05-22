@@ -21,6 +21,7 @@
 #include <headers/zInterface/functionsets/zFnGraph.h>
 
 #include <headers/zHousing/architecture/zHcUnit.h>
+#include <headers/zHousing/architecture/zHcCell.h>
 #include <headers/zHousing/base/zHcEnumerators.h>
 
 #include <stdlib.h>
@@ -42,19 +43,27 @@ namespace zSpace
 	class ZSPACE_AG zHcAggregation
 	{
 
+	private:
+
+		int unitCount = 0;
+		std::pair <int,int> userSelection;
+
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
 		//--------------------------
 
 		/*!	\brief array of unit Objects  */
-		zObjMeshArray unitObjs;
+		zObjMeshArray gridObjs;
 
-		/*!	\brief unit meshes function set  */
-		vector<zFnMesh> fnUnitMeshArray;
+		/*!	\brief container of grid cells  */
+		vector<vector<zHcCell>> cellArray;
 
 		/*!	\brief container of housing units  */
-		vector<zHcUnit> unitArray;
+		vector<zHcUnit*> unitArray;
+
+		/*!	\brief array of unit types Objects  */
+		zObjMeshArray unitTypeObjs;
 
 		/*!	\brief interface manager, handles an input path directory*/
 		zUtilsCore core;
@@ -79,7 +88,15 @@ namespace zSpace
 		*/
 		~zHcAggregation();
 
-  
+		//--------------------------
+		//---- SET METHODS
+		//--------------------------
+		
+		void setSelectedCell(int layer, int id);
+
+		void setUnitTransform(zHcUnit&_unit, zVector pos, zVector orient, float xScale);
+
+
 		//--------------------------
 		//---- CREATE METHODS
 		//--------------------------
@@ -89,7 +106,21 @@ namespace zSpace
 		*	\param		[in]	_structureType		- input structure type
 		*	\since version 0.0.4
 		*/
-		void createHousingUnits(zStructureType _structureType);
+		void createCells();
+
+		/*! \brief This method creates housing units.
+		*
+		*	\param		[in]	layer			- input layer (floor) number
+		*	\param		[in]	position		- input position in grid
+		*	\since version 0.0.4
+		*/
+		void createUnit(zHcUnitType _unitType);
+
+		void createFlat(zHcUnit&_unit);
+
+		void createTwin(zHcUnit&_unit);
+
+		void createLandscape(zHcUnit&_unit);
 
 		//--------------------------
 		//---- IMPORT METHODS
@@ -100,7 +131,14 @@ namespace zSpace
 		*	\param		[in]	_path				- directory of files
 		*	\since version 0.0.4
 		*/
-		void importMeshesFromDirectory(string&_path);
+		void importGridFromDirectory(string&_path);
+
+		/*! \brief This method creates housing units from an imported mesh.
+		*
+		*	\param		[in]	_path				- directory of files
+		*	\since version 0.0.4
+		*/
+		void importUnitsFromDirectory(string&_path);
 
 		/*! \brief This method creates layouts for housing units from  imported meshes.
 		*
@@ -149,6 +187,13 @@ namespace zSpace
 		*/
 		void setDisplayModel(zModel&_model);
 
+		/*! \brief This method sets the display model not for Unreal.
+		*
+		*	\param		[in]	_index				- input housing unit index
+		*	\since version 0.0.4
+		*/
+		void setUnitDisplayModel(zModel&_model);
+
 		//--------------------------
 		//---- DISPLAY METHODS
 		//--------------------------
@@ -172,6 +217,14 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void showLayout (int&_index, bool&_showLayout);
+
+		/*! \brief This method sets if columns should be showned
+		*
+		*	\param		[in]	_showAvailable			- display available cells
+		*	\param		[in]	showLocked				- display locked cells
+		*	\since version 0.0.4
+		*/
+		void showCells(bool & _showAll, int &_level);
 
 		protected:
 			//--------------------------

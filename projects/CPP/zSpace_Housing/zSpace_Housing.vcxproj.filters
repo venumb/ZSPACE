@@ -39,6 +39,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zHousing\architecture\zHcUnit.h">
       <Filter>Header Files\Architecture</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zHousing\architecture\zHcCell.h">
+      <Filter>Header Files\Architecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zHousing\architecture\zHcAggregation.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\source\zHousing\architecture\zHcUnit.cpp">
+      <Filter>Source Files\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zHousing\architecture\zHcCell.cpp">
       <Filter>Source Files\Architecture</Filter>
     </ClCompile>
   </ItemGroup>
