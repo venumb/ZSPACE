@@ -23,7 +23,7 @@
 
 static FARPROC WINAPI DliRhinoLibrary(unsigned dliNotify, PDelayLoadInfo pdli)
 {
-	static const wchar_t* RhinoLibraryPath = L"C:\\Program Files\\Rhino WIP\\System\\RhinoLibrary.dll";
+	static const wchar_t* RhinoLibraryPath = L"C:\\Program Files\\Rhino 7 WIP\\System\\RhinoLibrary.dll";
 
 	if (dliNotify == dliNotePreLoadLibrary && _stricmp(pdli->szDll, "RhinoLibrary.dll") == 0)
 		return (FARPROC)LoadLibraryEx(RhinoLibraryPath, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);

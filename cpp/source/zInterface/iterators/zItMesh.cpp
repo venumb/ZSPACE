@@ -920,7 +920,6 @@ namespace zSpace
 		zItMeshHalfEdgeArray cHEdges;
 		getHalfEdges(cHEdges);
 
-
 		for (auto &he : cHEdges)
 		{
 			zIntArray eFaces;

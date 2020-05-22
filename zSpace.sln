@@ -71,6 +71,7 @@ Global
 		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release_Make|x86.ActiveCfg = Release|x64
 		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release_Make|x86.Build.0 = Release|x64
 		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release_Unreal|x64.ActiveCfg = Release_Unreal|x64
+		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release_Unreal|x64.Build.0 = Release_Unreal|x64
 		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release_Unreal|x86.ActiveCfg = Release_Unreal|x64
 		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release|x64.ActiveCfg = Release|x64
 		{008A0868-797E-41BD-B311-A96E1EF03C47}.Release|x86.ActiveCfg = Release|x64

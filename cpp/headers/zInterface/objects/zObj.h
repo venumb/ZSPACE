@@ -21,7 +21,7 @@
 	#include <headers/zCore/utilities/zUtilsJson.h>
 #endif
 
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+#if defined (ZSPACE_UNREAL_INTEROP)
 	// Do Nothing
 #else
 	#include <headers/zCore/utilities/zUtilsDisplay.h>
@@ -139,7 +139,7 @@ namespace zSpace
 
 
 
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+#if defined (ZSPACE_UNREAL_INTEROP) 
 	// Do Nothing
 #else
 		/*! \brief This method sets display utils.

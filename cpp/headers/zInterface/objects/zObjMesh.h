@@ -233,7 +233,7 @@ namespace zSpace
 		
 		void getBounds(zPoint &minBB, zPoint &maxBB) override;
 
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+#if defined (ZSPACE_UNREAL_INTEROP) 
 		// Do Nothing
 #else
 		void draw() override;

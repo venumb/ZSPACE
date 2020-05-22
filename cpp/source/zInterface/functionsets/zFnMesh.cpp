@@ -2617,103 +2617,244 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::splitFaces(vector<int> &edgeList, vector<double> &edgeFactor)
 	{
-		//if (edgeFactor.size() > 0)
-		//{
-		//	if (edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
-		//}
+		cout << endl << "splittingFace" << endl;
+		if (edgeFactor.size() > 0)
+		{
+			if (edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
+		}
 
-		//int numOriginalVertices = meshObj->mesh.vertexActive.size();
-		//int numOriginalEdges = meshObj->mesh.edgeActive.size();
-		//int numOriginalFaces = meshObj->mesh.faceActive.size();
 
-		//for (int i = 0; i < edgeList.size(); i++)
-		//{
-		//	if (edgeFactor.size() > 0) splitEdge( edgeList[i], edgeFactor[i]);
-		//	else splitEdge( edgeList[i]);
-		//}
+		int numOriginalVertices = meshObj->mesh.vertices.size();
+		int numOriginalEdges = meshObj->mesh.edges.size();
+		int numOriginalFaces = meshObj->mesh.faces.size();
 
-		//for (int j = 0; j < edgeList.size(); j++)
-		//{
-		//	for (int i = 0; i < 2; i++)
-		//	{
-		//		zEdge *start = (i == 0) ? &meshObj->mesh.edges[edgeList[j]] : meshObj->mesh.edges[edgeList[j]].getSym();
+		for (int i = 0; i < edgeList.size(); i++)
+		{
+			zItMeshEdge edg(*meshObj, edgeList[i]);
+			if (edgeFactor.size() > 0) splitEdge(edg, edgeFactor[i]);
+			else splitEdge(edg);
+		}
 
-		//		zEdge *e = start;
+		for (int j = 0; j < edgeList.size(); j++)
+		{
+			zItMeshEdge edg(*meshObj, edgeList[j]);
+			zItMeshHalfEdge start = edg.getHalfEdge(0);
+			zItMeshHalfEdge e1 = start;
+			zItMeshHalfEdge e2 = start;
 
-		//		if (!start->getFace()) continue;
+			if (start.onBoundary()) continue;
 
-		//		bool exit = false;
+			//find split vertices (v1 , v2) and corresponding edges pointing to them (e1, e2);
+			int v1 = start.getVertex().getId();
+			int v2 = start.getVertex().getId();
 
-		//		int v1 = start->getVertex()->getVertexId();
-		//		int v2 = start->getVertex()->getVertexId();
 
-		//		do
-		//		{
-		//			if (e->getNext())
-		//			{
-		//				e = e->getNext();
-		//				if (e->getVertex()->getVertexId() > numOriginalVertices)
-		//				{
-		//					v2 = e->getVertex()->getVertexId();
-		//					exit = true;
-		//				}
-		//			}
-		//			else exit = true;
+			bool exit = false;
+			do
+			{
+				if (!e1.getNext().end())
+				{
+					e1 = e1.getNext();
+					if (e1.getVertex().getId() >= numOriginalVertices)
+					{
+						v1 = e1.getVertex().getId();
+						exit = true;
+					}
+				}
+				else exit = true;
 
-		//		} while (e != start && !exit);
+			} while (e1 != start && !exit);
+	
+			exit = false;
+			do
+			{
+				if (!e2.getNext().end())
+				{
+					e2 = e2.getNext();
+					if (e2.getVertex().getId() >= numOriginalVertices)
+					{
+						if (e2.getVertex().getId() != v1)
+						{
+							v2 = e2.getVertex().getId();
+							exit = true;
+						}
+							
+					}
+				}
+				else exit = true;
 
-		//		// add new edges and face
-		//		if (v1 == v2) continue;
+			} while (e2 != start && !exit);
 
-		//		// check if edge exists continue loop. 
-		//		int outEdgeId;
-		//		bool eExists = meshObj->mesh.edgeExists(v1, v2, outEdgeId);
+			// add new edges and face
+			if (v1 == v2) continue;
 
-		//		if (eExists) continue;
 
-		//		int startEdgeId = start->getEdgeId();
-		//		int e_EdgeId = e->getEdgeId();
+			// check if edge exists continue loop. 
+			int outEdgeId;
+			bool eExists = meshObj->mesh.halfEdgeExists(v1, v2, outEdgeId);
 
-		//		bool resizeEdges = meshObj->mesh.addEdges(v1, v2);
+			if (eExists) continue;
 
-		//		if (resizeEdges)
-		//		{
-		//			start = &meshObj->mesh.edges[startEdgeId];
-		//			e = &meshObj->mesh.edges[e_EdgeId];
-		//		}
+			int e1_Id = e1.getId();
+			int e2_Id = e2.getId();
+			
 
-		//		meshObj->mesh.addPolygon(); // empty polygon
+			bool resizeEdges = meshObj->mesh.addEdges(v1, v2);
 
-		//							 // update pointers
-		//		zEdge *start_next = start->getNext();
-		//		zEdge *e_next = e->getNext();
+			if (resizeEdges)
+			{
+				e1 = zItMeshHalfEdge(*meshObj, e1_Id);
+				e2 = zItMeshHalfEdge(*meshObj, e2_Id);
+			}
 
-		//		start->setNext(&meshObj->mesh.edges[numEdges() - 2]);
-		//		e_next->setPrev(&meshObj->mesh.edges[numEdges() - 2]);
+			// empty polygon
+			meshObj->mesh.addPolygon(); 
 
-		//		start_next->setPrev(&meshObj->mesh.edges[numEdges() - 1]);
-		//		e->setNext(&meshObj->mesh.edges[numEdges() - 1]);
+			zItMeshFace f(*meshObj, start.getFace().getId());
 
-		//		meshObj->mesh.faces[numPolygons() - 1].setEdge(start_next);
+			// update edge pointers
+			zItMeshHalfEdge e1_next = e1.getNext();
+			zItMeshHalfEdge e2_next = e2.getNext();
+			
 
-		//		// edge face pointers to new face
-		//		zEdge *newFace_E = start_next;
+			int e1_next_index = numHalfEdges() - 2;
+			zItMeshHalfEdge newNext(*meshObj, e1_next_index);
 
-		//		do
-		//		{
-		//			newFace_E->setFace(&meshObj->mesh.faces[numPolygons() - 1]);
+			e1.setNext(newNext);
+			e2_next.setPrev(newNext);
+			newNext.setFace(f);
 
-		//			if (newFace_E->getNext()) newFace_E = newFace_E->getNext();
-		//			else exit = true;
+			int e1_prev_index = numHalfEdges() - 1;
+			zItMeshHalfEdge newPrev (*meshObj, e1_prev_index);
 
-		//		} while (newFace_E != start_next && !exit);
+			e1_next.setPrev(newPrev);
+			e2.setNext(newPrev);
 
-		//	}
+			// update edge face pointers to new face
+			zItMeshHalfEdge newFace_E = e1_next;
+			zItMeshFace newFace_f(*meshObj, numPolygons() - 1);
+				
+			exit = false;
+			do
+			{
+				newFace_E.setFace(newFace_f);
 
-		//}
+				if (!newFace_E.getNext().end()) newFace_E = newFace_E.getNext();
+				else exit = true;
+
+			} while (newFace_E != e1_next && !exit);
+
+			//update face pointers
+			f.setHalfEdge(newNext);
+			newFace_f.setHalfEdge(newPrev);
+
+	
+		}
 
 
 	}
+
+
+	//ZSPACE_INLINE void zFnMesh::splitFaces(vector<int> &edgeList, vector<double> &edgeFactor)
+	//{
+	//	cout << endl << "splittingFace" << endl;
+	//	if (edgeFactor.size() > 0)
+	//	{
+	//		if (edgeList.size() != edgeFactor.size()) throw std::invalid_argument(" error: size of edgelist and edge factor dont match.");
+	//	}
+
+	//	int numOriginalVertices = meshObj->mesh.vertexActive.size();
+	//	int numOriginalEdges = meshObj->mesh.edgeActive.size();
+	//	int numOriginalFaces = meshObj->mesh.faceActive.size();
+
+	//	for (int i = 0; i < edgeList.size(); i++)
+	//	{
+	//		if (edgeFactor.size() > 0) splitEdge( edgeList[i], edgeFactor[i]);
+	//		else splitEdge( edgeList[i]);
+	//	}
+
+	//	for (int j = 0; j < edgeList.size(); j++)
+	//	{
+	//		for (int i = 0; i < 2; i++)
+	//		{
+	//			zEdge *start = (i == 0) ? &meshObj->mesh.edges[edgeList[j]] : meshObj->mesh.edges[edgeList[j]].getSym();
+
+	//			zEdge *e = start;
+
+	//			if (!start->getFace()) continue;
+
+	//			bool exit = false;
+
+	//			int v1 = start->getVertex()->getVertexId();
+	//			int v2 = start->getVertex()->getVertexId();
+
+	//			do
+	//			{
+	//				if (e->getNext())
+	//				{
+	//					e = e->getNext();
+	//					if (e->getVertex()->getVertexId() > numOriginalVertices)
+	//					{
+	//						v2 = e->getVertex()->getVertexId();
+	//						exit = true;
+	//					}
+	//				}
+	//				else exit = true;
+
+	//			} while (e != start && !exit);
+
+	//			// add new edges and face
+	//			if (v1 == v2) continue;
+
+	//			// check if edge exists continue loop. 
+	//			int outEdgeId;
+	//			bool eExists = meshObj->mesh.edgeExists(v1, v2, outEdgeId);
+
+	//			if (eExists) continue;
+
+	//			int startEdgeId = start->getEdgeId();
+	//			int e_EdgeId = e->getEdgeId();
+
+	//			bool resizeEdges = meshObj->mesh.addEdges(v1, v2);
+
+	//			if (resizeEdges)
+	//			{
+	//				start = &meshObj->mesh.edges[startEdgeId];
+	//				e = &meshObj->mesh.edges[e_EdgeId];
+	//			}
+
+	//			meshObj->mesh.addPolygon(); // empty polygon
+
+	//								 // update pointers
+	//			zEdge *start_next = start->getNext();
+	//			zEdge *e_next = e->getNext();
+
+	//			start->setNext(&meshObj->mesh.edges[numEdges() - 2]);
+	//			e_next->setPrev(&meshObj->mesh.edges[numEdges() - 2]);
+
+	//			start_next->setPrev(&meshObj->mesh.edges[numEdges() - 1]);
+	//			e->setNext(&meshObj->mesh.edges[numEdges() - 1]);
+
+	//			meshObj->mesh.faces[numPolygons() - 1].setEdge(start_next);
+
+	//			// edge face pointers to new face
+	//			zEdge *newFace_E = start_next;
+
+	//			do
+	//			{
+	//				newFace_E->setFace(&meshObj->mesh.faces[numPolygons() - 1]);
+
+	//				if (newFace_E->getNext()) newFace_E = newFace_E->getNext();
+	//				else exit = true;
+
+	//			} while (newFace_E != start_next && !exit);
+
+	//		}
+
+	//	}
+
+
+	//}
 
 	ZSPACE_INLINE void zFnMesh::subdivide(int numDivisions)
 	{
