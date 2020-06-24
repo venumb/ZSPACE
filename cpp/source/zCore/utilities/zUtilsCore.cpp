@@ -48,10 +48,13 @@ namespace zSpace
 
 	ZSPACE_INLINE int zUtilsCore::getNumfiles(string dirPath)
 	{
+
 		int out = 0;
-
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 		for (const auto & entry : fs::directory_iterator(dirPath)) out++;
-
+#endif
 		return out;
 	}
 
@@ -67,13 +70,15 @@ namespace zSpace
 		if (type == zBMP) extension = ".bmp";
 		if (type == zPNG) extension = ".png";
 		if (type == zJPEG) extension = ".jpeg";
-
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
 
 		for (const auto & entry : fs::directory_iterator(dirPath))
 		{
 			if ((entry.path().extension()) == extension) out++;
 		}
-
+#endif
 		return out;
 	}
 
@@ -83,7 +88,7 @@ namespace zSpace
 
 		if (dirPath.back() != '/') dirPath += "/";
 
-		vector< fs::path> file_paths;
+		
 
 		string extension;
 		if (type == zJSON) extension = ".json";
@@ -91,7 +96,10 @@ namespace zSpace
 		if (type == zTXT) extension = ".txt";
 		if (type == zCSV) extension = ".csv";
 		if (type == zBMP) extension = ".bmp";
-
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+		// Do Nothing
+#else
+		vector< fs::path> file_paths;
 		for (const auto & entry : fs::directory_iterator(dirPath))
 		{
 			if ((entry.path().extension()) == extension) file_paths.push_back(entry.path());
@@ -103,6 +111,7 @@ namespace zSpace
 		// store as string
 		vector<fs::path>::iterator it;
 		for (it = file_paths.begin(); it != file_paths.end(); ++it)fpaths.push_back(it->string());
+#endif
 	}
 
 	//---- STRING METHODS
@@ -736,8 +745,8 @@ namespace zSpace
 	{
 		zPoint out;
 
-		double azimuth_radians = azimuth * DEG_TO_RAD;
-		double altitude_radians = altitude * DEG_TO_RAD;
+		double azimuth_radians = azimuth * zDEG_TO_RAD;
+		double altitude_radians = altitude * zDEG_TO_RAD;
 
 		out.x = radius * cos(altitude_radians) * sin(azimuth_radians);
 		out.y = radius * cos(altitude_radians) * cos(azimuth_radians);
@@ -1311,6 +1320,7 @@ namespace zSpace
 
 		averagePt /= points.size();
 
+#ifndef USING_CLR
 		arma::mat X_arma(points.size(), 3);
 		for (int i = 0; i < points.size(); i++)
 		{
@@ -1326,6 +1336,7 @@ namespace zSpace
 		mat V;
 		svd(U, s, V, X_arma);
 
+
 		// x
 		out(0, 0) = V(0, 0); 	out(1, 0) = V(1, 0);	out(2, 0) = V(2, 0);
 
@@ -1338,6 +1349,10 @@ namespace zSpace
 		// o
 		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
 
+	
+
+#else
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		MatrixXd X_eigen(points.size(), 3);
 		for (int i = 0; i < points.size(); i++)
 		{
@@ -1347,17 +1362,16 @@ namespace zSpace
 
 		}
 
-
 		//Matrix3f covarianceMat;
-		////X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
+		//X_eigen.bdcSvd(ComputeThinU | ComputeThinV).solve(covarianceMat);
 
-		//BDCSVD<Matrix3d> svd;
-		//svd.compute(X_eigen);
+		BDCSVD<Matrix3d> svd;
+		svd.compute(X_eigen);
 
-		//cout << "\n eigen \n " << svd.computeV();
+		cout << "\n eigen \n " << svd.computeV();
 
 		// compute covariance matrix 
-		/*SelfAdjointEigenSolver<Matrix3f> eigensolver;
+		SelfAdjointEigenSolver<Matrix3f> eigensolver;
 		Matrix3f covarianceMat;
 
 		for (int i = 0; i < 3; i++)
@@ -1387,12 +1401,30 @@ namespace zSpace
 		vector<double> X = { eigensolver.eigenvectors().col(2)(0), eigensolver.eigenvectors().col(2)(1), eigensolver.eigenvectors().col(2)(2), 1 };
 		vector<double> Y = { eigensolver.eigenvectors().col(1)(0), eigensolver.eigenvectors().col(1)(1), eigensolver.eigenvectors().col(1)(2), 1 };
 		vector<double> Z = { eigensolver.eigenvectors().col(0)(0), eigensolver.eigenvectors().col(0)(1), eigensolver.eigenvectors().col(0)(2), 1 };
-		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };*/
+		vector<double> O = { averagePt.x, averagePt.y, averagePt.z, 1 };
 
-		/*out.setCol(0, X);
-		out.setCol(1, Y);
-		out.setCol(2, Z);
-		out.setCol(3, O);*/
+		//out.setCol(0, X);
+		//out.setCol(1, Y);
+		//out.setCol(2, Z);
+		//out.setCol(3, O);
+
+		// x
+		out(0, 0) = X[0]; 	out(1, 0) = X[1];	out(2, 0) = X[2];
+
+		// y
+		out(0, 1) = Y[0]; 	out(1, 1) = Y[1];	out(2, 1) = Y[2];
+
+		// z
+		out(0, 2) = Z[0];	out(1, 2) = Z[1];	out(2, 2) = Z[2];
+
+		// o
+		out(0, 3) = averagePt.x;	out(1, 3) = averagePt.y;	out(2, 3) = averagePt.z;
+
+#endif // !USING_CLR
+
+
+		
+		
 
 		return out;
 	}
@@ -1529,8 +1561,8 @@ namespace zSpace
 	}
 
 	//---- MATRIX  METHODS USING ARMADILLO
-
 #ifndef USING_CLR 
+
 
 	ZSPACE_INLINE arma::mat zUtilsCore::rref(arma::mat A, double tol)
 	{

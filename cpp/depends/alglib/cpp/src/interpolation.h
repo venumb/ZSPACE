@@ -3847,7 +3847,7 @@ INPUT PARAMETERS:
     A   -   left boundary of [A,B]
     B   -   right boundary of [A,B]
     Y   -   function values at the nodes, array[0..N-1],
-            Y[I] = Y(0.5*(B+A) + 0.5*(B-A)*Cos(PI*(2*i+1)/(2*n)))
+            Y[I] = Y(0.5*(B+A) + 0.5*(B-A)*Cos(zPI*(2*i+1)/(2*n)))
     N   -   number of points, N>=1
             for N=1 a constant model is constructed.
 
@@ -3871,7 +3871,7 @@ INPUT PARAMETERS:
     A   -   left boundary of [A,B]
     B   -   right boundary of [A,B]
     Y   -   function values at the nodes, array[0..N-1],
-            Y[I] = Y(0.5*(B+A) + 0.5*(B-A)*Cos(PI*i/(n-1)))
+            Y[I] = Y(0.5*(B+A) + 0.5*(B-A)*Cos(zPI*i/(n-1)))
     N   -   number of points, N>=1
             for N=1 a constant model is constructed.
 
@@ -3924,7 +3924,7 @@ INPUT PARAMETERS:
     B   -   right boundary of [A,B]
     F   -   function values, array[0..N-1]
     N   -   number of points on Chebyshev grid (first kind),
-            X[i] = 0.5*(B+A) + 0.5*(B-A)*Cos(PI*(2*i+1)/(2*n))
+            X[i] = 0.5*(B+A) + 0.5*(B-A)*Cos(zPI*(2*i+1)/(2*n))
             for N=1 a constant model is constructed.
     T   -   position where P(x) is calculated
 
@@ -3954,7 +3954,7 @@ INPUT PARAMETERS:
     B   -   right boundary of [A,B]
     F   -   function values, array[0..N-1]
     N   -   number of points on Chebyshev grid (second kind),
-            X[i] = 0.5*(B+A) + 0.5*(B-A)*Cos(PI*i/(n-1))
+            X[i] = 0.5*(B+A) + 0.5*(B-A)*Cos(zPI*i/(n-1))
             for N=1 a constant model is constructed.
     T   -   position where P(x) is calculated
 

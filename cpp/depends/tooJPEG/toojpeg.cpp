@@ -510,7 +510,7 @@ bool writeJpeg(WRITE_ONE_BYTE output, const void* pixels_, unsigned short width,
     auto row    = ZigZagInv[i] / 8; // same as ZigZagInv[i] >> 3
     auto column = ZigZagInv[i] % 8; // same as ZigZagInv[i] &  7
 
-    // scaling constants for AAN DCT algorithm: AanScaleFactors[0] = 1, AanScaleFactors[k=1..7] = cos(k*PI/16) * sqrt(2)
+    // scaling constants for AAN DCT algorithm: AanScaleFactors[0] = 1, AanScaleFactors[k=1..7] = cos(k*zPI/16) * sqrt(2)
     static const float AanScaleFactors[8] = { 1, 1.387039845f, 1.306562965f, 1.175875602f, 1, 0.785694958f, 0.541196100f, 0.275899379f };
     auto factor = 1 / (AanScaleFactors[row] * AanScaleFactors[column] * 8);
     scaledLuminance  [ZigZagInv[i]] = factor / quantLuminance  [i];

@@ -121,7 +121,7 @@
 #include <math.h>
 #include "spa.h"
 
-#define PI         3.1415926535897932384626433832795028841971
+#define zPI         3.1415926535897932384626433832795028841971
 #define SUN_RADIUS 0.26667
 
 #define L_COUNT 6
@@ -522,12 +522,12 @@ const double PE_TERMS[Y_COUNT][TERM_PE_COUNT]={
 
 double rad2deg(double radians)
 {
-    return (180.0/PI)*radians;
+    return (180.0/zPI)*radians;
 }
 
 double deg2rad(double degrees)
 {
-    return (PI/180.0)*degrees;
+    return (zPI/180.0)*degrees;
 }
 
 int integer(double value)

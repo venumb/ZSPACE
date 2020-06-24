@@ -206,16 +206,16 @@ namespace zSpace
 		double LDeg = (double)fmod((280.460 + 0.9856474 * n), 360.0);
 		double gDeg = (double)fmod((357.528 + 0.9856003 * n), 360.0);
 
-		double LambdaDeg = LDeg + 1.915 * sin(gDeg * DEG_TO_RAD) + 0.01997 * sin(2 * gDeg * DEG_TO_RAD);
+		double LambdaDeg = LDeg + 1.915 * sin(gDeg * zDEG_TO_RAD) + 0.01997 * sin(2 * gDeg * zDEG_TO_RAD);
 
 		double epsilonDeg = 23.439 - 0.0000004 * n;
 
 		double alphaDeg;
-		alphaDeg = atan(cos(epsilonDeg * DEG_TO_RAD) * tan(LambdaDeg * DEG_TO_RAD));
-		alphaDeg *= RAD_TO_DEG;
-		if (cos(LambdaDeg  * DEG_TO_RAD) < 0)	alphaDeg += (4 * (atan(1.0) * RAD_TO_DEG));
+		alphaDeg = atan(cos(epsilonDeg * zDEG_TO_RAD) * tan(LambdaDeg * zDEG_TO_RAD));
+		alphaDeg *= zRAD_TO_DEG;
+		if (cos(LambdaDeg  * zDEG_TO_RAD) < 0)	alphaDeg += (4 * (atan(1.0) * zRAD_TO_DEG));
 
-		double deltaDeg = asin(sin(epsilonDeg * DEG_TO_RAD) * sin(LambdaDeg  * DEG_TO_RAD)) * RAD_TO_DEG;
+		double deltaDeg = asin(sin(epsilonDeg * zDEG_TO_RAD) * sin(LambdaDeg  * zDEG_TO_RAD)) * zRAD_TO_DEG;
 
 		zDate dZero(date.tm_year, date.tm_mon, date.tm_mday, 0, 0);
 		double JDNull = dZero.toJulian();
@@ -230,17 +230,17 @@ namespace zSpace
 
 		double tauDeg = theta - alphaDeg;
 
-		double denom = (cos(tauDeg  * DEG_TO_RAD)*sin(phi  * DEG_TO_RAD) - tan(deltaDeg  * DEG_TO_RAD)*cos(phi  * DEG_TO_RAD));
-		double aDeg = atan(sin(tauDeg  * DEG_TO_RAD) / denom);
-		aDeg *= RAD_TO_DEG;
+		double denom = (cos(tauDeg  * zDEG_TO_RAD)*sin(phi  * zDEG_TO_RAD) - tan(deltaDeg  * zDEG_TO_RAD)*cos(phi  * zDEG_TO_RAD));
+		double aDeg = atan(sin(tauDeg  * zDEG_TO_RAD) / denom);
+		aDeg *= zRAD_TO_DEG;
 		if (denom < 0) aDeg = aDeg + 180;
 		aDeg += 180; //add 180 to azimuth to compute from the north.
 
-		double hDeg = asin(cos(deltaDeg  * DEG_TO_RAD)*cos(tauDeg  * DEG_TO_RAD)*cos(phi  * DEG_TO_RAD) + sin(deltaDeg  * DEG_TO_RAD)*sin(phi  * DEG_TO_RAD));
-		hDeg *= RAD_TO_DEG;
+		double hDeg = asin(cos(deltaDeg  * zDEG_TO_RAD)*cos(tauDeg  * zDEG_TO_RAD)*cos(phi  * zDEG_TO_RAD) + sin(deltaDeg  * zDEG_TO_RAD)*sin(phi  * zDEG_TO_RAD));
+		hDeg *= zRAD_TO_DEG;
 
 		double valDeg = hDeg + (10.3 / (hDeg + 5.11));
-		double RDeg = 1.02 / (tan(valDeg * DEG_TO_RAD));
+		double RDeg = 1.02 / (tan(valDeg * zDEG_TO_RAD));
 
 		double hRDeg = hDeg + (RDeg / 60);
 
@@ -262,20 +262,20 @@ namespace zSpace
 
 		double js = n - (location.longitude / 360.0);
 
-		double m = (double)fmod((357.5291 + 0.98560028 * js), 360.0) * DEG_TO_RAD; // radians
+		double m = (double)fmod((357.5291 + 0.98560028 * js), 360.0) * zDEG_TO_RAD; // radians
 
 		double c = 1.9148 * sin(m) + 0.02 * sin(2 * m) + 0.0003 * sin(3 * m);
 
-		double mDeg = m * RAD_TO_DEG;
+		double mDeg = m * zRAD_TO_DEG;
 		double lambdaDeg = (double)fmod((mDeg + c + 180 + 102.9372), 360.0); //deg
-		double lambda = lambdaDeg * DEG_TO_RAD;
+		double lambda = lambdaDeg * zDEG_TO_RAD;
 
 		double jt = 2451545.0 + js + ((0.0053 * sin(m)) - (0.0069 * sin(2 * lambda)));
 
-		double delta = asin(sin(lambda) * sin(23.44 * DEG_TO_RAD));
+		double delta = asin(sin(lambda) * sin(23.44 * zDEG_TO_RAD));
 
-		double cosOmega = (sin(-0.83 * DEG_TO_RAD) - (sin(location.latitude * DEG_TO_RAD) * sin(delta))) / (cos(location.latitude * DEG_TO_RAD) * cos(delta));
-		double omegaDeg = acos(cosOmega) * RAD_TO_DEG;
+		double cosOmega = (sin(-0.83 * zDEG_TO_RAD) - (sin(location.latitude * zDEG_TO_RAD) * sin(delta))) / (cos(location.latitude * zDEG_TO_RAD) * cos(delta));
+		double omegaDeg = acos(cosOmega) * zRAD_TO_DEG;
 
 		double j;
 

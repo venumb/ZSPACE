@@ -50,16 +50,16 @@ ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 	float LDeg = (float)fmod((280.460 + 0.9856474 * n), 360.0);
 	float gDeg = (float)fmod((357.528 + 0.9856003 * n), 360.0);
 
-	float LambdaDeg = LDeg + 1.915 * sin(gDeg * DEG_TO_RAD) + 0.01997 * sin(2 * gDeg * DEG_TO_RAD);
+	float LambdaDeg = LDeg + 1.915 * sin(gDeg * zDEG_TO_RAD) + 0.01997 * sin(2 * gDeg * zDEG_TO_RAD);
 
 	float epsilonDeg = 23.439 - 0.0000004 * n;
 
 	float alphaDeg;
-	alphaDeg = atan(cos(epsilonDeg * DEG_TO_RAD) * tan(LambdaDeg * DEG_TO_RAD));
-	alphaDeg *= RAD_TO_DEG;
-	if (cos(LambdaDeg  * DEG_TO_RAD) < 0)	alphaDeg += (4 * (atan(1.0) * RAD_TO_DEG));
+	alphaDeg = atan(cos(epsilonDeg * zDEG_TO_RAD) * tan(LambdaDeg * zDEG_TO_RAD));
+	alphaDeg *= zRAD_TO_DEG;
+	if (cos(LambdaDeg  * zDEG_TO_RAD) < 0)	alphaDeg += (4 * (atan(1.0) * zRAD_TO_DEG));
 
-	float deltaDeg = asin(sin(epsilonDeg * DEG_TO_RAD) * sin(LambdaDeg  * DEG_TO_RAD)) * RAD_TO_DEG;
+	float deltaDeg = asin(sin(epsilonDeg * zDEG_TO_RAD) * sin(LambdaDeg  * zDEG_TO_RAD)) * zRAD_TO_DEG;
 
 	zDate dZero(date.tm_year, date.tm_mon, date.tm_mday, 0, 0);
 	double JDNull = dZero.toJulian();
@@ -74,21 +74,21 @@ ZSPACE_CUDA_CALLABLE zVector getSunPosition(zDate &date, zLocation &location)
 
 	float tauDeg = theta - alphaDeg;
 
-	float denom = (cos(tauDeg  * DEG_TO_RAD)*sin(location.latitude  * DEG_TO_RAD) - tan(deltaDeg  * DEG_TO_RAD)*cos(location.latitude  * DEG_TO_RAD));
-	float aDeg = atan(sin(tauDeg  * DEG_TO_RAD) / denom);
-	aDeg *= RAD_TO_DEG;
+	float denom = (cos(tauDeg  * zDEG_TO_RAD)*sin(location.latitude  * zDEG_TO_RAD) - tan(deltaDeg  * zDEG_TO_RAD)*cos(location.latitude  * zDEG_TO_RAD));
+	float aDeg = atan(sin(tauDeg  * zDEG_TO_RAD) / denom);
+	aDeg *= zRAD_TO_DEG;
 	if (denom < 0) aDeg = aDeg + 180;
 	aDeg += 180; //add 180 to azimuth to compute from the north.
 
-	float hDeg = asin(cos(deltaDeg  * DEG_TO_RAD)*cos(tauDeg  * DEG_TO_RAD)*cos(location.latitude  * DEG_TO_RAD) + sin(deltaDeg  * DEG_TO_RAD)*sin(location.latitude  * DEG_TO_RAD));
-	hDeg *= RAD_TO_DEG;
+	float hDeg = asin(cos(deltaDeg  * zDEG_TO_RAD)*cos(tauDeg  * zDEG_TO_RAD)*cos(location.latitude  * zDEG_TO_RAD) + sin(deltaDeg  * zDEG_TO_RAD)*sin(location.latitude  * zDEG_TO_RAD));
+	hDeg *= zRAD_TO_DEG;
 
 	float valDeg = hDeg + (10.3 / (hDeg + 5.11));
-	float RDeg = 1.02 / (tan(valDeg * DEG_TO_RAD));
+	float RDeg = 1.02 / (tan(valDeg * zDEG_TO_RAD));
 
 	float hRDeg = hDeg + (RDeg / 60);
 
-	return zPoint(cos(aDeg * DEG_TO_RAD) * sin(hRDeg * DEG_TO_RAD), cos(aDeg * DEG_TO_RAD) * cos(hRDeg * DEG_TO_RAD), sin(aDeg * DEG_TO_RAD));
+	return zPoint(cos(aDeg * zDEG_TO_RAD) * sin(hRDeg * zDEG_TO_RAD), cos(aDeg * zDEG_TO_RAD) * cos(hRDeg * zDEG_TO_RAD), sin(aDeg * zDEG_TO_RAD));
 }
 
 ZSPACE_EXTERN void cleanDeviceMemory()

@@ -81,16 +81,16 @@ namespace zSpace
 	{
 		if (addValues)
 		{
-			rotation[0] += DEG_TO_RAD * _rotation[0];
-			rotation[1] += DEG_TO_RAD * _rotation[1];
-			rotation[2] += DEG_TO_RAD * _rotation[2];
+			rotation[0] += zDEG_TO_RAD * _rotation[0];
+			rotation[1] += zDEG_TO_RAD * _rotation[1];
+			rotation[2] += zDEG_TO_RAD * _rotation[2];
 			rotation[3] = _rotation[3];
 		}
 		else
 		{
-			rotation[0] = DEG_TO_RAD * _rotation[0];
-			rotation[1] = DEG_TO_RAD * _rotation[1];
-			rotation[2] = DEG_TO_RAD * _rotation[2];
+			rotation[0] = zDEG_TO_RAD * _rotation[0];
+			rotation[1] = zDEG_TO_RAD * _rotation[1];
+			rotation[2] = zDEG_TO_RAD * _rotation[2];
 			rotation[3] = _rotation[3];
 		}
 
@@ -193,9 +193,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTransformationMatrix::getRotation(zFloat4 &_rotation)
 	{
-		_rotation[0] = RAD_TO_DEG * rotation[0];
-		_rotation[1] = RAD_TO_DEG * rotation[1];
-		_rotation[2] = RAD_TO_DEG * rotation[2];
+		_rotation[0] = zRAD_TO_DEG * rotation[0];
+		_rotation[1] = zRAD_TO_DEG * rotation[1];
+		_rotation[2] = zRAD_TO_DEG * rotation[2];
 		_rotation[3] = rotation[3];
 
 	}
@@ -490,7 +490,7 @@ namespace zSpace
 		if (R(0, 2) != 1 && R(0, 2) != -1)
 		{
 			rot0[1] = asin(R(0, 2)) * -1;
-			rot1[1] = PI - rot0[1];
+			rot1[1] = zPI - rot0[1];
 
 			rot0[0] = atan2(R(1, 2) / cos(rot0[1]), R(2, 2) / cos(rot0[1]));
 			rot1[1] = atan2(R(1, 2) / cos(rot1[1]), R(2, 2) / cos(rot1[1]));

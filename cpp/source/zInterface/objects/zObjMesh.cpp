@@ -20,7 +20,7 @@ namespace zSpace
 	ZSPACE_INLINE zObjMesh::zObjMesh()
 	{
 
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) 
 		// Do Nothing
 #else
 		displayUtils = nullptr;
@@ -138,7 +138,7 @@ namespace zSpace
 		coreUtils.getBounds(mesh.vertexPositions, minBB, maxBB);
 	}
 
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) 
 	// Do Nothing
 #else
 	   

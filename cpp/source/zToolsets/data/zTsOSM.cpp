@@ -78,10 +78,10 @@ namespace zSpace
 	{
 		double R = 6378.137; // Radius of earth in KM
 
-		double dLat = (lat2 * PI / 180) - (lat1 * PI / 180);
-		double dLon = (lon2 * PI / 180) - (lon1 * PI / 180);
+		double dLat = (lat2 * zPI / 180) - (lat1 * zPI / 180);
+		double dLon = (lon2 * zPI / 180) - (lon1 * zPI / 180);
 
-		double a = sin(dLat / 2) * sin(dLat / 2) + cos(lat1 * PI / 180) * cos(lat2 * PI / 180) * sin(dLon / 2) * sin(dLon / 2);
+		double a = sin(dLat / 2) * sin(dLat / 2) + cos(lat1 * zPI / 180) * cos(lat2 * zPI / 180) * sin(dLon / 2) * sin(dLon / 2);
 		double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 		double d = R * c;
 

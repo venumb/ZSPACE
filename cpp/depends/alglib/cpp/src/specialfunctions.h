@@ -981,7 +981,7 @@ zero, of the argument.
 The domain is divided into the intervals [0, 5] and
 (5, infinity). In the first interval a rational approximation
 R(x) is employed to compute
-  y0(x)  = R(x)  +   2 * log(x) * j0(x) / PI.
+  y0(x)  = R(x)  +   2 * log(x) * j0(x) / zPI.
 Thus a call to j0() is required.
 
 In the second interval, the Hankel asymptotic expansion

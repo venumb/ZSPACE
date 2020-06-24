@@ -125,9 +125,9 @@ namespace zSpace
 		{
 			zDHparameter DH;
 
-			DH.alpha = _alpha[i] * DEG_TO_RAD;
+			DH.alpha = _alpha[i] * zDEG_TO_RAD;
 			DH.d = _d[i] * robot_scale;
-			DH.theta = _theta[i] * DEG_TO_RAD;
+			DH.theta = _theta[i] * zDEG_TO_RAD;
 			DH.a = _a[i] * robot_scale;
 
 			Bars.push_back(zLink(DH));
@@ -332,7 +332,7 @@ namespace zSpace
 				std::printf("\n joint %i roation isNAN.", i);
 			}
 
-			Bars[i].linkDH.theta = (jointRotations[i].rotation)  * DEG_TO_RAD;
+			Bars[i].linkDH.theta = (jointRotations[i].rotation)  * zDEG_TO_RAD;
 		}
 
 		for (int i = 0; i < DOF; i++)Bars[i].updateTransform();
@@ -375,11 +375,11 @@ namespace zSpace
 		double th1 = atan2(s, r) - atan2(k2, k1);
 
 
-		jointRotations[0].rotation = th0 * RAD_TO_DEG;
-		jointRotations[1].rotation = (th1)* RAD_TO_DEG;
+		jointRotations[0].rotation = th0 * zRAD_TO_DEG;
+		jointRotations[1].rotation = (th1)* zRAD_TO_DEG;
 
 		double dq2 = atan2(Bars[2].linkDH.a, Bars[3].linkDH.d);
-		jointRotations[2].rotation = (((th2 + dq2) * RAD_TO_DEG) - 90 /*- home_rotations[2]*/) * 1;
+		jointRotations[2].rotation = (((th2 + dq2) * zRAD_TO_DEG) - 90 /*- home_rotations[2]*/) * 1;
 
 
 
@@ -398,9 +398,9 @@ namespace zSpace
 		double th4 = atan2(1.0 * sqrt(1.0 - t * t), t);
 		double th5 = atan2(-r36(2, 1), r36(2, 0));
 
-		jointRotations[3].rotation = (th3 * RAD_TO_DEG);
-		jointRotations[4].rotation = (th4 * RAD_TO_DEG);
-		jointRotations[5].rotation = (th5 * RAD_TO_DEG);
+		jointRotations[3].rotation = (th3 * zRAD_TO_DEG);
+		jointRotations[4].rotation = (th4 * zRAD_TO_DEG);
+		jointRotations[5].rotation = (th5 * zRAD_TO_DEG);
 
 		// SET FORWARD
 		forwardKinematics();
@@ -606,9 +606,9 @@ namespace zSpace
 		{
 			zDHparameter DH;
 
-			DH.alpha = robotJSON.alpha[i] * DEG_TO_RAD;
+			DH.alpha = robotJSON.alpha[i] * zDEG_TO_RAD;
 			DH.d = robotJSON.d[i] * robot_scale;
-			DH.theta = robotJSON.theta[i] * DEG_TO_RAD;
+			DH.theta = robotJSON.theta[i] * zDEG_TO_RAD;
 			DH.a = robotJSON.a[i] * robot_scale;
 
 			Bars.push_back(zLink(DH));

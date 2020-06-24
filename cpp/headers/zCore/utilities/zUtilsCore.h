@@ -37,7 +37,6 @@
 #include <cstdio>
 #include <vector>
 #include <stdio.h>
-#include <direct.h>
 #include <time.h> 
 #include <ctype.h>
 #include <numeric>
@@ -47,7 +46,6 @@
 
 using namespace std;
 
-#include<headers/zCore/utilities/zUtilsPointerMethods.h>
 #include<headers/zCore/utilities/zUtilsBMP.h>
 
 #ifndef __CUDACC__	
@@ -58,7 +56,6 @@ using namespace std;
 
 #ifndef QUICKHULL_H
 	#define _CRT_SECURE_NO_WARNINGS
-	#include <depends/quickhull/quickhull.h>
 #endif 
 
 #endif
@@ -67,6 +64,10 @@ using namespace std;
 	// All defined OK so do nothing
 #else
 	#define QUICKHULL_IMPLEMENTATION
+#include <depends/quickhull/quickhull.h>
+#include<headers/zCore/utilities/zUtilsPointerMethods.h>
+#include <direct.h>
+
 #endif
 
 
@@ -872,8 +873,8 @@ namespace zSpace
 		//--------------------------
 		//---- MATRIX  METHODS USING ARMADILLO
 		//--------------------------
-
 #ifndef USING_CLR
+
 
 		/*! \brief This method returns the reduced row echelon form of the input matrix. Works with Armadillo matrix.
 		*

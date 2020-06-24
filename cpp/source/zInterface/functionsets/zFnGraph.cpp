@@ -1266,6 +1266,10 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zFnGraph::fromJSON(string infilename)
 	{
+#if defined(ZSPACE_UNREAL_INTEROP)
+
+		return false;
+#else
 		json j;
 		zUtilsJsonHE graphJSON;
 		// read data to json
@@ -1420,7 +1424,7 @@ namespace zSpace
 			graphObj->graph.addToHalfEdgesMap(v1, v2, e.getHalfEdge(0).getId());
 		}
 		return true;
-
+#endif
 	}
 
 	ZSPACE_INLINE void zFnGraph::toTXT(string outfilename)
@@ -1474,6 +1478,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnGraph::toJSON(string outfilename)
 	{
+#if defined(ZSPACE_UNREAL_INTEROP)
+		// All defined OK so do nothing
+#else
 		// remove inactive elements
 		if (numVertices() != graphObj->graph.vertices.size()) removeInactiveElements(zVertexData);
 		if (numEdges() != graphObj->graph.edges.size()) removeInactiveElements(zEdgeData);
@@ -1552,6 +1559,8 @@ namespace zSpace
 		//myfile.precision(16);
 		myfile << j.dump();
 		myfile.close();
+
+#endif
 	}
 
 	//---- PRIVATE METHODS

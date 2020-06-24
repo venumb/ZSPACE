@@ -54,28 +54,28 @@ namespace zSpace
 	#endif
 
 	/*!
-	*	\brief Defines the value of PI.
+	*	\brief Defines the value of zPI.
 	*/
-	#ifndef PI
-	#define PI       3.14159265358979323846
+	#ifndef zPI
+	#define zPI       3.14159265358979323846
 	#endif
 
 	/*!
-	*	\brief Defines the value of 2 times PI.
+	*	\brief Defines the value of 2 times zPI.
 	*/
 	#ifndef TWO_PI
 	#define TWO_PI   6.28318530717958647693
 	#endif
 
 	/*!
-	*	\brief Defines the value of 4 times PI.
+	*	\brief Defines the value of 4 times zPI.
 	*/
 	#ifndef FOUR_PI
 	#define FOUR_PI 12.56637061435917295385
 	#endif
 
 	/*!
-	*	\brief Defines the value of 0.5 times PI.
+	*	\brief Defines the value of 0.5 times zPI.
 	*/
 	#ifndef HALF_PI
 	#define HALF_PI  1.57079632679489661923
@@ -84,15 +84,15 @@ namespace zSpace
 	/*!
 	*	\brief Defines the conversion of degrees to radians.
 	*/
-	#ifndef DEG_TO_RAD
-	#define DEG_TO_RAD (PI/180.0)
+	#ifndef zDEG_TO_RAD
+	#define zDEG_TO_RAD (zPI/180.0)
 	#endif
 
 	/*!
 	*	\brief Defines the conversion of radians to degrees.
 	*/
-	#ifndef RAD_TO_DEG
-	#define RAD_TO_DEG (180.0/PI)
+	#ifndef zRAD_TO_DEG
+	#define zRAD_TO_DEG (180.0/zPI)
 	#endif
 
 	/*!

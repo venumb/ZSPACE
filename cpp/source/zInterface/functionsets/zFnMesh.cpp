@@ -325,6 +325,9 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zFnMesh::checkPointInConvexHull(zPoint &pt)
 	{
+#if defined (ZSPACE_UNREAL_INTEROP) 
+		return false;
+#else
 		bool out = true;
 
 		for (zItMeshFace f(*meshObj); !f.end(); f++)
@@ -334,6 +337,7 @@ namespace zSpace
 		}
 
 		return out;
+#endif
 	}
 
 	//--- COMPUTE METHODS 
@@ -660,6 +664,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::makeConvexHull(zPointArray &_pts)
 	{
+#if defined (ZSPACE_UNREAL_INTEROP) 
+		// Do Nothing
+#else
 		int num = _pts.size();
 		qh_vertex_t *vertices = new qh_vertex_t[num];
 
@@ -686,6 +693,8 @@ namespace zSpace
 		}
 
 		computeMeshNormals();
+
+#endif
 	}
 
 	//--- SET METHODS 
@@ -3290,6 +3299,9 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::toJSON(string outfilename)
 	{
+#if defined(ZSPACE_UNREAL_INTEROP)
+		// All defined OK so do nothing
+#else
 		// remove inactive elements
 		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
 		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
@@ -3391,6 +3403,8 @@ namespace zSpace
 		//myfile.precision(16);
 		myfile << j.dump();
 		myfile.close();
+
+#endif
 	}
 
 	ZSPACE_INLINE bool zFnMesh::fromOBJ(string infilename)
@@ -3493,6 +3507,10 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zFnMesh::fromJSON(string infilename)
 	{
+#if defined(ZSPACE_UNREAL_INTEROP)
+		// All defined OK so do nothing
+		return false;
+#else
 		json j;
 		zUtilsJsonHE meshJSON;
 
@@ -3771,6 +3789,7 @@ namespace zSpace
 		printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
 
 		return true;
+#endif
 	}
 
 	//---- PROTECTED CONTOUR METHODS

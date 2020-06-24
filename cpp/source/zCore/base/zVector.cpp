@@ -234,7 +234,7 @@ namespace zSpace
 			float dotProduct = a * b;
 			float angle = acos(dotProduct);
 
-			return angle * RAD_TO_DEG;
+			return angle * zRAD_TO_DEG;
 		}
 
 	}
@@ -264,7 +264,7 @@ namespace zSpace
 			if (angle < 0) angle += TWO_PI;
 
 
-			return angle * RAD_TO_DEG;
+			return angle * zRAD_TO_DEG;
 		}
 
 
@@ -282,7 +282,7 @@ namespace zSpace
 		zVector cross = v1 ^ v2;
 		float  dtheta = atan2(e * cross, dot);
 
-		return(dtheta * (180.0 / PI));
+		return(dtheta * (180.0 / zPI));
 	}
 
 	ZSPACE_INLINE float zVector::cotan(zVector &v)
@@ -315,7 +315,7 @@ namespace zSpace
 	{
 		axisVec.normalize();
 
-		float theta = DEG_TO_RAD * angle;
+		float theta = zDEG_TO_RAD * angle;
 
 		zMatrix3 rotationMatrix; ;
 
