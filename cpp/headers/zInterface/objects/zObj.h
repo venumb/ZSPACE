@@ -18,13 +18,14 @@
 #include <headers/zCore/utilities/zUtilsCore.h>
 
 #ifndef __CUDACC__
-	#include <headers/zCore/utilities/zUtilsJson.h>
 #endif
 
-#if defined (ZSPACE_UNREAL_INTEROP)
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) 
 	// Do Nothing
 #else
 	#include <headers/zCore/utilities/zUtilsDisplay.h>
+	#include <headers/zCore/utilities/zUtilsJson.h>
+
 #endif 
 
 namespace zSpace
@@ -139,7 +140,7 @@ namespace zSpace
 
 
 
-#if defined (ZSPACE_UNREAL_INTEROP) 
+#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) 
 	// Do Nothing
 #else
 		/*! \brief This method sets display utils.
