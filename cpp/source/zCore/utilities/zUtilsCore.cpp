@@ -48,13 +48,10 @@ namespace zSpace
 
 	ZSPACE_INLINE int zUtilsCore::getNumfiles(string dirPath)
 	{
-
 		int out = 0;
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
-		// Do Nothing
-#else
+
 		for (const auto & entry : fs::directory_iterator(dirPath)) out++;
-#endif
+
 		return out;
 	}
 
@@ -70,15 +67,13 @@ namespace zSpace
 		if (type == zBMP) extension = ".bmp";
 		if (type == zPNG) extension = ".png";
 		if (type == zJPEG) extension = ".jpeg";
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
-		// Do Nothing
-#else
+
 
 		for (const auto & entry : fs::directory_iterator(dirPath))
 		{
 			if ((entry.path().extension()) == extension) out++;
 		}
-#endif
+
 		return out;
 	}
 
@@ -96,9 +91,7 @@ namespace zSpace
 		if (type == zTXT) extension = ".txt";
 		if (type == zCSV) extension = ".csv";
 		if (type == zBMP) extension = ".bmp";
-#if defined (ZSPACE_UNREAL_INTEROP) || defined (ZSPACE_MAYA_INTEROP) || defined (ZSPACE_RHINO_INTEROP)
-		// Do Nothing
-#else
+
 		vector< fs::path> file_paths;
 		for (const auto & entry : fs::directory_iterator(dirPath))
 		{
@@ -111,7 +104,6 @@ namespace zSpace
 		// store as string
 		vector<fs::path>::iterator it;
 		for (it = file_paths.begin(); it != file_paths.end(); ++it)fpaths.push_back(it->string());
-#endif
 	}
 
 	//---- STRING METHODS

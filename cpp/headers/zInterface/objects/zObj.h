@@ -16,6 +16,8 @@
 #pragma once
 
 #include <headers/zCore/utilities/zUtilsCore.h>
+#include <headers/zCore/utilities/zUtilsJson.h>
+
 
 #ifndef __CUDACC__
 #endif
@@ -24,7 +26,6 @@
 	// Do Nothing
 #else
 	#include <headers/zCore/utilities/zUtilsDisplay.h>
-	#include <headers/zCore/utilities/zUtilsJson.h>
 
 #endif 
 

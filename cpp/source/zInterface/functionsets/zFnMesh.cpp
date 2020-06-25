@@ -3299,9 +3299,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zFnMesh::toJSON(string outfilename)
 	{
-#if defined(ZSPACE_UNREAL_INTEROP)
-		// All defined OK so do nothing
-#else
+
 		// remove inactive elements
 		if (numVertices() != meshObj->mesh.vertices.size()) garbageCollection(zVertexData);
 		if (numEdges() != meshObj->mesh.edges.size()) garbageCollection(zEdgeData);
@@ -3404,7 +3402,6 @@ namespace zSpace
 		myfile << j.dump();
 		myfile.close();
 
-#endif
 	}
 
 	ZSPACE_INLINE bool zFnMesh::fromOBJ(string infilename)
@@ -3507,10 +3504,7 @@ namespace zSpace
 
 	ZSPACE_INLINE bool zFnMesh::fromJSON(string infilename)
 	{
-#if defined(ZSPACE_UNREAL_INTEROP)
-		// All defined OK so do nothing
-		return false;
-#else
+
 		json j;
 		zUtilsJsonHE meshJSON;
 
@@ -3789,7 +3783,6 @@ namespace zSpace
 		printf("\n mesh: %i %i %i ", numVertices(), numEdges(), numPolygons());
 
 		return true;
-#endif
 	}
 
 	//---- PROTECTED CONTOUR METHODS

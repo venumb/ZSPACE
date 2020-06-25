@@ -47,6 +47,7 @@
 using namespace std;
 
 #include<headers/zCore/utilities/zUtilsBMP.h>
+#include<headers/zCore/utilities/zUtilsPointerMethods.h>
 
 #ifndef __CUDACC__	
 
@@ -65,7 +66,7 @@ using namespace std;
 #else
 	#define QUICKHULL_IMPLEMENTATION
 #include <depends/quickhull/quickhull.h>
-#include<headers/zCore/utilities/zUtilsPointerMethods.h>
+
 #include <direct.h>
 
 #endif
