@@ -36,6 +36,7 @@
 #include <string>
 #include <cstdio>
 #include <vector>
+#include <direct.h>
 #include <stdio.h>
 #include <time.h> 
 #include <ctype.h>
@@ -67,7 +68,7 @@ using namespace std;
 	#define QUICKHULL_IMPLEMENTATION
 #include <depends/quickhull/quickhull.h>
 
-#include <direct.h>
+
 
 #endif
 

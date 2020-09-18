@@ -149,6 +149,7 @@ Global
 		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release_Make|x86.ActiveCfg = Release|x64
 		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release_Make|x86.Build.0 = Release|x64
 		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release_Unreal|x64.ActiveCfg = Release_Unreal|x64
+		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release_Unreal|x64.Build.0 = Release_Unreal|x64
 		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release_Unreal|x86.ActiveCfg = Release_Unreal|x64
 		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release|x64.ActiveCfg = Release|x64
 		{AC6C11FF-1F49-4025-87EC-F25C219971F4}.Release|x64.Build.0 = Release|x64

@@ -175,7 +175,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsRobot::createRobotJointMeshesfromFile(string directory, zFileTpye type, bool endeffector)
 	{
-		fnMeshJoints.clear();
+		//fnMeshJoints.clear();
 
 		if (type == zJSON)
 		{
