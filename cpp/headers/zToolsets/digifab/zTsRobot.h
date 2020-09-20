@@ -294,10 +294,6 @@ namespace zSpace
 		zTransform robot_endEffector_matrix;
 
 
-		/*!	\brief contatiner of robot GCode  */
-		vector<zGCode> robot_gCode;
-	
-
 	public:
 		//--------------------------
 		//---- PUBLIC ATTRIBUTES
@@ -320,6 +316,9 @@ namespace zSpace
 
 		/*!	\brief contatiner of robot target transforms  */
 		vector<zTransform> robotTargets;
+
+		/*!	\brief contatiner of robot GCode  */
+		vector<zGCode> robot_gCode;
 
 		//--------------------------
 		//---- CONSTRUCTOR
