@@ -3785,6 +3785,199 @@ namespace zSpace
 		return true;
 	}
 
+	ZSPACE_INLINE void zFnMesh::fromOBJ_string(string objString)
+	{
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		vector<zVector>  vertexNormals;
+		vector<zVector>  faceNormals;
+
+		//
+		std::istringstream f(objString);
+		std::string str;
+		while (std::getline(f, str))
+		{
+
+		//
+
+		/*string out = objString;
+		size_t start = 0;
+		size_t end;
+
+		while (1) 
+		{
+			string str;
+			if ((end = out.find("\n", start)) == string::npos) {
+				if (!(str = out.substr(start)).empty()) {
+					std::printf("%s\n", str.c_str());
+				}
+
+				break;
+			}
+
+			str = out.substr(start, end - start);
+			start = end + 1;*/
+		
+
+			vector<string> perlineData = meshObj->mesh.coreUtils.splitString(str, " ");
+
+			if (perlineData.size() > 0)
+			{
+				// vertex
+				if (perlineData[0] == "v")
+				{
+					if (perlineData.size() == 4)
+					{
+
+						zVector pos;
+						pos.x = atof(perlineData[1].c_str());
+						pos.y = atof(perlineData[2].c_str());
+						pos.z = atof(perlineData[3].c_str());
+
+						positions.push_back(pos);
+					}
+					//printf("\n working vertex");
+				}
+
+				// vertex normal
+				if (perlineData[0] == "vn")
+				{
+					//printf("\n working vertex normal ");
+					if (perlineData.size() == 4)
+					{
+						zVector norm;
+						norm.x = atof(perlineData[1].c_str());
+						norm.y = atof(perlineData[2].c_str());
+						norm.z = atof(perlineData[3].c_str());
+
+						vertexNormals.push_back(norm);
+					}
+					//printf("\n working vertex");
+				}
+
+				// face
+				if (perlineData[0] == "f")
+				{
+					zVector norm;
+
+					for (int i = 1; i < perlineData.size(); i++)
+					{
+						vector<string> faceData = meshObj->mesh.coreUtils.splitString(perlineData[i], "/");
+
+						//vector<string> cleanFaceData = splitString(faceData[0], "/\/");
+
+						int id = atoi(faceData[0].c_str()) - 1;
+						polyConnects.push_back(id);
+
+						//printf(" %i ", id);
+
+						int normId = atoi(faceData[faceData.size() - 1].c_str()) - 1;
+						norm += vertexNormals[normId];
+					}
+
+					norm /= (perlineData.size() - 1);
+					norm.normalize();
+					faceNormals.push_back(norm);
+
+					polyCounts.push_back(perlineData.size() - 1);
+					//printf("\n working face ");
+				}
+			}
+		}
+
+		meshObj->mesh.create(positions, polyCounts, polyConnects);;
+		printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
+
+		setFaceNormals(faceNormals);
+
+	}
+
+	ZSPACE_INLINE void zFnMesh::fromOBJ_string(vector<string> linesObj)
+	{
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		vector<zVector>  vertexNormals;
+		vector<zVector>  faceNormals;
+
+		for (auto str : linesObj)
+		{
+			vector<string> perlineData = meshObj->mesh.coreUtils.splitString(str, " ");
+
+			if (perlineData.size() > 0)
+			{
+				// vertex
+				if (perlineData[0] == "v")
+				{
+					if (perlineData.size() == 4)
+					{
+
+						zVector pos;
+						pos.x = atof(perlineData[1].c_str());
+						pos.y = atof(perlineData[2].c_str());
+						pos.z = atof(perlineData[3].c_str());
+
+						positions.push_back(pos);
+					}
+					//printf("\n working vertex");
+				}
+
+				// vertex normal
+				if (perlineData[0] == "vn")
+				{
+					//printf("\n working vertex normal ");
+					if (perlineData.size() == 4)
+					{
+						zVector norm;
+						norm.x = atof(perlineData[1].c_str());
+						norm.y = atof(perlineData[2].c_str());
+						norm.z = atof(perlineData[3].c_str());
+
+						vertexNormals.push_back(norm);
+					}
+					//printf("\n working vertex");
+				}
+
+				// face
+				if (perlineData[0] == "f")
+				{
+					zVector norm;
+
+					for (int i = 1; i < perlineData.size(); i++)
+					{
+						vector<string> faceData = meshObj->mesh.coreUtils.splitString(perlineData[i], "/");
+
+						//vector<string> cleanFaceData = splitString(faceData[0], "/\/");
+
+						int id = atoi(faceData[0].c_str()) - 1;
+						polyConnects.push_back(id);
+
+						//printf(" %i ", id);
+
+						int normId = atoi(faceData[faceData.size() - 1].c_str()) - 1;
+						norm += vertexNormals[normId];
+					}
+
+					norm /= (perlineData.size() - 1);
+					norm.normalize();
+					faceNormals.push_back(norm);
+
+					polyCounts.push_back(perlineData.size() - 1);
+					//printf("\n working face ");
+				}
+			}
+		}
+
+		meshObj->mesh.create(positions, polyCounts, polyConnects);;
+		printf("\n mesh: %i %i %i", numVertices(), numEdges(), numPolygons());
+
+		setFaceNormals(faceNormals);
+
+	}
+
 	//---- PROTECTED CONTOUR METHODS
 
 	ZSPACE_INLINE int zFnMesh::getIsobandCase(int vertexTernary[4])

@@ -871,6 +871,18 @@ namespace zSpace
 
 		void getTransform(zTransform &transform) override;
 
+
+		/*! \brief This method imports zMesh from a JSON file format using JSON Modern Library.
+		*
+		*	\param [in]		infilename			- input file name including the directory path and extension.
+		*	\return 		bool			- true if the file was read succesfully.
+		*	\since version 0.0.2
+		*/
+		void fromOBJ_string(string objString);
+
+		void fromOBJ_string(vector<string> perlineData);
+
+
 	protected:
 
 		//--------------------------
@@ -911,6 +923,8 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		bool fromJSON(string infilename);
+
+		
 
 		//--------------------------
 		//---- PROTECTED CONTOUR METHODS
