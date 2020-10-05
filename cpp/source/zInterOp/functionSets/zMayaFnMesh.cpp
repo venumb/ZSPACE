@@ -39,15 +39,11 @@ namespace zSpace
 
 	ZSPACE_INLINE void zMayaFnMesh::from(string path, zFileTpye type, bool staticGeom)
 	{
-
 		zFnMesh::from(path, type, staticGeom);
 
 		// add crease data
 		if (type == zJSON)
 			getCreaseDataJSON(path);
-	
-
-		
 	}
 
 	ZSPACE_INLINE void zMayaFnMesh::to(string path, zFileTpye type)
@@ -348,7 +344,6 @@ namespace zSpace
 		if (in_myfile.fail())
 		{
 			cout << " error in opening file  " << infilename.c_str() << endl;
-			
 		}
 
 		in_myfile >> j;
@@ -358,16 +353,21 @@ namespace zSpace
 
 		// Vertices
 		meshJSON.edgeCreaseData.clear();
-		meshJSON.edgeCreaseData = (j["EdgeCreaseData"].get<vector<double>>());
 
+		bool checkCreaseData = (j.find("EdgeCreaseData")!= j.end()) ? true : false;
+		
 		creaseEdgeData.clear();
 		creaseEdgeIndex.clear();
-
-		for (int i = 0; i < meshJSON.edgeCreaseData.size(); i++)
+		if (checkCreaseData)
 		{
-			if (meshJSON.edgeCreaseData[i] != 0)
+			meshJSON.edgeCreaseData = (j["EdgeCreaseData"].get<vector<double>>());
+
+			for (int i = 0; i < meshJSON.edgeCreaseData.size(); i++)
 			{
-				creaseEdgeIndex.push_back(i);
+				if (meshJSON.edgeCreaseData[i] != 0)
+				{
+					creaseEdgeIndex.push_back(i);
+				}
 			}
 		}
 	}

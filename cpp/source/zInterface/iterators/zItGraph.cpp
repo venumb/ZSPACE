@@ -556,6 +556,9 @@ namespace zSpace
 
 		iter = graphObj->graph.halfEdges.begin();
 
+		//printf("\n index: %i", _index);
+		//printf("\n halfEdges size: %i", graphObj->graph.halfEdges.size());
+
 		if (_index < 0 && _index >= graphObj->graph.halfEdges.size()) throw std::invalid_argument(" error: index out of bounds");
 		advance(iter, _index);
 	}

@@ -1280,7 +1280,11 @@ namespace zSpace
 		graphObj->graph.eHandles.assign(floor(graphJSON.halfedges.size() * 0.5), zEdgeHandle());
 		graphObj->graph.heHandles.assign(graphJSON.halfedges.size(), zHalfEdgeHandle());
 
+		// set IDs
+		for (int i = 0; i < graphJSON.vertices.size(); i++) graphObj->graph.vertices[i].setId(i);
+		for (int i = 0; i < graphJSON.halfedges.size(); i++)graphObj->graph.halfEdges[i].setId(i);
 
+		// set Pointers
 		int n_v = 0;
 		for (zItGraphVertex v(*graphObj); !v.end(); v++)
 		{
@@ -1288,9 +1292,10 @@ namespace zSpace
 
 			if (graphJSON.vertices[n_v] != -1)
 			{
-				zItGraphHalfEdge e(*graphObj, graphJSON.vertices[n_v]); //////maybe that is empty
-				v.setHalfEdge(e);
+				zItGraphHalfEdge he(*graphObj, graphJSON.vertices[n_v]);
+				v.setHalfEdge(he);
 
+				graphObj->graph.vHandles[n_v].id = n_v;
 				graphObj->graph.vHandles[n_v].he = graphJSON.vertices[n_v];
 			}
 			n_v++;
@@ -1302,9 +1307,9 @@ namespace zSpace
 
 		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
 		{
-
 			// Half Edge
 			he.setId(n_he);
+			graphObj->graph.heHandles[n_he].id = n_he;
 
 			if (graphJSON.halfedges[n_he][0] != -1)
 			{
@@ -1331,28 +1336,19 @@ namespace zSpace
 			}
 
 			// symmetry half edges
-			if (n_he % 2 == 0)
-			{
-				zItGraphHalfEdge e(*graphObj, n_he + 1);
-				he.setSym(e);
-			}
-			else
-			{
-				zItGraphHalfEdge e(*graphObj, n_he - 1);
-				he.setSym(e);
-			}
-
-
-			// Edge
 			if (n_he % 2 == 1)
 			{
+				zItGraphHalfEdge heSym(*graphObj, n_he - 1);
+				he.setSym(heSym);
+
 				zItGraphEdge e(*graphObj, n_e);
 				e.setId(n_e);
 
-				zItGraphHalfEdge heSym = he.getSym();
-
 				e.setHalfEdge(heSym, 0);
 				e.setHalfEdge(he, 1);
+
+				he.setEdge(e);
+				heSym.setEdge(e);
 
 				graphObj->graph.heHandles[n_he].e = n_e;
 				graphObj->graph.heHandles[n_he - 1].e = n_e;
@@ -1371,28 +1367,24 @@ namespace zSpace
 		graphObj->graph.setNumEdges(n_e);
 
 
-		for (zItGraphVertex he(*graphObj); !he.end(); he++)
-		{
+		//for (zItGraphVertex v(*graphObj); !v.end(); v++)
+		//{
+		//	cout << "\n " << v.getId();
+		//	cout << "\t " << v.getHalfEdge().getId();
+		//}
 
-			cout << "\n " << he.getId();
-			cout << "\t " << he.getHalfEdge().getId();
-			
-
-		}
-
-		for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
-		{
-
-			cout << "\n " << he.getId();
-			cout << "\t " << he.getPrev().getId();
-			cout << " \t" << he.getNext().getId();
-			cout << " \t" << he.getVertex().getId();
-			
-		}
+		//for (zItGraphHalfEdge he(*graphObj); !he.end(); he++)
+		//{
+		//	cout << "\n " << he.getId();
+		//	cout << "\t " << he.getPrev().getId();
+		//	cout << " \t" << he.getNext().getId();
+		//	cout << " \t" << he.getVertex().getId();			
+		//}
 
 
 		// Vertex Attributes
 		graphJSON.vertexAttributes = j["VertexAttributes"].get<vector<vector<double>>>();
+
 		//printf("\n vertexAttributes: %zi %zi", vertexAttributes.size(), vertexAttributes[0].size());
 
 		graphObj->graph.vertexPositions.clear();
@@ -1419,7 +1411,6 @@ namespace zSpace
 				}
 			}
 		}
-
 
 		// Edge Attributes
 		graphJSON.halfedgeAttributes = j["HalfedgeAttributes"].get<vector<vector<double>>>();
@@ -1450,8 +1441,6 @@ namespace zSpace
 			}
 		}
 
-
-
 		printf("\n graph: %i %i ", numVertices(), numEdges());
 
 		// add to maps 
@@ -1459,8 +1448,6 @@ namespace zSpace
 		{
 			graphObj->graph.addToPositionMap(graphObj->graph.vertexPositions[i], i);
 		}
-
-
 
 		for (zItGraphEdge e(*graphObj); !e.end(); e++)
 		{
@@ -1471,7 +1458,6 @@ namespace zSpace
 		}
 
 		return true;
-
 	}
 
 	ZSPACE_INLINE void zFnGraph::toTXT(string outfilename)

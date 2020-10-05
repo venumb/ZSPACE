@@ -3471,6 +3471,8 @@ namespace zSpace
 			}
 
 			// symmetry half edges && Edge
+
+
 			if (n_he % 2 == 1)
 			{
 				zItMeshHalfEdge heSym(*meshObj, n_he - 1);

@@ -30,9 +30,8 @@ namespace zSpace
 
 	ZSPACE_INLINE zTsVariableExtrude::~zTsVariableExtrude() {}
 
-	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableFaceOffset(bool keepExistingFaces, bool assignColor, double minVal, double maxVal, bool useVertexColor)
+	ZSPACE_INLINE void zTsVariableExtrude::getVariableFaceOffset(zObjMesh &out, bool keepExistingFaces, bool assignColor, double minVal, double maxVal, bool useVertexColor)
 	{
-
 		vector<zVector>positions;
 		vector<int>polyConnects;
 		vector<int>polyCounts;
@@ -41,6 +40,7 @@ namespace zSpace
 
 		vector<zVector> fCenters;
 		fnMesh.getCenters(zFaceData, fCenters);
+		fnMesh.computeFaceColorfromVertexColor();
 
 		// append inmesh positions
 		if (keepExistingFaces)
@@ -50,8 +50,6 @@ namespace zSpace
 
 		for (zItMeshFace f(*meshObj); !f.end(); f++)
 		{
-
-
 			vector<zItMeshVertex> fVerts;
 			f.getVertices(fVerts);
 
@@ -75,7 +73,6 @@ namespace zSpace
 				if (useVertexColor)
 				{
 					zColor vertexCol = fV.getColor();
-
 					extrudeVal = coreUtils.ofMap(vertexCol.r, 0.0, 1.0, minVal, maxVal);
 				}
 
@@ -97,17 +94,13 @@ namespace zSpace
 					polyConnects.push_back(numVerts + nextId);
 					polyConnects.push_back(numVerts + currentId);
 
-
 					polyCounts.push_back(4);
 
 					if (assignColor) faceColors.push_back(newCol);
-
 				}
-
 			}
 			else
 			{
-
 				for (int j = 0; j < fVerts.size(); j++)
 				{
 					int currentId = j;
@@ -119,24 +112,20 @@ namespace zSpace
 				polyCounts.push_back(fVerts.size());
 
 			}
-
 		}
 
-
-		zObjMesh out;
-		zFnMesh temp(out);
+		zFnMesh tempFn(out);
 
 		if (positions.size() > 0)
 		{
-			temp.create(positions, polyCounts, polyConnects);
+			tempFn.create(positions, polyCounts, polyConnects);
 
-			if (assignColor) temp.setFaceColors(faceColors, true);
+			if (assignColor) tempFn.setFaceColors(faceColors, true);
 		}
 
-		return out;
 	}
 
-	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableBoundaryOffset(bool keepExistingFaces, bool assignColor, double minVal, double maxVal)
+	ZSPACE_INLINE void zTsVariableExtrude::getVariableBoundaryOffset(zObjMesh &out, bool keepExistingFaces, bool assignColor, double minVal, double maxVal)
 	{
 
 		vector<zVector>positions;
@@ -243,7 +232,6 @@ namespace zSpace
 				}
 
 				inVertex_newVertex.push_back(temp);
-
 			}
 
 			// poly connects 
@@ -263,13 +251,11 @@ namespace zSpace
 
 				}
 			}
-
 		}
 
 
 		if (!keepExistingFaces)
 		{
-
 			for (zItMeshVertex v(*meshObj); !v.end(); v++)
 			{
 				vector<int> temp;
@@ -345,7 +331,6 @@ namespace zSpace
 
 					positions.push_back(offPos);
 					if (assignColor) vertexColors.push_back(v.getColor());
-
 				}
 
 				else
@@ -353,14 +338,11 @@ namespace zSpace
 					positions.push_back(v.getPosition());
 					if (assignColor) vertexColors.push_back(v.getColor());
 				}
-
-
 			}
 
 			// poly connects 
 			for (zItMeshFace f(*meshObj); !f.end(); f++)
 			{
-
 				vector<int> fVerts;
 				f.getVertices(fVerts);
 
@@ -369,15 +351,10 @@ namespace zSpace
 					polyConnects.push_back(fVerts[j]);
 				}
 
-
 				polyCounts.push_back(fVerts.size());
-
-
 			}
-
 		}
 
-		zObjMesh out;
 		zFnMesh tempFn(out);
 
 		if (positions.size() > 0)
@@ -386,15 +363,10 @@ namespace zSpace
 
 			if (assignColor) tempFn.setVertexColors(vertexColors, true);
 		}
-
-		return out;
 	}
 
-	ZSPACE_INLINE zObjMesh zTsVariableExtrude::getVariableFaceThicknessExtrude(bool assignColor, double minVal, double maxVal)
+	ZSPACE_INLINE void zTsVariableExtrude::getVariableFaceThicknessExtrude(zObjMesh &out, bool assignColor, double minVal, double maxVal)
 	{
-
-
-
 		vector<zVector>positions;
 		vector<int>polyConnects;
 		vector<int>polyCounts;
@@ -407,7 +379,7 @@ namespace zSpace
 		// append inmesh positions
 		fnMesh.getVertexPositions(positions);
 
-		if (assignColor)  fnMesh.getVertexColors(vertexColors);
+		if (assignColor) fnMesh.getVertexColors(vertexColors);
 
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
 		{
@@ -466,8 +438,6 @@ namespace zSpace
 			}
 		}
 
-
-		zObjMesh out;
 		zFnMesh tempFn(out);
 
 		if (positions.size() > 0)
@@ -475,9 +445,9 @@ namespace zSpace
 			tempFn.create(positions, polyCounts, polyConnects);
 
 			if (assignColor) tempFn.setVertexColors(vertexColors, true);
-		}
 
-		return out;
+		}
+		printf("%i", tempFn.numVertices());
 	}
 
 }
