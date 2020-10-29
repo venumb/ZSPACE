@@ -37,8 +37,8 @@ namespace zSpace
 		unsigned int i;
 		glRasterPos3f(pt.x, pt.y, pt.z);
 
-		for (i = 0; i < s.length(); i++)
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+		//for (i = 0; i < s.length(); i++)
+			//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
 #endif
 	}
 

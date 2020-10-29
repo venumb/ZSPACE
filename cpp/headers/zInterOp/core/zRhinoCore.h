@@ -43,8 +43,13 @@ namespace zSpace
 
 
 	class zRhinoCore
-	{
+	{		
+
 	public:
+
+		HINSTANCE hinstLib;
+		BOOL fFreeResult, fRunTimeLinkSuccess = FALSE;
+
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------

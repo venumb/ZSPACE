@@ -306,7 +306,7 @@ namespace zSpace
 		//---- BEST FIT FDM AND CONSTRAINT METHODS
 		//--------------------------
 
-		bool fdm_constraintsolve(bool &computeQInitial, float alpha, float tolerance , float qLB, float qUB );
+		double fdm_constraintsolve(bool &computeQInitial, float alpha, float tolerance , float qLB, float qUB );
 
 		void getSymmetryPairs(zIntPairArray &vPairs, zIntPairArray &ePairs,  zPoint &p_center, zVector &p_norm);
 

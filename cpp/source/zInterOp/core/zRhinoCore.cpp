@@ -36,8 +36,6 @@ const PfnDliHook __pfnDliNotifyHook2 = DliRhinoLibrary;
 extern "C" HRESULT StartupInProcess(int argc, wchar_t** argv, const STARTUPINFO* pStartUpInfo, HWND hHostWnd);
 extern "C" HRESULT ShutdownInProcess();
 
-
-
 namespace zSpace
 {
 	zRhinoCore::zRhinoCore()
@@ -47,7 +45,7 @@ namespace zSpace
 
 	zRhinoCore::~zRhinoCore()
 	{
-		ShutdownInProcess();
+		ShutdownInProcess();		
 	}
 }
 

@@ -878,7 +878,7 @@ namespace zSpace
 
 	//---- mesh specilization for fdm_constraintsolve
 	template<>
-	bool zTsVault<zObjMesh, zFnMesh>::fdm_constraintsolve(bool & computeQInitial, float alpha, float tolerance, float qLB, float qUB)
+	ZSPACE_INLINE double zTsVault<zObjMesh, zFnMesh>::fdm_constraintsolve(bool & computeQInitial, float alpha, float tolerance, float qLB, float qUB)
 	{
 		// 0 - compute q intial
 		if (computeQInitial)
@@ -1026,12 +1026,12 @@ namespace zSpace
 		}
 		printf("\n residual : %1.4f  ", d);
 
-		return (d < tolerance);
+		return d ;
 	}
 
 	//---- mesh specilization for getSymmetryPairs
 	template<>
-	void zTsVault<zObjMesh, zFnMesh>::getSymmetryPairs(zIntPairArray &vPairs, zIntPairArray & ePairs, zPoint &p_center, zVector &p_norm)
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getSymmetryPairs(zIntPairArray &vPairs, zIntPairArray & ePairs, zPoint &p_center, zVector &p_norm)
 	{
 	
 		vPairs.clear();
@@ -1122,7 +1122,7 @@ namespace zSpace
 	//---- mesh specilization for fdm_constraintsolve
 
 	template<>
-	void zTsVault<zObjMesh, zFnMesh>::boundForceDensities(zIntArray &fdMap, VectorXd &fDensities, float qLB, float qUB)
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::boundForceDensities(zIntArray &fdMap, VectorXd &fDensities, float qLB, float qUB)
 	{
 		int id = 0;
 		for (zItMeshEdge e(*resultObj); !e.end(); e++)
@@ -1151,36 +1151,43 @@ namespace zSpace
 
 			}*/
 
-			if (!e.onBoundary())
-			{
-				if (fDensities[id] < qLB) fDensities[id] = qLB;
-				if (fDensities[id] > qUB) fDensities[id] = qUB;
+			//if (fDensities[id] <= qLB) fDensities[id] = qLB;
+			//if (fDensities[id] >= qUB) fDensities[id] = qUB;
+			
 
-				if (fDensities[id] < 0 && abs(fDensities[id]) < EPS) fDensities[id] = -EPS;
-				if (fDensities[id] > 0 && abs(fDensities[id]) < EPS) fDensities[id] = EPS;
-			}
+			if (fDensities[id] >= -qLB) fDensities[id] = -qLB;
+			if (fDensities[id] <= -qUB) fDensities[id] = -qUB;
 
-			else
-			{
-				//if (fDensities[id] < qLB) fDensities[id] = qLB;
-				//if (fDensities[id] > qUB) fDensities[id] = qUB;
+			//if (!e.onBoundary())
+			//{
+			//	if (fDensities[id] < qLB) fDensities[id] = qLB;
+			//	if (fDensities[id] > qUB) fDensities[id] = qUB;
 
-				if (fDensities[id] >= 0) fDensities[id] = -qLB;
-				////if (fDensities[id] > qLB) fDensities[id] = qLB;
+			//	if (fDensities[id] < 0 && abs(fDensities[id]) < EPS) fDensities[id] = -EPS;
+			//	if (fDensities[id] > 0 && abs(fDensities[id]) < EPS) fDensities[id] = EPS;
+			//}
 
-				////if (fDensities[id] < -qLB || abs(fDensities[id]) < EPS) fDensities[id] = -qLB;
-				////if (fDensities[id] > qUB) fDensities[id] = qUB;
+			//else
+			//{
+			//	//if (fDensities[id] < qLB) fDensities[id] = qLB;
+			//	//if (fDensities[id] > qUB) fDensities[id] = qUB;
 
-				if (fDensities[id] < 0 && abs(fDensities[id]) < EPS) fDensities[id] = -EPS;
-				if (fDensities[id] > 0 && abs(fDensities[id]) < EPS) fDensities[id] = EPS;
-			}
+			//	if (fDensities[id] >= 0) fDensities[id] = -qLB;
+			//	////if (fDensities[id] > qLB) fDensities[id] = qLB;
+
+			//	////if (fDensities[id] < -qLB || abs(fDensities[id]) < EPS) fDensities[id] = -qLB;
+			//	////if (fDensities[id] > qUB) fDensities[id] = qUB;
+
+			//	if (fDensities[id] < 0 && abs(fDensities[id]) < EPS) fDensities[id] = -EPS;
+			//	if (fDensities[id] > 0 && abs(fDensities[id]) < EPS) fDensities[id] = EPS;
+			//}
 
 			id++;
 		}
 	}
 
 	template<>
-	void zTsVault<zObjMesh, zFnMesh>::boundGradientForceDensities(VectorXd & grad_fDensities, VectorXd & current_fDensities, float qLB, float qUB)
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::boundGradientForceDensities(VectorXd & grad_fDensities, VectorXd & current_fDensities, float qLB, float qUB)
 	{
 
 		/*for (int i = 0; i < current_fDensities.rows(); i++)
@@ -1215,7 +1222,7 @@ namespace zSpace
 
 	//---- mesh specilization for checkObjectiveAchieved
 	template<>
-	bool zTsVault<zObjMesh, zFnMesh>::checkObjectiveAchieved(MatrixXd & currentX, MatrixXd & prevX, float tolerance)
+	ZSPACE_INLINE bool zTsVault<zObjMesh, zFnMesh>::checkObjectiveAchieved(MatrixXd & currentX, MatrixXd & prevX, float tolerance)
 	{
 		bool out = true;
 		
@@ -1237,7 +1244,7 @@ namespace zSpace
 
 	//---- mesh specilization for updatePositions
 	template<>
-	void zTsVault<zObjMesh, zFnMesh>::updateEquilibriumPositions(VectorXd & q)
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::updateEquilibriumPositions(VectorXd & q)
 	{
 		zHEData type = zVertexData;
 		bool positiveDensities = true;
@@ -1312,7 +1319,7 @@ namespace zSpace
 	}
 
 	template<>
-	void zTsVault<zObjMesh, zFnMesh>::perturbPleatPositions( MatrixXd &origX)
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::perturbPleatPositions( MatrixXd &origX)
 	{
 		for (int i = 0; i < freeVertices.size(); i++)
 		{
@@ -1661,23 +1668,33 @@ namespace zSpace
 
 				if (!v.onBoundary()) // free node 
 				{
+					/* DNIPRO
 					residualU(id + 0 * freeVertices.size()) = alpha * residual(id + 0 * freeVertices.size());
 					residualU(id + 1 * freeVertices.size()) = alpha * residual(id + 1 * freeVertices.size());
 					residualU(id + 2 * freeVertices.size()) = alpha * residual(id + 2 * freeVertices.size());
 
 					residualC(id + 0 * freeVertices.size()) = (1 - alpha) * residual(id + 0 * freeVertices.size());
 					residualC(id + 1 * freeVertices.size()) = (1 - alpha) * residual(id + 1 * freeVertices.size());
-					residualC(id + 2 * freeVertices.size()) = (1 - alpha) * residual(id + 2 * freeVertices.size());
+					residualC(id + 2 * freeVertices.size()) = (1 - alpha) * residual(id + 2 * freeVertices.size());*/
+				
+					residualU(id + 0 * freeVertices.size()) = 1.0 * residual(id + 0 * freeVertices.size());
+					residualU(id + 1 * freeVertices.size()) = 1.0 * residual(id + 1 * freeVertices.size());
+					residualU(id + 2 * freeVertices.size()) = 1.0 * residual(id + 2 * freeVertices.size());
+
+					residualC(id + 0 * freeVertices.size()) = 0.0 * residual(id + 0 * freeVertices.size());
+					residualC(id + 1 * freeVertices.size()) = 0.0 * residual(id + 1 * freeVertices.size());
+					residualC(id + 2 * freeVertices.size()) = 0.0 * residual(id + 2 * freeVertices.size());
+				
 				}
 				else // free node constraint to positions
 				{
-					residualU(id + 0 * freeVertices.size()) = 0.00 * residual(id + 0 * freeVertices.size());
-					residualU(id + 1 * freeVertices.size()) = 0.00 * residual(id + 1 * freeVertices.size());
-					residualU(id + 2 * freeVertices.size()) = 0.00 * residual(id + 2 * freeVertices.size());
+					residualU(id + 0 * freeVertices.size()) = 0.0 * residual(id + 0 * freeVertices.size());
+					residualU(id + 1 * freeVertices.size()) = 0.0 * residual(id + 1 * freeVertices.size());
+					residualU(id + 2 * freeVertices.size()) = 1.0 * residual(id + 2 * freeVertices.size());
 
-					residualC(id + 0 * freeVertices.size()) = 1.00 * residual(id + 0 * freeVertices.size());
-					residualC(id + 1 * freeVertices.size()) = 1.00 * residual(id + 1 * freeVertices.size());
-					residualC(id + 2 * freeVertices.size()) = 1.00 * residual(id + 2 * freeVertices.size());
+					residualC(id + 0 * freeVertices.size()) = 1.0 * residual(id + 0 * freeVertices.size());
+					residualC(id + 1 * freeVertices.size()) = 1.0 * residual(id + 1 * freeVertices.size());
+					residualC(id + 2 * freeVertices.size()) = 0.00 * residual(id + 2 * freeVertices.size());
 				}
 
 				id++;
@@ -1870,7 +1887,7 @@ namespace zSpace
 
 	//---- mesh specilization for setConstraint_Planarity
 	template<>
-	void zTsVault<zObjMesh, zFnMesh>::getConstraint_Planarity(zVectorArray &targets, float planarityTolerance)
+	ZSPACE_INLINE void zTsVault<zObjMesh, zFnMesh>::getConstraint_Planarity(zVectorArray &targets, float planarityTolerance)
 	{
 
 		if (targets.size() == 0)
