@@ -73,7 +73,9 @@ namespace zSpace
 		double normalScale;
 
 		/*! \brief boolean for displaying the mesh ids */
-		bool displayVertexIds, displayEdgeIds, displayFaceIds;
+		bool displayVertexIds = false;
+		bool displayEdgeIds = false;
+		bool displayFaceIds = false;
 
 		/*! \brief container for storing edge centers */
 		zPointArray edgeCenters;

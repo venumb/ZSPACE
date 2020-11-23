@@ -1390,7 +1390,7 @@ namespace zSpace
 
 			for (int j = 0; j < inPositions.size(); j++)
 			{
-				double r = meshPositions[i].squareDistanceTo(inPositions[j]);
+				double r = meshPositions[i].distanceTo(inPositions[j]);
 
 				if (r < tempDist)
 				{

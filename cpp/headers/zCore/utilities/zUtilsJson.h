@@ -17,7 +17,7 @@
 
 #include<headers/zCore/base/zInline.h>
 
-#include <depends/modernJSON/json.hpp>
+#include <depends/nlohmann/json.hpp>
 using json = nlohmann::json;;
 
 using namespace std;

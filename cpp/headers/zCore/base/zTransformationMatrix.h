@@ -393,11 +393,17 @@ namespace zSpace
 		*/
 		ZSPACE_CUDA_CALLABLE void decomposeR();
 
-		/*! \brief This method decomposes the translation matrix into ddistances in x, y and z axis.
+		/*! \brief This method decomposes the translation matrix into distances in x, y and z axis.
 		*
 		*	\since version 0.0.2
 		*/
 		ZSPACE_CUDA_CALLABLE void decomposeT();
+
+		/*! \brief This method decomposes the transform matrix into scales in x, y and z axis.
+		*
+		*	\since version 0.0.2
+		*/
+		ZSPACE_CUDA_CALLABLE void decomposeS();
 
 	};
 

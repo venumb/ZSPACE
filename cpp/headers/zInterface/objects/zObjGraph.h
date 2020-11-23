@@ -52,10 +52,10 @@ namespace zSpace
 		bool displayEdges;
 
 		/*! \brief boolean for displaying the edges */
-		bool displayVertexIds;
+		bool displayVertexIds = false;
 
 		/*! \brief boolean for displaying the edges */
-		bool displayEdgeIds;
+		bool displayEdgeIds = false;
 
 		/*! \brief container for storing edge centers */
 		zPointArray edgeCenters;

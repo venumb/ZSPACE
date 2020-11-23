@@ -17,13 +17,15 @@
 
 #pragma once
 
+#define _HAS_STD_BYTE 0 
+
 //--------------------------
 //---- windows include
 //--------------------------
-#include<Unknwnbase.h>
-#include<commdlg.h>
+//#include<Unknwnbase.h>
+//#include<commdlg.h>
 
-#include <iomanip>
+//#include <iomanip>
 
 #if defined(WIN32) 
 #undef WIN32
@@ -32,7 +34,7 @@
 #include <rhinoSdkStdafxPreamble.h>
 
 #define NOMINMAX
-#include <Windows.h>
+//#include <Windows.h>
 
 #define RHINO_V6_READY
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CPP", "CPP", "{CEB5BA3B-CDAD-4A8B-80EC-34DA2A0B179A}"
 EndProject
@@ -40,6 +40,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06_Housing", "06_Housing", "{7FAB07C3-FB29-44F9-B1DE-399DBC8BCF11}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06_zSpace_Housing", "projects\CPP\zSpace_Housing\zSpace_Housing.vcxproj", "{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08_Configurator", "08_Configurator", "{FCABC916-E072-4893-95C0-AF914A37888F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "08_zSpace_Configurator", "projects\CPP\zSpace_Configurator\zSpace_Configurator\zSpace_Configurator.vcxproj", "{B02396B6-11D1-46AE-8A2D-301AD8F5919C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,7 +199,6 @@ Global
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x86.ActiveCfg = Release_DLL|Win32
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release_Unreal|x86.Build.0 = Release_DLL|Win32
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release|x64.ActiveCfg = Release|x64
-		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release|x64.Build.0 = Release|x64
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release|x86.ActiveCfg = Release|Win32
 		{C7138C4B-61AA-4D2E-9780-2B3F07B6F626}.Release|x86.Build.0 = Release|Win32
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
@@ -239,9 +242,31 @@ Global
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x86.ActiveCfg = Release_Unreal|Win32
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release_Unreal|x86.Build.0 = Release_Unreal|Win32
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release|x64.ActiveCfg = Release|x64
-		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release|x64.Build.0 = Release|x64
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release|x86.ActiveCfg = Release|Win32
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A}.Release|x86.Build.0 = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug_DLL|x64.ActiveCfg = Debug|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug_DLL|x64.Build.0 = Debug|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug_DLL|x86.ActiveCfg = Debug|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug_DLL|x86.Build.0 = Debug|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug|x64.ActiveCfg = Debug|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug|x64.Build.0 = Debug|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug|x86.ActiveCfg = Debug|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Debug|x86.Build.0 = Debug|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_DLL|x64.ActiveCfg = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_DLL|x64.Build.0 = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_DLL|x86.ActiveCfg = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_DLL|x86.Build.0 = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Make|x64.ActiveCfg = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Make|x64.Build.0 = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Make|x86.ActiveCfg = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Make|x86.Build.0 = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Unreal|x64.ActiveCfg = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Unreal|x64.Build.0 = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Unreal|x86.ActiveCfg = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release_Unreal|x86.Build.0 = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release|x64.ActiveCfg = Release|x64
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release|x86.ActiveCfg = Release|Win32
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -264,6 +289,8 @@ Global
 		{D4DDFD61-565A-432E-B78E-874A9EAC13BB} = {6F73DF29-356C-4EFD-9B3D-C5399C12B68B}
 		{7FAB07C3-FB29-44F9-B1DE-399DBC8BCF11} = {CEB5BA3B-CDAD-4A8B-80EC-34DA2A0B179A}
 		{D598A643-5E22-4A0F-8E79-BEA9AE39B02A} = {7FAB07C3-FB29-44F9-B1DE-399DBC8BCF11}
+		{FCABC916-E072-4893-95C0-AF914A37888F} = {CEB5BA3B-CDAD-4A8B-80EC-34DA2A0B179A}
+		{B02396B6-11D1-46AE-8A2D-301AD8F5919C} = {FCABC916-E072-4893-95C0-AF914A37888F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {894BF4B1-8A0F-4611-AB30-F8EFD51AE1D4}

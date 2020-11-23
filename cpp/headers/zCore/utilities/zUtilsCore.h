@@ -768,10 +768,8 @@ namespace zSpace
 		/*! \brief This method returns the blend color based on the input value, domain and the color domains.
 		*
 		*	\param		[in]	value			- input value to be mapped.
-		*	\param		[in]	inputMin		- input domain minimum.
-		*	\param		[in]	inputMax		- input domain maximum.
-		*	\param		[in]	cMin			- input color domain minimum.
-		*	\param		[in]	cMax			- input color domain maximum.
+		*	\param		[in]	inDomain		- input domain scalar.
+		*	\param		[in]	outDomain		- output domain color.
 		*	\param		[in]	type			- color type - zRGB / zHSV.
 		*	\return				zColor			- output color.
 		*	\since version 0.0.1

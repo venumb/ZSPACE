@@ -60,6 +60,11 @@ namespace zSpace
 	{
 		if (decompose)
 		{
+			// set scale
+			S(0, 0) = zVector(inTransform(0, 0), inTransform(0, 1), inTransform(0, 2)).length(); 
+			S(1, 1) = zVector(inTransform(1, 0), inTransform(1, 1), inTransform(1, 2)).length();
+			S(2, 2) = zVector(inTransform(2, 0), inTransform(2, 1), inTransform(2, 2)).length();
+
 			// set translation
 			T(3, 0) = inTransform(3, 0); T(3, 1) = inTransform(3, 1); T(3, 2) = inTransform(3, 2);
 
@@ -71,6 +76,7 @@ namespace zSpace
 			// compute components
 			decomposeR();
 			decomposeT();
+			decomposeS();
 		}
 
 		Transform = inTransform;
@@ -158,17 +164,23 @@ namespace zSpace
 
 	ZSPACE_INLINE zVector zTransformationMatrix::getX()
 	{
-		return zVector(Transform(0, 0), Transform(0, 1), Transform(0, 2));
+		zVector x = zVector(Transform(0, 0), Transform(0, 1), Transform(0, 2));
+		x.normalize();
+		return x;
 	}
 
 	ZSPACE_INLINE zVector zTransformationMatrix::getY()
 	{
-		return zVector(Transform(1, 0), Transform(1, 1), Transform(1, 2));
+		zVector y = zVector(Transform(1, 0), Transform(1, 1), Transform(1, 2));;
+		y.normalize();
+		return y;
 	}
 
 	ZSPACE_INLINE zVector zTransformationMatrix::getZ()
 	{
-		return zVector(Transform(2, 0), Transform(2, 1), Transform(2, 2));
+		zVector z = zVector(Transform(2, 0), Transform(2, 1), Transform(2, 2));
+		z.normalize();
+		return z;
 	}
 
 	ZSPACE_INLINE zVector zTransformationMatrix::getO()
@@ -527,6 +539,13 @@ namespace zSpace
 		translation[0] = T(3, 0);
 		translation[1] = T(3, 1);
 		translation[2] = T(3, 2);
+	}
+
+	ZSPACE_INLINE void zTransformationMatrix::decomposeS()
+	{
+		scale[0] = S(0, 0);
+		scale[1] = S(1, 1);
+		scale[2] = S(2, 2);
 	}
 
 }

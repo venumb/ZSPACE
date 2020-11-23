@@ -44,7 +44,7 @@ namespace  zSpace
 	protected:
 
 		/*!	\brief scalar part of quaternion			*/
-		double s;		
+		float s;		
 
 		/*!	\brief vector part of quaternion(imaginary)		*/
 		zVector v;
@@ -66,14 +66,14 @@ namespace  zSpace
 		*	\param		[in]	_v			- vector part.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE zQuaternion(double _s, double _vi, double _vj, double _vk);
+		ZSPACE_CUDA_CALLABLE zQuaternion(float _s, float _vi, float _vj, float _vk);
 
 		/*! \brief Overloaded Constructor.
 		*	\param		[in]	_s			- scalar part.
 		*	\param		[in]	_v			- vector part.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE zQuaternion(double _s, zVector _v);
+		ZSPACE_CUDA_CALLABLE zQuaternion(float _s, zVector _v);
 
 		//--------------------------
 		//---- OPERATORS
@@ -84,7 +84,7 @@ namespace  zSpace
 		*	\param		[in]	_s		- scalar component.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE void operator=(double _s);
+		ZSPACE_CUDA_CALLABLE void operator=(float _s);
 
 		/*! \brief This operator assigns vector component of the quaternion
 		*
@@ -98,14 +98,14 @@ namespace  zSpace
 		*	\return			double&		- reference to the specified component (0-based indexing: double, i, j, k)
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE double& operator[](int index);
+		ZSPACE_CUDA_CALLABLE float& operator[](int index);
 
 		/*! \brief This operator returns the indexed component (0-based indexing: double, i, j, k)
 		*
 		*	\return			double&		- const reference to the specified component (0-based indexing: double, i, j, k)
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE const double& operator[](int index) const;
+		ZSPACE_CUDA_CALLABLE const float& operator[](int index) const;
 
 		/*! \brief This operator is used for quaternion addition.
 		*
@@ -129,7 +129,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the multiplication.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE zQuaternion operator*(double c);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator*(float c);
 
 		/*! \brief This operator is used for quaternion Hamiton Product.
 		*
@@ -145,7 +145,7 @@ namespace  zSpace
 		*	\return				zQuaternion	- resultant quaternion after the division.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE zQuaternion operator/(double c);
+		ZSPACE_CUDA_CALLABLE zQuaternion operator/(float c);
 
 		//--------------------------
 		//---- OVERLOADED OPERATORS
@@ -170,7 +170,7 @@ namespace  zSpace
 		*	\param		[in]	c			- scalar value which is multiplied to the current quaternion.		
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE void operator*=(double c);
+		ZSPACE_CUDA_CALLABLE void operator*=(float c);
 
 		/*! \brief This operator is used for quaternion Hamiton Product and assigment of the result to the current quaternion..
 		*
@@ -184,7 +184,7 @@ namespace  zSpace
 		*	\param		[in]	c			- scalar value which is used for division of the current quaternion.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE void operator/=(double c);
+		ZSPACE_CUDA_CALLABLE void operator/=(float c);
 			   
 		//--------------------------
 		//---- GET METHODS
@@ -194,7 +194,7 @@ namespace  zSpace
 		*	\return				double		- scalar component.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE double getRe();
+		ZSPACE_CUDA_CALLABLE float getRe();
 
 		/*! \brief This method gets the imaginary/ vector component of the quaternion.
 		*	\return				zVector		- vector component.
@@ -222,13 +222,13 @@ namespace  zSpace
 		*	\return				double		- Euclidean length.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE double length();
+		ZSPACE_CUDA_CALLABLE float length();
 
 		/*! \brief This method gets the Euclidean length sqaured of the quaternion.
 		*	\return				double		- Euclidean length squared.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE double length2();
+		ZSPACE_CUDA_CALLABLE float length2();
 
 		/*! \brief This method normalizes the quaternion .
 		*	\since version 0.0.2
@@ -241,7 +241,7 @@ namespace  zSpace
 		*	\param		[in]	t			- input time step.
 		*	\since version 0.0.2
 		*/
-		ZSPACE_CUDA_CALLABLE zQuaternion slerp(zQuaternion& q0, zQuaternion& q1, double t);
+		ZSPACE_CUDA_CALLABLE zQuaternion slerp(zQuaternion& q0, zQuaternion& q1, float t);
 
 	};
 

@@ -23,13 +23,13 @@ namespace zSpace
 		v = zVector();
 	}
 
-	ZSPACE_INLINE zQuaternion::zQuaternion(double _s, double _vi, double _vj, double _vk)
+	ZSPACE_INLINE zQuaternion::zQuaternion(float _s, float _vi, float _vj, float _vk)
 	{
 		s = _s;
 		v = zVector(_vi, _vj, _vk);
 	}
 
-	ZSPACE_INLINE zQuaternion::zQuaternion(double _s, zVector _v)
+	ZSPACE_INLINE zQuaternion::zQuaternion(float _s, zVector _v)
 	{
 		s = _s;
 		v = _v;
@@ -37,7 +37,7 @@ namespace zSpace
 
 	//---- OPERATORS
 
-	ZSPACE_INLINE void zQuaternion::operator=(double _s)
+	ZSPACE_INLINE void zQuaternion::operator=(float _s)
 	{
 		s = _s;
 		v = zVector();		
@@ -49,12 +49,12 @@ namespace zSpace
 		v = _v;
 	}
 
-	ZSPACE_INLINE double& zQuaternion::operator[](int index)
+	ZSPACE_INLINE float& zQuaternion::operator[](int index)
 	{
 		return (&s)[index];
 	}
 
-	ZSPACE_INLINE const double& zQuaternion::operator[](int index) const
+	ZSPACE_INLINE const float& zQuaternion::operator[](int index) const
 	{
 		return (&s)[index];
 	}
@@ -69,7 +69,7 @@ namespace zSpace
 		return zQuaternion(s - q.s, v - q.v);
 	}
 
-	ZSPACE_INLINE zQuaternion zQuaternion::operator*(double c)
+	ZSPACE_INLINE zQuaternion zQuaternion::operator*(float c)
 	{
 		return zQuaternion(s*c, v *c);
 	}
@@ -79,7 +79,7 @@ namespace zSpace
 		return zQuaternion(s*q.s - (v * q.v), ((q.v *s) + (v * q.s)) + (v^q.v));
 	}
 
-	ZSPACE_INLINE zQuaternion zQuaternion::operator/(double c)
+	ZSPACE_INLINE zQuaternion zQuaternion::operator/(float c)
 	{
 		return zQuaternion(s / c, v / c);
 	}
@@ -98,7 +98,7 @@ namespace zSpace
 		v -= q.v;
 	}
 
-	ZSPACE_INLINE void zQuaternion::operator*=(double c)
+	ZSPACE_INLINE void zQuaternion::operator*=(float c)
 	{
 		s *= c;
 		v *= c;
@@ -109,7 +109,7 @@ namespace zSpace
 		*this = (*this * q);
 	}
 
-	ZSPACE_INLINE void zQuaternion::operator/=(double c)
+	ZSPACE_INLINE void zQuaternion::operator/=(float c)
 	{
 		s /= c;
 		v /= c;
@@ -117,7 +117,7 @@ namespace zSpace
 
 	//---- GET METHODS
 
-	ZSPACE_INLINE double zQuaternion::getRe()
+	ZSPACE_INLINE float zQuaternion::getRe()
 	{
 		return s;
 	}
@@ -139,12 +139,12 @@ namespace zSpace
 
 	//---- METHODS
 
-	ZSPACE_INLINE double zQuaternion::length()
+	ZSPACE_INLINE float zQuaternion::length()
 	{
 		return sqrt(s*s + v.x*v.x + v.y*v.y + v.z*v.z);
 	}
 
-	ZSPACE_INLINE double zQuaternion::length2()
+	ZSPACE_INLINE float zQuaternion::length2()
 	{
 		return ((s*s) + (v*v));
 	}
@@ -154,17 +154,17 @@ namespace zSpace
 		*this /= length2();
 	}
 
-	ZSPACE_INLINE zQuaternion zQuaternion::slerp(zQuaternion& q0, zQuaternion& q1, double t)
+	ZSPACE_INLINE zQuaternion zQuaternion::slerp(zQuaternion& q0, zQuaternion& q1, float t)
 	{
 		// interpolate length
-		double m0 = q0.length();
-		double m1 = q1.length();
-		double m = (1 - t)*m0 + t * m1;
+		float m0 = q0.length();
+		float m1 = q1.length();
+		float m = (1 - t)*m0 + t * m1;
 
 		// interpolate direction
 		zQuaternion p0 = q0 / m0;
 		zQuaternion p1 = q1 / m1;
-		double theta = acos((p0.getConjugate()*p1).getRe());
+		float theta = acos((p0.getConjugate()*p1).getRe());
 		zQuaternion p = p0 * (sin((1 - t)*theta)) + (p1*sin(t*theta)) / sin(theta);
 
 		return p * m;

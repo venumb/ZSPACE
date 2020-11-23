@@ -57,6 +57,9 @@
     <ClInclude Include="..\..\..\cpp\headers\zApp\include\zArchGeom.h">
       <Filter>Header Files\include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zApp\include\zConfigurator.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zApp\zApp.cpp">
