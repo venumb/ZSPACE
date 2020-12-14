@@ -37,7 +37,7 @@ namespace zSpace
 	*	\brief	connectivty matrix types.
 	*	\since	version 0.0.4
 	*/
-	enum zCfComponentType { zConfigfColumn = 1000, zConfigBeam };
+	enum zCfComponentType { zConfigfColumn = 1000, zConfigBeam, zConfigfWall };
 
 	/** @}*/
 

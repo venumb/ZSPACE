@@ -177,29 +177,36 @@ namespace zSpace
 	*/
 	typedef int zInt2[2];
 
-	/*! \typedef double3
-	*	\brief An array of double of size 3.
+	/*! \typedef zFloat2
+	*	\brief An array of float of size 3.
+	*
+	*	\since version 0.0.2
+	*/
+	typedef float zFloat2[2];
+
+	/*! \typedef zFloat3
+	*	\brief An array of float of size 3.
 	*
 	*	\since version 0.0.2
 	*/
 	typedef float zFloat3[3];
 	
-	/*! \typedef pDouble3
-	*	\brief An pointer array of double of size 3.
+	/*! \typedef zPFloat3
+	*	\brief An pointer array of float of size 3.
 	*
 	*	\since version 0.0.2
 	*/
 	typedef float* zPFloat3[3];
 
-	/*! \typedef double4
-	*	\brief An array of double of size 4.
+	/*! \typedef zFloat4
+	*	\brief An array of float of size 4.
 	*
 	*	\since version 0.0.2
 	*/
 	typedef float zFloat4[4];
 
 	/*! \typedef pDouble4
-	*	\brief An pointer array of double of size 4.
+	*	\brief An pointer array of float of size 4.
 	*
 	*	\since version 0.0.2
 	*/

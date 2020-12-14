@@ -153,6 +153,9 @@
     <ClInclude Include="..\..\..\cpp\depends\SPA\spa.h">
       <Filter>Depends\SPA</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zToolsets\geometry\zTsSDFBridge.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zToolsets\data\zTsKMeans.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\cpp\depends\SPA\spa.c">
       <Filter>Depends\SPA</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zToolsets\geometry\zTsSDFBridge.cpp">
+      <Filter>Source Files\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

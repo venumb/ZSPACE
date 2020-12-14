@@ -44,6 +44,6 @@ namespace zSpace
 
 	ZSPACE_INLINE zObjMesh* zCfKit::getRawComponentMesh()
 	{
-		return &componentObj;
+		return &o_component;
 	}
 }

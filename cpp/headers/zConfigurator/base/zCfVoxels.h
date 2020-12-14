@@ -64,10 +64,10 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to center line graph Object  */
-		zObjGraph centerlineObj;
+		zObjGraph o_centerline;
 
 		/*!	\brief pointer container to voxel Objects  */
-		zObjMeshArray voxelObjs;
+		zObjMeshArray o_voxels;
 
 		/*!	\brief pointer container to booleans for voxel program :  true - interior, false - exterior  */
 		zBoolArray voxelInteriorProgram;

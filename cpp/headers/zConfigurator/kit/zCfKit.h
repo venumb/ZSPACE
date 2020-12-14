@@ -64,7 +64,7 @@ namespace zSpace
 		zTransformationMatrix transform;
 
 		/*!	\brief kit component object  */
-		zObjMesh componentObj;
+		zObjMesh o_component;
 
 		/*!	\brief kit component type  */
 		zCfComponentType componentType;

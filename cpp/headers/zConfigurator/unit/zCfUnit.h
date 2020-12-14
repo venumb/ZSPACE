@@ -15,15 +15,54 @@
 
 
 
+
 #pragma once
 
 #include <headers/zCore/data/zDatabase.h>
 
-#include <headers/zConfigurator/kit/zCfColumn.h>
+#include <headers/zConfigurator/base/zCfDefinitions.h>
 
+#include <headers/zConfigurator/kit/zCfColumn.h>
+#include <headers/zConfigurator/kit/zCfWall.h>
 
 namespace zSpace
 {
+	/** \addtogroup zConfigurator
+	*	\brief Collection of tool sets for configurator.
+	*  @{
+	*/
+
+	/** \addtogroup Unit
+	*	\brief Unit tool sets for configurator.
+	*  @{
+	*/
+
+	/*! \struct zCfVoxelAttributes
+	*	\brief A struct for to hold voxel attributes.
+	*	\details
+	*	\since version 0.0.4
+	*/
+
+	/** @}*/
+
+	/** @}*/
+
+	struct zCfVoxelAttributes
+	{
+		/*!	\brief voxel id belonging to the unit. */
+		int index;
+
+		/*!	\brief location of voxel in the unit. 2 - front , 1 - middle, 0 - back */
+		string location;
+
+		/*!	\brief percentage of voxel occupied. 0 to 1 */
+		float occupancy;
+
+		/*!	\brief pair of voxel face index to geometry type  */
+		vector<string> faceGeomTypes;
+
+	};
+	
 	/** \addtogroup zConfigurator
 	*	\brief Collection of tool sets for configurator.
 	*  @{
@@ -58,10 +97,10 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to center line graph object  */
-		zObjGraph* centerlineObj;
+		zObjGraph* o_centerline;
 
 		/*!	\brief pointer container to voxel objects  */
-		zObjMeshPointerArray voxelObjs;
+		zObjMeshPointerArray o_voxels;
 		
 		/*!	\brief pointer container to booleans for voxel program :  true - interior, false - exterior  */
 		zBoolArray* voxelInteriorProgram;
@@ -70,8 +109,8 @@ namespace zSpace
 		//---- UNIT ATTRIBUTES
 		//--------------------------
 
-		/*!	\brief ids of voxels beloing to the unit  */
-		zIntArray voxelIDS;
+		/*!	\brief container of voxel attributes belonging to the unit */
+		vector< zCfVoxelAttributes> voxelAttributes;
 
 		/*!	\brief pointer to unit transformation matrix  */
 		zTransformationMatrix* unitTransform;
@@ -113,6 +152,12 @@ namespace zSpace
 		/*!	\brief beam height  */
 		float beam_height = 0.3;
 
+		/*!	\brief floor height  */
+		float floor_height = 0.3;
+
+		/*!	\brief ceiling height  */
+		float ceiling_height = 0.3;
+
 		//--------------------------
 		//---- DATABASE ATTRIBUTES
 		//--------------------------
@@ -127,6 +172,9 @@ namespace zSpace
 
 		/*!	\brief container of column objects.  */
 		vector<zCfColumn> primaryColumns;
+
+		/*!	\brief container of wall objects.  */
+		vector<zCfWall> walls;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -167,11 +215,18 @@ namespace zSpace
 		*/
 		void createSpacePlanMesh(int xSubdiv = 3, int ySubdiv = 3);
 
-		/*! \brief This method creates the combined voxel mesh from the individual voxels of the unit.
+		/*! \brief This method creates the primary columns mesh from the individual voxels of the unit.
 		*
 		*	\since version 0.0.4
 		*/
 		void createPrimaryColumns();
+
+		/*! \brief This method creates the wall mesh from the individual voxels of the unit.
+		*
+		*	\since version 0.0.4
+		*/
+		void createWalls();
+
 
 		//--------------------------
 		//---- SET METHODS
@@ -179,24 +234,24 @@ namespace zSpace
 
 		/*! \brief This method sets the voxel objects.
 		*
-		*	\param		[in]	_voxelObjs			- input container of voxel objects.
+		*	\param		[in]	_o_voxels			- input container of voxel objects.
 		*	\since version 0.0.4
 		*/
-		void setVoxels(zObjMeshArray& _voxelObjs);
+		void setVoxels(zObjMeshArray& _o_voxels);
 
 		/*! \brief This method sets the centerline graph object.
 		*
-		*	\param		[in]	_centerLineObj		- input center line graph object.
+		*	\param		[in]	o_centerline		- input center line graph object.
 		*	\since version 0.0.4
 		*/
-		void setCenterlineGraph(zObjGraph& _centerLineObj);
+		void setCenterlineGraph(zObjGraph& o_centerline);
 
-		/*! \brief This method sets the centerline graph object.
+		/*! \brief This method sets the voxel attributes belonging to the unit.
 		*
-		*	\param		[in]	_voxelIDS			- input container of voxelIds of the unit.
+		*	\param		[in]	_voxelATTRIB			- input container of voxel attributes of the unit.
 		*	\since version 0.0.4
 		*/
-		void setVoxelIds(zIntArray& _voxelIDS);
+		void setVoxelAttributes(vector<zCfVoxelAttributes>& _voxelATTRIB);
 
 		/*! \brief This method sets the voxel interiro program array.
 		*
@@ -233,6 +288,12 @@ namespace zSpace
 		*/
 		void setDatabase(zDatabase& _db);
 
+		/*! \brief This method sets the voxel face colors based on the unit face geometry types.
+		*
+		*	\since version 0.0.4
+		*/
+		void setFaceColorsFromGeometryTypes();
+
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
@@ -264,6 +325,11 @@ namespace zSpace
 		*/
 		void computeUnitAttributes(string &_unitString);
 
+		/*! \brief This method computes the unit face geometry types.
+		*
+		*	\since version 0.0.4
+		*/
+		void computeUnitFaceGeometryTypes();		
 
 	};
 

@@ -142,17 +142,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\base\zCfDefinitions.h" />
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\base\zCfEnumerators.h" />
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\base\zCfVoxels.h" />
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\base\zCfCommands.h" />
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\kit\zCfColumn.h" />
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\kit\zCfKit.h" />
+    <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\kit\zCfWall.h" />
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\unit\zCfUnit.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\base\zCfVoxels.cpp" />
     <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\kit\zCfColumn.cpp" />
     <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\kit\zCfKit.cpp" />
+    <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\kit\zCfWall.cpp" />
     <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\unit\zCfUnit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

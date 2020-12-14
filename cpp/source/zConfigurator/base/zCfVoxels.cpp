@@ -42,8 +42,8 @@ namespace zSpace
 	ZSPACE_INLINE void zCfVoxels::createVoxelsFromFiles(zStringArray filePaths, zFileTpye type)
 	{
 		n_voxels = filePaths.size();
-		voxelObjs.clear();
-		voxelObjs.assign(n_voxels, zObjMesh());
+		o_voxels.clear();
+		o_voxels.assign(n_voxels, zObjMesh());
 
 		if (type == zJSON)
 		{
@@ -51,7 +51,7 @@ namespace zSpace
 			{
 				if (i < n_voxels)
 				{
-					zFnMesh fnMesh(voxelObjs[i]);
+					zFnMesh fnMesh(o_voxels[i]);
 					fnMesh.from(filePaths[i], type);
 				}
 
@@ -64,7 +64,7 @@ namespace zSpace
 			{
 				if (i < n_voxels)
 				{
-					zFnMesh fnMesh(voxelObjs[i]);
+					zFnMesh fnMesh(o_voxels[i]);
 					fnMesh.from(filePaths[i], type);
 				}
 			}
@@ -79,8 +79,8 @@ namespace zSpace
 		voxelDims = _voxelDims;
 		
 		n_voxels = computeNumVoxelfromTransforms(unitTransforms);
-		voxelObjs.clear();
-		voxelObjs.assign(n_voxels, zObjMesh());
+		o_voxels.clear();
+		o_voxels.assign(n_voxels, zObjMesh());
 
 		voxelInteriorProgram.clear();
 		voxelInteriorProgram.assign(n_voxels, false);
@@ -153,8 +153,9 @@ namespace zSpace
 						
 						if (vCounter < n_voxels)
 						{
-							zFnMesh fnVoxel(voxelObjs[vCounter]);
-							fnVoxel.create(pts, pCounts, pConnects);
+							zFnMesh fnVoxel(o_voxels[vCounter]);
+							fnVoxel.create(pts, pCounts, pConnects);				
+							
 							vCounter++;
 						}
 						
@@ -190,25 +191,60 @@ namespace zSpace
 			int zNum = ceil(s[2] / voxelDims.z);
 
 			
-			zIntArray unit_VoxelIDS;
-			for (int i = vCounter; i < vCounter + (xNum * yNum * zNum); i++) unit_VoxelIDS.push_back(i);
-			vCounter += (xNum * yNum * zNum);
+			vector<zCfVoxelAttributes> unit_VoxelAttribs;
+			for (int i = 0; i < zNum; i++)
+			{
+				for (int j = 0; j < yNum; j++)
+				{
+					for (int k = 0; k < xNum; k++)
+					{
+						unit_VoxelAttribs.push_back(zCfVoxelAttributes());
+
+						int id = unit_VoxelAttribs.size() - 1;
+
+						unit_VoxelAttribs[id].index = vCounter;
+
+						// default middle,interior
+						unit_VoxelAttribs[id].location = VL_Interior;
+						unit_VoxelAttribs[id].occupancy = 1.0;
+
+						// front,terrace
+						if( j == 0 ) 
+						{
+							unit_VoxelAttribs[id].location = VL_Terrace;
+							unit_VoxelAttribs[id].occupancy = 0.75;
+						}
+
+						// back,entrance
+						if (j == yNum -1)
+						{
+							unit_VoxelAttribs[id].location = VL_Entrance;
+							unit_VoxelAttribs[id].occupancy = 0.25;
+						}
+
+						vCounter += 1;
+					}
+				}
+							
+			}
 
 
 			// set unit attibutes
 			units[unitCounter].setUnitTransform(t);
 			units[unitCounter].setVoxelDimensions(voxelDims);
-			units[unitCounter].setCenterlineGraph(centerlineObj);
-			units[unitCounter].setVoxels(voxelObjs);
-			units[unitCounter].setVoxelIds(unit_VoxelIDS);
+			units[unitCounter].setCenterlineGraph(o_centerline);
+			units[unitCounter].setVoxels(o_voxels);
+			units[unitCounter].setVoxelAttributes(unit_VoxelAttribs);
 			units[unitCounter].setUnitString(unitAttributes[unitCounter]);
 			units[unitCounter].setDatabase(*db);
 			units[unitCounter].setVoxelInteriorProgram(voxelInteriorProgram);
+			units[unitCounter].setFaceColorsFromGeometryTypes();
 
 			//-- create methods
 			units[unitCounter].createCombinedVoxelMesh();
 			units[unitCounter].createSpacePlanMesh();
 			units[unitCounter].createPrimaryColumns();
+			units[unitCounter].createWalls();
 
 			unitCounter++;
 		}
@@ -229,7 +265,7 @@ namespace zSpace
 
 		for (int j = 0; j < n_voxels; j++)
 		{
-			zFnMesh fnVoxel(voxelObjs[j]);
+			zFnMesh fnVoxel(o_voxels[j]);
 			positions.push_back(fnVoxel.getCenter());
 		}
 
@@ -257,7 +293,7 @@ namespace zSpace
 			}
 		}
 
-		zFnGraph fnCenterline(centerlineObj);
+		zFnGraph fnCenterline(o_centerline);
 		fnCenterline.clear();
 		fnCenterline.create(positions, edgeConnects);
 		fnCenterline.setEdgeColor(edgeCol);
@@ -275,14 +311,14 @@ namespace zSpace
 
 	ZSPACE_INLINE zObjGraph* zCfVoxels::getRawGraph()
 	{
-		return &centerlineObj;
+		return &o_centerline;
 	}
 
 	ZSPACE_INLINE zObjMesh* zCfVoxels::getRawVoxel(int id)
 	{
 		if (id  >= n_voxels) throw std::invalid_argument(" error: null pointer.");
 		
-		return &voxelObjs[id];
+		return &o_voxels[id];
 	}
 
 	//---- UTILITY METHODS
@@ -307,7 +343,7 @@ namespace zSpace
 		// face map
 		for (int j = 0; j < n_voxels; j++)
 		{
-			zFnMesh fnVoxel(voxelObjs[j]);
+			zFnMesh fnVoxel(o_voxels[j]);
 
 			zPointArray fCenters;
 
@@ -379,7 +415,7 @@ namespace zSpace
 				int volId = j;
 
 
-				for (zItMeshFace f(voxelObjs[volId]); !f.end(); f++)
+				for (zItMeshFace f(o_voxels[volId]); !f.end(); f++)
 				{
 					int faceId = f.getId();
 
@@ -418,7 +454,7 @@ namespace zSpace
 
 		for (int j = 0; j < n_voxels; j++)
 		{			
-			for (zItMeshFace f(voxelObjs[j]); !f.end(); f++)
+			for (zItMeshFace f(o_voxels[j]); !f.end(); f++)
 			{
 				if (f.getNormal() == fNorm)
 				{
@@ -441,7 +477,7 @@ namespace zSpace
 		{
 			string cmd;
 
-			zItMeshFace f(voxelObjs[j], voxelSetoutFaceId[j]);
+			zItMeshFace f(o_voxels[j], voxelSetoutFaceId[j]);
 
 			// 0. Id
 			voxelHistory[j].push_back(CMD_INDEX);
@@ -502,7 +538,7 @@ namespace zSpace
 			voxelHistory[j].push_back(CMD_EXTRUDE);
 
 			zVector minBB, maxBB;
-			zFnMesh fnVoxel(voxelObjs[j]);
+			zFnMesh fnVoxel(o_voxels[j]);
 			fnVoxel.getBounds(minBB, maxBB);
 
 			zVector norm(0, 0, 1);
@@ -521,7 +557,7 @@ namespace zSpace
 		}
 	}
 
-	int zCfVoxels::computeNumVoxelfromTransforms(vector<zTransformationMatrix>& transforms)
+	ZSPACE_INLINE int zCfVoxels::computeNumVoxelfromTransforms(vector<zTransformationMatrix>& transforms)
 	{
 		int vCounter = 0;
 

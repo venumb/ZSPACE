@@ -22,6 +22,7 @@ namespace zSpace
 	{
 		r = g = b = 0;
 		a = 1;
+
 		h = s = v = 0;
 	}
 

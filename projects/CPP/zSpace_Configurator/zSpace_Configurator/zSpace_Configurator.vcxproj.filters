@@ -51,6 +51,12 @@
     <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\base\zCfCommands.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\kit\zCfWall.h">
+      <Filter>Header Files\Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\cpp\headers\zConfigurator\base\zCfDefinitions.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\base\zCfVoxels.cpp">
@@ -63,6 +69,9 @@
       <Filter>Source Files\Kit</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\kit\zCfColumn.cpp">
+      <Filter>Source Files\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\cpp\source\zConfigurator\kit\zCfWall.cpp">
       <Filter>Source Files\Kit</Filter>
     </ClCompile>
   </ItemGroup>
