@@ -22,10 +22,10 @@
 //--------------------------
 //---- windows include
 //--------------------------
-//#include<Unknwnbase.h>
-//#include<commdlg.h>
+#include<Unknwnbase.h>
+#include<commdlg.h>
 
-//#include <iomanip>
+#include <iomanip>
 
 #if defined(WIN32) 
 #undef WIN32

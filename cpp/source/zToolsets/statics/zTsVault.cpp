@@ -3669,7 +3669,6 @@ namespace zSpace
 				targetEdges_form.push_back(e_target);
 				targetEdges_force[eId_force] = e_target;
 
-
 			}
 
 			else

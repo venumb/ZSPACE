@@ -1370,6 +1370,16 @@ namespace zSpace
 		{
 			for (int k = 0; k < graphJSON.vertexAttributes[i].size(); k++)
 			{
+				// position
+				if (graphJSON.vertexAttributes[i].size() == 3)
+				{
+					zVector pos(graphJSON.vertexAttributes[i][k], graphJSON.vertexAttributes[i][k + 1], graphJSON.vertexAttributes[i][k + 2]);
+					graphObj->graph.vertexPositions.push_back(pos);
+					graphObj->graph.vertexColors.push_back(zColor(1,0,0,1));
+					graphObj->graph.vertexWeights.push_back(2.0);
+					k += 2;
+				}
+				
 				// position and color
 				if (graphJSON.vertexAttributes[i].size() == 6)
 				{

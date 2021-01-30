@@ -1000,13 +1000,13 @@ namespace zSpace
 	{
 		bool out = false;
 
-		zItMeshHalfEdgeArray cHEdges;
-		getHalfEdges(cHEdges);
+		zItMeshHalfEdgeArray fHEdges;
+		getHalfEdges(fHEdges);
 
 
-		for (auto &he : cHEdges)
+		for (auto &he : fHEdges)
 		{
-			if (he.onBoundary())
+			if (he.getSym().onBoundary())
 			{
 				out = true;
 				break;
@@ -1135,7 +1135,7 @@ namespace zSpace
 
 		while (numTris < maxTris - 1)
 		{
-			printf("\n working!");
+			//printf("\n working!");
 
 			int earId = -1;
 			bool earFound = false;;

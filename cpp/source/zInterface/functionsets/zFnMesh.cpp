@@ -3387,6 +3387,8 @@ namespace zSpace
 			cout << " error in opening file  " << outfilename.c_str() << endl;
 			return;
 		}
+		else cout << endl << " JSON exported. File:   " << outfilename.c_str() << endl;
+
 
 		//myfile.precision(16);
 		myfile << j.dump();

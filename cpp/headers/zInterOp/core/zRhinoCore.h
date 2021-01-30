@@ -16,7 +16,7 @@
 #define ZSPACE_INTEROP_RHINOCORE_H
 
 #pragma once
-
+#include "headers/zCore/base/zInline.h"
 
 namespace zSpace
 {
@@ -42,7 +42,7 @@ namespace zSpace
 
 
 
-	class zRhinoCore
+	class ZSPACE_RHINO zRhinoCore
 	{		
 
 	public:
@@ -69,9 +69,27 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		~zRhinoCore();
+
+		/*! \brief Method for startup process
+		*
+		*	\since version 0.0.4
+		*/
+		void startUp();
+
+		/*! \brief Method for shutdown process
+		*
+		*	\since version 0.0.4
+		*/
+		void shutDown();
 	};
 
 }
+
+#if defined(ZSPACE_STATIC_LIBRARY)  || defined(ZSPACE_DYNAMIC_LIBRARY)
+// All defined OK so do nothing
+#else
+//#include <source/zInterOp/core/zRhinoCore.cpp>
+#endif
 
 
 #endif
