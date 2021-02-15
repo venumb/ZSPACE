@@ -966,6 +966,13 @@ namespace zSpace
 		*/
 		void setColor(zColor col);
 
+		/*! \brief This method sets normal of the face.
+		*
+		*	\param		[in]	norm						- input normal.
+		*	\since version 0.0.3
+		*/
+		void setNormal(zVector norm);
+
 		//--------------------------
 		//---- UTILITY METHODS
 		//--------------------------
@@ -985,6 +992,12 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		bool checkPointInHalfSpace(zPoint &pt);
+
+		/*! \brief This method gets computes and updates the normal of the face.
+		*
+		*	\since version 0.0.4
+		*/
+		void updateNormal();
 
 		//--------------------------
 		//---- OPERATOR METHODS

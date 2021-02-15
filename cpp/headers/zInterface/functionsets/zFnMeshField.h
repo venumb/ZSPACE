@@ -66,7 +66,7 @@ namespace zSpace
 		/*!	\brief contour value domain.  */
 		zDomain<float> contourValueDomain;
 
-		/*!	\brief container of field values used for contouring. All values to be in teh 0 to 1 domain  */
+		/*!	\brief container of field values used for contouring. All values to be in the 0 to 1 domain  */
 		vector<float> contourVertexValues;
 
 	protected:
@@ -449,12 +449,11 @@ namespace zSpace
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	inPositions			- input container of postions for distance calculations.
-		*	\param	[in]	a					- input variable for distance function.
-		*	\param	[in]	b					- input variable for distance function.
+		*	\param	[in]	offset				- input distance variable.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zScalarArray &scalars, zPointArray &inPositions, double a, double b, bool normalise = true);
+		void getScalarsAsVertexDistance(zScalarArray &scalars, zPointArray &inPositions, float offset, bool normalise = true);
 
 		/*! \brief This method creates a vertex distance Field from the input  point cloud.
 		*
@@ -469,56 +468,51 @@ namespace zSpace
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	inPointsObj			- input point cloud object for distance calculations.
-		*	\param	[in]	a					- input variable for distance function.
-		*	\param	[in]	b					- input variable for distance function.
+		*	\param	[in]	offset				- input distance variable.
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zScalarArray &scalars, zObjPointCloud &inPointsObj, double a, double b, bool normalise = true);
+		void getScalarsAsVertexDistance(zScalarArray &scalars, zObjPointCloud &inPointsObj, float offset, bool normalise = true);
 
 		/*! \brief This method creates a vertex distance Field from the input mesh vertex positions.
 		*
 		*	\param	[out]	scalars				- container for storing scalar values.
 		*	\param	[in]	inMeshObj			- input mesh object for distance calculations.
-		*	\param	[in]	a					- input variable for distance function.
-		*	\param	[in]	b					- input variable for distance function.		
+		*	\param	[in]	offset				- input distance variable.	
 		*	\param	[in]	normalise			- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zScalarArray &scalars, zObjMesh &inMeshObj, double a, double b, bool normalise = true);
+		void getScalarsAsVertexDistance(zScalarArray &scalars, zObjMesh &inMeshObj, float offset, bool normalise = true);
 
 		/*! \brief This method creates a vertex distance Field from the input graph vertex positions.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
-		*	\param	[in]	a				- input variable for distance function.
-		*	\param	[in]	b				- input variable for distance function.
+		*	\param	[in]	offset			- input distance variable.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsVertexDistance(zScalarArray &scalars, zObjGraph &inGraphObj, double a, double b, bool normalise = true);
+		void getScalarsAsVertexDistance(zScalarArray &scalars, zObjGraph &inGraphObj, float offset, bool normalise = true);
 
 		/*! \brief This method creates a edge distance Field from the input mesh.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inMeshObj		- input mesh object for distance calculations.
-		*	\param	[in]	a				- input variable for distance function.
-		*	\param	[in]	b				- input variable for distance function.
+		*	\param	[in]	offset			- input distance variable.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(zScalarArray &scalars, zObjMesh &inMeshObj, double a, double b, bool normalise = true);
+		void getScalarsAsEdgeDistance(zScalarArray &scalars, zObjMesh &inMeshObj, float offset, bool normalise = true);
 
 		/*! \brief This method creates a edge distance Field from the input graph.
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
 		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
-		*	\param	[in]	a				- input variable for distance function.
-		*	\param	[in]	b				- input variable for distance function.
+		*	\param	[in]	offset			- input distance variable.
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalarsAsEdgeDistance(zScalarArray &scalars, zObjGraph &inGraphObj, double a, double b, bool normalise = true);
+		void getScalarsAsEdgeDistance(zScalarArray &scalars, zObjGraph &inGraphObj, float offset, bool normalise = true);
 		
 		//--------------------------
 		//----  2D SD FIELD METHODS
@@ -549,6 +543,20 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getScalars_Line(zScalarArray &scalars, zVector &v0, zVector &v1, double annularVal = 0, bool normalise = true);
+
+		/*! \brief This method gets the scalars for a line.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	v0				- input positions 0 of line.
+		*	\param	[in]	v1				- input positions 1 of line.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getScalars_Triangle(zScalarArray& scalars, zPoint& p0, zPoint& p1, zPoint& p2, double annularVal = 0, bool normalise = true);
+
 
 		/*! \brief This method gets the scalars for a square.
 		*
@@ -620,12 +628,13 @@ namespace zSpace
 		
 		/*! \brief This method avarages / smoothens the field values.
 		*
+		* 	\param		[out]	scalars				- container for storing scalar values.
 		*	\param		[in]	numSmooth			- number of times to smooth.
 		*	\param		[in]	diffuseDamp			- damping value of the averaging.
 		*	\param		[in]	type				- smooth type - zlaplacian / zAverage.
 		*	\since version 0.0.2
 		*/
-		void smoothField(int numSmooth, double diffuseDamp = 1.0, zDiffusionType type = zAverage);
+		void smoothField(zScalarArray& scalars, int numSmooth, double diffuseDamp = 1.0, zDiffusionType type = zAverage);
 
 		/*! \brief This method computes the field index of each input position and stores them in a container per field index.
 		*
@@ -703,7 +712,17 @@ namespace zSpace
 		*	\param	[in]	clipPlane			- input zPlane used for clipping.
 		*	\since version 0.0.2
 		*/
-		void boolean_clipwithPlane(zScalarArray& scalars, zMatrix4 &clipPlane);
+		void boolean_clipwithPlane(zScalarArray& scalars, zPlane &clipPlane);
+
+		/*! \brief This method uses an input plane to clip an existing scalar field.
+		*
+		*	\param	[in]	fieldValues_A			- field Values A.
+		* 	\param	[in]	fieldValues_Result		- resultant field value.
+		*	\param	[in]	clipPlane_center		- input clipPlane origin.
+		*	\param	[in]	clipPlane_Norm			- input clipPlane normal.
+		*	\since version 0.0.4
+		*/
+		void boolean_clipwithPlane(zScalarArray& fieldValues_A, zScalarArray& fieldValues_Result, zPoint& clipPlane_center , zVector& clipPlane_Norm);
 
 		//--------------------------
 		//----  UPDATE METHODS
@@ -809,6 +828,18 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		float getScalar_Line(zPoint &p, zPoint &v0, zPoint &v1);
+
+		/*! \brief This method gets the scalar for the input line.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	p0				- input positions 0 of triangle.
+		*	\param	[in]	p1				- input positions 1 of triangle.
+		*	\param	[in]	p2				- input positions 2 of triangle.
+		*	\return			double			- scalar value.
+		*	\since version 0.0.2
+		*/
+		float getScalar_Triangle(zPoint& p, zPoint& p0, zPoint& p1, zPoint& p2);
 
 		/*! \brief This method gets the sqaure scalar for the input point.
 		*

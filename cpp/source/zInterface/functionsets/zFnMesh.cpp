@@ -708,6 +708,32 @@ namespace zSpace
 		if (setFaceColor) computeFaceColorfromVertexColor();
 	}
 
+	ZSPACE_INLINE void zFnMesh::setVertexColorsfromScalars(zScalarArray& vertexScalars, bool setFaceColor)
+	{
+		if (vertexScalars.size() != numVertices())
+		{
+			throw std::invalid_argument(" error: scalars values to match number of vertices");
+			return;
+		}
+
+		for (int i = 0; i < vertexScalars.size(); i++)
+		{
+
+			zColor col;
+
+			if (vertexScalars[i] < 0) col = zColor(0.941, 0, 0.157, 1);
+			if (vertexScalars[i] > 0.0) col = zColor(0, 0.941, 0.157, 1);
+
+			meshObj->mesh.vertexColors[i] = col;
+
+		}
+
+		if (setFaceColor) computeFaceColorfromVertexColor();
+
+	}
+
+	
+
 	ZSPACE_INLINE void zFnMesh::setVertexColors(zColorArray& col, bool setFaceColor)
 	{
 		if (meshObj->mesh.vertexColors.size() != meshObj->mesh.vertices.size())
@@ -1703,7 +1729,173 @@ namespace zSpace
 
 	//---- CONTOUR METHODS
 
-	ZSPACE_INLINE void zFnMesh::getIsobandMesh(zObjMesh & coutourMeshObj, double inThresholdLow, double inThresholdHigh)
+	ZSPACE_INLINE void zFnMesh::splitMesh_Mixed(zPointArray& splitPlanes_origins, zVectorArray& splitPlanes_normals, zObjMesh& resultMeshObj)
+	{
+		zObjMesh tempObj;
+		getDuplicate(tempObj);
+
+
+		for (int j = 0; j < splitPlanes_origins.size() ; j++)
+		{
+			zFnMesh tempFn(tempObj);			
+			zScalarArray scalars;
+
+			int i = 0;
+			for (zItMeshVertex v(tempObj); !v.end(); v++, i++)
+			{
+
+				zPoint O = splitPlanes_origins[j];
+				zVector N = splitPlanes_normals[j];
+								 
+				zPoint P = v.getPosition();
+				float minDist_Plane = coreUtils.minDist_Point_Plane(P, O, N);
+				scalars.push_back(minDist_Plane);
+
+			}
+
+			tempFn.getIsoMesh_mixed(scalars, 0.0, false, resultMeshObj);
+
+			if (j < splitPlanes_origins.size() - 1)
+			{
+				tempFn.clear();
+
+				zFnMesh resultFn(resultMeshObj);
+				resultFn.getDuplicate(tempObj);			
+
+				resultFn.clear();
+			}
+
+		}
+
+
+	}
+
+	ZSPACE_INLINE void zFnMesh::splitMesh_Quad(vector<zPlane>& splitPlanes, bool invertMesh, zObjMesh& resultMeshObj)
+	{
+		
+		zScalarArray scalars;
+		scalars.assign(numVertices(), 100000);
+
+
+		for (int j = 0; j < splitPlanes.size(); j++)
+		{
+			int i = 0;
+			for (zItMeshVertex v(*meshObj); !v.end(); v++, i++)
+			{
+				zPoint O(splitPlanes[j](3, 0), splitPlanes[j](3, 1), splitPlanes[j](3, 2));
+				zVector N(splitPlanes[j](2, 0), splitPlanes[j](2, 1), splitPlanes[j](2, 2));
+
+				zPoint P = v.getPosition();
+				float minDist_Plane = coreUtils.minDist_Point_Plane(P, O, N);
+
+				/*if (j == 0)
+				{
+					scalars[i] = minDist_Plane;
+				}
+				else
+				{
+					float bool_union = coreUtils.zMin(minDist_Plane, scalars[i]);
+					float bool_intersect = coreUtils.zMax(minDist_Plane, scalars[i]);
+
+					float bool_difference = coreUtils.zMax(bool_union, bool_intersect);
+
+					scalars[i] = bool_difference;
+				}*/
+
+
+				scalars[i] = (j == 0) ? minDist_Plane : coreUtils.zMax(scalars[i], minDist_Plane);
+				//scalars[i] = coreUtils.zMin(minDist_Plane, scalars[i]);
+			}
+		}
+
+
+		setVertexColorsfromScalars(scalars, false);
+		getIsoMesh(scalars, 0.0, invertMesh, resultMeshObj);
+
+				
+	}
+
+	ZSPACE_INLINE void zFnMesh::getIsoMesh_mixed(zScalarArray& vertexScalars, float threshold, bool invertMesh, zObjMesh& coutourMeshObj)
+	{
+
+		if (vertexScalars.size() != numVertices())
+		{
+			throw std::invalid_argument(" error: scalars values to match number of vertices");
+			return;
+		}
+
+		zFnMesh tempFn(coutourMeshObj);
+		tempFn.clear(); // clear memory if the mobject exists.
+
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		unordered_map <string, int> positionVertex;
+
+
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			getIsolinePoly_mixed(vertexScalars, f, positions, polyConnects, polyCounts, positionVertex, threshold, invertMesh);
+		}
+
+		tempFn.create(positions, polyCounts, polyConnects);;
+
+	}
+
+	ZSPACE_INLINE void zFnMesh::getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray& positions, zIntArray& edgeConnects)
+	{
+
+		if (vertexScalars.size() != numVertices())
+		{
+			throw std::invalid_argument(" error: scalars values to match number of vertices");
+			return;
+		}
+
+			positions.clear();
+		edgeConnects.clear();
+		
+		unordered_map <string, int> positionVertex;
+
+
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			getIsoline(vertexScalars, f, positions, edgeConnects, positionVertex, threshold);
+		}
+		
+
+	}
+
+
+	ZSPACE_INLINE void zFnMesh::getIsoMesh(zScalarArray& vertexScalars, float threshold, bool invertMesh, zObjMesh& coutourMeshObj)
+	{
+
+		if (vertexScalars.size() != numVertices())
+		{
+			throw std::invalid_argument(" error: scalars values to match number of vertices");
+			return;
+		}
+
+		zFnMesh tempFn(coutourMeshObj);
+		tempFn.clear(); // clear memory if the mobject exists.
+
+		vector<zVector>positions;
+		vector<int>polyConnects;
+		vector<int>polyCounts;
+
+		unordered_map <string, int> positionVertex;
+
+
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			getIsolinePoly(vertexScalars, f, positions, polyConnects, polyCounts, positionVertex, threshold, invertMesh);
+		}
+
+		tempFn.create(positions, polyCounts, polyConnects);;
+
+	}
+	
+	ZSPACE_INLINE void zFnMesh::getIsobandMesh(zObjMesh & coutourMeshObj, float inThresholdLow, float inThresholdHigh)
 	{
 		zFnMesh tempFn(coutourMeshObj);
 		tempFn.clear(); // clear memory if the mobject exists.
@@ -3043,6 +3235,87 @@ namespace zSpace
 		
 	}
 
+	ZSPACE_INLINE void zFnMesh::extrudeVariableMesh(zFloatArray extrudeThickness, zObjMesh& out, bool bothSides, bool thicknessTris)
+	{
+		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
+
+		if (extrudeThickness.size() != numVertices()) return;
+
+		vector<zVector> positions;
+		vector<int> polyCounts;
+		vector<int> polyConnects;
+
+		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+		{
+			if(!bothSides) positions.push_back(meshObj->mesh.vertexPositions[i]);
+			else positions.push_back(meshObj->mesh.vertexPositions[i] + (meshObj->mesh.vertexNormals[i] * extrudeThickness[i] * -1));
+		}
+
+		for (int i = 0; i < meshObj->mesh.vertexPositions.size(); i++)
+		{
+			positions.push_back(meshObj->mesh.vertexPositions[i] + (meshObj->mesh.vertexNormals[i] * extrudeThickness[i]));
+		}
+
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			vector<int> fVerts;
+			f.getVertices(fVerts);
+
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				polyConnects.push_back(fVerts[j]);
+			}
+
+			polyCounts.push_back(fVerts.size());
+
+			for (int j = fVerts.size() - 1; j >= 0; j--)
+			{
+				polyConnects.push_back(fVerts[j] + meshObj->mesh.vertexPositions.size());
+			}
+
+			polyCounts.push_back(fVerts.size());
+		}
+
+		for (zItMeshHalfEdge he(*meshObj); !he.end(); he++)
+		{
+			if (he.onBoundary())
+			{
+				vector<int> eVerts;
+				he.getVertices(eVerts);
+
+				if (thicknessTris)
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1]);
+
+					polyCounts.push_back(3);
+					polyCounts.push_back(3);
+				}
+				else
+				{
+					polyConnects.push_back(eVerts[1]);
+					polyConnects.push_back(eVerts[0]);
+					polyConnects.push_back(eVerts[0] + meshObj->mesh.vertexPositions.size());
+					polyConnects.push_back(eVerts[1] + meshObj->mesh.vertexPositions.size());
+
+
+					polyCounts.push_back(4);
+				}
+			}
+		}
+
+		zFnMesh tempFn(out);
+
+		tempFn.clear();
+		tempFn.create(positions, polyCounts, polyConnects);
+
+	}
+
 	ZSPACE_INLINE void zFnMesh::extrudeBoundaryEdge(float extrudeThickness, zObjMesh &out, bool thicknessTris)
 	{
 		if (meshObj->mesh.faceNormals.size() == 0 || meshObj->mesh.faceNormals.size() != meshObj->mesh.faces.size()) computeMeshNormals();
@@ -3546,6 +3819,8 @@ namespace zSpace
 		for (int i = 0; i < meshJSON.halfedges.size(); i++) meshObj->mesh.halfEdges[i].setId(i);
 		for (int i = 0; i < meshJSON.faces.size(); i++) meshObj->mesh.faces[i].setId(i);
 
+		printf("\n nV %i | nHE %i | nP %i ", meshJSON.vertices.size(), meshJSON.halfedges.size(), meshJSON.faces.size());
+
 		// set Pointers
 		int n_v = 0;
 		for (zItMeshVertex v(*meshObj); !v.end(); v++)
@@ -3583,7 +3858,7 @@ namespace zSpace
 			}
 
 			if (meshJSON.halfedges[n_he][1] != -1)
-			{
+			{				
 				zItMeshHalfEdge heNext(*meshObj, meshJSON.halfedges[n_he][1]);
 				he.setNext(heNext);
 
@@ -3701,6 +3976,23 @@ namespace zSpace
 					k += 5;
 				}
 
+				// BRG position, normal and color, thickness
+				if (meshJSON.vertexAttributes[i].size() == 15)
+				{
+					zVector pos(meshJSON.vertexAttributes[i][k], meshJSON.vertexAttributes[i][k + 1], meshJSON.vertexAttributes[i][k + 2]);
+					meshObj->mesh.vertexPositions.push_back(pos);
+
+					zVector normal(meshJSON.vertexAttributes[i][k + 3], meshJSON.vertexAttributes[i][k + 4], meshJSON.vertexAttributes[i][k + 5]);
+					meshObj->mesh.vertexNormals.push_back(normal);
+
+					zColor col(meshJSON.vertexAttributes[i][k + 6], meshJSON.vertexAttributes[i][k + 7], meshJSON.vertexAttributes[i][k + 8], 1);
+					meshObj->mesh.vertexColors.push_back(col);
+
+					meshObj->mesh.vertexWeights.push_back(2.0);
+
+					k += 14;
+				}
+
 
 				// position, normal
 				if (meshJSON.vertexAttributes[i].size() == 8)
@@ -3736,18 +4028,25 @@ namespace zSpace
 		}
 		else
 		{
-			for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i += 2)
+
+			for (int i = 0; i < meshObj->mesh.n_e; i++)
 			{
-				// color
-				if (meshJSON.halfedgeAttributes[i].size() == 3)
-				{
-					zColor col(meshJSON.halfedgeAttributes[i][0], meshJSON.halfedgeAttributes[i][1], meshJSON.halfedgeAttributes[i][2], 1);
-
-					meshObj->mesh.edgeColors.push_back(col);
-					meshObj->mesh.edgeWeights.push_back(1.0);
-
-				}
+				meshObj->mesh.edgeColors.push_back(zColor());
+				meshObj->mesh.edgeWeights.push_back(1.0);
 			}
+
+			//for (int i = 0; i < meshJSON.halfedgeAttributes.size(); i += 2)
+			//{
+			//	// color
+			//	if (meshJSON.halfedgeAttributes[i].size() == 3)
+			//	{
+			//		zColor col(meshJSON.halfedgeAttributes[i][0], meshJSON.halfedgeAttributes[i][1], meshJSON.halfedgeAttributes[i][2], 1);
+
+			//		meshObj->mesh.edgeColors.push_back(col);
+			//		meshObj->mesh.edgeWeights.push_back(1.0);
+
+			//	}
+			//}
 		}
 
 		// face Attributes
@@ -3809,6 +4108,68 @@ namespace zSpace
 	}
 
 	//---- PROTECTED CONTOUR METHODS
+
+	ZSPACE_INLINE int zFnMesh::getIsolineCase_triangle(bool vertexBinary[3])
+	{
+		int out = -1;
+
+		if (vertexBinary[0] && vertexBinary[1] && vertexBinary[2] ) out = 0;
+
+		if (!vertexBinary[0] && vertexBinary[1] && vertexBinary[2] ) out = 1;
+
+		if (vertexBinary[0] && !vertexBinary[1] && vertexBinary[2]) out = 2;
+
+		if (vertexBinary[0] && vertexBinary[1] && !vertexBinary[2]) out = 3;
+
+		if (!vertexBinary[0] && !vertexBinary[1] && vertexBinary[2]) out = 4;
+
+		if (vertexBinary[0] && !vertexBinary[1] && !vertexBinary[2]) out = 5;
+
+		if (!vertexBinary[0] && vertexBinary[1] && !vertexBinary[2]) out = 6;
+
+		if (!vertexBinary[0] && !vertexBinary[1] && !vertexBinary[2]) out = 7;
+
+		return out;
+	}
+
+	ZSPACE_INLINE int zFnMesh::getIsolineCase(bool vertexBinary[4])
+	{
+		int out = -1;
+
+		if (vertexBinary[0] && vertexBinary[1] && vertexBinary[2] && vertexBinary[3]) out = 0;
+
+		if (!vertexBinary[0] && vertexBinary[1] && vertexBinary[2] && vertexBinary[3]) out = 1;
+
+		if (vertexBinary[0] && !vertexBinary[1] && vertexBinary[2] && vertexBinary[3]) out = 2;
+
+		if (!vertexBinary[0] && !vertexBinary[1] && vertexBinary[2] && vertexBinary[3]) out = 3;
+
+		if (vertexBinary[0] && vertexBinary[1] && !vertexBinary[2] && vertexBinary[3]) out = 4;
+
+		if (!vertexBinary[0] && vertexBinary[1] && !vertexBinary[2] && vertexBinary[3]) out = 5;
+
+		if (vertexBinary[0] && !vertexBinary[1] && !vertexBinary[2] && vertexBinary[3]) out = 6;
+
+		if (!vertexBinary[0] && !vertexBinary[1] && !vertexBinary[2] && vertexBinary[3]) out = 7;
+
+		if (vertexBinary[0] && vertexBinary[1] && vertexBinary[2] && !vertexBinary[3]) out = 8;
+
+		if (!vertexBinary[0] && vertexBinary[1] && vertexBinary[2] && !vertexBinary[3]) out = 9;
+
+		if (vertexBinary[0] && !vertexBinary[1] && vertexBinary[2] && !vertexBinary[3]) out = 10;
+
+		if (!vertexBinary[0] && !vertexBinary[1] && vertexBinary[2] && !vertexBinary[3]) out = 11;
+
+		if (vertexBinary[0] && vertexBinary[1] && !vertexBinary[2] && !vertexBinary[3]) out = 12;
+
+		if (!vertexBinary[0] && vertexBinary[1] && !vertexBinary[2] && !vertexBinary[3]) out = 13;
+
+		if (vertexBinary[0] && !vertexBinary[1] && !vertexBinary[2] && !vertexBinary[3]) out = 14;
+
+		if (!vertexBinary[0] && !vertexBinary[1] && !vertexBinary[2] && !vertexBinary[3]) out = 15;
+
+		return out;
+	}
 
 	ZSPACE_INLINE int zFnMesh::getIsobandCase(int vertexTernary[4])
 	{
@@ -3945,9 +4306,9 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE zVector zFnMesh::getContourPosition(double & threshold, zVector & vertex_lower, zVector & vertex_higher, double & thresholdLow, double & thresholdHigh)
+	ZSPACE_INLINE zVector zFnMesh::getContourPosition(float& threshold, zVector & vertex_lower, zVector & vertex_higher, float& thresholdLow, float& thresholdHigh)
 	{
-		double scaleVal = coreUtils.ofMap(threshold, thresholdLow, thresholdHigh, 0.0, 1.0);
+		float scaleVal = coreUtils.ofMap(threshold, thresholdLow, thresholdHigh, 0.0000f, 1.0000f);
 
 		zVector e = vertex_higher - vertex_lower;
 		double edgeLen = e.length();
@@ -3956,7 +4317,2008 @@ namespace zSpace
 		return (vertex_lower + (e * edgeLen *scaleVal));
 	}
 
-	ZSPACE_INLINE void zFnMesh::getIsobandPoly(zItMeshFace & f, zPointArray & positions, zIntArray & polyConnects, zIntArray & polyCounts, unordered_map<string, int>& positionVertex, double & thresholdLow, double & thresholdHigh)
+	ZSPACE_INLINE void zFnMesh::getIsoline(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& edgeConnects, unordered_map <string, int>& positionVertex, float& threshold)
+	{
+		vector<zItMeshVertex> fVerts;
+		f.getVertices(fVerts);
+
+		if (fVerts.size() != 4) return;
+
+		// chk if all the face vertices are below the threshold
+		bool vertexBinary[4];
+		float averageScalar = 0;
+
+		for (int j = 0; j < fVerts.size(); j++)
+		{
+			if (vertexScalars[fVerts[j].getId()] < threshold)
+			{
+				vertexBinary[j] =  true;
+			}
+			else vertexBinary[j] = false;
+
+			averageScalar += vertexScalars[fVerts[j].getId()];
+		}
+
+		averageScalar /= fVerts.size();
+
+		int MS_case = getIsolineCase(vertexBinary);
+
+		vector<zVector> newPositions;
+		vector<zVector> newPositions2;
+		
+
+		// CASE 0
+		if (MS_case == 0)
+		{
+			// No Veritices to be added 
+		}
+
+		// CASE 1
+		if (MS_case == 1)
+		{
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v1, v0, s1, s0));
+			newPositions.push_back(pos);			
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];	
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+		}
+
+		// CASE 2
+		if (MS_case == 2)
+		{
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);	
+
+		}
+
+		// CASE 3
+		if (MS_case == 3)
+		{
+			zVector v0 = fVerts[3].getPosition();
+			float s0 = vertexScalars[fVerts[3].getId()];
+
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+
+			v1 = fVerts[1].getPosition();
+			s1 = vertexScalars[fVerts[1].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);			
+
+
+		}
+
+		// CASE 4
+		if (MS_case == 4)
+		{
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+
+			zVector v1 = fVerts[2].getPosition();
+			float s1 = vertexScalars[fVerts[2].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[3].getPosition();
+			s0 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 5
+		if (MS_case == 5)
+		{
+			// SADDLE CASE 
+					
+			// tri 1
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v1 = fVerts[2].getPosition();
+			s1 = vertexScalars[fVerts[2].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			// tri 2
+			v0 = fVerts[3].getPosition();
+			s0 = vertexScalars[fVerts[3].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions2.push_back(pos);			
+
+			v1 = fVerts[0].getPosition();
+			s1 = vertexScalars[fVerts[0].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions2.push_back(pos);
+			
+
+
+		}
+
+		// CASE 6
+		if (MS_case == 6)
+		{
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[3].getPosition();
+			s0 = fVerts[3].getColor().r;
+			s0 = vertexScalars[fVerts[3].getId()];
+			v1 = fVerts[2].getPosition();
+			s1 = vertexScalars[fVerts[2].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+				
+
+		}
+
+
+		// CASE 7
+		if (MS_case == 7)
+		{
+			zVector v0 = fVerts[3].getPosition();
+			float s0 = vertexScalars[fVerts[3].getId()];
+			zVector v1 = fVerts[2].getPosition();
+			float s1 = vertexScalars[fVerts[2].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);			
+
+			v1 = fVerts[0].getPosition();
+			s1 = vertexScalars[fVerts[0].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 8
+		if (MS_case == 8)
+		{
+			zVector v0 = fVerts[2].getPosition();
+			float s0 = vertexScalars[fVerts[2].getId()];
+			zVector v1 = fVerts[3].getPosition();
+			float s1 = vertexScalars[fVerts[3].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[0].getPosition();
+			s0 = vertexScalars[fVerts[0].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 9
+		if (MS_case == 9)
+		{
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 10
+		if (MS_case == 10)
+		{
+			//printf("\n case 10");
+
+			// tri 1
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[1].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			// tri 2
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+			v1 = fVerts[1].getPosition();
+			s1 = vertexScalars[fVerts[1].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions2.push_back(pos);
+			
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions2.push_back(pos);
+	
+		}
+
+		// CASE 11
+		if (MS_case == 11)
+		{
+			zVector v0 = fVerts[2].getPosition();
+			float s0 = vertexScalars[fVerts[2].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+
+
+		}
+
+		// CASE 12
+		if (MS_case == 12)
+		{
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+			zVector v1 = fVerts[2].getPosition();
+			float s1 = vertexScalars[fVerts[2].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[0].getPosition();
+			s0 = vertexScalars[fVerts[0].getId()];
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 13
+		if (MS_case == 13)
+		{
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v1 = fVerts[2].getPosition();
+			s1 = vertexScalars[fVerts[2].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 14
+		if (MS_case == 14)
+		{
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 15
+		if (MS_case == 15)
+		{
+			// No Veritices to be added 
+
+		}
+
+
+		// check for edge lengths
+
+
+		/*if (newPositions.size() == 2)
+		{
+			for (int i = 0; i < newPositions.size(); i++)
+			{
+				int next = (i + 1) % newPositions.size();
+
+				if (newPositions[i].distanceTo(newPositions[next]) < distanceTolerance)
+				{
+					newPositions.erase(newPositions.begin() + i);
+				}
+			}
+		}*/
+
+
+		// compute edge 
+		if (newPositions.size() == 2)
+		{
+			for (int i = 0; i < newPositions.size(); i++)
+			{
+				zVector p0 = newPositions[i];
+				int v0;
+
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+				
+				if (!vExists)
+				{
+					v0 = positions.size();
+					positions.push_back(p0);
+
+					//string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					//positionVertex[hashKey] = v0;
+
+					coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+				}
+
+				edgeConnects.push_back(v0);
+
+				
+			}
+			
+		}
+
+
+		// only if there are 2 tris Case : 5,10
+
+		// Edge Length Check
+
+		/*if (newPositions2.size() == 2)
+		{
+			for (int i = 0; i < newPositions2.size(); i++)
+			{
+				int next = (i + 1) % newPositions2.size();
+
+
+				if (newPositions2[i].distanceTo(newPositions2[next]) < distanceTolerance)
+				{
+					newPositions2.erase(newPositions.begin() + i);
+				}
+
+			}
+		}*/
+
+
+		// compute edge 
+		if (newPositions2.size() == 2)
+		{
+			for (int i = 0; i < newPositions2.size(); i++)
+			{
+				zVector p0 = newPositions2[i];
+				int v0;
+
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+				if (!vExists)
+				{
+					v0 = positions.size();
+					positions.push_back(p0);
+					
+					coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+				}
+
+				edgeConnects.push_back(v0);
+			}
+			
+		}	
+
+
+	}
+
+
+	ZSPACE_INLINE void zFnMesh::getIsolinePoly_mixed(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& polyConnects, zIntArray& polyCounts, unordered_map <string, int>& positionVertex, float& threshold, bool invertMesh)
+	{
+		vector<zItMeshVertex> fVerts;
+		f.getVertices(fVerts);
+
+		// TRIANGLES
+		if (fVerts.size() == 3)
+		{
+			// chk if all the face vertices are below the threshold
+			bool vertexBinary[3];
+			float averageScalar = 0;
+
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				if (vertexScalars[fVerts[j].getId()] < threshold)
+				{
+					vertexBinary[j] = (invertMesh) ? false : true;
+				}
+				else vertexBinary[j] = (invertMesh) ? true : false;
+
+				averageScalar += vertexScalars[fVerts[j].getId()];
+			}
+
+			averageScalar /= fVerts.size();
+
+			int MS_case = getIsolineCase_triangle(vertexBinary);
+
+			vector<zVector> newPositions;
+			vector<zVector> newPositions2;
+
+
+			// CASE 0
+			if (MS_case == 0)
+			{
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					newPositions.push_back(fVerts[j].getPosition());
+				}
+
+			}
+
+			// CASE 1 100
+			if (MS_case == 1)
+			{
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[1].getPosition());
+				newPositions.push_back(fVerts[2].getPosition());
+
+				// tri 2
+
+				newPositions2.push_back(pos);
+				newPositions2.push_back(fVerts[2].getPosition());
+
+				v1 = fVerts[2].getPosition();
+				s1 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions2.push_back(pos);
+
+
+			}
+
+			// CASE 2 010
+			if (MS_case == 2)
+			{
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				// tri 2
+
+				newPositions2.push_back(pos);
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos);
+
+				newPositions2.push_back(fVerts[2].getPosition());
+
+			}
+
+			// CASE 3 001
+			if (MS_case == 3)
+			{
+				newPositions.push_back(fVerts[0].getPosition());
+				newPositions.push_back(fVerts[1].getPosition());
+
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+
+				zVector v1 = fVerts[2].getPosition();
+				float s1 = vertexScalars[fVerts[2].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				// tri 2
+
+				newPositions2.push_back(fVerts[0].getPosition());
+				newPositions2.push_back(pos);
+
+				v0 = fVerts[0].getPosition();
+				s0 = vertexScalars[fVerts[0].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos);
+
+
+			}
+
+			// CASE 4 110
+			if (MS_case == 4)
+			{
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+
+				zVector v1 = fVerts[2].getPosition();
+				float s1 = vertexScalars[fVerts[2].getId()];
+
+				zVector pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				v0 = fVerts[0].getPosition();
+				s0 = vertexScalars[fVerts[0].getId()];
+
+				pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+			}
+
+			// CASE 5 011
+			if (MS_case == 5)
+			{
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+
+				v1 = fVerts[2].getPosition();
+				s1 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+			}
+
+			// CASE 6 101
+			if (MS_case == 6)
+			{
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v1, v0, s1, s0));
+				newPositions.push_back(pos);
+			}
+
+
+			// CASE 7 111
+			if (MS_case == 15)
+			{
+				// No Veritices to be added 
+
+			}
+
+
+			// check for edge lengths
+
+			bool check = false;
+			if (newPositions.size() == 3)
+			{
+				for (int i = 0; i < newPositions.size(); i++)
+				{
+					int next = (i + 1) % newPositions.size();
+
+					if (newPositions[i].distanceTo(newPositions[next]) < distanceTolerance)
+					{
+						//newPositions.erase(newPositions.begin() + i);
+
+						check = true;
+					}
+				}
+			}
+
+
+			// compute poly 
+			if (newPositions.size() == 3 && !check)
+			{
+				for (int i = 0; i < newPositions.size(); i++)
+				{
+					zVector p0 = newPositions[i];
+					int v0;
+
+					bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+					if (!vExists)
+					{
+						v0 = positions.size();
+						positions.push_back(p0);
+
+						/*string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+						positionVertex[hashKey] = v0;*/
+
+						coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+					}
+
+					polyConnects.push_back(v0);
+				}
+
+				polyCounts.push_back(newPositions.size());
+			}
+
+
+			// only if there are 2 tris Case : 5,10
+
+			// Edge Length Check
+			check = false;
+
+			if (newPositions2.size() == 3)
+			{
+				for (int i = 0; i < newPositions2.size(); i++)
+				{
+					int next = (i + 1) % newPositions2.size();
+
+
+					if (newPositions2[i].distanceTo(newPositions2[next]) < distanceTolerance)
+					{
+						//newPositions2.erase(newPositions.begin() + i);
+						check = true;
+					}
+
+				}
+			}
+
+
+			// compute poly 
+			if (newPositions2.size() == 3 && !check)
+			{
+				for (int i = 0; i < newPositions2.size(); i++)
+				{
+					zVector p0 = newPositions2[i];
+					int v0;
+
+					bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+					if (!vExists)
+					{
+						v0 = positions.size();
+						positions.push_back(p0);
+
+						/*string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+						positionVertex[hashKey] = v0;*/
+
+						coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+					}
+
+					polyConnects.push_back(v0);
+				}
+
+				polyCounts.push_back(newPositions2.size());
+			}
+		}
+
+		
+		//QUADS
+		else if (fVerts.size() == 4)
+		{
+
+			// chk if all the face vertices are below the threshold
+			bool vertexBinary[4];
+			float averageScalar = 0;
+
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				if (vertexScalars[fVerts[j].getId()] < threshold)
+				{
+					vertexBinary[j] = (invertMesh) ? false : true;
+				}
+				else vertexBinary[j] = (invertMesh) ? true : false;
+
+				averageScalar += vertexScalars[fVerts[j].getId()];
+			}
+
+			averageScalar /= fVerts.size();
+
+			int MS_case = getIsolineCase(vertexBinary);
+
+			
+
+			vector<zVector> newPositions;
+			vector<zVector> newPositions2;
+
+
+			// CASE 0
+			if (MS_case == 0)
+			{
+				for (int j = 0; j < fVerts.size(); j++)
+				{
+					newPositions.push_back(fVerts[j].getPosition());
+				}
+
+			}
+
+			// CASE 1
+			if (MS_case == 1)
+			{
+				// tri
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos0);
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				// quad
+				newPositions2.push_back(pos0);
+				newPositions2.push_back(fVerts[2].getPosition());
+
+				newPositions2.push_back(fVerts[3].getPosition());
+
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+
+				zVector pos1 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos1);
+
+
+			}
+
+			// CASE 2
+			if (MS_case == 2)
+			{
+				//tri
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos0);
+
+				newPositions.push_back(fVerts[3].getPosition());
+
+				//quad
+
+				newPositions2.push_back(pos0);
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+
+				zVector pos1 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos1);
+
+				newPositions2.push_back(fVerts[2].getPosition());
+
+				newPositions2.push_back(fVerts[3].getPosition());
+
+			}
+
+			// CASE 3
+			if (MS_case == 3)
+			{
+				zVector v0 = fVerts[3].getPosition();
+				float s0 = vertexScalars[fVerts[3].getId()];
+
+				zVector v1 = fVerts[0].getPosition();
+				float s1 = vertexScalars[fVerts[0].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+
+				v1 = fVerts[1].getPosition();
+				s1 = vertexScalars[fVerts[1].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				newPositions.push_back(fVerts[3].getPosition());
+
+
+			}
+
+			// CASE 4
+			if (MS_case == 4)
+			{
+				//tri
+				newPositions.push_back(fVerts[0].getPosition());
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+
+				zVector v1 = fVerts[2].getPosition();
+				float s1 = vertexScalars[fVerts[2].getId()];
+
+				zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos0);
+
+				// quad
+				newPositions2.push_back(fVerts[0].getPosition());
+
+				newPositions2.push_back(pos0);
+
+				v0 = fVerts[3].getPosition();
+				s0 = vertexScalars[fVerts[3].getId()];
+
+				zVector pos1 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos1);
+
+				newPositions2.push_back(fVerts[3].getPosition());
+
+			}
+
+			// CASE 5
+			if (MS_case == 5)
+			{
+				// SADDLE CASE 
+
+				//printf("\n case 5");
+
+				int SaddleCase = 1/*(averageScalar < threshold) ? 0 : 1*/;
+				if (invertMesh) SaddleCase = 0/*(averageScalar < threshold) ? 1 : 0*/;
+
+				if (SaddleCase == 0)
+				{
+					// quad 1
+
+					zVector v0 = fVerts[1].getPosition();
+					float s0 = vertexScalars[fVerts[1].getId()];
+
+					zVector v1 = fVerts[0].getPosition();
+					float s1 = vertexScalars[fVerts[0].getId()];
+
+					zVector pos1 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos1);
+
+					newPositions.push_back(fVerts[1].getPosition());
+
+					v1 = fVerts[2].getPosition();
+					s1 = vertexScalars[fVerts[2].getId()];
+
+					zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos2);
+
+					v0 = fVerts[3].getPosition();
+					s0 = vertexScalars[fVerts[3].getId()];
+
+					zVector pos3 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos3);
+
+					// quad 2
+					newPositions2.push_back(pos1);
+					newPositions2.push_back(pos3);
+
+					newPositions2.push_back(fVerts[3].getPosition());
+
+					v1 = fVerts[0].getPosition();
+					s1 = vertexScalars[fVerts[0].getId()];
+
+					zVector pos4 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos4);
+
+				}
+				if (SaddleCase == 1)
+				{
+					// tri 1
+					zVector v0 = fVerts[1].getPosition();
+					float s0 = vertexScalars[fVerts[1].getId()];
+
+					zVector v1 = fVerts[0].getPosition();
+					float s1 = vertexScalars[fVerts[0].getId()];
+
+					zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos);
+
+					newPositions.push_back(fVerts[1].getPosition());
+
+
+					v1 = fVerts[2].getPosition();
+					s1 = vertexScalars[fVerts[2].getId()];
+					pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos);
+
+					// tri 2
+					v0 = fVerts[3].getPosition();
+					s0 = vertexScalars[fVerts[3].getId()];
+					pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos);
+
+					newPositions2.push_back(fVerts[3].getPosition());
+
+					v1 = fVerts[0].getPosition();
+					s1 = vertexScalars[fVerts[0].getId()];
+					pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos);
+				}
+
+
+			}
+
+			// CASE 6
+			if (MS_case == 6)
+			{
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v0 = fVerts[3].getPosition();
+				s0 = fVerts[3].getColor().r;
+				s0 = vertexScalars[fVerts[3].getId()];
+				v1 = fVerts[2].getPosition();
+				s1 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[3].getPosition());
+
+			}
+
+
+			// CASE 7
+			if (MS_case == 7)
+			{
+				// tri
+				zVector v0 = fVerts[3].getPosition();
+				float s0 = vertexScalars[fVerts[3].getId()];
+				zVector v1 = fVerts[2].getPosition();
+				float s1 = vertexScalars[fVerts[2].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[3].getPosition());
+
+				v1 = fVerts[0].getPosition();
+				s1 = vertexScalars[fVerts[0].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+			}
+
+			// CASE 8
+			if (MS_case == 8)
+			{
+				// tri 1
+				newPositions.push_back(fVerts[0].getPosition());
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				//quad
+				newPositions2.push_back(fVerts[1].getPosition());
+
+				newPositions2.push_back(fVerts[2].getPosition());
+
+				zVector v0 = fVerts[2].getPosition();
+				float s0 = vertexScalars[fVerts[2].getId()];
+				zVector v1 = fVerts[3].getPosition();
+				float s1 = vertexScalars[fVerts[3].getId()];
+
+				zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos0);
+
+				v0 = fVerts[0].getPosition();
+				s0 = vertexScalars[fVerts[0].getId()];
+				zVector pos1 = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos1);
+
+				// tri1
+				newPositions.push_back(pos1);
+			}
+
+			// CASE 9
+			if (MS_case == 9)
+			{
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+				zVector v1 = fVerts[0].getPosition();
+				float s1 = vertexScalars[fVerts[0].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+			}
+
+			// CASE 10
+			if (MS_case == 10)
+			{
+				//printf("\n case 10");
+
+				int SaddleCase = 1 /*(averageScalar < threshold) ? 0 : 1*/;
+				if (invertMesh) SaddleCase = 0 /*(averageScalar < threshold) ? 1 : 0*/;
+
+				if (SaddleCase == 0)
+				{
+					// quad1
+					newPositions.push_back(fVerts[0].getPosition());
+
+					zVector v0 = fVerts[0].getPosition();
+					float s0 = vertexScalars[fVerts[0].getId()];
+					zVector v1 = fVerts[1].getPosition();
+					float s1 = vertexScalars[fVerts[1].getId()];
+
+					zVector pos1 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos1);
+
+					// quad 2
+					newPositions2.push_back(pos1);
+
+					v0 = fVerts[2].getPosition();
+					s0 = vertexScalars[fVerts[2].getId()];
+					v1 = fVerts[1].getPosition();
+					s1 = vertexScalars[fVerts[1].getId()];
+
+					zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos2);
+
+					newPositions2.push_back(fVerts[2].getPosition());
+
+					v1 = fVerts[3].getPosition();
+					s1 = vertexScalars[fVerts[3].getId()];
+
+					zVector pos3 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos3);
+
+					// quad1
+					newPositions.push_back(pos3);
+
+					v0 = fVerts[0].getPosition();
+					s0 = vertexScalars[fVerts[0].getId()];
+					v1 = fVerts[3].getPosition();
+					s1 = vertexScalars[fVerts[3].getId()];
+
+					zVector pos4 = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos4);
+				}
+
+				if (SaddleCase == 1)
+				{
+					// tri 1
+
+					newPositions.push_back(fVerts[0].getPosition());
+
+					zVector v0 = fVerts[0].getPosition();
+					float s0 = vertexScalars[fVerts[0].getId()];
+					zVector v1 = fVerts[1].getPosition();
+					float s1 = vertexScalars[fVerts[1].getId()];
+
+					zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos);
+
+					v1 = fVerts[3].getPosition();
+					s1 = vertexScalars[fVerts[1].getId()];
+					pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions.push_back(pos);
+
+					// tri 2
+
+					v0 = fVerts[2].getPosition();
+					s0 = vertexScalars[fVerts[2].getId()];
+					v1 = fVerts[1].getPosition();
+					s1 = vertexScalars[fVerts[1].getId()];
+
+					pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos);
+
+					newPositions2.push_back(fVerts[2].getPosition());
+
+					v1 = fVerts[3].getPosition();
+					s1 = vertexScalars[fVerts[3].getId()];
+					pos = (getContourPosition(threshold, v0, v1, s0, s1));
+					newPositions2.push_back(pos);
+				}
+
+
+			}
+
+			// CASE 11
+			if (MS_case == 11)
+			{
+				zVector v0 = fVerts[2].getPosition();
+				float s0 = vertexScalars[fVerts[2].getId()];
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+
+
+			}
+
+			// CASE 12
+			if (MS_case == 12)
+			{
+				newPositions.push_back(fVerts[0].getPosition());
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+				zVector v1 = fVerts[2].getPosition();
+				float s1 = vertexScalars[fVerts[2].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v0 = fVerts[0].getPosition();
+				s0 = vertexScalars[fVerts[0].getId()];
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+			}
+
+			// CASE 13
+			if (MS_case == 13)
+			{
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+				zVector v1 = fVerts[0].getPosition();
+				float s1 = vertexScalars[fVerts[0].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				v1 = fVerts[2].getPosition();
+				s1 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+			}
+
+			// CASE 14
+			if (MS_case == 14)
+			{
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+			}
+
+			// CASE 15
+			if (MS_case == 15)
+			{
+				// No Veritices to be added 
+
+			}
+
+
+			// check for edge lengths
+
+
+			if (newPositions.size() >= 3)
+			{
+				for (int i = 0; i < newPositions.size(); i++)
+				{
+					int next = (i + 1) % newPositions.size();
+
+					if (newPositions[i].distanceTo(newPositions[next]) < distanceTolerance)
+					{
+						newPositions.erase(newPositions.begin() + i);
+					}
+				}
+			}
+
+
+			// compute poly 
+			if (newPositions.size() >= 3)
+			{
+				for (int i = 0; i < newPositions.size(); i++)
+				{
+					zVector p0 = newPositions[i];
+					int v0;
+
+					bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+					if (!vExists)
+					{
+						v0 = positions.size();
+						positions.push_back(p0);
+
+						/*string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+						positionVertex[hashKey] = v0;*/
+
+						coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+					}
+
+					polyConnects.push_back(v0);
+				}
+
+				polyCounts.push_back(newPositions.size());
+			}
+
+
+			// only if there are 2 tris Case : 5,10
+
+			// Edge Length Check
+
+			if (newPositions2.size() >= 3)
+			{
+				for (int i = 0; i < newPositions2.size(); i++)
+				{
+					int next = (i + 1) % newPositions2.size();
+
+
+					if (newPositions2[i].distanceTo(newPositions2[next]) < distanceTolerance)
+					{
+						newPositions2.erase(newPositions.begin() + i);
+					}
+
+				}
+			}
+
+
+			// compute poly 
+			if (newPositions2.size() >= 3)
+			{
+				for (int i = 0; i < newPositions2.size(); i++)
+				{
+					zVector p0 = newPositions2[i];
+					int v0;
+
+					bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+					if (!vExists)
+					{
+						v0 = positions.size();
+						positions.push_back(p0);
+
+						/*string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+						positionVertex[hashKey] = v0;*/
+
+						coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+					}
+
+					polyConnects.push_back(v0);
+				}
+
+				polyCounts.push_back(newPositions2.size());
+			}
+		}
+
+		else throw std::invalid_argument(" error: doesnt work with ngon meshes "); ;
+
+
+
+	}
+
+	ZSPACE_INLINE void zFnMesh::getIsolinePoly(zScalarArray &vertexScalars , zItMeshFace& f, zPointArray& positions, zIntArray& polyConnects, zIntArray& polyCounts, unordered_map <string, int>& positionVertex, float& threshold, bool invertMesh)
+	{
+		vector<zItMeshVertex> fVerts;
+		f.getVertices(fVerts);
+
+		if (fVerts.size() != 4) return;
+
+		// chk if all the face vertices are below the threshold
+		bool vertexBinary[4];
+		float averageScalar = 0;
+
+		for (int j = 0; j < fVerts.size(); j++)
+		{
+			if (vertexScalars[fVerts[j].getId()] < threshold)
+			{
+				vertexBinary[j] = (invertMesh) ? false : true;
+			}
+			else vertexBinary[j] = (invertMesh) ? true : false;
+
+			averageScalar += vertexScalars[fVerts[j].getId()];
+		}
+
+		averageScalar /= fVerts.size();
+
+		int MS_case = getIsolineCase(vertexBinary);
+
+		vector<zVector> newPositions;
+		vector<zVector> newPositions2;
+
+
+		// CASE 0
+		if (MS_case == 0)
+		{
+			for (int j = 0; j < fVerts.size(); j++)
+			{
+				newPositions.push_back(fVerts[j].getPosition());
+			}
+
+		}
+
+		// CASE 1
+		if (MS_case == 1)
+		{
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v1, v0, s1, s0));
+			newPositions.push_back(pos);		
+
+			newPositions.push_back(fVerts[1].getPosition());
+
+			newPositions.push_back(fVerts[2].getPosition());
+
+			newPositions.push_back(fVerts[3].getPosition());
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v1, v0, s1, s0));
+			newPositions.push_back(pos);
+
+			
+		}
+
+		// CASE 2
+		if (MS_case == 2)
+		{
+			newPositions.push_back(fVerts[0].getPosition());
+
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[2].getPosition());
+
+			newPositions.push_back(fVerts[3].getPosition());
+
+		}
+
+		// CASE 3
+		if (MS_case == 3)
+		{
+			zVector v0 = fVerts[3].getPosition();
+			float s0 = vertexScalars[fVerts[3].getId()];
+
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+
+			v1 = fVerts[1].getPosition();
+			s1 = vertexScalars[fVerts[1].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[2].getPosition());
+
+			newPositions.push_back(fVerts[3].getPosition());
+
+
+		}
+
+		// CASE 4
+		if (MS_case == 4)
+		{
+			newPositions.push_back(fVerts[0].getPosition());
+
+			newPositions.push_back(fVerts[1].getPosition());
+
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+
+			zVector v1 = fVerts[2].getPosition();
+			float s1 = vertexScalars[fVerts[2].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[3].getPosition();
+			s0 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[3].getPosition());
+
+		}
+
+		// CASE 5
+		if (MS_case == 5)
+		{
+			// SADDLE CASE 
+
+			//printf("\n case 5");
+
+			int SaddleCase = 1/*(averageScalar < threshold) ? 0 : 1*/;
+			if (invertMesh) SaddleCase = 0/*(averageScalar < threshold) ? 1 : 0*/;
+
+			if (SaddleCase == 0)
+			{
+				// hex
+
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+
+				zVector v1 = fVerts[0].getPosition();
+				float s1 = vertexScalars[fVerts[0].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+				v1 = fVerts[2].getPosition();
+				s1 = vertexScalars[fVerts[2].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v0 = fVerts[3].getPosition();
+				s0 = vertexScalars[fVerts[3].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[3].getPosition());
+
+				v1 = fVerts[0].getPosition();
+				s1 = vertexScalars[fVerts[0].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+			}
+			if (SaddleCase == 1)
+			{
+				// tri 1
+				zVector v0 = fVerts[1].getPosition();
+				float s0 = vertexScalars[fVerts[1].getId()];
+
+				zVector v1 = fVerts[0].getPosition();
+				float s1 = vertexScalars[fVerts[0].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[1].getPosition());
+
+
+				v1 = fVerts[2].getPosition();
+				s1 = vertexScalars[fVerts[2].getId()];
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				// tri 2
+				v0 = fVerts[3].getPosition();
+				s0 = vertexScalars[fVerts[3].getId()];
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos);
+
+				newPositions2.push_back(fVerts[3].getPosition());
+
+				v1 = fVerts[0].getPosition();
+				s1 = vertexScalars[fVerts[0].getId()];
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos);
+			}
+
+
+		}
+
+		// CASE 6
+		if (MS_case == 6)
+		{
+			newPositions.push_back(fVerts[0].getPosition());
+
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[3].getPosition();
+			s0 = fVerts[3].getColor().r;
+			s0 = vertexScalars[fVerts[3].getId()];
+			v1 = fVerts[2].getPosition();
+			s1 = vertexScalars[fVerts[2].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[3].getPosition());
+
+		}
+
+
+		// CASE 7
+		if (MS_case == 7)
+		{
+			zVector v0 = fVerts[3].getPosition();
+			float s0 = vertexScalars[fVerts[3].getId()];
+			zVector v1 = fVerts[2].getPosition();
+			float s1 = vertexScalars[fVerts[2].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[3].getPosition());
+
+			v1 = fVerts[0].getPosition();
+			s1 = vertexScalars[fVerts[0].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 8
+		if (MS_case == 8)
+		{
+			newPositions.push_back(fVerts[0].getPosition());
+
+			newPositions.push_back(fVerts[1].getPosition());
+
+			newPositions.push_back(fVerts[2].getPosition());
+
+			zVector v0 = fVerts[2].getPosition();
+			float s0 = vertexScalars[fVerts[2].getId()];
+			zVector v1 = fVerts[3].getPosition();
+			float s1 = vertexScalars[fVerts[3].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[0].getPosition();
+			s0 = vertexScalars[fVerts[0].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 9
+		if (MS_case == 9)
+		{
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[1].getPosition());
+
+			newPositions.push_back(fVerts[2].getPosition());
+
+			v0 = fVerts[2].getPosition();
+			s0 = vertexScalars[fVerts[2].getId()];
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 10
+		if (MS_case == 10)
+		{
+			//printf("\n case 10");
+
+			int SaddleCase = 1 /*(averageScalar < threshold) ? 0 : 1*/;
+			if (invertMesh) SaddleCase = 0 /*(averageScalar < threshold) ? 1 : 0*/;
+
+			if (SaddleCase == 0)
+			{
+				// hex
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+				v1 = fVerts[1].getPosition();
+				s1 = vertexScalars[fVerts[1].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				newPositions.push_back(fVerts[2].getPosition());
+
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v0 = fVerts[0].getPosition();
+				s0 = vertexScalars[fVerts[0].getId()];
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+			}
+
+			if (SaddleCase == 1)
+			{
+				// tri 1
+
+				newPositions.push_back(fVerts[0].getPosition());
+
+				zVector v0 = fVerts[0].getPosition();
+				float s0 = vertexScalars[fVerts[0].getId()];
+				zVector v1 = fVerts[1].getPosition();
+				float s1 = vertexScalars[fVerts[1].getId()];
+
+				zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[1].getId()];
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions.push_back(pos);
+
+				// tri 2
+
+				v0 = fVerts[2].getPosition();
+				s0 = vertexScalars[fVerts[2].getId()];
+				v1 = fVerts[1].getPosition();
+				s1 = vertexScalars[fVerts[1].getId()];
+
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos);
+
+				newPositions2.push_back(fVerts[2].getPosition());
+
+				v1 = fVerts[3].getPosition();
+				s1 = vertexScalars[fVerts[3].getId()];
+				pos = (getContourPosition(threshold, v0, v1, s0, s1));
+				newPositions2.push_back(pos);
+			}
+
+
+		}
+
+		// CASE 11
+		if (MS_case == 11)
+		{
+			zVector v0 = fVerts[2].getPosition();
+			float s0 = vertexScalars[fVerts[2].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[2].getPosition());
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+
+
+		}
+
+		// CASE 12
+		if (MS_case == 12)
+		{
+			newPositions.push_back(fVerts[0].getPosition());
+
+			newPositions.push_back(fVerts[1].getPosition());
+
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+			zVector v1 = fVerts[2].getPosition();
+			float s1 = vertexScalars[fVerts[2].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v0 = fVerts[0].getPosition();
+			s0 = vertexScalars[fVerts[0].getId()];
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 13
+		if (MS_case == 13)
+		{
+			zVector v0 = fVerts[1].getPosition();
+			float s0 = vertexScalars[fVerts[1].getId()];
+			zVector v1 = fVerts[0].getPosition();
+			float s1 = vertexScalars[fVerts[0].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			newPositions.push_back(fVerts[1].getPosition());
+
+			v1 = fVerts[2].getPosition();
+			s1 = vertexScalars[fVerts[2].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 14
+		if (MS_case == 14)
+		{
+			newPositions.push_back(fVerts[0].getPosition());
+
+			zVector v0 = fVerts[0].getPosition();
+			float s0 = vertexScalars[fVerts[0].getId()];
+			zVector v1 = fVerts[1].getPosition();
+			float s1 = vertexScalars[fVerts[1].getId()];
+
+			zVector pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+			v1 = fVerts[3].getPosition();
+			s1 = vertexScalars[fVerts[3].getId()];
+
+			pos = (getContourPosition(threshold, v0, v1, s0, s1));
+			newPositions.push_back(pos);
+
+		}
+
+		// CASE 15
+		if (MS_case == 15)
+		{
+			// No Veritices to be added 
+
+		}
+
+
+		// check for edge lengths
+
+
+		if (newPositions.size() >= 3)
+		{
+			for (int i = 0; i < newPositions.size(); i++)
+			{
+				int next = (i + 1) % newPositions.size();
+
+				if (newPositions[i].distanceTo(newPositions[next]) < distanceTolerance)
+				{
+					newPositions.erase(newPositions.begin() + i);
+				}
+			}
+		}
+
+
+		// compute poly 
+		if (newPositions.size() >= 3)
+		{
+			for (int i = 0; i < newPositions.size(); i++)
+			{
+				zVector p0 = newPositions[i];
+				int v0;
+
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+				//if (vExists) printf("\n working");
+
+				if (!vExists)
+				{
+					v0 = positions.size();
+					positions.push_back(p0);
+
+					//string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					//positionVertex[hashKey] = v0;
+
+					coreUtils.addToPositionMap(positionVertex, p0, v0,3);
+				}
+
+				polyConnects.push_back(v0);
+			}
+
+			polyCounts.push_back(newPositions.size());
+		}
+
+
+		// only if there are 2 tris Case : 5,10
+
+		// Edge Length Check
+
+		if (newPositions2.size() >= 3)
+		{
+			for (int i = 0; i < newPositions2.size(); i++)
+			{
+				int next = (i + 1) % newPositions2.size();
+
+
+				if (newPositions2[i].distanceTo(newPositions2[next]) < distanceTolerance)
+				{
+					newPositions2.erase(newPositions.begin() + i);
+				}
+
+			}
+		}
+
+
+		// compute poly 
+		if (newPositions2.size() >= 3)
+		{
+			for (int i = 0; i < newPositions2.size(); i++)
+			{
+				zVector p0 = newPositions2[i];
+				int v0;
+
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+
+				if (!vExists)
+				{
+					v0 = positions.size();
+					positions.push_back(p0);
+
+					//string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					//positionVertex[hashKey] = v0;
+					coreUtils.addToPositionMap(positionVertex, p0, v0, 3);
+				}
+
+				polyConnects.push_back(v0);
+			}
+
+			polyCounts.push_back(newPositions2.size());
+		}
+
+
+
+	}
+
+
+	ZSPACE_INLINE void zFnMesh::getIsobandPoly(zItMeshFace & f, zPointArray & positions, zIntArray & polyConnects, zIntArray & polyCounts, unordered_map<string, int>& positionVertex, float& thresholdLow, float& thresholdHigh)
 
 	{
 		vector<zItMeshVertex> fVerts;
@@ -4004,7 +6366,7 @@ namespace zSpace
 		if (MS_case >= 2 && MS_case <= 9)
 		{
 			int startID = -1;
-			double threshold = thresholdHigh;
+			float threshold = thresholdHigh;
 
 			if (MS_case == 2 || MS_case == 6)startID = 0;
 			if (MS_case == 3 || MS_case == 7)startID = 1;
@@ -4017,10 +6379,10 @@ namespace zSpace
 			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[prevID].getPosition();
-			double s1 = fVerts[prevID].getColor().r;
+			float s1 = fVerts[prevID].getColor().r;
 
 
 			zVector pos0 = (getContourPosition(threshold, v0, v1, s0, s1));
@@ -4047,8 +6409,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case == 10 || MS_case == 14) startID = 0;
 			if (MS_case == 11 || MS_case == 15) startID = 1;
@@ -4065,10 +6427,10 @@ namespace zSpace
 			int prevID = (startID - 1 + fVerts.size()) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 
 			zVector pos0 = (getContourPosition(threshold0, v0, v1, s0, s1));
@@ -4096,7 +6458,7 @@ namespace zSpace
 		if (MS_case >= 18 && MS_case <= 25)
 		{
 			int startID = -1;
-			double threshold = thresholdLow;
+			float threshold = thresholdLow;
 			if (MS_case > 21) threshold = thresholdHigh;
 
 			if (MS_case == 18 || MS_case == 22) startID = 0;
@@ -4114,10 +6476,10 @@ namespace zSpace
 			zVector pos1 = fVerts[nextID].getPosition();
 
 			zVector v0 = fVerts[nextID].getPosition();
-			double s0 = fVerts[nextID].getColor().r;
+			float s0 = fVerts[nextID].getColor().r;
 
 			zVector v1 = fVerts[next_nextID].getPosition();
-			double s1 = fVerts[next_nextID].getColor().r;
+			float s1 = fVerts[next_nextID].getColor().r;
 
 			zVector pos2 = (getContourPosition(threshold, v0, v1, s0, s1));
 
@@ -4152,10 +6514,10 @@ namespace zSpace
 			int next_nextID = (nextID + 1) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[prevID].getPosition();
-			double s1 = fVerts[prevID].getColor().r;
+			float s1 = fVerts[prevID].getColor().r;
 
 			zVector pos0 = (getContourPosition(thresholdLow, v0, v1, s0, s1));
 			zVector pos3 = (getContourPosition(thresholdHigh, v0, v1, s0, s1));
@@ -4187,7 +6549,7 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold = thresholdHigh;
+			float threshold = thresholdHigh;
 			if (MS_case > 34)threshold = thresholdLow;
 
 			if (MS_case == 31 || MS_case == 35) startID = 0;
@@ -4204,10 +6566,10 @@ namespace zSpace
 			zVector pos1 = fVerts[nextID].getPosition();
 
 			zVector v0 = fVerts[nextID].getPosition();
-			double s0 = fVerts[nextID].getColor().r;
+			float s0 = fVerts[nextID].getColor().r;
 
 			zVector v1 = fVerts[next_nextID].getPosition();
-			double s1 = fVerts[next_nextID].getColor().r;
+			float s1 = fVerts[next_nextID].getColor().r;
 
 
       zVector pos2 = getContourPosition(threshold, v0, v1, s0, s1);
@@ -4233,8 +6595,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 42)
 			{
@@ -4256,10 +6618,10 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
 
@@ -4289,8 +6651,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 50)
 			{
@@ -4312,9 +6674,9 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
 
@@ -4346,8 +6708,8 @@ namespace zSpace
 		{
 			int startID = -1;
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 58)
 			{
@@ -4370,9 +6732,9 @@ namespace zSpace
 			zVector pos1 = fVerts[nextID].getPosition();
 
 			zVector v0 = fVerts[nextID].getPosition();
-			double s0 = fVerts[nextID].getColor().r;
+			float s0 = fVerts[nextID].getColor().r;
 			zVector v1 = fVerts[next_nextID].getPosition();
-			double s1 = fVerts[next_nextID].getColor().r;
+			float s1 = fVerts[next_nextID].getColor().r;
 
 			zVector pos2 = getContourPosition(threshold1, v0, v1, s0, s1);
 
@@ -4401,8 +6763,8 @@ namespace zSpace
 			int startID = -1;
 
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case % 2 == 0)
 			{
@@ -4422,9 +6784,9 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold0, v0, v1, s0, s1);
 
@@ -4457,8 +6819,8 @@ namespace zSpace
 		if (MS_case >= 67 && MS_case <= 68)
 		{
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case % 2 == 0)
 			{
@@ -4479,9 +6841,9 @@ namespace zSpace
 			int next_nextID = (nextID + 1) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
 			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);
@@ -4557,7 +6919,7 @@ namespace zSpace
 		if (MS_case >= 69 && MS_case <= 72)
 		{
 
-			double threshold = thresholdLow;
+			float threshold = thresholdLow;
 
 			if (MS_case > 70)
 			{
@@ -4578,9 +6940,9 @@ namespace zSpace
 			zVector pos0 = fVerts[startID].getPosition();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos1 = getContourPosition(threshold, v0, v1, s0, s1);
 
@@ -4634,8 +6996,8 @@ namespace zSpace
 		if (MS_case >= 73 && MS_case <= 80)
 		{
 
-			double threshold0 = thresholdLow;
-			double threshold1 = thresholdHigh;
+			float threshold0 = thresholdLow;
+			float threshold1 = thresholdHigh;
 
 			if (MS_case > 76)
 			{
@@ -4661,9 +7023,9 @@ namespace zSpace
 			int next_nextID = (nextID + 1) % fVerts.size();
 
 			zVector v0 = fVerts[startID].getPosition();
-			double s0 = fVerts[startID].getColor().r;
+			float s0 = fVerts[startID].getColor().r;
 			zVector v1 = fVerts[nextID].getPosition();
-			double s1 = fVerts[nextID].getColor().r;
+			float s1 = fVerts[nextID].getColor().r;
 
 			zVector pos0 = getContourPosition(threshold0, v0, v1, s0, s1);
 			zVector pos1 = getContourPosition(threshold1, v0, v1, s0, s1);

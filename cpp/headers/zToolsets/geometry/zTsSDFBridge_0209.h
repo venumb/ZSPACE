@@ -77,8 +77,8 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \struct zConvexBlock
-	*	\brief A struct for to hold convex hull block attributes.
+	/*! \struct zBlock
+	*	\brief A struct for to hold block attributes.
 	*	\details
 	*	\since version 0.0.4
 	*/
@@ -87,7 +87,7 @@ namespace zSpace
 
 	/** @}*/
 
-	struct zConvexBlock
+	struct zBlock
 	{
 		/*!	\brief block index  */
 		int id = -1;
@@ -97,6 +97,33 @@ namespace zSpace
 
 		/*!	\brief container of block face indicies  */
 		zIntArray faces;
+
+		///*!	\brief container of block indicies which make up a macro block  */
+		//zIntArray macroBlocks;
+
+		///*!	\brief container of block indicies which make up a macro block  */
+		//zIntArray macroBlock_BoundaryFaces;
+
+		//zIntArray macroBlock_sideFaces;
+
+		///*!	\brief container of int pairs for holding plane face Id with correponding edge id intersecting it  */
+		//zIntPairArray sectionPlaneFace_GuideSmoothEdge;
+
+		///*!	\brief container of intersection points of plane and mesh  */
+		//zPointArray intersectionPoints;
+
+		///*!	\brief container of section graph objects  */
+		//zObjGraphArray o_sectionGraphs;
+
+		///*!	\brief container of contour graph objects  */
+		//zObjGraphArray o_contourGraphs;
+		//
+		///*!	\brief medial graph of the block  */
+		//zGraph medialGraph;
+
+		///*!	\brief container of section frames  */
+		//vector<zTransform> sectionFrames;
+
 	};
 
 	/** \addtogroup zToolsets
@@ -109,7 +136,7 @@ namespace zSpace
 	*  @{
 	*/
 
-	/*! \struct zConvexBlock
+	/*! \struct zBlock
 	*	\brief A struct for to hold block attributes.
 	*	\details
 	*	\since version 0.0.4
@@ -119,51 +146,31 @@ namespace zSpace
 
 	/** @}*/
 
-	struct zPrintBlock
+	struct zMacroBlock
 	{
 		/*!	\brief block index  */
 		int id = -1;
 
-		/*!	\brief length of medial graph length  */
+		/*!	\brief length of block medial graph  */
 		float mg_Length = 0;
-
-		/*!	\brief angle between start-end plane of of left convex block faces  */
-		float left_planeAngle;
-
-		/*!	\brief angle between start-end plane of of left convex block faces  */
-		float right_planeAngle;
 				
-		/*!	\brief guideMesh interior vertex of the block  */
-		int guideMesh_interiorVertex;
+		
 
-		/*!	\brief guideMesh interior vertex position of the block  */
-		zPoint guideMesh_interiorVertexPosition;
+		/*!	\brief container of block indicies which make up a macro block  */
+		vector< zBlock> leftBlocks;
+		vector< zBlock> rightBlocks;
 
-		/*!	\brief container of left convex block indicies which make up the print block  */
-		vector< zConvexBlock> leftBlocks;
-
-		/*!	\brief container of right convex block indicies which make up the print block  */
-		vector< zConvexBlock> rightBlocks;
-
-		/*!	\brief container of left block start-end face indicies  */
+		/*!	\brief container of block indicies which make up a macro block  */
 		zIntArray left_BoundaryFaces;
-
-		/*!	\brief container of right block start-end face indicies  */
 		zIntArray right_BoundaryFaces;
 
-		/*!	\brief container of left block side trim face indicies  */
 		zIntArray left_sideFaces;
-
-		/*!	\brief container of right  block side trim face indicies  */
 		zIntArray right_sideFaces;
 
-		/*!	\brief container of int pairs for holding plane face Id with correponding edge id intersecting it  for left convex block */
-		zIntPairArray right_sectionPlaneFace_GuideSmoothEdge;
-		
-		/*!	\brief container of int pairs for holding plane face Id with correponding edge id intersecting it  for right convex block */
-		zIntPairArray left_sectionPlaneFace_GuideSmoothEdge;
+		/*!	\brief container of int pairs for holding plane face Id with correponding edge id intersecting it  */
+		zIntPairArray sectionPlaneFace_GuideSmoothEdge;
 
-		/*!	\brief container of intersection points of plane and start-end faces  */
+		/*!	\brief container of intersection points of plane and mesh  */
 		zPointArray intersectionPoints;
 
 		/*!	\brief container of section graph objects  */
@@ -175,9 +182,8 @@ namespace zSpace
 		/*!	\brief medial graph of the block  */
 		zGraph medialGraph;
 
-		/*!	\brief container of section frames for both right and left blocks  */
+		/*!	\brief container of section frames  */
 		vector<zTransform> sectionFrames;
-
 
 	};
 	
@@ -243,9 +249,9 @@ namespace zSpace
 		vector<zGlobalVertex> globalVertices;
 
 		/*!	\brief container of blocks  */
-		//vector<zConvexBlock> blocks;
+		//vector<zBlock> blocks;
 
-		vector<zPrintBlock> printBlocks;
+		vector<zMacroBlock> macroblocks;
 				
 		//--------------------------
 		//---- ATTRIBUTES
@@ -328,22 +334,7 @@ namespace zSpace
 
 		zIntArray planeFace_targetPair;
 
-		zVectorArray targetNormals;
-		zPointArray targetCenters;
-
 		zColorArray planeFace_colors;
-
-		zBoolArray globalFixedVertices;
-
-		//--------------------------
-		//---- SMOOTH MESH ATTRIBUTES
-		//--------------------------
-
-		/*!	\brief container of  plane particle objects  */
-		vector<zObjParticle> o_smoothMeshParticles;
-
-		/*!	\brief container of plane particle function set  */
-		vector<zFnParticle> fnSmoothMeshParticles;
 
 		//--------------------------
 		//---- SDF ATTRIBUTES
@@ -385,13 +376,8 @@ namespace zSpace
 		*	\param		[in]	width					- input plane width.
 		*	\since version 0.0.4
 		*/
-		void createEdgeBeamMesh(double width, const vector<int>& _constraintVertices = vector<int>());
+		void createCutPlaneMesh(double width);
 
-		/*! \brief This method creates the force geometry from the input files.
-		*
-		*	\param		[in]	width					- input plane width.
-		*	\since version 0.0.4
-		*/
 		void createSplitMesh(double width);
 
 		/*! \brief This method creates the smooth mesh of guide mesh.
@@ -408,6 +394,13 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void createSmoothGuideMeshfromFile(string path, zFileTpye fileType);
+
+		/*! \brief This method creates the dual mesh of guide mesh.
+		*
+		*	\param		[in]	width			- input plane width.
+		*	\since version 0.0.4
+		*/
+		void createDualPlaneMesh(double width);
 
 		/*! \brief This method creates the block section graphs from the input files.
 		*
@@ -427,6 +420,26 @@ namespace zSpace
 		void createFieldMesh(zDomain<zPoint> &bb,  int res);
 
 		//--------------------------
+		//---- COMPUTE METHODS
+		//--------------------------
+
+		/*! \brief This method updates the form diagram to find equilibrium shape..
+		*
+		*	\param		[in]	minmax_Edge					- minimum value of the target edge as a percentage of maximum target edge.
+		*	\param		[in]	guideWeight					- weight of guide mesh update. To be between 0 and 1.
+		*	\param		[in]	dT							- integration timestep.
+		*	\param		[in]	type						- integration type - zEuler or zRK4.
+		*	\param		[in]	numIterations				- number of iterations.
+		*	\param		[in]	angleTolerance				- tolerance for angle.
+		*	\param		[in]	colorEdges					- colors edges based on angle deviation if true.
+		*	\param		[in]	printInfo					- prints angle deviation info if true.
+		*	\return				bool						- true if the all the forces are within tolerance.
+		*	\since version 0.0.4
+		*/
+		bool equilibrium(bool& computeTargets, float guideWeight, double dT, zIntergrationType type, int numIterations = 1000, double angleTolerance = EPS, bool colorEdges = false, bool printInfo = false);
+
+
+		//--------------------------
 		//--- SET METHODS 
 		//--------------------------
 
@@ -437,16 +450,16 @@ namespace zSpace
 		*/
 		void setGuideMesh(zObjMesh& _o_guideMesh);
 				
-		/*! \brief This method sets convex blocks medial start points of the geometry.
+		/*! \brief This method sets anchor points of the geometry.
 		*
-		*	\param		[in]	_fixedVertices			- container of vertex indices
+		*	\param		[in]	_fixedVertices			- container of vertex indices to be fixed. If empty the boundary(mesh) or valence 1(graph) vertices are fixed.
 		*	\since version 0.0.4
 		*/
-		void setConvexMedials( const vector<int>& _fixedVertices = vector<int>());
+		void setConstraints( const vector<int>& _fixedVertices = vector<int>());
 
-		/*! \brief This method sets print blocks medial start points of the geometry.
+		/*! \brief This method sets anchor points of the geometry.
 		*
-		*	\param		[in]	_fixedVertices			- container of vertex indices
+		*	\param		[in]	_fixedVertices			- container of vertex indices to be fixed. If empty the boundary(mesh) or valence 1(graph) vertices are fixed.
 		*	\since version 0.0.4
 		*/
 		void setPrintMedials(const vector<int>& _fixedVertices = vector<int>());
@@ -454,13 +467,6 @@ namespace zSpace
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------
-
-		/*! \brief This method gets the number of print blocks.
-		*
-		*	\return				int					- number of print blocks.
-		*	\since version 0.0.4
-		*/
-		int numPrintBlocks();
 
 		/*! \brief This method gets pointer to the internal combined voxel mesh object.
 		*
@@ -482,45 +488,25 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		int getCorrespondingPlaneFace(int guideEdgeId);
-		
-		/*! \brief This method gets the block interior point of the block.
-		*
-		*	\param		[in]	blockId					- input block index.
-		*	\return				zPointArray			    - interior points.
-		*	\since version 0.0.2
-		*/
-		zPoint getBlockInteriorPoint(int blockId);
 
-		/*! \brief This method gets the block intersection points of the block with smooth guide mesh.
+		/*! \brief This method computes the block intersection points of the block with smooth guide mesh.
 		*
 		*	\param		[in]	blockId					- input block index.
-		*	\return				zPointArray			    - container of intersection points if they exist.
+		*	\return				zPointArray			    - intersections if they exist.
 		*	\since version 0.0.2
 		*/
 		zPointArray getBlockIntersectionPoints(int blockId);
 
-		/*! \brief This method gets the block frames.
+		/*! \brief This method computes the block intersection points of the block with smooth guide mesh.
 		*
 		*	\param		[in]	blockId					- input block index.
-		*	\return				vector<zTransform>	    - cantainer of transforms if they exist.
+		*	\return				zPointArray			    - intersections if they exist.
 		*	\since version 0.0.2
 		*/
 		vector<zTransform> getBlockFrames(int blockId);
 
-		/*! \brief This method gets the block section graphs
-		*
-		*	\param		[in]	blockId					- input block index.
-		*	\return				zObjGraphPointerArray	-  pointer conatiner of graphs if they exist.
-		*	\since version 0.0.2
-		*/
 		zObjGraphPointerArray getBlockGraphs(int blockId, int &numGraphs);
 
-		/*! \brief This method gets the block SDF contour graphs
-		*
-		*	\param		[in]	blockId					- input block index.
-		*	\return				zObjGraphPointerArray	- pointer conatiner of graphs if they exist.
-		*	\since version 0.0.2
-		*/
 		zObjGraphPointerArray getBlockContourGraphs(int blockId, int& numGraphs);
 
 		/*! \brief This method gets pointer to the internal field object.
@@ -541,6 +527,12 @@ namespace zSpace
 		//---- COMPUTE METHODS
 		//--------------------------
 
+		/*! \brief This method computes the targets for equilibrium.
+		*
+		*	\param		[in]	guideWeight					- weight of guideMesh update. To be between 0 and 1.
+		*	\since version 0.0.4
+		*/
+		void computeEquilibriumTargets(float guideWeight);
 
 		/*! \brief This method computes the medial edges from contraint points.
 		*
@@ -554,12 +546,12 @@ namespace zSpace
 		*/
 		void computePrintMedialEdgesfromMedialVertices();
 
-		/*! \brief This method computes the.
+		/*! \brief This method computes the medial edges from contraint points.
 		*
 		* 	\param		[in]	printLayerDepth				- input print layer depth.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlocks(float printLayerDepth =  0.1);
+		void computeBlocks(float printLayerDepth =  0.1);
 
 		/*! \brief This method computes the block mesh.
 		*
@@ -578,64 +570,72 @@ namespace zSpace
 		//---- UTILITY METHODS
 		//--------------------------
 
-		/*! \brief This method planarises the plane mesh.
+		/*! \brief This method add the convex hulls which make up the macro block.
 		*
-		*	\param		[in]	dT							- input integration timestep.
-		*	\param		[in]	type						- input integration type - zEuler or zRK4.
-		* 	\param		[in]	tolerance					- input deviation tolerance.
-		*	\param		[in]	numIterations				- input number of iterations to run.
-		* 	\param		[in]	printInfo					- input boolean indicating print of information of deviation.
-		*  	\param		[in]	minEdgeConstraint			- input boolean indicating minimum edge length constraint.
-		*  	\param		[in]	minEdgeLen					- input minimum edge length constraint.
-		* 	\return				bool						- output boolean , true if  deviation below tolerance.
+		*	\param		[in]	mBlock						- input macro block.
+		*	\param		[in]	guideMesh_halfedge			- input guideMesh halfedge.
 		*	\since version 0.0.4
 		*/
-		bool planarisePlaneMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1, bool printInfo =false, bool minEdgeConstraint = false, float minEdgeLen = 0.05);
-
-		/*! \brief This method aligns the normal of the blanes to input targets.
+		void addConvexBlocks(zMacroBlock &mBlock,zItMeshHalfEdge& guideMesh_halfedge);
+		
+		
+		/*! \brief This method updates the guide mesh.
 		*
-		*	\param		[in]	dT							- input integration timestep.
-		*	\param		[in]	type						- input integration type - zEuler or zRK4.
-		* 	\param		[in]	tolerance					- input deviation tolerance.
-		*	\param		[in]	numIterations				- input number of iterations to run.
-		* 	\param		[in]	printInfo					- input boolean indicating print of information of deviation.
-		* 	\return				bool						- output boolean , true if  deviation below tolerance.
+		*	\param		[in]	minmax_Edge					- minimum value of the target edge as a percentage of maximum target edge.
+		*	\param		[in]	dT							- integration timestep.
+		*	\param		[in]	type						- integration type - zEuler or zRK4.
+		*	\param		[in]	numIterations				- number of iterations to run.
+		*	\since version 0.0.2
+		*/
+		void updateGuideMesh(float minmax_Edge, float dT, zIntergrationType type, int numIterations = 1);
+
+		/*! \brief This method updates the plane mesh.
+		*
+		*	\param		[in]	dT							- integration timestep.
+		*	\param		[in]	type						- integration type - zEuler or zRK4.
+		*	\param		[in]	numIterations				- number of iterations to run.
+		*	\since version 0.0.2
+		*/
+		void updatePlaneMesh( float dT, zIntergrationType type, int numIterations = 1);
+
+		/*! \brief This method if the form mesh edges and corresponding force mesh edge are parallel.
+		*
+		*	\param		[out]	deviation							- deviation domain.
+		*	\param		[in]	angleTolerance						- angle tolerance for parallelity.
+		*	\param		[in]	printInfo							- printf information of minimum and maximum deviation if true.
+		*	\return				bool								- true if the all the correponding edges are parallel or within tolerance.
 		*	\since version 0.0.4
 		*/
-		bool alignToBRGTargets(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1, bool printInfo = false);
+		bool checkDeviation(zDomainFloat& deviation, float angleTolerance = 0.001, bool colorEdges = false, bool printInfo = false);
 
-		/*! \brief This method updates the smooth mesh.
+		/*! \brief This method updates the plane mesh.
 		*
 		*	\param		[in]	dT							- integration timestep.
 		*	\param		[in]	type						- integration type - zEuler or zRK4.
 		*	\param		[in]	numIterations				- number of iterations to run.
 		*	\since version 0.0.4
 		*/
-		bool updateSmoothMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1);
-	
-		/*! \brief This method computes the boundary planes of the print block.
-		*
-		*	\param		[in]	mBlock						- input macro block.
-		*	\since version 0.0.4
-		*/
-		void addPrintBlockBoundary(zPrintBlock& mBlock);
+		bool planarisePlaneMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1);
 
-		/*! \brief This method adds the convex hulls which make up the macro block.
-		*
-		*	\param		[in]	mBlock						- input macro block.
-		*	\param		[in]	guideMesh_halfedge			- input guideMesh halfedge.
-		*	\since version 0.0.4
-		*/
-		void addConvexBlocks(zPrintBlock &mBlock,zItMeshHalfEdge& guideMesh_halfedge);	
-				
-		/*! \brief This method compute the convex block faces.
+		/*! \brief This method compute the block faces.
 		*
 		*	\param		[in]	_block						- input block.
-		*	\param		[in]	guideMesh_vertex			- input guide mesh edge.
+		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void addConvexBlockFaces_fromEdge(zConvexBlock& _block, zItMeshEdge& guideMesh_edge);
+		void computeBlockFaces_fromVertex(zBlock &_block, zItMeshVertex& guideMesh_vertex);
 
+		void computeBlockFaces_fromEdge(zBlock& _block, zItMeshEdge& guideMesh_edge);
+
+		/*! \brief This method compute the block indices which make up a macro block.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
+		*	\since version 0.0.4
+		*/
+		void computeMacroBlockIndices(zBlock& _block, zItMeshEdge& guideMesh_edge);
+
+		void  computeMacroBlock();
 
 		/*! \brief This method compute the block medial graph.
 		*
@@ -643,7 +643,9 @@ namespace zSpace
 		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockIntersections(zPrintBlock& _block);
+		void computeBlockIntersections(zBlock& _block, zItMeshVertex& guideMesh_vertex);
+
+		void computeBlockIntersections(zBlock& _block, zItMeshEdge& guideMesh_edge);
 
 		/*! \brief This method compute the block frames.
 		*
@@ -652,24 +654,7 @@ namespace zSpace
 		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockFrames(zPrintBlock& _block, float printLayerDepth);
-
-		/*! \brief This method compute the block frames.
-		*
-		*	\param		[in]	_block						- input block.
-		*	\param		[in]	printLayerDepth				- input print layer depth.
-		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
-		*	\since version 0.0.4
-		*/
-		void computePrintBlockSections(zPrintBlock& _block);
-
-		/*! \brief This method compute the legth of  medial graph of the block
-		*
-		*	\param		[in]	_block						- input block.
-		*	\param		[in]	leftBlock					- input booealn indicating if its a left block or a right
-		*	\since version 0.0.4
-		*/
-		void  computePrintBlockLength(zPrintBlock& _block, bool leftBlock);
+		void computeBlockFrames(zBlock& _block, float printLayerDepth);
 
 		/*! \brief This method compute the block SDF for the balustrade.
 		*
@@ -677,7 +662,7 @@ namespace zSpace
 		*	\param		[in]	graphId						- input index of section graph.
 		*	\since version 0.0.4
 		*/
-		void computeBalustradeSDF(zConvexBlock& _block, int graphId);
+		void computeBalustradeSDF(zBlock& _block, int graphId);
 
 		/*! \brief This method compute the transform from input Vectors.
 		*
@@ -703,9 +688,9 @@ namespace zSpace
 
 		void blockContoursToIncr3D(string dir, string filename, float layerWidth = 0.025);
 
-		void toBRGJSON(string path, zPointArray& points, zVectorArray& normals);
+		void addBlocktoMacro(zBlock& _blockA, zBlock& _blockB);
 
-		bool fromBRGJSON(string path, zPointArray& points, zVectorArray& normals, zPointArray& vThickness);
+		void toBRGJSON(string path, zPointArray& points, zVectorArray& normals);
 	};
 }
 

@@ -18,6 +18,7 @@
 
 #include<headers/zInterface/objects/zObjMesh.h>
 #include<headers/zInterface/objects/zObjGraph.h>
+
 #include<headers/zInterface/functionsets/zFn.h>
 
 #include<headers/zInterface/iterators/zItMesh.h>
@@ -347,6 +348,14 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void setVertexColor(zColor col, bool setFaceColor = false);
+
+		/*! \brief This method sets vertex color of all the vertices with the input color contatiner.
+		*
+		* 	\param		[in]	vertexScalars	- input scalar values per vertex of the mesh.
+		*	\param		[in]	setFaceColor	- face color is computed based on the vertex color if true.
+		*	\since version 0.0.2
+		*/
+		void setVertexColorsfromScalars(zScalarArray& vertexScalars, bool setFaceColor = false);
 
 		/*! \brief This method sets vertex color of all the vertices with the input color contatiner.
 		*
@@ -715,6 +724,61 @@ namespace zSpace
 		//---- CONTOUR METHODS
 		//--------------------------	
 
+		/*! \brief This method splits the triangle-Quad mixed mesh with the input planes.
+		*
+		*	\param	[in]	splitPlanes		- input split planes.		
+		* 	\param	[out]	resultMesh		- output split mesh.
+		*	\since version 0.0.4
+		*	\warning	doensn't work with ngon meshes
+		*/
+		void splitMesh_Mixed(zPointArray& splitPlanes_origins, zVectorArray& splitPlanes_normals, zObjMesh& resultMesh);
+
+		/*! \brief This method splits the quad mesh with the input planes.
+		*
+		*	\param	[in]	splitPlanes		- input split planes.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.
+		* 	\param	[out]	resultMesh		- output split mesh.
+		*	\since version 0.0.4
+		*	\warning	works only with quad meshes.
+		*/
+		void splitMesh_Quad(vector<zPlane>& splitPlanes, bool invertMesh, zObjMesh& resultMesh);
+
+		/*! \brief This method creates a isocontour graph from the input field mesh at the given field threshold.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
+		*	\param	[in]	vertexScalars	- scalar values per vertex of the mesh.
+		*	\param	[in]	threshold		- input contour threshold value.
+		* 	\param	[out]	coutourGraphObj	- isocontour graph.
+		*	\since version 0.0.4
+		*	\warning	works only with quad meshes.
+		*/
+		void getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray &positions, zIntArray& edgeConnects);
+
+		/*! \brief This method creates a isomesh from the input field mesh at the given field threshold.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
+		*	\param	[in]	vertexScalars	- scalar values per vertex of the mesh.
+		*	\param	[in]	threshold		- input contour threshold value.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.
+		* 	\param	[out]	coutourMeshObj	- isosurface mesh.		
+		*	\since version 0.0.4
+		*	\warning	works only with quad meshes.
+		*/
+		void getIsoMesh(zScalarArray &vertexScalars, float threshold, bool invertMesh, zObjMesh& coutourMeshObj);
+		
+		/*! \brief This method creates a isoband mesh from the input field mesh at the given field threshold.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
+		*	\param	[in]	vertexScalars	- scalar values per vertex of the mesh.
+		*	\param	[in]	threshold		- input contour threshold value.
+		*	\param	[in]	invertMesh		- true if inverted mesh is required.
+		* 	\param	[out]	coutourMeshObj	- isosurface mesh.
+		*	\since version 0.0.4
+		*	\warning	doesnt work with ngon meshes
+		*/
+		void getIsoMesh_mixed(zScalarArray& vertexScalars, float threshold, bool invertMesh, zObjMesh& coutourMeshObj);
+
+
 		/*! \brief This method creates a isoband mesh from the input field mesh at the given field threshold.
 		*
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares.
@@ -725,7 +789,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning	works only with vertex color gradients Red to Black.
 		*/
-		void getIsobandMesh(zObjMesh &coutourMeshObj, double inThresholdLow = 0.2, double inThresholdHigh = 0.5);
+		void getIsobandMesh(zObjMesh &coutourMeshObj, float inThresholdLow = 0.2, float inThresholdHigh = 0.5);
 
 		//--------------------------
 		//---- TRI-MESH MODIFIER METHODS
@@ -840,8 +904,16 @@ namespace zSpace
 		*	\retrun				zMesh				- extruded mesh.
 		*	\since version 0.0.2
 		*/
-
 		void extrudeMesh(float extrudeThickness, zObjMesh &outMesh, bool thicknessTris = false);
+
+		/*! \brief This method returns an extruded mesh from the input mesh.
+		*
+		*	\param		[in]	extrudeThickness	- input contatiner of extrusion thickness per vertex.
+		*	\param		[in]	thicknessTris		- true if the cap needs to be triangulated.
+		*	\retrun				zMesh				- extruded mesh.
+		*	\since version 0.0.2
+		*/
+		void extrudeVariableMesh(zFloatArray extrudeThickness, zObjMesh& outMesh,bool bothSides, bool thicknessTris = false);
 			 
 		/*! \brief This method returns an extruded mesh of the boundary edgesd of the input mesh.
 		*
@@ -916,6 +988,25 @@ namespace zSpace
 		//---- PROTECTED CONTOUR METHODS
 		//--------------------------
 
+		/*! \brief This method gets the isoline case based on the input vertex binary values for triangles.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
+		*	\param	[in]	vertexBinary	- vertex binary values.
+		*	\return			int				- case type.
+		*	\since version 0.0.2
+		*/
+		int getIsolineCase_triangle(bool vertexBinary[3]);
+
+
+		/*! \brief This method gets the isoline case based on the input vertex binary values fro quads.
+		*
+		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
+		*	\param	[in]	vertexBinary	- vertex binary values.
+		*	\return			int				- case type.
+		*	\since version 0.0.2
+		*/
+		int getIsolineCase(bool vertexBinary[4]);
+
 		/*! \brief This method gets the isoline case based on the input vertex ternary values.
 		*
 		*	\details based on https://en.wikipedia.org/wiki/Marching_squares. The sequencing is reversed as CCW windings are required.
@@ -934,7 +1025,50 @@ namespace zSpace
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 		*	\since version 0.0.2
 		*/
-		zVector getContourPosition(double &threshold, zVector& vertex_lower, zVector& vertex_higher, double& thresholdLow, double& thresholdHigh);
+		zVector getContourPosition(float &threshold, zVector& vertex_lower, zVector& vertex_higher, float& thresholdLow, float& thresholdHigh);
+
+		/*! \brief This method gets the isoline for the input mesh at the given input face index.
+		*
+		*	\param	[in]	vertexScalars	- input vertex scalar values.
+		*	\param	[in]	f				- input face iterator.
+		*	\param	[in]	positions		- container of positions of the computed polygon.
+		*	\param	[in]	edgeConnects	- container of edge connectivity of the computed polygon.
+		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
+		*	\param	[in]	threshold		- field threshold.
+		*	\since version 0.0.2
+		*/
+		void getIsoline(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& edgeConnects, unordered_map <string, int>& positionVertex, float& threshold);
+
+
+		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
+		*
+		*	\param	[in]	vertexScalars	- input vertex scalar values.
+		*	\param	[in]	f				- input face iterator.
+		*	\param	[in]	positions		- container of positions of the computed polygon.
+		*	\param	[in]	polyConnects	- container of polygon connectivity of the computed polygon.
+		*	\param	[in]	polyCounts		- container of number of vertices in the computed polygon.
+		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
+		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	invertMesh	- true if inverted mesh is required.
+		*	\since version 0.0.2
+		*/
+		void getIsolinePoly_mixed(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& polyConnects, zIntArray& polyCounts, unordered_map <string, int>& positionVertex, float& threshold, bool invertMesh);
+
+
+		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
+		*
+		*	\param	[in]	vertexScalars	- input vertex scalar values.
+		*	\param	[in]	f				- input face iterator.
+		*	\param	[in]	positions		- container of positions of the computed polygon.
+		*	\param	[in]	polyConnects	- container of polygon connectivity of the computed polygon.
+		*	\param	[in]	polyCounts		- container of number of vertices in the computed polygon.
+		*	\param	[in]	positionVertex	- map of position and vertices, to remove overlapping vertices.
+		*	\param	[in]	threshold		- field threshold.
+		*	\param	[in]	invertMesh	- true if inverted mesh is required.
+		*	\since version 0.0.2
+		*/
+		void getIsolinePoly(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& polyConnects, zIntArray& polyCounts, unordered_map <string, int>& positionVertex, float& threshold, bool invertMesh);
+
 
 		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.
 		*
@@ -947,7 +1081,7 @@ namespace zSpace
 		*	\param	[in]	thresholdHigh	- field threshold domain maximum.
 		*	\since version 0.0.2
 		*/
-		void getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, double &thresholdLow, double &thresholdHigh);
+		void getIsobandPoly(zItMeshFace& f, zPointArray &positions, zIntArray &polyConnects, zIntArray &polyCounts, unordered_map <string, int> &positionVertex, float&thresholdLow, float&thresholdHigh);
 
 
 	private:

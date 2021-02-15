@@ -780,7 +780,7 @@ namespace zSpace
 		*	\since version 0.0.3
 		*/
 		zItGraphVertex getVertex();
-
+				
 		/*! \brief This method gets the edge attached to the halfedge.
 		*
 		*	\return			zItGraphEdge		- half edge iterator

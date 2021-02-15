@@ -303,7 +303,7 @@ namespace zSpace
 		// read existing data in the json 
 		json j;		
 
-    ifstream in_myfile;
+		ifstream in_myfile;
 		in_myfile.open(outfilename.c_str());
 
 		int lineCnt = 0;

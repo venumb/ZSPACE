@@ -176,6 +176,16 @@ namespace zSpace
 		//---- NUMERICAL METHODS
 		//--------------------------
 
+		/*! \brief This method returns the sign of the input value.
+		*
+		*	\tparam				T				- Type to work with standard c++ numerical datatypes.
+		*	\param		[in]	value			- input value.
+		*	\return				T				- +1 for positive values, and  -1 for negative.
+		*	\since version 0.0.1
+		*/
+		template <typename T>
+		ZSPACE_CUDA_CALLABLE T zSign(T value);
+
 		/*! \brief This method maps the input value from the input domain to output domain.
 		*
 		*	\tparam				T				- Type to work with standard c++ numerical datatypes.
@@ -1020,6 +1030,13 @@ namespace zSpace
 	//--------------------------
 
 	//---- NUMERICAL METHODS
+	
+	template <typename T>
+	inline T zUtilsCore::zSign(T value)
+	{
+		return (T(0) < value) - (value < T(0));
+	}
+
 
 	template <typename T>
 	inline T zUtilsCore::ofMap(T value, T inputMin, T inputMax, T outputMin, T outputMax)
@@ -1028,7 +1045,7 @@ namespace zSpace
 	}
 
 	template <typename T>
-	T zUtilsCore::ofMap(T value, zDomain<T> inDomain, zDomain<T> outDomain)
+	inline T zUtilsCore::ofMap(T value, zDomain<T> inDomain, zDomain<T> outDomain)
 	{
 		return ofMap(value, inDomain.min, inDomain.max, outDomain.min, outDomain.max);
 	}
@@ -1045,6 +1062,17 @@ namespace zSpace
 	inline T zUtilsCore::zMin(T val0, T val1)
 	{
 		return (val0 < val1) ? val0 : val1;
+	}
+
+	template <>
+	inline zVector zUtilsCore::zMin(zVector val0, zVector val1)
+	{
+		zVector out;
+		out.x = zMin(val0.x, val1.x);
+		out.y = zMin(val0.y, val1.y);
+		out.z = zMin(val0.z, val1.z);
+
+		return out;
 	}
 
 	template <typename T>

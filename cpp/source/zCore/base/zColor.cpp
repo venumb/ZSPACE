@@ -169,4 +169,6 @@ namespace zSpace
 		return (r == c1.r && g == c1.g && b == c1.b);
 	}
 		
+
+
 }

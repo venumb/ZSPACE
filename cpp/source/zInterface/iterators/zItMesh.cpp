@@ -1496,6 +1496,11 @@ namespace zSpace
 		meshObj->mesh.faceColors[getId()] = col;
 	}
 
+	ZSPACE_INLINE void zItMeshFace::setNormal(zVector norm)
+	{
+		meshObj->mesh.faceNormals[getId()] = norm;
+	}
+
 	//---- UTILITY METHODS
 
 	ZSPACE_INLINE bool zItMeshFace::isActive()
@@ -1514,6 +1519,34 @@ namespace zSpace
 		bool out = (Dis / sqrt(n*n) < 0) ? true : false;
 
 		return out;
+	}
+
+	ZSPACE_INLINE void zItMeshFace::updateNormal()
+	{
+		int nV = getNumVertices();
+		
+		zPoint fCen = getCenter();
+		zPointArray points;
+		getVertexPositions(points);
+
+		zVector fNorm; // face normal
+
+		if (nV != 3)
+		{
+			for (int j = 0; j < points.size(); j++)
+			{
+				fNorm += (points[j] - fCen) ^ (points[(j + 1) % points.size()] - fCen);
+			}
+		}
+		else
+		{
+			zVector cross = (points[1] - points[0]) ^ (points[points.size() - 1] - points[0]);
+			cross.normalize();
+			fNorm = cross;
+		}
+
+		setNormal(fNorm);
+
 	}
 
 	//---- OPERATOR METHODS
