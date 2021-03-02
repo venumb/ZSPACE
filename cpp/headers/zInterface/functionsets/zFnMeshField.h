@@ -513,7 +513,39 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getScalarsAsEdgeDistance(zScalarArray &scalars, zObjGraph &inGraphObj, float offset, bool normalise = true);
+
+		//--------------------------
+		//----  2D SCALAR FIELD METHODS for 3DP
+		//--------------------------
+
+		/*! \brief This method creates a variable edge distance Field from the input planar graph. Works on open curves ( with two valence 1 vertices).
+		*
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
+		*	\param	[in]	startVertexId	- input graph start vertex ( valence 1 vertex).
+		*	\param	[in]	offset1			- input offset domain 1.
+		* 	\param	[in]	offset2			- input offset domain 2.
+		* 	\param	[in]	planeNorm		- input plane normal on which the graph lies.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.4
+		*/
+		void getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1 , zDomainFloat offset2, zVector planeNorm = zVector(0,0,1),  bool normalise = true);
 		
+
+		/*! \brief This method creates a variable edge distance Field from the input planar graph. Works on open curves ( with two valence 1 vertices).
+		*
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	inGraphObj		- input graph object for distance calculations.
+		*	\param	[in]	startVertexId	- input graph start vertex ( valence 1 vertex).
+		*	\param	[in]	offset1			- input offset domain 1.
+		* 	\param	[in]	offset2			- input offset domain 2.
+		* 	\param	[in]	planeNorm		- input plane normal on which the graph lies.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.4
+		*/
+		void getScalars_3dp_SineInfill(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1, zDomainFloat offset2, int numTriangles, float transY,  zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
+
+
 		//--------------------------
 		//----  2D SD FIELD METHODS
 		//--------------------------
@@ -530,6 +562,19 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getScalars_Circle(zScalarArray &scalars, zVector &cen, float r, double annularVal = 0, bool normalise = true);
+
+		/*! \brief This method gets the scalars for a circle.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	cen				- centre of the circle.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	r				- radius value.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getScalars_Ellipse(zScalarArray& scalars, zVector& cen, float a, float b, double annularVal = 0, bool normalise = true);
 
 		/*! \brief This method gets the scalars for a line.
 		*
@@ -568,7 +613,7 @@ namespace zSpace
 		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
 		*	\since version 0.0.2
 		*/
-		void getScalars_Square(zScalarArray &scalars, zVector &dimensions, float annularVal = 0, bool normalise = true);
+		void getScalars_Square(zScalarArray &scalars, zVector& cen, zVector &dimensions, float annularVal = 0, bool normalise = true);
 
 		/*! \brief This method gets the scalars for a trapezoid.
 		*
@@ -582,6 +627,9 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		void getScalars_Trapezoid(zScalarArray &scalars, float r1, float r2, float he, float annularVal = 0, bool normalise = true);
+
+
+		void getScalars_SinBands(zScalarArray& scalars, zObjGraph& inGraphObj, zVector &pNorm, zPoint &pCen, float scale);
 
 		//--------------------------
 		//--- COMPUTE METHODS 
@@ -818,6 +866,18 @@ namespace zSpace
 		*/
 		float getScalar_Circle(zPoint &cen, zPoint &p, float r);
 
+		/*! \brief This method gets the scalar for the input point.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[in]	cen				- centre of the circle.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	a				- radius value a.
+		* *	\param	[in]	b				- radius value b.
+		*	\return			double			- scalar value.
+		*	\since version 0.0.2
+		*/
+		float getScalar_Ellipse(zPoint& cen, zPoint& p, float a  , float b);
+
 		/*! \brief This method gets the scalar for the input line.
 		*
 		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
@@ -849,7 +909,7 @@ namespace zSpace
 		*	\param	[in]	dimention		- input distance.
 		*	\since version 0.0.2
 		*/
-		float getScalar_Square(zPoint &p, zVector &dimensions);
+		float getScalar_Square(zPoint &p, zVector& cen, zVector &dimensions);
 
 		/*! \brief This method gets the scalar for a trapezoid.
 		*

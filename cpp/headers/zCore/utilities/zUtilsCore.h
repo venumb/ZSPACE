@@ -599,6 +599,41 @@ namespace zSpace
 		*/
 		ZSPACE_CUDA_CALLABLE bool pointInTriangle(zVector &pt, zVector &t0, zVector &t1, zVector &t2);
 
+		/*! \brief This method checks if the point is inside the 3D Planar Polygon.
+		*	\detail http://geomalgorithms.com/a03-_inclusion.html
+		*
+		*	\param		[in]	pt							- input point to test.
+		*	\param		[in]	points						- input container of points of polygon.
+		*	\param		[in]	planeNormal					- input plane normal.
+		*	\return				bool						- true if the point is inside or on the polygon
+		*	\since version 0.0.4
+		*/
+		ZSPACE_CUDA_CALLABLE bool pointInPlanarPolygon(zPoint& pt, zPointArray& points, zVector& planeNormal);
+
+		/*! \brief This method checks if the point lies on a line
+		*		
+		*	\param		[in]	pt							- input point to test.
+		*	\param		[in]	pA							- input point A of line.
+		*	\param		[in]	pB							- input point B of line.
+		*	\return				bool						- true if the point is inside or on the polygon
+		*	\since version 0.0.4
+		*/
+		ZSPACE_CUDA_CALLABLE bool pointOnLine(zPoint& pt, zPoint& pA, zPoint &pB, float tolerance = distanceTolerance);
+
+
+		/*! \brief This method tests if a 2D point is Left|On|Right of an infinite line.
+		*	\detail http://geomalgorithms.com/a03-_inclusion.html, https://www.engr.colostate.edu/~dga/documents/papers/point_in_polygon.pdf
+		*
+		*	\param		[in]	p0							- input point0.
+		*	\param		[in]	P1							- input point1.
+		*	\param		[in]	p2							- input point2.
+		*	\return				int							- >0 for P2 left of the line through p0 and p1
+		*													- =0 for P2  on the line
+		*													- <0 for P2  right of the line
+		*	\since version 0.0.4
+		*/
+		ZSPACE_CUDA_CALLABLE int isLeft(zPoint &p0, zPoint &p1, zPoint &p2);
+
 		/*! \brief This method computes the minimum distance between a point and edge and the closest Point on the edge.
 		*
 		*	\details based on http://paulbourke.net/geometry/pointlineplane/
@@ -720,13 +755,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		ZSPACE_CUDA_CALLABLE zMatrix4 ChangeBasis(zMatrix4 &from, zMatrix4 &to);
-
-		/*! \brief This method computes the input target as per the input new basis.
-		*
-		*	\param [in]		infilename			- input file name including the directory path.
-		*	\since version 0.0.2
-		*/
-
+		
 
 		//--------------------------
 		//---- VECTOR METHODS GEOMETRY

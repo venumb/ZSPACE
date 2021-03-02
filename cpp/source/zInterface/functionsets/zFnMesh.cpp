@@ -1843,7 +1843,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zFnMesh::getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray& positions, zIntArray& edgeConnects)
+	ZSPACE_INLINE void zFnMesh::getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray& positions, zIntArray& edgeConnects, bool selectedFaces, zColor selectedFaceColor)
 	{
 
 		if (vertexScalars.size() != numVertices())
@@ -1860,7 +1860,12 @@ namespace zSpace
 
 		for (zItMeshFace f(*meshObj); !f.end(); f++)
 		{
-			getIsoline(vertexScalars, f, positions, edgeConnects, positionVertex, threshold);
+			if (selectedFaces)
+			{
+				if(f.getColor() == selectedFaceColor)
+					getIsoline(vertexScalars, f, positions, edgeConnects, positionVertex, threshold);
+			}
+			else getIsoline(vertexScalars, f, positions, edgeConnects, positionVertex, threshold);
 		}
 		
 
@@ -4678,23 +4683,16 @@ namespace zSpace
 
 		// check for edge lengths
 
-
-		/*if (newPositions.size() == 2)
+		if (newPositions.size() == 2)
 		{
-			for (int i = 0; i < newPositions.size(); i++)
-			{
-				int next = (i + 1) % newPositions.size();
+			if (newPositions[0].distanceTo(newPositions[1]) < distanceTolerance)
+				newPositions.clear();
+		}
 
-				if (newPositions[i].distanceTo(newPositions[next]) < distanceTolerance)
-				{
-					newPositions.erase(newPositions.begin() + i);
-				}
-			}
-		}*/
 
 
 		// compute edge 
-		if (newPositions.size() == 2)
+		if (newPositions.size() == 2 )
 		{
 			for (int i = 0; i < newPositions.size(); i++)
 			{
@@ -4725,25 +4723,17 @@ namespace zSpace
 		// only if there are 2 tris Case : 5,10
 
 		// Edge Length Check
+				
 
-		/*if (newPositions2.size() == 2)
+		if (newPositions2.size() == 2)
 		{
-			for (int i = 0; i < newPositions2.size(); i++)
-			{
-				int next = (i + 1) % newPositions2.size();
-
-
-				if (newPositions2[i].distanceTo(newPositions2[next]) < distanceTolerance)
-				{
-					newPositions2.erase(newPositions.begin() + i);
-				}
-
-			}
-		}*/
+			if (newPositions2[0].distanceTo(newPositions2[1]) < distanceTolerance)
+				newPositions2.clear();
+		}
 
 
 		// compute edge 
-		if (newPositions2.size() == 2)
+		if (newPositions2.size() == 2 )
 		{
 			for (int i = 0; i < newPositions2.size(); i++)
 			{

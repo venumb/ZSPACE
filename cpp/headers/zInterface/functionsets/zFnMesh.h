@@ -752,7 +752,7 @@ namespace zSpace
 		*	\since version 0.0.4
 		*	\warning	works only with quad meshes.
 		*/
-		void getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray &positions, zIntArray& edgeConnects);
+		void getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray &positions, zIntArray& edgeConnects , bool selectedFaces =false, zColor selectedFaceColor = zColor());
 
 		/*! \brief This method creates a isomesh from the input field mesh at the given field threshold.
 		*

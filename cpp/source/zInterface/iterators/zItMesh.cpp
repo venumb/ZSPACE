@@ -1544,7 +1544,7 @@ namespace zSpace
 			cross.normalize();
 			fNorm = cross;
 		}
-
+				
 		setNormal(fNorm);
 
 	}

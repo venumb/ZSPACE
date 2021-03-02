@@ -13,6 +13,8 @@
 #ifndef ZSPACE_TS_GEOMETRY_SDFBRIDGE_H
 #define ZSPACE_TS_GEOMETRY_SDFBRIDGE_H
 
+
+
 #pragma once
 
 #include <headers/zCore/base/zExtern.h>
@@ -28,11 +30,6 @@
 #include <iostream>
 using namespace std;
 
-
-#include <depends/alglib/cpp/src/ap.h>
-#include <depends/alglib/cpp/src/linalg.h>
-#include <depends/alglib/cpp/src/optimization.h>
-using namespace alglib;
 
 namespace zSpace
 {
@@ -169,8 +166,14 @@ namespace zSpace
 		/*!	\brief container of section graph objects  */
 		zObjGraphArray o_sectionGraphs;
 
+		/*!	\brief container of section graph objects  */
+		zObjGraphArray o_sectionGuideGraphs;
+
 		/*!	\brief container of contour graph objects  */
 		zObjGraphArray o_contourGraphs;
+
+		/*!	\brief container of raft graph objects  */
+		zObjGraphArray o_raftGraphs;
 
 		/*!	\brief medial graph of the block  */
 		zGraph medialGraph;
@@ -178,7 +181,15 @@ namespace zSpace
 		/*!	\brief container of section frames for both right and left blocks  */
 		vector<zTransform> sectionFrames;
 
+		/*!	\brief container of section trims faces index (array index) */
+		zIntPairArray sectionTrimFaces;
 
+		/*!	\brief container of section graphs start vertex  */
+		zIntPairArray sectionGraphs_startEndVertex;
+
+		zPointArray startPos;
+		zPointArray endPos;
+	
 	};
 	
 	/** \addtogroup zToolsets
@@ -212,8 +223,11 @@ namespace zSpace
 		/*!	\brief core utilities Object  */
 		zUtilsCore coreUtils;
 
+		/*!	\brief pointer to input thickened guide mesh Object  */
+		zObjMesh *o_guideThickMesh;
+
 		/*!	\brief pointer to input guide mesh Object  */
-		zObjMesh *o_guideMesh;
+		zObjMesh* o_guideMesh;
 
 		/*!	\brief pointer to input guide mesh Object  */
 		zObjMesh o_guideSmoothMesh;
@@ -308,6 +322,8 @@ namespace zSpace
 		/*!	\brief container of guide particle function set  */
 		vector<zFnParticle> fnGuideParticles;
 
+		zPointArray orig_GuideMeshPositions;
+		
 		zBoolArray skeletalGraphVertex;
 
 		/*!	\brief container storing the update weights of the guide mesh.  */
@@ -353,6 +369,12 @@ namespace zSpace
 		zObjGraph o_isoContour;
 
 		zObjMesh o_isoMesh;
+
+		//--------------------------
+		//---- COLOR ATTRIBUTES
+		//--------------------------
+		
+		zColor red, yellow, green, cyan, blue, magenta, grey;
 
 	public:
 
@@ -421,10 +443,11 @@ namespace zSpace
 		/*! \brief This method creates the filed mesh.
 		*
 		*	\param		[in]	bb			- input domain of bounds.
-		*	\param		[in]	res			- input resolution of field in both X and Y .
+		*	\param		[in]	resX		- input resolution of field in X.
+		*	\param		[in]	resY		- input resolution of field in Y.
 		*	\since version 0.0.4
 		*/
-		void createFieldMesh(zDomain<zPoint> &bb,  int res);
+		void createFieldMesh(zDomain<zPoint> &bb,  int resX , int resY);
 
 		//--------------------------
 		//--- SET METHODS 
@@ -436,6 +459,13 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void setGuideMesh(zObjMesh& _o_guideMesh);
+
+		/*! \brief This method sets the guide mesh object.
+		*
+		*	\param		[in]	_o_guideThickMesh			- input thickened guide mesh object.
+		*	\since version 0.0.4
+		*/
+		void setThickGuideMesh(zObjMesh& _o_guideThickMesh);
 				
 		/*! \brief This method sets convex blocks medial start points of the geometry.
 		*
@@ -513,7 +543,24 @@ namespace zSpace
 		*	\return				zObjGraphPointerArray	-  pointer conatiner of graphs if they exist.
 		*	\since version 0.0.2
 		*/
-		zObjGraphPointerArray getBlockGraphs(int blockId, int &numGraphs);
+		zObjGraphPointerArray getBlockGraphs(int blockId, int &numGraphs , zPointArray &startPoints,  zPointArray &endPoints);
+
+		/*! \brief This method gets the block section graphs
+		*
+		*	\param		[in]	blockId					- input block index.
+		*	\return				zObjGraphPointerArray	-  pointer conatiner of graphs if they exist.
+		*	\since version 0.0.2
+		*/
+		zObjGraphPointerArray getBlockRaftGraphs(int blockId, int& numGraphs);
+
+
+		/*! \brief This method gets the block section guide graphs
+		*
+		*	\param		[in]	blockId					- input block index.
+		*	\return				zObjGraphPointerArray	-  pointer conatiner of graphs if they exist.
+		*	\since version 0.0.2
+		*/
+		zObjGraphPointerArray getBlockGuideGraphs(int blockId, int& numGraphs);
 
 		/*! \brief This method gets the block SDF contour graphs
 		*
@@ -559,7 +606,7 @@ namespace zSpace
 		* 	\param		[in]	printLayerDepth				- input print layer depth.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlocks(float printLayerDepth =  0.1);
+		void computePrintBlocks(float printLayerDepth =  0.1, float printLayerWidth = 0.025);
 
 		/*! \brief This method computes the block mesh.
 		*
@@ -572,7 +619,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void computeSDF();
+		void computeSDF(zPrintBlock& _block, float printWidth = 0.025, float neopreneOffset = 0.005, int infillScale = 25);
 
 		//--------------------------
 		//---- UTILITY METHODS
@@ -611,8 +658,18 @@ namespace zSpace
 		*	\param		[in]	numIterations				- number of iterations to run.
 		*	\since version 0.0.4
 		*/
-		bool updateSmoothMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1);
+		bool updateSmoothMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1, bool printInfo = false);
 	
+		/*! \brief This method updates the guide mesh.
+		*
+		*	\param		[in]	dT							- integration timestep.
+		*	\param		[in]	type						- integration type - zEuler or zRK4.
+		*	\param		[in]	numIterations				- number of iterations to run.
+		*	\since version 0.0.4
+		*/
+		bool updateGuideMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1);
+
+
 		/*! \brief This method computes the boundary planes of the print block.
 		*
 		*	\param		[in]	mBlock						- input macro block.
@@ -635,7 +692,6 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void addConvexBlockFaces_fromEdge(zConvexBlock& _block, zItMeshEdge& guideMesh_edge);
-
 
 		/*! \brief This method compute the block medial graph.
 		*
@@ -661,7 +717,16 @@ namespace zSpace
 		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockSections(zPrintBlock& _block);
+		void computePrintBlockSections(zPrintBlock& _block);	
+
+		/*! \brief This method compute the block frames for thickned mesh.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\param		[in]	printLayerDepth				- input print layer depth.
+		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
+		*	\since version 0.0.4
+		*/
+		void computePrintBlockSections_thickened(zPrintBlock& _block);
 
 		/*! \brief This method compute the legth of  medial graph of the block
 		*
@@ -669,7 +734,7 @@ namespace zSpace
 		*	\param		[in]	leftBlock					- input booealn indicating if its a left block or a right
 		*	\since version 0.0.4
 		*/
-		void  computePrintBlockLength(zPrintBlock& _block, bool leftBlock);
+		void computePrintBlockLength(zPrintBlock& _block, bool leftBlock);
 
 		/*! \brief This method compute the block SDF for the balustrade.
 		*
@@ -677,7 +742,15 @@ namespace zSpace
 		*	\param		[in]	graphId						- input index of section graph.
 		*	\since version 0.0.4
 		*/
-		void computeBalustradeSDF(zConvexBlock& _block, int graphId);
+		void computeInternalBlockSDF(zPrintBlock& _block, int graphId, float printWidth = 0.025, float neopreneOffset = 0.005, bool addRaft = false, int raftId = 0);
+
+		/*! \brief This method compute the block SDF for the balustrade.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\param		[in]	graphId						- input index of section graph.
+		*	\since version 0.0.4
+		*/
+		void computeBoundaryBlockSDF(zPrintBlock& _block, int graphId, float printWidth = 0.025, float neopreneOffset = 0.005, int infillScale = 20);
 
 		/*! \brief This method compute the transform from input Vectors.
 		*
@@ -690,6 +763,9 @@ namespace zSpace
 		*/
 		zTransform setTransformFromVectors(zPoint &O, zVector &X , zVector& Y, zVector& Z);
 	
+		//--------------------------
+		//---- IO METHODS
+		//--------------------------
 
 		void blockPlanesToTXT(string dir, string filename);
 
@@ -703,9 +779,11 @@ namespace zSpace
 
 		void blockContoursToIncr3D(string dir, string filename, float layerWidth = 0.025);
 
-		void toBRGJSON(string path, zPointArray& points, zVectorArray& normals);
+		void toBRGJSON(string path, zPointArray& points, zVectorArray& normals, zPointArray& vThickness);
 
 		bool fromBRGJSON(string path, zPointArray& points, zVectorArray& normals, zPointArray& vThickness);
+	
+		
 	};
 }
 

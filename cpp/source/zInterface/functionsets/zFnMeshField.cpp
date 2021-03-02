@@ -1039,7 +1039,7 @@ namespace zSpace
 
 			updateColors();
 
-			printf("\n working  update colors %i ", contourVertexValues.size());;
+			//printf("\n working  update colors %i ", contourVertexValues.size());;
 		}
 
 		else throw std::invalid_argument("input fValues size not field scalars.");
@@ -1651,7 +1651,7 @@ namespace zSpace
 
 		zVector *meshPositions = fnMesh.getRawVertexPositions();
 		zVector *inPositions = inFnGraph.getRawVertexPositions();
-
+				
 		// update values from edge distance
 		for (int i = 0; i < fnMesh.numVertices(); i++)
 		{
@@ -1664,6 +1664,8 @@ namespace zSpace
 				int e0 = e.getHalfEdge(0).getVertex().getId();
 				int e1 = e.getHalfEdge(0).getStartVertex().getId();
 
+				if (e.getLength() < EPS) continue;
+
 				zVector closestPt;
 
 				double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], closestPt);
@@ -1672,8 +1674,7 @@ namespace zSpace
 
 				if (r < tempDist)
 				{
-					d = r;
-					//d = F_of_r(r, a, b);
+					d = r;					
 					tempDist = r;
 				}
 			}
@@ -1690,6 +1691,265 @@ namespace zSpace
 
 	}
 
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1, zDomainFloat offset2, zVector planeNorm , bool normalise)
+	{
+
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = (startV.getHalfEdge());
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+		
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		zDomainFloat inDomain(0.0, graphLen);
+
+		// update values from edge distance
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			double d = 0.0;
+			double tempDist = 10000;
+
+			zPoint closestPt;
+			zItGraphHalfEdge closestHe;
+
+			for (auto &orientedHE : orientedHalfEdges)
+			{
+
+				int e0 = orientedHE.getVertex().getId();
+				int e1 = orientedHE.getStartVertex().getId();
+
+				if (orientedHE.getLength() < EPS) continue;
+
+				zVector tempClosestPt;
+
+				double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], tempClosestPt);
+
+				if (r < tempDist)
+				{					
+					tempDist = r;
+					closestPt = tempClosestPt;
+					closestHe = orientedHE;
+				}
+			}
+
+			// compute if mesh point below or above closestHE
+			zVector X = closestHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm : planeNorm * -1;
+			Z.normalize();
+
+			zVector Y = Z ^ X;
+			Y.normalize();
+			
+			double dSign = coreUtils.zSign(coreUtils.minDist_Point_Plane(meshPositions[i], closestPt, Y));
+
+			zDomainFloat offset = (dSign > 0) ? offset1 : offset2;
+
+			int heStartV = closestHe.getStartVertex().getId();
+			float distFromStart = closestPt.distanceTo(inPositions[heStartV]);
+			distFromStart += vertex_distanceFromStart[heStartV];
+
+			float mappedoffset = coreUtils.ofMap(distFromStart, inDomain, offset);
+			d = tempDist - mappedoffset;
+
+			scalars.push_back(d);
+
+		}
+
+
+		if (normalise)
+		{
+			normliseValues(scalars);
+		}
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_SineInfill(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1, zDomainFloat offset2, int numTriangles, float transY, zVector planeNorm, bool normalise)
+	{
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = startV.getHalfEdge();
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		zDomainFloat inDomain(0.0, graphLen);
+
+		//float wave_period = 0.03;
+		//int numLayers = floor(graphLen / wave_period);		
+		
+		int numLayers = ((numTriangles + 1)*4) + 3 /*31*/;
+		float wave_period = graphLen / numLayers;
+
+		zPointArray positions;
+		zIntArray edgeConnects;
+
+		//positions.push_back(startV.getPosition());
+
+		zPoint pOnCurve = startV.getPosition();
+		walkHe = startV.getHalfEdge();
+
+		
+
+		int end = (floor(numLayers / 4) * 4) - 1;
+
+		//printf(" %1.4f , %i  %i ,  %1.2f %1.2f %1.2f", graphLen, numLayers, end, pOnCurve.x, pOnCurve.y, pOnCurve.z);
+
+
+		exit = false;
+
+		for (int j = 0; j < end; j++)
+		{
+			//if (exit) continue;
+
+			zPoint eEndPoint = walkHe.getVertex().getPosition();
+			float distance_increment = /*( j ==0 ) ? wave_period * 2 :*/  wave_period;
+			
+			
+			while(pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				walkHe =  walkHe.getNext();
+				eEndPoint = walkHe.getVertex().getPosition();
+				
+			} 
+
+			int heStartV = walkHe.getStartVertex().getId();
+
+			//printf("\n counter %i  %1.4f %1.4f ", counter, distance_increment, vertex_distanceFromStart[heStartV]);
+			zVector X = walkHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm : planeNorm * -1;
+			Z.normalize();
+
+			zVector Y = X ^ Z;
+			Y.normalize();
+
+			//O
+			zPoint O = pOnCurve + X * distance_increment;
+
+			if (j == numLayers - 1) O = walkHe.getVertex().getPosition();
+
+			if (j > 0)
+			{
+
+				
+				float distFromStart = O.distanceTo(inPositions[heStartV]);
+				distFromStart += vertex_distanceFromStart[heStartV];
+
+				if (j == numLayers - 1) distFromStart = graphLen;
+
+				float n = (distFromStart / wave_period) + 0.5;
+
+				float a = (n) * (HALF_PI);
+
+
+				float d = sin(a);
+				d = coreUtils.zSign(d);
+				zDomainFloat offset = (d > 0) ? offset2 : offset1;
+
+				//printf("\n %1.2f  %1.4f %1.4f ", n, a, d);
+
+				float mappedoffset = coreUtils.ofMap(distFromStart, inDomain, offset);
+
+				if (positions.size() > 0)
+				{
+					edgeConnects.push_back(positions.size() - 1);
+					edgeConnects.push_back(positions.size());
+				}
+
+				float trans = -transY/*0.1*/;
+				zPoint addP = O + (Y * trans);
+
+				addP += (coreUtils.zSign(d) > 0) ? Y * d * (mappedoffset + (trans * -0.5)) : (Y * d * mappedoffset);
+
+				if (positions.size() % 2 == 1) addP += (X * (-0.75 * wave_period));
+
+				positions.push_back(addP);
+
+				//if (graphLen - distFromStart < 3.5 * wave_period) exit = true;
+			}
+			
+
+
+			pOnCurve = O;
+
+			
+		}
+			
+
+		zObjGraph tempGraph;
+		zFnGraph tempFn(tempGraph);
+
+		tempFn.create(positions, edgeConnects);
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, 0.0125, false);
+
+	}
+
 	//----  2D SD SCALAR FIELD METHODS
 
 	template<>
@@ -1698,12 +1958,33 @@ namespace zSpace
 		scalars.clear();
 		scalars.assign(fnMesh.numVertices(), 0.0);
 
+		cen.z = 0;
+
 		zVector *meshPositions = fnMesh.getRawVertexPositions();
 
 		for (int i = 0; i < fnMesh.numVertices(); i++)
 		{
 			if (annularVal == 0) scalars[i] = getScalar_Circle(cen, meshPositions[i], r);
 			else scalars[i] = abs(getScalar_Circle(cen, meshPositions[i], r) - annularVal);
+		}
+
+		if (normalise) normliseValues(scalars);
+	}
+
+	template<>
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Ellipse(zScalarArray& scalars, zVector& cen, float a, float b, double annularVal, bool normalise)
+	{
+		scalars.clear();
+		scalars.assign(fnMesh.numVertices(), 0.0);
+
+		cen.z = 0;
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			if (annularVal == 0) scalars[i] = getScalar_Ellipse(cen, meshPositions[i], a,b);
+			else scalars[i] = abs(getScalar_Ellipse(cen, meshPositions[i], a, b) - annularVal);
 		}
 
 		if (normalise) normliseValues(scalars);
@@ -1732,6 +2013,9 @@ namespace zSpace
 		scalars.clear();
 		scalars.assign(fnMesh.numVertices(), 0.0);
 
+
+		p0.z = 0; p1.z = 0; p2.z = 0;
+
 		zVector* meshPositions = fnMesh.getRawVertexPositions();
 
 		for (int i = 0; i < fnMesh.numVertices(); i++)
@@ -1745,18 +2029,20 @@ namespace zSpace
 
 
 	template<>
-	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Square(zScalarArray &scalars, zVector &dimensions, float annularVal, bool normalise)
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Square(zScalarArray &scalars, zVector& cen, zVector &dimensions, float annularVal, bool normalise)
 	{
 		scalars.clear();
 		scalars.assign(fnMesh.numVertices(), 0.0);
+
+		cen.z = 0;
 
 		zVector *meshPositions = fnMesh.getRawVertexPositions();
 
 		for (int i = 0; i < fnMesh.numVertices(); i++)
 		{
 			zVector p = meshPositions[i];
-			if (annularVal == 0) scalars[i] = getScalar_Square(p, dimensions);
-			else scalars[i] = abs(getScalar_Square(p, dimensions) - annularVal);
+			if (annularVal == 0) scalars[i] = getScalar_Square(p, cen, dimensions);
+			else scalars[i] = abs(getScalar_Square(p, cen, dimensions) - annularVal);
 		}
 
 		if (normalise) normliseValues(scalars);
@@ -1779,6 +2065,106 @@ namespace zSpace
 
 		if (normalise) normliseValues(scalars);
 	}
+
+
+	template<>
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_SinBands(zScalarArray& scalars, zObjGraph& inGraphObj, zVector& pNorm, zPoint& pCen, float scale)
+	{
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			// get graph closest point
+			float closestDist = 100000;
+			int closestId = -1;
+
+			zPoint closestPt;
+
+
+			for (zItGraphEdge e(inGraphObj); !e.end(); e++)
+			{
+
+				int e0 = e.getHalfEdge(0).getVertex().getId();
+				int e1 = e.getHalfEdge(0).getStartVertex().getId();
+				
+				if (e.getLength() < EPS) continue;
+
+				zPoint tempPt;
+
+				double d = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], tempPt);
+				
+				if (d < closestDist)
+				{
+					closestDist = d;
+					closestPt = tempPt;
+				}
+			}
+						
+
+			//Calculate distance to the input plane
+			//float distToPlane = ( coreUtils.minDist_Point_Plane(closestPt, pCen, pNorm));
+
+			float distToPlane = (coreUtils.minDist_Point_Plane(meshPositions[i], pCen, pNorm));
+
+			//float distToPlane = closestDist;
+
+			//Filter distance value with Sin function
+
+			// regular sin
+
+			//float s  = sin(distToPlane * scale);
+
+			// triangular wave https://mathworld.wolfram.com/TriangleWave.html
+			//float s =  2 * asin( sin(distToPlane * scale * PI));
+			//s /= (scale * PI);
+
+			//float val = distToPlane * scale * 0.5 + 0.25;
+			//float fracVal = val - floor(val);
+			//float s = 1 - (4 * abs(0.5 - fracVal));
+
+			//float s = 1 - 2 * abs(round(distToPlane * scale * 0.5) - (distToPlane * scale * 0.5));
+
+			// trapezoidal wave https://stackoverflow.com/questions/11041498/equation-for-trapezoidal-wave-equation 
+			//a/pi(arcsin(sin((pi/m)x+l))+arccos(cos((pi/m)x+l)))-a/2+c
+
+			/*float a = 2;
+			float m = 0.1;
+			float l = 0.2;
+			float c = 0.5;
+			float x = distToPlane * scale;
+
+			float s = a / PI * (asin(sin((PI / m) * x + l)) + acos(cos((PI / m) * x + l))) - a / 2 + c;*/
+			//printf("\n %1.2f ", s);
+
+			// https://www.shadertoy.com/view/Md3yRH
+
+			zPoint temp = meshPositions[i];
+			zVector trans(0, 0.1, 0);
+
+			temp += trans;
+
+			float offset = 0.1;
+			float a = temp.x / offset;
+			float val = 2 * asin(sin(a * PI));
+			val /= (PI);
+
+			//float val = sin(a);
+			
+			zVector v(0.0, temp.y - 0.075 * val, 0);
+
+			float s = v.length() - 0.075;
+				
+			scalars.push_back(s);
+
+		}
+	}
+
+
 
 	//--- COMPUTE METHODS 
 	
@@ -2095,9 +2481,8 @@ namespace zSpace
 
 		for (zItMeshVertex v(*fieldObj); !v.end(); v++, i++)
 		{			
-			zVector A = v.getPosition() - O;
-			double minDist_Plane = A * Z;
-			minDist_Plane /= Z.length();
+			zPoint p = v.getPosition();
+			float minDist_Plane = coreUtils.minDist_Point_Plane(p, O, Z);
 						
 			temp.push_back(minDist_Plane);
 			
@@ -2186,13 +2571,17 @@ namespace zSpace
 				for (int i = 0; i < scalars.size(); i++)
 				{
 
-					if (scalars[i] < contourValueDomain.min) cols[i] = fieldColorDomain.min;
+					/*if (scalars[i] < contourValueDomain.min) cols[i] = fieldColorDomain.min;
 					else if (scalars[i] > contourValueDomain.max) cols[i] = fieldColorDomain.max;
 					else
 					{
 						cols[i] = coreUtils.blendColor(scalars[i], contourValueDomain, fieldColorDomain, zHSV);
-					}
+					}*/
 
+
+					if (scalars[i] < -0.01) cols[i] = zColor(1,0,0,1);
+					else if (scalars[i] > 0.01) cols[i] = zColor(0, 1, 0, 1);
+					else cols[i] = zColor(1, 1, 1, 1);
 				}
 
 				if (fnMesh.numPolygons() == scalars.size())
@@ -2232,7 +2621,7 @@ namespace zSpace
 
 		}
 	
-		printf("\n working  colors  %i ", contourVertexValues.size());;
+		//printf("\n working  colors  %i ", contourVertexValues.size());;
 
 	}
 
@@ -2644,6 +3033,63 @@ namespace zSpace
 	}
 
 	template<>
+	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Ellipse(zPoint& cen, zPoint& p, float a, float b)
+	{
+		p.x = abs(p.x);  p.y = abs(p.y); p.z = abs(p.z);
+		
+		zVector ab(a, b, 0);
+		
+		if (p.x > p.y) 
+		{ 
+			zPoint temp = p;
+			p.x = temp.y;
+			p.y = temp.x;
+
+			temp = ab;
+			ab.x = temp.y;
+			ab.y = temp.x;		
+		}
+
+		float l = ab.y * ab.y - ab.x * ab.x;
+		float m = ab.x * p.x / l;      float m2 = m * m;
+		float n = ab.y * p.y / l;      float n2 = n * n;
+		float c = (m2 + n2 - 1.0) / 3.0; float c3 = c * c * c;
+		float q = c3 + m2 * n2 * 2.0;
+		float d = c3 + m2 * n2;
+		float g = m + m * n2;
+		float co;
+		if (d < 0.0)
+		{
+			float h = acos(q / c3) / 3.0;
+			float s = cos(h);
+			float t = sin(h) * sqrt(3.0);
+			float rx = sqrt(-c * (s + t + 2.0) + m2);
+			float ry = sqrt(-c * (s - t + 2.0) + m2);
+			co = (ry + sign(l) * rx + abs(g) / (rx * ry) - m) / 2.0;
+		}
+		else
+		{
+			float h = 2.0 * m * n * sqrt(d);
+			float s = sign(q + h) * pow(abs(q + h), 1.0 / 3.0);
+			float u = sign(q - h) * pow(abs(q - h), 1.0 / 3.0);
+			float rx = -s - u - c * 4.0 + 2.0 * m2;
+			float ry = (s - u) * sqrt(3.0);
+			float rm = sqrt(rx * rx + ry * ry);
+			co = (ry / sqrt(rm - rx) + 2.0 * g / rm - m) / 2.0;
+		}
+
+		zVector m1(co, sqrt(1.0 - co * co), 0);
+		zVector  r;
+		r.x = ab.x  * m1.x; 
+		r.y = ab.y * m1.y; 
+		r.z = ab.z * m1.z;
+
+		return (r - (p-cen)).length() * coreUtils.zSign(p.y - r.y);
+
+		
+	}
+
+	template<>
 	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Line(zPoint &p, zPoint &v0, zPoint &v1)
 	{
 		zVector pa = p - v0;
@@ -2680,16 +3126,21 @@ namespace zSpace
 	}
 
 	template<>
-	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Square(zPoint &p, zVector &dimensions)
+	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Square(zPoint &p, zVector& cen, zVector &dimensions)
 	{
-		p.x = abs(p.x); p.y = abs(p.y); p.z = abs(p.z);
+		zPoint transP = p - cen;
+		transP.x = abs(transP.x); 
+		transP.y = abs(transP.y); 
+		transP.z = abs(transP.z);
 
-		zVector out;
-		out.x = coreUtils.zMax<float>(coreUtils.zMax<float>(p.x - dimensions.x, 0), coreUtils.zMax<float>(p.y - dimensions.y, 0));
-		out.y = 0;
-		out.z = 0;
-
-		return(out.length());
+		zVector d = transP - dimensions;
+		d.x = coreUtils.zMax(d.x, 0.0f);
+		d.y = coreUtils.zMax(d.y, 0.0f);
+		d.z = coreUtils.zMax(d.z, 0.0f);	
+		
+		float r = d.length() + coreUtils.zMin (coreUtils.zMax(d.x,d.y), 0.0f);
+	
+		return(r);
 	}
 
 	template<>
