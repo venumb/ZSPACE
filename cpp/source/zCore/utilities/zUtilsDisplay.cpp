@@ -37,8 +37,8 @@ namespace zSpace
 		unsigned int i;
 		glRasterPos3f(pt.x, pt.y, pt.z);
 
-		for (i = 0; i < s.length(); i++)
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
+		//for (i = 0; i < s.length(); i++)
+			//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, s[i]);
 #endif
 	}
 
@@ -248,7 +248,7 @@ namespace zSpace
 
 	//---- TRANSFORM
 	
-	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransformationMatrix &transform)
+	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransformationMatrix &transform, float scale)
 	{
 		float* val = transform.asRawMatrix();
 		float* pivot = transform.getRawPivot();
@@ -260,17 +260,17 @@ namespace zSpace
 		//X
 		glColor3f(1, 0, 0);
 		glVertex3f(pivot[0], pivot[1], pivot[2]);
-		glVertex3f(pivot[0] + val[0], pivot[1] + val[4], pivot[2] + val[8]);
+		glVertex3f(pivot[0] + val[0] * scale, pivot[1] + val[4] * scale, pivot[2] + val[8] * scale);
 
 		//Y
 		glColor3f(0, 1, 0);
 		glVertex3f(pivot[0], pivot[1], pivot[2]);
-		glVertex3f(pivot[0] + val[1], pivot[1] + val[5], pivot[2] + val[9]);
+		glVertex3f(pivot[0] + val[1] * scale, pivot[1] + val[5] * scale, pivot[2] + val[9] * scale);
 
 		//Z
 		glColor3f(0, 0, 1);
 		glVertex3f(pivot[0], pivot[1], pivot[2]);
-		glVertex3f(pivot[0] + val[2], pivot[1] + val[6], pivot[2] + val[10]);
+		glVertex3f(pivot[0] + val[2] * scale, pivot[1] + val[6] * scale, pivot[2] + val[10] * scale);
 
 		glEnd();
 
@@ -278,7 +278,7 @@ namespace zSpace
 		glColor3f(0, 0, 0);
 	}
 
-	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransform &transform)
+	ZSPACE_INLINE void zUtilsDisplay::drawTransform(zTransform &transform, float scale)
 	{
 #ifndef __CUDACC__
 		float* val = transform.data();
@@ -293,17 +293,17 @@ namespace zSpace
 		//X
 		glColor3f(1, 0, 0);
 		glVertex3f(val[3], val[7], val[11]);
-		glVertex3f(val[3] + val[0], val[7] + val[4], val[11] + val[8]);
+		glVertex3f(val[3] + val[0] * scale, val[7] + val[4] * scale, val[11] + val[8] * scale);
 
 		//Y
 		glColor3f(0, 1, 0);
 		glVertex3f(val[3], val[7], val[11]);
-		glVertex3f(val[3] + val[1], val[7] + val[5], val[11] + val[9]);
+		glVertex3f(val[3] + val[1] * scale, val[7] + val[5] * scale, val[11] + val[9] * scale);
 
 		//Z
 		glColor3f(0, 0, 1);
 		glVertex3f(val[3], val[7], val[11]);
-		glVertex3f(val[3] + val[2], val[7] + val[6], val[11] + val[10]);
+		glVertex3f(val[3] + val[2] * scale, val[7] + val[6] * scale, val[11] + val[10] * scale);
 
 		glEnd();
 

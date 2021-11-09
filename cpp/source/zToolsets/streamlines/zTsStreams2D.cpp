@@ -22,22 +22,12 @@ namespace zSpace
 
 	ZSPACE_INLINE zStreamLine::zStreamLine()
 	{
-		graphObj = nullptr;
-	}
-
-	ZSPACE_INLINE zStreamLine::zStreamLine(zObjGraph &_graphObj)
-	{
-		graphObj = &_graphObj;
-		fnGraph = zFnGraph(_graphObj);
-
 		parent = -1; // no parent
+
 	}
 
-	ZSPACE_INLINE zStreamLine::zStreamLine(zObjGraph &_graphObj, int _parentId)
-	{
-		graphObj = &_graphObj;
-		fnGraph = zFnGraph(_graphObj);
-
+	ZSPACE_INLINE void zStreamLine::setParent( int _parentId)
+	{		
 		parent = _parentId;
 	}
 }
@@ -62,12 +52,12 @@ namespace zSpace
 		angle = nullptr;
 		flipBackward = nullptr;
 
-		streamType = zForwardBackward;
+		streamType = zForward;
 		integrationType = zEuler;
 
 	}
 
-	ZSPACE_INLINE zTsStreams2D::zTsStreams2D(zObjMeshField<zVector> &_fieldObj, zObjMesh &_fieldMeshObj)
+	ZSPACE_INLINE zTsStreams2D::zTsStreams2D(zObjMeshField<zVector> &_fieldObj)
 	{
 		fieldObj = &_fieldObj;
 		fnField = zFnMeshField<zVector>(_fieldObj);
@@ -161,9 +151,12 @@ namespace zSpace
 	ZSPACE_INLINE void zTsStreams2D::createStreams(vector<zStreamLine>& streams, vector<zVector> &start_seedPoints, bool seedStreamsOnly)
 	{
 		streams.clear();
+		streams.assign(5000, zStreamLine());
+
+		int streamCounter = 0;
 
 		// make first stream line
-		if (streams.size() == 0)
+		if (streamCounter == 0)
 		{
 			bool noStartSeedPoints = false;
 
@@ -181,15 +174,16 @@ namespace zSpace
 
 			for (int i = 0; i < start_seedPoints.size(); i++)
 			{
-				zObjGraph temp;
-
-				bool chk = createStreamGraph(temp, start_seedPoints[i]);
-
+				
+				bool chk = createStreamGraph(streams[streamCounter].graphObj, start_seedPoints[i]);
 
 				if (chk)
 				{
+					//streams.push_back(temp);
 
-					streams.push_back(zStreamLine(temp));
+					streams[streamCounter].isValid = true;
+					streamCounter++;				
+
 				}
 			}
 
@@ -201,7 +195,7 @@ namespace zSpace
 
 		if (seedStreamsOnly)
 		{
-			printf("\n %i streamLines created. ", streams.size());
+			printf("\n %i streamLines created. ", streamCounter);
 			return;
 		}
 
@@ -216,30 +210,45 @@ namespace zSpace
 		{
 			vector<zVector> seedPoints;
 
-			getSeedPoints(streams[currentStreamGraphId], currentStreamGraphVertexId, seedPoints);
+			
+			zFnGraph fnGraph(streams[currentStreamGraphId].graphObj);
 
-
-			for (int i = 0; i < seedPoints.size(); i++)
+			if (streams[currentStreamGraphId].isValid)
 			{
-				zObjGraph temp;
-				bool chk = createStreamGraph(temp, seedPoints[i]);
+				getSeedPoints(streams[currentStreamGraphId], currentStreamGraphVertexId, seedPoints);
 
-				if (chk)
+
+				for (int i = 0; i < seedPoints.size(); i++)
 				{
-					streams[currentStreamGraphId].child.push_back(streams.size());
-					streams.push_back(zStreamLine(temp, currentStreamGraphId));
+
+					int id = streamCounter;
+					//streams.push_back(zStreamLine());
+
+					bool chk = createStreamGraph(streams[id].graphObj, seedPoints[i]);
+
+					if (chk)
+					{
+						streams[currentStreamGraphId].child.push_back(id);
+						streams[id].setParent(currentStreamGraphId);
+
+						streams[id].isValid = true;
+						streamCounter++;
+					}
 				}
 			}
 
+			
+
 			currentStreamGraphVertexId++;
 
-			if (currentStreamGraphVertexId == streams[currentStreamGraphId].fnGraph.numVertices()) currentStreamGraphId++, currentStreamGraphVertexId = 0;
+			if (currentStreamGraphVertexId >= fnGraph.numVertices()) currentStreamGraphId++, currentStreamGraphVertexId = 0;
 
 			if (currentStreamGraphId >= streams.size()) finished = true;
 
+			if (streamCounter >= streams.size()) finished = true;
 		}
 
-		printf("\n %i streamLines created. ", streams.size());
+		printf("\n %i streamLines created. ", streamCounter);
 
 	}
 
@@ -248,14 +257,16 @@ namespace zSpace
 	ZSPACE_INLINE void zTsStreams2D::createStreams_Influence(vector<zStreamLine>& streams, vector<zVector> &start_seedPoints, zFnMeshField<zScalar>& fnInfluenceField, double min_Power, double max_Power, bool seedStreamsOnly)
 	{
 		streams.clear();
+		streams.assign(100, zStreamLine());
 
 		vector<vector<int>> childgraphs;
 		vector<int> parentGraph;
 		bool alternate = false;
 
+		int streamCounter = 0; 
 
 		// make first stream line
-		if (streams.size() == 0)
+		if (streamCounter == 0)
 		{
 			bool noStartSeedPoints = false;
 
@@ -273,13 +284,16 @@ namespace zSpace
 
 			for (int i = 0; i < start_seedPoints.size(); i++)
 			{
-				zObjGraph temp;
+				//streams.push_back(zStreamLine());
 
-				bool chk = createStreamGraph_Influence(temp, start_seedPoints[i], fnInfluenceField, min_Power, max_Power);
+				bool chk = createStreamGraph_Influence(streams[streamCounter].graphObj, start_seedPoints[i], fnInfluenceField, min_Power, max_Power);
 
 				if (chk)
 				{
-					streams.push_back(zStreamLine(temp));
+					//streams.push_back(temp);
+
+					streams[streamCounter].isValid = true;
+					streamCounter++;
 
 					alternate = !alternate;
 
@@ -292,16 +306,18 @@ namespace zSpace
 		}
 
 		vector<bool> alternateGraph;
-		for (int i = 0; i < streams.size(); i++) alternateGraph.push_back(false);
+		for (int i = 0; i < streamCounter; i++) alternateGraph.push_back(false);
 
 		if (seedStreamsOnly)
 		{
-			printf("\n %i streamLines created. ", streams.size());
+			printf("\n %i streamLines created. ", streamCounter);
 
-			for (int i = 0; i < streams.size(); i++)
+			for (int i = 0; i < streamCounter; i++)
 			{
+				zFnGraph fnGraph(streams[i].graphObj);
+
 				zColor col = (alternateGraph[i]) ? zColor(1, 0, 0, 1) : zColor(0, 0, 1, 1);
-				streams[i].fnGraph.setEdgeColor(col, true);
+				fnGraph.setEdgeColor(col, true);
 
 			}
 
@@ -326,46 +342,59 @@ namespace zSpace
 		while (!finished)
 		{
 			vector<zVector> seedPoints;
+			zFnGraph fnCurrentGraph(streams[currentStreamGraphId].graphObj);
+			
+			if (streams[currentStreamGraphId].isValid)
+			{				
+				
+				getSeedPoints_Influence(fnInfluenceField, streams[currentStreamGraphId], currentStreamGraphVertexId, min_Power, max_Power, seedPoints);
 
-			getSeedPoints_Influence(fnInfluenceField, streams[currentStreamGraphId], currentStreamGraphVertexId, min_Power, max_Power, seedPoints);
-
-			for (int i = 0; i < seedPoints.size(); i++)
-			{
-				zObjGraph temp;
-
-
-				bool chk = createStreamGraph_Influence(temp, seedPoints[i], fnInfluenceField, min_Power, max_Power);
-
-				if (chk)
+				for (int i = 0; i < seedPoints.size(); i++)
 				{
-					streams[currentStreamGraphId].child.push_back(streams.size());
-					streams.push_back(zStreamLine(temp, currentStreamGraphId));
 
-					alternateGraph.push_back(!alternateGraph[currentStreamGraphId]);
+					int id = streamCounter;
+					//streams.push_back(zStreamLine());
 
-					alternate = !alternate;
+					
+					bool chk = createStreamGraph_Influence(streams[id].graphObj, seedPoints[i], fnInfluenceField, min_Power, max_Power);
+
+					if (chk)
+					{
+						streams[currentStreamGraphId].child.push_back(id);
+						streams[id].setParent(currentStreamGraphId);
+
+						streams[id].isValid = true;
+						streamCounter++;
+
+						alternateGraph.push_back(!alternateGraph[currentStreamGraphId]);
+
+						alternate = !alternate;
+					}
 				}
 			}
+			
 
 			currentStreamGraphVertexId++;
 
-			if (currentStreamGraphVertexId == streams[currentStreamGraphId].fnGraph.numVertices()) currentStreamGraphId++, currentStreamGraphVertexId = 0;
+			if (currentStreamGraphVertexId >= fnCurrentGraph.numVertices()) currentStreamGraphId++, currentStreamGraphVertexId = 0;
 
 			if (currentStreamGraphId >= streams.size()) finished = true;
 
 
 		}
 
-		for (int i = 0; i < streams.size(); i++)
+		for (int i = 0; i < streamCounter; i++)
 		{
+
+			zFnGraph fnGraph(streams[i].graphObj);
 			zColor col = (alternateGraph[i]) ? zColor(1, 0, 0, 1) : zColor(0, 0, 1, 1);
 
-			streams[i].fnGraph.setEdgeColor(col, true);
+			fnGraph.setEdgeColor(col, true);
 
 		}
 
 
-		printf("\n %i streamLines created. ", streams.size());
+		printf("\n %i streamLines created. ", streamCounter);
 
 
 	}
@@ -386,8 +415,13 @@ namespace zSpace
 
 			zVector startForward = seedPoint;
 
-			zFnParticle seedForward;
-			seedForward.create(startForward);
+			zObjParticle p;
+			p.particle = zParticle(startForward);
+
+			zFnParticle seedForward(p);
+
+			//zFnParticle seedForward;
+			//seedForward.create(startForward);
 
 			double currentLength = 0.0;
 
@@ -520,8 +554,13 @@ namespace zSpace
 
 			zVector startBackward = seedPoint;
 
-			zFnParticle seedBackward;
-			seedBackward.create(startBackward);
+			zObjParticle p;
+			p.particle = zParticle(startBackward);
+
+			zFnParticle seedBackward(p);
+
+			//zFnParticle seedBackward;
+			//seedBackward.create(startBackward);
 
 
 			double currentLength = 0.0;
@@ -656,9 +695,14 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsStreams2D::getSeedPoints(zStreamLine& currentStream, int vertexId, vector<zVector> &seedPoints)
 	{
-		zItGraphVertex v(*currentStream.graphObj, vertexId);
+		zFnGraph tempFn(currentStream.graphObj);
+		if (tempFn.numEdges() == 0) return;
+		
+		zItGraphVertex v(currentStream.graphObj, vertexId);
 
 		if (v.checkValency(1)) return;
+
+		
 
 		zVector up(0, 0, 1);
 		zVector norm;
@@ -719,8 +763,11 @@ namespace zSpace
 
 			zVector startForward = seedPoint;
 
-			zFnParticle seedForward;
-			seedForward.create(startForward);
+			zObjParticle p;
+			p.particle = zParticle(startForward);
+
+			zFnParticle seedForward (p);
+			//seedForward.create(startForward);
 
 
 			double currentLength = 0;
@@ -776,6 +823,7 @@ namespace zSpace
 				fieldForce = fieldForce.rotateAboutAxis(axis, rotateAngle);
 
 				fieldForce.normalize();
+								
 				fieldForce *= (distSep * 1.0);
 
 				seedForward.addForce(fieldForce);
@@ -795,8 +843,12 @@ namespace zSpace
 
 				}
 
+				if (exit) cout << "\n e t";
+				else cout << "\n e f";
+
 				int index = -1;
 				bool checkRepeat = coreUtils.checkRepeatElement(newPos, positions, index);
+
 				if (checkRepeat)
 				{
 
@@ -806,6 +858,9 @@ namespace zSpace
 
 				}
 
+				if (exit) cout << "\n e t";
+				else cout << "\n e f";
+
 				bool validStreamPoint = checkValidStreamPosition(newPos, *dTest);
 
 				if (!validStreamPoint)
@@ -814,8 +869,14 @@ namespace zSpace
 					exit = true;
 				}
 
+				if (exit) cout << "\n e t";
+				else cout << "\n e f";
+				
 				// check length
 				if (currentLength + curPos.distanceTo(newPos) > *maxLength *0.5)  exit = true;
+
+				if (exit) cout << "\n e t";
+				else cout << "\n e f";
 
 				// add new stream point
 				if (!exit)
@@ -849,8 +910,11 @@ namespace zSpace
 
 			zVector startBackward = seedPoint;
 
-			zFnParticle seedBackward;
-			seedBackward.create(startBackward);
+			zObjParticle p;
+			p.particle = zParticle(startBackward);
+
+			zFnParticle seedBackward(p);
+			//seedBackward.create(startBackward);
 
 			double currentLength = 0.0;
 
@@ -958,7 +1022,7 @@ namespace zSpace
 		}
 
 
-		/*printf("\n v: %i e:%i ", positions.size(), edgeConnects.size());*/
+		printf("\n v: %i e:%i ", positions.size(), edgeConnects.size());
 
 		// create stream graph
 		bool out = false;
@@ -996,7 +1060,10 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsStreams2D::getSeedPoints_Influence(zFnMeshField<zScalar>& fnInfluenceField, zStreamLine& currentStream, int vertexId, double min_Power, double max_Power, vector<zVector> &seedPoints)
 	{
-		zItGraphVertex v(*currentStream.graphObj, vertexId);
+		zFnGraph tempFn(currentStream.graphObj);
+		if (tempFn.numEdges() == 0) return;
+
+		zItGraphVertex v(currentStream.graphObj, vertexId);
 
 		if (v.checkValency(1)) return;
 
@@ -1011,32 +1078,28 @@ namespace zSpace
 
 		double power = coreUtils.ofMap(influenceFieldValue, -1.0f, 1.0f, (float) min_Power, (float) max_Power);
 		power = floor(power);
-		double distSep = *dSep / pow(2, power);
-
-
-
+		double distSep = *dSep /*/ pow(2, power)*/;
 
 		zItGraphHalfEdge curEdge = v.getHalfEdge();
 
 
-
-		if (curEdge.getVertex().isActive())
-		{
+		//if (curEdge.getVertex().isActive())
+		//{
 			zVector v1 = curEdge.getVertex().getPosition();
 			zVector e1 = v1 - vPos;
 			e1.normalize();
 
 			norm += e1 ^ up;
-		}
+		//}
 
-		if (curEdge.getPrev().isActive())
-		{
+		//if (curEdge.getPrev().isActive())
+		//{
 			zVector v2 = curEdge.getPrev().getStartVertex().getPosition();
 			zVector e2 = vPos - v2;
 			e2.normalize();
 
 			norm += e2 ^ up;
-		}
+		//}
 
 
 		if (norm.length() == 0) return;
@@ -1059,7 +1122,7 @@ namespace zSpace
 	ZSPACE_INLINE bool zTsStreams2D::checkFieldBounds(zVector &inPoint)
 	{
 		zVector minBB, maxBB;
-		fnField.getBoundingBox(minBB, maxBB);
+		fnField.getBoundingBox(minBB, maxBB);	
 
 		return coreUtils.pointInBounds(inPoint, minBB, maxBB);
 	}

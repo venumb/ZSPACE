@@ -1255,7 +1255,8 @@ namespace zSpace
 		int faceNumTris;
 
 		if (faceTris.size() == 0) 	getTriangles(faceNumTris, faceTris);
-		if (fCenter == zVector(0, 0, 0)) fCenter = getCenter();
+		zVector v;
+		if (fCenter == v) fCenter = getCenter();
 
 		double out = 0;
 

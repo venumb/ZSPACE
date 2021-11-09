@@ -160,10 +160,10 @@ namespace zSpace
 	{
 		bool out = false;
 		index = -1;
+		zVector v1 = factoriseVector(inVal, precision);
 
 		for (int i = 0; i < values.size(); i++)
-		{
-			zVector v1 = factoriseVector(inVal, precision);
+		{			
 			zVector v2 = factoriseVector(values[i], precision);
 
 			if (v1 == v2)
@@ -999,14 +999,14 @@ namespace zSpace
 	
 	//---- VECTOR METHODS GEOMETRY
 
-	ZSPACE_INLINE void zUtilsCore::getEllipse(double radius, int numPoints, zPointArray &Pts, zMatrix4 localPlane, double xFactor, double yFactor)
+	ZSPACE_INLINE void zUtilsCore::getEllipse(double radius, int numPoints, zPointArray &Pts, zMatrix4 worldPlane, double xFactor, double yFactor)
 	{
 		double theta = 0;
 
-		zMatrix4 worldPlane;
-		zMatrix4 trans = PlanetoPlane(worldPlane, localPlane);
+		zMatrix4 localPlane;
+		zMatrix4 trans = PlanetoPlane(localPlane, worldPlane);
 
-		for (int i = 0; i < numPoints + 1; i++)
+		for (int i = 0; i < numPoints; i++)
 		{
 			zVector pos;
 			pos.x = (radius * cos(theta)) / xFactor;
@@ -1015,7 +1015,7 @@ namespace zSpace
 
 			Pts.push_back(pos * trans);
 
-			theta += (TWO_PI / numPoints);
+			theta += (TWO_PI / (numPoints+1));
 		}
 	}
 
@@ -1483,7 +1483,7 @@ namespace zSpace
 		mat U;
 		arma::vec s;
 		mat V;
-		svd(U, s, V, X_arma);
+		arma::svd(U, s, V, X_arma);
 
 		// x
 		out(0, 0) = V(0, 0); 	out(1, 0) = V(1, 0);	out(2, 0) = V(2, 0);

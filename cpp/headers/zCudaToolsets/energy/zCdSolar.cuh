@@ -302,6 +302,8 @@ ZSPACE_EXTERN bool cdpCummulativeRadiation(zTsSolarAnalysis &sAnalysis, bool EPW
 	printf("\n gpu  d_MemSize %i \n", d_MemSize);
 
 	return true;
+
+
 }
 
 

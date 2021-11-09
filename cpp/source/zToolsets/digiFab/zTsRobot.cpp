@@ -175,7 +175,7 @@ namespace zSpace
 
 	ZSPACE_INLINE void zTsRobot::createRobotJointMeshesfromFile(string directory, zFileTpye type, bool endeffector)
 	{
-		fnMeshJoints.clear();
+		//fnMeshJoints.clear();
 
 		if (type == zJSON)
 		{
@@ -233,7 +233,7 @@ namespace zSpace
 			{
 				//// import EE
 				string path = directory;
-				path.append("/r_EE.obj");
+				path.append("/r_ee.obj");
 				fnMeshJoints[7].from(path, type);				
 			}
 
@@ -400,7 +400,7 @@ namespace zSpace
 
 		jointRotations[3].rotation = (th3 * RAD_TO_DEG);
 		jointRotations[4].rotation = (th4 * RAD_TO_DEG);
-		jointRotations[5].rotation = (th5 * RAD_TO_DEG);
+		jointRotations[5].rotation = (th5 * RAD_TO_DEG - 180);
 
 		// SET FORWARD
 		forwardKinematics();
@@ -590,17 +590,17 @@ namespace zSpace
 
 		// READ Data from JSON			
 
-		robotJSON.scale = (j["scale"].get<double>());
+		robotJSON.scale = (j["robot_scale"].get<double>());
 		robot_scale = robotJSON.scale;
 
 		//DH
-		robotJSON.d = (j["d"].get<vector<double>>());
+		robotJSON.d = (j["DH_d"].get<vector<double>>());
 
-		robotJSON.a = (j["a"].get<vector<double>>());
+		robotJSON.a = (j["DH_a"].get<vector<double>>());
 
-		robotJSON.alpha = (j["alpha"].get<vector<double>>());
+		robotJSON.alpha = (j["DH_alpha"].get<vector<double>>());
 
-		robotJSON.theta = (j["theta"].get<vector<double>>());
+		robotJSON.theta = (j["DH_theta"].get<vector<double>>());
 
 		for (int i = 0; i < DOF; i++)
 		{

@@ -105,7 +105,12 @@
 #include <maya/MPointArray.h>
 #include <maya/MViewport2Renderer.h>
 
+#include <maya\MPxShaderOverride.h>
 
+#include <maya\MHardwareRenderer.h>
+#include <maya\MStateManager.h>
+#include <maya\MGLdefinitions.h>
+#include <maya\MHWGeometryUtilities.h>
 
 #endif
 

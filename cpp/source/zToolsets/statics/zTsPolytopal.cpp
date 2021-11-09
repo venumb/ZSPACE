@@ -376,6 +376,9 @@ namespace zSpace
 					{
 						// GFP or SSP are external faces
 						if (GFP_SSP_Index == -1) GFP_SSP_Face[globalFaceId] = false;
+
+						primalFace_VolumeFace[globalFaceId].push_back(j);
+						primalFace_VolumeFace[globalFaceId].push_back(i);
 					}
 
 					string hashKey_volFace = (to_string(j) + "," + to_string(i));
@@ -1857,7 +1860,7 @@ namespace zSpace
 
 					zVector t_ij = targetEdges_form[he.getId()];;
 					t_ij.normalize();
-					if (e_ij * t_ij < 0) t_ij *= -1;
+					/*if (e_ij * t_ij < 0)*/ t_ij *= -1;
 
 					b_i += (v_j + (t_ij * len_e_ij));
 

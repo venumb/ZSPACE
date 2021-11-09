@@ -161,7 +161,7 @@ namespace zSpace
 		*	\param		[in]	staticGraph		- boolean indicating if the geometry is static or not. Default its false.
 		*	\since version 0.0.1
 		*/
-		void create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph = false);
+		void create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph = false, int precision = PRECISION);
 
 		/*! \brief This methods creates the graph from the input contatiners for planar graphs.
 		*
@@ -171,7 +171,7 @@ namespace zSpace
 		*	\param		[in]	sortReference	- reference vector for sorting edges.
 		*	\since version 0.0.1
 		*/
-		void create(zPointArray(&_positions), zIntArray(&edgeConnects), zVector &graphNormal, zVector &sortReference);
+		void create(zPointArray(&_positions), zIntArray(&edgeConnects), zVector &graphNormal, zVector &sortReference, int precision = PRECISION);
 
 		/*! \brief This methods clears all the graph containers.
 		*
@@ -189,7 +189,7 @@ namespace zSpace
 		*	\return				bool		- true if the faces container is resized.
 		*	\since version 0.0.1
 		*/
-		bool addVertex(zPoint &pos);
+		bool addVertex(zPoint &pos, int precision = 6);
 
 		/*! \brief This method detemines if a vertex already exists at the input position
 		*

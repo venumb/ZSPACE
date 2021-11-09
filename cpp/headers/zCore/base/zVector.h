@@ -110,7 +110,7 @@ namespace  zSpace
 		*	\return				bool	- true if vectors are equal.
 		*	\since version 0.0.1
 		*/
-		ZSPACE_CUDA_CALLABLE bool operator==(const zVector &v1);
+		ZSPACE_CUDA_CALLABLE bool operator==(zVector &v1);
 
 		/*! \brief This method returns the component value of the current zVector.
 		*

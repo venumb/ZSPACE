@@ -731,7 +731,7 @@ namespace zSpace
 				w += weights[i];
 			}
 
-			fVal /= w;
+			fVal = (fVal == 0.0) ? 0.0 : fVal / w;
 
 			fieldValue = fVal;
 		}
@@ -763,7 +763,7 @@ namespace zSpace
 				w += weights[i];
 			}
 
-			fVal /= w;
+			fVal = (fVal == 0.0) ? 0.0 : fVal / w;
 
 			fieldValue = fVal;
 		}
@@ -797,7 +797,7 @@ namespace zSpace
 				w += weights[i];
 			}
 
-			fVal /= w;
+			fVal = (fVal == 0.0) ? 0.0 : fVal / w;
 
 			fieldValue = fVal;
 
@@ -915,6 +915,132 @@ namespace zSpace
 
 				zItMeshVectorField s(*fieldObj, containedNeighbours[i]);
 				zVector val = s.getValue();
+
+				fVal += (val * weights[i]);
+
+				w += weights[i];
+			}
+
+			fVal /= w;
+
+			fieldValue = fVal;
+
+		}
+
+		else throw std::invalid_argument(" error: invalid zFieldValueType.");
+
+		return true;
+	}
+
+
+	template<>
+	ZSPACE_INLINE bool zFnMeshField<zScalar>::getScalarValue(zScalarArray& scalars, zPoint& samplePos, zFieldValueType type, zScalar& fieldValue)
+	{
+		if (scalars.size() != numFieldValues())
+		{
+			 throw std::invalid_argument(" error: scalars and field value size dont match.");
+			return false;
+		}
+
+
+		bool out = false;
+
+		zItMeshScalarField s(*fieldObj, samplePos);
+
+		int index = s.getId();
+
+		if (type == zFieldIndex)
+		{
+			
+			fieldValue = scalars[index];
+		}
+
+		else if (type == zFieldNeighbourWeighted)
+		{
+			zScalar fVal = 0;
+
+			zItMeshScalarField s(*fieldObj, index);
+
+			vector<zItMeshScalarField> ringNeighbours;
+			s.getNeighbour_Ring(1, ringNeighbours);
+
+			zPointArray positions;
+			for (int i = 0; i < ringNeighbours.size(); i++)
+			{
+				positions.push_back(ringNeighbours[i].getPosition());
+			}
+
+			vector<double> weights;
+			coreUtils.getDistanceWeights(samplePos, positions, 2.0, weights);
+
+			double w = 0;
+			for (int i = 0; i < ringNeighbours.size(); i++)
+			{
+				zScalar val = scalars[ringNeighbours[i].getId()];
+				fVal += val * weights[i];
+				w += weights[i];
+			}
+
+			fVal /= w;
+
+			fieldValue = fVal;
+		}
+
+		else if (type == zFieldAdjacentWeighted)
+		{
+			zScalar fVal = 0;
+
+			zItMeshScalarField s(*fieldObj, index);
+
+			vector<zItMeshScalarField> adjNeighbours;
+			s.getNeighbour_Adjacents(adjNeighbours);
+
+			zPointArray positions;
+			for (int i = 0; i < adjNeighbours.size(); i++)
+			{
+				positions.push_back(adjNeighbours[i].getPosition());
+			}
+
+			vector<double> weights;
+			coreUtils.getDistanceWeights(samplePos, positions, 2.0, weights);
+
+			double w = 0;
+			for (int i = 0; i < adjNeighbours.size(); i++)
+			{
+				zScalar val = scalars[adjNeighbours[i].getId()];
+				fVal += val * weights[i];
+
+				w += weights[i];
+			}
+
+			fVal /= w;
+
+			fieldValue = fVal;
+		}
+
+		else if (type == zFieldContainedWeighted)
+		{
+			zScalar fVal = 0;
+
+			vector<int> containedNeighbours;
+			getNeighbour_Contained(samplePos, containedNeighbours);
+
+			zPointArray positions;
+			for (int i = 0; i < containedNeighbours.size(); i++)
+			{
+				zItMeshScalarField s(*fieldObj, containedNeighbours[i]);
+
+				positions.push_back(s.getPosition());
+			}
+
+			vector<double> weights;
+			coreUtils.getDistanceWeights(samplePos, positions, 2.0, weights);
+
+			double w = 0.0;
+			for (int i = 0; i < containedNeighbours.size(); i++)
+			{
+				zItMeshScalarField s(*fieldObj, containedNeighbours[i]);
+				zScalar val = scalars[s.getId()];
 
 				fVal += (val * weights[i]);
 
@@ -1055,8 +1181,7 @@ namespace zSpace
 			{
 				s.setValue(fValues[i]);
 			}
-
-			updateColors();			
+								
 		}
 
 		else throw std::invalid_argument("input fValues size not field vectors.");
@@ -1643,6 +1768,7 @@ namespace zSpace
 
 	}
 	
+
 	template<>
 	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalarsAsEdgeDistance(zScalarArray &scalars, zObjGraph &inGraphObj, float offset, bool normalise)
 	{
@@ -1682,6 +1808,139 @@ namespace zSpace
 			scalars.push_back(d);
 
 		}
+
+		if (normalise)
+		{
+			normliseValues(scalars);
+		}
+
+
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_depthPolygon(zScalarArray& scalars, zScalarArray& polygonScalars, zObjGraph& inGraphObj, int startVertexId, float offset, zVector planeNorm , bool normalise)
+	{
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = (startV.getHalfEdge());
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		// update values from edge distance
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			//double d = 0.0;
+			double tempDist = 10000;
+
+			zPoint closestPt;
+			zItGraphHalfEdge closestHe;
+
+			for (auto& orientedHE : orientedHalfEdges)
+			{
+
+				int e1 = orientedHE.getVertex().getId();
+				int e0 = orientedHE.getStartVertex().getId();
+
+				if (orientedHE.getLength() < EPS) continue;
+
+				zVector tempClosestPt;
+
+				double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], tempClosestPt);
+
+				if (r < tempDist)
+				{
+					tempDist = r;
+					closestPt = tempClosestPt;
+					closestHe = orientedHE;
+				}
+			}
+
+			// compute if mesh point below or above closestHE
+			zVector X = closestHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm : planeNorm * -1;
+			Z.normalize();
+
+			zVector Y = Z ^ X;
+			Y.normalize();
+
+			double planeMinDist = coreUtils.minDist_Point_Plane(meshPositions[i], closestPt, Y);
+			double dSign = coreUtils.zSign(planeMinDist);
+
+			zPoint p0 = closestPt;
+			zPoint p1 = (dSign > 0) ? closestPt + (Y * 1) : closestPt + (Y * -1);
+
+			// ray march https://michaelwalczyk.com/blog-ray-marching.html
+			zVector ray = p1 - p0;
+			ray.normalize();
+
+			zPoint samplePoint = closestPt;
+			float sdfValue;
+			getFieldValue( samplePoint, zFieldValueType::zFieldContainedWeighted, sdfValue);
+
+			float step = abs(sdfValue) * 0.75;;
+			float distanceTravelled = 0.0;
+
+			bool rayExit = false;
+
+			do
+			{
+				samplePoint += ray * step;
+				distanceTravelled += step;
+
+				printf("\n%i  %1.3f ",i, distanceTravelled);
+
+				getFieldValue(samplePoint, zFieldValueType::zFieldContainedWeighted, sdfValue);
+
+				step = abs(sdfValue) * 0.75;;
+
+				if (abs(sdfValue) < distanceTolerance) rayExit = true; // hit
+				
+				if (distanceTravelled > 1.0) // miss
+				{
+					rayExit = true;
+				}
+
+				
+			} while (!rayExit);
+
+			float d = distanceTravelled - offset;
+			printf("\n %1.3f ", d);
+			scalars.push_back(distanceTravelled - offset);
+
+		}
+
 
 		if (normalise)
 		{
@@ -1795,6 +2054,260 @@ namespace zSpace
 	}
 
 	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, vector<zDomainFloat>& thicknessOffsets1, vector<zDomainFloat>& thicknessOffsets2, vector<zDomainFloat> &intervals, zVector planeNorm, bool normalise)
+	{
+
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = (startV.getHalfEdge());
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		zDomainFloat inDomain(0.0, graphLen);
+
+		// update values from edge distance
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			double d = 0.0;
+			double tempDist = 10000;
+
+			zPoint closestPt;
+			zItGraphHalfEdge closestHe;
+
+			for (auto& orientedHE : orientedHalfEdges)
+			{
+
+				int e1 = orientedHE.getVertex().getId();
+				int e0 = orientedHE.getStartVertex().getId();
+
+				if (orientedHE.getLength() < EPS) continue;
+
+				zVector tempClosestPt;
+
+				double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], tempClosestPt);
+
+				if (r < tempDist)
+				{
+					tempDist = r;
+					closestPt = tempClosestPt;
+					closestHe = orientedHE;
+				}
+			}
+
+			// compute if mesh point below or above closestHE
+			zVector X = closestHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm : planeNorm * -1;
+			Z.normalize();
+
+			zVector Y = Z ^ X;
+			Y.normalize();
+
+			double planeMinDist = coreUtils.minDist_Point_Plane(meshPositions[i], closestPt, Y);
+			double dSign = coreUtils.zSign(planeMinDist);
+
+			int heStartV = closestHe.getStartVertex().getId();
+			float distFromStart = closestPt.distanceTo(inPositions[heStartV]);
+			distFromStart += vertex_distanceFromStart[heStartV];
+
+			// get Interval index
+			float intervalVal = distFromStart / graphLen;
+			if (intervalVal < 0 || intervalVal > 1) cout << endl << intervalVal;
+			int arrayIndex = -1;
+			zDomainFloat interval;
+			for (int k = 0; k < intervals.size(); k++)
+			{
+				if (intervalVal >= intervals[k].min && intervalVal <= intervals[k].max)
+				{
+					arrayIndex = k;
+					interval = intervals[k];
+				}
+					
+			}
+			
+
+			zDomainFloat offset = (dSign > 0) ? thicknessOffsets1[arrayIndex] : thicknessOffsets2[arrayIndex];
+
+			
+
+			float mappedoffset = coreUtils.ofMap(intervalVal, interval, offset);
+			//d = abs(planeMinDist) - mappedoffset;
+
+			d = tempDist - mappedoffset;
+
+			scalars.push_back(d);
+
+		}
+
+
+		if (normalise)
+		{
+			normliseValues(scalars);
+		}
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zObjGraph& inThkGraphObj, zVector planeNorm, bool normalise)
+	{
+
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = (startV.getHalfEdge());
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		zDomainFloat inDomain(0.0, graphLen);
+
+		// update values from edge distance
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			double d = 0.0;
+			double tempDist = 10000;
+
+			zPoint closestPt;
+			zItGraphHalfEdge closestHe;
+
+			for (auto& orientedHE : orientedHalfEdges)
+			{
+
+				int e1 = orientedHE.getVertex().getId();
+				int e0 = orientedHE.getStartVertex().getId();
+
+				if (orientedHE.getLength() < EPS) continue;
+
+				zVector tempClosestPt;
+
+				double r = coreUtils.minDist_Edge_Point(meshPositions[i], inPositions[e0], inPositions[e1], tempClosestPt);
+
+				if (r < tempDist)
+				{
+					tempDist = r;
+					closestPt = tempClosestPt;
+					closestHe = orientedHE;
+				}
+			}
+
+			// compute if mesh point below or above closestHE
+			zVector X = closestHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm : planeNorm * -1;
+			Z.normalize();
+
+			zVector Y = Z ^ X;
+			Y.normalize();
+
+			double planeMinDist = coreUtils.minDist_Point_Plane(meshPositions[i], closestPt, Y);
+			double dSign = coreUtils.zSign(planeMinDist);
+
+			zPoint p0 = closestPt;
+			zPoint p1 = (dSign > 0) ? closestPt + (Y * 1) : closestPt + (Y * -1);
+
+			// find interection 
+
+			//int heStartV = closestHe.getStartVertex().getId();
+			//float distFromStart = closestPt.distanceTo(inPositions[heStartV]);
+			//distFromStart += vertex_distanceFromStart[heStartV];
+
+			//// get Interval index
+			//float intervalVal = distFromStart / graphLen;
+			//if (intervalVal < 0 || intervalVal > 1) cout << endl << intervalVal;
+			//int arrayIndex = -1;
+			//zDomainFloat interval;
+			//for (int k = 0; k < intervals.size(); k++)
+			//{
+			//	if (intervalVal >= intervals[k].min && intervalVal <= intervals[k].max)
+			//	{
+			//		arrayIndex = k;
+			//		interval = intervals[k];
+			//	}
+
+			//}
+
+
+			//zDomainFloat offset = (dSign > 0) ? thicknessOffsets1[arrayIndex] : thicknessOffsets2[arrayIndex];
+
+
+
+			//float mappedoffset = coreUtils.ofMap(intervalVal, interval, offset);
+			////d = abs(planeMinDist) - mappedoffset;
+
+			//d = tempDist - mappedoffset;
+
+			//scalars.push_back(d);
+
+		}
+
+
+		if (normalise)
+		{
+			normliseValues(scalars);
+		}
+	}
+
+
+	template<>
 	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_SineInfill(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1, zDomainFloat offset2, int numTriangles, float transY, zVector planeNorm, bool normalise)
 	{
 		scalars.clear();
@@ -1837,8 +2350,167 @@ namespace zSpace
 
 		//float wave_period = 0.03;
 		//int numLayers = floor(graphLen / wave_period);		
+
+		//printf("\n nT %i ", numTriangles);
+		int numLayers = ((numTriangles + 1) * 4) + 1 /*31*/;
+		float wave_period = graphLen / numLayers;
+
+		zPointArray positions;
+		zIntArray edgeConnects;
+
+		//positions.push_back(startV.getPosition());
+
+		zPoint pOnCurve = startV.getPosition();
+		walkHe = startV.getHalfEdge();
+
+
+
+		int end = (floor(numLayers / 4) * 4) - 1;
+
+		//printf(" %1.4f , %i  %i ,  %1.2f %1.2f %1.2f", graphLen, numLayers, end, pOnCurve.x, pOnCurve.y, pOnCurve.z);
+
+
+		exit = false;
+
+		for (int j = 0; j < end - 1; j++)
+		{
+			//if (exit) continue;
+
+			zPoint eEndPoint = walkHe.getVertex().getPosition();
+			float distance_increment = /*( j ==0 ) ? wave_period * 2 :*/  wave_period;
+
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				walkHe = walkHe.getNext();
+				eEndPoint = walkHe.getVertex().getPosition();
+
+			}
+
+			int heStartV = walkHe.getStartVertex().getId();
+
+			//printf("\n counter %i  %1.4f %1.4f ", counter, distance_increment, vertex_distanceFromStart[heStartV]);
+			zVector X = walkHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm : planeNorm * -1;
+			Z.normalize();
+
+			zVector Y = X ^ Z;
+			Y.normalize();
+
+			//O
+			zPoint O = pOnCurve + X * distance_increment;
+
+			if (j == numLayers - 1) O = walkHe.getVertex().getPosition();
+
+
+			if (j >= 0)
+			{
+
+
+				float distFromStart = O.distanceTo(inPositions[heStartV]);
+				distFromStart += vertex_distanceFromStart[heStartV];
+
+				if (j == numLayers - 1) distFromStart = graphLen;
+
+				float n = (distFromStart / wave_period) + 0.5;
+
+				float a = (n) * (HALF_PI);
+
+
+				float d = sin(a);
+				d = coreUtils.zSign(d);
+				zDomainFloat offset = (d > 0) ? offset2 : offset1;
+
+				//printf("\n %1.2f  %1.4f %1.4f ", n, a, d);
+
+				float mappedoffset = coreUtils.ofMap(distFromStart, inDomain, offset);
+
+				if (positions.size() > 0)
+				{
+					edgeConnects.push_back(positions.size() - 1);
+					edgeConnects.push_back(positions.size());
+				}
+
+				float trans = -transY/*0.1*/;
+				zPoint addP = O + (Y * trans);
+
+				addP += (coreUtils.zSign(d) > 0) ? Y * d * (mappedoffset + (trans * -0.5)) : (Y * d * mappedoffset);
+
+				if (positions.size() % 4 == 2) addP += (X * (-0.5 * wave_period));
+
+				positions.push_back(addP);
+
+				//if (graphLen - distFromStart < 3.5 * wave_period) exit = true;
+			}
+
+
+
+			pOnCurve = O;
+
+
+		}
+
+
+		zObjGraph tempGraph;
+		zFnGraph tempFn(tempGraph);
+
+		tempFn.create(positions, edgeConnects);
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, 0.01, normalise);
+
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_SineInfill(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, vector<zDomainFloat>& thicknessOffsets1, vector<zDomainFloat>& thicknessOffsets2, vector<zDomainFloat>& intervals, int numTriangles, float transY, zVector planeNorm, bool normalise)
+	{
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = startV.getHalfEdge();
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		zDomainFloat inDomain(0.0, graphLen);
+
+		//float wave_period = 0.03;
+		//int numLayers = floor(graphLen / wave_period);		
 		
-		int numLayers = ((numTriangles + 1)*4) + 3 /*31*/;
+		//printf("\n nT %i ", numTriangles);
+		int numLayers = ((numTriangles + 1)*4) + 1 /*31*/;
 		float wave_period = graphLen / numLayers;
 
 		zPointArray positions;
@@ -1892,6 +2564,7 @@ namespace zSpace
 			zPoint O = pOnCurve + X * distance_increment;
 
 			if (j == numLayers - 1) O = walkHe.getVertex().getPosition();
+					
 
 			if (j > 0)
 			{
@@ -1904,16 +2577,40 @@ namespace zSpace
 
 				float n = (distFromStart / wave_period) + 0.5;
 
-				float a = (n) * (HALF_PI);
+				float a = (n) * (PI * 0.5);
+				//printf("\n n %1.2f a %1.2f  %1.2f ",n, a, sin(a));
 
 
 				float d = sin(a);
 				d = coreUtils.zSign(d);
-				zDomainFloat offset = (d > 0) ? offset2 : offset1;
+				//zDomainFloat offset = (d > 0) ? offset2 : offset1;
+
+
+				// get Interval index
+				float intervalVal = distFromStart / graphLen;
+				if (intervalVal < 0 || intervalVal > 1) cout << endl << intervalVal;
+				int arrayIndex = -1;
+				zDomainFloat interval;
+				for (int k = 0; k < intervals.size(); k++)
+				{
+					if (intervalVal >= intervals[k].min && intervalVal <= intervals[k].max)
+					{
+						arrayIndex = k;
+						interval = intervals[k];
+					}
+
+				}
+
+
+				zDomainFloat offset = (d > 0) ? thicknessOffsets2[arrayIndex] : thicknessOffsets1[arrayIndex];
+
+
+				float mappedoffset = coreUtils.ofMap(intervalVal, interval, offset);
+
 
 				//printf("\n %1.2f  %1.4f %1.4f ", n, a, d);
 
-				float mappedoffset = coreUtils.ofMap(distFromStart, inDomain, offset);
+				//float mappedoffset = coreUtils.ofMap(distFromStart, inDomain, offset);
 
 				if (positions.size() > 0)
 				{
@@ -1922,11 +2619,11 @@ namespace zSpace
 				}
 
 				float trans = -transY/*0.1*/;
-				zPoint addP = O + (Y * trans);
+				zPoint addP = O /*+ (Y * trans)*/;
 
-				addP += (coreUtils.zSign(d) > 0) ? Y * d * (mappedoffset + (trans * -0.5)) : (Y * d * mappedoffset);
+				addP += /*(coreUtils.zSign(d) > 0) ? Y * d * (mappedoffset + (trans * -0.5)) : */(Y * d * mappedoffset);
 
-				if (positions.size() % 2 == 1) addP += (X * (-0.75 * wave_period));
+				if (positions.size() % 4 == 0) addP += (X * (-0.5 * wave_period));
 
 				positions.push_back(addP);
 
@@ -1946,11 +2643,2943 @@ namespace zSpace
 
 		tempFn.create(positions, edgeConnects);
 
-		getScalarsAsEdgeDistance(scalars, tempGraph, 0.0125, false);
+		getScalarsAsEdgeDistance(scalars, tempGraph, 0.01, normalise);
 
 	}
 
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_SineInfill(zScalarArray& scalars, zScalarArray& polygonScalars, zObjGraph& inGraphObj, zObjGraph& inPolyObj, int startVertexId, float numTriangles,float offset, zVector planeNorm , bool normalise)
+	{
+		//setFieldValues(polygonScalars);
+		
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = startV.getHalfEdge();
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		/*zVectorArray vNormals;
+
+		for (zItGraphVertex v(inGraphObj); !v.end(); v++)
+		{
+			zItGraphHalfEdgeArray cHEdges;
+			v.getConnectedHalfEdges(cHEdges); 
+
+			zVector n;
+
+			if (cHEdges.size() == 1)
+			{
+				zVector X = cHEdges[0].getVector();
+				X.normalize();
+
+				zVector Z = (X * worldX > 0) ? planeNorm * -1 : planeNorm * 1;
+				Z.normalize();
+
+				n = X ^ Z;
+				n.normalize();
+			}
+			else
+			{
+				for (auto& cHE : cHEdges)
+				{
+					n += cHE.getVector();
+				}
+
+				n /= cHEdges.size();
+				n.normalize();
+				
+			}
+
+			vNormals.push_back(n);
+		}*/
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+		zDomainFloat inDomain(0.0, graphLen);
+
+		//float wave_period = 0.03;
+		//int numLayers = floor(graphLen / wave_period);		
+
+		//printf("\n nT %i ", numTriangles);
+		int numLayers = ((numTriangles + 1) * 4) + 2 /*31*/;
+		float wave_period = graphLen / numLayers;
+
+		zPointArray positions;
+		zIntArray edgeConnects;
+
+		//positions.push_back(startV.getPosition());
+
+		zPoint pOnCurve = startV.getPosition();
+		walkHe = startV.getHalfEdge();
+
+
+
+		int end = (floor(numLayers / 4) * 4) - 1;
+
+		//printf(" %1.4f , %i  %i ,  %1.2f %1.2f %1.2f", graphLen, numLayers, end, pOnCurve.x, pOnCurve.y, pOnCurve.z);
+
+		zFnGraph fnPolgGraph(inPolyObj);
+		zItGraphHalfEdge start(inPolyObj, 0);
+
+		exit = false;
+
+		for (int j = 0; j < end; j++)
+		{
+			//if (exit) continue;
+
+			zPoint eEndPoint = walkHe.getVertex().getPosition();
+			float distance_increment = ( j % 2  ==1 ) ? wave_period * 1.0 :  wave_period * 1.0;
+
+			if (numTriangles == 2.25)
+			{
+				// for 8 | 3.25  , 9 | 4.00 , 10 | 4.40  11 | 3.5,  0,3| 1.25, 4 | 1.5 , 1, 2, | 1.5,   14,15,|0.75, 17 |0.6,  16 |0.55
+				if (j == 0)
+				{
+					distance_increment = wave_period * 1.5;
+				}
+				//for 0 | 3.0 ,  1 | 1.5, 2 | 2.0, 10,11 | 0.65,  4 |2.5 ,3 | 3.0  , 8 |2.0 14 | 1.5, 15,|2.0 ,  16 | 3.65, 9 | 1.1, 17 |3.0
+				if (j == 5)
+				{
+					distance_increment = wave_period * 2.5;
+				}
+			}
+			
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				walkHe = walkHe.getNext();
+				eEndPoint = walkHe.getVertex().getPosition();
+
+			}
+
+			int heStartV = walkHe.getStartVertex().getId();
+			int heEndV = walkHe.getVertex().getId();
+
+			//printf("\n counter %i  %1.4f %1.4f ", counter, distance_increment, vertex_distanceFromStart[heStartV]);
+			zVector X = walkHe.getVector();
+			X.normalize();
+
+			zVector Z = (X * worldX > 0) ? planeNorm * -1 : planeNorm * 1;
+			Z.normalize();
+
+			zVector Y = X ^ Z;
+			Y.normalize();
+
+
+
+			//O
+			zPoint O = pOnCurve + X * distance_increment;
+
+			if (j == numLayers - 1) O = walkHe.getVertex().getPosition();
+
+
+			/*float eLen = walkHe.getLength();
+			
+
+			float factor = eLen / distFromStart;
+
+			zVector Y = vNormals[heStartV] * (1 - factor) + vNormals[heEndV] * (factor);
+			Y.normalize();*/
+
+			if (j > 0)
+			{
+
+
+				float distFromStart = O.distanceTo(inPositions[heStartV]);
+				distFromStart += vertex_distanceFromStart[heStartV];
+
+				if (j == numLayers - 1) distFromStart = graphLen;
+
+				float n = positions.size() + 2 /*(distFromStart / wave_period)*/ ;
+
+				float a =   (n + 0.5) * (PI * 0.5);
+				//printf("\n n %1.2f a %1.2f  %1.2f ",n, a, sin(a));
+
+
+				float d = sin(a);
+				d = coreUtils.zSign(d);
+				//zDomainFloat offset = (d > 0) ? offset2 : offset1;
+
+				zPoint p0 = O;
+				zPoint p1 = ((d > 0)) ? O + (Y * 1) : O + (Y * -1);
+				zVector ray = p1 - p0;
+				ray.normalize();
+				
+				// sdf ray march https://michaelwalczyk.com/blog-ray-marching.html
+									
+
+				//zPoint samplePoint = O;
+				//float sdfValue;
+				//getFieldValue(samplePoint, zFieldValueType::zFieldContainedWeighted, sdfValue);
+				//
+				//cout << samplePoint;
+				//printf("\n in %i sdf  %1.3f   ", j, sdfValue);
+
+				//float step = abs(sdfValue) * 0.75;;
+				//float distanceTravelled = 0.0;
+
+				//bool rayExit = false;
+
+				//do
+				//{
+				//	printf("\n in %i  %1.3f %1.3f  ", j, distanceTravelled,step);
+
+				//	samplePoint += ray * step;
+				//	distanceTravelled += step;
+
+				//	
+
+				//	getFieldValue(samplePoint, zFieldValueType::zFieldContainedWeighted, sdfValue);
+
+				//	step = abs(sdfValue) * 0.75;;
+
+				//	if (abs(sdfValue) < distanceTolerance) rayExit = true; // hit
+
+				//	if (distanceTravelled > 1.0) // miss
+				//	{
+				//		rayExit = true;
+				//	}
+
+
+				//} while (!rayExit);
+
+				//float mappedoffset = distanceTravelled;
+				//printf("\n out %1.3f ", mappedoffset);
+
+
+				// ray intersections
+
+				zItGraphHalfEdge he = start;
+				float intDist;
+				bool rayExit = false;
+				do
+				{
+					zPoint e0 = he.getStartVertex().getPosition();
+					zPoint e1 = he.getVertex().getPosition();
+
+					double uA, uB;
+					bool check = coreUtils.line_lineClosestPoints(p0, p1, e0, e1,uA, uB);
+					if (check)
+					{
+						if (uB >= 0.0 && uB <= 1.0 && uA >= 0.0 && uA <= 1.0)
+						{
+							zPoint intPt = p0 + ray * uA;
+							intDist = p0.distanceTo(intPt);
+
+							rayExit = true;
+						}						
+											
+						
+					}
+
+					he = he.getNext();
+
+					if (he == start)rayExit = true;;
+
+				} while (!rayExit);
+
+				float mappedoffset = intDist;
+				//printf("\n out %1.3f ", mappedoffset);
+
+				if (positions.size() > 0)
+				{
+					edgeConnects.push_back(positions.size() - 1);
+					edgeConnects.push_back(positions.size());
+				}
+
+			
+				zPoint addP = O /*+ (Y * trans)*/;
+
+				if (d > 0) mappedoffset -= offset;
+
+				addP += (Y * d * mappedoffset);
+
+				//if (positions.size() % 4 == 0) addP += (X * (-0.5 * wave_period));
+
+				positions.push_back(addP);
+				
+			}
+
+
+
+			pOnCurve = O;
+
+
+		}
+
+
+		zObjGraph tempGraph;
+		zFnGraph tempFn(tempGraph);
+
+		tempFn.create(positions, edgeConnects);
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, 0.01, normalise);
+
+	}
+
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_Infill(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth,  bool normalise)
+	{
+		
+		scalars.clear();
+
+		zVector norm(0,0,1);
+		zVector worldX(1, 0, 0);
+		
+
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		float topIncrement = topLength / (numTriangles);
+		
+		int topNumPts = numTriangles * 3 + numTriangles * 2;
+		zIntArray top_indexInContainer;
+		top_indexInContainer.assign(topNumPts, -1);
+
+		zPointArray topPts;
+
+		int topID = 0;
+		zItGraphHalfEdge tHe = topHE[topID];
+		topPts.push_back(tHe.getStartVertex().getPosition());
+
+		
+		zPoint pOnCurve = topPts[topID];
+		topID++;	
+
+		float pWidth = 0.95 * printWidth;
+
+		int counter =0;
+		for (int i = 0; i < numTriangles * 3; i++)
+		{
+			float distance_increment = topIncrement * 0.5;
+			
+
+			if (i % 3 == 0) distance_increment  = (i == 1) ? pWidth * 1.0 : pWidth;
+			else if(i % 3 == 1) distance_increment -=  (i == 1) ? pWidth : pWidth *0.5 ;
+			else if (i % 3 == 2) distance_increment -= (i == numTriangles * 3 -1) ? pWidth * 1.0 : pWidth * 0.5;
+
+			//length += distance_increment;
+
+			zPoint eEndPoint = tHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tHe = topHE[topID];
+				eEndPoint = tHe.getVertex().getPosition();
+				topID++;
+			}
+
+			zVector he_vec = tHe.getVector();
+			he_vec.normalize();
+
+			//O
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			/*if (i == numTriangles * 3 - 1)
+			{
+				pOnCurve = topHE[topHE.size() - 1].getVertex().getPosition();
+				he_vec = topHE[topHE.size() - 1].getVector();
+				he_vec.normalize();
+			}*/
+
+			if (i % 3 == 0 || i % 3 == 2)
+			{
+				zVector X = he_vec;
+
+				zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+				Z.normalize();
+
+				zVector Y = X ^ Z;
+				Y.normalize();
+
+				top_indexInContainer[counter] = topPts.size();
+				if( i == numTriangles * 3 -1) topPts.push_back(pOnCurve + Y * 2.5 * printWidth);
+				else topPts.push_back(pOnCurve + Y * 2.5 * printWidth);
+
+				counter++;
+			}
+			
+
+			top_indexInContainer[counter] = topPts.size();
+			topPts.push_back(pOnCurve);
+				
+			counter++;
+		}
+		
+		/// BOTTOM B WITH GUIDE
+
+		float bottomIncrement = bottomLength / (numTriangles);
+		float d = (bottomIncrement - maxTriangleLength) * 0.5;
+		float dTest = printWidth * 1.5;
+		float bottomOverlapLength = (d < dTest) ? dTest : d;
+
+		//printf("\n incr %1.4f %1.4f  %1.4f %1.4f", bottomLength, bottomIncrement, bottomOverlapLength, maxTriangleLength);
+
+		int bottomNumPts = numTriangles * 3;
+		zIntArray bottom_indexInContainer;
+		bottom_indexInContainer.assign(bottomNumPts, -1);
+
+
+		zPointArray bottomPts;
+
+		int bottomID = 0;
+		zItGraphHalfEdge bHe = bottomHE[bottomID];
+		bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		pOnCurve = bottomPts[bottomID];
+		bottomID++;
+		zColor red(1, 0, 0, 1);
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			// find red vertex
+			bool redVertex = false;
+			
+			while (!redVertex)
+			{
+				if (bHe.getVertex().getColor() == red) redVertex = true;
+				else
+				{
+					bHe = bottomHE[bottomID];
+					bottomID++;
+				}
+			}
+				
+			// first point
+			float distance_increment = bottomOverlapLength;
+
+			zItGraphHalfEdge tempHe = bHe.getSym();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				bottomPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+			
+			}
+
+			zVector he_vec = tempHe.getVector();
+			he_vec.normalize();
+			
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			// second Point 
+			pOnCurve = bHe.getVertex().getPosition();
+
+			bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			// Third Point
+			
+			distance_increment = bottomOverlapLength;
+			tempHe = bHe.getNext();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				bottomPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			//
+			bHe = bottomHE[bottomID];
+			bottomID++;
+		}
+
+		
+		/// BOTTOM A NO GUIDE
+
+		//float bottomIncrement = bottomLength / (numTriangles);
+		//float d = (bottomIncrement - maxTriangleLength )* 0.5;
+		//float dTest = printWidth * 1.5;
+		//float bottomOverlapLength = (d < dTest) ? dTest : d;
+
+		////printf("\n incr %1.4f %1.4f  %1.4f %1.4f", bottomLength, bottomIncrement, bottomOverlapLength, maxTriangleLength);
+
+		//int bottomNumPts = numTriangles * 3;
+		//zIntArray bottom_indexInContainer;
+		//bottom_indexInContainer.assign(bottomNumPts, -1);
+		//	
+
+		//zPointArray bottomPts;
+
+		//int bottomID = 0;
+		//zItGraphHalfEdge bHe = bottomHE[bottomID];
+		//bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		//pOnCurve = bottomPts[bottomID];
+		//bottomID++;
+		//
+		//for (int i = 0; i < bottomNumPts; i++)
+		//{
+		//	float distance_increment = bottomIncrement;
+		//	if (i == 0) distance_increment = bottomIncrement / 2;
+
+		//	if (i % 3 == 0) distance_increment -= (i == 0) ? bottomOverlapLength : bottomOverlapLength * 2;
+		//	else distance_increment = bottomOverlapLength;
+
+
+		//	zPoint eEndPoint = bHe.getVertex().getPosition();			
+
+		//	while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+		//	{
+		//		distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+		//		pOnCurve = eEndPoint;
+
+		//		bottomPts.push_back(pOnCurve);
+
+		//		bHe = bottomHE[bottomID];
+		//		eEndPoint = bHe.getVertex().getPosition();
+		//		bottomID++;
+		//	}
+
+		//	zVector he_vec = bHe.getVector();
+		//	he_vec.normalize();
+
+		//	//O
+		//	pOnCurve = pOnCurve + he_vec * distance_increment;
+
+		//	bottom_indexInContainer[i] = bottomPts.size();
+		//	bottomPts.push_back(pOnCurve);			
+		//	
+		//}
+
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			zPointArray gPositions;
+			
+			gPositions.push_back(topPts[top_indexInContainer[i * 5+ 0]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 5 + 1]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 5 + 2]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 5 + 4]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 5 + 3]]);
+
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 1]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 0]]);
+
+			zIntArray gEdgeCOnnects;
+			
+			for (int i = 0; i < gPositions.size(); i++)
+			{
+				int next = (i + 1) % gPositions.size();
+
+				gEdgeCOnnects.push_back(i);
+				gEdgeCOnnects.push_back(next);
+			}
+
+			zObjGraph tempGraph;
+			zFnGraph fnTempGraph(tempGraph);
+			fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+			zScalarArray triField;
+			getScalars_Polygon(triField, tempGraph, false);
+
+			if (i == 0) scalars = triField;
+			else
+			{
+				zScalarArray result;
+				boolean_union(scalars, triField, result, false);
+
+				scalars.clear();
+				scalars = result;
+
+			}
+		}
+
+
+
+
+		/*zItGraphHalfEdge topHe;
+		zItGraphHalfEdge bottomHe;
+		
+		for (int i = 0; i < 2; i++)
+		{
+			zItGraphVertex v(inPolyObj, startVerts[i]);
+			
+			zItGraphHalfEdgeArray cHEdges;
+			v.getConnectedHalfEdges(cHEdges);
+						
+			if (i == 0)
+			{
+				bottomHe = (cHEdges[0].getVertex().getId() == startVerts[1]) ? cHEdges[1] : cHEdges[0];
+			}
+
+			if (i == 1)
+			{
+				topHe = (cHEdges[0].getVertex().getId() == startVerts[0]) ? cHEdges[1] : cHEdges[0];
+			}
+
+		}
+
+		zBoolArray vertVisited;
+		vertVisited.assign(inFnGraph.numVertices(), false);
+
+		vertVisited[startVerts[0]] = true;
+		vertVisited[startVerts[1]] = true;
+
+		bool exit = false;
+		int counter = 0;
+		
+		while (!exit)
+		{
+			if (bottomHe.getLength() < 0.05)
+			{
+				vertVisited[bottomHe.getVertex().getId()] = true;
+				bottomHe = bottomHe.getNext();
+			}
+			if (topHe.getLength() < 0.05)
+			{
+				vertVisited[topHe.getVertex().getId()] = true;
+				topHe = topHe.getNext();
+			}
+
+			
+
+			bottomHe.getEdge().setColor(zColor(1, 0, 0, 1));
+			topHe.getEdge().setColor(zColor(1, 0, 0, 1));
+
+			zPoint bottom_start = bottomHe.getStartVertex().getPosition();
+			zVector bottom_vec = bottomHe.getVector();
+			bottom_vec.normalize();
+			float bottom_len = bottomHe.getLength();
+
+			zPoint top_start = topHe.getStartVertex().getPosition();
+			zVector top_vec = topHe.getVector();
+			top_vec.normalize();
+			float top_len = topHe.getLength();
+
+			int numTrianglesperEdge = ceil (top_len / maxTriangleLength);
+
+			float increment = 1.0 / (2 * numTrianglesperEdge);			
+
+			for (int i = 0; i < numTrianglesperEdge; i++)
+			{
+				zPoint p0 = bottom_start + (bottom_vec * (i * 2 * increment * bottom_len));
+				
+				float fac = ((i + 1) * increment) + (i * increment);
+				zPoint p1 = top_start + (top_vec * (fac * top_len));
+				zPoint p2 = bottom_start + (bottom_vec * ((i + 1) * 2 * increment * bottom_len));
+
+				zPointArray gPositions;
+				gPositions.push_back(p0);
+				gPositions.push_back(p1);
+				gPositions.push_back(p2);
+
+				zIntArray gEdgeCOnnects = { 0,1,1,2,2,0 };
+
+				zObjGraph tempGraph;
+				zFnGraph fnTempGraph(tempGraph);
+				fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+				zScalarArray triField;
+				getScalars_Polygon(triField, tempGraph, false);
+
+				if (counter == 0) scalars = triField;
+				else
+				{
+					zScalarArray result;
+					boolean_union(scalars, triField, result, false);
+
+					scalars.clear();
+					scalars = result;
+
+				}
+
+				counter++;
+			}
+
+			
+
+			
+			
+			vertVisited[bottomHe.getVertex().getId()] = true;
+			vertVisited[topHe.getVertex().getId()] = true;
+
+			bottomHe = bottomHe.getNext();
+			topHe = topHe.getNext();
+
+			if (vertVisited[bottomHe.getVertex().getId()]) exit = true;
+			if (vertVisited[topHe.getVertex().getId()]) exit = true;
+
+			zItGraphVertex v = bottomHe.getVertex();
+			if (topHe.getStartVertex() == v) exit = true;
+			if (topHe.getVertex() == v) exit = true;
+		}*/
+
+		
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_InfillBoundary(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool normalise)
+	{
+
+		scalars.clear();
+
+		zVector norm(0, 0, 1);
+		zVector worldX(1, 0, 0);
+
+
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+
+		/// TOP B WITH GUIDE
+		zColor red(1, 0, 0, 1);
+		float dTest = printWidth * 1.0;
+		float topOverlapLength = dTest;
+
+		int topNumPts = numTriangles * 3 ;
+		zIntArray top_indexInContainer;
+		top_indexInContainer.assign(topNumPts, -1);
+
+		zPointArray topPts;
+
+		int topID = 0;
+		zItGraphHalfEdge tHe = topHE[topID];
+		topPts.push_back(tHe.getStartVertex().getPosition());
+
+
+		zPoint pOnCurve = topPts[topID];
+		topID++;
+
+		int counter = 0;
+		for (int i = 0; i < numTriangles ; i++)
+		{
+			// find red vertex
+			bool redVertex = false;
+
+			while (!redVertex)
+			{
+				if (tHe.getVertex().getColor() == red) redVertex = true;
+				else
+				{
+					tHe = topHE[topID];
+					topID++;
+				}
+			}
+
+			// first point
+			float distance_increment = (i ==2 || i == 3 ) ?  topOverlapLength * 5.5 : topOverlapLength;
+			//if (i == 3) distance_increment = topOverlapLength * 5.5;
+
+			zItGraphHalfEdge tempHe = tHe.getSym();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			zVector he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			top_indexInContainer[(i * 3) + 0] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			// second Point 
+			pOnCurve = tHe.getVertex().getPosition();
+
+			top_indexInContainer[(i * 3) + 1] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			// Third Point
+
+			distance_increment = (i == 0) ? topOverlapLength * 4.5 : topOverlapLength * 2.5;
+
+			tempHe = tHe.getNext();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			top_indexInContainer[(i * 3) + 2] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			//
+			tHe = topHE[topID];
+			topID++;
+		}
+
+		/// BOTTOM B WITH GUIDE
+
+		dTest = printWidth * 2.5;
+		float bottomOverlapLength =  dTest ;
+
+		//printf("\n incr %1.4f %1.4f  %1.4f %1.4f", bottomLength, bottomIncrement, bottomOverlapLength, maxTriangleLength);
+
+		int bottomNumPts = (numTriangles + 1) * 3;
+		zIntArray bottom_indexInContainer;
+		bottom_indexInContainer.assign(bottomNumPts, -1);
+
+
+		zPointArray bottomPts;
+
+		int bottomID = 0;
+		zItGraphHalfEdge bHe = bottomHE[bottomID];
+		bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		pOnCurve = bottomPts[bottomID];
+		bottomID++;
+		
+
+		for (int i = 0; i < numTriangles + 1 ; i++)
+		{
+			if (i == 0)
+			{
+				
+				float distance_increment = dTest * 0.5;
+				zItGraphHalfEdge tempHe = bottomHE[0];
+
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				zVector he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+			}
+			else if (i == numTriangles)
+			{
+				float distance_increment = dTest;
+
+				zItGraphHalfEdge tempHe = bottomHE[bottomHE.size() -  1].getSym();
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				zVector he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+			}
+			else
+			{
+				// find red vertex
+				bool redVertex = false;
+
+				while (!redVertex)
+				{
+					if (bHe.getVertex().getColor() == red) redVertex = true;
+					else
+					{
+						bHe = bottomHE[bottomID];
+						bottomID++;
+					}
+				}
+
+				// first point
+				float distance_increment = bottomOverlapLength;
+								
+				zItGraphHalfEdge tempHe = bHe.getSym();
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				zVector he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				// second Point 
+				pOnCurve = bHe.getVertex().getPosition();
+
+				bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				// Third Point
+
+				distance_increment = (i == 3)? bottomOverlapLength * 4.0 :   bottomOverlapLength;
+				tempHe = bHe.getNext();
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				//
+				bHe = bottomHE[bottomID];
+				bottomID++;
+			}
+
+			
+		}
+
+				
+		/// POLYGON SCALARS
+
+		/*for (int i = 0; i < numTriangles ; i++)
+		{
+			zPointArray gPositions;
+
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 0]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 1]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 2]]);
+			
+			gPositions.push_back(bottomPts[bottom_indexInContainer[ ((i + 1) * 3) + 0]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+			
+			
+
+			zIntArray gEdgeCOnnects;
+
+			for (int i = 0; i < gPositions.size(); i++)
+			{
+				int next = (i + 1) % gPositions.size();
+
+				gEdgeCOnnects.push_back(i);
+				gEdgeCOnnects.push_back(next);
+			}
+
+			zObjGraph tempGraph;
+			zFnGraph fnTempGraph(tempGraph);
+			fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+			zScalarArray triField;
+			getScalars_Polygon(triField, tempGraph, false);
+
+			if (i == 0) scalars = triField;
+			else
+			{
+				zScalarArray result;
+				boolean_union(scalars, triField, result, false);
+
+				scalars.clear();
+				scalars = result;
+
+			}
+		}*/
+
+
+
+		/// GRAPH SCALARS
+		zPointArray gPositions;
+		zIntArray gEdgeCOnnects;
+
+		for (int i = 0; i < numTriangles ; i++)
+		{
+			if (i == 0)
+			{
+				//gEdgeCOnnects.push_back(gPositions.size());
+				//gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+				//gPositions.push_back(topPts[top_indexInContainer[i * 3 + 0]]);
+				//gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+
+				gEdgeCOnnects.push_back(gPositions.size());
+				gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+				gPositions.push_back(topPts[top_indexInContainer[i * 3 + 2]]);
+				gPositions.push_back(bottomPts[bottom_indexInContainer[((i + 1) * 3) + 1]]);
+
+				
+				
+			}
+
+
+			if (i == 1)
+			{
+				gEdgeCOnnects.push_back(gPositions.size());
+				gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+				gPositions.push_back(topPts[top_indexInContainer[i * 3 + 1]]);
+				gPositions.push_back(bottomPts[bottom_indexInContainer[((i + 1) * 3) + 1]]);
+
+				
+			}
+
+			if (i == 2)
+			{
+				gEdgeCOnnects.push_back(gPositions.size());
+				gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+				gPositions.push_back(topPts[top_indexInContainer[i * 3 + 0]]);
+				gPositions.push_back(bottomPts[bottom_indexInContainer[((i + 1) * 3) + 1]]);
+
+				
+			}
+
+			if (i == 3)
+			{
+				gEdgeCOnnects.push_back(gPositions.size());
+				gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+				gPositions.push_back(topPts[top_indexInContainer[i * 3 + 0]]);
+				gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+
+				
+			}
+
+							
+
+
+			/*gEdgeCOnnects.push_back(gPositions.size());
+			gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 0]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+			
+
+			gEdgeCOnnects.push_back(gPositions.size());
+			gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 2]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[ ((i + 1) * 3) + 0]]);*/
+			
+		}
+
+		zObjGraph tempGraph;
+		zFnGraph fnTempGraph(tempGraph);
+		fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, printWidth, normalise);
+
+	}
+
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_topBottomTrim(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float offset, int type,  bool normalise)
+	{
+
+		scalars.clear();
+
+		
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zPointArray gPositions;
+		zIntArray gEdgeCOnnects;
+
+		if (type == 0 || type == 1)
+		{
+			gPositions.push_back(bottomHE[0].getStartVertex().getPosition());
+
+			for (zItGraphHalfEdge& he : bottomHE)
+			{
+				gEdgeCOnnects.push_back(gPositions.size() - 1);
+				gEdgeCOnnects.push_back(gPositions.size());
+
+				gPositions.push_back(he.getVertex().getPosition());
+
+			}
+		}
+		
+		if (type == 0 || type == 2)
+		{
+			gPositions.push_back(topHE[0].getStartVertex().getPosition());
+
+			for (zItGraphHalfEdge& he : topHE)
+			{
+				gEdgeCOnnects.push_back(gPositions.size() - 1);
+				gEdgeCOnnects.push_back(gPositions.size());
+
+				gPositions.push_back(he.getVertex().getPosition());
+
+			}
+		}
+		
+
+		zObjGraph tempGraph;
+		zFnGraph fnTempGraph(tempGraph);
+		fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+		
+		getScalarsAsEdgeDistance(scalars, tempGraph,offset, false);
+
+	}
+
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_InfillTrim(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth,   bool normalise, zObjGraph& outGraph)
+	{
+
+
+		scalars.clear();
+
+		zVector norm(0, 0, 1);
+		zVector worldX(1, 0, 0);
+
+
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		float topIncrement = topLength / (numTriangles);
+		float topOverlapLength = printWidth * 1.0;
+
+
+		int topNumPts = numTriangles * 3 + numTriangles * 2;
+		zIntArray top_indexInContainer;
+		top_indexInContainer.assign(topNumPts, -1);
+
+		zPointArray topPts;
+
+		int topID = 0;
+		zItGraphHalfEdge tHe = topHE[topID];
+		topPts.push_back(tHe.getStartVertex().getPosition());
+
+
+		zPoint pOnCurve = topPts[topID];
+		topID++;
+
+		int counter = 0;
+		for (int i = 0; i < numTriangles * 3; i++)
+		{
+			float distance_increment = topIncrement;
+			if (i == 0) distance_increment = topIncrement / 2;
+
+			if (i % 3 == 0) distance_increment -= (i == 0) ? topOverlapLength * 1.0 : topOverlapLength * 2.0;
+			else distance_increment = topOverlapLength;
+
+			
+
+			zPoint eEndPoint = tHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tHe = topHE[topID];
+				eEndPoint = tHe.getVertex().getPosition();
+				topID++;
+			}
+
+			zVector he_vec = tHe.getVector();
+			he_vec.normalize();
+
+			//O
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+					
+
+
+			top_indexInContainer[counter] = topPts.size();
+			topPts.push_back(pOnCurve);
+			counter++;
+		}
+
+
+		/// BOTTOM B WITH GUIDE
+
+		float bottomIncrement = bottomLength / (numTriangles);
+		float d = (bottomIncrement - maxTriangleLength) * 0.5;
+		float dTest = printWidth * 1.5;
+		float bottomOverlapLength = (d < dTest) ? dTest : d;
+
+		//printf("\n incr %1.4f %1.4f  %1.4f %1.4f", bottomLength, bottomIncrement, bottomOverlapLength, maxTriangleLength);
+
+		int bottomNumPts = numTriangles * 3;
+		zIntArray bottom_indexInContainer;
+		bottom_indexInContainer.assign(bottomNumPts, -1);
+
+
+		zPointArray bottomPts;
+
+		int bottomID = 0;
+		zItGraphHalfEdge bHe = bottomHE[bottomID];
+		bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		pOnCurve = bottomPts[bottomID];
+		bottomID++;
+		zColor red(1, 0, 0, 1);
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			// find red vertex
+			bool redVertex = false;
+
+			while (!redVertex)
+			{
+				if (bHe.getVertex().getColor() == red) redVertex = true;
+				else
+				{
+					bHe = bottomHE[bottomID];
+					bottomID++;
+				}
+			}
+
+			// first point
+			float distance_increment = bottomOverlapLength;
+
+			zItGraphHalfEdge tempHe = bHe.getSym();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				bottomPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			zVector he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			// second Point 
+			pOnCurve = bHe.getVertex().getPosition();
+
+			bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			// Third Point
+
+			distance_increment = bottomOverlapLength;
+			tempHe = bHe.getNext();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				bottomPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			//
+			bHe = bottomHE[bottomID];
+			bottomID++;
+		}
+
+
+		/// BOTTOM A NO GUID
+
+		//float bottomIncrement = bottomLength / (numTriangles);
+		//float bottomOverlapLength = printWidth * 1.0;
+
+		//int bottomNumPts = numTriangles * 3 ;
+		//zIntArray bottom_indexInContainer;
+		//bottom_indexInContainer.assign(bottomNumPts, -1);
+
+
+		//zPointArray bottomPts;
+
+		//int bottomID = 0;
+		//zItGraphHalfEdge bHe = bottomHE[bottomID];
+		//bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		//pOnCurve = bottomPts[bottomID];
+		//bottomID++;
+
+		//counter = 0;
+		//for (int i = 0; i < numTriangles * 3; i++)
+		//{
+		//	float distance_increment = bottomIncrement;
+		//	if (i == 0) distance_increment = bottomIncrement / 2;
+
+		//	if (i % 3 == 0) distance_increment -= (i == 0) ? bottomOverlapLength * 1.0 : bottomOverlapLength * 2.0;
+		//	else distance_increment = bottomOverlapLength;
+
+
+		//	zPoint eEndPoint = bHe.getVertex().getPosition();
+
+		//	while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+		//	{
+		//		distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+		//		pOnCurve = eEndPoint;
+
+		//		bottomPts.push_back(pOnCurve);
+
+		//		bHe = bottomHE[bottomID];
+		//		eEndPoint = bHe.getVertex().getPosition();
+		//		bottomID++;
+		//	}
+
+		//	zVector he_vec = bHe.getVector();
+		//	he_vec.normalize();
+
+		//	//O
+		//	pOnCurve = pOnCurve + he_vec * distance_increment;
+
+		//	bottom_indexInContainer[counter] = bottomPts.size();
+		//	bottomPts.push_back(pOnCurve);
+		//	counter++;
+		//	
+		//	
+		//}
+
+		zPointArray gPositions;
+		zIntArray gEdgeCOnnects;
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			gEdgeCOnnects.push_back(gPositions.size());
+			gEdgeCOnnects.push_back(gPositions.size() + 1);
+						
+			zPoint p1 = (bottomPts[bottom_indexInContainer[i * 3 + 1]]);
+			zPoint p0 = (topPts[top_indexInContainer[i * 3 + 1]]);
+				
+			
+			zVector e = p0 - p1;
+			float eLen = e.length();
+			e.normalize();
+
+			gPositions.push_back(p1 + e * 4 * printWidth);
+			gPositions.push_back(p1 - e * 2 * printWidth);
+
+		}
+
+		zObjGraph tempGraph;
+		zFnGraph fnTempGraph(tempGraph);
+		fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, printWidth, normalise);
+
+
+
+		/// ADD top  trim Lines
+		topID = 0;
+		tHe = topHE[topID];
+		
+
+		pOnCurve = topPts[topID];
+		for (int i = 0; i < numTriangles -1 ; i++)
+		{
+			if (i == 0)
+			{
+				zVector he_vec = tHe.getVector();
+				he_vec.normalize();
+
+				gEdgeCOnnects.push_back(gPositions.size());
+				gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+
+				zVector X = he_vec;
+
+				zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+				Z.normalize();
+
+				zVector Y = X ^ Z;
+				Y.normalize();
+
+				gPositions.push_back(pOnCurve + Y * 4.5 * printWidth);
+				gPositions.push_back(pOnCurve - Y * 2.5 * printWidth);
+
+			}
+			
+			
+			float distance_increment = topIncrement;
+
+
+			//length += distance_increment;
+
+			zPoint eEndPoint = tHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				tHe = topHE[topID];
+				eEndPoint = tHe.getVertex().getPosition();
+				topID++;
+			}
+
+			zVector he_vec = tHe.getVector();
+			he_vec.normalize();
+
+			//O
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+
+
+			gEdgeCOnnects.push_back(gPositions.size());
+			gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+
+			zVector X = he_vec;
+
+			zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+			Z.normalize();
+
+			zVector Y = X ^ Z;
+			Y.normalize();
+
+			gPositions.push_back(pOnCurve + Y * 4.5 * printWidth);
+			gPositions.push_back(pOnCurve - Y * 2.5 * printWidth);
+			
+			
+			if (i == numTriangles - 2)
+			{
+				tHe = topHE[topHE.size() - 1];
+
+				pOnCurve = tHe.getVertex().getPosition();
+
+				zVector he_vec = tHe.getVector();
+				he_vec.normalize();
+
+				gEdgeCOnnects.push_back(gPositions.size());
+				gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+
+				zVector X = he_vec;
+
+				zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+				Z.normalize();
+
+				zVector Y = X ^ Z;
+				Y.normalize();
+
+				gPositions.push_back(pOnCurve + Y * 4.5 * printWidth);
+				gPositions.push_back(pOnCurve - Y * 2.5 * printWidth);
+			}
+			
+
+				
+			
+			
+		}
+
+		
+		zFnGraph fnOutGraph(outGraph);
+		fnOutGraph.create(gPositions, gEdgeCOnnects);
+
+		///////////////////////////////////////
+		//scalars.clear();
+
+
+		//zFnGraph inFnGraph(inPolyObj);
+
+		//zVector* meshPositions = fnMesh.getRawVertexPositions();
+		//zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		//zIntArray startVerts;
+
+		//for (int i = 0; i < inFnGraph.numVertices(); i++)
+		//{
+		//	float d = coreUtils.minDist_Point_Plane(inPositions[i], startPlaneOrigin, startPlaneNorm);
+
+		//	if (abs(d) < distanceTolerance)startVerts.push_back(i);
+		//}
+		//
+
+		//// Flip if needed, to have lower point in 0 index
+		//if (inPositions[startVerts[1]].y > inPositions[startVerts[0]].y)
+		//{
+		//	int temp = startVerts[0];
+
+		//	startVerts[0] = startVerts[1];
+		//	startVerts[1] = temp;
+		//}
+
+
+		//zItGraphHalfEdge topHe;
+		//zItGraphHalfEdge bottomHe;
+
+		//for (int i = 0; i < 2; i++)
+		//{
+		//	zItGraphVertex v(inPolyObj, startVerts[i]);
+
+		//	zItGraphHalfEdgeArray cHEdges;
+		//	v.getConnectedHalfEdges(cHEdges);
+
+		//	if (i == 0)
+		//	{
+		//		bottomHe = (cHEdges[0].getVertex().getId() == startVerts[1]) ? cHEdges[1] : cHEdges[0];
+		//	}
+
+		//	if (i == 1)
+		//	{
+		//		topHe = (cHEdges[0].getVertex().getId() == startVerts[0]) ? cHEdges[1] : cHEdges[0];
+		//	}
+
+		//}
+
+		//zBoolArray vertVisited;
+		//vertVisited.assign(inFnGraph.numVertices(), false);
+
+		//vertVisited[startVerts[0]] = true;
+		//vertVisited[startVerts[1]] = true;
+
+		//bool exit = false;
+		//int counter = 0;
+		//zPointArray gPositions;
+		//zIntArray gEdgeCOnnects;
+
+		//while (!exit)
+		//{
+		//	if (bottomHe.getLength() < 0.05)
+		//	{
+		//		vertVisited[bottomHe.getVertex().getId()] = true;
+		//		bottomHe = bottomHe.getNext();
+		//	}
+		//	if (topHe.getLength() < 0.05)
+		//	{
+		//		vertVisited[topHe.getVertex().getId()] = true;
+		//		topHe = topHe.getNext();
+		//	}
+
+		//	bottomHe.getEdge().setColor(zColor(0, 0, 1, 1));
+		//	topHe.getEdge().setColor(zColor(0, 0, 1, 1));
+
+
+		//	zPoint bottom_start = bottomHe.getStartVertex().getPosition();
+		//	zVector bottom_vec = bottomHe.getVector();
+		//	bottom_vec.normalize();
+		//	float bottom_len = bottomHe.getLength();
+
+		//	zPoint top_start = topHe.getStartVertex().getPosition();
+		//	zVector top_vec = topHe.getVector();
+		//	top_vec.normalize();
+		//	float top_len = topHe.getLength();
+
+		//	int numTrianglesperEdge = ceil(top_len / maxTriangleLength);
+
+		//	float increment = 1.0 / (2 * numTrianglesperEdge);
+
+		//	for (int i = 0; i < numTrianglesperEdge; i++)
+		//	{			
+		//		float fac = ((i + 1) * increment) + (i * increment);
+		//		zPoint p0 = bottom_start + (bottom_vec * (fac * bottom_len));
+		//		zPoint p1 = top_start + (top_vec * (fac * top_len));
+		//		
+
+		//		zVector e = p0 - p1;
+		//		float eLen = e.length();
+		//		e.normalize();
+
+		//		p0 = p1;
+		//		p1 = p0 + e * eLen * 0.5;
+
+		//		gEdgeCOnnects.push_back(gPositions.size());
+		//		gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+		//		gPositions.push_back(p0);
+		//		gPositions.push_back(p1);
+
+		//	}
+		//			
+
+		//	vertVisited[bottomHe.getVertex().getId()] = true;
+		//	vertVisited[topHe.getVertex().getId()] = true;
+
+		//	bottomHe = bottomHe.getNext();
+		//	topHe = topHe.getNext();
+
+		//	if (vertVisited[bottomHe.getVertex().getId()]) exit = true;
+		//	if (vertVisited[topHe.getVertex().getId()]) exit = true;
+
+		//	zItGraphVertex v = bottomHe.getVertex();
+		//	if (topHe.getStartVertex() == v) exit = true;
+		//	if (topHe.getVertex() == v) exit = true;
+
+		//	counter++;
+		//}
+
+		//zObjGraph tempGraph;
+		//zFnGraph fnTempGraph(tempGraph);
+		//fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+
+		//getScalarsAsEdgeDistance(scalars, tempGraph, offset, normalise);
+
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_InfillTrimBoundary(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool stepTrim, bool normalise)
+	{
+
+
+		scalars.clear();
+
+		zVector norm(0, 0, 1);
+		zVector worldX(1, 0, 0);
+
+
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		/// TOP B WITH GUIDE
+		zColor red(1, 0, 0, 1);
+		float dTest = printWidth * 1.0;
+		float topOverlapLength = dTest;
+
+		int topNumPts = numTriangles * 4;
+		zIntArray top_indexInContainer;
+		top_indexInContainer.assign(topNumPts, -1);
+
+		zPointArray topPts;
+
+		int topID = 0;
+		zItGraphHalfEdge tHe = topHE[topID];
+		topPts.push_back(tHe.getStartVertex().getPosition());
+
+
+		zPoint pOnCurve = topPts[topID];
+		topID++;
+
+		int counter = 0;
+		for (int i = 0; i < numTriangles; i++)
+		{
+			// find red vertex
+			bool redVertex = false;
+
+			while (!redVertex)
+			{
+				if (tHe.getVertex().getColor() == red) redVertex = true;
+				else
+				{
+					tHe = topHE[topID];
+					topID++;
+				}
+			}
+
+			// first point
+			float distance_increment = (i == 2 || i == 3) ? topOverlapLength * 5.5 : topOverlapLength;
+			//if (i == 3) distance_increment = topOverlapLength * 5.5;
+
+			zItGraphHalfEdge tempHe = tHe.getSym();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			zVector he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			zVector X = he_vec;
+
+			zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+			Z.normalize();
+
+			zVector Y = X ^ Z; /*(1, 0, 0);*/
+			Y.normalize();
+
+			top_indexInContainer[(i * 4) + 0] = topPts.size();
+			topPts.push_back(pOnCurve + Y * 2.5 * printWidth);
+
+			top_indexInContainer[(i * 4) + 1] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			// second Point 
+			pOnCurve = tHe.getVertex().getPosition();						
+			
+
+			top_indexInContainer[(i * 4) + 2] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			// Third Point
+
+			distance_increment = (i == 0) ? topOverlapLength * 4.5 : topOverlapLength * 2.5;
+
+			tempHe = tHe.getNext();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			top_indexInContainer[(i * 4) + 3] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			//
+			tHe = topHE[topID];
+			topID++;
+		}
+
+
+
+
+		zPointArray gPositions;
+		zIntArray gEdgeCOnnects;
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			if (i != 0) continue;
+
+			gEdgeCOnnects.push_back(gPositions.size());
+			gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+			zPoint p1 = (topPts[top_indexInContainer[i * 3 + 0]]);
+			zPoint p0 = (topPts[top_indexInContainer[i * 3 + 1]]);
+
+
+			zVector e = p0 - p1;
+			float eLen = e.length();
+			e.normalize();
+
+			gPositions.push_back(p1 + e * 4 * printWidth);
+			gPositions.push_back(p1 - e * 2 * printWidth);
+
+		}
+
+		zObjGraph tempGraph;
+		zFnGraph fnTempGraph(tempGraph);
+		fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, printWidth, normalise);
+
+		
+
+	}
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_InfillInteriorTrimBoundary(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool stepTrim, bool normalise, zObjGraph& outGraph)
+	{
+
+		scalars.clear();
+
+		zVector norm(0, 0, 1);
+		zVector worldX(1, 0, 0);
+
+		zPointArray gOutPositions;
+		zIntArray gOutEdgeConnects;
+
+
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+
+		/// TOP B WITH GUIDE
+		zColor red(1, 0, 0, 1);
+		float dTest = printWidth * 1.0;
+		float topOverlapLength = dTest;
+
+		int topNumPts = numTriangles * 3;
+		zIntArray top_indexInContainer;
+		top_indexInContainer.assign(topNumPts, -1);
+
+		zPointArray topPts;
+
+		int topID = 0;
+		zItGraphHalfEdge tHe = topHE[topID];
+		topPts.push_back(tHe.getStartVertex().getPosition());
+
+		
+		zPoint pOnCurve = topPts[topID];
+		topID++;
+
+		int counter = 0;
+		
+		for (int i = 0; i < numTriangles; i++)
+		{
+			// find red vertex
+			bool redVertex = false;
+
+			while (!redVertex)
+			{
+				if (tHe.getVertex().getColor() == red) redVertex = true;
+				else
+				{
+					tHe = topHE[topID];
+					topID++;
+				}
+			}
+
+			// first point
+			float distance_increment = (i == 2 || i == 3) ? topOverlapLength * 5.5 : topOverlapLength;
+			//if (i == 3) distance_increment = topOverlapLength * 5.5;
+
+			zItGraphHalfEdge tempHe = tHe.getSym();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			zVector he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			// add pointsfor out graph
+			if (i == 0)
+			{
+				zVector X = he_vec;
+
+				zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+				Z.normalize();
+
+				zVector Y = X ^ Z; /*(1, 0, 0);*/
+				Y.normalize();
+
+				gOutEdgeConnects.push_back(gOutPositions.size());
+				gOutEdgeConnects.push_back(gOutPositions.size() + 1);
+
+								
+				gOutPositions.push_back(pOnCurve + Y * 5.5 * printWidth);
+				gOutPositions.push_back(pOnCurve );
+
+
+			}
+
+			top_indexInContainer[(i * 3) + 0] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			// second Point 
+			pOnCurve = tHe.getVertex().getPosition();
+
+			top_indexInContainer[(i * 3) + 1] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			// Third Point
+
+			distance_increment = (i == 0) ? topOverlapLength * 4.5 : topOverlapLength * 2.5;
+			
+
+			tempHe = tHe.getNext();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				topPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			top_indexInContainer[(i * 3) + 2] = topPts.size();
+			topPts.push_back(pOnCurve);
+
+			//
+			tHe = topHE[topID];
+			topID++;
+		}
+
+		/// BOTTOM B WITH GUIDE
+
+		dTest = printWidth * 2.5;
+		float bottomOverlapLength = dTest;
+
+		//printf("\n incr %1.4f %1.4f  %1.4f %1.4f", bottomLength, bottomIncrement, bottomOverlapLength, maxTriangleLength);
+
+		int bottomNumPts = (numTriangles + 1) * 3;
+		zIntArray bottom_indexInContainer;
+		bottom_indexInContainer.assign(bottomNumPts, -1);
+
+
+		zPointArray bottomPts;
+
+		int bottomID = 0;
+		zItGraphHalfEdge bHe = bottomHE[bottomID];
+		bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		pOnCurve = bottomPts[bottomID];
+		bottomID++;
+
+
+		for (int i = 0; i < numTriangles + 1; i++)
+		{
+			if (i == 0)
+			{
+
+				float distance_increment = dTest * 0.5;
+				zItGraphHalfEdge tempHe = bottomHE[0];
+
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				zVector he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+			}
+			else if (i == numTriangles)
+			{
+				float distance_increment = dTest;
+
+				zItGraphHalfEdge tempHe = bottomHE[bottomHE.size() - 1].getSym();
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				zVector he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+			}
+			else
+			{
+				// find red vertex
+				bool redVertex = false;
+
+				while (!redVertex)
+				{
+					if (bHe.getVertex().getColor() == red) redVertex = true;
+					else
+					{
+						bHe = bottomHE[bottomID];
+						bottomID++;
+					}
+				}
+
+				// first point
+				float distance_increment = bottomOverlapLength;
+
+				zItGraphHalfEdge tempHe = bHe.getSym();
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				zVector he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 0] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				// second Point 
+				pOnCurve = bHe.getVertex().getPosition();
+
+				bottom_indexInContainer[(i * 3) + 1] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				// Third Point
+
+				distance_increment = (i == 3) ? bottomOverlapLength * 4.0 : bottomOverlapLength;
+				tempHe = bHe.getNext();
+				pOnCurve = tempHe.getStartVertex().getPosition();
+
+				eEndPoint = tempHe.getVertex().getPosition();
+
+				while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+				{
+					distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+					pOnCurve = eEndPoint;
+
+					bottomPts.push_back(pOnCurve);
+
+					tempHe = tempHe.getNext();
+					eEndPoint = tempHe.getVertex().getPosition();
+
+				}
+
+				he_vec = tempHe.getVector();
+				he_vec.normalize();
+
+				pOnCurve = pOnCurve + he_vec * distance_increment;
+
+				bottom_indexInContainer[(i * 3) + 2] = bottomPts.size();
+				bottomPts.push_back(pOnCurve);
+
+				//
+				bHe = bottomHE[bottomID];
+				bottomID++;
+			}
+
+
+		}
+
+
+		/// POLYGON SCALARS
+
+		/*for (int i = 0; i < numTriangles ; i++)
+		{
+			zPointArray gPositions;
+
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 0]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 1]]);
+			gPositions.push_back(topPts[top_indexInContainer[i * 3 + 2]]);
+
+			gPositions.push_back(bottomPts[bottom_indexInContainer[ ((i + 1) * 3) + 0]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+
+
+
+			zIntArray gEdgeCOnnects;
+
+			for (int i = 0; i < gPositions.size(); i++)
+			{
+				int next = (i + 1) % gPositions.size();
+
+				gEdgeCOnnects.push_back(i);
+				gEdgeCOnnects.push_back(next);
+			}
+
+			zObjGraph tempGraph;
+			zFnGraph fnTempGraph(tempGraph);
+			fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+			zScalarArray triField;
+			getScalars_Polygon(triField, tempGraph, false);
+
+			if (i == 0) scalars = triField;
+			else
+			{
+				zScalarArray result;
+				boolean_union(scalars, triField, result, false);
+
+				scalars.clear();
+				scalars = result;
+
+			}
+		}*/
+
+
+
+		/// GRAPH SCALARS
+		zPointArray gPositions;
+		zIntArray gEdgeCOnnects;
+
+	
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			zPoint p0, p1;
+
+			if (i == 0)
+			{
+				p0 = topPts[top_indexInContainer[i * 3 + 2]];
+				p1 = bottomPts[bottom_indexInContainer[((i + 1) * 3) + 1]];	
+				
+				
+			}
+
+
+			if (i == 1)
+			{
+				p0 = (topPts[top_indexInContainer[i * 3 + 1]]);
+				p1 = (bottomPts[bottom_indexInContainer[((i + 1) * 3) + 1]]);
+				
+				
+			}
+
+			if (i == 2)
+			{
+				p0 = (topPts[top_indexInContainer[i * 3 + 0]]);
+				p1 = (bottomPts[bottom_indexInContainer[((i + 1) * 3) + 1]]);
+
+				
+			}
+
+			if (i == 3)
+			{
+				p0 = (topPts[top_indexInContainer[i * 3 + 0]]);
+				p1 = (bottomPts[bottom_indexInContainer[i * 3 + 2]]);
+
+				
+			}
+			
+		
+
+			
+
+			gOutEdgeConnects.push_back(gOutPositions.size());
+			gOutEdgeConnects.push_back(gOutPositions.size() + 1);
+
+			gEdgeCOnnects.push_back(gPositions.size());
+			gEdgeCOnnects.push_back(gPositions.size() + 1);
+
+			
+			zVector e = p1 - p0;
+			float eLen = e.length();
+			e.normalize();
+
+			zVector perp = norm ^ e;
+			perp.normalize();
+
+			float val = (stepTrim) ? 0.4 : 0.6;
+			zPoint p = p0 + (e * eLen * val);
+
+
+			gPositions.push_back(p + perp * printWidth);
+			gPositions.push_back(p - perp * printWidth);
+
+			gOutPositions.push_back(p0);
+			gOutPositions.push_back(p1);
+
+		}
+
+		zObjGraph tempGraph;
+		zFnGraph fnTempGraph(tempGraph);
+		fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+
+		getScalarsAsEdgeDistance(scalars, tempGraph, printWidth * 0.75, normalise);
+
+		/// add points at top of handrail
+		
+		zPoint p0 = topHE[topHE.size() - 1].getVertex().getPosition();
+		zPoint p1 = bottomHE[bottomHE.size() - 1].getVertex().getPosition();
+
+		pOnCurve = (p0 + p1) * 0.5;
+
+		zVector X = p1 - p0;
+
+		zVector Z = (X * worldX > 0) ? norm * 1 : norm * -1;
+		Z.normalize();
+
+		zVector Y = X ^ Z; /*(1, 0, 0);*/
+		Y.normalize();
+
+		gOutEdgeConnects.push_back(gOutPositions.size());
+		gOutEdgeConnects.push_back(gOutPositions.size() + 1);
+
+
+		gOutPositions.push_back(pOnCurve + Y * 3.5 * printWidth);
+		gOutPositions.push_back(pOnCurve);	
+
+
+		zFnGraph fnOutGraph(outGraph);
+		fnOutGraph.create(gOutPositions, gOutEdgeConnects);
+
+	}
+
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_Pattern(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool normalise)
+	{
+		scalars.clear();
+
+		zVector norm(0, 0, 1);
+		zVector worldX(1, 0, 0);
+
+
+		zFnGraph inFnGraph(inPolyObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+
+		/// BOTTOM B WITH GUIDE
+
+		float bottomIncrement = bottomLength / (numTriangles);
+		float bottomOverlapLength = printWidth * 1.5;
+
+		int bottomNumPts = numTriangles * 3 + numTriangles * 2;
+		zIntArray bottom_indexInContainer;
+		bottom_indexInContainer.assign(bottomNumPts, -1);
+
+		float pokeMult = 3.5;
+
+		zPointArray bottomPts;
+
+		int bottomID = 0;
+		zItGraphHalfEdge bHe = bottomHE[bottomID];
+		bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		zPoint pOnCurve = bottomPts[bottomID];
+		bottomID++;
+
+		zColor red(1, 0, 0, 1);
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			// find red vertex
+			bool redVertex = false;
+
+			while (!redVertex)
+			{
+				if (bHe.getVertex().getColor() == red) redVertex = true;
+				else
+				{
+					bHe = bottomHE[bottomID];
+					bottomID++;
+				}
+			}
+
+			// first point
+			float distance_increment = bottomOverlapLength;
+
+			zItGraphHalfEdge tempHe = bHe.getSym();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			zPoint eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				bottomPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			zVector he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			zVector X = he_vec;
+
+			zVector Z = (X * worldX > 0) ? norm * -1 : norm * 1;
+			Z.normalize();
+
+			zVector Y = X ^ Z;
+			Y.normalize();
+
+			bottom_indexInContainer[(i * 5) + 0] = bottomPts.size();
+			bottomPts.push_back(pOnCurve + Y * pokeMult * printWidth);
+
+			bottom_indexInContainer[(i * 5) + 1] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			// second Point 
+			pOnCurve = bHe.getVertex().getPosition();
+
+			bottom_indexInContainer[(i * 5) + 2] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			// Third Point
+
+			distance_increment = bottomOverlapLength;
+			tempHe = bHe.getNext();
+			pOnCurve = tempHe.getStartVertex().getPosition();
+
+			eEndPoint = tempHe.getVertex().getPosition();
+
+			while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+			{
+				distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+				pOnCurve = eEndPoint;
+
+				bottomPts.push_back(pOnCurve);
+
+				tempHe = tempHe.getNext();
+				eEndPoint = tempHe.getVertex().getPosition();
+
+			}
+
+			he_vec = tempHe.getVector();
+			he_vec.normalize();
+
+			pOnCurve = pOnCurve + he_vec * distance_increment;
+
+			X = he_vec;
+
+			Z = (X * worldX > 0) ? norm * -1 : norm * 1;
+			Z.normalize();
+
+			Y = X ^ Z;
+			Y.normalize();
+
+			bottom_indexInContainer[(i * 5) + 3] = bottomPts.size();
+			bottomPts.push_back(pOnCurve + Y * pokeMult * printWidth);
+
+			bottom_indexInContainer[(i * 5) + 4] = bottomPts.size();
+			bottomPts.push_back(pOnCurve);
+
+			//
+			bHe = bottomHE[bottomID];
+			bottomID++;
+		}
+
+		
+		/// BOTTOM A No GUIDE
+
+		//float bottomIncrement = bottomLength / (numTriangles);
+		//float bottomOverlapLength =  printWidth * 2.0 ;
+
+		//int bottomNumPts = numTriangles * 3  + numTriangles * 2;
+		//zIntArray bottom_indexInContainer;
+		//bottom_indexInContainer.assign(bottomNumPts, -1);
+
+
+		//zPointArray bottomPts;
+
+		//int bottomID = 0;
+		//zItGraphHalfEdge bHe = bottomHE[bottomID];
+		//bottomPts.push_back(bHe.getStartVertex().getPosition());
+
+		//zPoint pOnCurve = bottomPts[bottomID];
+		//bottomID++;
+
+		//int counter = 0;
+		//for (int i = 0; i < numTriangles * 3; i++)
+		//{
+		//	float distance_increment = bottomIncrement;
+		//	if (i == 0) distance_increment = bottomIncrement / 2;
+
+		//	if (i % 3 == 0) distance_increment -= (i == 0) ? bottomOverlapLength * 1.0: bottomOverlapLength * 2.0;
+		//	else distance_increment = bottomOverlapLength;
+
+
+		//	zPoint eEndPoint = bHe.getVertex().getPosition();
+
+		//	while (pOnCurve.distanceTo(eEndPoint) < distance_increment)
+		//	{
+		//		distance_increment = distance_increment - pOnCurve.distanceTo(eEndPoint);
+		//		pOnCurve = eEndPoint;
+
+		//		bottomPts.push_back(pOnCurve);
+
+		//		bHe = bottomHE[bottomID];
+		//		eEndPoint = bHe.getVertex().getPosition();
+		//		bottomID++;
+		//	}
+
+		//	zVector he_vec = bHe.getVector();
+		//	he_vec.normalize();
+
+		//	//O
+		//	pOnCurve = pOnCurve + he_vec * distance_increment;
+
+		//	if (i % 3 == 0 || i % 3 == 2)
+		//	{
+		//		zVector X = he_vec;
+
+		//		zVector Z = (X * worldX > 0) ? norm * -1 : norm * 1;
+		//		Z.normalize();
+
+		//		zVector Y = X ^ Z;
+		//		Y.normalize();
+
+		//		bottom_indexInContainer[counter] = bottomPts.size();
+		//		bottomPts.push_back(pOnCurve + Y * 2.5 * printWidth);
+
+		//		counter++;
+		//	}
+
+		//	bottom_indexInContainer[counter] = bottomPts.size();
+		//	bottomPts.push_back(pOnCurve);
+		//	counter++;
+		//}
+
+
+		for (int i = 0; i < numTriangles; i++)
+		{
+			zPointArray gPositions;
+
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 5 + 0]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 5 + 1]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 5 + 2]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 5 + 4]]);
+			gPositions.push_back(bottomPts[bottom_indexInContainer[i * 5 + 3]]);			
+
+			zIntArray gEdgeCOnnects;
+
+			for (int i = 0; i < gPositions.size(); i++)
+			{
+				int next = (i + 1) % gPositions.size();
+
+				gEdgeCOnnects.push_back(i);
+				gEdgeCOnnects.push_back(next);
+			}
+
+			zObjGraph tempGraph;
+			zFnGraph fnTempGraph(tempGraph);
+			fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+			zScalarArray triField;
+			getScalars_Polygon(triField, tempGraph, false);
+
+			if (i == 0) scalars = triField;
+			else
+			{
+				zScalarArray result;
+				boolean_union(scalars, triField, result, false);
+
+				scalars.clear();
+				scalars = result;
+
+			}
+		}
+
+
+
+
+		///////////////////////////////////
+		//scalars.clear();
+
+
+		//zFnGraph inFnGraph(inPolyObj);
+
+		//zVector* meshPositions = fnMesh.getRawVertexPositions();
+		//zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		//zIntArray startVerts;
+
+		//for (int i = 0; i < inFnGraph.numVertices(); i++)
+		//{
+		//	float d = coreUtils.minDist_Point_Plane(inPositions[i], startPlaneOrigin, startPlaneNorm);
+
+		//	if (abs(d) < distanceTolerance)startVerts.push_back(i);
+		//}
+
+
+		//// Flip if needed, to have lower point in 0 index
+		//if (inPositions[startVerts[1]].y > inPositions[startVerts[0]].y)
+		//{
+		//	int temp = startVerts[0];
+
+		//	startVerts[0] = startVerts[1];
+		//	startVerts[1] = temp;
+		//}
+
+
+		//zItGraphHalfEdge topHe;
+		//zItGraphHalfEdge bottomHe;
+
+		//for (int i = 0; i < 2; i++)
+		//{
+		//	zItGraphVertex v(inPolyObj, startVerts[i]);
+
+		//	zItGraphHalfEdgeArray cHEdges;
+		//	v.getConnectedHalfEdges(cHEdges);
+
+		//	if (i == 0)
+		//	{
+		//		bottomHe = (cHEdges[0].getVertex().getId() == startVerts[1]) ? cHEdges[1] : cHEdges[0];
+		//	}
+
+		//	if (i == 1)
+		//	{
+		//		topHe = (cHEdges[0].getVertex().getId() == startVerts[0]) ? cHEdges[1] : cHEdges[0];
+		//	}
+
+		//}
+
+		//zBoolArray vertVisited;
+		//vertVisited.assign(inFnGraph.numVertices(), false);
+
+		//vertVisited[startVerts[0]] = true;
+		//vertVisited[startVerts[1]] = true;
+
+		//bool exit = false;
+		//int counter = 0;
+		////zPointArray gPositions;
+		////zIntArray gEdgeCOnnects;
+
+		//while (!exit)
+		//{
+		//	if (bottomHe.getLength() < 0.05)
+		//	{
+		//		vertVisited[bottomHe.getVertex().getId()] = true;
+		//		bottomHe = bottomHe.getNext();
+		//	}
+		//	if (topHe.getLength() < 0.05)
+		//	{
+		//		vertVisited[topHe.getVertex().getId()] = true;
+		//		topHe = topHe.getNext();
+		//	}
+
+		//	bottomHe.getEdge().setColor(zColor(0, 0, 1, 1));
+		//	topHe.getEdge().setColor(zColor(0, 0, 1, 1));
+
+
+		//	zPoint bottom_start = bottomHe.getStartVertex().getPosition();
+		//	zVector bottom_vec = bottomHe.getVector();
+		//	bottom_vec.normalize();
+		//	float bottom_len = bottomHe.getLength();
+
+		//	zPoint top_start = topHe.getStartVertex().getPosition();
+		//	zVector top_vec = topHe.getVector();
+		//	top_vec.normalize();
+		//	float top_len = topHe.getLength();
+
+		//	int numTrianglesperEdge = ceil(top_len / maxTriangleLength);
+
+		//	float increment = 1.0 / (2 * numTrianglesperEdge);
+		//	float step = 0.25 * increment;
+
+		//	for (int i = 0; i < numTrianglesperEdge; i++)
+		//	{
+		//		float fac = ((i + 1) * increment) + (i * increment);
+		//		zPoint p0 = bottom_start + (bottom_vec * ((fac - (1.5 * step)) * bottom_len));
+
+		//		zPoint p1 =  (flipTriangle) ? bottom_start + (bottom_vec * ((fac - step) * bottom_len)) : bottom_start + (bottom_vec * ((fac + step) * bottom_len));
+		//		zPoint p2 = top_start + (top_vec * (fac * top_len));
+
+		//		zPoint p3 = bottom_start + (bottom_vec * ((fac + (1.5 *step)) * bottom_len));
+
+		//		/*zScalarArray triField;
+		//		getScalars_Circle(triField, p0, offset, 0.0,false);
+
+		//		if (counter == 0) scalars = triField;
+		//		else
+		//		{
+		//			zScalarArray result;
+		//			boolean_union(scalars, triField, result, false);
+
+		//			scalars.clear();
+		//			scalars = result;
+
+		//		}
+
+		//		counter++;*/
+
+
+		//		zVector e = p1 - p2;
+		//		float eLen = e.length();
+		//		e.normalize();
+
+		//		p0 = p0 - e * offset;
+
+		//		p1 = p1 + e * offset;	
+
+		//		p3 = p3 - e * offset;
+
+		//		zPointArray gPositions;
+		//		gPositions.push_back(p0);
+		//		gPositions.push_back(p1);
+		//		gPositions.push_back(p3);
+
+		//		zIntArray gEdgeCOnnects = { 0,1,1,2,2,0 };
+
+		//		zObjGraph tempGraph;
+		//		zFnGraph fnTempGraph(tempGraph);
+		//		fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+		//		zScalarArray triField;
+		//		getScalars_Polygon(triField, tempGraph, false);				
+
+		//		if (counter == 0) scalars = triField;
+		//		else
+		//		{
+		//			zScalarArray result;
+		//			boolean_union(scalars, triField, result, false);
+
+		//			scalars.clear();
+		//			scalars = result;
+
+		//		}
+
+		//		counter++;
+
+		//	}
+
+
+		//	vertVisited[bottomHe.getVertex().getId()] = true;
+		//	vertVisited[topHe.getVertex().getId()] = true;
+
+		//	bottomHe = bottomHe.getNext();
+		//	topHe = topHe.getNext();
+
+		//	if (vertVisited[bottomHe.getVertex().getId()]) exit = true;
+		//	if (vertVisited[topHe.getVertex().getId()]) exit = true;
+
+		//	zItGraphVertex v = bottomHe.getVertex();
+		//	if (topHe.getStartVertex() == v) exit = true;
+		//	if (topHe.getVertex() == v) exit = true;
+		//				
+		//}
+		//
+		///*zObjGraph tempGraph;
+		//zFnGraph fnTempGraph(tempGraph);
+		//fnTempGraph.create(gPositions, gEdgeCOnnects);
+
+
+		//getScalarsAsEdgeDistance(scalars, tempGraph, offset, normalise);*/
+
+	}
+
+
+	template<>
+	ZSPACE_INLINE 	void zFnMeshField<zScalar>::getScalars_3dp_Triangle(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zFloatArray& offsets, zFloatArray& intervals, zVector planeNorm, bool normalise)
+	{
+		scalars.clear();
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		zItGraphHalfEdgeArray orientedHalfEdges;
+
+		zFloatArray vertex_distanceFromStart;
+		vertex_distanceFromStart.assign(inFnGraph.numVertices(), 0);
+
+		zItGraphVertex startV(inGraphObj, startVertexId);
+		zItGraphHalfEdge walkHe = startV.getHalfEdge();
+
+		float graphLen = 0;
+		vertex_distanceFromStart[startV.getId()] = graphLen;
+
+		planeNorm.normalize();
+		zVector worldX(1, 0, 0);
+
+		bool exit = false;
+		do
+		{
+			graphLen += walkHe.getLength();
+			vertex_distanceFromStart[walkHe.getVertex().getId()] = graphLen;
+
+			orientedHalfEdges.push_back(walkHe);
+
+			if (walkHe.getVertex().checkValency(1))
+			{
+				exit = true;
+			}
+			else walkHe = walkHe.getNext();
+
+		} while (!exit);
+
+
+		zPointArray positions;
+
+		for (int i =0; i< intervals.size(); i++)
+		{
+			float dist = graphLen * intervals[i];
+
+			walkHe = startV.getHalfEdge();
+
+			bool exit = false;
+
+			do
+			{
+
+				if (vertex_distanceFromStart[walkHe.getVertex().getId()] >= dist) exit = true;
+				if (!exit) walkHe = walkHe.getNext();
+
+			} while (!exit);
+
+			float d = dist - vertex_distanceFromStart[walkHe.getStartVertex().getId()];
+
+			zVector he_vec = walkHe.getVector();
+			he_vec.normalize();			
+
+			zVector  Y = he_vec ^ planeNorm;;	
+			
+			Y.normalize();
+
+			
+
+			zPoint p = walkHe.getStartVertex().getPosition() + (he_vec * d);
+
+			p += Y * offsets[i];
+			positions.push_back(p);
+
+		}
+	
+
+		getScalars_Triangle(scalars, positions[0], positions[1], positions[2], 0.0, normalise);
+
+	}
+
+
 	//----  2D SD SCALAR FIELD METHODS
+
+	
+	template<>
+	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Polygon(zScalarArray& scalars, zObjGraph& inGraphObj, bool normalise)
+	{
+		scalars.clear();
+		scalars.assign(fnMesh.numVertices(), 0.0);
+		zFnGraph inFnGraph(inGraphObj);
+
+		zVector* meshPositions = fnMesh.getRawVertexPositions();
+		zVector* inPositions = inFnGraph.getRawVertexPositions();
+
+		for (int i = 0; i < fnMesh.numVertices(); i++)
+		{
+			scalars[i] = getScalar_Polygon(inGraphObj, meshPositions[i]) ;
+		}
+
+		if (normalise)
+		{
+			normliseValues(scalars);
+		}
+
+	}
 
 	template<>
 	ZSPACE_INLINE void zFnMeshField<zScalar>::getScalars_Circle(zScalarArray &scalars, zVector &cen, float r, double annularVal, bool normalise)
@@ -2212,10 +5841,10 @@ namespace zSpace
 		zDomainFloat d;
 		computeDomain(fieldValues, d);
 				
-		//for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = d.max - fieldValues[i];
-		//computeDomain(fieldValues, d);		
+		for (int i = 0; i < fieldValues.size(); i++) fieldValues[i] = d.max - fieldValues[i];
+		computeDomain(fieldValues, d);		
 
-		zDomainFloat outNeg(-1.0, 0.0);
+		/*zDomainFloat outNeg(-1.0, 0.0);
 		zDomainFloat outPos(0.0, 1.0);
 
 		zDomainFloat inNeg(d.min, 0.0);
@@ -2225,7 +5854,7 @@ namespace zSpace
 		{
 			if(fieldValues[i] < 0) fieldValues[i] = coreUtils.ofMap(fieldValues[i], inNeg, outNeg);
 			else fieldValues[i] = coreUtils.ofMap(fieldValues[i], inPos, outPos);
-		}
+		}*/
 	}
 
 	template<>
@@ -2576,12 +6205,43 @@ namespace zSpace
 					else
 					{
 						cols[i] = coreUtils.blendColor(scalars[i], contourValueDomain, fieldColorDomain, zHSV);
-					}*/
+					}*/					
 
 
-					if (scalars[i] < -0.01) cols[i] = zColor(1,0,0,1);
-					else if (scalars[i] > 0.01) cols[i] = zColor(0, 1, 0, 1);
-					else cols[i] = zColor(1, 1, 1, 1);
+					if (scalars[i] < -0.01)
+					{
+						//temp = coreUtils.blendColor(scalars[i], dVal, dCol, zHSV);
+
+						cols[i] = zColor(0, 0.550, 0.950, 1);
+					}
+					else if (scalars[i] > 0.01)
+					{
+
+						cols[i] = zColor(0.25, 0.25, 0.25, 1) /*dCol.max*/;
+					}
+					else cols[i] = zColor(0.950, 0, 0.55, 1);;
+
+
+					//if (scalars[i] < -0.005)
+					//{
+					//	zDomainColor dCol(zColor(324, 0.0, 1), zColor(324, 0.0, 0.4));
+					//	zDomainFloat dVal(contourValueDomain.min, -0.005);
+
+					//	//cols[i] = zColor(1, 0, 0, 1);
+
+					//	cols[i] = coreUtils.blendColor(scalars[i], dVal, dCol, zHSV);
+					//}
+					//else if (scalars[i] > 0.005)
+					//{
+
+					//	zDomainColor dCol(zColor(150, 0.0, 0.4), zColor(150, 0, 1));
+					//	zDomainFloat dVal(0.005, contourValueDomain.max);
+
+					//	//cols[i] = zColor(0, 1, 0, 1);
+
+					//	cols[i] = coreUtils.blendColor(scalars[i], dVal, dCol, zHSV);
+					//}
+					//else cols[i] = zColor(324, 1, 1);
 				}
 
 				if (fnMesh.numPolygons() == scalars.size())
@@ -2653,82 +6313,89 @@ namespace zSpace
 
 		zVector *positions = fnMesh.getRawVertexPositions();
 
-		// compute positions
-		int i = 0;
-		for (zItMeshEdge e(*fieldObj); !e.end(); e++)
-		{
-			edgetoIsoGraphVertexId.push_back(-1);
-			edgetoIsoGraphVertexId.push_back(-1);
+		zColorArray vColors;
+		fnMesh.getIsoContour(contourVertexValues, inThreshold, pos, edgeConnects, vColors);
+
+		//// compute positions
+		//int i = 0;
+		//for (zItMeshEdge e(*fieldObj); !e.end(); e++)
+		//{
+		//	edgetoIsoGraphVertexId.push_back(-1);
+		//	edgetoIsoGraphVertexId.push_back(-1);
 
 
-			int eV0 = e.getHalfEdge(0).getVertex().getId();
-			int eV1 = e.getHalfEdge(0).getStartVertex().getId();
+		//	int eV0 = e.getHalfEdge(0).getVertex().getId();
+		//	int eV1 = e.getHalfEdge(0).getStartVertex().getId();
 
 
 
-			float scalar_lower = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV0] : contourVertexValues[eV1];
-			float scalar_higher = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV1] : contourVertexValues[eV0];;
+		//	float scalar_lower = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV0] : contourVertexValues[eV1];
+		//	float scalar_higher = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? contourVertexValues[eV1] : contourVertexValues[eV0];;
 
-			bool chkSplitEdge = (scalar_lower <= threshold && scalar_higher > threshold) ? true : false;
+		//	bool chkSplitEdge = (scalar_lower <= threshold && scalar_higher > threshold) ? true : false;
 
-			if (chkSplitEdge)
-			{
-				// calculate split point
+		//	if (chkSplitEdge)
+		//	{
+		//		// calculate split point
 
-				int scalar_lower_vertId = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? eV0 : eV1;
-				int scalar_higher_vertId = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? eV1 : eV0;
+		//		int scalar_lower_vertId = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? eV0 : eV1;
+		//		int scalar_higher_vertId = (contourVertexValues[eV0] <= contourVertexValues[eV1]) ? eV1 : eV0;
 
-				zVector scalar_lower_vertPos = positions[scalar_lower_vertId];
-				zVector scalar_higher_vertPos = positions[scalar_higher_vertId];
+		//		zVector scalar_lower_vertPos = positions[scalar_lower_vertId];
+		//		zVector scalar_higher_vertPos = positions[scalar_higher_vertId];
 
-				float scaleVal = coreUtils.ofMap(threshold, scalar_lower, scalar_higher, 0.0f, 1.0f);
+		//		float scaleVal = coreUtils.ofMap(threshold, scalar_lower, scalar_higher, 0.0f, 1.0f);
 
-				zVector e = scalar_higher_vertPos - scalar_lower_vertPos;
-				double eLen = e.length();
+		//		zVector e = scalar_higher_vertPos - scalar_lower_vertPos;
+		//		double eLen = e.length();
 
-				e.normalize();
+		//		e.normalize();
 
-				zVector newPos = scalar_lower_vertPos + (e * eLen * scaleVal);
-				pos.push_back(newPos);
+		//		zVector newPos = scalar_lower_vertPos + (e * eLen * scaleVal);
+		//		int id;
+		//		
+		//		pos.push_back(newPos);
 
-				// map edge to isographVertex
-				edgetoIsoGraphVertexId[i] = pos.size() - 1;
-				edgetoIsoGraphVertexId[i + 1] = pos.size() - 1;
+		//			// map edge to isographVertex
+		//			edgetoIsoGraphVertexId[i] = pos.size() - 1;
+		//			edgetoIsoGraphVertexId[i + 1] = pos.size() - 1;
+		//		
+		//		
 
-			}
+		//	}
 
-			i += 2;
-		}
+		//	i += 2;
+		//}
 
-		// compute edgeConnects
-		for (zItMeshFace f(*fieldObj); !f.end(); f++)
-		{
+		//// compute edgeConnects
+		//for (zItMeshFace f(*fieldObj); !f.end(); f++)
+		//{
 
-			vector<int> fEdges;
-			f.getHalfEdges(fEdges);
-			vector<int> tempConnects;
+		//	vector<int> fEdges;
+		//	f.getHalfEdges(fEdges);
+		//	vector<int> tempConnects;
 
-			for (int j = 0; j < fEdges.size(); j++)
-			{
-				if (edgetoIsoGraphVertexId[fEdges[j]] != -1)
-					tempConnects.push_back(edgetoIsoGraphVertexId[fEdges[j]]);
-			}
+		//	for (int j = 0; j < fEdges.size(); j++)
+		//	{
+		//		if (edgetoIsoGraphVertexId[fEdges[j]] != -1)
+		//			tempConnects.push_back(edgetoIsoGraphVertexId[fEdges[j]]);
+		//	}
 
-			//printf("\n face %i | %i ", i, tempConnects.size());
+		//	//printf("\n face %i | %i ", i, tempConnects.size());
 
-			if (tempConnects.size() == 2)
-			{
-				edgeConnects.push_back(tempConnects[0]);
-				edgeConnects.push_back(tempConnects[1]);
-			}
+		//	if (tempConnects.size() == 2)
+		//	{
+		//		edgeConnects.push_back(tempConnects[0]);
+		//		edgeConnects.push_back(tempConnects[1]);
+		//	}
 
-		}
+		//}
 
 		zFnGraph tempFn(coutourGraphObj);
 		tempFn.clear(); // clear memory if the mobject exists.
+				
 
-
-		tempFn.create(pos, edgeConnects);
+		tempFn.create(pos, edgeConnects, false, PRECISION);
 		//printf("\n %i %i ", tempFn.numVertices(), tempFn.numEdges());
 	}
 
@@ -2742,6 +6409,7 @@ namespace zSpace
 			return;
 		}
 
+		//fnMesh.getIsoMesh(contourVertexValues, inThreshold, false, coutourMeshObj);
 		
 		zFnMesh tempFn(coutourMeshObj);
 		tempFn.clear(); // clear memory if the mobject exists.
@@ -2757,6 +6425,7 @@ namespace zSpace
 
 		for (zItMeshFace f(*fieldObj); !f.end(); f++)
 		{
+			//printf("\n %i ", f.getId());
 			getIsolinePoly(f, positions, polyConnects, polyCounts, positionVertex, threshold, invertMesh);
 		}
 
@@ -3025,6 +6694,51 @@ namespace zSpace
 	}
 
 	//---- PROTECTED SCALAR METHODS
+
+	
+	template<>
+	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Polygon(zObjGraph& inGraphObj, zPoint& p)
+	{
+		zItGraphVertex v(inGraphObj, 0);
+		
+
+		zItGraphHalfEdge he = v.getHalfEdge();
+		zItGraphHalfEdge start = he;
+	
+		zPoint v0 = he.getVertex().getPosition();
+
+		float d = (p - v0) * (p - v0);
+
+		float s = 1.0;
+
+		do
+		{			
+			
+			zPoint vj = he.getStartVertex().getPosition();
+			zPoint vi = he.getVertex().getPosition();
+
+			zVector e = vj - vi;
+
+			zVector w = p - vi;
+
+			zVector b = w - e * coreUtils.ofClamp<float>((w * e) / (e * e), 0.0, 1.0);
+
+			d = coreUtils.zMin(d, (b * b));
+
+			bool c1 = (p.y >= vi.y);
+			bool c2 = (p.y < vj.y);
+			bool c3 = (e.x * w.y > e.y * w.x);
+
+			if (c1 && c2 && c3) s *= -1.0;
+			if (!c1 && !c2 && !c3) s *= -1.0;
+
+			he = he.getNext();
+
+		} while (he != start);
+
+				
+		return s * sqrt(d);
+	}
 
 	template<>
 	ZSPACE_INLINE float zFnMeshField<zScalar>::getScalar_Circle(zPoint &cen, zPoint &p, float r)
@@ -3857,9 +7571,17 @@ namespace zSpace
 
 		// check for edge lengths
 
+		
 
 		if (newPositions.size() >= 3)
 		{
+			/*for (int i = 0; i < newPositions.size(); i++)
+			{
+				newPositions[i] = coreUtils.factoriseVector(newPositions[i], 6);
+
+			}*/
+						
+			
 			for (int i = 0; i < newPositions.size(); i++)
 			{
 				int next = (i + 1) % newPositions.size();
@@ -3880,15 +7602,16 @@ namespace zSpace
 				zVector p0 = newPositions[i];
 				int v0;
 
-				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 6, v0);
 
 				if (!vExists)
 				{
 					v0 = positions.size();
 					positions.push_back(p0);
 
-					string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
-					positionVertex[hashKey] = v0;
+					/*string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					positionVertex[hashKey] = v0;*/
+					coreUtils.addToPositionMap(positionVertex, p0, v0, 6);
 				}
 
 				polyConnects.push_back(v0);
@@ -3904,6 +7627,12 @@ namespace zSpace
 
 		if (newPositions2.size() >= 3)
 		{
+			/*for (int i = 0; i < newPositions2.size(); i++)
+			{
+				newPositions2[i] = coreUtils.factoriseVector(newPositions2[i], 6);
+
+			}*/
+
 			for (int i = 0; i < newPositions2.size(); i++)
 			{
 				int next = (i + 1) % newPositions2.size();
@@ -3926,15 +7655,16 @@ namespace zSpace
 				zVector p0 = newPositions2[i];
 				int v0;
 
-				bool vExists = coreUtils.vertexExists(positionVertex, p0, 3, v0);
+				bool vExists = coreUtils.vertexExists(positionVertex, p0, 6, v0);
 
 				if (!vExists)
 				{
 					v0 = positions.size();
 					positions.push_back(p0);
 
-					string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
-					positionVertex[hashKey] = v0;
+					/*string hashKey = (to_string(p0.x) + "," + to_string(p0.y) + "," + to_string(p0.z));
+					positionVertex[hashKey] = v0;*/
+					coreUtils.addToPositionMap(positionVertex, p0, v0, 6);
 				}
 
 				polyConnects.push_back(v0);

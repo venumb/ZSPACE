@@ -216,15 +216,17 @@ namespace zSpace
 
 		/*! \brief This method draws the X, Y Z axis of the transformation matrix.
 		*	\param		 [in]		transform	- transform  to be drawn.
+		*  \param		 [in]		scale		- scale of axis lines to be drawn.
 		*	\since version 0.0.2
 		*/
-		void drawTransform(zTransformationMatrix &transform);
+		void drawTransform(zTransformationMatrix &transform, float scale = 0.1);
 		
 		/*! \brief This method draws the X, Y Z axis of the transformation matrix.
 		*	\param		 [in]		transform	- transform  to be drawn.
+		* 	\param		 [in]		scale		- scale of axis lines to be drawn.
 		*	\since version 0.0.2
 		*/
-		void drawTransform(zTransform &transform);
+		void drawTransform(zTransform &transform, float scale = 0.1);
 
 		//--------------------------
 		//---- VBO DISPLAY

@@ -57,10 +57,7 @@ namespace zSpace
 		//--------------------------
 
 		/*!	\brief pointer to stream graph Object  */
-		zObjGraph *graphObj;
-
-		/*!<stores the stream line as a graph.*/
-		zFnGraph fnGraph;
+		zObjGraph graphObj;
 
 		/*!<stores parent stream index of the stream. -1 if there is no parent.*/
 		int parent;
@@ -77,6 +74,8 @@ namespace zSpace
 		/*!<container stores index of closest stream point per vertex of thge stream graph.2 indices per edge - left closest and right closest. -1 if there is no closest stream*/
 		vector<zVector> closestStream_Point;
 
+		bool isValid = false;
+
 		//--------------------------
 		//---- CONSTRUCTOR
 		//--------------------------
@@ -87,20 +86,12 @@ namespace zSpace
 		*/
 		zStreamLine();
 
-		/*! \brief Overloaded constructor.
+		/*! \brief this method sets the parent.
 		*
-		*	\param		[in]	_graphObj			- input graph object.
-		*	\since version 0.0.1
-		*/
-		zStreamLine(zObjGraph &_graphObj);
-
-		/*! \brief Overloaded constructor.
-		*
-		*	\param		[in]	_graphObj			- input graph object.
 		*	\param		[in]	_parentId			- input parent index.
 		*	\since version 0.0.1
 		*/
-		zStreamLine(zObjGraph &_graphObj, int _parentId);
+		void setParent( int _parentId);
 
 	};
 
@@ -192,10 +183,9 @@ namespace zSpace
 		/*! \brief Overloaded constructor.
 		*
 		*	\param		[in]	_field			- input vector field 2D.
-		*	\param		[in]	_fieldMesh		- input mesh.
 		*	\since version 0.0.1
 		*/
-		zTsStreams2D(zObjMeshField<zVector> &_fieldObj, zObjMesh &_fieldMeshObj);
+		zTsStreams2D(zObjMeshField<zVector> &_fieldObj);
 
 		//--------------------------
 		//---- DESTRUCTOR

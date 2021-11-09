@@ -115,6 +115,23 @@ namespace zSpace
 			   		
 		create(pos, polyCounts, polyConnects);
 
+		zColorArray fColors;
+		fColors.assign(polyCounts.size(), zColor(0.5, 0.5, 0.5, 1));
+
+		for (MItMeshPolygon p(maya_meshObj); !p.isDone(); p.next())
+		{
+			if (p.hasColor())
+			{
+				MColor pCol;
+				p.getColor(pCol);
+
+				fColors[p.index()] = zColor(pCol.r, pCol.g, pCol.b, 1);
+			}
+			
+		}
+
+		setFaceColors(fColors);
+
 		MUintArray  edgeIds;
 		MDoubleArray creaseData;
 		maya_fnMesh.getCreaseEdges(edgeIds, creaseData);

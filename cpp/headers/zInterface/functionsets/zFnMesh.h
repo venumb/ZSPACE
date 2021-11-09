@@ -752,7 +752,7 @@ namespace zSpace
 		*	\since version 0.0.4
 		*	\warning	works only with quad meshes.
 		*/
-		void getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray &positions, zIntArray& edgeConnects , bool selectedFaces =false, zColor selectedFaceColor = zColor());
+		void getIsoContour(zScalarArray& vertexScalars, float threshold, zPointArray &positions, zIntArray& edgeConnects , zColorArray& cVertexColor , bool selectedFaces =false, zColor selectedFaceColor = zColor());
 
 		/*! \brief This method creates a isomesh from the input field mesh at the given field threshold.
 		*
@@ -1037,7 +1037,7 @@ namespace zSpace
 		*	\param	[in]	threshold		- field threshold.
 		*	\since version 0.0.2
 		*/
-		void getIsoline(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& edgeConnects, unordered_map <string, int>& positionVertex, float& threshold);
+		void getIsoline(zScalarArray& vertexScalars, zItMeshFace& f, zPointArray& positions, zIntArray& edgeConnects, zColorArray& cVertexColor, unordered_map <string, int>& positionVertex, float& threshold);
 
 
 		/*! \brief This method gets the isoline polygon for the input mesh at the given input face index.

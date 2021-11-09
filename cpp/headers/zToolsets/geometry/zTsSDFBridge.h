@@ -129,12 +129,21 @@ namespace zSpace
 
 		/*!	\brief angle between start-end plane of of left convex block faces  */
 		float right_planeAngle;
+
+		/*!	\brief color of the block from guide mesh  */
+		zColor color;
 				
 		/*!	\brief guideMesh interior vertex of the block  */
 		int guideMesh_interiorVertex;
 
 		/*!	\brief guideMesh interior vertex position of the block  */
 		zPoint guideMesh_interiorVertexPosition;
+				
+		/*!	\brief guideMesh interior vertex of the block  */
+		int guideMesh_right_railInteriorVertex;
+
+		/*!	\brief guideMesh interior vertex of the block  */
+		int guideMesh_left_railInteriorVertex;
 
 		/*!	\brief container of left convex block indicies which make up the print block  */
 		vector< zConvexBlock> leftBlocks;
@@ -163,11 +172,17 @@ namespace zSpace
 		/*!	\brief container of intersection points of plane and start-end faces  */
 		zPointArray intersectionPoints;
 
+		/*!	\brief container of intersection points of plane and start-end faces  */
+		zPointArray printStartEndPoints;
+
 		/*!	\brief container of section graph objects  */
 		zObjGraphArray o_sectionGraphs;
 
 		/*!	\brief container of section graph objects  */
 		zObjGraphArray o_sectionGuideGraphs;
+
+		/*!	\brief container of contour graph objects  */
+		zObjGraphArray o_trimGraphs;
 
 		/*!	\brief container of contour graph objects  */
 		zObjGraphArray o_contourGraphs;
@@ -189,6 +204,14 @@ namespace zSpace
 
 		zPointArray startPos;
 		zPointArray endPos;
+
+		float minLayerHeight  = 0;
+
+		float maxLayerHeight = 0 ;
+
+		float totalLength = 0;
+
+		bool footingBlock = false;
 	
 	};
 	
@@ -226,6 +249,9 @@ namespace zSpace
 		/*!	\brief pointer to input thickened guide mesh Object  */
 		zObjMesh *o_guideThickMesh;
 
+		/*!	\brief pointer to input thickened guide mesh Object  */
+		zObjMesh* o_guideSmoothThickMesh;
+
 		/*!	\brief pointer to input guide mesh Object  */
 		zObjMesh* o_guideMesh;
 
@@ -259,7 +285,7 @@ namespace zSpace
 		/*!	\brief container of blocks  */
 		//vector<zConvexBlock> blocks;
 
-		vector<zPrintBlock> printBlocks;
+	
 				
 		//--------------------------
 		//---- ATTRIBUTES
@@ -277,6 +303,13 @@ namespace zSpace
 
 		/*!	\brief container of booleans of fixed vertices  */
 		vector<bool> printMedialVerticesBoolean;
+
+		/*!	\brief container of indicies of fixed vertices  */
+		vector<int> printRailVertices;
+
+		/*!	\brief container of booleans of fixed vertices  */
+		vector<bool> printRailVerticesBoolean;
+
 
 		/*!	\brief container of booleans of faces excluded in the cut plane creation */
 		vector<bool> excludeFacesBoolean;
@@ -311,6 +344,18 @@ namespace zSpace
 
 		/*!	\brief container of booleans of Print medial edges of smooth guide mesh  */
 		zBoolArray guideSmooth_PrintMedialEdgesBoolean;
+
+		/*!	\brief container of indicies of Print rail edges of guide mesh  */
+		zIntPairArray guide_PrintRailEdges;
+
+		/*!	\brief container of booleans of Print rail edges of guide mesh */
+		zBoolArray guide_PrintRailEdgesBoolean;
+
+		/*!	\brief container of indicies of Print rail edges of smooth guide mesh  */
+		zIntPairArray guideSmooth_PrintRailEdges;
+
+		/*!	\brief container of booleans of Print rail edges of smooth guide mesh  */
+		zBoolArray guideSmooth_PrintRailEdgesBoolean;
 
 		//--------------------------
 		//---- GUIDE MESH ATTRIBUTES
@@ -374,9 +419,13 @@ namespace zSpace
 		//---- COLOR ATTRIBUTES
 		//--------------------------
 		
-		zColor red, yellow, green, cyan, blue, magenta, grey;
+		zColor red, yellow, green, cyan, blue, magenta, grey , orange;
+
+		zColorArray blockColors;
 
 	public:
+
+		vector<zPrintBlock> printBlocks;
 
 		//--------------------------
 		//---- CONSTRUCTOR
@@ -414,7 +463,7 @@ namespace zSpace
 		*	\param		[in]	width					- input plane width.
 		*	\since version 0.0.4
 		*/
-		void createSplitMesh(double width);
+		void createSplitMesh(double width, bool useThickMeshPoints = false);
 
 		/*! \brief This method creates the smooth mesh of guide mesh.
 		*
@@ -466,6 +515,13 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void setThickGuideMesh(zObjMesh& _o_guideThickMesh);
+
+		/*! \brief This method sets the guide mesh object.
+		*
+		*	\param		[in]	_o_guideThickMesh			- input thickened guide mesh object.
+		*	\since version 0.0.4
+		*/
+		void setSmoothThickGuideMesh(zObjMesh& _o_guideSmoothThickMesh);
 				
 		/*! \brief This method sets convex blocks medial start points of the geometry.
 		*
@@ -480,6 +536,15 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		void setPrintMedials(const vector<int>& _fixedVertices = vector<int>());
+
+		/*! \brief This method sets print blocks medial start points of the geometry.
+		*
+		*	\param		[in]	_fixedVertices			- container of vertex indices
+		*	\since version 0.0.4
+		*/
+		void setPrintRails(const vector<int>& _fixedVertices = vector<int>());
+
+		void resetPlaneColors();
 
 		//--------------------------
 		//---- GET METHODS
@@ -528,6 +593,14 @@ namespace zSpace
 		*	\since version 0.0.2
 		*/
 		zPointArray getBlockIntersectionPoints(int blockId);
+
+		/*! \brief This method gets the block intersection points of the block with smooth guide mesh.
+		*
+		*	\param		[in]	blockId					- input block index.
+		*	\return				zPointArray			    - container of intersection points if they exist.
+		*	\since version 0.0.2
+		*/
+		zPointArray getBlockPrintStartEndPoints(int blockId);
 
 		/*! \brief This method gets the block frames.
 		*
@@ -588,12 +661,19 @@ namespace zSpace
 		//---- COMPUTE METHODS
 		//--------------------------
 
+		/*! \brief This method gets pointer to the internal field object.
+		*
+		*	\param		[in]	blockId					- input block index.
+		*	\return				bool					- true if boundary block else false.
+		*	\since version 0.0.4
+		*/
+		bool onBoundaryBlock(int blockId);
 
 		/*! \brief This method computes the medial edges from contraint points.
 		*
 		*	\since version 0.0.4
 		*/
-		void computeMedialEdgesfromConstraints();
+		void computeMedialEdgesfromConstraints(const vector<int>& pattern);
 
 		/*! \brief This method computes the medial edges from contraint points.
 		*
@@ -601,12 +681,18 @@ namespace zSpace
 		*/
 		void computePrintMedialEdgesfromMedialVertices();
 
+		/*! \brief This method computes the medial edges from contraint points.
+		*
+		*	\since version 0.0.4
+		*/
+		void computePrintRailEdgesfromRailVertices();
+
 		/*! \brief This method computes the.
 		*
 		* 	\param		[in]	printLayerDepth				- input print layer depth.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlocks(float printLayerDepth =  0.1, float printLayerWidth = 0.025);
+		void computePrintBlocks(int blockId, float printLayerDepth, float printLayerWidth , zDomainFloat neopreneOffset, float raftLayerWidth, const zIntArray &flipBlockIds = zIntArray(), bool compBLOCKS = true, bool compFrames = true, bool compSDF = true);
 
 		/*! \brief This method computes the block mesh.
 		*
@@ -619,7 +705,7 @@ namespace zSpace
 		*
 		*	\since version 0.0.4
 		*/
-		void computeSDF(zPrintBlock& _block, float printWidth = 0.025, float neopreneOffset = 0.005, int infillScale = 25);
+		void computeSDF(zPrintBlock& _block, float printWidth, float neopreneOffset, float raftWidth);
 
 		//--------------------------
 		//---- UTILITY METHODS
@@ -638,6 +724,21 @@ namespace zSpace
 		*	\since version 0.0.4
 		*/
 		bool planarisePlaneMesh(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1, bool printInfo =false, bool minEdgeConstraint = false, float minEdgeLen = 0.05);
+
+		/*! \brief This method aligns the normals of the face pairs of the plane mesh.
+		*
+		*	\param		[in]	dT							- input integration timestep.
+		*	\param		[in]	type						- input integration type - zEuler or zRK4.
+		* 	\param		[in]	tolerance					- input deviation tolerance.
+		*	\param		[in]	numIterations				- input number of iterations to run.
+		* 	\param		[in]	printInfo					- input boolean indicating print of information of deviation.
+		*  	\param		[in]	minEdgeConstraint			- input boolean indicating minimum edge length constraint.
+		*  	\param		[in]	minEdgeLen					- input minimum edge length constraint.
+		* 	\return				bool						- output boolean , true if  deviation below tolerance.
+		*	\since version 0.0.4
+		*/
+		bool alignFacePairs(zDomainFloat& deviation, float dT, zIntergrationType type, float tolerance = EPS, int numIterations = 1, bool printInfo = false);
+
 
 		/*! \brief This method aligns the normal of the blanes to input targets.
 		*
@@ -683,7 +784,7 @@ namespace zSpace
 		*	\param		[in]	guideMesh_halfedge			- input guideMesh halfedge.
 		*	\since version 0.0.4
 		*/
-		void addConvexBlocks(zPrintBlock &mBlock,zItMeshHalfEdge& guideMesh_halfedge);	
+		void addConvexBlocks(zPrintBlock &mBlock,zItMeshHalfEdge& guideMesh_halfedge, bool boundaryBlock);	
 				
 		/*! \brief This method compute the convex block faces.
 		*
@@ -699,7 +800,15 @@ namespace zSpace
 		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockIntersections(zPrintBlock& _block);
+		void computePrintBlockIntersections(zPrintBlock& _block, const zIntArray& FlipBlockIds);
+
+		/*! \brief This method compute the block medial graph.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
+		*	\since version 0.0.4
+		*/
+		void computePrintBlockRailIntersections(zPrintBlock& _block, int &railInteriorVertex, zPoint& startPlaneOrigin, zVector& startPlaneNorm, zPoint& endPlaneOrigin, zVector& endPlaneNorm, const zIntArray& FlipBlockIds, zItMeshHalfEdgeArray& railIntersectionHE, zPointArray& railIntersectionPoints);
 
 		/*! \brief This method compute the block frames.
 		*
@@ -708,25 +817,43 @@ namespace zSpace
 		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockFrames(zPrintBlock& _block, float printLayerDepth);
+		void computePrintBlockFrames(zPrintBlock& _block, float printLayerDepth , float neopreneOffset_start , float neopreneOffset_end , const zIntArray& FlipBlockIds, bool useRail);
 
 		/*! \brief This method compute the block frames.
 		*
 		*	\param		[in]	_block						- input block.
-		*	\param		[in]	printLayerDepth				- input print layer depth.
-		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockSections(zPrintBlock& _block);	
+		void computePrintBlockSections_Internal(zPrintBlock& _block);	
+
+		/*! \brief This method compute the block frames.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\since version 0.0.4
+		*/
+		void computePrintBlockSections_Boundary(zPrintBlock& _block);
+
+		/*! \brief This method compute the block frames.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\since version 0.0.4
+		*/
+		bool checkPrintLayerHeights(zPrintBlock& _block);
 
 		/*! \brief This method compute the block frames for thickned mesh.
 		*
 		*	\param		[in]	_block						- input block.
-		*	\param		[in]	printLayerDepth				- input print layer depth.
-		*	\param		[in]	guideMesh_vertex			- input guide mesh vertex.
 		*	\since version 0.0.4
 		*/
-		void computePrintBlockSections_thickened(zPrintBlock& _block);
+		void computePrintBlock_bounds(zPrintBlock& _block);
+
+		/*! \brief This method compute the legth of  medial graph of the block
+		*
+		*	\param		[in]	_block						- input block.
+		*	\param		[in]	leftBlock					- input booealn indicating if its a left block or a right
+		*	\since version 0.0.4
+		*/
+		void computePrintBlockRailInteriorVertex(zPrintBlock& _block, zItMeshHalfEdge& guideMesh_halfedge, bool boundaryBlock);
 
 		/*! \brief This method compute the legth of  medial graph of the block
 		*
@@ -736,13 +863,13 @@ namespace zSpace
 		*/
 		void computePrintBlockLength(zPrintBlock& _block, bool leftBlock);
 
-		/*! \brief This method compute the block SDF for the balustrade.
+		/*! \brief This method compute the legth of  medial graph of the block
 		*
 		*	\param		[in]	_block						- input block.
-		*	\param		[in]	graphId						- input index of section graph.
+		*	\param		[in]	leftBlock					- input booealn indicating if its a left block or a right
 		*	\since version 0.0.4
 		*/
-		void computeInternalBlockSDF(zPrintBlock& _block, int graphId, float printWidth = 0.025, float neopreneOffset = 0.005, bool addRaft = false, int raftId = 0);
+		float computePrintBlockRailLength(zPrintBlock& _block,zPoint &startPlaneOrigin, zVector& startPlaneNorm, zPoint& endPlaneOrigin, zVector& endPlaneNorm, zColor& blockColor, bool leftBlock, const zIntArray& FlipBlockIds, zItMeshHalfEdgeArray& railIntersectionHE, zPointArray& railIntersectionPoints);
 
 		/*! \brief This method compute the block SDF for the balustrade.
 		*
@@ -750,7 +877,15 @@ namespace zSpace
 		*	\param		[in]	graphId						- input index of section graph.
 		*	\since version 0.0.4
 		*/
-		void computeBoundaryBlockSDF(zPrintBlock& _block, int graphId, float printWidth = 0.025, float neopreneOffset = 0.005, int infillScale = 20);
+		void computeBlockSDF_Internal(zPrintBlock& _block, int graphId, int printLayerId, bool rightSide,  float printWidth = 0.020, float neopreneOffset = 0.005, bool addRaft = false, int raftId = 0, float raftWidth = 0.030 , bool exportBMP = false);
+
+		/*! \brief This method compute the block SDF for the balustrade.
+		*
+		*	\param		[in]	_block						- input block.
+		*	\param		[in]	graphId						- input index of section graph.
+		*	\since version 0.0.4
+		*/
+		void computeBlockSDF_Boundary(zPrintBlock& _block, int graphId, float printWidth = 0.020, float neopreneOffset = 0.005, bool addRaft = false, int raftId = 0, float raftWidth = 0.030);
 
 		/*! \brief This method compute the transform from input Vectors.
 		*
@@ -763,6 +898,10 @@ namespace zSpace
 		*/
 		zTransform setTransformFromVectors(zPoint &O, zVector &X , zVector& Y, zVector& Z);
 	
+		void polyTopBottomEdges(zObjGraph& inPoly, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, zPoint startPlaneOrigin, zVector startPlaneNorm, float hardVertexTolerance = 120 );
+	
+		
+
 		//--------------------------
 		//---- IO METHODS
 		//--------------------------
@@ -775,9 +914,11 @@ namespace zSpace
 
 		void blockSectionsFromJSON(string dir, string filename);
 
-		void blockContoursToJSON(string dir, string filename);
+		void blockConvexToJSON(zPrintBlock& _block,string dir, string filename);
 
-		void blockContoursToIncr3D(string dir, string filename, float layerWidth = 0.025);
+		void blockContoursToJSON(int blockId, string dir, string filename, float printLayerWidth, float raftLayerWidth);
+
+		void blockContoursToIncr3D(int blockId, string dir, string filename, float layerWidth = 0.025);
 
 		void toBRGJSON(string path, zPointArray& points, zVectorArray& normals, zPointArray& vThickness);
 

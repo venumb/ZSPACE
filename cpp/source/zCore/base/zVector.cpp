@@ -54,12 +54,9 @@ namespace zSpace
 
 	//---- OPERATORS
 
-	ZSPACE_INLINE bool zVector::operator==(const zVector &v1)
-	{
-		bool out = false;
-		if (x == v1.x && y == v1.y && z == v1.z) out = true;
-
-		return out;
+	ZSPACE_INLINE bool zVector::operator==( zVector &v1)
+	{		
+		return (this->distanceTo(v1) < distanceTolerance);
 	}
 
 	ZSPACE_INLINE float  zVector::operator[](int index)

@@ -120,7 +120,7 @@ namespace zSpace
 		*	\param		[in]	staticGraph		- makes the graph fixed. Computes the static edge vertex positions if true.
 		*	\since version 0.0.2
 		*/
-		void create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph = false);
+		void create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph = false, int precision = PRECISION);
 
 		/*! \brief his method creates a graphfrom the input containers.
 		*

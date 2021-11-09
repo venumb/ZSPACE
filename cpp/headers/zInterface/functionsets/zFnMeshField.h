@@ -281,6 +281,16 @@ namespace zSpace
 		*/
 		bool getFieldValue(zPoint &samplePos, zFieldValueType type, T& fieldValue);
 
+		/*! \brief This method gets the value of the field at the input sample position.
+		*
+		*	\param		[in]	samplePos	- index in the fieldvalues container.
+		*	\param		[in]	type		- type of sampling.  zFieldIndex / zFieldNeighbourWeighted / zFieldAdjacentWeighted
+		*	\param		[out]	fieldValue	- output field value.
+		*	\return				bool		- true if sample position is within bounds.
+		*	\since version 0.0.2
+		*/
+		bool getScalarValue(zScalarArray &scalars, zPoint& samplePos, zFieldValueType type, zScalar& fieldValue);
+
 		/*! \brief This method gets all the values of the field.
 		*
 		*	\param		[out]	fieldValues			- container of field values.		
@@ -518,6 +528,8 @@ namespace zSpace
 		//----  2D SCALAR FIELD METHODS for 3DP
 		//--------------------------
 
+		void getScalars_3dp_depthPolygon(zScalarArray& scalars, zScalarArray& polygonScalars, zObjGraph& inGraphObj, int startVertexId, float offset, zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
+
 		/*! \brief This method creates a variable edge distance Field from the input planar graph. Works on open curves ( with two valence 1 vertices).
 		*
 		*	\param	[out]	scalars			- container for storing scalar values.
@@ -531,6 +543,9 @@ namespace zSpace
 		*/
 		void getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1 , zDomainFloat offset2, zVector planeNorm = zVector(0,0,1),  bool normalise = true);
 		
+		void getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, vector<zDomainFloat> &thicknessOffsets1, vector<zDomainFloat>& thicknessOffsets2, vector<zDomainFloat> &intervals, zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
+
+		void getScalars_3dp_VariableDepth(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zObjGraph& inThkGraphObj, zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
 
 		/*! \brief This method creates a variable edge distance Field from the input planar graph. Works on open curves ( with two valence 1 vertices).
 		*
@@ -545,10 +560,47 @@ namespace zSpace
 		*/
 		void getScalars_3dp_SineInfill(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zDomainFloat offset1, zDomainFloat offset2, int numTriangles, float transY,  zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
 
+		void getScalars_3dp_SineInfill(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, vector<zDomainFloat>& thicknessOffsets1, vector<zDomainFloat>& thicknessOffsets2, vector<zDomainFloat>& intervals , int numTriangles, float transY, zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
+
+		void getScalars_3dp_SineInfill(zScalarArray& scalars, zScalarArray& polygonScalars, zObjGraph& inGraphObj, zObjGraph& inPolyObj, int startVertexId, float numTriangles, float offset, zVector planeNorm = zVector(0, 0, 1), bool normalise = true);
+
+		void getScalars_3dp_Infill(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth,  bool normalise );
+
+		void getScalars_3dp_InfillBoundary(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool normalise );
+
+
+		void getScalars_3dp_topBottomTrim(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float offset,int type, bool normalise);
+
+
+		void getScalars_3dp_InfillTrim(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool normalise, zObjGraph &outGraph );
+
+		void getScalars_3dp_InfillTrimBoundary(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool stepTrim, bool normalise);
+
+		void getScalars_3dp_InfillInteriorTrimBoundary(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth,bool stepTrim, bool normalise, zObjGraph& outGraph);
+
+
+		void getScalars_3dp_Pattern(zScalarArray& scalars, zObjGraph& inPolyObj, zItGraphHalfEdgeArray& topHE, zItGraphHalfEdgeArray& bottomHE, float& topLength, float& bottomLength, int numTriangles, float maxTriangleLength, float printWidth, bool normalise );
+
+		void getScalars_3dp_Triangle(zScalarArray& scalars, zObjGraph& inGraphObj, int startVertexId, zFloatArray& offsets, zFloatArray& intervals,  zVector startPlaneNorm = zVector(0, 0, 1), bool normalise = true);
+
+
 
 		//--------------------------
 		//----  2D SD FIELD METHODS
 		//--------------------------
+
+		/*! \brief This method gets the scalars for a circle.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[out]	scalars			- container for storing scalar values.
+		*	\param	[in]	cen				- centre of the circle.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	r				- radius value.
+		*	\param	[in]	annularVal		- input annular / offset value.
+		*	\param	[in]	normalise		- true if the scalars need to mapped between -1 and 1. generally used for contouring.
+		*	\since version 0.0.2
+		*/
+		void getScalars_Polygon(zScalarArray& scalars, zObjGraph & inGraphObj, bool normalise = true);
 
 		/*! \brief This method gets the scalars for a circle.
 		*
@@ -796,7 +848,7 @@ namespace zSpace
 		*	\since version 0.0.2
 		*	\warning	works only with scalar fields
 		*/
-		void getIsocontour(zObjGraph &coutourGraphObj, float inThreshold = 0.5);
+		void getIsocontour(zObjGraph &coutourGraphObj, float inThreshold);
 
 		/*! \brief This method creates a isoline mesh from the input field mesh at the given field threshold.
 		*
@@ -854,6 +906,17 @@ namespace zSpace
 		//--------------------------
 		//---- PROTECTED METHODS
 		//--------------------------
+
+		/*! \brief This method gets the scalar for the input point.
+		*
+		*	\detail based on https://iquilezles.org/www/articles/distfunctions2d/distfunctions2d.htm.
+		*	\param	[in]	cen				- centre of the circle.
+		*	\param	[in]	p				- input field point.
+		*	\param	[in]	r				- radius value.
+		*	\return			double			- scalar value.
+		*	\since version 0.0.2
+		*/
+		float getScalar_Polygon(zObjGraph& inGraphObj, zPoint& p);
 
 		/*! \brief This method gets the scalar for the input point.
 		*

@@ -140,7 +140,7 @@ namespace zSpace
 
 		void begin() override;
 
-		void operator++(int) override;
+		void operator++(int) override;		
 
 		void operator--(int) override;
 
@@ -657,7 +657,7 @@ namespace zSpace
 		void begin() override;
 
 		void operator++(int) override;
-
+	
 		void operator--(int) override;
 
 		bool end() override;

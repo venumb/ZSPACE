@@ -29,7 +29,7 @@ namespace zSpace
 
 	//---- CREATE METHODS
 
-	ZSPACE_INLINE void zGraph::create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph )
+	ZSPACE_INLINE void zGraph::create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph, int precision)
 	{
 		// clear containers
 		clear();
@@ -46,7 +46,7 @@ namespace zSpace
 		// create vertices
 		for (int i = 0; i < _positions.size(); i++)
 		{
-			addVertex(_positions[i]);
+			addVertex(_positions[i], precision);
 			cEdgesperVert[i].vertId = i;
 
 		}
@@ -110,7 +110,7 @@ namespace zSpace
 
 	}
 
-	ZSPACE_INLINE void zGraph::create(zPointArray(&_positions), zIntArray(&edgeConnects), zVector &graphNormal, zVector &sortReference)
+	ZSPACE_INLINE void zGraph::create(zPointArray(&_positions), zIntArray(&edgeConnects), zVector &graphNormal, zVector &sortReference, int precision)
 	{
 
 		// clear containers
@@ -126,7 +126,7 @@ namespace zSpace
 		// create vertices
 		for (int i = 0; i < _positions.size(); i++)
 		{
-			addVertex(_positions[i]);
+			addVertex(_positions[i], precision);
 			cEdgesperVert[i].vertId = i;
 
 		}
@@ -213,7 +213,7 @@ namespace zSpace
 
 	//---- VERTEX METHODS
 
-	ZSPACE_INLINE bool zGraph::addVertex(zPoint &pos)
+	ZSPACE_INLINE bool zGraph::addVertex(zPoint &pos, int precision)
 	{
 		bool out = false;
 

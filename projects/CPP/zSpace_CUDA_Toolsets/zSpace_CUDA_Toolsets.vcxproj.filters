@@ -25,6 +25,15 @@
     <Filter Include="Headers\Base">
       <UniqueIdentifier>{46daa5b2-058c-46aa-89dd-98da78a39d55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\Field">
+      <UniqueIdentifier>{45283c30-28c6-4b40-97a7-658b0538bc48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\VizScan">
+      <UniqueIdentifier>{05c1a49e-5e86-417c-96ba-bb2b2e7fa40d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\VizScan">
+      <UniqueIdentifier>{cc032e4e-41f2-4c30-aee4-2a0d8c025ce4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\energy\zTsSolarAnalysis.h">
@@ -33,10 +42,19 @@
     <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\base\zCudaDefinitions.h">
       <Filter>Headers\Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\field\zTsMeshField.h">
+      <Filter>Headers\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cpp\headers\zCudaToolsets\vizscan\zTsVizScan.h">
+      <Filter>Headers\VizScan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\cpp\source\zCudaToolsets\energy\zTsSolarAnalysis.cpp">
       <Filter>SourceFiles\Energy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cpp\source\zCudaToolsets\vizscan\zTsVizScan.cpp">
+      <Filter>SourceFiles\VizScan</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

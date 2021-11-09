@@ -85,9 +85,9 @@ namespace zSpace
 
 	//---- CREATE METHODS
 
-	ZSPACE_INLINE void zFnGraph::create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph)
+	ZSPACE_INLINE void zFnGraph::create(zPointArray(&_positions), zIntArray(&edgeConnects), bool staticGraph,int precision)
 	{
-		graphObj->graph.create(_positions, edgeConnects);
+		graphObj->graph.create(_positions, edgeConnects,staticGraph, precision);
 
 		if (staticGraph) setStaticContainers();
 	}
