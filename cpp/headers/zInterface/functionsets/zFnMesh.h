@@ -619,6 +619,13 @@ namespace zSpace
 		*/
 		void getPrincipalCurvatures(zCurvatureArray &vertexCurvatures);
 
+		/*! \brief This method computes the principal curvatures of the mesh faces.
+		*
+		*	\param		[out]	faceCurvatures		- container of face curvature.
+		*	\since version 0.0.2
+		*/
+		void getPrincipalCurvaturesPerFace(zCurvatureArray& faceCurvatures);
+
 		/*! \brief This method computes the gaussian curvature of the mesh vertices.
 		*
 		*	\param		[out]	vertexCurvature		- container of vertex curvature.

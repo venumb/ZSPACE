@@ -166,7 +166,7 @@ namespace zSpace
 		if (chemoRepulsive) out *= -1;
 		fnParticle.setVelocity(out);
 
-		//printf("\n inside  %1.2f %1.2f %1.2f ", particle.getVelocity().x, particle.getVelocity().y, particle.getVelocity().z);
+		//printf("\n inside %i  %1.2f %1.2f %1.2f ", fnParticle.getVelocity().x, fnParticle.getVelocity().y, fnParticle.getVelocity().z);
 	}
 
 	ZSPACE_INLINE void zSlimeAgent::setSO(double &_SO)
@@ -223,12 +223,15 @@ namespace zSpace
 	ZSPACE_INLINE double zSlimeEnvironment::getChemAatPosition(zVector &pos)
 	{
 
-		zItMeshScalarField s(*fieldObj);
-		int id = s.getId();
+		//zItMeshScalarField s(*fieldObj, pos);
+		//int id = s.getId();
 
-		/*if(check) 	*/
-		return chemA[id];
-		//else return -1.0;
+		int fieldID = -1;;
+		bool check = checkPositionBounds(pos, fieldID);
+
+		if(check) 	
+		return chemA[fieldID];
+		else return -1.0;
 	}
 
 	//---- METHODS
@@ -474,10 +477,10 @@ namespace zSpace
 						}
 
 
-						agents[i].fnParticle.updateParticle(true, false, true);
+						agents[i].fnParticle.updateParticle(false, false, false);
 
-						depositChemicalA(fieldID, agents[i].getDepT());
-
+						depositChemicalA(fieldID, agents[i].getDepT());	
+						
 						environment.occupied[fieldID] = true;
 					}
 					else
@@ -515,7 +518,10 @@ namespace zSpace
 				double a_FL = environment.getChemAatPosition(FL);
 
 				agents[i].setVelocity(a_F, a_FR, a_FL, chemoRepulsive);
+
+
 			}
+			
 		}
 	}
 
@@ -606,16 +612,16 @@ namespace zSpace
 	{
 		for (int i = 0; i < attractants.size(); i++)
 		{
-			double depT = (1 + wProj) * depA;
+			double dep = (1 + wProj) * depA;
 
-			depositChemicalA(attractants[i], (depT));
+			depositChemicalA(attractants[i], (dep));
 		}
 
 		for (int i = 0; i < repellants.size(); i++)
 		{
-			double depT = (1 + wProj) * depA;
+			double dep = (1 + wProj) * depA;
 
-			depositChemicalA(repellants[i], (-1 * depT));
+			depositChemicalA(repellants[i], (-1 * dep));
 		}
 	}
 

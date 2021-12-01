@@ -1500,6 +1500,14 @@ namespace zSpace
 		}
 	}
 
+	void zFnMesh::getPrincipalCurvaturesPerFace(zCurvatureArray& faceCurvatures)
+	{
+		for (zItMeshFace f(*meshObj); !f.end(); f++)
+		{
+			faceCurvatures.push_back(f.getPrincipalCurvature());
+		}
+	}
+
 	ZSPACE_INLINE void zFnMesh::getGaussianCurvature(zDoubleArray &vertexCurvatures)
 	{
 		vector<zCurvature> pCurvature;

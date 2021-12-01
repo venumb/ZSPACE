@@ -1317,6 +1317,100 @@ namespace zSpace
 		return fArea;
 	}
 
+	ZSPACE_INLINE zCurvature zItMeshFace::getPrincipalCurvature()
+	{
+		double angleSum = 0;
+		double cotangentSum = 0;
+		double areaSum = 0;
+		double areaSumMixed = 0;
+		double edgeLengthSquare = 0;
+		float gaussianCurv = 0;
+		float gaussianAngle = 0;
+
+		zCurvature curv;
+		curv.k1 = 0;
+		curv.k2 = 0;
+
+		zVector meanCurvNormal;
+
+		zPoint fCenter = getCenter();
+
+		zPointArray eCenters;
+		zItMeshHalfEdgeArray fHEdges;
+		getHalfEdges(fHEdges);
+
+		for (auto& he : fHEdges) eCenters.push_back(he.getCenter());
+
+		int i = 0;
+		for (auto &v : eCenters)
+		{
+			int next = (i + 1) % eCenters.size();
+			int prev = (i + eCenters.size() - 1) % eCenters.size();
+
+			zVector pt1 = eCenters[i];
+			zVector pt2 = eCenters[next];
+			zVector pt3 = eCenters[prev];
+
+			zVector p01 = fCenter - pt1;
+			zVector p02 = fCenter - pt2;
+			zVector p10 = pt1 - fCenter;
+			zVector p20 = pt2 - fCenter;
+			zVector p12 = pt1 - pt2;
+			zVector p21 = pt2 - pt1;
+			zVector p31 = pt3 - pt1;
+
+			zVector cr = (p10) ^ (p20);
+
+			float ang = (p10).angle(p20);
+			angleSum += ang;
+			cotangentSum += (((p20) * (p10)) / cr.length());
+
+
+			float e_Length = (pt1 - pt2).length();
+
+			edgeLengthSquare += (e_Length * e_Length);
+
+			zVector cr_alpha = (p01) ^ (p21);
+			zVector cr_beta = (p01) ^ (p31);
+
+			float coTan_alpha = (((p01) * (p21)) / cr_alpha.length());
+			float coTan_beta = (((p01) * (p31)) / cr_beta.length());
+
+			// check if triangle is obtuse
+			if ((p10).angle(p20) <= 90 && (p01).angle(p21) <= 90 && (p12).angle(p02) <= 90)
+			{
+				areaSumMixed += (coTan_alpha + coTan_beta) * edgeLengthSquare * 0.125;
+			}
+			else
+			{
+
+				double triArea = (((p10) ^ (p20)).length()) / 2;
+
+				if ((ang) <= 90) areaSumMixed += triArea * 0.25;
+				else areaSumMixed += triArea * 0.5;
+
+			}
+
+			meanCurvNormal += ((fCenter - pt1) * (coTan_alpha + coTan_beta));
+
+			i++;
+		}
+
+		meanCurvNormal /= (2 * areaSumMixed);
+
+		gaussianCurv = (360 - angleSum) / ((0.5 * areaSum) - (multFactor * cotangentSum * edgeLengthSquare));
+
+		double meanCurv = (meanCurvNormal.length() / 2);
+
+		double deltaX = (meanCurv * meanCurv) - gaussianCurv;
+		if (deltaX < 0) deltaX = 0;
+
+		curv.k1 = meanCurv + sqrt(deltaX);
+		curv.k2 = meanCurv - sqrt(deltaX);			
+
+		return curv;
+	}
+
 	//---- GET METHODS
 
 	ZSPACE_INLINE int zItMeshFace::getId()

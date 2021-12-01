@@ -1,0 +1,236 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						3
+					],
+					"hasInstallRule" : true,
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "Eigen",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Eigen"
+				},
+				{
+					"build" : "Eigen/CXX11",
+					"hasInstallRule" : true,
+					"parentIndex" : 1,
+					"projectIndex" : 0,
+					"source" : "Eigen/CXX11"
+				},
+				{
+					"build" : "doc",
+					"childIndexes" : 
+					[
+						4,
+						5
+					],
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc"
+				},
+				{
+					"build" : "doc/examples",
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "doc/examples",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"build" : "doc/snippets",
+					"parentIndex" : 3,
+					"projectIndex" : 0,
+					"source" : "doc/snippets",
+					"targetIndexes" : 
+					[
+						14
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"name" : "Project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 4,
+					"id" : "example_BVH_Example::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_BVH_Example-Debug-09f17aa0f5638711bbf9.json",
+					"name" : "example_BVH_Example",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_EulerAngles::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_EulerAngles-Debug-b9f7505bad465213621e.json",
+					"name" : "example_EulerAngles",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_FFT::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_FFT-Debug-eca79818adad4e92194a.json",
+					"name" : "example_FFT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixExponential::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixExponential-Debug-ddc1a0dd8f24facc4c43.json",
+					"name" : "example_MatrixExponential",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixFunction::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixFunction-Debug-84b1abbbcde2f49f8f86.json",
+					"name" : "example_MatrixFunction",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixLogarithm::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixLogarithm-Debug-fd41853525d79d053c8c.json",
+					"name" : "example_MatrixLogarithm",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixPower::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixPower-Debug-1fd1ca51aee357bf9691.json",
+					"name" : "example_MatrixPower",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixPower_optimal::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixPower_optimal-Debug-ebc640a6ee7926b2f9ae.json",
+					"name" : "example_MatrixPower_optimal",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixSine::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixSine-Debug-c933b7b55b9954631bf1.json",
+					"name" : "example_MatrixSine",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixSinh::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixSinh-Debug-baf63d603c3f25b3d156.json",
+					"name" : "example_MatrixSinh",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_MatrixSquareRoot::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_MatrixSquareRoot-Debug-39d76f61bdf87d008dea.json",
+					"name" : "example_MatrixSquareRoot",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_PolynomialSolver1::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_PolynomialSolver1-Debug-8450c8e9a33f1b114bbe.json",
+					"name" : "example_PolynomialSolver1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "example_PolynomialUtils1::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-example_PolynomialUtils1-Debug-51c540084b4ef05f02a7.json",
+					"name" : "example_PolynomialUtils1",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "unsupported_examples::@a644e134540d2bdf51aa",
+					"jsonFile" : "target-unsupported_examples-Debug-037470b2c270e61030be.json",
+					"name" : "unsupported_examples",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "unsupported_snippets::@f6b8162892e31a9aa8f0",
+					"jsonFile" : "target-unsupported_snippets-Debug-911cf90185948e16109a.json",
+					"name" : "unsupported_snippets",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/vishu.b/source/repos/venumb/ZSPACE/cpp/depends/Eigen_Unsupported/out/build/x64-Debug",
+		"source" : "C:/Users/vishu.b/source/repos/venumb/ZSPACE/cpp/depends/Eigen_Unsupported"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

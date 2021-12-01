@@ -868,6 +868,13 @@ namespace zSpace
 		*/
 		double getPlanarFaceArea();
 
+		/*! \brief This method computes the principal curvatures of the vertex.
+		*
+		*	\return			zCurvature		- vertex curvature.
+		*	\since version 0.0.3
+		*/
+		zCurvature getPrincipalCurvature();
+
 		//--------------------------
 		//---- GET METHODS
 		//--------------------------

@@ -6199,29 +6199,30 @@ namespace zSpace
 
 				for (int i = 0; i < scalars.size(); i++)
 				{
-
-					/*if (scalars[i] < contourValueDomain.min) cols[i] = fieldColorDomain.min;
+					// SLIME
+					if (scalars[i] < contourValueDomain.min) cols[i] = fieldColorDomain.min;
 					else if (scalars[i] > contourValueDomain.max) cols[i] = fieldColorDomain.max;
 					else
 					{
 						cols[i] = coreUtils.blendColor(scalars[i], contourValueDomain, fieldColorDomain, zHSV);
-					}*/					
+					}					
 
 
-					if (scalars[i] < -0.01)
-					{
-						//temp = coreUtils.blendColor(scalars[i], dVal, dCol, zHSV);
+					// SDFs
+					//if (scalars[i] < -0.01)
+					//{
+					//	//temp = coreUtils.blendColor(scalars[i], dVal, dCol, zHSV);
 
-						cols[i] = zColor(0, 0.550, 0.950, 1);
-					}
-					else if (scalars[i] > 0.01)
-					{
+					//	cols[i] = zColor(0, 0.550, 0.950, 1);
+					//}
+					//else if (scalars[i] > 0.01)
+					//{
 
-						cols[i] = zColor(0.25, 0.25, 0.25, 1) /*dCol.max*/;
-					}
-					else cols[i] = zColor(0.950, 0, 0.55, 1);;
+					//	cols[i] = zColor(0.25, 0.25, 0.25, 1) /*dCol.max*/;
+					//}
+					//else cols[i] = zColor(0.950, 0, 0.55, 1);;
 
-
+					//OTHER
 					//if (scalars[i] < -0.005)
 					//{
 					//	zDomainColor dCol(zColor(324, 0.0, 1), zColor(324, 0.0, 0.4));

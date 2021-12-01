@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/vishu.b/source/repos/venumb/ZSPACE/cpp/depends/Eigen_Unsupported/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/vishu.b/Source/Repos/venumb/ZSPACE/cpp/depends/Eigen_Unsupported/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
