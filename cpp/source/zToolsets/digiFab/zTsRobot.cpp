@@ -483,11 +483,11 @@ namespace zSpace
 
 				bool currentRot = (jointRotations[i].rotation >= 0) ? true : false;
 
-				if (prevRot != currentRot)
+				/*if (prevRot != currentRot)
 				{
 					if (prevRot) jointRotations[i].rotation += 360;
 					else jointRotations[i].rotation -= 360;
-				}
+				}*/
 			}
 
 			inGCode.rotations.push_back(jointRotations[i]);

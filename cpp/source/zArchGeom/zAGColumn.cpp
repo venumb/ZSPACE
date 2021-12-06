@@ -589,6 +589,8 @@ namespace zSpace
 			yd.normalize();
 			yd *= 0.1;
 
+			he.getStartVertex().getConnectedVertices();
+
 			pointArray.push_back(he.getVertex().getPosition());
 			pointArray.push_back(he.getVertex().getPosition() + yd);
 			pointArray.push_back(he.getVertex().getPosition() + yd + xd);

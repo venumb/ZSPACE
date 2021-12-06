@@ -24,10 +24,12 @@ namespace fs = std::experimental::filesystem;
 */
 inline bool compare_time_creation(fs::path& first, const fs::path& second)
 {
-	auto timeFirst = fs::last_write_time(first);
+	/*auto timeFirst = fs::last_write_time(first);
 
 	auto timeSec = fs::last_write_time(second);
 
-	return (timeFirst < timeSec);
+	return (timeFirst < timeSec);*/
+
+	return false;
 }
 
